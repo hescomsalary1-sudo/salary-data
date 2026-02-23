@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<title>Profile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  font-family:sans-serif;
+  margin:0;
+  background:#f4f4f9;
+  padding-bottom:90px;
+}
+
+/* HEADER SAME AS SALARY */
+.top{
+  padding:20px;
+  background:linear-gradient(135deg,#1a002b,#5e00a3);
+  color:white;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border-bottom-left-radius:30px;
+  border-bottom-right-radius:30px;
+}
+
+.top .icon{
+  width:35px;
+  height:35px;
+  background:white;
+  color:#5e00a3;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+  font-size:18px;
+}
+
+.top h2{
+  margin:0;
+}
+
+/* CONTENT */
+.content{
+  padding:20px;
+}
+
+.card{
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* FOOTER SAME AS SALARY */
+.footer{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  background:#ffffff;
+  display:flex;
+  justify-content:space-around;
+  padding:8px 0;
+  box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.footer a{
+  text-decoration:none;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  color:#5e00a3;
+  font-size:20px;
+}
+
+.footer small{
+  font-size:12px;
+  margin-top:3px;
+  color:#5e00a3;
+  font-weight:600;
+}
+
+.footer .active{
+  font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="top">
+  <div class="icon">👤</div>
+  <h2>Employee Profile</h2>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+  <div class="card">
+    <div id="data"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <a href="home.html">
+    <div>🏠</div>
+    <small>Home</small>
+  </a>
+
+  <a href="page1.html" class="active">
+    <div>👤</div>
+    <small>Profile</small>
+  </a>
+
+  <a href="salary.html">
+    <div>💰</div>
+    <small>Salary</small>
+  </a>
+
+  <a href="page3.html">
+    <div>📅</div>
+    <small>Attendance</small>
+  </a>
+
+  <a href="page4.html">
+    <div>⚙</div>
+    <small>Settings</small>
+  </a>
+</div>
+
+<script>
+
+let user = localStorage.getItem("currentUser");
+
+if(!user){
+  window.location="login.html";
+}
+
+async function loadProfile(){
+
+  let response = await fetch(
+    "https://hescomsalary1-sudo.github.io/salary-data/employee.csv"
+  );
+
+  let text = await response.text();
+  let rows = text.trim().split("\n");
+
+  for(let i=1; i<rows.length; i++){
+
+    let cols = rows[i].split(",");
+
+    if(cols[0].trim() === user.trim()){
+
+      document.getElementById("profileData").innerHTML = `
+        <div class="profile-item"><label>Name</label><p>${cols[1]}</p></div>
+        <div class="profile-item"><label>Designation</label><p>${cols[2]}</p></div>
+        <div class="profile-item"><label>Working Place</label><p>${cols[3]}</p></div>
+        <div class="profile-item"><label>Login Username</label><p>${cols[0]}</p></div>
+        <div class="profile-item"><label>Mobile Number</label><p>${cols[4]}</p></div>
+      `;
+
+      return;
+    }
+  }
+
+  document.getElementById("profileData").innerHTML = "User not found.";
+
+}
+
+loadProfile();
+
+</script>
+
+</body>
+</html>
