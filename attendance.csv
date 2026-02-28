@@ -1,6 +1,7 @@
 username,month,year,d1_status,d1_leave,d2_status,d2_leave,d3_status,d3_leave,d4_status,d4_leave,d5_status,d5_leave,d6_leave
-emp1,Jan,2026,Present,,Absent,CL,Leave,SL,Present,,Present,,Present,
+emp1,Jan,2026,Present,,Absent,CL,Leave,SL,Present,,Present,,Present
 emp2,Jan,2026,Present,,Present,,Absent,CL,Present,,Leave,EL,Present
+
 
 
 
