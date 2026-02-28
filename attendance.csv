@@ -2,9 +2,7 @@ username,date,month,year,status,leave
 emp1,01-Jan-2026,Jan,2026,,No
 emp1,02-Jan-2026,Jan,2026,Absent,No
 emp1,03-Jan-2026,Jan,2026,Leave,Yes
-emp1,04-Jan-2026,Jan,2026,,No
-emp2,01-Jan-2026,Jan,2026,,No
-emp2,02-Jan-2026,Jan,2026,Absent,No
+
 
 
 
