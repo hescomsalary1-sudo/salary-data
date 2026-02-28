@@ -1,7 +1,7 @@
-username,date,month,year,status,leave
-emp1,01-Jan-2026,Jan,2026,,No
-emp1,02-Jan-2026,Jan,2026,Absent,No
-emp1,03-Jan-2026,Jan,2026,Leave,Yes
+username,month,year,01,02,03,04,05,06,07,08,09,10
+emp1,Jan,2026,Present,Absent,Leave,Present,Present,Present,Absent,Present,Leave,Present
+emp2,Jan,2026,Present,Present,Present,Absent,Present,Present,Present,Present,Present,Present
+
 
 
 
