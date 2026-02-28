@@ -1,0 +1,4 @@
+EmpID,Date,Month,Year,Status,Leave
+emp1,01-Jan,Jan,2026,Present,No
+emp1,02-Jan,Jan,2026,Absent,Yes
+emp2,01-Jan,Jan,2026,Present,No
