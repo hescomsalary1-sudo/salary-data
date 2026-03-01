@@ -1,11 +1,3 @@
-username,month,year,d1_status,d1_leave,d2_status,d2_leave,d3_status,d3_leave,d4_status,d4_leave,d5_status,d5_leave,d6_leave
-emp1,Jan,2026,Present,,Absent,CL,Leave,SL,Present,,Present,,Present
-emp2,Jan,2026,Present,,Present,,Absent,CL,Present,,Leave,EL,Present
-
-
-
-
-
-
-
-
+username,month,year,d1_status,d1_leave,d2_status,d2_leave,d3_status,d3_leave,d4_status,d4_leave,d5_status,d5_leave,d6_status,d6_leave,d7_status,d7_leave,d8_status,d8_leave,d9_status,d9_leave,d10_status,d10_leave,d11_status,d11_leave,d12_status,d12_leave,d13_status,d13_leave,d14_status,d14_leave,d15_status,d15_leave,d16_status,d16_leave,d17_status,d17_leave,d18_status,d18_leave,d19_status,d19_leave,d20_status,d20_leave,d21_status,d21_leave,d22_status,d22_leave,d23_status,d23_leave,d24_status,d24_leave,d25_status,d25_leave,d26_status,d26_leave,d27_status,d27_leave,d28_status,d28_leave,d29_status,d29_leave,d30_status,d30_leave,d31_status,d31_leave
+emp1,Jan,2026,Present,,Absent,CL,Leave,SL,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,
+emp2,Jan,2026,Present,,Present,,Absent,CL,Present,,Leave,EL,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,,Present,
