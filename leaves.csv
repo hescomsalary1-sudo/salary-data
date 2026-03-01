@@ -1,0 +1,4 @@
+EmployeeID,Name,Department,EL_Credit,FPL_Credit,CL_Credit
+EMP001,Ravi,Line,12,6,6
+EMP002,Suresh,Office,10,5,4
+EMP003,Anil,Field,8,4,3
