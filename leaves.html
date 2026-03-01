@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Leaves</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  font-family:sans-serif;
+  margin:0;
+  background:#f4f4f9;
+  padding-bottom:90px;
+}
+
+/* HEADER */
+.top{
+  padding:25px 20px;
+  background:linear-gradient(135deg,#1a002b,#5e00a3);
+  color:white;
+  border-bottom-left-radius:40px;
+  border-bottom-right-radius:40px;
+}
+
+/* BEAUTIFUL BOX */
+.box{
+  margin:20px;
+  padding:18px;
+  border-radius:20px;
+  background:linear-gradient(135deg,#f3e5ff,#e6f0ff);
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+  border-left:6px solid #5e00a3;
+}
+
+.title{
+  font-weight:bold;
+  margin-bottom:10px;
+  color:#4b0082;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  padding:6px 0;
+  font-weight:600;
+}
+
+/* YEAR FILTER */
+.filter{
+  padding:0 20px;
+}
+
+select{
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  width:100%;
+}
+
+/* SECTION TITLE */
+.section-title{
+  padding:0 20px;
+  font-weight:bold;
+  margin-top:10px;
+  color:#5e00a3;
+}
+
+/* LEAVE LIST */
+.leave-list{
+  padding:20px;
+}
+
+.leave-item{
+  background:white;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:8px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.05);
+  font-weight:600;
+}
+
+/* FOOTER (HOME STYLE) */
+.footer{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  background:#ffffff;
+  display:flex;
+  justify-content:space-around;
+  padding:8px 0;
+  box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.footer a{
+  text-decoration:none;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  color:#5e00a3;
+  font-size:20px;
+}
+
+.footer small{
+  font-size:12px;
+  margin-top:3px;
+  color:#5e00a3;
+  font-weight:600;
+}
+</style>
+</head>
+
+<body>
+
+<div class="top">
+<h2>Leave Dashboard</h2>
+</div>
+
+<!-- CREDITED -->
+<div class="box">
+<div class="title">Credited Leaves</div>
+<div class="row"><span>Earned Leave</span><span id="elCredit">0</span></div>
+<div class="row"><span>Full Pay Leave</span><span id="fplCredit">0</span></div>
+<div class="row"><span>Casual Leave</span><span id="clCredit">0</span></div>
+</div>
+
+<!-- YEAR FILTER -->
+<div class="filter">
+<select id="yearSelect">
+<option>Select Year</option>
+<option>2025</option>
+<option>2026</option>
+<option>2027</option>
+</select>
+</div>
+
+<!-- TAKEN HEADER -->
+<div class="section-title">Leave Taken Details</div>
+
+<div class="leave-list" id="leaveList"></div>
+
+<!-- BALANCE -->
+<div class="box">
+<div class="title">Leave Balance</div>
+<div class="row"><span>Earned Leave</span><span id="elBalance">0</span></div>
+<div class="row"><span>Full Pay Leave</span><span id="fplBalance">0</span></div>
+<div class="row"><span>Casual Leave</span><span id="clBalance">0</span></div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <a href="home.html">
+    <div>🏠</div>
+    <small>Home</small>
+  </a>
+
+  <a href="accounts.html">
+    <div>👤</div>
+    <small>Profile</small>
+  </a>
+
+  <a href="salary.html">
+    <div>💰</div>
+    <small>Salary</small>
+  </a>
+
+  <a href="page3.html">
+    <div>📅</div>
+    <small>Attendance</small>
+  </a>
+
+  <a href="page4.html">
+    <div>⚙</div>
+    <small>Settings</small>
+  </a>
+</div>
+
+<script>
+
+let user = localStorage.getItem("currentUser");
+
+let elCredit=0, fplCredit=0, clCredit=0;
+let elTaken=0, fplTaken=0, clTaken=0;
+
+async function loadEmployee(){
+
+let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
+let text = await res.text();
+let rows = text.trim().split("\n");
+
+for(let i=1;i<rows.length;i++){
+let cols = rows[i].trim().split(",");
+
+if(cols[0].trim() === user){
+
+elCredit = parseInt(cols[3].trim()) || 0;
+fplCredit = parseInt(cols[4].trim()) || 0;
+clCredit = parseInt(cols[5].trim()) || 0;
+
+}
+}
+
+document.getElementById("elCredit").innerText = elCredit;
+document.getElementById("fplCredit").innerText = fplCredit;
+document.getElementById("clCredit").innerText = clCredit;
+
+}
+
+yearSelect.onchange = loadAttendance;
+
+async function loadAttendance(){
+
+let selectedYear = yearSelect.value;
+
+let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
+let text = await res.text();
+let rows = text.trim().split("\n");
+
+elTaken=0; fplTaken=0; clTaken=0;
+let output="";
+
+for(let i=1;i<rows.length;i++){
+
+let cols = rows[i].trim().split(",");
+
+if(cols[0].trim() !== user) continue;
+if(cols[2].trim() !== selectedYear) continue;
+
+let month = cols[1].trim();
+let year = cols[2].trim();
+
+for(let d=1; d<=31; d++){
+
+let leaveIndex = 3 + ((d-1)*2) + 1;
+let leave = cols[leaveIndex];
+
+if(leave && leave.trim() !== ""){
+
+leave = leave.trim();
+
+output += `<div class="leave-item">${leave} - ${d}-${month}-${year}</div>`;
+
+if(leave==="EL") elTaken++;
+if(leave==="FPL") fplTaken++;
+if(leave==="CL") clTaken++;
+
+}
+
+}
+
+}
+
+leaveList.innerHTML = output || "No Leave Found";
+
+calculateBalance();
+
+}
+
+function calculateBalance(){
+
+document.getElementById("elBalance").innerText = elCredit - elTaken;
+document.getElementById("fplBalance").innerText = fplCredit - fplTaken;
+document.getElementById("clBalance").innerText = clCredit - clTaken;
+
+}
+
+loadEmployee();
+
+</script>
+
+</body>
+</html>
