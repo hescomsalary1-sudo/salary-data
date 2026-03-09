@@ -53,29 +53,6 @@ border:none;
 cursor:pointer;
 }
 
-.card{
-background:white;
-margin:15px;
-padding:15px;
-border-radius:15px;
-box-shadow:0 4px 10px rgba(0,0,0,0.15);
-}
-
-.present{
-background:#e6ffe6;
-border-left:6px solid green;
-}
-
-.absent{
-background:#ffe6e6;
-border-left:6px solid red;
-}
-
-.leave{
-background:#fff8cc;
-border-left:6px solid orange;
-}
-
 .footer{
 position:fixed;
 bottom:0;
@@ -100,6 +77,46 @@ font-size:20px;
 font-size:12px;
 margin-top:3px;
 font-weight:600;
+}
+
+table{
+width:95%;
+margin:20px auto;
+border-collapse:collapse;
+background:white;
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 4px 10px rgba(0,0,0,0.15);
+}
+
+th, td{
+padding:10px;
+text-align:center;
+border-bottom:1px solid #eee;
+font-size:14px;
+}
+
+th{
+background:#5e00a3;
+color:white;
+}
+
+.present{
+background:#e6ffe6;
+color:green;
+font-weight:bold;
+}
+
+.absent{
+background:#ffe6e6;
+color:red;
+font-weight:bold;
+}
+
+.leave{
+background:#fff8cc;
+color:#b38f00;
+font-weight:bold;
 }
 </style>
 </head>
@@ -163,58 +180,111 @@ function searchAttendance(){
 let year = document.getElementById("year").value.trim();
 let month = document.getElementById("month").value.trim();
 
-fetch("attendance.csv")
-.then(res=>res.text())
-.then(data=>{
+Promise.all([
 
-let rows = data.split("\n");
-let html = "";
+fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv").then(r=>r.text()),
+fetch("https://hescomsalary1-sudo.github.io/salary-data/holidays.csv").then(r=>r.text())
+
+]).then(([attendanceData, holidayData]) => {
+
+let holidayMap = {};
+
+// BUILD HOLIDAY MAP
+let hRows = holidayData.trim().split("\n").slice(1);
+
+hRows.forEach(row=>{
+let col = row.split(",");
+let date = col[0]?.trim(); // 15-08-2026
+
+if(date){
+holidayMap[date] = col[1]; // store holiday name
+}
+});
+
+let rows = attendanceData.trim().split("\n");
+let tableRows = "";
 
 for(let i=1;i<rows.length;i++){
 
-let col = rows[i].split(",");
+let col = rows[i].trim().split(",");
 
 let username = col[0]?.trim();
-let date = col[1]?.trim();
-let csvMonth = col[2]?.trim();
-let csvYear = col[3]?.trim();
-let csvStatus = col[4]?.trim();
-let leave = col[5]?.trim();
+let csvMonth = col[1]?.trim();
+let csvYear = col[2]?.trim();
 
-if(username == user && csvMonth == month && csvYear == year){
+if(username === user && csvMonth === month && csvYear === year){
 
-let status = csvStatus ? csvStatus.toLowerCase() : "present";
+let totalDays = Math.floor((col.length - 3) / 2);
+
+for(let d=0; d<totalDays; d++){
+
+let day = ("0"+(d+1)).slice(-2);
+
+// MAKE FULL DATE
+let monthNumber = {
+Jan:"01",Feb:"02",Mar:"03",Apr:"04",May:"05",Jun:"06",
+Jul:"07",Aug:"08",Sep:"09",Oct:"10",Nov:"11",Dec:"12"
+};
+
+let fullDate = `${day}-${monthNumber[month]}-${year}`;
+
+let status = col[3 + (d*2)]?.trim();
+let leaveType = col[4 + (d*2)]?.trim() || "-";
+
+// CHECK HOLIDAY
+if(holidayMap[fullDate]){
+status = "Holiday";
+leaveType = holidayMap[fullDate];
+}
 
 let colorClass="";
-let displayStatus="";
 
-if(status=="present" || status==""){
+if(status==="Present"){
 colorClass="present";
-displayStatus="Present";
 }
-else if(status=="absent"){
+else if(status==="Absent"){
 colorClass="absent";
-displayStatus="Absent";
 }
-else if(status=="leave"){
+else if(status==="Leave"){
 colorClass="leave";
-displayStatus="On Leave";
+}
+else if(status==="Holiday"){
+colorClass="leave";
 }
 
-html += `
-<div class="card ${colorClass}">
-<p><b>Date:</b> ${date}</p>
-<p><b>Status:</b> ${displayStatus}</p>
-<p><b>Leave:</b> ${leave}</p>
-</div>
+tableRows += `
+<tr class="${colorClass}">
+<td>${day}</td>
+<td>${status}</td>
+<td>${leaveType}</td>
+</tr>
 `;
 
 }
 
 }
 
-document.getElementById("result").innerHTML =
-html || "<p style='padding:15px'>No records found</p>";
+}
+
+let html="";
+
+if(tableRows!=""){
+html = `
+<table>
+<tr>
+<th>Date</th>
+<th>Status</th>
+<th>Leave Type</th>
+</tr>
+${tableRows}
+</table>
+`;
+}
+else{
+html = "<p style='padding:15px'>No records found</p>";
+}
+
+document.getElementById("result").innerHTML = html;
 
 });
 
