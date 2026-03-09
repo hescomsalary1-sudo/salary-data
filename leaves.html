@@ -12,7 +12,6 @@ body{
   padding-bottom:90px;
 }
 
-/* HEADER */
 .top{
   padding:25px 20px;
   background:linear-gradient(135deg,#1a002b,#5e00a3);
@@ -21,7 +20,6 @@ body{
   border-bottom-right-radius:40px;
 }
 
-/* BEAUTIFUL BOX */
 .box{
   margin:20px;
   padding:18px;
@@ -44,7 +42,6 @@ body{
   font-weight:600;
 }
 
-/* YEAR FILTER */
 .filter{
   padding:0 20px;
 }
@@ -56,7 +53,6 @@ select{
   width:100%;
 }
 
-/* SECTION TITLE */
 .section-title{
   padding:0 20px;
   font-weight:bold;
@@ -64,7 +60,6 @@ select{
   color:#5e00a3;
 }
 
-/* LEAVE LIST */
 .leave-list{
   padding:20px;
 }
@@ -78,7 +73,6 @@ select{
   font-weight:600;
 }
 
-/* FOOTER (HOME STYLE) */
 .footer{
   position:fixed;
   bottom:0;
@@ -114,7 +108,6 @@ select{
 <h2>Leave Dashboard</h2>
 </div>
 
-<!-- CREDITED -->
 <div class="box">
 <div class="title">Credited Leaves</div>
 <div class="row"><span>Earned Leave</span><span id="elCredit">0</span></div>
@@ -122,7 +115,6 @@ select{
 <div class="row"><span>Casual Leave</span><span id="clCredit">0</span></div>
 </div>
 
-<!-- YEAR FILTER -->
 <div class="filter">
 <select id="yearSelect">
 <option>Select Year</option>
@@ -132,12 +124,9 @@ select{
 </select>
 </div>
 
-<!-- TAKEN HEADER -->
 <div class="section-title">Leave Taken Details</div>
-
 <div class="leave-list" id="leaveList"></div>
 
-<!-- BALANCE -->
 <div class="box">
 <div class="title">Leave Balance</div>
 <div class="row"><span>Earned Leave</span><span id="elBalance">0</span></div>
@@ -145,32 +134,12 @@ select{
 <div class="row"><span>Casual Leave</span><span id="clBalance">0</span></div>
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
-  <a href="home.html">
-    <div>🏠</div>
-    <small>Home</small>
-  </a>
-
-  <a href="accounts.html">
-    <div>👤</div>
-    <small>Profile</small>
-  </a>
-
-  <a href="salary.html">
-    <div>💰</div>
-    <small>Salary</small>
-  </a>
-
-  <a href="page3.html">
-    <div>📅</div>
-    <small>Attendance</small>
-  </a>
-
-  <a href="page4.html">
-    <div>⚙</div>
-    <small>Settings</small>
-  </a>
+  <a href="home.html"><div>🏠</div><small>Home</small></a>
+  <a href="accounts.html"><div>👤</div><small>Profile</small></a>
+  <a href="salary.html"><div>💰</div><small>Salary</small></a>
+  <a href="page3.html"><div>📅</div><small>Attendance</small></a>
+  <a href="page4.html"><div>⚙</div><small>Settings</small></a>
 </div>
 
 <script>
@@ -191,9 +160,9 @@ let cols = rows[i].trim().split(",");
 
 if(cols[0].trim() === user){
 
-elCredit = parseInt(cols[3].trim()) || 0;
-fplCredit = parseInt(cols[4].trim()) || 0;
-clCredit = parseInt(cols[5].trim()) || 0;
+elCredit = parseInt(cols[3]) || 0;
+fplCredit = parseInt(cols[4]) || 0;
+clCredit = parseInt(cols[5]) || 0;
 
 }
 }
@@ -208,7 +177,7 @@ yearSelect.onchange = loadAttendance;
 
 async function loadAttendance(){
 
-let selectedYear = yearSelect.value;
+let selectedYear = document.getElementById("yearSelect").value;
 
 let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
 let text = await res.text();
@@ -227,16 +196,15 @@ if(cols[2].trim() !== selectedYear) continue;
 let month = cols[1].trim();
 let year = cols[2].trim();
 
-for(let d=1; d<=31; d++){
+for(let c=3; c<cols.length; c+=2){
 
-let leaveIndex = 3 + ((d-1)*2) + 1;
-let leave = cols[leaveIndex];
+let leave = cols[c+1];
 
 if(leave && leave.trim() !== ""){
 
 leave = leave.trim();
 
-output += `<div class="leave-item">${leave} - ${d}-${month}-${year}</div>`;
+output += `<div class="leave-item">${leave} - ${month}-${year}</div>`;
 
 if(leave==="EL") elTaken++;
 if(leave==="FPL") fplTaken++;
@@ -262,7 +230,25 @@ document.getElementById("clBalance").innerText = clCredit - clTaken;
 
 }
 
-loadEmployee();
+// AUTO LOAD CURRENT YEAR
+function autoLoadYear(){
+
+let yearSelect = document.getElementById("yearSelect");
+let currentYear = new Date().getFullYear().toString();
+
+for(let i=0;i<yearSelect.options.length;i++){
+if(yearSelect.options[i].value === currentYear){
+yearSelect.selectedIndex = i;
+break;
+}
+}
+
+loadAttendance();
+
+}
+
+// LOAD DATA
+loadEmployee().then(autoLoadYear);
 
 </script>
 
