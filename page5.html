@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Settings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  font-family:'Segoe UI',sans-serif;
+  margin:0;
+  background:#f4f4f9;
+  padding-bottom:90px;
+  transition:0.3s;
+}
+
+/* HEADER */
+.top{
+  padding:25px 20px 50px 20px;
+  background:linear-gradient(135deg,#1a002b,#5e00a3);
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom-left-radius:40px;
+  border-bottom-right-radius:40px;
+}
+
+.profile{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  border:2px solid white;
+  object-fit:cover;
+}
+
+.user-box{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logout{
+  font-size:22px;
+  cursor:pointer;
+}
+
+/* CONTENT */
+.content{
+  padding:20px;
+  margin-top:-20px;
+}
+
+/* SECTION TITLE */
+.section-title{
+  font-size:14px;
+  font-weight:bold;
+  color:#5e00a3;
+  margin:25px 0 10px 5px;
+  letter-spacing:0.5px;
+}
+
+/* SETTINGS CARD */
+.card{
+  background:white;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:12px;
+  box-shadow:0 6px 15px rgba(0,0,0,0.05);
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+}
+
+.card h3{
+  margin:0 0 10px 0;
+  font-size:15px;
+  color:#333;
+}
+
+/* INPUTS */
+input,select{
+  width:100%;
+  padding:9px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  margin-top:8px;
+}
+
+button{
+  width:100%;
+  padding:9px;
+  margin-top:10px;
+  border-radius:8px;
+  border:none;
+  background:linear-gradient(135deg,#5e00a3,#8e2de2);
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* DARK MODE */
+.dark-mode{
+  background:#121212;
+  color:white;
+}
+
+.dark-mode .card{
+  background:#1f1f1f;
+  color:white;
+}
+
+.dark-mode input,
+.dark-mode select{
+  background:#333;
+  color:white;
+  border:1px solid #555;
+}
+
+.dark-mode .footer{
+  background:#1a1a1a;
+}
+
+.dark-mode .footer a{
+  color:white;
+}
+
+/* FOOTER */
+.footer{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  background:#fff;
+  display:flex;
+  justify-content:space-around;
+  padding:8px 0;
+  box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.footer a{
+  text-decoration:none;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  color:#5e00a3;
+  font-size:20px;
+}
+
+.footer small{
+  font-size:12px;
+  margin-top:3px;
+  font-weight:600;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="top">
+  <div class="user-box">
+    <div>
+      <div>Settings</div>
+      <strong id="user"></strong>
+    </div>
+    <img id="profileImg" src="https://i.imgur.com/6VBx3io.png" class="profile">
+  </div>
+  <span class="logout" onclick="logout()">🔓</span>
+</div>
+
+<div class="content">
+
+<div class="section-title">ACCOUNT</div>
+
+<div class="card">
+  <h3>🔐 Change Password</h3>
+  <input type="password" id="newPass" placeholder="Enter New Password">
+  <button onclick="changePassword()">Update Password</button>
+</div>
+
+<div class="card">
+  <h3>👤 Profile Photo</h3>
+  <input type="file" accept="image/*" onchange="uploadPhoto(event)">
+</div>
+
+<div class="section-title">APPEARANCE</div>
+
+<div class="card">
+  <h3>🌙 Dark Mode</h3>
+  <button onclick="toggleDark()">Toggle Dark Mode</button>
+</div>
+
+<div class="card">
+  <h3>🎨 Theme Color</h3>
+  <select onchange="changeTheme(this.value)">
+    <option value="purple">Purple</option>
+    <option value="blue">Blue</option>
+    <option value="green">Green</option>
+  </select>
+</div>
+
+<div class="section-title">PREFERENCES</div>
+
+<div class="card">
+  <h3>🌍 Language</h3>
+  <select onchange="changeLanguage(this.value)">
+    <option value="en">English</option>
+    <option value="kn">Kannada</option>
+  </select>
+</div>
+
+<div class="card">
+  <h3>🔔 Notifications</h3>
+  <button onclick="toggleNews()">Toggle What's New</button>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <a href="home.html"><div>🏠</div><small>Home</small></a>
+  <a href="page1.html"><div>👤</div><small>Profile</small></a>
+  <a href="salary.html"><div>💰</div><small>Salary</small></a>
+  <a href="page3.html"><div>📅</div><small>Other</small></a>
+  <a href="page5.html"><div>⚙</div><small>Settings</small></a>
+</div>
+
+<script>
+
+// LOAD USER
+let user = localStorage.getItem("currentUser");
+if(!user){
+  window.location.replace("login.html");
+}
+document.getElementById("user").innerText = user;
+
+// LOGOUT
+function logout(){
+  localStorage.removeItem("currentUser");
+  localStorage.removeItem("role");
+  window.location.replace("login.html");
+}
+
+// CHANGE PASSWORD
+function changePassword(){
+  let newPass=document.getElementById("newPass").value;
+  localStorage.setItem(user+"_password",newPass);
+  alert("Password Updated Successfully");
+}
+
+// DARK MODE
+function toggleDark(){
+  document.body.classList.toggle("dark-mode");
+  localStorage.setItem("darkMode",
+    document.body.classList.contains("dark-mode"));
+}
+
+if(localStorage.getItem("darkMode")==="true"){
+  document.body.classList.add("dark-mode");
+}
+
+// PROFILE PHOTO
+function uploadPhoto(event){
+  let reader=new FileReader();
+  reader.onload=function(){
+    localStorage.setItem(user+"_photo",reader.result);
+    document.getElementById("profileImg").src=reader.result;
+    alert("Photo Updated");
+  }
+  reader.readAsDataURL(event.target.files[0]);
+}
+
+if(localStorage.getItem(user+"_photo")){
+  document.getElementById("profileImg").src=
+    localStorage.getItem(user+"_photo");
+}
+
+// TOGGLE NEWS
+function toggleNews(){
+  let status=localStorage.getItem("showNews");
+  localStorage.setItem("showNews",
+    status==="false"?"true":"false");
+  alert("Updated");
+}
+
+// LANGUAGE SWITCH
+function changeLanguage(lang){
+  if(lang==="kn"){
+    alert("Language changed to Kannada");
+  }else{
+    alert("Language changed to English");
+  }
+}
+
+// THEME CHANGE
+function changeTheme(color){
+  let top=document.querySelector(".top");
+  if(color==="blue"){
+    top.style.background="linear-gradient(135deg,#003366,#0099ff)";
+  }
+  else if(color==="green"){
+    top.style.background="linear-gradient(135deg,#004d00,#00cc66)";
+  }
+  else{
+    top.style.background="linear-gradient(135deg,#1a002b,#5e00a3)";
+  }
+}
+
+// APPLY DARK MODE ON LOAD
+if(localStorage.getItem("darkMode")==="true"){
+  document.body.classList.add("dark-mode");
+}
+
+</script>
+
+</body>
+</html>
