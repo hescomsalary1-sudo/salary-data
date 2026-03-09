@@ -12,7 +12,7 @@ body{
   padding-bottom:90px;
 }
 
-/* HEADER SAME AS salary.html */
+/* HEADER */
 .top{
   padding:20px;
   background:linear-gradient(135deg,#1a002b,#5e00a3);
@@ -47,34 +47,41 @@ body{
   margin-top:20px;
 }
 
+/* GRID BUTTONS */
 .grid{
   display:grid;
-  gap:20px;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
 }
 
+/* BUTTON CARD */
 .card{
   background:white;
-  padding:20px;
-  border-radius:18px;
+  padding:22px 10px;
+  border-radius:20px;
   text-align:center;
-  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
   cursor:pointer;
-  transition:0.3s;
+  transition:0.25s;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
 }
 
 .card:hover{
-  transform:translateY(-5px);
+  transform:scale(1.05);
 }
 
 .card span{
-  font-size:28px;
-  display:block;
+  font-size:30px;
 }
 
 .card p{
   margin-top:8px;
   color:#5e00a3;
   font-weight:bold;
+  font-size:14px;
 }
 
 /* LOADER */
@@ -159,6 +166,11 @@ body{
     <div class="card" onclick="showLoader('reports.html')">
       <span>📊</span>
       <p>Reports</p>
+    </div>
+
+    <div class="card" onclick="showLoader('holidays.html')">
+      <span>🎉</span>
+      <p>Holiday List</p>
     </div>
 
   </div>
