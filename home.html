@@ -63,12 +63,16 @@ body{
 
 .card{
   background:white;
-  padding:25px;
-  border-radius:20px;
+  padding:15px 10px;   /* reduced padding */
+  border-radius:18px;
   text-align:center;
   box-shadow:0 4px 10px rgba(0,0,0,0.08);
   cursor:pointer;
   transition:0.3s;
+  min-height:90px;     /* control height */
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
 }
 
 .card:hover{
@@ -76,14 +80,15 @@ body{
 }
 
 .card span{
-  font-size:28px;
+  font-size:24px;
   display:block;
 }
 
 .card p{
-  margin-top:10px;
+  margin-top:6px;
   color:#5e00a3;
   font-weight:bold;
+  font-size:14px;
 }
 
 /* ADMIN MENU */
@@ -99,6 +104,62 @@ body{
   color:white;
   border-radius:20px;
   cursor:pointer;
+}
+
+/* MODAL BACKGROUND */
+.modal{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.5);
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+
+/* MODAL BOX */
+.modal-content{
+  background:white;
+  width:80%;
+  max-width:320px;
+  padding:20px;
+  border-radius:15px;
+  text-align:center;
+  animation:popup 0.3s ease;
+}
+
+@keyframes popup{
+  from{transform:scale(0.8); opacity:0;}
+  to{transform:scale(1); opacity:1;}
+}
+
+.modal-content h3{
+  margin-top:0;
+  color:#5e00a3;
+}
+
+.modal-buttons{
+  display:flex;
+  justify-content:space-between;
+  margin-top:20px;
+}
+
+.cancel-btn{
+  padding:8px 15px;
+  border:none;
+  background:#ccc;
+  border-radius:6px;
+}
+
+.logout-btn{
+  padding:8px 15px;
+  border:none;
+  background:#5e00a3;
+  color:white;
+  border-radius:6px;
 }
 
 /* FOOTER */
@@ -154,6 +215,69 @@ body{
   0%{transform:rotate(0deg);}
   100%{transform:rotate(360deg);}
 }
+
+
+
+/* WHATS NEW BOX - PREMIUM STYLE */
+.news-box{
+  margin-top:20px;
+  padding:20px;
+  border-radius:20px;
+  background:linear-gradient(135deg,#f3e5ff,#e6f0ff);
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+  border-left:6px solid #5e00a3;
+}
+
+.news-box h3{
+  margin-top:0;
+  color:#4b0082;
+  font-size:18px;
+  letter-spacing:0.5px;
+}
+
+/* EACH NEWS ITEM */
+.news-item{
+  padding:12px;
+  margin-bottom:12px;
+  background:rgba(255,255,255,0.7);
+  border-radius:12px;
+  backdrop-filter:blur(5px);
+  font-size:14px;
+}
+
+.news-date{
+  font-size:12px;
+  color:#666;
+  margin-bottom:4px;
+  font-weight:600;
+}
+
+
+/* DARK MODE */
+.dark-mode{
+  background:#121212;
+  color:white;
+}
+
+.dark-mode .card{
+  background:#1f1f1f;
+  color:white;
+}
+
+.dark-mode .footer{
+  background:#1a1a1a;
+}
+
+.dark-mode .footer a{
+  color:white;
+}
+
+.dark-mode select,
+.dark-mode input{
+  background:#333;
+  color:white;
+  border:1px solid #555;
+}
 </style>
 </head>
 
@@ -164,7 +288,8 @@ body{
   <div class="user-box">
     <div>
       <div>Welcome</div>
-      <strong id="user"></strong>
+      <strong id="empName">Loading...</strong>
+<div id="empDesg" style="font-size:12px;opacity:0.8;"></div>
     </div>
     <img src="https://i.imgur.com/6VBx3io.png" class="profile">
   </div>
@@ -188,24 +313,24 @@ body{
 
   <div class="grid">
 
-    <div class="card" onclick="showLoader('page1.html')">
+    <div class="card" onclick="showLoader('accounts.html')">
       <span>👤</span>
-      <p>Profile</p>
+      <p>My accounts</p>
     </div>
 
-    <div class="card" onclick="showLoader('salary.html')">
+    <div class="card" onclick="showLoader('menu.html')">
       <span>💰</span>
       <p>Salary</p>
     </div>
 
     <div class="card" onclick="showLoader('page3.html')">
       <span>📅</span>
-      <p>Attendance</p>
+      <p>Non-salary income</p>
     </div>
 
     <div class="card" onclick="showLoader('page4.html')">
       <span>📝</span>
-      <p>Leave</p>
+      <p>Forms and formats</p>
     </div>
 
     <div class="card" onclick="showLoader('page5.html')">
@@ -213,14 +338,21 @@ body{
       <p>Settings</p>
     </div>
 
-    <div class="card" onclick="showLoader('page1.html')">
-      <span>➕</span>
-      <p>Extra</p>
+    <div class="card" onclick="showLoader('page2.html')">
+      <span>ℹ️</span>
+<p>About us</p>
     </div>
 
+
   </div>
+<!-- WHAT'S NEW SECTION -->
+<div class="news-box">
+  <h3>📢 What's New?</h3>
+  <div id="newsData">Loading updates...</div>
+</div>
 
 </div>
+
 
 <!-- FOOTER -->
 <div class="footer">
@@ -258,8 +390,6 @@ if(!user){
   window.location.replace("login.html");
 }
 
-document.getElementById("user").innerText = user;
-
 function logout(){
   localStorage.removeItem("currentUser");
   localStorage.removeItem("role");
@@ -276,7 +406,124 @@ function showLoader(url){
     window.location = url;
   },1000);
 }
+
+
+// LOAD NEWS (FIXED VERSION)
+async function loadNews(){
+
+  try{
+
+    let response = await fetch(
+      "https://hescomsalary1-sudo.github.io/salary-data/news.csv"
+    );
+
+    let text = await response.text();
+
+    let rows = text.split("\n");
+
+    let output = "";
+
+    for(let i=1; i<rows.length; i++){
+
+      if(rows[i].trim() === "") continue; // skip blank lines
+
+      let cols = rows[i].split(",");
+
+      if(cols.length < 2) continue; // skip broken rows
+
+      output += `
+        <div class="news-item">
+          <div class="news-date">${cols[0]}</div>
+          <div>${cols[1]}</div>
+        </div>
+      `;
+    }
+
+    if(output === ""){
+      output = "No updates available.";
+    }
+
+    document.getElementById("newsData").innerHTML = output;
+
+  }catch(error){
+    document.getElementById("newsData").innerHTML =
+      "Unable to load updates.";
+  }
+
+}
+
+loadNews();
+
+// APPLY DARK MODE ON LOAD
+if(localStorage.getItem("darkMode")==="true"){
+  document.body.classList.add("dark-mode");
+}
+
+async function loadUserProfile(){
+
+let loginUser = localStorage.getItem("currentUser");
+
+try{
+
+let response = await fetch(
+"https://hescomsalary1-sudo.github.io/salary-data/employee.csv"
+);
+
+let text = await response.text();
+let rows = text.trim().split("\n");
+
+for(let i=1;i<rows.length;i++){
+
+let cols = rows[i].split(",");
+
+let username = cols[0]?.trim();
+let name = cols[1]?.trim();
+let designation = cols[2]?.trim();
+
+if(username === loginUser){
+
+document.getElementById("empName").innerText = name;
+document.getElementById("empDesg").innerText = designation;
+return;
+
+}
+
+}
+
+document.getElementById("empName").innerText = loginUser;
+
+}catch(e){
+document.getElementById("empName").innerText = loginUser;
+}
+
+}
+
+loadUserProfile();
+
+function logout() {
+
+    let confirmLogout = confirm("Are you sure you want to logout?");
+
+    if (confirmLogout) {
+        localStorage.removeItem("currentUser");
+        localStorage.removeItem("role");
+        window.location.href = "login.html";
+    }
+}
+
 </script>
+
+<div id="logoutModal" class="modal">
+  <div class="modal-content">
+    <h3>Confirm Logout</h3>
+    <p>Are you sure you want to logout?</p>
+
+    <div class="modal-buttons">
+      <button class="cancel-btn" onclick="closeLogoutModal()">Cancel</button>
+      <button class="logout-btn" onclick="confirmLogout()">Logout</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
