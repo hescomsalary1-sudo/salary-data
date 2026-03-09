@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<title>Salary Details</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+font-family:sans-serif;
+margin:0;
+background:#f4f4f9;
+padding-bottom:90px;
+}
+
+/* HEADER */
+
+.top{
+padding:20px;
+background:linear-gradient(135deg,#1a002b,#5e00a3);
+color:white;
+display:flex;
+align-items:center;
+gap:10px;
+border-bottom-left-radius:30px;
+border-bottom-right-radius:30px;
+}
+
+.top .icon{
+width:35px;
+height:35px;
+background:white;
+color:#5e00a3;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+font-size:18px;
+}
+
+.top h2{
+margin:0;
+}
+
+/* CONTENT */
+
+.content{
+padding:20px;
+}
+
+/* SELECT */
+
+select{
+padding:8px;
+margin:10px 5px 10px 0;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+/* BUTTON */
+
+button{
+padding:8px 15px;
+background:#5e00a3;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+button:hover{
+opacity:0.9;
+}
+
+/* GRID */
+
+.salary-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-top:10px;
+}
+
+/* CARD */
+
+.salary-card{
+background:white;
+padding:15px;
+border-radius:12px;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+.salary-card h4{
+margin-top:0;
+color:#5e00a3;
+border-bottom:1px solid #eee;
+padding-bottom:5px;
+}
+
+/* NET */
+
+.net-card{
+margin-top:15px;
+background:linear-gradient(135deg,#5e00a3,#8e2de2);
+color:white;
+padding:15px;
+border-radius:12px;
+text-align:center;
+font-size:20px;
+font-weight:bold;
+}
+
+/* FOOTER */
+
+.footer{
+position:fixed;
+bottom:0;
+width:100%;
+background:#ffffff;
+display:flex;
+justify-content:space-around;
+padding:8px 0;
+box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.footer a{
+text-decoration:none;
+display:flex;
+flex-direction:column;
+align-items:center;
+color:#5e00a3;
+font-size:20px;
+}
+
+.footer small{
+font-size:12px;
+margin-top:3px;
+color:#5e00a3;
+font-weight:600;
+}
+
+.footer .active{
+font-weight:bold;
+}
+
+/* DARK MODE */
+
+.dark-mode{
+background:#121212;
+color:white;
+}
+
+.dark-mode .salary-card{
+background:#1f1f1f;
+}
+
+.dark-mode select{
+background:#333;
+color:white;
+border:1px solid #555;
+}
+
+.dark-mode .footer{
+background:#1a1a1a;
+}
+
+.dark-mode .footer a{
+color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="top">
+<div class="icon">₹</div>
+<h2>Monthly Salary</h2>
+</div>
+
+<div class="content">
+
+<label>Select Year:</label>
+
+<select id="year">
+<option>2025</option>
+<option>2026</option>
+</select>
+
+<label>Select Month:</label>
+
+<select id="month">
+
+<option value="01">January</option>
+<option value="02">February</option>
+<option value="03">March</option>
+<option value="04">April</option>
+<option value="05">May</option>
+<option value="06">June</option>
+<option value="07">July</option>
+<option value="08">August</option>
+<option value="09">September</option>
+<option value="10">October</option>
+<option value="11">November</option>
+<option value="12">December</option>
+
+</select>
+
+<button onclick="loadSalary()">Check Salary</button>
+
+<div style="margin-top:15px;">
+<button onclick="printSalary()">🖨 Print</button>
+<button onclick="downloadPDF()">📄 Download PDF</button>
+</div>
+
+<div id="result"></div>
+
+</div>
+
+<div class="footer">
+
+<a href="home.html">
+<div>🏠</div>
+<small>Home</small>
+</a>
+
+<a href="page1.html">
+<div>👤</div>
+<small>Profile</small>
+</a>
+
+<a href="salary.html" class="active">
+<div>💰</div>
+<small>Salary</small>
+</a>
+
+<a href="page3.html">
+<div>📅</div>
+<small>Attendance</small>
+</a>
+
+<a href="page4.html">
+<div>⚙</div>
+<small>Settings</small>
+</a>
+
+</div>
+
+<script>
+
+let user = localStorage.getItem("currentUser");
+if(!user){ window.location="login.html"; }
+
+async function loadSalary(){
+
+let year = document.getElementById("year").value;
+let month = document.getElementById("month").value;
+
+let response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
+let data = await response.text();
+
+let rows = data.split("\n");
+
+for(let i=1;i<rows.length;i++){
+
+let cols = rows[i].split(",");
+
+if(cols[0] === user && cols[1] === year && cols[2] === month){
+
+let basic = +cols[3];
+let hra = +cols[4];
+let da = +cols[5];
+let conveyance = +cols[6];
+let medical = +cols[7];
+let special = +cols[8];
+let bonus = +cols[9];
+let overtime = +cols[10];
+let incentive = +cols[11];
+let otherE = +cols[12];
+
+let pf = +cols[13];
+let esi = +cols[14];
+let professionalTax = +cols[15];
+let incomeTax = +cols[16];
+let loan = +cols[17];
+let advance = +cols[18];
+let lateFine = +cols[19];
+let insurance = +cols[20];
+let canteen = +cols[21];
+let otherD = +cols[22];
+
+let totalEarning = basic+hra+da+conveyance+medical+special+bonus+overtime+incentive+otherE;
+let totalDeduction = pf+esi+professionalTax+incomeTax+loan+advance+lateFine+insurance+canteen+otherD;
+let net = totalEarning-totalDeduction;
+
+/* store values for pdf */
+
+window.salaryData={
+basic,hra,da,conveyance,medical,special,bonus,overtime,incentive,otherE,
+pf,esi,professionalTax,incomeTax,loan,advance,lateFine,insurance,canteen,otherD,
+totalEarning,totalDeduction,net
+};
+
+document.getElementById("result").innerHTML = `
+
+<h3>Salary Details</h3>
+
+<div class="salary-grid">
+
+<div class="salary-card">
+
+<h4>Earnings</h4>
+
+Basic ₹${basic}<br>
+HRA ₹${hra}<br>
+DA ₹${da}<br>
+Conveyance ₹${conveyance}<br>
+Medical ₹${medical}<br>
+Special ₹${special}<br>
+Bonus ₹${bonus}<br>
+Overtime ₹${overtime}<br>
+Incentive ₹${incentive}<br>
+Other Earnings ₹${otherE}<br><br>
+
+<b>Total Earnings ₹${totalEarning}</b>
+
+</div>
+
+<div class="salary-card">
+
+<h4>Deductions</h4>
+
+PF ₹${pf}<br>
+ESI ₹${esi}<br>
+Professional Tax ₹${professionalTax}<br>
+Income Tax ₹${incomeTax}<br>
+Loan ₹${loan}<br>
+Advance ₹${advance}<br>
+Late Fine ₹${lateFine}<br>
+Insurance ₹${insurance}<br>
+Canteen ₹${canteen}<br>
+Other Deduction ₹${otherD}<br><br>
+
+<b>Total Deduction ₹${totalDeduction}</b>
+
+</div>
+
+</div>
+
+<div class="net-card">
+Net Salary ₹${net}
+</div>
+
+`;
+
+return;
+}
+
+}
+
+document.getElementById("result").innerHTML="No salary found.";
+
+}
+
+function printSalary(){
+let content=document.getElementById("result").innerHTML;
+let win=window.open('', '', 'width=800,height=600');
+win.document.write('<html><body>'+content+'</body></html>');
+win.document.close();
+win.print();
+}
+
+function downloadPDF(){
+
+let s=window.salaryData;
+
+let year=document.getElementById("year").value;
+let month=document.getElementById("month").options[
+document.getElementById("month").selectedIndex].text;
+
+let pdfContent = `
+
+<div style="font-family:sans-serif;padding:20px">
+
+<div style="text-align:center">
+<h2>HUBLI ELECTRICITY SUPPLY COMPANY LTD.</h2>
+<h4>O & M Division, Sirsi</h4>
+<p><b>Employee:</b> ${user}</p>
+<p><b>Month:</b> ${month} ${year}</p>
+<hr>
+</div>
+
+<table style="width:100%;border-collapse:collapse;margin-top:20px">
+
+<tr>
+<th style="background:#5e00a3;color:white;padding:8px">Earnings</th>
+<th style="background:#5e00a3;color:white;padding:8px">Deductions</th>
+</tr>
+
+<tr>
+
+<td style="padding:10px;border-right:1px solid #ddd">
+
+Basic ₹${s.basic}<br>
+HRA ₹${s.hra}<br>
+DA ₹${s.da}<br>
+Conveyance ₹${s.conveyance}<br>
+Medical ₹${s.medical}<br>
+Special ₹${s.special}<br>
+Bonus ₹${s.bonus}<br>
+Overtime ₹${s.overtime}<br>
+Incentive ₹${s.incentive}<br>
+Other Earnings ₹${s.otherE}<br><br>
+
+<b>Total Earnings ₹${s.totalEarning}</b>
+
+</td>
+
+<td style="padding:10px">
+
+PF ₹${s.pf}<br>
+ESI ₹${s.esi}<br>
+Professional Tax ₹${s.professionalTax}<br>
+Income Tax ₹${s.incomeTax}<br>
+Loan ₹${s.loan}<br>
+Advance ₹${s.advance}<br>
+Late Fine ₹${s.lateFine}<br>
+Insurance ₹${s.insurance}<br>
+Canteen ₹${s.canteen}<br>
+Other Deduction ₹${s.otherD}<br><br>
+
+<b>Total Deduction ₹${s.totalDeduction}</b>
+
+</td>
+
+</tr>
+
+</table>
+
+<hr style="margin-top:20px">
+
+<h2 style="text-align:right">
+Net Salary : ₹ ${s.net}
+</h2>
+
+</div>
+`;
+
+let div=document.createElement("div");
+div.innerHTML=pdfContent;
+
+let opt={
+margin:0.5,
+filename:'Salary.pdf',
+image:{type:'jpeg',quality:0.98},
+html2canvas:{scale:2},
+jsPDF:{unit:'in',format:'a4',orientation:'portrait'}
+};
+
+html2pdf().set(opt).from(div).save();
+
+}
+
+if(localStorage.getItem("darkMode")==="true"){
+document.body.classList.add("dark-mode");
+}
+
+</script>
+
+</body>
+</html>
