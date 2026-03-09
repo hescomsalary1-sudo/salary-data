@@ -7,39 +7,40 @@
 
 <style>
 body{
-  font-family:sans-serif;
+  font-family:'Segoe UI', sans-serif;
   margin:0;
-  background:#f4f4f9;
+  background:linear-gradient(135deg,#f4f4f9,#e8e8ff);
   padding-bottom:90px;
 }
 
-/* HEADER SAME AS SALARY */
+/* HEADER */
 .top{
-  padding:20px;
+  padding:25px;
   background:linear-gradient(135deg,#1a002b,#5e00a3);
   color:white;
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:15px;
   border-bottom-left-radius:30px;
   border-bottom-right-radius:30px;
 }
 
 .top .icon{
-  width:35px;
-  height:35px;
+  width:45px;
+  height:45px;
   background:white;
   color:#5e00a3;
   border-radius:50%;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-weight:bold;
-  font-size:18px;
+  font-size:22px;
 }
 
 .top h2{
   margin:0;
+  font-size:22px;
+  letter-spacing:1px;
 }
 
 /* CONTENT */
@@ -49,12 +50,48 @@ body{
 
 .card{
   background:white;
-  padding:20px;
-  border-radius:10px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+  padding:25px;
+  border-radius:20px;
+  box-shadow:0 8px 25px rgba(0,0,0,0.12);
+  text-align:center;
 }
 
-/* FOOTER SAME AS SALARY */
+/* PROFILE AVATAR */
+.avatar{
+  width:90px;
+  height:90px;
+  margin:0 auto 20px auto;
+  border-radius:50%;
+  background:linear-gradient(135deg,#5e00a3,#a64dff);
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+}
+
+/* PROFILE INFO */
+.profile-item{
+  background:#f4f4ff;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:12px;
+  text-align:left;
+}
+
+.profile-item label{
+  font-size:12px;
+  color:#777;
+  display:block;
+}
+
+.profile-item p{
+  margin:4px 0 0 0;
+  font-weight:600;
+  color:#333;
+}
+
+/* FOOTER */
 .footer{
   position:fixed;
   bottom:0;
@@ -85,6 +122,33 @@ body{
 .footer .active{
   font-weight:bold;
 }
+
+/* DARK MODE */
+.dark-mode{
+  background:#121212;
+  color:white;
+}
+
+.dark-mode .card{
+  background:#1f1f1f;
+  color:white;
+}
+
+.dark-mode .footer{
+  background:#1a1a1a;
+}
+
+.dark-mode .footer a{
+  color:white;
+}
+
+.dark-mode select,
+.dark-mode input{
+  background:#333;
+  color:white;
+  border:1px solid #555;
+}
+
 
 </style>
 </head>
@@ -137,7 +201,7 @@ body{
 let user = localStorage.getItem("currentUser");
 
 if(!user){
-  window.location="login.html";
+  window.location = "login.html";
 }
 
 async function loadProfile(){
@@ -155,23 +219,49 @@ async function loadProfile(){
 
     if(cols[0].trim() === user.trim()){
 
-      document.getElementById("profileData").innerHTML = `
-        <div class="profile-item"><label>Name</label><p>${cols[1]}</p></div>
-        <div class="profile-item"><label>Designation</label><p>${cols[2]}</p></div>
-        <div class="profile-item"><label>Working Place</label><p>${cols[3]}</p></div>
-        <div class="profile-item"><label>Login Username</label><p>${cols[0]}</p></div>
-        <div class="profile-item"><label>Mobile Number</label><p>${cols[4]}</p></div>
-      `;
+      document.getElementById("data").innerHTML = `
+  <div class="avatar">👤</div>
+
+  <div class="profile-item">
+    <label>Name</label>
+    <p>${cols[1]}</p>
+  </div>
+
+  <div class="profile-item">
+    <label>Designation</label>
+    <p>${cols[2]}</p>
+  </div>
+
+  <div class="profile-item">
+    <label>Working Place</label>
+    <p>${cols[3]}</p>
+  </div>
+
+  <div class="profile-item">
+    <label>Login Username</label>
+    <p>${cols[0]}</p>
+  </div>
+
+  <div class="profile-item">
+    <label>Mobile Number</label>
+    <p>${cols[4]}</p>
+  </div>
+`;
 
       return;
     }
   }
 
-  document.getElementById("profileData").innerHTML = "User not found.";
+  document.getElementById("data").innerHTML = "User not found.";
 
 }
 
 loadProfile();
+
+// APPLY DARK MODE ON LOAD
+if(localStorage.getItem("darkMode")==="true"){
+  document.body.classList.add("dark-mode");
+}
 
 </script>
 
