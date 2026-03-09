@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Reports</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+body{
+  font-family:sans-serif;
+  margin:0;
+  background:#f4f4f9;
+  padding-bottom:90px;
+}
+
+/* HEADER */
+.top{
+  padding:20px;
+  background:linear-gradient(135deg,#1a002b,#5e00a3);
+  color:white;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border-bottom-left-radius:30px;
+  border-bottom-right-radius:30px;
+}
+
+.top .icon{
+  width:35px;
+  height:35px;
+  background:white;
+  color:#5e00a3;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+/* CONTENT */
+.content{
+  padding:20px;
+}
+
+select{
+  padding:8px;
+  margin:10px 5px;
+}
+
+button{
+  padding:8px 15px;
+  background:#5e00a3;
+  color:white;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+  margin:5px;
+}
+
+#result{
+  margin-top:20px;
+  background:white;
+  padding:15px;
+  border-radius:10px;
+}
+
+/* LOADER */
+#loader{
+  display:none;
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:white;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.spinner{
+  width:40px;
+  height:40px;
+  border:6px solid #ddd;
+  border-top:6px solid #5e00a3;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+  0%{transform:rotate(0deg);}
+  100%{transform:rotate(360deg);}
+}
+
+/* FOOTER SAME AS salary.html */
+.footer{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  background:#ffffff;
+  display:flex;
+  justify-content:space-around;
+  padding:8px 0;
+  box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.footer a{
+  text-decoration:none;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  color:#5e00a3;
+  font-size:20px;
+}
+
+.footer small{
+  font-size:12px;
+  margin-top:3px;
+  color:#5e00a3;
+  font-weight:600;
+}
+
+.footer .active{
+  font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="top">
+  <div class="icon">₹</div>
+  <h2>Salary Reports</h2>
+</div>
+
+<div class="content">
+
+<label>Year:</label>
+<select id="year">
+<option>2025</option>
+<option>2026</option>
+</select>
+
+<label>Month:</label>
+<select id="month">
+<option value="01">January</option>
+<option value="02">February</option>
+<option value="03">March</option>
+<option value="04">April</option>
+<option value="05">May</option>
+<option value="06">June</option>
+<option value="07">July</option>
+<option value="08">August</option>
+<option value="09">September</option>
+<option value="10">October</option>
+<option value="11">November</option>
+<option value="12">December</option>
+</select>
+
+<br><br>
+
+<button onclick="monthReport()">Month Report</button>
+<button onclick="yearReport()">Year Report</button>
+<button onclick="taxReport()">Income Tax Report</button>
+<button onclick="downloadPDF()">Download PDF</button>
+
+<div id="loader">
+  <div class="spinner"></div>
+</div>
+
+<div id="result"></div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <a href="home.html">
+    <div>🏠</div>
+    <small>Home</small>
+  </a>
+
+  <a href="page1.html">
+    <div>👤</div>
+    <small>Profile</small>
+  </a>
+
+  <a href="salary.html">
+    <div>💰</div>
+    <small>Salary</small>
+  </a>
+
+  <a href="page3.html">
+    <div>📅</div>
+    <small>Attendance</small>
+  </a>
+
+  <a href="page4.html">
+    <div>⚙</div>
+    <small>Settings</small>
+  </a>
+</div>
+
+<script>
+
+// LOGIN CHECK
+let user = localStorage.getItem("currentUser");
+if(!user){
+  window.location="login.html";
+}
+
+async function loadData(){
+let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
+let txt = await res.text();
+return txt.split("\n");
+}
+
+// MONTH REPORT
+async function monthReport(){
+
+document.getElementById("loader").style.display="flex";
+
+let rows = await loadData();
+let year = document.getElementById("year").value;
+let month = document.getElementById("month").value;
+
+let totalE=0, totalD=0;
+
+for(let i=1;i<rows.length;i++){
+
+let c = rows[i].split(",");
+
+if(c[0]==user && c[1]==year && c[2]==month){
+
+for(let j=3;j<=12;j++) totalE+= +c[j];
+for(let j=13;j<=22;j++) totalD+= +c[j];
+}
+}
+
+let net = totalE-totalD;
+
+document.getElementById("result").innerHTML = `
+<h3>Month Salary Report</h3>
+Total Earnings: ₹${totalE}<br>
+Total Deduction: ₹${totalD}<br>
+<h2>Net Salary: ₹${net}</h2>
+`;
+
+document.getElementById("loader").style.display="none";
+}
+
+// YEAR REPORT
+async function yearReport(){
+
+document.getElementById("loader").style.display="flex";
+
+let rows = await loadData();
+let year = document.getElementById("year").value;
+
+let totalE=0, totalD=0;
+
+for(let i=1;i<rows.length;i++){
+
+let c = rows[i].split(",");
+
+if(c[0]==user && c[1]==year){
+
+for(let j=3;j<=12;j++) totalE+= +c[j];
+for(let j=13;j<=22;j++) totalD+= +c[j];
+}
+}
+
+let net = totalE-totalD;
+
+document.getElementById("result").innerHTML = `
+<h3>Year Salary Report</h3>
+Total Earnings: ₹${totalE}<br>
+Total Deduction: ₹${totalD}<br>
+<h2>Net Salary: ₹${net}</h2>
+`;
+
+document.getElementById("loader").style.display="none";
+}
+
+// INCOME TAX REPORT
+async function taxReport(){
+
+document.getElementById("loader").style.display="flex";
+
+let rows = await loadData();
+let year = document.getElementById("year").value;
+let month = document.getElementById("month").value;
+
+let monthTax=0;
+let yearTax=0;
+
+for(let i=1;i<rows.length;i++){
+
+let c = rows[i].split(",");
+
+if(c[0]==user){
+
+if(c[1]==year && c[2]==month){
+monthTax += +c[16];
+}
+
+if(c[1]==year){
+yearTax += +c[16];
+}
+
+}
+}
+
+document.getElementById("result").innerHTML = `
+<h3>Income Tax Report</h3>
+
+<b>Month Tax (${month}/${year}) :</b> ₹${monthTax}<br><br>
+
+<b>Year Tax (${year}) :</b> ₹${yearTax}
+`;
+
+document.getElementById("loader").style.display="none";
+}
+
+// PDF DOWNLOAD
+function downloadPDF(){
+let element = document.getElementById("result");
+html2pdf().from(element).save("Report.pdf");
+}
+
+</script>
+
+</body>
+</html>
