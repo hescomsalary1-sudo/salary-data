@@ -51,7 +51,7 @@ body{
 /* GRID BUTTONS */
 .content{
   padding:20px;
-  margin-top:20px;   /* remove negative margin */
+  margin-top:20px;
   padding-bottom:90px;
 }
 
@@ -63,13 +63,13 @@ body{
 
 .card{
   background:white;
-  padding:15px 10px;   /* reduced padding */
+  padding:15px 10px;
   border-radius:18px;
   text-align:center;
   box-shadow:0 4px 10px rgba(0,0,0,0.08);
   cursor:pointer;
   transition:0.3s;
-  min-height:90px;     /* control height */
+  min-height:90px;
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -167,7 +167,7 @@ body{
   position:fixed;
   bottom:0;
   width:100%;
-  background:#ffffff;   /* White background */
+  background:#ffffff;
   display:flex;
   justify-content:space-around;
   padding:8px 0;
@@ -179,14 +179,14 @@ body{
   display:flex;
   flex-direction:column;
   align-items:center;
-  color:purple;   /* Icon color */
+  color:purple;
   font-size:20px;
 }
 
 .footer small{
   font-size:12px;
   margin-top:3px;
-  color:purple;   /* Text color */
+  color:purple;
   font-weight:600;
 }
 
@@ -216,9 +216,7 @@ body{
   100%{transform:rotate(360deg);}
 }
 
-
-
-/* WHATS NEW BOX - PREMIUM STYLE */
+/* WHATS NEW BOX */
 .news-box{
   margin-top:20px;
   padding:20px;
@@ -232,16 +230,13 @@ body{
   margin-top:0;
   color:#4b0082;
   font-size:18px;
-  letter-spacing:0.5px;
 }
 
-/* EACH NEWS ITEM */
 .news-item{
   padding:12px;
   margin-bottom:12px;
   background:rgba(255,255,255,0.7);
   border-radius:12px;
-  backdrop-filter:blur(5px);
   font-size:14px;
 }
 
@@ -251,7 +246,6 @@ body{
   margin-bottom:4px;
   font-weight:600;
 }
-
 
 /* DARK MODE */
 .dark-mode{
@@ -285,178 +279,193 @@ body{
 
 <!-- HEADER -->
 <div class="top">
-  <div class="user-box">
-    <div>
-      <div>Welcome</div>
-      <strong id="empName">Loading...</strong>
+
+<div class="user-box">
+<div>
+<div>Welcome</div>
+<strong id="empName">Loading...</strong>
 <div id="empDesg" style="font-size:12px;opacity:0.8;"></div>
-    </div>
-    <img src="https://i.imgur.com/6VBx3io.png" class="profile">
-  </div>
-  <span class="logout" onclick="logout()">🔓</span>
+</div>
+
+<img src="https://i.imgur.com/6VBx3io.png" class="profile">
+</div>
+
+<div>
+<span style="font-size:22px;cursor:pointer;margin-right:10px;" onclick="refreshApp()">🔄</span>
+<span class="logout" onclick="logout()">🔓</span>
+</div>
+
 </div>
 
 <!-- ADMIN MENU -->
 <div id="adminMenu" style="display:none;">
-  <button onclick="showLoader('admin_bulk_upload.html')">
-    Bulk Salary Upload
-  </button>
+<button onclick="showLoader('admin_bulk_upload.html')">
+Bulk Salary Upload
+</button>
 </div>
 
 <!-- LOADER -->
 <div id="loader">
-  <div class="spinner"></div>
+<div class="spinner"></div>
 </div>
 
 <!-- CONTENT -->
 <div class="content">
 
-  <div class="grid">
+<div class="grid">
 
-    <div class="card" onclick="showLoader('accounts.html')">
-      <span>👤</span>
-      <p>My accounts</p>
-    </div>
+<div class="card" onclick="showLoader('accounts.html')">
+<span>👤</span>
+<p>My accounts</p>
+</div>
 
-    <div class="card" onclick="showLoader('menu.html')">
-      <span>💰</span>
-      <p>Salary</p>
-    </div>
+<div class="card" onclick="showLoader('menu.html')">
+<span>💰</span>
+<p>Salary</p>
+</div>
 
-    <div class="card" onclick="showLoader('page3.html')">
-      <span>📅</span>
-      <p>Non-salary income</p>
-    </div>
+<div class="card" onclick="showLoader('page3.html')">
+<span>📅</span>
+<p>Non-salary income</p>
+</div>
 
-    <div class="card" onclick="showLoader('page4.html')">
-      <span>📝</span>
-      <p>Forms and formats</p>
-    </div>
+<div class="card" onclick="showLoader('page4.html')">
+<span>📝</span>
+<p>Forms and formats</p>
+</div>
 
-    <div class="card" onclick="showLoader('page5.html')">
-      <span>⚙</span>
-      <p>Settings</p>
-    </div>
+<div class="card" onclick="showLoader('page5.html')">
+<span>⚙</span>
+<p>Settings</p>
+</div>
 
-    <div class="card" onclick="showLoader('page2.html')">
-      <span>ℹ️</span>
+<div class="card" onclick="showLoader('page2.html')">
+<span>ℹ️</span>
 <p>About us</p>
-    </div>
+</div>
 
+</div>
 
-  </div>
-<!-- WHAT'S NEW SECTION -->
 <div class="news-box">
-  <h3>📢 What's New?</h3>
-  <div id="newsData">Loading updates...</div>
+<h3>📢 What's New?</h3>
+<div id="newsData">Loading updates...</div>
 </div>
 
 </div>
-
 
 <!-- FOOTER -->
 <div class="footer">
-  <a href="home.html">
-    <div>🏠</div>
-    <small>Home</small>
-  </a>
 
-  <a href="page1.html">
-    <div>👤</div>
-    <small>Profile</small>
-  </a>
+<a href="home.html">
+<div>🏠</div>
+<small>Home</small>
+</a>
 
-  <a href="page2.html">
-    <div>💰</div>
-    <small>Salary</small>
-  </a>
+<a href="page1.html">
+<div>👤</div>
+<small>Profile</small>
+</a>
 
-  <a href="page3.html">
-    <div>📅</div>
-    <small>Attendance</small>
-  </a>
+<a href="page2.html">
+<div>💰</div>
+<small>Salary</small>
+</a>
 
-  <a href="page4.html">
-    <div>⚙</div>
-    <small>Settings</small>
-  </a>
+<a href="page3.html">
+<div>📅</div>
+<small>Attendance</small>
+</a>
+
+<a href="page4.html">
+<div>⚙</div>
+<small>Settings</small>
+</a>
+
 </div>
 
 <script>
+
+function refreshApp(){
+document.getElementById("loader").style.display="flex";
+
+if('caches' in window){
+caches.keys().then(function(names){
+for(let name of names) caches.delete(name);
+});
+}
+
+setTimeout(function(){
+location.reload(true);
+},800);
+}
+
 let user = localStorage.getItem("currentUser");
 let role = localStorage.getItem("role");
 
 if(!user){
-  window.location.replace("login.html");
-}
-
-function logout(){
-  localStorage.removeItem("currentUser");
-  localStorage.removeItem("role");
-  window.location.replace("login.html");
+window.location.replace("login.html");
 }
 
 if(role === "admin"){
-  document.getElementById("adminMenu").style.display = "block";
+document.getElementById("adminMenu").style.display = "block";
 }
 
 function showLoader(url){
-  document.getElementById("loader").style.display="flex";
-  setTimeout(function(){
-    window.location = url;
-  },1000);
+document.getElementById("loader").style.display="flex";
+setTimeout(function(){
+window.location = url;
+},1000);
 }
 
-
-// LOAD NEWS (FIXED VERSION)
 async function loadNews(){
 
-  try{
+try{
 
-    let response = await fetch(
-      "https://hescomsalary1-sudo.github.io/salary-data/news.csv"
-    );
+let response = await fetch(
+"https://hescomsalary1-sudo.github.io/salary-data/news.csv?v=" + new Date().getTime(),
+{
+    cache: "no-store"
+});
 
-    let text = await response.text();
+let text = await response.text();
+let rows = text.split("\n");
 
-    let rows = text.split("\n");
+let output = "";
 
-    let output = "";
+for(let i=1;i<rows.length;i++){
 
-    for(let i=1; i<rows.length; i++){
+if(rows[i].trim()==="") continue;
 
-      if(rows[i].trim() === "") continue; // skip blank lines
+let cols = rows[i].split(",");
 
-      let cols = rows[i].split(",");
+if(cols.length<2) continue;
 
-      if(cols.length < 2) continue; // skip broken rows
+output += `
+<div class="news-item">
+<div class="news-date">${cols[0]}</div>
+<div>${cols[1]}</div>
+</div>
+`;
+}
 
-      output += `
-        <div class="news-item">
-          <div class="news-date">${cols[0]}</div>
-          <div>${cols[1]}</div>
-        </div>
-      `;
-    }
+if(output===""){
+output="No updates available.";
+}
 
-    if(output === ""){
-      output = "No updates available.";
-    }
+document.getElementById("newsData").innerHTML=output;
 
-    document.getElementById("newsData").innerHTML = output;
+}catch(error){
 
-  }catch(error){
-    document.getElementById("newsData").innerHTML =
-      "Unable to load updates.";
-  }
+document.getElementById("newsData").innerHTML="Unable to load updates.";
+
+}
 
 }
 
 loadNews();
 
-// APPLY DARK MODE ON LOAD
 if(localStorage.getItem("darkMode")==="true"){
-  document.body.classList.add("dark-mode");
+document.body.classList.add("dark-mode");
 }
 
 async function loadUserProfile(){
@@ -480,50 +489,41 @@ let username = cols[0]?.trim();
 let name = cols[1]?.trim();
 let designation = cols[2]?.trim();
 
-if(username === loginUser){
+if(username===loginUser){
 
-document.getElementById("empName").innerText = name;
-document.getElementById("empDesg").innerText = designation;
+document.getElementById("empName").innerText=name;
+document.getElementById("empDesg").innerText=designation;
 return;
 
 }
 
 }
 
-document.getElementById("empName").innerText = loginUser;
+document.getElementById("empName").innerText=loginUser;
 
 }catch(e){
-document.getElementById("empName").innerText = loginUser;
+
+document.getElementById("empName").innerText=loginUser;
+
 }
 
 }
 
 loadUserProfile();
 
-function logout() {
+function logout(){
 
-    let confirmLogout = confirm("Are you sure you want to logout?");
+let confirmLogout = confirm("Are you sure you want to logout?");
 
-    if (confirmLogout) {
-        localStorage.removeItem("currentUser");
-        localStorage.removeItem("role");
-        window.location.href = "login.html";
-    }
+if(confirmLogout){
+localStorage.removeItem("currentUser");
+localStorage.removeItem("role");
+window.location.href="login.html";
+}
+
 }
 
 </script>
-
-<div id="logoutModal" class="modal">
-  <div class="modal-content">
-    <h3>Confirm Logout</h3>
-    <p>Are you sure you want to logout?</p>
-
-    <div class="modal-buttons">
-      <button class="cancel-btn" onclick="closeLogoutModal()">Cancel</button>
-      <button class="logout-btn" onclick="confirmLogout()">Logout</button>
-    </div>
-  </div>
-</div>
 
 </body>
 </html>
