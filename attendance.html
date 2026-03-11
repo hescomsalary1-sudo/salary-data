@@ -80,54 +80,6 @@ margin-top:3px;
 font-weight:600;
 }
 
-table{
-width:95%;
-margin:20px auto;
-border-collapse:separate;
-border-spacing:8px;
-background:transparent;
-}
-
-th{
-background:#5e00a3;
-color:white;
-padding:12px;
-font-size:14px;
-border-radius:8px;
-}
-
-td{
-background:white;
-padding:12px;
-text-align:center;
-font-size:14px;
-border-radius:10px;
-box-shadow:0 2px 6px rgba(0,0,0,0.12);
-border:1px solid #eee;
-}
-
-/* STATUS COLORS */
-
-.present{
-background:#e9ffe9;
-color:#0a8a0a;
-font-weight:bold;
-border:1px solid #b7f5b7;
-}
-
-.absent{
-background:#ffe9e9;
-color:#cc0000;
-font-weight:bold;
-border:1px solid #ffb3b3;
-}
-
-.leave{
-background:#fff7d6;
-color:#a67800;
-font-weight:bold;
-border:1px solid #ffe08a;
-}
 /* SUMMARY TABLE */
 
 .summary{
@@ -154,12 +106,55 @@ font-weight:bold;
 font-size:15px;
 }
 
+/* SCROLL AREA */
+
 .tableScroll{
 width:95%;
 margin:auto;
-max-height:350px;
+height:350px;
 overflow-y:auto;
 -webkit-overflow-scrolling:touch;
+}
+
+/* ATTENDANCE TABLE */
+
+table{
+width:100%;
+border-collapse:separate;
+border-spacing:6px;
+}
+
+th{
+background:#5e00a3;
+color:white;
+padding:10px;
+border-radius:8px;
+}
+
+td{
+background:white;
+padding:10px;
+text-align:center;
+border-radius:8px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.present{
+background:#e6ffe6;
+color:green;
+font-weight:bold;
+}
+
+.absent{
+background:#ffe6e6;
+color:red;
+font-weight:bold;
+}
+
+.leave{
+background:#fff8cc;
+color:#b38f00;
+font-weight:bold;
 }
 </style>
 </head>
@@ -342,6 +337,7 @@ let html="";
 
 if(tableRows!=""){
 html=`
+
 <div class="tableScroll">
 
 <table>
@@ -354,6 +350,7 @@ ${tableRows}
 </table>
 
 </div>
+
 `;
 }
 else{
