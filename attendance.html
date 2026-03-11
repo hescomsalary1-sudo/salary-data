@@ -10,7 +10,6 @@ font-family:sans-serif;
 margin:0;
 background:#f4f4f9;
 padding-bottom:90px;
-overflow:hidden;
 }
 
 .top{
@@ -110,10 +109,9 @@ font-size:15px;
 
 .tableScroll{
 width:95%;
-margin:auto;
+margin:10px auto;
 height:350px;
 overflow-y:auto;
--webkit-overflow-scrolling:touch;
 }
 
 /* ATTENDANCE TABLE */
@@ -195,8 +193,6 @@ font-weight:bold;
 
 </div>
 
-<!-- CONSTANT SUMMARY TABLE -->
-
 <table class="summary">
 <tr>
 <th>Total Present</th>
@@ -212,7 +208,17 @@ font-weight:bold;
 </tr>
 </table>
 
-<div id="result"></div>
+<div class="tableScroll">
+
+<table id="attendanceTable">
+<tr>
+<th>Date</th>
+<th>Status</th>
+<th>Leave Type</th>
+</tr>
+</table>
+
+</div>
 
 <div class="footer">
 <a href="home.html"><div>🏠</div><small>Home</small></a>
@@ -255,12 +261,17 @@ holidayMap[date]=col[1];
 });
 
 let rows=attendanceData.trim().split("\n");
-let tableRows="";
 
 let presentCount=0;
 let leaveCount=0;
 let absentCount=0;
 let holidayWork=0;
+
+let tableHTML=`<tr>
+<th>Date</th>
+<th>Status</th>
+<th>Leave Type</th>
+</tr>`;
 
 for(let i=1;i<rows.length;i++){
 
@@ -314,7 +325,7 @@ else if(status==="Absent"){colorClass="absent";}
 else if(status==="Leave"){colorClass="leave";}
 else if(status==="Holiday"){colorClass="leave";}
 
-tableRows+=`
+tableHTML+=`
 <tr class="${colorClass}">
 <td>${day}</td>
 <td>${status}</td>
@@ -328,36 +339,12 @@ tableRows+=`
 
 }
 
+document.getElementById("attendanceTable").innerHTML=tableHTML;
+
 document.getElementById("presentCount").innerText=presentCount;
 document.getElementById("leaveCount").innerText=leaveCount;
 document.getElementById("absentCount").innerText=absentCount;
 document.getElementById("holidayWork").innerText=holidayWork;
-
-let html="";
-
-if(tableRows!=""){
-html=`
-
-<div class="tableScroll">
-
-<table>
-<tr>
-<th>Date</th>
-<th>Status</th>
-<th>Leave Type</th>
-</tr>
-${tableRows}
-</table>
-
-</div>
-
-`;
-}
-else{
-html="<p style='padding:15px'>No records found</p>";
-}
-
-document.getElementById("result").innerHTML=html;
 
 });
 
