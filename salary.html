@@ -528,14 +528,39 @@ win.document.close();
 win.print();
 }
 
-
-function downloadPDF(){
+async function downloadPDF(){
 
 let s = window.salaryData;
+
+/* fetch employee details */
+
+let response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
+let data = await response.text();
+
+let rows = data.trim().split("\n");
+
+let empName = user;
+let empDesignation = "";
+let empPlace = "";
+
+for(let i=1;i<rows.length;i++){
+
+let cols = rows[i].split(",");
+
+if(cols[0] === user){
+empName = cols[1];
+empDesignation = cols[2];
+empPlace = cols[3];
+break;
+}
+
+}
 
 let year=document.getElementById("year").value;
 let month=document.getElementById("month").options[
 document.getElementById("month").selectedIndex].text;
+
+/* hide zero values */
 
 function pdfRow(name,value){
 if(value>0){
@@ -551,8 +576,17 @@ let pdfContent = `
 <div style="text-align:center">
 <h2>HUBLI ELECTRICITY SUPPLY COMPANY LTD.</h2>
 <h4>O & M Division, Sirsi</h4>
-<p><b>Employee:</b> ${user}</p>
-<p><b>Month:</b> ${month} ${year}</p>
+
+<div style="display:flex;justify-content:space-between;margin-top:10px">
+<p><b>Name :</b> ${empName}</p>
+<p><b>Designation :</b> ${empDesignation}</p>
+</div>
+
+<div style="display:flex;justify-content:space-between">
+<p><b>Working Place :</b> ${empPlace}</p>
+<p><b>Month :</b> ${month} ${year}</p>
+</div>
+
 <hr>
 </div>
 
@@ -593,23 +627,22 @@ Total Earnings ₹${s.totalEarning}
 
 <td style="padding:10px;vertical-align:top">
 
-${showRow("LIC",s.LIC)}
-${showRow("Income Tax",s.income_tax)}
-${showRow("Professional Tax",s.professional_tax)}
-${showRow("KPTCL Employee Society",s.KPTCL_employes_society)}
-${showRow("PLI",s.PLI)}
-${showRow("Union Fund",s.union_fund)}
-${showRow("SC/ST Union Fund",s.sc_st_union_fund)}
-${showRow("House Rent",s.house_rent)}
-${showRow("Urban Bank",s.urban_bank)}
-${showRow("Family Benefit Fund",s.family_benefit_fund)}
-${showRow("Festival Advance",s.festival_advance)}
-${showRow("PC 10% Contribution",s.PC_10_contribution)}
-${showRow("PC 14% Contribution",s.PC_14_contribution)}
-${showRow("LWF",s.LWF)}
-${showRow("Recovery",s.recovery_any)}
-${showRow("Other Deduction",s.other_deduction)}
-<br>
+${pdfRow("LIC",s.LIC)}
+${pdfRow("Income Tax",s.income_tax)}
+${pdfRow("Professional Tax",s.professional_tax)}
+${pdfRow("KPTCL Employee Society",s.KPTCL_employes_society)}
+${pdfRow("PLI",s.PLI)}
+${pdfRow("Union Fund",s.union_fund)}
+${pdfRow("SC/ST Union Fund",s.sc_st_union_fund)}
+${pdfRow("House Rent",s.house_rent)}
+${pdfRow("Urban Bank",s.urban_bank)}
+${pdfRow("Family Benefit Fund",s.family_benefit_fund)}
+${pdfRow("Festival Advance",s.festival_advance)}
+${pdfRow("PC 10% Contribution",s.PC_10_contribution)}
+${pdfRow("PC 14% Contribution",s.PC_14_contribution)}
+${pdfRow("LWF",s.LWF)}
+${pdfRow("Recovery",s.recovery_any)}
+${pdfRow("Other Deduction",s.other_deduction)}
 
 <div style="margin-top:10px;font-weight:bold;border-top:1px solid #ccc;padding-top:5px">
 Total Deduction ₹${s.totalDeduction}
