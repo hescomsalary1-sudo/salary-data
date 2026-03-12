@@ -216,10 +216,32 @@ if(!user){
 window.location="login.html";
 }
 
+  function parseDate(dateStr){
+
+if(!dateStr) return null;
+
+let parts = dateStr.split("-");
+
+if(parts.length === 3){
+
+let day = parseInt(parts[0]);
+let month = parseInt(parts[1]) - 1;
+let year = parseInt(parts[2]);
+
+return new Date(year, month, day);
+
+}
+
+return new Date(dateStr);
+
+}
+
 function calculateService(joinDate){
 
-let start = new Date(joinDate);
+let start = parseDate(joinDate);
 let today = new Date();
+
+if(!start) return "";
 
 let years = today.getFullYear() - start.getFullYear();
 let months = today.getMonth() - start.getMonth();
@@ -242,8 +264,10 @@ return years+" Years "+months+" Months "+days+" Days";
 
 function retirementCountdown(retDate){
 
+let retire = parseDate(retDate);
 let today = new Date();
-let retire = new Date(retDate);
+
+if(!retire) return "";
 
 let years = retire.getFullYear() - today.getFullYear();
 let months = retire.getMonth() - today.getMonth();
@@ -442,4 +466,5 @@ document.body.classList.add("dark-mode");
 
 </body>
 </html>
+
 
