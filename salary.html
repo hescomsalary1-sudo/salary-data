@@ -18,7 +18,7 @@ padding-bottom:90px;
 /* HEADER */
 
 .top{
-padding:18px;
+padding:20px;
 background:linear-gradient(135deg,#1a002b,#5e00a3);
 color:white;
 display:flex;
@@ -41,67 +41,38 @@ font-weight:bold;
 font-size:18px;
 }
 
-/* MAIN CONTENT */
+.top h2{
+margin:0;
+}
+
+/* CONTENT */
 
 .content{
 padding:20px;
 }
 
-/* CONTROL CONTAINER */
-
-.control-card{
-background:white;
-padding:18px;
-border-radius:15px;
-box-shadow:0 4px 12px rgba(0,0,0,0.15);
-margin-bottom:15px;
-}
-
-/* ROW */
-
-.row{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-}
-
-.row select{
-flex:1;
-}
-
 /* SELECT */
 
 select{
-padding:10px;
-border-radius:10px;
+padding:8px;
+margin:10px 5px 10px 0;
+border-radius:6px;
 border:1px solid #ccc;
-font-size:14px;
-width:100%;
 }
 
-/* BUTTONS */
+/* BUTTON */
 
-.btn{
-padding:10px 15px;
+button{
+padding:8px 15px;
 background:#5e00a3;
 color:white;
 border:none;
-border-radius:10px;
+border-radius:6px;
 cursor:pointer;
-font-size:14px;
 }
 
-.btn:hover{
+button:hover{
 opacity:0.9;
-}
-
-/* BUTTON ROW */
-
-.button-row{
-display:flex;
-gap:10px;
-margin-top:10px;
-flex-wrap:wrap;
 }
 
 /* GRID */
@@ -135,7 +106,7 @@ padding-bottom:5px;
 margin-top:15px;
 background:linear-gradient(135deg,#5e00a3,#8e2de2);
 color:white;
-padding:18px;
+padding:15px;
 border-radius:12px;
 text-align:center;
 font-size:20px;
@@ -182,8 +153,7 @@ background:#121212;
 color:white;
 }
 
-.dark-mode .salary-card,
-.dark-mode .control-card{
+.dark-mode .salary-card{
 background:#1f1f1f;
 }
 
@@ -213,14 +183,14 @@ color:white;
 
 <div class="content">
 
-<div class="control-card">
-
-<div class="row">
+<label>Select Year:</label>
 
 <select id="year">
 <option>2025</option>
 <option>2026</option>
 </select>
+
+<label>Select Month:</label>
 
 <select id="month">
 
@@ -239,18 +209,11 @@ color:white;
 
 </select>
 
-</div>
+<button onclick="loadSalary()">Check Salary</button>
 
-<div class="button-row">
-
-<button class="btn" onclick="loadSalary()">Check Salary</button>
-
-<button class="btn" onclick="printSalary()">🖨 Print</button>
-
-<button class="btn" onclick="downloadPDF()">📄 Download PDF</button>
-
-</div>
-
+<div style="margin-top:15px;">
+<button onclick="printSalary()">🖨 Print</button>
+<button onclick="downloadPDF()">📄 Download PDF</button>
 </div>
 
 <div id="result"></div>
@@ -287,8 +250,6 @@ color:white;
 </div>
 
 <script>
-
-/* YOUR ORIGINAL SCRIPT — UNCHANGED */
 
 let user = localStorage.getItem("currentUser");
 if(!user){ window.location="login.html"; }
@@ -334,6 +295,8 @@ let otherD = +cols[22];
 let totalEarning = basic+hra+da+conveyance+medical+special+bonus+overtime+incentive+otherE;
 let totalDeduction = pf+esi+professionalTax+incomeTax+loan+advance+lateFine+insurance+canteen+otherD;
 let net = totalEarning-totalDeduction;
+
+/* store values for pdf */
 
 window.salaryData={
 basic,hra,da,conveyance,medical,special,bonus,overtime,incentive,otherE,
@@ -402,11 +365,104 @@ document.getElementById("result").innerHTML="No salary found.";
 
 }
 
-/* PRINT & PDF FUNCTIONS UNCHANGED */
+function printSalary(){
+let content=document.getElementById("result").innerHTML;
+let win=window.open('', '', 'width=800,height=600');
+win.document.write('<html><body>'+content+'</body></html>');
+win.document.close();
+win.print();
+}
 
-function printSalary(){...}
+function downloadPDF(){
 
-function downloadPDF(){...}
+let s=window.salaryData;
+
+let year=document.getElementById("year").value;
+let month=document.getElementById("month").options[
+document.getElementById("month").selectedIndex].text;
+
+let pdfContent = `
+
+<div style="font-family:sans-serif;padding:20px">
+
+<div style="text-align:center">
+<h2>HUBLI ELECTRICITY SUPPLY COMPANY LTD.</h2>
+<h4>O & M Division, Sirsi</h4>
+<p><b>Employee:</b> ${user}</p>
+<p><b>Month:</b> ${month} ${year}</p>
+<hr>
+</div>
+
+<table style="width:100%;border-collapse:collapse;margin-top:20px">
+
+<tr>
+<th style="background:#5e00a3;color:white;padding:8px">Earnings</th>
+<th style="background:#5e00a3;color:white;padding:8px">Deductions</th>
+</tr>
+
+<tr>
+
+<td style="padding:10px;border-right:1px solid #ddd">
+
+Basic ₹${s.basic}<br>
+HRA ₹${s.hra}<br>
+DA ₹${s.da}<br>
+Conveyance ₹${s.conveyance}<br>
+Medical ₹${s.medical}<br>
+Special ₹${s.special}<br>
+Bonus ₹${s.bonus}<br>
+Overtime ₹${s.overtime}<br>
+Incentive ₹${s.incentive}<br>
+Other Earnings ₹${s.otherE}<br><br>
+
+<b>Total Earnings ₹${s.totalEarning}</b>
+
+</td>
+
+<td style="padding:10px">
+
+PF ₹${s.pf}<br>
+ESI ₹${s.esi}<br>
+Professional Tax ₹${s.professionalTax}<br>
+Income Tax ₹${s.incomeTax}<br>
+Loan ₹${s.loan}<br>
+Advance ₹${s.advance}<br>
+Late Fine ₹${s.lateFine}<br>
+Insurance ₹${s.insurance}<br>
+Canteen ₹${s.canteen}<br>
+Other Deduction ₹${s.otherD}<br><br>
+
+<b>Total Deduction ₹${s.totalDeduction}</b>
+
+</td>
+
+</tr>
+
+</table>
+
+<hr style="margin-top:20px">
+
+<h2 style="text-align:right">
+Net Salary : ₹ ${s.net}
+</h2>
+
+</div>
+`;
+
+let div=document.createElement("div");
+div.innerHTML=pdfContent;
+
+let opt={
+margin:0.5,
+filename:'Salary.pdf',
+image:{type:'jpeg',quality:0.98},
+html2canvas:{scale:2},
+jsPDF:{unit:'in',format:'a4',orientation:'portrait'}
+};
+
+html2pdf().set(opt).from(div).save();
+
+}
 
 if(localStorage.getItem("darkMode")==="true"){
 document.body.classList.add("dark-mode");
