@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 <title>Profile</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -43,7 +41,6 @@ font-size:22px;
 .top h2{
 margin:0;
 font-size:22px;
-letter-spacing:1px;
 }
 
 /* CONTENT */
@@ -52,44 +49,26 @@ letter-spacing:1px;
 padding:18px;
 }
 
-/* MAIN PROFILE CARD */
+/* CARD */
 
 .card{
 background:white;
-padding:22px;
+padding:20px;
 border-radius:20px;
 box-shadow:0 8px 25px rgba(0,0,0,0.12);
-text-align:center;
 }
 
-/* AVATAR */
-
-.avatar{
-width:90px;
-height:90px;
-margin:0 auto 20px auto;
-border-radius:50%;
-background:linear-gradient(135deg,#5e00a3,#a64dff);
-color:white;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:40px;
-box-shadow:0 4px 15px rgba(0,0,0,0.2);
-}
-
-/* SECTION CONTAINERS */
+/* SECTION */
 
 .section{
 background:#f9f9ff;
 padding:16px;
 border-radius:16px;
-margin-top:20px;
+margin-top:18px;
 box-shadow:0 3px 10px rgba(0,0,0,0.08);
-text-align:left;
 }
 
-/* SECTION TITLE */
+/* TITLE */
 
 .section-title{
 font-weight:700;
@@ -106,7 +85,7 @@ grid-template-columns:1fr 1fr;
 gap:10px;
 }
 
-/* PROFILE ITEM */
+/* ITEM */
 
 .profile-item{
 background:white;
@@ -153,12 +132,7 @@ font-size:20px;
 .footer small{
 font-size:12px;
 margin-top:3px;
-color:#5e00a3;
 font-weight:600;
-}
-
-.footer .active{
-font-weight:bold;
 }
 
 /* DARK MODE */
@@ -200,13 +174,9 @@ color:white;
 </div>
 
 <div class="content">
-
 <div class="card">
-
 <div id="data"></div>
-
 </div>
-
 </div>
 
 <div class="footer">
@@ -216,7 +186,7 @@ color:white;
 <small>Home</small>
 </a>
 
-<a href="page1.html" class="active">
+<a href="page1.html">
 <div>👤</div>
 <small>Profile</small>
 </a>
@@ -246,6 +216,45 @@ if(!user){
 window.location="login.html";
 }
 
+function calculateService(joinDate){
+
+let join = new Date(joinDate);
+let today = new Date();
+
+let years = today.getFullYear() - join.getFullYear();
+let months = today.getMonth() - join.getMonth();
+let days = today.getDate() - join.getDate();
+
+if(days<0){
+months--;
+days+=30;
+}
+
+if(months<0){
+years--;
+months+=12;
+}
+
+return years+" Years "+months+" Months "+days+" Days";
+
+}
+
+function retirementCountdown(retDate){
+
+let retire = new Date(retDate);
+let today = new Date();
+
+let diff = retire - today;
+
+let days = Math.floor(diff/(1000*60*60*24));
+
+let years = Math.floor(days/365);
+let months = Math.floor((days%365)/30);
+
+return years+" Years "+months+" Months Remaining";
+
+}
+
 async function loadProfile(){
 
 let response = await fetch(
@@ -261,12 +270,12 @@ let cols = rows[i].split(",");
 
 if(cols[0].trim() === user.trim()){
 
+let service = calculateService(cols[18]);
+let retirement = retirementCountdown(cols[6]);
+
 document.getElementById("data").innerHTML = `
 
-<div class="avatar">👤</div>
-
 <div class="section">
-
 <div class="section-title">Basic Information</div>
 
 <div class="grid">
@@ -302,12 +311,10 @@ document.getElementById("data").innerHTML = `
 </div>
 
 </div>
-
 </div>
 
 
 <div class="section">
-
 <div class="section-title">Personal Details</div>
 
 <div class="grid">
@@ -353,12 +360,10 @@ document.getElementById("data").innerHTML = `
 </div>
 
 </div>
-
 </div>
 
 
 <div class="section">
-
 <div class="section-title">Service Details</div>
 
 <div class="grid">
@@ -374,8 +379,18 @@ document.getElementById("data").innerHTML = `
 </div>
 
 <div class="profile-item">
-<label>Appointment Type</label>
-<p>${cols[20]}</p>
+<label>Service Length</label>
+<p>${service}</p>
+</div>
+
+<div class="profile-item">
+<label>Retirement Date</label>
+<p>${cols[6]}</p>
+</div>
+
+<div class="profile-item">
+<label>Retirement Countdown</label>
+<p>${retirement}</p>
 </div>
 
 <div class="profile-item">
@@ -393,13 +408,7 @@ document.getElementById("data").innerHTML = `
 <p>${cols[28]}</p>
 </div>
 
-<div class="profile-item">
-<label>Retirement Date</label>
-<p>${cols[6]}</p>
 </div>
-
-</div>
-
 </div>
 
 `;
