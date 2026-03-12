@@ -142,6 +142,8 @@ background:white;
 padding:15px;
 border-radius:12px;
 box-shadow:0 4px 10px rgba(0,0,0,0.08);
+font-size:14px;
+line-height:1.6;
 }
 
 .salary-card h4{
@@ -318,6 +320,13 @@ color:white;
 let user = localStorage.getItem("currentUser");
 if(!user){ window.location="login.html"; }
 
+function showRow(name,value){
+if(value>0){
+return name + " ₹" + value + "<br>";
+}
+return "";
+}
+
 async function loadSalary(){
 
 let year = document.getElementById("year").value;
@@ -411,23 +420,24 @@ document.getElementById("result").innerHTML = `
 
 <h4>Earnings</h4>
 
-Basic ₹${s.basic}<br>
-Dearness Pay ₹${s.dearness_pay}<br>
-House Rent Allowance ₹${s.rouse_rent_allowances}<br>
-City Compensation Allowance ₹${s.city_compensation_allowances}<br>
-Personal Pay ₹${s.personal_pay}<br>
-Special Personal Pay ₹${s.special_personal_pay}<br>
-Conveyance Allowance ₹${s.conveyance_allowances}<br>
-Washing Allowance ₹${s.washing_allowances}<br>
-SFTA ₹${s.sfta}<br>
-Special Locality Allowance ₹${s.special_locality_allowances}<br>
-MWA ₹${s.mwa}<br>
-Hill Allowance ₹${s.hill_allowances}<br>
-Charge Allowance ₹${s.charge_allowances}<br>
-Pension Contribution ₹${s.pension_contribution_14_percent}<br>
-LWF Company Contribution ₹${s.labour_welfare_fund_company_contribution}<br>
-Cash Duty Allowance ₹${s.cash_duty_allowances}<br>
-Other Earnings ₹${s.other_earnings}<br><br>
+${showRow("Basic",s.basic)}
+${showRow("Dearness Pay",s.dearness_pay)}
+${showRow("House Rent Allowance",s.rouse_rent_allowances)}
+${showRow("City Compensation Allowance",s.city_compensation_allowances)}
+${showRow("Personal Pay",s.personal_pay)}
+${showRow("Special Personal Pay",s.special_personal_pay)}
+${showRow("Conveyance Allowance",s.conveyance_allowances)}
+${showRow("Washing Allowance",s.washing_allowances)}
+${showRow("SFTA",s.sfta)}
+${showRow("Special Locality Allowance",s.special_locality_allowances)}
+${showRow("MWA",s.mwa)}
+${showRow("Hill Allowance",s.hill_allowances)}
+${showRow("Charge Allowance",s.charge_allowances)}
+${showRow("Pension Contribution",s.pension_contribution_14_percent)}
+${showRow("LWF Company Contribution",s.labour_welfare_fund_company_contribution)}
+${showRow("Cash Duty Allowance",s.cash_duty_allowances)}
+${showRow("Other Earnings",s.other_earnings)}
+<br>
 
 <b>Total Earnings ₹${s.totalEarning}</b>
 
@@ -437,22 +447,23 @@ Other Earnings ₹${s.other_earnings}<br><br>
 
 <h4>Deductions</h4>
 
-LIC ₹${s.LIC}<br>
-Income Tax ₹${s.income_tax}<br>
-Professional Tax ₹${s.professional_tax}<br>
-KPTCL Employee Society ₹${s.KPTCL_employes_society}<br>
-PLI ₹${s.PLI}<br>
-Union Fund ₹${s.union_fund}<br>
-SC/ST Union Fund ₹${s.sc_st_union_fund}<br>
-House Rent ₹${s.house_rent}<br>
-Urban Bank ₹${s.urban_bank}<br>
-Family Benefit Fund ₹${s.family_benefit_fund}<br>
-Festival Advance ₹${s.festival_advance}<br>
-PC 10% Contribution ₹${s.PC_10_contribution}<br>
-PC 14% Contribution ₹${s.PC_14_contribution}<br>
-LWF ₹${s.LWF}<br>
-Recovery ₹${s.recovery_any}<br>
-Other Deduction ₹${s.other_deduction}<br><br>
+${showRow("LIC",s.LIC)}
+${showRow("Income Tax",s.income_tax)}
+${showRow("Professional Tax",s.professional_tax)}
+${showRow("KPTCL Employee Society",s.KPTCL_employes_society)}
+${showRow("PLI",s.PLI)}
+${showRow("Union Fund",s.union_fund)}
+${showRow("SC/ST Union Fund",s.sc_st_union_fund)}
+${showRow("House Rent",s.house_rent)}
+${showRow("Urban Bank",s.urban_bank)}
+${showRow("Family Benefit Fund",s.family_benefit_fund)}
+${showRow("Festival Advance",s.festival_advance)}
+${showRow("PC 10% Contribution",s.PC_10_contribution)}
+${showRow("PC 14% Contribution",s.PC_14_contribution)}
+${showRow("LWF",s.LWF)}
+${showRow("Recovery",s.recovery_any)}
+${showRow("Other Deduction",s.other_deduction)}
+<br>
 
 <b>Total Deduction ₹${s.totalDeduction}</b>
 
@@ -494,6 +505,13 @@ let year=document.getElementById("year").value;
 let month=document.getElementById("month").options[
 document.getElementById("month").selectedIndex].text;
 
+function pdfRow(name,value){
+if(value>0){
+return name + " ₹" + value + "<br>";
+}
+return "";
+}
+
 let pdfContent = `
 
 <div style="font-family:sans-serif;padding:20px">
@@ -517,23 +535,23 @@ let pdfContent = `
 
 <td style="padding:10px;border-right:1px solid #ddd;vertical-align:top">
 
-Basic ₹${s.basic}<br>
-Dearness Pay ₹${s.dearness_pay}<br>
-House Rent Allowance ₹${s.rouse_rent_allowances}<br>
-City Compensation Allowance ₹${s.city_compensation_allowances}<br>
-Personal Pay ₹${s.personal_pay}<br>
-Special Personal Pay ₹${s.special_personal_pay}<br>
-Conveyance Allowance ₹${s.conveyance_allowances}<br>
-Washing Allowance ₹${s.washing_allowances}<br>
-SFTA ₹${s.sfta}<br>
-Special Locality Allowance ₹${s.special_locality_allowances}<br>
-MWA ₹${s.mwa}<br>
-Hill Allowance ₹${s.hill_allowances}<br>
-Charge Allowance ₹${s.charge_allowances}<br>
-Pension Contribution ₹${s.pension_contribution_14_percent}<br>
-LWF Company Contribution ₹${s.labour_welfare_fund_company_contribution}<br>
-Cash Duty Allowance ₹${s.cash_duty_allowances}<br>
-Other Earnings ₹${s.other_earnings}
+${pdfRow("Basic",s.basic)}
+${pdfRow("Dearness Pay",s.dearness_pay)}
+${pdfRow("House Rent Allowance",s.rouse_rent_allowances)}
+${pdfRow("City Compensation Allowance",s.city_compensation_allowances)}
+${pdfRow("Personal Pay",s.personal_pay)}
+${pdfRow("Special Personal Pay",s.special_personal_pay)}
+${pdfRow("Conveyance Allowance",s.conveyance_allowances)}
+${pdfRow("Washing Allowance",s.washing_allowances)}
+${pdfRow("SFTA",s.sfta)}
+${pdfRow("Special Locality Allowance",s.special_locality_allowances)}
+${pdfRow("MWA",s.mwa)}
+${pdfRow("Hill Allowance",s.hill_allowances)}
+${pdfRow("Charge Allowance",s.charge_allowances)}
+${pdfRow("Pension Contribution",s.pension_contribution_14_percent)}
+${pdfRow("LWF Company Contribution",s.labour_welfare_fund_company_contribution)}
+${pdfRow("Cash Duty Allowance",s.cash_duty_allowances)}
+${pdfRow("Other Earnings",s.other_earnings)}
 
 <div style="margin-top:10px;font-weight:bold;border-top:1px solid #ccc;padding-top:5px">
 Total Earnings ₹${s.totalEarning}
@@ -543,22 +561,23 @@ Total Earnings ₹${s.totalEarning}
 
 <td style="padding:10px;vertical-align:top">
 
-LIC ₹${s.LIC}<br>
-Income Tax ₹${s.income_tax}<br>
-Professional Tax ₹${s.professional_tax}<br>
-KPTCL Employee Society ₹${s.KPTCL_employes_society}<br>
-PLI ₹${s.PLI}<br>
-Union Fund ₹${s.union_fund}<br>
-SC/ST Union Fund ₹${s.sc_st_union_fund}<br>
-House Rent ₹${s.house_rent}<br>
-Urban Bank ₹${s.urban_bank}<br>
-Family Benefit Fund ₹${s.family_benefit_fund}<br>
-Festival Advance ₹${s.festival_advance}<br>
-PC 10% Contribution ₹${s.PC_10_contribution}<br>
-PC 14% Contribution ₹${s.PC_14_contribution}<br>
-LWF ₹${s.LWF}<br>
-Recovery ₹${s.recovery_any}<br>
-Other Deduction ₹${s.other_deduction}
+${showRow("LIC",s.LIC)}
+${showRow("Income Tax",s.income_tax)}
+${showRow("Professional Tax",s.professional_tax)}
+${showRow("KPTCL Employee Society",s.KPTCL_employes_society)}
+${showRow("PLI",s.PLI)}
+${showRow("Union Fund",s.union_fund)}
+${showRow("SC/ST Union Fund",s.sc_st_union_fund)}
+${showRow("House Rent",s.house_rent)}
+${showRow("Urban Bank",s.urban_bank)}
+${showRow("Family Benefit Fund",s.family_benefit_fund)}
+${showRow("Festival Advance",s.festival_advance)}
+${showRow("PC 10% Contribution",s.PC_10_contribution)}
+${showRow("PC 14% Contribution",s.PC_14_contribution)}
+${showRow("LWF",s.LWF)}
+${showRow("Recovery",s.recovery_any)}
+${showRow("Other Deduction",s.other_deduction)}
+<br>
 
 <div style="margin-top:10px;font-weight:bold;border-top:1px solid #ccc;padding-top:5px">
 Total Deduction ₹${s.totalDeduction}
