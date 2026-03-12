@@ -32,14 +32,14 @@ border-radius:50%;
 display:flex;align-items:center;justify-content:center;
 }
 
-/* BOX */
+/* MAIN CONTAINER */
 
-.box{
+.container{
 background:white;
 margin:15px;
 padding:15px;
 border-radius:15px;
-box-shadow:0 4px 10px rgba(0,0,0,0.15);
+box-shadow:0 4px 12px rgba(0,0,0,0.15);
 }
 
 /* DROPDOWN ROW */
@@ -74,13 +74,12 @@ cursor:pointer;
 /* SUMMARY */
 
 .summary{
-width:95%;
-margin:10px auto;
+width:100%;
+margin-top:15px;
 border-collapse:collapse;
-background:white;
 border-radius:12px;
 overflow:hidden;
-box-shadow:0 4px 10px rgba(0,0,0,0.15);
+box-shadow:0 2px 8px rgba(0,0,0,0.12);
 }
 
 .summary th{
@@ -101,7 +100,7 @@ font-size:15px;
 
 table{
 width:95%;
-margin:auto;
+margin:15px auto;
 border-collapse:separate;
 border-spacing:6px;
 }
@@ -144,7 +143,7 @@ font-weight:bold;
 /* PAGINATION */
 
 .pagination{
-display:flex;
+display:none;
 justify-content:center;
 gap:20px;
 margin:20px;
@@ -197,7 +196,7 @@ font-weight:600;
 <h2>Attendance</h2>
 </div>
 
-<div class="box">
+<div class="container">
 
 <div class="row">
 
@@ -228,8 +227,6 @@ font-weight:600;
 
 <button onclick="searchAttendance()">Search</button>
 
-</div>
-
 <table class="summary">
 <tr>
 <th>Total Present</th>
@@ -245,7 +242,9 @@ font-weight:600;
 </tr>
 </table>
 
-<table id="attendanceTable">
+</div>
+
+<table id="attendanceTable" style="display:none;">
 <tr>
 <th>Date</th>
 <th>Status</th>
@@ -253,7 +252,7 @@ font-weight:600;
 </tr>
 </table>
 
-<div class="pagination">
+<div class="pagination" id="pagination">
 <button class="pageBtn" onclick="prevPage()">Prev</button>
 <button class="pageBtn" onclick="nextPage()">Next</button>
 </div>
@@ -268,8 +267,8 @@ font-weight:600;
 
 <script>
 
-let user = localStorage.getItem("currentUser");
-if(!user){ window.location="login.html"; }
+let user=localStorage.getItem("currentUser");
+if(!user){window.location="login.html";}
 
 let allRows=[];
 let page=0;
@@ -373,7 +372,6 @@ else if(status==="Absent"){absentCount++;}
 else if(status==="Leave"){leaveCount++;}
 
 let color="";
-
 if(status==="Present"){color="present";}
 else if(status==="Absent"){color="absent";}
 else{color="leave";}
@@ -396,6 +394,11 @@ document.getElementById("presentCount").innerText=presentCount;
 document.getElementById("leaveCount").innerText=leaveCount;
 document.getElementById("absentCount").innerText=absentCount;
 document.getElementById("holidayWork").innerText=holidayWork;
+
+/* SHOW TABLE AFTER SEARCH */
+
+document.getElementById("attendanceTable").style.display="table";
+document.getElementById("pagination").style.display="flex";
 
 renderPage();
 
