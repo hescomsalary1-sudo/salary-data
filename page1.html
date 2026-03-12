@@ -219,33 +219,113 @@ async function loadProfile(){
 
     if(cols[0].trim() === user.trim()){
 
-      document.getElementById("data").innerHTML = `
-  <div class="avatar">👤</div>
+document.getElementById("data").innerHTML = `
+<div class="avatar">👤</div>
 
-  <div class="profile-item">
-    <label>Name</label>
-    <p>${cols[1]}</p>
-  </div>
+<div class="profile-item">
+<label>Name</label>
+<p>${cols[1]}</p>
+</div>
 
-  <div class="profile-item">
-    <label>Designation</label>
-    <p>${cols[2]}</p>
-  </div>
+<div class="profile-item">
+<label>Designation</label>
+<p>${cols[2]}</p>
+</div>
 
-  <div class="profile-item">
-    <label>Working Place</label>
-    <p>${cols[3]}</p>
-  </div>
+<div class="profile-item">
+<label>Current Designation</label>
+<p>${cols[23]}</p>
+</div>
 
-  <div class="profile-item">
-    <label>Login Username</label>
-    <p>${cols[0]}</p>
-  </div>
+<div class="profile-item">
+<label>Working Place</label>
+<p>${cols[3]}</p>
+</div>
 
-  <div class="profile-item">
-    <label>Mobile Number</label>
-    <p>${cols[4]}</p>
-  </div>
+<div class="profile-item">
+<label>District</label>
+<p>${cols[16]}</p>
+</div>
+
+<div class="profile-item">
+<label>Home Town</label>
+<p>${cols[17]}</p>
+</div>
+
+<div class="profile-item">
+<label>Mobile Number</label>
+<p>${cols[4]}</p>
+</div>
+
+<div class="profile-item">
+<label>Email</label>
+<p>${cols[8]}</p>
+</div>
+
+<div class="profile-item">
+<label>Date of Birth</label>
+<p>${cols[5]}</p>
+</div>
+
+<div class="profile-item">
+<label>Marital Status</label>
+<p>${cols[11]}</p>
+</div>
+
+<div class="profile-item">
+<label>Qualification</label>
+<p>${cols[12]}</p>
+</div>
+
+<div class="profile-item">
+<label>Religion</label>
+<p>${cols[13]}</p>
+</div>
+
+<div class="profile-item">
+<label>Category</label>
+<p>${cols[14]}</p>
+</div>
+
+<div class="profile-item">
+<label>Caste Name</label>
+<p>${cols[15]}</p>
+</div>
+
+<div class="profile-item">
+<label>Joining Date</label>
+<p>${cols[18]}</p>
+</div>
+
+<div class="profile-item">
+<label>Joining Designation</label>
+<p>${cols[19]}</p>
+</div>
+
+<div class="profile-item">
+<label>Appointment Type</label>
+<p>${cols[20]}</p>
+</div>
+
+<div class="profile-item">
+<label>Pension Type</label>
+<p>${cols[26]}</p>
+</div>
+
+<div class="profile-item">
+<label>NDCPS Number</label>
+<p>${cols[27]}</p>
+</div>
+
+<div class="profile-item">
+<label>Working From Date</label>
+<p>${cols[28]}</p>
+</div>
+
+<div class="profile-item">
+<label>Retirement Date</label>
+<p>${cols[6]}</p>
+</div>
 `;
 
       return;
@@ -267,3 +347,4 @@ if(localStorage.getItem("darkMode")==="true"){
 
 </body>
 </html>
+
