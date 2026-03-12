@@ -2,176 +2,191 @@
 <html>
 <head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <title>Profile</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
 body{
-  font-family:'Segoe UI', sans-serif;
-  margin:0;
-  background:linear-gradient(135deg,#f4f4f9,#e8e8ff);
-  padding-bottom:90px;
+font-family:'Segoe UI',sans-serif;
+margin:0;
+background:linear-gradient(135deg,#f4f4f9,#e8e8ff);
+padding-bottom:90px;
 }
 
 /* HEADER */
+
 .top{
-  padding:25px;
-  background:linear-gradient(135deg,#1a002b,#5e00a3);
-  color:white;
-  display:flex;
-  align-items:center;
-  gap:15px;
-  border-bottom-left-radius:30px;
-  border-bottom-right-radius:30px;
+padding:25px;
+background:linear-gradient(135deg,#1a002b,#5e00a3);
+color:white;
+display:flex;
+align-items:center;
+gap:15px;
+border-bottom-left-radius:30px;
+border-bottom-right-radius:30px;
 }
 
 .top .icon{
-  width:45px;
-  height:45px;
-  background:white;
-  color:#5e00a3;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:22px;
+width:45px;
+height:45px;
+background:white;
+color:#5e00a3;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
 }
 
 .top h2{
-  margin:0;
-  font-size:22px;
-  letter-spacing:1px;
+margin:0;
+font-size:22px;
+letter-spacing:1px;
 }
 
 /* CONTENT */
+
 .content{
-  padding:20px;
+padding:18px;
 }
+
+/* MAIN PROFILE CARD */
 
 .card{
-  background:white;
-  padding:25px;
-  border-radius:20px;
-  box-shadow:0 8px 25px rgba(0,0,0,0.12);
-  text-align:center;
+background:white;
+padding:22px;
+border-radius:20px;
+box-shadow:0 8px 25px rgba(0,0,0,0.12);
+text-align:center;
 }
 
-/* PROFILE AVATAR */
+/* AVATAR */
+
 .avatar{
-  width:90px;
-  height:90px;
-  margin:0 auto 20px auto;
-  border-radius:50%;
-  background:linear-gradient(135deg,#5e00a3,#a64dff);
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:40px;
+width:90px;
+height:90px;
+margin:0 auto 20px auto;
+border-radius:50%;
+background:linear-gradient(135deg,#5e00a3,#a64dff);
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:40px;
+box-shadow:0 4px 15px rgba(0,0,0,0.2);
 }
 
-/* PROFILE INFO */
-.profile-item{
-  background:#f4f4ff;
-  padding:12px;
-  border-radius:12px;
-  margin-bottom:12px;
-  text-align:left;
-}
+/* SECTION CONTAINERS */
 
-.profile-item label{
-  font-size:12px;
-  color:#777;
-  display:block;
-}
-
-.profile-item p{
-  margin:4px 0 0 0;
-  font-weight:600;
-  color:#333;
-}
-
-/* FOOTER */
-.footer{
-  position:fixed;
-  bottom:0;
-  width:100%;
-  background:#ffffff;
-  display:flex;
-  justify-content:space-around;
-  padding:8px 0;
-  box-shadow:0 -2px 10px rgba(0,0,0,0.1);
-}
-
-.footer a{
-  text-decoration:none;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  color:#5e00a3;
-  font-size:20px;
-}
-
-.footer small{
-  font-size:12px;
-  margin-top:3px;
-  color:#5e00a3;
-  font-weight:600;
-}
-
-.footer .active{
-  font-weight:bold;
-}
-
-/* DARK MODE */
-.dark-mode{
-  background:#121212;
-  color:white;
-}
-
-.dark-mode .card{
-  background:#1f1f1f;
-  color:white;
-}
-
-.dark-mode .footer{
-  background:#1a1a1a;
-}
-
-.dark-mode .footer a{
-  color:white;
-}
-
-.dark-mode select,
-.dark-mode input{
-  background:#333;
-  color:white;
-  border:1px solid #555;
-}
-.section-title{
-margin-top:25px;
-margin-bottom:10px;
-font-weight:bold;
-font-size:16px;
-color:#5e00a3;
+.section{
+background:#f9f9ff;
+padding:16px;
+border-radius:16px;
+margin-top:20px;
+box-shadow:0 3px 10px rgba(0,0,0,0.08);
 text-align:left;
 }
+
+/* SECTION TITLE */
+
+.section-title{
+font-weight:700;
+font-size:16px;
+margin-bottom:10px;
+color:#5e00a3;
+}
+
+/* GRID */
 
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:10px;
-margin-bottom:10px;
 }
 
+/* PROFILE ITEM */
+
 .profile-item{
-background:#f4f4ff;
-padding:12px;
-border-radius:12px;
+background:white;
+padding:10px;
+border-radius:10px;
+border:1px solid #eee;
+}
+
+.profile-item label{
+font-size:11px;
+color:#777;
+display:block;
+}
+
+.profile-item p{
+margin:3px 0 0 0;
+font-size:13px;
+font-weight:600;
+color:#333;
+}
+
+/* FOOTER */
+
+.footer{
+position:fixed;
+bottom:0;
+width:100%;
+background:#ffffff;
+display:flex;
+justify-content:space-around;
+padding:8px 0;
+box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.footer a{
+text-decoration:none;
+display:flex;
+flex-direction:column;
+align-items:center;
+color:#5e00a3;
+font-size:20px;
+}
+
+.footer small{
+font-size:12px;
+margin-top:3px;
+color:#5e00a3;
+font-weight:600;
+}
+
+.footer .active{
+font-weight:bold;
+}
+
+/* DARK MODE */
+
+.dark-mode{
+background:#121212;
+color:white;
+}
+
+.dark-mode .card{
+background:#1f1f1f;
+}
+
+.dark-mode .section{
+background:#2a2a2a;
 }
 
 .dark-mode .profile-item{
-background:#2a2a2a;
+background:#333;
+border:1px solid #444;
+}
+
+.dark-mode .footer{
+background:#1a1a1a;
+}
+
+.dark-mode .footer a{
+color:white;
 }
 
 </style>
@@ -179,45 +194,48 @@ background:#2a2a2a;
 
 <body>
 
-<!-- HEADER -->
 <div class="top">
-  <div class="icon">👤</div>
-  <h2>Employee Profile</h2>
+<div class="icon">👤</div>
+<h2>Employee Profile</h2>
 </div>
 
-<!-- CONTENT -->
 <div class="content">
-  <div class="card">
-    <div id="data"></div>
-  </div>
+
+<div class="card">
+
+<div id="data"></div>
+
 </div>
 
-<!-- FOOTER -->
+</div>
+
 <div class="footer">
-  <a href="home.html">
-    <div>🏠</div>
-    <small>Home</small>
-  </a>
 
-  <a href="page1.html" class="active">
-    <div>👤</div>
-    <small>Profile</small>
-  </a>
+<a href="home.html">
+<div>🏠</div>
+<small>Home</small>
+</a>
 
-  <a href="salary.html">
-    <div>💰</div>
-    <small>Salary</small>
-  </a>
+<a href="page1.html" class="active">
+<div>👤</div>
+<small>Profile</small>
+</a>
 
-  <a href="page3.html">
-    <div>📅</div>
-    <small>Attendance</small>
-  </a>
+<a href="salary.html">
+<div>💰</div>
+<small>Salary</small>
+</a>
 
-  <a href="page4.html">
-    <div>⚙</div>
-    <small>Settings</small>
-  </a>
+<a href="page3.html">
+<div>📅</div>
+<small>Attendance</small>
+</a>
+
+<a href="page4.html">
+<div>⚙</div>
+<small>Settings</small>
+</a>
+
 </div>
 
 <script>
@@ -225,27 +243,29 @@ background:#2a2a2a;
 let user = localStorage.getItem("currentUser");
 
 if(!user){
-  window.location = "login.html";
+window.location="login.html";
 }
 
 async function loadProfile(){
 
-  let response = await fetch(
-    "https://hescomsalary1-sudo.github.io/salary-data/employee.csv"
-  );
+let response = await fetch(
+"https://hescomsalary1-sudo.github.io/salary-data/employee.csv"
+);
 
-  let text = await response.text();
-  let rows = text.trim().split("\n");
+let text = await response.text();
+let rows = text.trim().split("\n");
 
-  for(let i=1; i<rows.length; i++){
+for(let i=1;i<rows.length;i++){
 
-    let cols = rows[i].split(",");
+let cols = rows[i].split(",");
 
-    if(cols[0].trim() === user.trim()){
+if(cols[0].trim() === user.trim()){
 
 document.getElementById("data").innerHTML = `
 
 <div class="avatar">👤</div>
+
+<div class="section">
 
 <div class="section-title">Basic Information</div>
 
@@ -283,6 +303,10 @@ document.getElementById("data").innerHTML = `
 
 </div>
 
+</div>
+
+
+<div class="section">
 
 <div class="section-title">Personal Details</div>
 
@@ -330,6 +354,10 @@ document.getElementById("data").innerHTML = `
 
 </div>
 
+</div>
+
+
+<div class="section">
 
 <div class="section-title">Service Details</div>
 
@@ -356,7 +384,7 @@ document.getElementById("data").innerHTML = `
 </div>
 
 <div class="profile-item">
-<label>NDCPS Number</label>
+<label>NDCPS No</label>
 <p>${cols[27]}</p>
 </div>
 
@@ -372,26 +400,27 @@ document.getElementById("data").innerHTML = `
 
 </div>
 
+</div>
+
 `;
 
-      return;
-    }
-  }
+return;
 
-  document.getElementById("data").innerHTML = "User not found.";
+}
+
+}
+
+document.getElementById("data").innerHTML="User not found.";
 
 }
 
 loadProfile();
 
-// APPLY DARK MODE ON LOAD
 if(localStorage.getItem("darkMode")==="true"){
-  document.body.classList.add("dark-mode");
+document.body.classList.add("dark-mode");
 }
 
 </script>
 
 </body>
 </html>
-
-
