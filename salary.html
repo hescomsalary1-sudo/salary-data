@@ -532,57 +532,19 @@ if(localStorage.getItem("darkMode")==="true"){
 document.body.classList.add("dark-mode");
 }
 
-async function sharePDF(){
-
-let s = window.salaryData;
+function sharePDF(){
 
 let year=document.getElementById("year").value;
 let month=document.getElementById("month").options[
 document.getElementById("month").selectedIndex].text;
 
-let pdfContent = `
-<div style="font-family:sans-serif;padding:20px">
+let text = "My Salary Slip for "+month+" "+year;
 
-<div style="text-align:center">
-<h2>HUBLI ELECTRICITY SUPPLY COMPANY LTD.</h2>
-<h4>O & M Division, Sirsi</h4>
-<p><b>Employee:</b> ${user}</p>
-<p><b>Month:</b> ${month} ${year}</p>
-<hr>
-</div>
+let url = "https://wa.me/?text=" + encodeURIComponent(text);
 
-<h2 style="text-align:right">
-Net Salary : ₹ ${s.net}
-</h2>
+window.open(url,"_blank");
 
-</div>
-`;
-
-let div=document.createElement("div");
-div.innerHTML=pdfContent;
-
-let opt={
-margin:0.5,
-filename:'Salary.pdf',
-html2canvas:{scale:2},
-jsPDF:{unit:'in',format:'a4',orientation:'portrait'}
-};
-
-let pdfBlob = await html2pdf().set(opt).from(div).outputPdf('blob');
-
-let file = new File([pdfBlob], "Salary.pdf", {type:"application/pdf"});
-
-if(navigator.share){
-
-await navigator.share({
-files:[file],
-title:"Salary Slip",
-text:"My Salary Slip"
-});
-
-}else{
-alert("Sharing not supported on this device");
-}
+alert("WhatsApp opened. Please attach the downloaded PDF.");
 
 }
 
@@ -590,6 +552,7 @@ alert("Sharing not supported on this device");
 
 </body>
 </html>
+
 
 
 
