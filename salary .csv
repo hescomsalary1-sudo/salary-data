@@ -1,8 +1,3 @@
-username,year,month,basic,hra,da,conveyance,medical,special,bonus,overtime,incentive,otherE,pf,esi,professionalTax,incomeTax,loan,advance,lateFine,insurance,canteen,otherD
-emp1,2026,01,100000,5000,2000,1500,1000,2500,1200,800,1000,500,1800,500,200,1000,0,0,100,300,200,150
-emp2,2026,01,18000,4000,1500,1200,800,2000,1000,600,900,400,1500,400,150,800,0,0,50,250,150,100
-
-
-
-
-
+username,year,month,basic,dearness_pay,rouse_rent_allowances,city_compensation_allowances,personal_pay,special_personal_pay,conveyance_allowances,washing_allowances,sfta,special_locality_allowances,mwa,hill_allowances,charge_allowances,pension_contribution_14_percent,labour_welfare_fund_company_contribution,cash_duty_allowances,other_earnings,LIC,income_tax,professional_tax,KPTCL_employes_society,PLI,union_fund,sc_st_union_fund,house_rent,urban_bank,family_benefit_fund,festival_advance,PC_10_contribution,PC_14_contribution,LWF,recovery_any,other_deduction
+emp1,2026,1,100000,5000,2000,1500,1000,2500,1200,800,1000,500,1800,500,200,1000,0,,0,100,300,200,150,,,,,,,,,,,,
+emp2,2026,1,18000,4000,1500,1200,800,2000,1000,600,900,400,1500,400,150,800,0,,0,50,250,150,100,,,,,,,,,,,,
