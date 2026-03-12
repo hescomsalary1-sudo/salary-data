@@ -9,8 +9,21 @@ body{
 font-family:sans-serif;
 margin:0;
 background:#f4f4f9;
-padding-bottom:90px;
+overflow:hidden;
 }
+
+/* FIXED TOP AREA */
+
+.topFixed{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+background:#f4f4f9;
+z-index:10;
+}
+
+/* HEADER */
 
 .top{
 padding:20px;
@@ -28,6 +41,8 @@ width:35px;height:35px;background:white;color:#5e00a3;
 border-radius:50%;
 display:flex;align-items:center;justify-content:center;
 }
+
+/* SEARCH BOX */
 
 .box{
 background:white;
@@ -52,6 +67,8 @@ color:white;
 border:none;
 cursor:pointer;
 }
+
+/* FOOTER */
 
 .footer{
 position:fixed;
@@ -108,10 +125,14 @@ font-size:15px;
 /* SCROLL AREA */
 
 .tableScroll{
-width:95%;
-margin:10px auto;
-height:350px;
+position:fixed;
+top:420px;
+bottom:70px;
+left:0;
+right:0;
 overflow-y:auto;
+width:95%;
+margin:auto;
 }
 
 /* ATTENDANCE TABLE */
@@ -158,6 +179,8 @@ font-weight:bold;
 </head>
 
 <body>
+
+<div class="topFixed">
 
 <div class="top">
 <div class="icon">📅</div>
@@ -207,6 +230,8 @@ font-weight:bold;
 <td id="holidayWork">0</td>
 </tr>
 </table>
+
+</div>
 
 <div class="tableScroll">
 
