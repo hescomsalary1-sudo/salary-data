@@ -51,33 +51,31 @@ margin:0;
 padding:20px;
 }
 
-/* CONTROL FRAME */
+/* MAIN FRAME */
 
 .control-frame{
 background:white;
 padding:20px;
 border-radius:15px;
 box-shadow:0 6px 14px rgba(0,0,0,0.15);
-margin-bottom:15px;
+margin-bottom:20px;
 }
 
-/* LAYOUT ROW */
+/* ROW */
 
 .control-row{
 display:flex;
-gap:15px;
+gap:20px;
 align-items:flex-start;
 }
 
-/* DROPDOWN COLUMN */
+/* DROPDOWNS */
 
-.dropdown-col{
+.dropdown-column{
 flex:1;
 display:flex;
 flex-direction:column;
 }
-
-/* SELECT */
 
 select{
 padding:10px;
@@ -87,18 +85,19 @@ border:1px solid #ccc;
 font-size:15px;
 }
 
-/* CHECK BUTTON */
+/* BIG BUTTON */
 
 .check-btn{
 background:linear-gradient(135deg,#5e00a3,#8e2de2);
 color:white;
 border:none;
 border-radius:12px;
-padding:20px;
+padding:22px 25px;
 font-size:18px;
 font-weight:bold;
 cursor:pointer;
-box-shadow:0 5px 12px rgba(0,0,0,0.2);
+box-shadow:0 6px 14px rgba(0,0,0,0.2);
+transition:0.2s;
 }
 
 .check-btn:hover{
@@ -240,7 +239,7 @@ color:white;
 
 <div class="control-row">
 
-<div class="dropdown-col">
+<div class="dropdown-column">
 
 <label>Select Year:</label>
 
@@ -313,8 +312,6 @@ color:white;
 </a>
 
 </div>
-
-<!-- YOUR ENTIRE SCRIPT BELOW IS UNCHANGED -->
 
 <script>
 
@@ -446,7 +443,23 @@ let year=document.getElementById("year").value;
 let month=document.getElementById("month").options[
 document.getElementById("month").selectedIndex].text;
 
-let pdfContent = `...`;
+let pdfContent = `
+<div style="font-family:sans-serif;padding:20px">
+
+<div style="text-align:center">
+<h2>HUBLI ELECTRICITY SUPPLY COMPANY LTD.</h2>
+<h4>O & M Division, Sirsi</h4>
+<p><b>Employee:</b> ${user}</p>
+<p><b>Month:</b> ${month} ${year}</p>
+<hr>
+</div>
+
+<h2 style="text-align:right">
+Net Salary : ₹ ${s.net}
+</h2>
+
+</div>
+`;
 
 let div=document.createElement("div");
 div.innerHTML=pdfContent;
