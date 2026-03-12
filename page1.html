@@ -218,21 +218,22 @@ window.location="login.html";
 
 function calculateService(joinDate){
 
-let join = new Date(joinDate);
+let start = new Date(joinDate);
 let today = new Date();
 
-let years = today.getFullYear() - join.getFullYear();
-let months = today.getMonth() - join.getMonth();
-let days = today.getDate() - join.getDate();
+let years = today.getFullYear() - start.getFullYear();
+let months = today.getMonth() - start.getMonth();
+let days = today.getDate() - start.getDate();
 
-if(days<0){
+if(days < 0){
 months--;
-days+=30;
+let prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+days += prevMonth.getDate();
 }
 
-if(months<0){
+if(months < 0){
 years--;
-months+=12;
+months += 12;
 }
 
 return years+" Years "+months+" Months "+days+" Days";
@@ -241,17 +242,25 @@ return years+" Years "+months+" Months "+days+" Days";
 
 function retirementCountdown(retDate){
 
-let retire = new Date(retDate);
 let today = new Date();
+let retire = new Date(retDate);
 
-let diff = retire - today;
+let years = retire.getFullYear() - today.getFullYear();
+let months = retire.getMonth() - today.getMonth();
+let days = retire.getDate() - today.getDate();
 
-let days = Math.floor(diff/(1000*60*60*24));
+if(days < 0){
+months--;
+let prevMonth = new Date(retire.getFullYear(), retire.getMonth(), 0);
+days += prevMonth.getDate();
+}
 
-let years = Math.floor(days/365);
-let months = Math.floor((days%365)/30);
+if(months < 0){
+years--;
+months += 12;
+}
 
-return years+" Years "+months+" Months Remaining";
+return years+" Years "+months+" Months "+days+" Days Remaining";
 
 }
 
@@ -433,3 +442,4 @@ document.body.classList.add("dark-mode");
 
 </body>
 </html>
+
