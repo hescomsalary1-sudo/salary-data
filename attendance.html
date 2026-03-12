@@ -53,8 +53,6 @@ gap:10px;
 flex:1;
 }
 
-/* INPUT */
-
 select,button{
 width:100%;
 padding:10px;
@@ -158,6 +156,39 @@ border-radius:8px;
 cursor:pointer;
 }
 
+/* POPUP */
+
+.popupBg{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+display:none;
+align-items:center;
+justify-content:center;
+}
+
+.popup{
+background:white;
+padding:25px;
+border-radius:15px;
+text-align:center;
+width:260px;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+.popup h3{
+margin-top:0;
+color:#5e00a3;
+}
+
+.popup button{
+margin-top:15px;
+background:#5e00a3;
+}
+
 /* FOOTER */
 
 .footer{
@@ -257,6 +288,16 @@ font-weight:600;
 <button class="pageBtn" onclick="nextPage()">Next</button>
 </div>
 
+<!-- POPUP -->
+
+<div class="popupBg" id="popupBg">
+<div class="popup">
+<h3>Attendance not available</h3>
+<p>No records found for selected month.</p>
+<button onclick="closePopup()">OK</button>
+</div>
+</div>
+
 <div class="footer">
 <a href="home.html"><div>🏠</div><small>Home</small></a>
 <a href="accounts.html"><div>👤</div><small>Profile</small></a>
@@ -273,6 +314,10 @@ if(!user){window.location="login.html";}
 let allRows=[];
 let page=0;
 let perPage=10;
+
+function closePopup(){
+document.getElementById("popupBg").style.display="none";
+}
 
 function renderPage(){
 
@@ -311,6 +356,9 @@ function searchAttendance(){
 
 page=0;
 allRows=[];
+
+document.getElementById("attendanceTable").style.display="none";
+document.getElementById("pagination").style.display="none";
 
 let year=document.getElementById("year").value.trim();
 let month=document.getElementById("month").value.trim();
@@ -395,12 +443,18 @@ document.getElementById("leaveCount").innerText=leaveCount;
 document.getElementById("absentCount").innerText=absentCount;
 document.getElementById("holidayWork").innerText=holidayWork;
 
-/* SHOW TABLE AFTER SEARCH */
+if(allRows.length===0){
+
+document.getElementById("popupBg").style.display="flex";
+
+}else{
 
 document.getElementById("attendanceTable").style.display="table";
 document.getElementById("pagination").style.display="flex";
 
 renderPage();
+
+}
 
 });
 
