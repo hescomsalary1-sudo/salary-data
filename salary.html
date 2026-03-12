@@ -444,6 +444,7 @@ let month=document.getElementById("month").options[
 document.getElementById("month").selectedIndex].text;
 
 let pdfContent = `
+
 <div style="font-family:sans-serif;padding:20px">
 
 <div style="text-align:center">
@@ -453,6 +454,55 @@ let pdfContent = `
 <p><b>Month:</b> ${month} ${year}</p>
 <hr>
 </div>
+
+<table style="width:100%;border-collapse:collapse;margin-top:20px">
+
+<tr>
+<th style="background:#5e00a3;color:white;padding:8px">Earnings</th>
+<th style="background:#5e00a3;color:white;padding:8px">Deductions</th>
+</tr>
+
+<tr>
+
+<td style="padding:10px;border-right:1px solid #ddd">
+
+Basic ₹${s.basic}<br>
+HRA ₹${s.hra}<br>
+DA ₹${s.da}<br>
+Conveyance ₹${s.conveyance}<br>
+Medical ₹${s.medical}<br>
+Special ₹${s.special}<br>
+Bonus ₹${s.bonus}<br>
+Overtime ₹${s.overtime}<br>
+Incentive ₹${s.incentive}<br>
+Other Earnings ₹${s.otherE}<br><br>
+
+<b>Total Earnings ₹${s.totalEarning}</b>
+
+</td>
+
+<td style="padding:10px">
+
+PF ₹${s.pf}<br>
+ESI ₹${s.esi}<br>
+Professional Tax ₹${s.professionalTax}<br>
+Income Tax ₹${s.incomeTax}<br>
+Loan ₹${s.loan}<br>
+Advance ₹${s.advance}<br>
+Late Fine ₹${s.lateFine}<br>
+Insurance ₹${s.insurance}<br>
+Canteen ₹${s.canteen}<br>
+Other Deduction ₹${s.otherD}<br><br>
+
+<b>Total Deduction ₹${s.totalDeduction}</b>
+
+</td>
+
+</tr>
+
+</table>
+
+<hr style="margin-top:20px">
 
 <h2 style="text-align:right">
 Net Salary : ₹ ${s.net}
@@ -484,3 +534,4 @@ document.body.classList.add("dark-mode");
 
 </body>
 </html>
+
