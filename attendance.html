@@ -5,22 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
 body{
 font-family:sans-serif;
 margin:0;
 background:#f4f4f9;
-overflow:hidden;
-}
-
-/* FIXED TOP AREA */
-
-.topFixed{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-background:#f4f4f9;
-z-index:10;
+padding-bottom:90px;
 }
 
 /* HEADER */
@@ -34,12 +24,20 @@ align-items:center;
 gap:10px;
 border-bottom-left-radius:30px;
 border-bottom-right-radius:30px;
+position:sticky;
+top:0;
+z-index:10;
 }
 
 .icon{
-width:35px;height:35px;background:white;color:#5e00a3;
+width:35px;
+height:35px;
+background:white;
+color:#5e00a3;
 border-radius:50%;
-display:flex;align-items:center;justify-content:center;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
 /* SEARCH BOX */
@@ -51,6 +49,8 @@ padding:15px;
 border-radius:15px;
 box-shadow:0 4px 10px rgba(0,0,0,0.15);
 }
+
+/* INPUT */
 
 select, button{
 width:100%;
@@ -96,7 +96,7 @@ margin-top:3px;
 font-weight:600;
 }
 
-/* SUMMARY TABLE */
+/* SUMMARY */
 
 .summary{
 width:95%;
@@ -125,14 +125,11 @@ font-size:15px;
 /* SCROLL AREA */
 
 .tableScroll{
-position:fixed;
-top:420px;
-bottom:70px;
-left:0;
-right:0;
-overflow-y:auto;
 width:95%;
-margin:auto;
+margin:10px auto;
+max-height:350px;
+overflow-y:auto;
+border-radius:12px;
 }
 
 /* ATTENDANCE TABLE */
@@ -148,6 +145,8 @@ background:#5e00a3;
 color:white;
 padding:10px;
 border-radius:8px;
+position:sticky;
+top:0;
 }
 
 td{
@@ -157,6 +156,8 @@ text-align:center;
 border-radius:8px;
 box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
+
+/* STATUS COLORS */
 
 .present{
 background:#e6ffe6;
@@ -175,12 +176,11 @@ background:#fff8cc;
 color:#b38f00;
 font-weight:bold;
 }
+
 </style>
 </head>
 
 <body>
-
-<div class="topFixed">
 
 <div class="top">
 <div class="icon">📅</div>
@@ -230,8 +230,6 @@ font-weight:bold;
 <td id="holidayWork">0</td>
 </tr>
 </table>
-
-</div>
 
 <div class="tableScroll">
 
