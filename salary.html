@@ -273,7 +273,7 @@ color:white;
 
 </div>
 
-<div class="action-buttons">
+<div class="action-buttons" id="pdfButtons" style="display:none;">
 <button onclick="printSalary()">🖨 Print</button>
 <button onclick="downloadPDF()">📄 Download PDF</button>
 </div>
@@ -365,7 +365,7 @@ basic,hra,da,conveyance,medical,special,bonus,overtime,incentive,otherE,
 pf,esi,professionalTax,incomeTax,loan,advance,lateFine,insurance,canteen,otherD,
 totalEarning,totalDeduction,net
 };
-
+document.getElementById("pdfButtons").style.display="flex";
 document.getElementById("result").innerHTML = `
 
 <h3>Salary Details</h3>
@@ -424,6 +424,7 @@ return;
 }
 
 document.getElementById("result").innerHTML="No salary found.";
+document.getElementById("pdfButtons").style.display="none";
 
 }
 
@@ -534,4 +535,5 @@ document.body.classList.add("dark-mode");
 
 </body>
 </html>
+
 
