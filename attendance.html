@@ -32,7 +32,7 @@ border-radius:50%;
 display:flex;align-items:center;justify-content:center;
 }
 
-/* MAIN CONTAINER */
+/* CONTAINER */
 
 .container{
 background:white;
@@ -41,8 +41,6 @@ padding:15px;
 border-radius:15px;
 box-shadow:0 4px 12px rgba(0,0,0,0.15);
 }
-
-/* DROPDOWN ROW */
 
 .row{
 display:flex;
@@ -118,8 +116,6 @@ border-radius:8px;
 box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
 
-/* STATUS */
-
 .present{
 background:#e6ffe6;
 color:green;
@@ -156,6 +152,45 @@ border-radius:8px;
 cursor:pointer;
 }
 
+/* LOADING SCREEN */
+
+.loadingBg{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:999;
+}
+
+.loaderBox{
+background:white;
+padding:25px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+.spinner{
+width:40px;
+height:40px;
+border:5px solid #ddd;
+border-top:5px solid #5e00a3;
+border-radius:50%;
+animation:spin 1s linear infinite;
+margin:auto;
+margin-bottom:10px;
+}
+
+@keyframes spin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
 /* POPUP */
 
 .popupBg{
@@ -186,7 +221,6 @@ color:#5e00a3;
 
 .popup button{
 margin-top:15px;
-background:#5e00a3;
 }
 
 /* FOOTER */
@@ -275,17 +309,20 @@ font-weight:600;
 
 </div>
 
-<table id="attendanceTable" style="display:none;">
-<tr>
-<th>Date</th>
-<th>Status</th>
-<th>Leave Type</th>
-</tr>
-</table>
+<table id="attendanceTable" style="display:none;"></table>
 
 <div class="pagination" id="pagination">
 <button class="pageBtn" onclick="prevPage()">Prev</button>
 <button class="pageBtn" onclick="nextPage()">Next</button>
+</div>
+
+<!-- LOADING -->
+
+<div class="loadingBg" id="loadingBg">
+<div class="loaderBox">
+<div class="spinner"></div>
+<div>Loading attendance...</div>
+</div>
 </div>
 
 <!-- POPUP -->
@@ -354,6 +391,8 @@ renderPage();
 
 function searchAttendance(){
 
+document.getElementById("loadingBg").style.display="flex";
+
 page=0;
 allRows=[];
 
@@ -367,6 +406,8 @@ Promise.all([
 fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv").then(r=>r.text()),
 fetch("https://hescomsalary1-sudo.github.io/salary-data/holidays.csv").then(r=>r.text())
 ]).then(([attendanceData,holidayData])=>{
+
+document.getElementById("loadingBg").style.display="none";
 
 let holidayMap={};
 
