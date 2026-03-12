@@ -148,7 +148,31 @@ body{
   color:white;
   border:1px solid #555;
 }
+.section-title{
+margin-top:25px;
+margin-bottom:10px;
+font-weight:bold;
+font-size:16px;
+color:#5e00a3;
+text-align:left;
+}
 
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-bottom:10px;
+}
+
+.profile-item{
+background:#f4f4ff;
+padding:12px;
+border-radius:12px;
+}
+
+.dark-mode .profile-item{
+background:#2a2a2a;
+}
 
 </style>
 </head>
@@ -220,7 +244,12 @@ async function loadProfile(){
     if(cols[0].trim() === user.trim()){
 
 document.getElementById("data").innerHTML = `
+
 <div class="avatar">👤</div>
+
+<div class="section-title">Basic Information</div>
+
+<div class="grid">
 
 <div class="profile-item">
 <label>Name</label>
@@ -252,8 +281,15 @@ document.getElementById("data").innerHTML = `
 <p>${cols[17]}</p>
 </div>
 
+</div>
+
+
+<div class="section-title">Personal Details</div>
+
+<div class="grid">
+
 <div class="profile-item">
-<label>Mobile Number</label>
+<label>Mobile</label>
 <p>${cols[4]}</p>
 </div>
 
@@ -292,6 +328,13 @@ document.getElementById("data").innerHTML = `
 <p>${cols[15]}</p>
 </div>
 
+</div>
+
+
+<div class="section-title">Service Details</div>
+
+<div class="grid">
+
 <div class="profile-item">
 <label>Joining Date</label>
 <p>${cols[18]}</p>
@@ -326,6 +369,9 @@ document.getElementById("data").innerHTML = `
 <label>Retirement Date</label>
 <p>${cols[6]}</p>
 </div>
+
+</div>
+
 `;
 
       return;
@@ -347,4 +393,5 @@ if(localStorage.getItem("darkMode")==="true"){
 
 </body>
 </html>
+
 
