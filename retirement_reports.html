@@ -179,6 +179,7 @@ font-weight:600;
 <th>SI.No</th>
 <th>Name</th>
 <th>Working Place</th>
+<th>Group</th>
 <th>DOB</th>
 <th>Retirement</th>
 </tr>
@@ -241,8 +242,6 @@ let dob=cols[5];
 let retirement=(cols[6] || "").trim();
 let group=(cols[31] || "").trim();
 
-/* normalize group */
-
 group=group.toUpperCase().replace("GROUP","").trim();
 
 let d=retirement.split("-");
@@ -255,6 +254,7 @@ html+=`
 <td>${count}</td>
 <td>${name}</td>
 <td>${place}</td>
+<td>${group}</td>
 <td>${dob}</td>
 <td>${retirement}</td>
 </tr>
