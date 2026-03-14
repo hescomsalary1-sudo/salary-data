@@ -107,6 +107,62 @@ body{
   cursor:pointer;
 }
 
+/* MODAL BACKGROUND */
+.modal{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.5);
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+
+/* MODAL BOX */
+.modal-content{
+  background:white;
+  width:80%;
+  max-width:320px;
+  padding:20px;
+  border-radius:15px;
+  text-align:center;
+  animation:popup 0.3s ease;
+}
+
+@keyframes popup{
+  from{transform:scale(0.8); opacity:0;}
+  to{transform:scale(1); opacity:1;}
+}
+
+.modal-content h3{
+  margin-top:0;
+  color:#5e00a3;
+}
+
+.modal-buttons{
+  display:flex;
+  justify-content:space-between;
+  margin-top:20px;
+}
+
+.cancel-btn{
+  padding:8px 15px;
+  border:none;
+  background:#ccc;
+  border-radius:6px;
+}
+
+.logout-btn{
+  padding:8px 15px;
+  border:none;
+  background:#5e00a3;
+  color:white;
+  border-radius:6px;
+}
+
 /* FOOTER */
 .footer{
   position:fixed;
@@ -171,60 +227,107 @@ body{
   border-left:6px solid #5e00a3;
 }
 
-/* ---------- NEW MANUAL SLIDER DESIGN ---------- */
-
-.banner-slider{
-  display:flex;
-  overflow-x:auto;
-  gap:15px;
-  margin-bottom:20px;
-  scroll-snap-type:x mandatory;
-}
-
-.banner-slider::-webkit-scrollbar{
-  display:none;
-}
-
-.banner-box{
-  min-width:85%;
-  background:linear-gradient(135deg,#ff9800,#ff6f00);
-  color:white;
-  border-radius:20px;
-  padding:15px;
-  display:flex;
-  align-items:center;
-  gap:15px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.15);
-  scroll-snap-align:start;
-}
-
-.banner-box img{
-  width:110px;
-}
-
-.banner-text{
-  flex:1;
-}
-
-.banner-text h3{
-  margin:0;
+.news-box h3{
+  margin-top:0;
+  color:#4b0082;
   font-size:18px;
 }
 
+.news-item{
+  padding:12px;
+  margin-bottom:12px;
+  background:rgba(255,255,255,0.7);
+  border-radius:12px;
+  font-size:14px;
+}
+
+.news-date{
+  font-size:12px;
+  color:#666;
+  margin-bottom:4px;
+  font-weight:600;
+}
+
+/* DARK MODE */
+.dark-mode{
+  background:#121212;
+  color:white;
+}
+
+.dark-mode .card{
+  background:#1f1f1f;
+  color:white;
+}
+
+.dark-mode .footer{
+  background:#1a1a1a;
+}
+
+.dark-mode .footer a{
+  color:white;
+}
+
+.dark-mode select,
+.dark-mode input{
+  background:#333;
+  color:white;
+  border:1px solid #555;
+}
+
+/* SLIDER */
+
+.banner-slider{
+display:flex;
+overflow-x:auto;
+gap:15px;
+margin-bottom:20px;
+scroll-snap-type:x mandatory;
+}
+
+.banner-slider::-webkit-scrollbar{
+display:none;
+}
+
+.banner-box{
+min-width:85%;
+background:white;
+border-radius:20px;
+padding:15px;
+display:flex;
+align-items:center;
+gap:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+scroll-snap-align:start;
+}
+
+.banner-box img{
+width:110px;
+}
+
+.banner-text{
+flex:1;
+}
+
+.banner-text h3{
+margin:0;
+font-size:18px;
+color:#4b0082;
+}
+
 .banner-text p{
-  margin-top:6px;
-  font-size:13px;
+margin-top:6px;
+font-size:13px;
+color:#666;
 }
 
 .banner-btn{
-  margin-top:8px;
-  display:inline-block;
-  padding:6px 14px;
-  border-radius:20px;
-  background:white;
-  color:#ff6f00;
-  font-size:12px;
-  font-weight:bold;
+margin-top:8px;
+display:inline-block;
+padding:6px 14px;
+border-radius:20px;
+background:#5e00a3;
+color:white;
+font-size:12px;
 }
 
 </style>
@@ -232,7 +335,6 @@ body{
 
 <body>
 
-<!-- HEADER -->
 <div class="top">
 
 <div class="user-box">
@@ -252,47 +354,43 @@ body{
 
 </div>
 
-<!-- ADMIN MENU -->
 <div id="adminMenu" style="display:none;">
 <button onclick="showLoader('admin_bulk_upload.html')">
 Bulk Salary Upload
 </button>
 </div>
 
-<!-- LOADER -->
 <div id="loader">
 <div class="spinner"></div>
 </div>
 
-<!-- CONTENT -->
 <div class="content">
 
-<!-- NEW SLIDER -->
 <div class="banner-slider">
 
 <div class="banner-box">
-<img src="https://cdn-icons-png.flaticon.com/512/3037/3037156.png">
+<img src="https://cdn-icons-png.flaticon.com/512/1995/1995539.png">
 <div class="banner-text">
 <h3>Smart Salary Manager</h3>
-<p>Check salary details and income records easily.</p>
+<p>Check salary details, income records and employee services easily in one place.</p>
 <span class="banner-btn">Employee Services</span>
 </div>
 </div>
 
 <div class="banner-box">
-<img src="https://cdn-icons-png.flaticon.com/512/2331/2331943.png">
+<img src="https://cdn-icons-png.flaticon.com/512/3135/3135679.png">
 <div class="banner-text">
-<h3>Salary & Finance</h3>
-<p>View salary slips and financial reports quickly.</p>
-<span class="banner-btn">Salary Dashboard</span>
+<h3>Salary Dashboard</h3>
+<p>View salary slips and financial records quickly.</p>
+<span class="banner-btn">Salary Portal</span>
 </div>
 </div>
 
 <div class="banner-box">
-<img src="https://cdn-icons-png.flaticon.com/512/1995/1995539.png">
+<img src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png">
 <div class="banner-text">
-<h3>Employee Portal</h3>
-<p>Access attendance, forms and employee services.</p>
+<h3>Employee Services</h3>
+<p>Access attendance, forms and employee information easily.</p>
 <span class="banner-btn">Employee Hub</span>
 </div>
 </div>
@@ -340,7 +438,6 @@ Bulk Salary Upload
 
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
 
 <a href="home.html">
@@ -372,7 +469,143 @@ Bulk Salary Upload
 
 <script>
 
-/* YOUR ORIGINAL JAVASCRIPT REMAINS COMPLETELY UNCHANGED */
+function refreshApp(){
+document.getElementById("loader").style.display="flex";
+
+if('caches' in window){
+caches.keys().then(function(names){
+for(let name of names) caches.delete(name);
+});
+}
+
+setTimeout(function(){
+location.reload(true);
+},800);
+}
+
+let user = localStorage.getItem("currentUser");
+let role = localStorage.getItem("role");
+
+if(!user){
+window.location.replace("login.html");
+}
+
+if(role === "admin"){
+document.getElementById("adminMenu").style.display = "block";
+}
+
+function showLoader(url){
+document.getElementById("loader").style.display="flex";
+setTimeout(function(){
+window.location = url;
+},1000);
+}
+
+async function loadNews(){
+
+try{
+
+let response = await fetch(
+"https://hescomsalary1-sudo.github.io/salary-data/news.csv?v=" + new Date().getTime(),
+{
+    cache: "no-store"
+});
+
+let text = await response.text();
+let rows = text.split("\n");
+
+let output = "";
+
+for(let i=1;i<rows.length;i++){
+
+if(rows[i].trim()==="") continue;
+
+let cols = rows[i].split(",");
+
+if(cols.length<2) continue;
+
+output += `
+<div class="news-item">
+<div class="news-date">${cols[0]}</div>
+<div>${cols[1]}</div>
+</div>
+`;
+}
+
+if(output===""){
+output="No updates available.";
+}
+
+document.getElementById("newsData").innerHTML=output;
+
+}catch(error){
+
+document.getElementById("newsData").innerHTML="Unable to load updates.";
+
+}
+
+}
+
+loadNews();
+
+if(localStorage.getItem("darkMode")==="true"){
+document.body.classList.add("dark-mode");
+}
+
+async function loadUserProfile(){
+
+let loginUser = localStorage.getItem("currentUser");
+
+try{
+
+let response = await fetch(
+"https://hescomsalary1-sudo.github.io/salary-data/employee.csv"
+);
+
+let text = await response.text();
+let rows = text.trim().split("\n");
+
+for(let i=1;i<rows.length;i++){
+
+let cols = rows[i].split(",");
+
+let username = cols[0]?.trim();
+let name = cols[1]?.trim();
+let designation = cols[2]?.trim();
+
+if(username===loginUser){
+
+document.getElementById("empName").innerText=name;
+document.getElementById("empDesg").innerText=designation;
+return;
+
+}
+
+}
+
+document.getElementById("empName").innerText=loginUser;
+
+}catch(e){
+
+document.getElementById("empName").innerText=loginUser;
+
+}
+
+}
+
+loadUserProfile();
+
+function logout(){
+
+let confirmLogout = confirm("Are you sure you want to logout?");
+
+if(confirmLogout){
+localStorage.removeItem("currentUser");
+localStorage.removeItem("role");
+window.location.href="login.html";
+}
+
+}
 
 </script>
 
