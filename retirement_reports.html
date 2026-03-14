@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Retirement Report</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+font-family:sans-serif;
+margin:0;
+background:#f4f4f9;
+padding-bottom:90px;
+}
+
+/* HEADER */
+
+.top{
+padding:20px;
+background:linear-gradient(135deg,#1a002b,#5e00a3);
+color:white;
+display:flex;
+align-items:center;
+gap:10px;
+border-bottom-left-radius:30px;
+border-bottom-right-radius:30px;
+}
+
+.top .icon{
+width:35px;
+height:35px;
+background:white;
+color:#5e00a3;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+}
+
+/* REPORT AREA */
+
+.container{
+padding:20px;
+}
+
+select{
+width:100%;
+padding:10px;
+font-size:16px;
+margin-bottom:15px;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+th,td{
+border:1px solid #ddd;
+padding:8px;
+text-align:center;
+font-size:14px;
+}
+
+th{
+background:#5e00a3;
+color:white;
+}
+
+/* FOOTER */
+
+.footer{
+position:fixed;
+bottom:0;
+width:100%;
+background:#ffffff;
+display:flex;
+justify-content:space-around;
+padding:8px 0;
+box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.footer a{
+text-decoration:none;
+display:flex;
+flex-direction:column;
+align-items:center;
+color:#5e00a3;
+font-size:20px;
+}
+
+.footer small{
+font-size:12px;
+margin-top:3px;
+color:#5e00a3;
+font-weight:600;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="top">
+<div class="icon">👴</div>
+<h2>Retirement Report</h2>
+</div>
+
+<div class="container">
+
+<select id="financialYear" onchange="loadReport()">
+<option value="">Select Financial Year</option>
+<option value="2023-2024">2023-2024</option>
+<option value="2024-2025">2024-2025</option>
+<option value="2025-2026">2025-2026</option>
+<option value="2026-2027">2026-2027</option>
+<option value="2027-2028">2027-2028</option>
+</select>
+
+<table>
+
+<thead>
+<tr>
+<th>SI.No</th>
+<th>Name</th>
+<th>Working Place</th>
+<th>Date of Birth</th>
+<th>Date of Retirement</th>
+</tr>
+</thead>
+
+<tbody id="tableBody"></tbody>
+
+</table>
+
+</div>
+
+<div class="footer">
+<a href="home.html"><div>🏠</div><small>Home</small></a>
+<a href="page1.html"><div>👤</div><small>Profile</small></a>
+<a href="salary.html"><div>💰</div><small>Salary</small></a>
+<a href="page3.html"><div>📅</div><small>Attendance</small></a>
+<a href="page4.html"><div>⚙</div><small>Settings</small></a>
+</div>
+
+<script>
+
+async function loadReport(){
+
+let fy=document.getElementById("financialYear").value;
+if(!fy) return;
+
+let parts=fy.split("-");
+
+let start=new Date(parts[0]+"-04-01");
+let end=new Date(parts[1]+"-03-31");
+
+/* CHANGE THIS TO YOUR GITHUB CSV */
+
+let url="https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
+
+let res=await fetch(url);
+let text=await res.text();
+
+let rows=text.split("\n");
+
+let html="";
+let count=1;
+
+for(let i=1;i<rows.length;i++){
+
+let cols=rows[i].split(",");
+
+let name=cols[1];
+let place=cols[2];
+let dob=cols[3];
+let retirement=cols[4];
+
+let rDate=new Date(retirement);
+
+if(rDate>=start && rDate<=end){
+
+html+=`
+<tr>
+<td>${count}</td>
+<td>${name}</td>
+<td>${place}</td>
+<td>${dob}</td>
+<td>${retirement}</td>
+</tr>
+`;
+
+count++;
+
+}
+
+}
+
+document.getElementById("tableBody").innerHTML=html;
+
+}
+
+</script>
+
+</body>
+</html>
+
