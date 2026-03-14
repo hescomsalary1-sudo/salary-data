@@ -1,0 +1,271 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<title>SC/ST Reports</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+font-family:sans-serif;
+margin:0;
+background:#f4f4f9;
+padding-bottom:90px;
+font-size:13px;
+}
+
+.top{
+padding:18px;
+background:linear-gradient(135deg,#1a002b,#5e00a3);
+color:white;
+display:flex;
+align-items:center;
+gap:10px;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+}
+
+.top .icon{
+width:32px;
+height:32px;
+background:white;
+color:#5e00a3;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+}
+
+.container{
+padding:15px;
+}
+
+select{
+width:100%;
+padding:8px;
+font-size:13px;
+margin-bottom:10px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+.searchBtn{
+width:100%;
+padding:10px;
+background:#ff7a00;
+color:white;
+border:none;
+border-radius:6px;
+font-weight:bold;
+font-size:14px;
+margin-bottom:15px;
+}
+
+.tableWrap{
+overflow-x:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+box-shadow:0 3px 8px rgba(0,0,0,0.1);
+}
+
+th,td{
+border:1px solid #ddd;
+padding:5px;
+text-align:center;
+font-size:11px;
+}
+
+th{
+background:#5e00a3;
+color:white;
+}
+
+#loader{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:white;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+.spinner{
+width:40px;
+height:40px;
+border:6px solid #ddd;
+border-top:6px solid #5e00a3;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
+.footer{
+position:fixed;
+bottom:0;
+width:100%;
+background:#ffffff;
+display:flex;
+justify-content:space-around;
+padding:8px 0;
+box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.footer a{
+text-decoration:none;
+display:flex;
+flex-direction:column;
+align-items:center;
+color:#5e00a3;
+font-size:18px;
+}
+
+.footer small{
+font-size:10px;
+margin-top:2px;
+color:#5e00a3;
+font-weight:600;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="top">
+<div class="icon">📋</div>
+<h2>SC/ST Report</h2>
+</div>
+
+<div class="container">
+
+<select id="category">
+<option value="">Select Category</option>
+<option value="SC">SC</option>
+<option value="ST">ST</option>
+<option value="OTHERS">Others</option>
+</select>
+
+<button class="searchBtn" onclick="loadReport()">Search</button>
+
+<div class="tableWrap">
+
+<table id="resultTable" style="display:none;">
+
+<thead>
+<tr>
+<th>SI.No</th>
+<th>Name</th>
+<th>Designation</th>
+<th>Group</th>
+<th>Caste Name</th>
+</tr>
+</thead>
+
+<tbody id="tableBody"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<div id="loader">
+<div class="spinner"></div>
+</div>
+
+<div class="footer">
+<a href="home.html"><div>🏠</div><small>Home</small></a>
+<a href="page1.html"><div>👤</div><small>Profile</small></a>
+<a href="salary.html"><div>💰</div><small>Salary</small></a>
+<a href="page3.html"><div>📅</div><small>Attendance</small></a>
+<a href="page4.html"><div>⚙</div><small>Settings</small></a>
+</div>
+
+<script>
+
+async function loadReport(){
+
+let category=document.getElementById("category").value;
+
+if(!category){
+alert("Please select category");
+return;
+}
+
+document.getElementById("loader").style.display="flex";
+
+let url="https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
+
+let res=await fetch(url);
+let text=await res.text();
+
+let rows=text.trim().split("\n");
+
+let html="";
+let count=1;
+
+for(let i=1;i<rows.length;i++){
+
+let cols=rows[i].split(",");
+
+let name=cols[1];
+let designation=cols[2];
+let empCategory=(cols[14] || "").trim().toUpperCase();
+let caste=cols[15];
+let group=(cols[30] || "").trim();
+
+group=group.toUpperCase().replace("GROUP","").trim();
+
+let match=false;
+
+if(category==="SC" && empCategory==="SC") match=true;
+
+else if(category==="ST" && empCategory==="ST") match=true;
+
+else if(category==="OTHERS" && empCategory!=="SC" && empCategory!=="ST") match=true;
+
+if(match){
+
+html+=`
+<tr>
+<td>${count}</td>
+<td>${name}</td>
+<td>${designation}</td>
+<td>${group}</td>
+<td>${caste}</td>
+</tr>
+`;
+
+count++;
+
+}
+
+}
+
+document.getElementById("tableBody").innerHTML=html;
+
+document.getElementById("resultTable").style.display="table";
+
+document.getElementById("loader").style.display="none";
+
+}
+
+</script>
+
+</body>
+</html>
+```
