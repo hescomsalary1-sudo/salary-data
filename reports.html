@@ -1,125 +1,173 @@
+```html
 <!DOCTYPE html>
 <html>
 <head>
-<title>Reports</title>
+<title>Post Status Report</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
+
 body{
-  font-family:sans-serif;
-  margin:0;
-  background:#f4f4f9;
-  padding-bottom:90px;
+font-family:sans-serif;
+margin:0;
+background:#f4f4f9;
+padding-bottom:90px;
 }
 
 /* HEADER */
+
 .top{
-  padding:20px;
-  background:linear-gradient(135deg,#1a002b,#5e00a3);
-  color:white;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  border-bottom-left-radius:30px;
-  border-bottom-right-radius:30px;
+padding:20px;
+background:linear-gradient(135deg,#1a002b,#5e00a3);
+color:white;
+display:flex;
+align-items:center;
+gap:10px;
+border-bottom-left-radius:30px;
+border-bottom-right-radius:30px;
 }
 
 .top .icon{
-  width:35px;
-  height:35px;
-  background:white;
-  color:#5e00a3;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:bold;
+width:35px;
+height:35px;
+background:white;
+color:#5e00a3;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
 }
 
-/* CONTENT */
 .content{
-  padding:20px;
+padding:20px;
 }
 
-select{
-  padding:8px;
-  margin:10px 5px;
-}
+/* BUTTON */
 
 button{
-  padding:8px 15px;
-  background:#5e00a3;
-  color:white;
-  border:none;
-  border-radius:5px;
-  cursor:pointer;
-  margin:5px;
+padding:10px 15px;
+background:#5e00a3;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+margin:5px;
 }
 
-#result{
-  margin-top:20px;
-  background:white;
-  padding:15px;
-  border-radius:10px;
+button:hover{
+background:#45007a;
+}
+
+/* TABS */
+
+.tabs{
+display:flex;
+gap:10px;
+margin-bottom:15px;
+}
+
+.tabbtn{
+flex:1;
+padding:10px;
+background:#e5d6ff;
+border:none;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.tabbtn.active{
+background:#5e00a3;
+color:white;
+}
+
+/* SUMMARY */
+
+.summary{
+background:linear-gradient(135deg,#5e00a3,#8e44ff);
+color:white;
+padding:15px;
+border-radius:12px;
+margin-bottom:15px;
+font-size:18px;
+}
+
+/* TABLE */
+
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+}
+
+th,td{
+padding:8px;
+border:1px solid #ddd;
+text-align:center;
+}
+
+th{
+background:#5e00a3;
+color:white;
 }
 
 /* LOADER */
+
 #loader{
-  display:none;
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:white;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
+display:none;
+position:fixed;
+width:100%;
+height:100%;
+background:white;
+justify-content:center;
+align-items:center;
+z-index:9999;
 }
 
 .spinner{
-  width:40px;
-  height:40px;
-  border:6px solid #ddd;
-  border-top:6px solid #5e00a3;
-  border-radius:50%;
-  animation:spin 1s linear infinite;
+width:40px;
+height:40px;
+border:6px solid #ddd;
+border-top:6px solid #5e00a3;
+border-radius:50%;
+animation:spin 1s linear infinite;
 }
 
 @keyframes spin{
-  0%{transform:rotate(0deg);}
-  100%{transform:rotate(360deg);}
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
 }
 
-/* FOOTER SAME AS salary.html */
+/* FOOTER */
+
 .footer{
-  position:fixed;
-  bottom:0;
-  width:100%;
-  background:#ffffff;
-  display:flex;
-  justify-content:space-around;
-  padding:8px 0;
-  box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+position:fixed;
+bottom:0;
+width:100%;
+background:#ffffff;
+display:flex;
+justify-content:space-around;
+padding:8px 0;
+box-shadow:0 -2px 10px rgba(0,0,0,0.1);
 }
 
 .footer a{
-  text-decoration:none;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  color:#5e00a3;
-  font-size:20px;
+text-decoration:none;
+display:flex;
+flex-direction:column;
+align-items:center;
+color:#5e00a3;
+font-size:20px;
 }
 
 .footer small{
-  font-size:12px;
-  margin-top:3px;
-  color:#5e00a3;
-  font-weight:600;
-}
-
-.footer .active{
-  font-weight:bold;
+font-size:12px;
+margin-top:3px;
+color:#5e00a3;
+font-weight:600;
 }
 
 </style>
@@ -127,207 +175,177 @@ button{
 
 <body>
 
-<!-- HEADER -->
 <div class="top">
-  <div class="icon">₹</div>
-  <h2>Salary Reports</h2>
+<div class="icon">📊</div>
+<h2>Post Status Report</h2>
 </div>
 
 <div class="content">
 
-<label>Year:</label>
-<select id="year">
-<option>2025</option>
-<option>2026</option>
-</select>
-
-<label>Month:</label>
-<select id="month">
-<option value="01">January</option>
-<option value="02">February</option>
-<option value="03">March</option>
-<option value="04">April</option>
-<option value="05">May</option>
-<option value="06">June</option>
-<option value="07">July</option>
-<option value="08">August</option>
-<option value="09">September</option>
-<option value="10">October</option>
-<option value="11">November</option>
-<option value="12">December</option>
-</select>
-
-<br><br>
-
-<button onclick="monthReport()">Month Report</button>
-<button onclick="yearReport()">Year Report</button>
-<button onclick="taxReport()">Income Tax Report</button>
+<button onclick="postReport()">Generate Report</button>
 <button onclick="downloadPDF()">Download PDF</button>
 
-<div id="loader">
-  <div class="spinner"></div>
-</div>
+<div id="loader"><div class="spinner"></div></div>
 
 <div id="result"></div>
 
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
-  <a href="home.html">
-    <div>🏠</div>
-    <small>Home</small>
-  </a>
-
-  <a href="page1.html">
-    <div>👤</div>
-    <small>Profile</small>
-  </a>
-
-  <a href="salary.html">
-    <div>💰</div>
-    <small>Salary</small>
-  </a>
-
-  <a href="page3.html">
-    <div>📅</div>
-    <small>Attendance</small>
-  </a>
-
-  <a href="page4.html">
-    <div>⚙</div>
-    <small>Settings</small>
-  </a>
+<a href="home.html"><div>🏠</div><small>Home</small></a>
+<a href="page1.html"><div>👤</div><small>Profile</small></a>
+<a href="salary.html"><div>💰</div><small>Salary</small></a>
+<a href="page3.html"><div>📅</div><small>Attendance</small></a>
+<a href="page4.html"><div>⚙</div><small>Settings</small></a>
 </div>
 
 <script>
 
-// LOGIN CHECK
 let user = localStorage.getItem("currentUser");
-if(!user){
-  window.location="login.html";
+if(!user){window.location="login.html";}
+
+function showLoader(){loader.style.display="flex";}
+function hideLoader(){loader.style.display="none";}
+
+async function loadCSV(){
+
+let r = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
+let t = await r.text();
+
+return t.trim().split("\n");
+
 }
 
-async function loadData(){
-let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
-let txt = await res.text();
-return txt.split("\n");
-}
+/* POST REPORT */
 
-// MONTH REPORT
-async function monthReport(){
+async function postReport(){
 
-document.getElementById("loader").style.display="flex";
+showLoader();
 
-let rows = await loadData();
-let year = document.getElementById("year").value;
-let month = document.getElementById("month").value;
+let rows = await loadCSV();
 
-let totalE=0, totalD=0;
+let sanctioned = rows.length-1;
+let working = 0;
+
+let workingRows="";
+let vacantRows="";
 
 for(let i=1;i<rows.length;i++){
 
-let c = rows[i].split(",");
+let c=rows[i].split(",");
 
-if(c[0]==user && c[1]==year && c[2]==month){
+if(c[1]){
 
-for(let j=3;j<=12;j++) totalE+= +c[j];
-for(let j=13;j<=22;j++) totalD+= +c[j];
+working++;
+
+workingRows += `
+<tr>
+<td>${c[1]}</td>
+<td>${c[2]}</td>
+<td>${c[3]}</td>
+</tr>`;
+
+}else{
+
+vacantRows += `
+<tr>
+<td>${c[2]}</td>
+<td>${c[3]}</td>
+</tr>`;
+
 }
+
 }
 
-let net = totalE-totalD;
+let vacant = sanctioned-working;
 
-document.getElementById("result").innerHTML = `
-<h3>Month Salary Report</h3>
-Total Earnings: ₹${totalE}<br>
-Total Deduction: ₹${totalD}<br>
-<h2>Net Salary: ₹${net}</h2>
+result.innerHTML = `
+
+<div class="tabs">
+
+<button class="tabbtn active" onclick="showWorking()">Working Details</button>
+<button class="tabbtn" onclick="showVacant()">Vacant Details</button>
+
+</div>
+
+<div class="summary">
+
+Sanctioned Posts : ${sanctioned}<br>
+Working Posts : ${working}<br>
+Vacant Posts : ${vacant}
+
+</div>
+
+<div id="postArea">
+
+<table>
+
+<tr>
+<th>Name</th>
+<th>Designation</th>
+<th>Place</th>
+</tr>
+
+${workingRows}
+
+</table>
+
+</div>
+
 `;
 
-document.getElementById("loader").style.display="none";
-}
+window.workingTable = workingRows;
+window.vacantTable = vacantRows;
 
-// YEAR REPORT
-async function yearReport(){
-
-document.getElementById("loader").style.display="flex";
-
-let rows = await loadData();
-let year = document.getElementById("year").value;
-
-let totalE=0, totalD=0;
-
-for(let i=1;i<rows.length;i++){
-
-let c = rows[i].split(",");
-
-if(c[0]==user && c[1]==year){
-
-for(let j=3;j<=12;j++) totalE+= +c[j];
-for(let j=13;j<=22;j++) totalD+= +c[j];
-}
-}
-
-let net = totalE-totalD;
-
-document.getElementById("result").innerHTML = `
-<h3>Year Salary Report</h3>
-Total Earnings: ₹${totalE}<br>
-Total Deduction: ₹${totalD}<br>
-<h2>Net Salary: ₹${net}</h2>
-`;
-
-document.getElementById("loader").style.display="none";
-}
-
-// INCOME TAX REPORT
-async function taxReport(){
-
-document.getElementById("loader").style.display="flex";
-
-let rows = await loadData();
-let year = document.getElementById("year").value;
-let month = document.getElementById("month").value;
-
-let monthTax=0;
-let yearTax=0;
-
-for(let i=1;i<rows.length;i++){
-
-let c = rows[i].split(",");
-
-if(c[0]==user){
-
-if(c[1]==year && c[2]==month){
-monthTax += +c[16];
-}
-
-if(c[1]==year){
-yearTax += +c[16];
-}
+hideLoader();
 
 }
+
+function showWorking(){
+
+postArea.innerHTML =
+
+`<table>
+
+<tr>
+<th>Name</th>
+<th>Designation</th>
+<th>Place</th>
+</tr>
+
+${workingTable}
+
+</table>`;
+
 }
 
-document.getElementById("result").innerHTML = `
-<h3>Income Tax Report</h3>
+function showVacant(){
 
-<b>Month Tax (${month}/${year}) :</b> ₹${monthTax}<br><br>
+postArea.innerHTML =
 
-<b>Year Tax (${year}) :</b> ₹${yearTax}
-`;
+`<table>
 
-document.getElementById("loader").style.display="none";
+<tr>
+<th>Designation</th>
+<th>Place</th>
+</tr>
+
+${vacantTable}
+
+</table>`;
+
 }
 
-// PDF DOWNLOAD
+/* PDF */
+
 function downloadPDF(){
-let element = document.getElementById("result");
-html2pdf().from(element).save("Report.pdf");
+
+html2pdf().from(result).save("Post_Report.pdf");
+
 }
 
 </script>
 
 </body>
 </html>
+```
