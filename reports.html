@@ -16,8 +16,6 @@ background:#f4f4f9;
 padding-bottom:90px;
 }
 
-/* HEADER */
-
 .top{
 padding:20px;
 background:linear-gradient(135deg,#1a002b,#5e00a3);
@@ -38,14 +36,25 @@ border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
-font-weight:bold;
 }
 
 .content{
 padding:20px;
 }
 
-/* BUTTON */
+.filters{
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+margin-bottom:20px;
+}
+
+select{
+padding:8px;
+margin:5px;
+border-radius:5px;
+}
 
 button{
 padding:10px 15px;
@@ -54,19 +63,12 @@ color:white;
 border:none;
 border-radius:6px;
 cursor:pointer;
-margin:5px;
 }
-
-button:hover{
-background:#45007a;
-}
-
-/* TABS */
 
 .tabs{
 display:flex;
 gap:10px;
-margin-bottom:15px;
+margin-top:20px;
 }
 
 .tabbtn{
@@ -75,7 +77,6 @@ padding:10px;
 background:#e5d6ff;
 border:none;
 border-radius:8px;
-font-weight:bold;
 cursor:pointer;
 }
 
@@ -84,18 +85,14 @@ background:#5e00a3;
 color:white;
 }
 
-/* SUMMARY */
-
 .summary{
 background:linear-gradient(135deg,#5e00a3,#8e44ff);
 color:white;
 padding:15px;
-border-radius:12px;
-margin-bottom:15px;
+border-radius:10px;
+margin:15px 0;
 font-size:18px;
 }
-
-/* TABLE */
 
 table{
 width:100%;
@@ -114,40 +111,11 @@ background:#5e00a3;
 color:white;
 }
 
-/* LOADER */
-
-#loader{
-display:none;
-position:fixed;
-width:100%;
-height:100%;
-background:white;
-justify-content:center;
-align-items:center;
-z-index:9999;
-}
-
-.spinner{
-width:40px;
-height:40px;
-border:6px solid #ddd;
-border-top:6px solid #5e00a3;
-border-radius:50%;
-animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-0%{transform:rotate(0deg);}
-100%{transform:rotate(360deg);}
-}
-
-/* FOOTER */
-
 .footer{
 position:fixed;
 bottom:0;
 width:100%;
-background:#ffffff;
+background:#fff;
 display:flex;
 justify-content:space-around;
 padding:8px 0;
@@ -160,14 +128,6 @@ display:flex;
 flex-direction:column;
 align-items:center;
 color:#5e00a3;
-font-size:20px;
-}
-
-.footer small{
-font-size:12px;
-margin-top:3px;
-color:#5e00a3;
-font-weight:600;
 }
 
 </style>
@@ -182,50 +142,166 @@ font-weight:600;
 
 <div class="content">
 
-<button onclick="postReport()">Generate Report</button>
+<div class="filters">
+
+Division
+<select id="division"></select>
+
+Subdivision
+<select id="subdivision" onchange="updateSections()">
+
+<option value="">All</option>
+<option value="Sirsi Subdivision">Sirsi Subdivision</option>
+<option value="Siddapur Subdivision">Siddapur Subdivision</option>
+<option value="Yellapur Subdivision">Yellapur Subdivision</option>
+<option value="Mundgod Subdivision">Mundgod Subdivision</option>
+<option value="LTMR Subdivision">LTMR Subdivision</option>
+
+</select>
+
+Section
+<select id="section">
+<option value="">All</option>
+</select>
+
+Post
+<select id="post">
+<option value="">All</option>
+</select>
+
+<br><br>
+
+<button onclick="generateReport()">Generate Report</button>
 <button onclick="downloadPDF()">Download PDF</button>
 
-<div id="loader"><div class="spinner"></div></div>
+</div>
 
 <div id="result"></div>
 
 </div>
 
 <div class="footer">
-<a href="home.html"><div>🏠</div><small>Home</small></a>
-<a href="page1.html"><div>👤</div><small>Profile</small></a>
-<a href="salary.html"><div>💰</div><small>Salary</small></a>
-<a href="page3.html"><div>📅</div><small>Attendance</small></a>
-<a href="page4.html"><div>⚙</div><small>Settings</small></a>
+<a href="home.html">🏠<small>Home</small></a>
+<a href="page1.html">👤<small>Profile</small></a>
+<a href="salary.html">💰<small>Salary</small></a>
+<a href="page3.html">📅<small>Attendance</small></a>
+<a href="page4.html">⚙<small>Settings</small></a>
 </div>
 
 <script>
 
-let user = localStorage.getItem("currentUser");
-if(!user){window.location="login.html";}
+/* SECTION MAPPING */
 
-function showLoader(){loader.style.display="flex";}
-function hideLoader(){loader.style.display="none";}
+const sectionData = {
+
+"Sirsi Subdivision":[
+"O&M SECTION Urban Sirsi",
+"O&M Section HESCOM Sirsi Rural-1",
+"O&M Section HESCOM Sirsi Rural-2",
+"O&M Section HESCOM Banavasi",
+"O&M Section HESCOM Hulekal",
+"33 KV Station HESCOM Dasanakoppa"
+],
+
+"Siddapur Subdivision":[
+"O&M Section HESCOM Siddapur Town",
+"O&M Section HESCOM Siddapur Rural",
+"O&M Section HESCOM Herur",
+"O&M Section HESCOM Bilagi"
+],
+
+"Yellapur Subdivision":[
+"O&M Section HESCOM Yellapur Town",
+"O&M Section HESCOM Yellapur Rural",
+"O&M Section HESCOM Manchikeri",
+"O&M Section HESCOM Kirawatti",
+"33KV Station HESCOM Yellapur"
+],
+
+"Mundgod Subdivision":[
+"O&M Section HESCOM Mundgod",
+"O&M Section HESCOM Malagi",
+"33kV Station HESCOM Pala"
+],
+
+"LTMR Subdivision":[
+"LTMR Section HESCOM Sirsi"
+]
+
+};
+
+/* UPDATE SECTION DROPDOWN */
+
+function updateSections(){
+
+let sub=subdivision.value;
+
+section.innerHTML="<option value=''>All</option>";
+
+if(sectionData[sub]){
+
+sectionData[sub].forEach(s=>{
+
+section.innerHTML+=`<option>${s}</option>`;
+
+});
+
+}
+
+}
+
+/* LOAD CSV */
 
 async function loadCSV(){
 
-let r = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
-let t = await r.text();
+let r=await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
+let t=await r.text();
 
 return t.trim().split("\n");
 
 }
 
-/* POST REPORT */
+/* INIT DROPDOWNS */
 
-async function postReport(){
+async function init(){
 
-showLoader();
+let rows=await loadCSV();
 
-let rows = await loadCSV();
+let places=new Set();
+let posts=new Set();
 
-let sanctioned = rows.length-1;
-let working = 0;
+for(let i=1;i<rows.length;i++){
+
+let c=rows[i].split(",");
+
+places.add(c[3]);
+posts.add(c[2]);
+
+}
+
+division.innerHTML="<option value=''>All</option>";
+places.forEach(p=>division.innerHTML+=`<option>${p}</option>`);
+
+post.innerHTML="<option value=''>All</option>";
+posts.forEach(p=>post.innerHTML+=`<option>${p}</option>`);
+
+}
+
+init();
+
+/* GENERATE REPORT */
+
+async function generateReport(){
+
+let rows=await loadCSV();
+
+let div=division.value;
+let sub=subdivision.value;
+let sec=section.value;
+let pst=post.value;
+
+let sanctioned=0;
+let working=0;
 
 let workingRows="";
 let vacantRows="";
@@ -234,32 +310,49 @@ for(let i=1;i<rows.length;i++){
 
 let c=rows[i].split(",");
 
-if(c[1]){
+let name=c[1];
+let post=c[2];
+let place=c[3];
+
+if(div && place!=div) continue;
+if(pst && post!=pst) continue;
+
+sanctioned++;
+
+if(name){
 
 working++;
 
-workingRows += `
+workingRows+=`
 <tr>
-<td>${c[1]}</td>
-<td>${c[2]}</td>
-<td>${c[3]}</td>
+<td>${name}</td>
+<td>${post}</td>
+<td>${place}</td>
 </tr>`;
 
 }else{
 
-vacantRows += `
+vacantRows+=`
 <tr>
-<td>${c[2]}</td>
-<td>${c[3]}</td>
+<td>${post}</td>
+<td>${place}</td>
 </tr>`;
 
 }
 
 }
 
-let vacant = sanctioned-working;
+let vacant=sanctioned-working;
 
-result.innerHTML = `
+result.innerHTML=`
+
+<div class="summary">
+
+Sanctioned : ${sanctioned}<br>
+Working : ${working}<br>
+Vacant : ${vacant}
+
+</div>
 
 <div class="tabs">
 
@@ -268,21 +361,13 @@ result.innerHTML = `
 
 </div>
 
-<div class="summary">
-
-Sanctioned Posts : ${sanctioned}<br>
-Working Posts : ${working}<br>
-Vacant Posts : ${vacant}
-
-</div>
-
-<div id="postArea">
+<div id="tableArea">
 
 <table>
 
 <tr>
 <th>Name</th>
-<th>Designation</th>
+<th>Post</th>
 <th>Place</th>
 </tr>
 
@@ -294,22 +379,20 @@ ${workingRows}
 
 `;
 
-window.workingTable = workingRows;
-window.vacantTable = vacantRows;
-
-hideLoader();
+window.workingTable=workingRows;
+window.vacantTable=vacantRows;
 
 }
 
 function showWorking(){
 
-postArea.innerHTML =
+tableArea.innerHTML=`
 
-`<table>
+<table>
 
 <tr>
 <th>Name</th>
-<th>Designation</th>
+<th>Post</th>
 <th>Place</th>
 </tr>
 
@@ -321,12 +404,12 @@ ${workingTable}
 
 function showVacant(){
 
-postArea.innerHTML =
+tableArea.innerHTML=`
 
-`<table>
+<table>
 
 <tr>
-<th>Designation</th>
+<th>Post</th>
 <th>Place</th>
 </tr>
 
