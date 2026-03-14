@@ -96,6 +96,45 @@ animation:spin 1s linear infinite;
 100%{transform:rotate(360deg);}
 }
 
+/* POPUP */
+
+.popup{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+justify-content:center;
+align-items:center;
+z-index:10000;
+}
+
+.popupBox{
+background:white;
+padding:25px;
+border-radius:12px;
+text-align:center;
+width:260px;
+box-shadow:0 4px 15px rgba(0,0,0,0.3);
+}
+
+.popupBox h3{
+margin-top:0;
+color:#5e00a3;
+}
+
+.popupBtn{
+margin-top:15px;
+padding:8px 18px;
+border:none;
+background:#5e00a3;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}
+
 /* FOOTER */
 
 .footer{
@@ -173,6 +212,16 @@ Other Reports
 <div class="spinner"></div>
 </div>
 
+<!-- POPUP -->
+
+<div id="popup" class="popup">
+<div class="popupBox">
+<h3>Access Denied</h3>
+<p>Only Admin can access these reports.</p>
+<button class="popupBtn" onclick="closePopup()">OK</button>
+</div>
+</div>
+
 <div class="footer">
 <a href="home.html"><div>🏠</div><small>Home</small></a>
 <a href="page1.html"><div>👤</div><small>Profile</small></a>
@@ -182,6 +231,8 @@ Other Reports
 </div>
 
 <script>
+
+/* ADMIN CHECK */
 
 function adminCheck(page){
 
@@ -193,11 +244,13 @@ openPage(page);
 
 }else{
 
-alert("Only Admin can access these reports");
+document.getElementById("popup").style.display="flex";
 
 }
 
 }
+
+/* OPEN PAGE */
 
 function openPage(page){
 
@@ -208,6 +261,14 @@ setTimeout(function(){
 window.location = page;
 
 },700);
+
+}
+
+/* CLOSE POPUP */
+
+function closePopup(){
+
+document.getElementById("popup").style.display="none";
 
 }
 
