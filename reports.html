@@ -1,8 +1,8 @@
-
+```html
 <!DOCTYPE html>
 <html>
 <head>
-<title>Post Status Report</title>
+<title>Reports</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -29,22 +29,34 @@ border-bottom-left-radius:25px;
 border-bottom-right-radius:25px;
 }
 
-.top .icon{
-width:32px;
-height:32px;
-background:white;
-color:#5e00a3;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:18px;
+/* REPORT BUTTON GRID */
+
+.reportGrid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+padding:20px;
 }
 
-/* CONTENT */
+.reportCard{
+background:white;
+padding:20px;
+border-radius:12px;
+text-align:center;
+font-size:14px;
+font-weight:600;
+box-shadow:0 4px 12px rgba(0,0,0,0.1);
+cursor:pointer;
+transition:0.2s;
+}
 
-.content{
-padding:15px;
+.reportCard:hover{
+transform:scale(1.03);
+}
+
+.icon{
+font-size:28px;
+margin-bottom:8px;
 }
 
 /* FILTER CARD */
@@ -54,7 +66,7 @@ background:white;
 padding:15px;
 border-radius:12px;
 box-shadow:0 4px 12px rgba(0,0,0,0.1);
-margin-bottom:15px;
+margin:15px;
 }
 
 .filterGroup{
@@ -91,7 +103,6 @@ border:none;
 border-radius:6px;
 font-size:13px;
 font-weight:600;
-cursor:pointer;
 }
 
 .generateBtn{
@@ -130,7 +141,6 @@ background:#e5d6ff;
 border:none;
 border-radius:6px;
 font-size:13px;
-cursor:pointer;
 }
 
 .tabbtn.active{
@@ -164,14 +174,12 @@ color:white;
 #loader{
 display:none;
 position:fixed;
-top:0;
-left:0;
 width:100%;
 height:100%;
 background:rgba(255,255,255,0.9);
 justify-content:center;
 align-items:center;
-z-index:9999;
+z-index:999;
 }
 
 .spinner{
@@ -186,43 +194,6 @@ animation:spin 1s linear infinite;
 @keyframes spin{
 0%{transform:rotate(0deg);}
 100%{transform:rotate(360deg);}
-}
-
-/* POPUP */
-
-#popup{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.4);
-justify-content:center;
-align-items:center;
-z-index:9999;
-}
-
-.popupBox{
-background:white;
-padding:20px;
-border-radius:10px;
-text-align:center;
-width:80%;
-max-width:300px;
-}
-
-.popupBox h3{
-margin:0 0 10px 0;
-color:#5e00a3;
-}
-
-.popupBox button{
-background:#5e00a3;
-color:white;
-border:none;
-padding:8px 15px;
-border-radius:6px;
 }
 
 /* FOOTER */
@@ -253,11 +224,38 @@ color:#5e00a3;
 <body>
 
 <div class="top">
-<div class="icon">📊</div>
-<h3>Post Status Report</h3>
+<h3>Reports</h3>
 </div>
 
-<div class="content">
+<!-- DASHBOARD BUTTONS -->
+
+<div id="reportMenu" class="reportGrid">
+
+<div class="reportCard" onclick="openPostReport()">
+<div class="icon">📊</div>
+Post Status Report
+</div>
+
+<div class="reportCard">
+<div class="icon">👴</div>
+Retirement Report
+</div>
+
+<div class="reportCard">
+<div class="icon">📅</div>
+Leave Report
+</div>
+
+<div class="reportCard">
+<div class="icon">🏖</div>
+Holiday Report
+</div>
+
+</div>
+
+<!-- POST STATUS REPORT SCREEN -->
+
+<div id="postReport" style="display:none">
 
 <div class="filterCard">
 
@@ -278,7 +276,7 @@ color:#5e00a3;
 
 </div>
 
-<div id="result"></div>
+<div id="result" style="padding:15px"></div>
 
 </div>
 
@@ -290,21 +288,22 @@ color:#5e00a3;
 <a href="page4.html">⚙<small>Settings</small></a>
 </div>
 
-<!-- LOADER -->
-<div id="loader">
-<div class="spinner"></div>
-</div>
-
-<!-- POPUP -->
-<div id="popup">
-<div class="popupBox">
-<h3>No Data</h3>
-<p>No sanctioned post available</p>
-<button onclick="closePopup()">OK</button>
-</div>
-</div>
+<div id="loader"><div class="spinner"></div></div>
 
 <script>
+
+/* OPEN POST REPORT */
+
+function openPostReport(){
+
+reportMenu.style.display="none";
+postReport.style.display="block";
+
+init();
+
+}
+
+/* LOAD CSV */
 
 async function loadCSV(){
 
@@ -340,8 +339,6 @@ post.innerHTML="<option value=''>All</option>";
 posts.forEach(p=>post.innerHTML+=`<option>${p}</option>`);
 
 }
-
-init();
 
 /* GENERATE REPORT */
 
@@ -398,14 +395,6 @@ vacantRows+=`
 
 loader.style.display="none";
 
-if(sanctioned==0){
-
-popup.style.display="flex";
-result.innerHTML="";
-return;
-
-}
-
 let vacant=sanctioned-working;
 
 result.innerHTML=`
@@ -418,84 +407,20 @@ Vacant : ${vacant}
 
 </div>
 
-<div class="tabs">
-
-<button id="workTab" class="tabbtn active" onclick="showWorking()">Working</button>
-<button id="vacTab" class="tabbtn" onclick="showVacant()">Vacant</button>
-
-</div>
-
-<div id="tableArea">
-
-<table>
-
-<tr>
-<th>Name</th>
-<th>Post</th>
-<th>Place</th>
-</tr>
-
-${workingRows}
-
-</table>
-
-</div>
-
 `;
 
-window.workingTable=workingRows;
-window.vacantTable=vacantRows;
-
-}
-
-function showWorking(){
-
-workTab.classList.add("active");
-vacTab.classList.remove("active");
-
-tableArea.innerHTML=`
-
-<table>
-<tr>
-<th>Name</th>
-<th>Post</th>
-<th>Place</th>
-</tr>
-${workingTable}
-</table>`;
-
-}
-
-function showVacant(){
-
-vacTab.classList.add("active");
-workTab.classList.remove("active");
-
-tableArea.innerHTML=`
-
-<table>
-<tr>
-<th>Post</th>
-<th>Place</th>
-</tr>
-${vacantTable}
-</table>`;
-
-}
-
-/* POPUP CLOSE */
-
-function closePopup(){
-popup.style.display="none";
 }
 
 /* PDF */
 
 function downloadPDF(){
+
 html2pdf().from(result).save("Post_Report.pdf");
+
 }
 
 </script>
 
 </body>
 </html>
+```
