@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Retirement Report</title>
+<title>SC/ST Reports</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -14,8 +14,6 @@ background:#f4f4f9;
 padding-bottom:90px;
 font-size:13px;
 }
-
-/* HEADER */
 
 .top{
 padding:18px;
@@ -39,8 +37,6 @@ align-items:center;
 justify-content:center;
 font-weight:bold;
 }
-
-/* CONTENT */
 
 .container{
 padding:15px;
@@ -75,7 +71,6 @@ padding:12px;
 border-radius:10px;
 margin-bottom:15px;
 box-shadow:0 3px 8px rgba(0,0,0,0.1);
-font-size:13px;
 }
 
 /* TABLE */
@@ -108,8 +103,6 @@ color:white;
 #loader{
 display:none;
 position:fixed;
-top:0;
-left:0;
 width:100%;
 height:100%;
 background:white;
@@ -167,27 +160,22 @@ font-weight:600;
 <body>
 
 <div class="top">
-<div class="icon">👴</div>
-<h2>Retirement Report</h2>
+<div class="icon">📋</div>
+<h2>SC/ST Report</h2>
 </div>
 
 <div class="container">
 
-<select id="financialYear">
-<option value="">Select Financial Year</option>
-<option value="2025-2026">2025-2026</option>
-<option value="2026-2027">2026-2027</option>
-<option value="2027-2028">2027-2028</option>
- <option value="2028-2029">2028-2029</option>
-  <option value="2029-2030">2029-2030</option>
-   <option value="2030-2031">2030-2031</option>
+<select id="category">
+<option value="">Select Category</option>
+<option value="SC">SC</option>
+<option value="ST">ST</option>
+<option value="OTHERS">Others</option>
 </select>
 
 <button class="searchBtn" onclick="loadReport()">Search</button>
 
 <div id="groupContainer"></div>
-
-<h3 id="listHeader" style="display:none;">Retirement Employees List</h3>
 
 <div class="tableWrap">
 
@@ -195,11 +183,11 @@ font-weight:600;
 
 <thead>
 <tr>
+<th>SI.No</th>
 <th>Name</th>
-<th>Place</th>
+<th>Designation</th>
 <th>Group</th>
-<th>DOB</th>
-<th>Retirement</th>
+<th>Caste Name</th>
 </tr>
 </thead>
 
@@ -227,18 +215,14 @@ font-weight:600;
 
 async function loadReport(){
 
-let fy=document.getElementById("financialYear").value;
+let category=document.getElementById("category").value;
 
-if(!fy){
-alert("Please select Financial Year");
+if(!category){
+alert("Please select category");
 return;
 }
 
 document.getElementById("loader").style.display="flex";
-
-let parts=fy.split("-");
-let start=new Date(parts[0],3,1);
-let end=new Date(parts[1],2,31);
 
 let url="https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
 
@@ -248,6 +232,7 @@ let text=await res.text();
 let rows=text.trim().split("\n");
 
 let html="";
+let count=1;
 
 let groupCount={A:0,B:0,C:0,D:0};
 
@@ -256,29 +241,34 @@ for(let i=1;i<rows.length;i++){
 let cols=rows[i].split(",");
 
 let name=cols[1];
-let place=cols[3];
-let dob=cols[5];
-let retirement=(cols[6] || "").trim();
+let designation=cols[2];
+let empCategory=(cols[14] || "").trim().toUpperCase();
+let caste=cols[15];
 let group=(cols[30] || "").trim();
 
 group=group.toUpperCase().replace("GROUP","").trim();
 
-let d=retirement.split("-");
-let rDate=new Date(d[2],d[1]-1,d[0]);
+let match=false;
 
-if(rDate>=start && rDate<=end){
+if(category==="SC" && empCategory==="SC") match=true;
+else if(category==="ST" && empCategory==="ST") match=true;
+else if(category==="OTHERS" && empCategory!=="SC" && empCategory!=="ST") match=true;
+
+if(match){
 
 html+=`
 <tr>
+<td>${count}</td>
 <td>${name}</td>
-<td>${place}</td>
+<td>${designation}</td>
 <td>${group}</td>
-<td>${dob}</td>
-<td>${retirement}</td>
+<td>${caste}</td>
 </tr>
 `;
 
-if(groupCount[group] !== undefined){
+count++;
+
+if(groupCount[group]!==undefined){
 groupCount[group]++;
 }
 
@@ -288,7 +278,7 @@ groupCount[group]++;
 
 /* GROUP SUMMARY */
 
-let ghtml="<div class='groupBox'><b>Group wise Retirement Count</b><br><br>";
+let ghtml="<div class='groupBox'><b>Group wise Employee Count</b><br><br>";
 
 ghtml+=`Group A - ${groupCount.A}<br>`;
 ghtml+=`Group B - ${groupCount.B}<br>`;
@@ -301,7 +291,6 @@ document.getElementById("groupContainer").innerHTML=ghtml;
 
 document.getElementById("tableBody").innerHTML=html;
 
-document.getElementById("listHeader").style.display="block";
 document.getElementById("resultTable").style.display="table";
 
 document.getElementById("loader").style.display="none";
