@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,17 +49,88 @@ body{
   opacity:0.7;
 }
 
-/* GRID BUTTONS */
+/* CONTENT */
 .content{
   padding:20px;
-  margin-top:20px;
+  margin-top:10px;
   padding-bottom:90px;
 }
 
+/* SLIDER */
+
+.banner-slider{
+overflow:hidden;
+margin-bottom:10px;
+}
+
+.banner-track{
+display:flex;
+width:300%;
+animation:slideBanner 12s infinite;
+}
+
+.banner-box{
+min-width:100%;
+background:white;
+border-radius:20px;
+padding:12px;
+display:flex;
+align-items:center;
+gap:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.banner-box img{
+width:100px;
+}
+
+.banner-text{
+flex:1;
+}
+
+.banner-text h3{
+margin:0;
+font-size:17px;
+color:#4b0082;
+}
+
+.banner-text p{
+margin-top:6px;
+font-size:13px;
+color:#666;
+}
+
+.banner-btn{
+margin-top:8px;
+display:inline-block;
+padding:6px 14px;
+border-radius:20px;
+background:#5e00a3;
+color:white;
+font-size:12px;
+}
+
+@keyframes slideBanner{
+
+0%{transform:translateX(0);}
+30%{transform:translateX(0);}
+
+35%{transform:translateX(-100%);}
+65%{transform:translateX(-100%);}
+
+70%{transform:translateX(-200%);}
+95%{transform:translateX(-200%);}
+
+100%{transform:translateX(0);}
+
+}
+
+/* GRID BUTTONS */
 .grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:15px;
+  margin-top:5px;
 }
 
 .card{
@@ -273,49 +345,6 @@ body{
   border:1px solid #555;
 }
 
-/* APP BANNER */
-
-.banner-box{
-  margin-bottom:20px;
-  background:white;
-  border-radius:20px;
-  padding:15px;
-  display:flex;
-  align-items:center;
-  gap:15px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.08);
-}
-
-.banner-box img{
-  width:110px;
-}
-
-.banner-text{
-  flex:1;
-}
-
-.banner-text h3{
-  margin:0;
-  font-size:18px;
-  color:#4b0082;
-}
-
-.banner-text p{
-  margin-top:6px;
-  font-size:13px;
-  color:#666;
-}
-
-.banner-btn{
-  margin-top:8px;
-  display:inline-block;
-  padding:6px 14px;
-  border-radius:20px;
-  background:#5e00a3;
-  color:white;
-  font-size:12px;
-}
-
 </style>
 </head>
 
@@ -355,18 +384,41 @@ Bulk Salary Upload
 
 <!-- CONTENT -->
 <div class="content">
-<!-- APP BANNER -->
+
+<!-- SLIDER -->
+<div class="banner-slider">
+<div class="banner-track">
 
 <div class="banner-box">
-
-<img src="https://cdn-icons-png.flaticon.com/512/1995/1995539.png">
-
+<img src="https://cdn-icons-png.flaticon.com/512/3037/3037156.png">
 <div class="banner-text">
 <h3>Smart Salary Manager</h3>
-<p>Check salary details, income records and employee services easily in one place.</p>
+<p>Check salary details and income records easily.</p>
 <span class="banner-btn">Employee Services</span>
 </div>
-  </div>
+</div>
+
+<div class="banner-box">
+<img src="https://cdn-icons-png.flaticon.com/512/2331/2331943.png">
+<div class="banner-text">
+<h3>Salary & Finance</h3>
+<p>View salary slips and financial reports quickly.</p>
+<span class="banner-btn">Salary Dashboard</span>
+</div>
+</div>
+
+<div class="banner-box">
+<img src="https://cdn-icons-png.flaticon.com/512/1995/1995539.png">
+<div class="banner-text">
+<h3>Employee Portal</h3>
+<p>Access attendance, forms and employee services.</p>
+<span class="banner-btn">Employee Hub</span>
+</div>
+</div>
+
+</div>
+</div>
+
 <div class="grid">
 
 <div class="card" onclick="showLoader('accounts.html')">
@@ -439,6 +491,8 @@ Bulk Salary Upload
 </div>
 
 <script>
+
+/* YOUR ORIGINAL JAVASCRIPT REMAINS EXACTLY THE SAME */
 
 function refreshApp(){
 document.getElementById("loader").style.display="flex";
