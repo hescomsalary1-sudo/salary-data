@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,8 +14,6 @@ background:#f4f4f9;
 padding-bottom:90px;
 font-size:13px;
 }
-
-/* HEADER */
 
 .top{
 padding:20px;
@@ -40,8 +38,6 @@ justify-content:center;
 font-weight:bold;
 }
 
-/* CONTENT AREA */
-
 .container{
 padding:15px;
 }
@@ -55,8 +51,6 @@ border-radius:6px;
 border:1px solid #ccc;
 }
 
-/* SEARCH BUTTON */
-
 .searchBtn{
 width:100%;
 padding:10px;
@@ -69,8 +63,6 @@ font-size:14px;
 margin-bottom:15px;
 }
 
-/* GROUP SUMMARY */
-
 .groupBox{
 background:white;
 padding:12px;
@@ -79,8 +71,6 @@ margin-bottom:15px;
 box-shadow:0 3px 8px rgba(0,0,0,0.1);
 font-size:13px;
 }
-
-/* TABLE */
 
 table{
 width:100%;
@@ -100,8 +90,6 @@ th{
 background:#5e00a3;
 color:white;
 }
-
-/* LOADER */
 
 #loader{
 display:none;
@@ -129,8 +117,6 @@ animation:spin 1s linear infinite;
 0%{transform:rotate(0deg);}
 100%{transform:rotate(360deg);}
 }
-
-/* FOOTER */
 
 .footer{
 position:fixed;
@@ -229,13 +215,9 @@ return;
 
 document.getElementById("loader").style.display="flex";
 
-/* Financial year range */
-
 let parts=fy.split("-");
 let start=new Date(parts[0],3,1);
 let end=new Date(parts[1],2,31);
-
-/* CSV URL */
 
 let url="https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
 
@@ -247,14 +229,7 @@ let rows=text.trim().split("\n");
 let html="";
 let count=1;
 
-/* Predefined group count */
-
-let groupCount={
-"A":0,
-"B":0,
-"C":0,
-"D":0
-};
+let groupCount={A:0,B:0,C:0,D:0};
 
 for(let i=1;i<rows.length;i++){
 
@@ -266,7 +241,9 @@ let dob=cols[5];
 let retirement=(cols[6] || "").trim();
 let group=(cols[31] || "").trim();
 
-/* convert retirement date */
+/* normalize group */
+
+group=group.toUpperCase().replace("GROUP","").trim();
 
 let d=retirement.split("-");
 let rDate=new Date(d[2],d[1]-1,d[0]);
@@ -285,9 +262,7 @@ html+=`
 
 count++;
 
-/* count groups */
-
-if(groupCount.hasOwnProperty(group)){
+if(groupCount[group] !== undefined){
 groupCount[group]++;
 }
 
@@ -295,14 +270,12 @@ groupCount[group]++;
 
 }
 
-/* Display group summary */
-
 let ghtml="<div class='groupBox'><b>Group wise Retirement Count</b><br><br>";
 
-ghtml+=`Group A - ${groupCount["A"]}<br>`;
-ghtml+=`Group B - ${groupCount["B"]}<br>`;
-ghtml+=`Group C - ${groupCount["C"]}<br>`;
-ghtml+=`Group D - ${groupCount["D"]}`;
+ghtml+=`Group A - ${groupCount.A}<br>`;
+ghtml+=`Group B - ${groupCount.B}<br>`;
+ghtml+=`Group C - ${groupCount.C}<br>`;
+ghtml+=`Group D - ${groupCount.D}`;
 
 ghtml+="</div>";
 
@@ -311,7 +284,6 @@ document.getElementById("groupContainer").innerHTML=ghtml;
 document.getElementById("tableBody").innerHTML=html;
 
 document.getElementById("listHeader").style.display="block";
-
 document.getElementById("resultTable").style.display="table";
 
 document.getElementById("loader").style.display="none";
@@ -322,4 +294,3 @@ document.getElementById("loader").style.display="none";
 
 </body>
 </html>
-```
