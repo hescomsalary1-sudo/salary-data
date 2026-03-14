@@ -158,17 +158,15 @@ if(!fy) return;
 
 let parts=fy.split("-");
 
-let start=new Date(parts[0]+"-04-01");
-let end=new Date(parts[1]+"-03-31");
-
-/* CHANGE THIS TO YOUR GITHUB CSV */
+let start=new Date(parts[0],3,1);   // 1 April
+let end=new Date(parts[1],2,31);    // 31 March
 
 let url="https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
 
 let res=await fetch(url);
 let text=await res.text();
 
-let rows=text.split("\n");
+let rows=text.trim().split("\n");
 
 let html="";
 let count=1;
@@ -180,9 +178,12 @@ let cols=rows[i].split(",");
 let name=cols[1];
 let place=cols[2];
 let dob=cols[3];
-let retirement=cols[4];
+let retirement=cols[4].trim();
 
-let rDate=new Date(retirement);
+/* convert DD-MM-YYYY to Date */
+
+let d=retirement.split("-");
+let rDate=new Date(d[2], d[1]-1, d[0]);
 
 if(rDate>=start && rDate<=end){
 
