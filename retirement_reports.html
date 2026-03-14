@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,7 +40,7 @@ justify-content:center;
 font-weight:bold;
 }
 
-/* REPORT AREA */
+/* CONTENT AREA */
 
 .container{
 padding:15px;
@@ -69,7 +69,7 @@ font-size:14px;
 margin-bottom:15px;
 }
 
-/* GROUP CONTAINER */
+/* GROUP SUMMARY */
 
 .groupBox{
 background:white;
@@ -77,12 +77,7 @@ padding:12px;
 border-radius:10px;
 margin-bottom:15px;
 box-shadow:0 3px 8px rgba(0,0,0,0.1);
-}
-
-.groupRow{
-display:flex;
-justify-content:space-between;
-padding:4px 0;
+font-size:13px;
 }
 
 /* TABLE */
@@ -228,15 +223,19 @@ async function loadReport(){
 let fy=document.getElementById("financialYear").value;
 
 if(!fy){
-alert("Select Financial Year");
+alert("Please select Financial Year");
 return;
 }
 
 document.getElementById("loader").style.display="flex";
 
+/* Financial year range */
+
 let parts=fy.split("-");
 let start=new Date(parts[0],3,1);
 let end=new Date(parts[1],2,31);
+
+/* CSV URL */
 
 let url="https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
 
@@ -248,7 +247,14 @@ let rows=text.trim().split("\n");
 let html="";
 let count=1;
 
-let groupCount={};
+/* Predefined group count */
+
+let groupCount={
+"A":0,
+"B":0,
+"C":0,
+"D":0
+};
 
 for(let i=1;i<rows.length;i++){
 
@@ -257,8 +263,10 @@ let cols=rows[i].split(",");
 let name=cols[1];
 let place=cols[3];
 let dob=cols[5];
-let retirement=cols[6].trim();
-let group=cols[31];
+let retirement=(cols[6] || "").trim();
+let group=(cols[31] || "").trim();
+
+/* convert retirement date */
 
 let d=retirement.split("-");
 let rDate=new Date(d[2],d[1]-1,d[0]);
@@ -277,23 +285,24 @@ html+=`
 
 count++;
 
-if(!groupCount[group]) groupCount[group]=0;
+/* count groups */
 
+if(groupCount.hasOwnProperty(group)){
 groupCount[group]++;
-
 }
 
 }
 
-/* GROUP SUMMARY */
-
-let ghtml="<div class='groupBox'><b>Group wise Retirement Count</b>";
-
-for(let g in groupCount){
-
-ghtml+=`<div class="groupRow"><span>${g}</span><span>${groupCount[g]}</span></div>`;
-
 }
+
+/* Display group summary */
+
+let ghtml="<div class='groupBox'><b>Group wise Retirement Count</b><br><br>";
+
+ghtml+=`Group A - ${groupCount["A"]}<br>`;
+ghtml+=`Group B - ${groupCount["B"]}<br>`;
+ghtml+=`Group C - ${groupCount["C"]}<br>`;
+ghtml+=`Group D - ${groupCount["D"]}`;
 
 ghtml+="</div>";
 
@@ -313,3 +322,4 @@ document.getElementById("loader").style.display="none";
 
 </body>
 </html>
+```
