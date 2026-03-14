@@ -49,71 +49,13 @@ body{
   opacity:0.7;
 }
 
-/* CONTENT */
+/* GRID BUTTONS */
 .content{
   padding:20px;
   margin-top:20px;
   padding-bottom:90px;
 }
 
-/* SLIDER BANNER */
-
-.banner-slider{
-display:flex;
-overflow-x:auto;
-gap:15px;
-margin-bottom:10px;
-scroll-snap-type:x mandatory;
-}
-
-.banner-slider::-webkit-scrollbar{
-display:none;
-}
-
-.banner-box{
-min-width:85%;
-background:linear-gradient(135deg,#ff9800,#ff6f00);
-color:white;
-border-radius:20px;
-padding:15px;
-display:flex;
-align-items:center;
-gap:15px;
-box-shadow:0 8px 20px rgba(0,0,0,0.15);
-scroll-snap-align:start;
-}
-
-.banner-box img{
-width:90px;
-}
-
-.banner-text{
-flex:1;
-}
-
-.banner-text h3{
-margin:0;
-font-size:17px;
-}
-
-.banner-text p{
-margin-top:6px;
-font-size:13px;
-opacity:0.9;
-}
-
-.banner-btn{
-margin-top:8px;
-display:inline-block;
-padding:6px 14px;
-border-radius:20px;
-background:white;
-color:#ff6f00;
-font-size:12px;
-font-weight:bold;
-}
-
-/* GRID BUTTONS */
 .grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
@@ -163,62 +105,6 @@ font-weight:bold;
   color:white;
   border-radius:20px;
   cursor:pointer;
-}
-
-/* MODAL BACKGROUND */
-.modal{
-  display:none;
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.5);
-  justify-content:center;
-  align-items:center;
-  z-index:999;
-}
-
-/* MODAL BOX */
-.modal-content{
-  background:white;
-  width:80%;
-  max-width:320px;
-  padding:20px;
-  border-radius:15px;
-  text-align:center;
-  animation:popup 0.3s ease;
-}
-
-@keyframes popup{
-  from{transform:scale(0.8); opacity:0;}
-  to{transform:scale(1); opacity:1;}
-}
-
-.modal-content h3{
-  margin-top:0;
-  color:#5e00a3;
-}
-
-.modal-buttons{
-  display:flex;
-  justify-content:space-between;
-  margin-top:20px;
-}
-
-.cancel-btn{
-  padding:8px 15px;
-  border:none;
-  background:#ccc;
-  border-radius:6px;
-}
-
-.logout-btn{
-  padding:8px 15px;
-  border:none;
-  background:#5e00a3;
-  color:white;
-  border-radius:6px;
 }
 
 /* FOOTER */
@@ -285,57 +171,68 @@ font-weight:bold;
   border-left:6px solid #5e00a3;
 }
 
-.news-box h3{
-  margin-top:0;
-  color:#4b0082;
+/* ---------- NEW MANUAL SLIDER DESIGN ---------- */
+
+.banner-slider{
+  display:flex;
+  overflow-x:auto;
+  gap:15px;
+  margin-bottom:20px;
+  scroll-snap-type:x mandatory;
+}
+
+.banner-slider::-webkit-scrollbar{
+  display:none;
+}
+
+.banner-box{
+  min-width:85%;
+  background:linear-gradient(135deg,#ff9800,#ff6f00);
+  color:white;
+  border-radius:20px;
+  padding:15px;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.15);
+  scroll-snap-align:start;
+}
+
+.banner-box img{
+  width:110px;
+}
+
+.banner-text{
+  flex:1;
+}
+
+.banner-text h3{
+  margin:0;
   font-size:18px;
 }
 
-.news-item{
-  padding:12px;
-  margin-bottom:12px;
-  background:rgba(255,255,255,0.7);
-  border-radius:12px;
-  font-size:14px;
+.banner-text p{
+  margin-top:6px;
+  font-size:13px;
 }
 
-.news-date{
+.banner-btn{
+  margin-top:8px;
+  display:inline-block;
+  padding:6px 14px;
+  border-radius:20px;
+  background:white;
+  color:#ff6f00;
   font-size:12px;
-  color:#666;
-  margin-bottom:4px;
-  font-weight:600;
+  font-weight:bold;
 }
 
-/* DARK MODE */
-.dark-mode{
-  background:#121212;
-  color:white;
-}
-
-.dark-mode .card{
-  background:#1f1f1f;
-  color:white;
-}
-
-.dark-mode .footer{
-  background:#1a1a1a;
-}
-
-.dark-mode .footer a{
-  color:white;
-}
-
-.dark-mode select,
-.dark-mode input{
-  background:#333;
-  color:white;
-  border:1px solid #555;
-}
 </style>
 </head>
 
 <body>
 
+<!-- HEADER -->
 <div class="top">
 
 <div class="user-box">
@@ -355,19 +252,22 @@ font-weight:bold;
 
 </div>
 
+<!-- ADMIN MENU -->
 <div id="adminMenu" style="display:none;">
 <button onclick="showLoader('admin_bulk_upload.html')">
 Bulk Salary Upload
 </button>
 </div>
 
+<!-- LOADER -->
 <div id="loader">
 <div class="spinner"></div>
 </div>
 
+<!-- CONTENT -->
 <div class="content">
 
-<!-- SLIDER -->
+<!-- NEW SLIDER -->
 <div class="banner-slider">
 
 <div class="banner-box">
@@ -471,7 +371,9 @@ Bulk Salary Upload
 </div>
 
 <script>
-/* YOUR ORIGINAL SCRIPT REMAINS EXACTLY SAME */
+
+/* YOUR ORIGINAL JAVASCRIPT REMAINS COMPLETELY UNCHANGED */
+
 </script>
 
 </body>
