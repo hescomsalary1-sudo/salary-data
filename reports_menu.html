@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -101,8 +101,6 @@ animation:spin 1s linear infinite;
 .popup{
 display:none;
 position:fixed;
-top:0;
-left:0;
 width:100%;
 height:100%;
 background:rgba(0,0,0,0.4);
@@ -117,17 +115,17 @@ padding:25px;
 border-radius:12px;
 text-align:center;
 width:260px;
-box-shadow:0 4px 15px rgba(0,0,0,0.3);
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
 }
 
 .popupBox h3{
-margin-top:0;
+margin:0;
 color:#5e00a3;
 }
 
 .popupBtn{
 margin-top:15px;
-padding:8px 18px;
+padding:8px 20px;
 border:none;
 background:#5e00a3;
 color:white;
@@ -217,7 +215,7 @@ Other Reports
 <div id="popup" class="popup">
 <div class="popupBox">
 <h3>Access Denied</h3>
-<p>Only Admin can access these reports.</p>
+<p>Only Admin can access these reports</p>
 <button class="popupBtn" onclick="closePopup()">OK</button>
 </div>
 </div>
@@ -236,30 +234,25 @@ Other Reports
 
 function adminCheck(page){
 
-let user = localStorage.getItem("username");
+let role = localStorage.getItem("role");
 
-if(user === "admin"){
-
+if(role === "admin"){
 openPage(page);
-
-}else{
-
+}
+else{
 document.getElementById("popup").style.display="flex";
-
 }
 
 }
 
-/* OPEN PAGE */
+/* PAGE OPEN */
 
 function openPage(page){
 
 document.getElementById("loader").style.display="flex";
 
 setTimeout(function(){
-
 window.location = page;
-
 },700);
 
 }
@@ -267,13 +260,10 @@ window.location = page;
 /* CLOSE POPUP */
 
 function closePopup(){
-
 document.getElementById("popup").style.display="none";
-
 }
 
 </script>
 
 </body>
 </html>
-```
