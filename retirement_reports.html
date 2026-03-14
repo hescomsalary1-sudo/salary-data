@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,20 +15,22 @@ padding-bottom:90px;
 font-size:13px;
 }
 
+/* HEADER */
+
 .top{
-padding:20px;
+padding:18px;
 background:linear-gradient(135deg,#1a002b,#5e00a3);
 color:white;
 display:flex;
 align-items:center;
 gap:10px;
-border-bottom-left-radius:30px;
-border-bottom-right-radius:30px;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
 }
 
 .top .icon{
-width:35px;
-height:35px;
+width:32px;
+height:32px;
 background:white;
 color:#5e00a3;
 border-radius:50%;
@@ -37,6 +39,8 @@ align-items:center;
 justify-content:center;
 font-weight:bold;
 }
+
+/* CONTENT */
 
 .container{
 padding:15px;
@@ -63,6 +67,8 @@ font-size:14px;
 margin-bottom:15px;
 }
 
+/* GROUP SUMMARY */
+
 .groupBox{
 background:white;
 padding:12px;
@@ -72,24 +78,32 @@ box-shadow:0 3px 8px rgba(0,0,0,0.1);
 font-size:13px;
 }
 
+/* TABLE */
+
+.tableWrap{
+overflow-x:auto;
+}
+
 table{
 width:100%;
 border-collapse:collapse;
 background:white;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
+box-shadow:0 3px 8px rgba(0,0,0,0.1);
 }
 
 th,td{
 border:1px solid #ddd;
-padding:6px;
+padding:5px;
 text-align:center;
-font-size:12px;
+font-size:11px;
 }
 
 th{
 background:#5e00a3;
 color:white;
 }
+
+/* LOADER */
 
 #loader{
 display:none;
@@ -118,6 +132,8 @@ animation:spin 1s linear infinite;
 100%{transform:rotate(360deg);}
 }
 
+/* FOOTER */
+
 .footer{
 position:fixed;
 bottom:0;
@@ -139,7 +155,7 @@ font-size:18px;
 }
 
 .footer small{
-font-size:11px;
+font-size:10px;
 margin-top:2px;
 color:#5e00a3;
 font-weight:600;
@@ -172,13 +188,14 @@ font-weight:600;
 
 <h3 id="listHeader" style="display:none;">Retirement Employees List</h3>
 
+<div class="tableWrap">
+
 <table id="resultTable" style="display:none;">
 
 <thead>
 <tr>
-<th>SI.No</th>
 <th>Name</th>
-<th>Working Place</th>
+<th>Place</th>
 <th>Group</th>
 <th>DOB</th>
 <th>Retirement</th>
@@ -188,6 +205,8 @@ font-weight:600;
 <tbody id="tableBody"></tbody>
 
 </table>
+
+</div>
 
 </div>
 
@@ -228,7 +247,6 @@ let text=await res.text();
 let rows=text.trim().split("\n");
 
 let html="";
-let count=1;
 
 let groupCount={A:0,B:0,C:0,D:0};
 
@@ -251,7 +269,6 @@ if(rDate>=start && rDate<=end){
 
 html+=`
 <tr>
-<td>${count}</td>
 <td>${name}</td>
 <td>${place}</td>
 <td>${group}</td>
@@ -260,8 +277,6 @@ html+=`
 </tr>
 `;
 
-count++;
-
 if(groupCount[group] !== undefined){
 groupCount[group]++;
 }
@@ -269,6 +284,8 @@ groupCount[group]++;
 }
 
 }
+
+/* GROUP SUMMARY */
 
 let ghtml="<div class='groupBox'><b>Group wise Retirement Count</b><br><br>";
 
@@ -294,3 +311,4 @@ document.getElementById("loader").style.display="none";
 
 </body>
 </html>
+```
