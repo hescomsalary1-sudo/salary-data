@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -75,7 +75,6 @@ padding:12px;
 border-radius:10px;
 margin-bottom:15px;
 box-shadow:0 3px 8px rgba(0,0,0,0.1);
-font-size:13px;
 }
 
 /* TABLE */
@@ -276,13 +275,13 @@ let group=(cols[30] || "").trim();
 
 group=group.toUpperCase().replace("GROUP","").trim();
 
-/* blank handling */
+/* Skip record if name is blank */
 
-if(name==="") name="-";
-if(designation==="") designation="-";
-if(caste==="") caste="-";
+if(name===""){
+continue;
+}
 
-/* category filter */
+/* Category filter */
 
 let match=false;
 
@@ -337,3 +336,4 @@ document.getElementById("loader").style.display="none";
 
 </body>
 </html>
+```
