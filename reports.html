@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +16,8 @@ background:#f4f4f9;
 padding-bottom:90px;
 }
 
+/* HEADER */
+
 .top{
 padding:18px;
 background:linear-gradient(135deg,#1a002b,#5e00a3);
@@ -28,51 +30,83 @@ border-bottom-right-radius:25px;
 }
 
 .top .icon{
-width:30px;
-height:30px;
+width:32px;
+height:32px;
 background:white;
 color:#5e00a3;
 border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
+font-size:18px;
 }
+
+/* MAIN CONTENT */
 
 .content{
 padding:15px;
 }
 
-/* FILTER BOX */
+/* FILTER CARD */
 
-.filters{
+.filterCard{
 background:white;
-padding:12px;
-border-radius:10px;
-box-shadow:0 2px 10px rgba(0,0,0,0.1);
+padding:15px;
+border-radius:12px;
+box-shadow:0 4px 12px rgba(0,0,0,0.1);
 margin-bottom:15px;
 }
 
-select{
-padding:6px;
-margin:4px;
-border-radius:5px;
-font-size:13px;
-max-width:150px;
+/* DROPDOWNS */
+
+.filterGroup{
+margin-bottom:10px;
 }
 
-/* BUTTON */
+.filterGroup label{
+font-size:13px;
+font-weight:600;
+display:block;
+margin-bottom:3px;
+}
 
-button{
-padding:8px 12px;
+select{
+width:100%;
+padding:7px;
+border-radius:6px;
+border:1px solid #ccc;
+font-size:13px;
+}
+
+/* BUTTONS */
+
+.buttonRow{
+display:flex;
+gap:10px;
+margin-top:10px;
+}
+
+.btn{
+flex:1;
+padding:9px;
+border:none;
+border-radius:6px;
+font-size:13px;
+font-weight:600;
+cursor:pointer;
+}
+
+.generateBtn{
 background:#5e00a3;
 color:white;
-border:none;
-border-radius:5px;
-font-size:13px;
-margin-top:5px;
 }
 
-/* SUMMARY */
+.pdfBtn{
+background:#ff9800;
+color:white;
+}
+
+/* SUMMARY CARD */
 
 .summary{
 background:linear-gradient(135deg,#5e00a3,#8e44ff);
@@ -80,7 +114,7 @@ color:white;
 padding:12px;
 border-radius:10px;
 margin:12px 0;
-font-size:15px;
+font-size:14px;
 }
 
 /* TABS */
@@ -98,6 +132,7 @@ background:#e5d6ff;
 border:none;
 border-radius:6px;
 font-size:13px;
+cursor:pointer;
 }
 
 .tabbtn.active{
@@ -160,18 +195,22 @@ color:#5e00a3;
 
 <div class="content">
 
-<div class="filters">
+<div class="filterCard">
 
-Division
+<div class="filterGroup">
+<label>Division</label>
 <select id="division"></select>
+</div>
 
-Post
+<div class="filterGroup">
+<label>Post</label>
 <select id="post"></select>
+</div>
 
-<br>
-
-<button onclick="generateReport()">Generate</button>
-<button onclick="downloadPDF()">PDF</button>
+<div class="buttonRow">
+<button class="btn generateBtn" onclick="generateReport()">Generate</button>
+<button class="btn pdfBtn" onclick="downloadPDF()">PDF</button>
+</div>
 
 </div>
 
@@ -200,7 +239,7 @@ return t.trim().split("\n");
 
 }
 
-/* INIT DROPDOWNS */
+/* INITIALIZE DROPDOWNS */
 
 async function init(){
 
@@ -293,8 +332,8 @@ Vacant : ${vacant}
 
 <div class="tabs">
 
-<button class="tabbtn active" onclick="showWorking()">Working</button>
-<button class="tabbtn" onclick="showVacant()">Vacant</button>
+<button id="workTab" class="tabbtn active" onclick="showWorking()">Working</button>
+<button id="vacTab" class="tabbtn" onclick="showVacant()">Vacant</button>
 
 </div>
 
@@ -321,7 +360,12 @@ window.vacantTable=vacantRows;
 
 }
 
+/* TAB FUNCTIONS */
+
 function showWorking(){
+
+workTab.classList.add("active");
+vacTab.classList.remove("active");
 
 tableArea.innerHTML=`
 
@@ -341,6 +385,9 @@ ${workingTable}
 
 function showVacant(){
 
+vacTab.classList.add("active");
+workTab.classList.remove("active");
+
 tableArea.innerHTML=`
 
 <table>
@@ -356,7 +403,7 @@ ${vacantTable}
 
 }
 
-/* PDF */
+/* PDF DOWNLOAD */
 
 function downloadPDF(){
 
@@ -368,4 +415,3 @@ html2pdf().from(result).save("Post_Report.pdf");
 
 </body>
 </html>
-```
