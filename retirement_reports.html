@@ -158,8 +158,8 @@ if(!fy) return;
 
 let parts=fy.split("-");
 
-let start=new Date(parts[0],3,1);   // 1 April
-let end=new Date(parts[1],2,31);    // 31 March
+let start=new Date(parts[0],3,1);
+let end=new Date(parts[1],2,31);
 
 let url="https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
 
@@ -176,11 +176,11 @@ for(let i=1;i<rows.length;i++){
 let cols=rows[i].split(",");
 
 let name=cols[1];
-let place=cols[2];
-let dob=cols[3];
-let retirement=cols[4].trim();
+let place=cols[3];
+let dob=cols[5];
+let retirement=cols[6].trim();
 
-/* convert DD-MM-YYYY to Date */
+/* convert DD-MM-YYYY */
 
 let d=retirement.split("-");
 let rDate=new Date(d[2], d[1]-1, d[0]);
