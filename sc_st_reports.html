@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +14,8 @@ background:#f4f4f9;
 padding-bottom:90px;
 font-size:13px;
 }
+
+/* HEADER */
 
 .top{
 padding:18px;
@@ -37,6 +39,8 @@ align-items:center;
 justify-content:center;
 font-weight:bold;
 }
+
+/* CONTENT */
 
 .container{
 padding:15px;
@@ -63,6 +67,19 @@ font-size:14px;
 margin-bottom:15px;
 }
 
+/* GROUP SUMMARY */
+
+.groupBox{
+background:white;
+padding:12px;
+border-radius:10px;
+margin-bottom:15px;
+box-shadow:0 3px 8px rgba(0,0,0,0.1);
+font-size:13px;
+}
+
+/* TABLE */
+
 .tableWrap{
 overflow-x:auto;
 }
@@ -76,15 +93,38 @@ box-shadow:0 3px 8px rgba(0,0,0,0.1);
 
 th,td{
 border:1px solid #ddd;
-padding:5px;
+padding:6px;
 text-align:center;
 font-size:11px;
+}
+
+/* column widths */
+
+.nameCol{
+width:90px;
+word-break:break-word;
+}
+
+.desigCol{
+width:85px;
+word-break:break-word;
+}
+
+.groupCol{
+width:45px;
+}
+
+.casteCol{
+width:110px;
+word-break:break-word;
 }
 
 th{
 background:#5e00a3;
 color:white;
 }
+
+/* LOADER */
 
 #loader{
 display:none;
@@ -112,6 +152,8 @@ animation:spin 1s linear infinite;
 0%{transform:rotate(0deg);}
 100%{transform:rotate(360deg);}
 }
+
+/* FOOTER */
 
 .footer{
 position:fixed;
@@ -161,6 +203,8 @@ font-weight:600;
 
 <button class="searchBtn" onclick="loadReport()">Search</button>
 
+<div id="groupContainer"></div>
+
 <div class="tableWrap">
 
 <table id="resultTable" style="display:none;">
@@ -168,10 +212,10 @@ font-weight:600;
 <thead>
 <tr>
 <th>SI.No</th>
-<th>Name</th>
-<th>Designation</th>
-<th>Group</th>
-<th>Caste Name</th>
+<th class="nameCol">Name</th>
+<th class="desigCol">Designation</th>
+<th class="groupCol">Group</th>
+<th class="casteCol">Caste</th>
 </tr>
 </thead>
 
@@ -218,24 +262,32 @@ let rows=text.trim().split("\n");
 let html="";
 let count=1;
 
+let groupCount={A:0,B:0,C:0,D:0};
+
 for(let i=1;i<rows.length;i++){
 
 let cols=rows[i].split(",");
 
-let name=cols[1];
-let designation=cols[2];
+let name=(cols[1] || "").trim();
+let designation=(cols[2] || "").trim();
 let empCategory=(cols[14] || "").trim().toUpperCase();
-let caste=cols[15];
+let caste=(cols[15] || "").trim();
 let group=(cols[30] || "").trim();
 
 group=group.toUpperCase().replace("GROUP","").trim();
 
+/* blank handling */
+
+if(name==="") name="-";
+if(designation==="") designation="-";
+if(caste==="") caste="-";
+
+/* category filter */
+
 let match=false;
 
 if(category==="SC" && empCategory==="SC") match=true;
-
 else if(category==="ST" && empCategory==="ST") match=true;
-
 else if(category==="OTHERS" && empCategory!=="SC" && empCategory!=="ST") match=true;
 
 if(match){
@@ -243,18 +295,35 @@ if(match){
 html+=`
 <tr>
 <td>${count}</td>
-<td>${name}</td>
-<td>${designation}</td>
-<td>${group}</td>
-<td>${caste}</td>
+<td class="nameCol">${name}</td>
+<td class="desigCol">${designation}</td>
+<td class="groupCol">${group}</td>
+<td class="casteCol">${caste}</td>
 </tr>
 `;
 
 count++;
 
+if(groupCount[group]!==undefined){
+groupCount[group]++;
 }
 
 }
+
+}
+
+/* GROUP SUMMARY */
+
+let ghtml="<div class='groupBox'><b>Group wise Employee Count</b><br><br>";
+
+ghtml+=`Group A - ${groupCount.A}<br>`;
+ghtml+=`Group B - ${groupCount.B}<br>`;
+ghtml+=`Group C - ${groupCount.C}<br>`;
+ghtml+=`Group D - ${groupCount.D}`;
+
+ghtml+="</div>";
+
+document.getElementById("groupContainer").innerHTML=ghtml;
 
 document.getElementById("tableBody").innerHTML=html;
 
@@ -268,4 +337,3 @@ document.getElementById("loader").style.display="none";
 
 </body>
 </html>
-```
