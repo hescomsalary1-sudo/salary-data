@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +41,7 @@ justify-content:center;
 font-size:18px;
 }
 
-/* MAIN CONTENT */
+/* CONTENT */
 
 .content{
 padding:15px;
@@ -56,8 +56,6 @@ border-radius:12px;
 box-shadow:0 4px 12px rgba(0,0,0,0.1);
 margin-bottom:15px;
 }
-
-/* DROPDOWNS */
 
 .filterGroup{
 margin-bottom:10px;
@@ -106,7 +104,7 @@ background:#ff9800;
 color:white;
 }
 
-/* SUMMARY CARD */
+/* SUMMARY */
 
 .summary{
 background:linear-gradient(135deg,#5e00a3,#8e44ff);
@@ -159,6 +157,72 @@ word-break:break-word;
 th{
 background:#5e00a3;
 color:white;
+}
+
+/* LOADER */
+
+#loader{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(255,255,255,0.9);
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+.spinner{
+width:40px;
+height:40px;
+border:5px solid #ddd;
+border-top:5px solid #5e00a3;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
+/* POPUP */
+
+#popup{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+.popupBox{
+background:white;
+padding:20px;
+border-radius:10px;
+text-align:center;
+width:80%;
+max-width:300px;
+}
+
+.popupBox h3{
+margin:0 0 10px 0;
+color:#5e00a3;
+}
+
+.popupBox button{
+background:#5e00a3;
+color:white;
+border:none;
+padding:8px 15px;
+border-radius:6px;
 }
 
 /* FOOTER */
@@ -226,9 +290,21 @@ color:#5e00a3;
 <a href="page4.html">⚙<small>Settings</small></a>
 </div>
 
-<script>
+<!-- LOADER -->
+<div id="loader">
+<div class="spinner"></div>
+</div>
 
-/* LOAD CSV */
+<!-- POPUP -->
+<div id="popup">
+<div class="popupBox">
+<h3>No Data</h3>
+<p>No sanctioned post available</p>
+<button onclick="closePopup()">OK</button>
+</div>
+</div>
+
+<script>
 
 async function loadCSV(){
 
@@ -239,7 +315,7 @@ return t.trim().split("\n");
 
 }
 
-/* INITIALIZE DROPDOWNS */
+/* INIT DROPDOWNS */
 
 async function init(){
 
@@ -270,6 +346,8 @@ init();
 /* GENERATE REPORT */
 
 async function generateReport(){
+
+loader.style.display="flex";
 
 let rows=await loadCSV();
 
@@ -318,6 +396,16 @@ vacantRows+=`
 
 }
 
+loader.style.display="none";
+
+if(sanctioned==0){
+
+popup.style.display="flex";
+result.innerHTML="";
+return;
+
+}
+
 let vacant=sanctioned-working;
 
 result.innerHTML=`
@@ -360,8 +448,6 @@ window.vacantTable=vacantRows;
 
 }
 
-/* TAB FUNCTIONS */
-
 function showWorking(){
 
 workTab.classList.add("active");
@@ -370,15 +456,12 @@ vacTab.classList.remove("active");
 tableArea.innerHTML=`
 
 <table>
-
 <tr>
 <th>Name</th>
 <th>Post</th>
 <th>Place</th>
 </tr>
-
 ${workingTable}
-
 </table>`;
 
 }
@@ -391,27 +474,29 @@ workTab.classList.remove("active");
 tableArea.innerHTML=`
 
 <table>
-
 <tr>
 <th>Post</th>
 <th>Place</th>
 </tr>
-
 ${vacantTable}
-
 </table>`;
 
 }
 
-/* PDF DOWNLOAD */
+/* POPUP CLOSE */
+
+function closePopup(){
+popup.style.display="none";
+}
+
+/* PDF */
 
 function downloadPDF(){
-
 html2pdf().from(result).save("Post_Report.pdf");
-
 }
 
 </script>
 
 </body>
 </html>
+```
