@@ -27,17 +27,17 @@ justify-content:space-between;
 align-items:center;
 }
 
-.user-box{
-display:flex;
-align-items:center;
-gap:10px;
-}
-
 .profile{
 width:45px;
 height:45px;
 border-radius:50%;
 border:2px solid white;
+}
+
+.user-box{
+display:flex;
+align-items:center;
+gap:10px;
 }
 
 .logout{
@@ -51,65 +51,47 @@ cursor:pointer;
 padding:20px;
 }
 
-/* GRID */
+/* SLIDING BUTTON BAR */
 
-.grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:16px;
-}
-
-/* PREMIUM BUTTON */
-
-.card{
-background:linear-gradient(135deg,#ffffff,#f1efff);
-border-radius:20px;
-padding:18px;
+.slider{
 display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-text-align:center;
-box-shadow:0 8px 18px rgba(0,0,0,0.08);
-cursor:pointer;
-transition:0.25s;
+overflow-x:auto;
+gap:10px;
+padding-bottom:10px;
+scrollbar-width:none;
 }
 
-.card:active{
-transform:scale(0.95);
+.slider::-webkit-scrollbar{
+display:none;
 }
 
-/* ICON CIRCLE */
-
-.circle{
-width:55px;
-height:55px;
-border-radius:50%;
-background:#4b2dd8;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:26px;
-color:white;
-margin-bottom:8px;
-box-shadow:0 6px 14px rgba(75,45,216,0.3);
-}
-
-.card p{
-margin:0;
-font-size:14px;
+.slide-btn{
+flex:0 0 auto;
+padding:10px 16px;
+background:white;
+border-radius:25px;
 font-weight:600;
 color:#4b2dd8;
+border:1px solid #ddd;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+cursor:pointer;
+white-space:nowrap;
 }
 
-/* RESULT CARD */
+.slide-btn:active{
+transform:scale(0.95);
+background:#ece8ff;
+}
 
-.result-card{
-margin-top:20px;
+/* DATA CONTAINER */
+
+.data-box{
+margin-top:15px;
 background:white;
 border-radius:18px;
 padding:15px;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
+min-height:80px;
 }
 
 /* TABLE */
@@ -194,16 +176,14 @@ background:#121212;
 color:white;
 }
 
-.dark-mode .card{
-background:#1f1f1f;
-}
-
-.dark-mode .result-card{
-background:#1f1f1f;
-}
-
-.dark-mode table{
+.dark-mode .slide-btn{
+background:#333;
 color:white;
+border:1px solid #555;
+}
+
+.dark-mode .data-box{
+background:#1f1f1f;
 }
 
 </style>
@@ -220,6 +200,7 @@ color:white;
 <div>Other Income</div>
 <strong id="user"></strong>
 </div>
+
 <img src="https://i.imgur.com/6VBx3io.png" class="profile">
 </div>
 
@@ -237,47 +218,26 @@ color:white;
 
 <div class="content">
 
-<div class="grid">
+<div class="slider">
 
-<div class="card" onclick="loadIncome('Supplementary Salary')">
-<div class="circle">💰</div>
-<p>Supplementary Salary</p>
-</div>
+<div class="slide-btn" onclick="loadIncome('Supplementary Salary')">Supplementary</div>
 
-<div class="card" onclick="loadIncome('DA Arrears')">
-<div class="circle">📈</div>
-<p>DA Arrears</p>
-</div>
+<div class="slide-btn" onclick="loadIncome('DA Arrears')">DA Arrears</div>
 
-<div class="card" onclick="loadIncome('Double Wages')">
-<div class="circle">💵</div>
-<p>Double Wages</p>
-</div>
+<div class="slide-btn" onclick="loadIncome('Double Wages')">Double Wages</div>
 
-<div class="card" onclick="loadIncome('Medical Bills')">
-<div class="circle">🏥</div>
-<p>Medical Bills</p>
-</div>
+<div class="slide-btn" onclick="loadIncome('Medical Bills')">Medical</div>
 
-<div class="card" onclick="loadIncome('TA Bills')">
-<div class="circle">🚗</div>
-<p>TA Bills</p>
-</div>
+<div class="slide-btn" onclick="loadIncome('TA Bills')">TA Bills</div>
 
-<div class="card" onclick="loadIncome('ELS Bills')">
-<div class="circle">📄</div>
-<p>ELS Bills</p>
-</div>
+<div class="slide-btn" onclick="loadIncome('ELS Bills')">ELS Bills</div>
 
-<div class="card" onclick="loadIncome('Others')">
-<div class="circle">📦</div>
-<p>Others</p>
-</div>
+<div class="slide-btn" onclick="loadIncome('Others')">Others</div>
 
 </div>
 
-<div class="result-card">
-<div id="result"></div>
+<div class="data-box">
+<div id="result">Select income type to view details</div>
 </div>
 
 </div>
@@ -395,7 +355,7 @@ found=true;
 output+="</table>";
 
 if(!found){
-output="<div>No data found</div>";
+output="No data found";
 }
 
 document.getElementById("result").innerHTML=output;
