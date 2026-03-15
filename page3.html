@@ -57,33 +57,49 @@ body{
   box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }
 
-select,button{
+/* DROPDOWN */
+select{
   width:100%;
   padding:12px;
   margin-top:10px;
-  border-radius:8px;
-  border:1px solid #ccc;
+  border-radius:12px;
+  border:1px solid #ddd;
   font-size:15px;
+  background:white;
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
 
+/* BUTTON */
 button{
-  background:#5e00a3;
-  color:white;
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border-radius:10px;
   border:none;
+  font-size:15px;
   font-weight:bold;
+  background:linear-gradient(135deg,#6a00b8,#8e2de2);
+  color:white;
+  letter-spacing:0.5px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.15);
+  cursor:pointer;
+}
+
+button:active{
+  transform:scale(0.97);
 }
 
 /* TABLE */
 table{
   width:100%;
-  margin-top:15px;
+  margin-top:10px;
   border-collapse:collapse;
-  font-size:13px;   /* smaller text */
+  font-size:13px;
 }
 
 th,td{
   border:1px solid #e0e0e0;
-  padding:6px;      /* reduced padding */
+  padding:6px;
   text-align:center;
 }
 
@@ -93,8 +109,15 @@ th{
   font-size:12px;
 }
 
-td{
-  font-size:12px;
+/* NO DATA MESSAGE */
+.no-data{
+  text-align:center;
+  padding:15px;
+  margin-top:10px;
+  background:#fff3cd;
+  border-radius:10px;
+  color:#856404;
+  font-weight:bold;
 }
 
 /* FOOTER SAME AS HOME */
@@ -125,7 +148,6 @@ td{
   font-weight:600;
 }
 
-
 /* DARK MODE */
 .dark-mode{
   background:#121212;
@@ -145,8 +167,7 @@ td{
   color:white;
 }
 
-.dark-mode select,
-.dark-mode input{
+.dark-mode select{
   background:#333;
   color:white;
   border:1px solid #555;
@@ -238,6 +259,7 @@ async function loadIncome(){
     let rows = text.trim().split("\n");
 
     let output = `
+      <h3 style="margin-top:10px;color:#5e00a3">${type}</h3>
       <table>
         <tr>
           <th>Amount</th>
