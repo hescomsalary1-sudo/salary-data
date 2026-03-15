@@ -7,137 +7,160 @@
 <style>
 
 body{
-  font-family: 'Segoe UI', sans-serif;
-  margin:0;
-  background:#f3f5ff;
-  padding-bottom:90px;
+font-family:'Segoe UI',sans-serif;
+margin:0;
+background:#f4f6ff;
+padding-bottom:90px;
 }
 
 /* HEADER */
 
 .top{
-  padding:28px 22px;
-  background:#4b2dd8;
-  color:white;
-  border-bottom-left-radius:35px;
-  border-bottom-right-radius:35px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.15);
+padding:28px 22px;
+background:#4b2dd8;
+color:white;
+border-bottom-left-radius:35px;
+border-bottom-right-radius:35px;
+box-shadow:0 6px 18px rgba(0,0,0,0.15);
 }
 
 .top h2{
-  margin:0;
-  font-weight:600;
+margin:0;
+font-weight:600;
 }
 
-/* CARD BOX */
+/* CARD */
 
 .box{
-  margin:18px;
-  padding:18px;
-  border-radius:18px;
-  background:white;
-  box-shadow:0 6px 18px rgba(0,0,0,0.08);
-  border-left:6px solid #4b2dd8;
+margin:18px;
+padding:20px;
+border-radius:18px;
+background:white;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
 }
 
-/* CARD TITLE */
+/* TITLE */
 
 .title{
-  font-weight:700;
-  margin-bottom:12px;
-  color:#4b2dd8;
-  font-size:16px;
+font-weight:700;
+margin-bottom:12px;
+color:#4b2dd8;
+font-size:16px;
 }
 
-/* ROW DATA */
+/* ROW */
 
 .row{
-  display:flex;
-  justify-content:space-between;
-  padding:8px 0;
-  font-weight:600;
-  border-bottom:1px solid #f0f0f0;
+display:flex;
+justify-content:space-between;
+padding:10px 0;
+font-weight:600;
 }
 
-.row:last-child{
-  border-bottom:none;
+/* PROGRESS BAR */
+
+.progress{
+height:6px;
+background:#eee;
+border-radius:20px;
+overflow:hidden;
+margin-top:4px;
+}
+
+.progress div{
+height:100%;
+background:#4b2dd8;
 }
 
 /* FILTER */
 
 .filter{
-  padding:0 20px;
-  margin-top:10px;
+padding:0 20px;
+margin-top:10px;
 }
 
-/* SELECT DROPDOWN */
-
 select{
-  padding:12px;
-  border-radius:12px;
-  border:none;
-  width:100%;
-  background:white;
-  box-shadow:0 3px 10px rgba(0,0,0,0.08);
-  font-size:14px;
-  font-weight:600;
+padding:12px;
+border-radius:12px;
+border:none;
+width:100%;
+background:white;
+box-shadow:0 3px 10px rgba(0,0,0,0.08);
+font-size:14px;
+font-weight:600;
 }
 
 /* SECTION TITLE */
 
 .section-title{
-  padding:0 20px;
-  font-weight:700;
-  margin-top:18px;
-  color:#4b2dd8;
-  font-size:15px;
+padding:0 20px;
+font-weight:700;
+margin-top:18px;
+color:#4b2dd8;
+font-size:15px;
 }
 
 /* LEAVE LIST */
 
 .leave-list{
-  padding:20px;
+padding:20px;
 }
 
 /* LEAVE ITEM */
 
 .leave-item{
-  background:white;
-  padding:14px;
-  border-radius:12px;
-  margin-bottom:10px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.06);
-  font-weight:600;
-  border-left:5px solid #4b2dd8;
+background:white;
+padding:14px;
+border-radius:14px;
+margin-bottom:10px;
+box-shadow:0 4px 12px rgba(0,0,0,0.06);
+font-weight:600;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
+
+/* BADGES */
+
+.badge{
+padding:4px 10px;
+border-radius:20px;
+font-size:12px;
+font-weight:700;
+color:white;
+}
+
+.el{background:#ff9800;}
+.fpl{background:#4caf50;}
+.cl{background:#2196f3;}
 
 /* FOOTER */
 
 .footer{
-  position:fixed;
-  bottom:0;
-  width:100%;
-  background:#ffffff;
-  display:flex;
-  justify-content:space-around;
-  padding:10px 0;
-  box-shadow:0 -3px 15px rgba(0,0,0,0.1);
+position:fixed;
+bottom:0;
+width:100%;
+background:#ffffff;
+display:flex;
+justify-content:space-around;
+padding:10px 0;
+box-shadow:0 -3px 15px rgba(0,0,0,0.1);
 }
 
 .footer a{
-  text-decoration:none;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  color:#4b2dd8;
-  font-size:20px;
+text-decoration:none;
+display:flex;
+flex-direction:column;
+align-items:center;
+color:#4b2dd8;
+font-size:20px;
 }
 
 .footer small{
-  font-size:11px;
-  margin-top:4px;
-  color:#4b2dd8;
-  font-weight:600;
+font-size:11px;
+margin-top:4px;
+color:#4b2dd8;
+font-weight:600;
 }
 
 </style>
@@ -151,9 +174,25 @@ select{
 
 <div class="box">
 <div class="title">Credited Leaves</div>
-<div class="row"><span>Earned Leave</span><span id="elCredit">0</span></div>
-<div class="row"><span>Full Pay Leave</span><span id="fplCredit">0</span></div>
-<div class="row"><span>Casual Leave</span><span id="clCredit">0</span></div>
+
+<div class="row">
+<span>Earned Leave</span>
+<span id="elCredit">0</span>
+</div>
+<div class="progress"><div style="width:60%"></div></div>
+
+<div class="row">
+<span>Full Pay Leave</span>
+<span id="fplCredit">0</span>
+</div>
+<div class="progress"><div style="width:60%"></div></div>
+
+<div class="row">
+<span>Casual Leave</span>
+<span id="clCredit">0</span>
+</div>
+<div class="progress"><div style="width:60%"></div></div>
+
 </div>
 
 <div class="filter">
@@ -170,17 +209,30 @@ select{
 
 <div class="box">
 <div class="title">Leave Balance</div>
-<div class="row"><span>Earned Leave</span><span id="elBalance">0</span></div>
-<div class="row"><span>Full Pay Leave</span><span id="fplBalance">0</span></div>
-<div class="row"><span>Casual Leave</span><span id="clBalance">0</span></div>
+
+<div class="row">
+<span>Earned Leave</span>
+<span id="elBalance">0</span>
+</div>
+
+<div class="row">
+<span>Full Pay Leave</span>
+<span id="fplBalance">0</span>
+</div>
+
+<div class="row">
+<span>Casual Leave</span>
+<span id="clBalance">0</span>
+</div>
+
 </div>
 
 <div class="footer">
-  <a href="home.html"><div>🏠</div><small>Home</small></a>
-  <a href="accounts.html"><div>👤</div><small>Profile</small></a>
-  <a href="salary.html"><div>💰</div><small>Salary</small></a>
-  <a href="page3.html"><div>📅</div><small>Attendance</small></a>
-  <a href="page4.html"><div>⚙</div><small>Settings</small></a>
+<a href="home.html"><div>🏠</div><small>Home</small></a>
+<a href="accounts.html"><div>👤</div><small>Profile</small></a>
+<a href="salary.html"><div>💰</div><small>Salary</small></a>
+<a href="page3.html"><div>📅</div><small>Attendance</small></a>
+<a href="page4.html"><div>⚙</div><small>Settings</small></a>
 </div>
 
 <script>
@@ -245,7 +297,16 @@ if(leave && leave.trim() !== ""){
 
 leave = leave.trim();
 
-output += `<div class="leave-item">${leave} - ${month}-${year}</div>`;
+let badgeClass="";
+
+if(leave==="EL") badgeClass="el";
+if(leave==="FPL") badgeClass="fpl";
+if(leave==="CL") badgeClass="cl";
+
+output += `<div class="leave-item">
+<span>${month}-${year}</span>
+<span class="badge ${badgeClass}">${leave}</span>
+</div>`;
 
 if(leave==="EL") elTaken++;
 if(leave==="FPL") fplTaken++;
