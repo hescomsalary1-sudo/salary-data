@@ -22,27 +22,9 @@ color:white;
 border-bottom-left-radius:35px;
 border-bottom-right-radius:35px;
 box-shadow:0 6px 18px rgba(0,0,0,0.15);
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.user-box{
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-.profile{
-width:45px;
-height:45px;
-border-radius:50%;
-border:2px solid white;
-}
-
-.logout{
-font-size:22px;
-cursor:pointer;
+font-size:20px;
+font-weight:600;
+text-align:center;
 }
 
 /* CONTENT */
@@ -51,65 +33,40 @@ cursor:pointer;
 padding:20px;
 }
 
-/* GRID */
+/* LIST BUTTONS */
 
-.grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:16px;
-}
-
-/* PREMIUM BUTTON */
-
-.card{
-background:linear-gradient(135deg,#ffffff,#f1efff);
-border-radius:20px;
-padding:18px;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-text-align:center;
-box-shadow:0 8px 18px rgba(0,0,0,0.08);
-cursor:pointer;
-transition:0.25s;
-}
-
-.card:active{
-transform:scale(0.95);
-}
-
-/* ICON CIRCLE */
-
-.circle{
-width:55px;
-height:55px;
-border-radius:50%;
-background:#4b2dd8;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:26px;
-color:white;
-margin-bottom:8px;
-box-shadow:0 6px 14px rgba(75,45,216,0.3);
-}
-
-.card p{
-margin:0;
-font-size:14px;
+.list-btn{
+background:white;
+padding:15px;
+border-radius:12px;
+margin-bottom:12px;
 font-weight:600;
 color:#4b2dd8;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+cursor:pointer;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
-/* RESULT CARD */
+.list-btn:active{
+transform:scale(0.97);
+background:#ece8ff;
+}
 
-.result-card{
-margin-top:20px;
+.arrow{
+font-size:18px;
+}
+
+/* DATA CONTAINER */
+
+.data-box{
+margin-top:15px;
 background:white;
 border-radius:18px;
 padding:15px;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
+min-height:80px;
 }
 
 /* TABLE */
@@ -194,16 +151,13 @@ background:#121212;
 color:white;
 }
 
-.dark-mode .card{
-background:#1f1f1f;
-}
-
-.dark-mode .result-card{
-background:#1f1f1f;
-}
-
-.dark-mode table{
+.dark-mode .list-btn{
+background:#333;
 color:white;
+}
+
+.dark-mode .data-box{
+background:#1f1f1f;
 }
 
 </style>
@@ -214,17 +168,7 @@ color:white;
 <!-- HEADER -->
 
 <div class="top">
-
-<div class="user-box">
-<div>
-<div>Other Income</div>
-<strong id="user"></strong>
-</div>
-<img src="https://i.imgur.com/6VBx3io.png" class="profile">
-</div>
-
-<span class="logout" onclick="logout()">🔓</span>
-
+Other Income
 </div>
 
 <!-- LOADER -->
@@ -237,47 +181,36 @@ color:white;
 
 <div class="content">
 
-<div class="grid">
-
-<div class="card" onclick="loadIncome('Supplementary Salary')">
-<div class="circle">💰</div>
-<p>Supplementary Salary</p>
+<div class="list-btn" onclick="loadIncome('Supplementary Salary')">
+Supplementary Salary <span class="arrow">›</span>
 </div>
 
-<div class="card" onclick="loadIncome('DA Arrears')">
-<div class="circle">📈</div>
-<p>DA Arrears</p>
+<div class="list-btn" onclick="loadIncome('DA Arrears')">
+DA Arrears <span class="arrow">›</span>
 </div>
 
-<div class="card" onclick="loadIncome('Double Wages')">
-<div class="circle">💵</div>
-<p>Double Wages</p>
+<div class="list-btn" onclick="loadIncome('Double Wages')">
+Double Wages <span class="arrow">›</span>
 </div>
 
-<div class="card" onclick="loadIncome('Medical Bills')">
-<div class="circle">🏥</div>
-<p>Medical Bills</p>
+<div class="list-btn" onclick="loadIncome('Medical Bills')">
+Medical Bills <span class="arrow">›</span>
 </div>
 
-<div class="card" onclick="loadIncome('TA Bills')">
-<div class="circle">🚗</div>
-<p>TA Bills</p>
+<div class="list-btn" onclick="loadIncome('TA Bills')">
+TA Bills <span class="arrow">›</span>
 </div>
 
-<div class="card" onclick="loadIncome('ELS Bills')">
-<div class="circle">📄</div>
-<p>ELS Bills</p>
+<div class="list-btn" onclick="loadIncome('ELS Bills')">
+ELS Bills <span class="arrow">›</span>
 </div>
 
-<div class="card" onclick="loadIncome('Others')">
-<div class="circle">📦</div>
-<p>Others</p>
+<div class="list-btn" onclick="loadIncome('Others')">
+Others <span class="arrow">›</span>
 </div>
 
-</div>
-
-<div class="result-card">
-<div id="result"></div>
+<div class="data-box">
+<div id="result">Select income type to view details</div>
 </div>
 
 </div>
@@ -321,8 +254,6 @@ if(!user){
 window.location.replace("login.html");
 }
 
-document.getElementById("user").innerText = user;
-
 function logout(){
 localStorage.removeItem("currentUser");
 localStorage.removeItem("role");
@@ -352,7 +283,6 @@ let response = await fetch(
 );
 
 let text = await response.text();
-
 let rows = text.trim().split("\n");
 
 let output = `
@@ -395,7 +325,7 @@ found=true;
 output+="</table>";
 
 if(!found){
-output="<div>No data found</div>";
+output="No data found";
 }
 
 document.getElementById("result").innerHTML=output;
@@ -409,8 +339,6 @@ document.getElementById("result").innerHTML="Error loading data";
 document.getElementById("loader").style.display="none";
 
 }
-
-/* DARK MODE */
 
 if(localStorage.getItem("darkMode")==="true"){
 document.body.classList.add("dark-mode");
