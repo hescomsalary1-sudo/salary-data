@@ -709,9 +709,13 @@ if(localStorage.getItem("darkMode")==="true"){
 document.body.classList.add("dark-mode");
 }
 
-  async function sharePDF(){
+async function sharePDF(){
 
-let element = document.getElementById("result");
+let s = window.salaryData;
+
+let element = document.createElement("div");
+
+element.innerHTML = document.getElementById("result").innerHTML;
 
 let opt = {
 margin:0.5,
@@ -721,24 +725,18 @@ html2canvas:{scale:2},
 jsPDF:{unit:'in',format:'a4',orientation:'portrait'}
 };
 
-let pdf = await html2pdf().set(opt).from(element).outputPdf('blob');
+html2pdf().set(opt).from(element).outputPdf('blob').then(function(pdf){
 
-let file = new File([pdf], "Salary.pdf", {type:"application/pdf"});
+let blob = new Blob([pdf], {type:'application/pdf'});
 
-if(navigator.share){
+let url = URL.createObjectURL(blob);
 
-navigator.share({
-title:"Salary Slip",
-text:"My Salary Slip",
-files:[file]
+let a = document.createElement("a");
+a.href = url;
+a.download = "Salary.pdf";
+a.click();
+
 });
-
-}else{
-
-alert("Sharing not supported on this device");
-
-}
-
 }
 
 </script>
