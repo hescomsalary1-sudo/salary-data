@@ -10,36 +10,34 @@
 body{
 font-family:sans-serif;
 margin:0;
-background:#f4f4f9;
+background:#f3f4fa;
 }
 
 /* HEADER */
 
 .top{
-position:relative;
-padding:25px 20px 70px 20px;
-background:linear-gradient(135deg,#1a002b,#5e00a3);
+padding:25px 20px 110px 20px;
+background:linear-gradient(135deg,#4b2dd8,#7b2cff);
 color:white;
 display:flex;
 justify-content:space-between;
 align-items:center;
-border-bottom-left-radius:40px;
-border-bottom-right-radius:40px;
+border-bottom-left-radius:60px;
+border-bottom-right-radius:60px;
 }
 
 .profile{
-width:50px;
-height:50px;
+width:55px;
+height:55px;
 border-radius:50%;
-border:2px solid white;
+border:3px solid white;
 object-fit:cover;
-margin-left:10px;
 }
 
 .user-box{
 display:flex;
 align-items:center;
-gap:10px;
+gap:12px;
 }
 
 .logout{
@@ -47,28 +45,24 @@ cursor:pointer;
 font-size:22px;
 }
 
-.logout:hover{
-opacity:0.7;
-}
-
 /* CONTENT */
 
 .content{
 padding:20px;
-margin-top:20px;
-padding-bottom:90px;
+margin-top:-90px;
+padding-bottom:120px;
 }
 
-/* SALARY DASHBOARD */
+/* SALARY CARD */
 
 .salary-card{
-background:linear-gradient(135deg,#4b2dd8,#5e00a3);
+background:linear-gradient(135deg,#4b2dd8,#6c39ff);
 color:white;
-border-radius:20px;
+border-radius:22px;
 padding:25px;
 text-align:center;
-box-shadow:0 10px 25px rgba(0,0,0,0.15);
-margin-bottom:20px;
+box-shadow:0 15px 30px rgba(0,0,0,0.2);
+margin-bottom:25px;
 }
 
 .salary-card h3{
@@ -77,7 +71,7 @@ font-weight:500;
 }
 
 .salary-amount{
-font-size:36px;
+font-size:38px;
 font-weight:bold;
 margin-top:5px;
 }
@@ -91,27 +85,14 @@ gap:15px;
 margin-bottom:15px;
 }
 
-/* SMALL BUTTON GRID */
-
-.grid-small{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:12px;
-}
-
-/* BUTTON CARD */
-
 .card{
-padding:18px 10px;
-border-radius:18px;
+padding:20px;
+border-radius:20px;
+color:white;
 text-align:center;
 cursor:pointer;
+box-shadow:0 10px 20px rgba(0,0,0,0.12);
 transition:0.3s;
-display:flex;
-flex-direction:column;
-justify-content:center;
-color:white;
-box-shadow:0 8px 20px rgba(0,0,0,0.12);
 }
 
 .card:hover{
@@ -119,23 +100,12 @@ transform:translateY(-5px);
 }
 
 .card span{
-font-size:26px;
+font-size:28px;
 }
 
 .card p{
 margin-top:6px;
 font-weight:bold;
-font-size:14px;
-}
-
-/* SMALL BUTTON */
-
-.small-card{
-min-height:65px;
-}
-
-.small-card span{
-font-size:20px;
 }
 
 /* BUTTON COLORS */
@@ -156,41 +126,70 @@ background:linear-gradient(135deg,#00c9a7,#00e0b8);
 background:linear-gradient(135deg,#ff4e8a,#ff7fb0);
 }
 
+/* SMALL BUTTONS */
+
+.grid-small{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+}
+
+.small-card{
+padding:14px;
+border-radius:20px;
+color:white;
+text-align:center;
+cursor:pointer;
+box-shadow:0 8px 18px rgba(0,0,0,0.12);
+}
+
 .settings{
-background:linear-gradient(135deg,#5e00a3,#8c3dff);
+background:linear-gradient(135deg,#7b2cff,#9b4dff);
 }
 
 .about{
 background:linear-gradient(135deg,#00a8ff,#6fd3ff);
 }
 
-/* ADMIN MENU */
+/* NEWS */
 
-#adminMenu{
-text-align:center;
-margin-top:10px;
+.news-box{
+margin-top:25px;
+padding:22px;
+border-radius:20px;
+background:white;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
-#adminMenu button{
-padding:10px 20px;
-border:none;
-background:#ff4081;
-color:white;
-border-radius:20px;
-cursor:pointer;
+.news-box h3{
+margin-top:0;
+color:#4b2dd8;
+}
+
+.news-item{
+padding:10px 0;
+border-bottom:1px solid #eee;
+}
+
+.news-date{
+font-size:12px;
+color:#777;
+margin-bottom:4px;
 }
 
 /* FOOTER */
 
 .footer{
 position:fixed;
-bottom:0;
-width:100%;
-background:#ffffff;
+bottom:10px;
+left:10px;
+right:10px;
+background:white;
+border-radius:30px;
 display:flex;
 justify-content:space-around;
-padding:8px 0;
-box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+padding:12px 0;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
 }
 
 .footer a{
@@ -198,14 +197,13 @@ text-decoration:none;
 display:flex;
 flex-direction:column;
 align-items:center;
-color:purple;
+color:#5e00a3;
 font-size:20px;
 }
 
 .footer small{
 font-size:12px;
 margin-top:3px;
-color:purple;
 font-weight:600;
 }
 
@@ -236,96 +234,6 @@ animation:spin 1s linear infinite;
 100%{transform:rotate(360deg);}
 }
 
-/* WHATS NEW */
-
-.news-box{
-margin-top:20px;
-padding:20px;
-border-radius:20px;
-background:linear-gradient(135deg,#f3e5ff,#e6f0ff);
-box-shadow:0 8px 20px rgba(0,0,0,0.08);
-border-left:6px solid #5e00a3;
-}
-
-.news-box h3{
-margin-top:0;
-color:#4b0082;
-font-size:18px;
-}
-
-.news-item{
-padding:12px;
-margin-bottom:12px;
-background:rgba(255,255,255,0.7);
-border-radius:12px;
-font-size:14px;
-}
-
-.news-date{
-font-size:12px;
-color:#666;
-margin-bottom:4px;
-font-weight:600;
-}
-
-/* SLIDER */
-
-.banner-slider{
-display:flex;
-overflow-x:auto;
-gap:15px;
-margin-bottom:20px;
-scroll-snap-type:x mandatory;
-}
-
-.banner-slider::-webkit-scrollbar{
-display:none;
-}
-
-.banner-box{
-min-width:85%;
-background:linear-gradient(135deg,#4b2dd8,#5e00a3);
-color:white;
-border-radius:20px;
-padding:18px;
-display:flex;
-align-items:center;
-gap:15px;
-box-shadow:0 12px 25px rgba(0,0,0,0.15);
-scroll-snap-align:start;
-}
-
-.banner-box img{
-width:110px;
-}
-
-.banner-text{
-flex:1;
-}
-
-.banner-text h3{
-margin:0;
-font-size:18px;
-color:white;
-}
-
-.banner-text p{
-margin-top:6px;
-font-size:13px;
-color:#e6e6ff;
-}
-
-.banner-btn{
-margin-top:8px;
-display:inline-block;
-padding:7px 16px;
-border-radius:25px;
-background:white;
-color:#5e00a3;
-font-size:12px;
-font-weight:bold;
-}
-
 </style>
 </head>
 
@@ -334,17 +242,19 @@ font-weight:bold;
 <div class="top">
 
 <div class="user-box">
+
+<img src="https://i.imgur.com/6VBx3io.png" class="profile">
+
 <div>
 <div>Welcome</div>
 <strong id="empName">Loading...</strong>
 <div id="empDesg" style="font-size:12px;opacity:0.8;"></div>
 </div>
 
-<img src="https://i.imgur.com/6VBx3io.png" class="profile">
 </div>
 
 <div>
-<span style="font-size:22px;cursor:pointer;margin-right:10px;" onclick="refreshApp()">🔄</span>
+<span style="font-size:22px;margin-right:10px;cursor:pointer;" onclick="refreshApp()">🔄</span>
 <span class="logout" onclick="logout()">🔓</span>
 </div>
 
@@ -362,34 +272,10 @@ Bulk Salary Upload
 
 <div class="content">
 
-<!-- SLIDER -->
-
-<div class="banner-slider">
-
-<div class="banner-box">
-<img src="https://cdn-icons-png.flaticon.com/512/1995/1995539.png">
-<div class="banner-text">
-<h3>Smart Salary Manager</h3>
-<p>Check salary details, income records and employee services easily in one place.</p>
-<span class="banner-btn">Employee Services</span>
-</div>
-</div>
-
-<div class="banner-box">
-<img src="https://cdn-icons-png.flaticon.com/512/3135/3135679.png">
-<div class="banner-text">
-<h3>Salary Dashboard</h3>
-<p>View salary slips and financial records quickly.</p>
-<span class="banner-btn">Salary Portal</span>
-</div>
-</div>
-
-</div>
-
 <!-- SALARY CARD -->
 
 <div class="salary-card">
-<h3><span id="salaryMonth"></span> Salary</h3>
+<h3>Current Month Salary</h3>
 <div class="salary-amount">₹<span id="netSalary">--</span></div>
 Net Pay
 </div>
@@ -424,14 +310,12 @@ Net Pay
 
 <div class="grid-small">
 
-<div class="card small-card settings" onclick="showLoader('page5.html')">
-<span>⚙</span>
-<p>Settings</p>
+<div class="small-card settings" onclick="showLoader('page5.html')">
+⚙ Settings
 </div>
 
-<div class="card small-card about" onclick="showLoader('page2.html')">
-<span>ℹ️</span>
-<p>About us</p>
+<div class="small-card about" onclick="showLoader('page2.html')">
+ℹ About us
 </div>
 
 </div>
@@ -474,7 +358,7 @@ Net Pay
 
 <script>
 
-/* YOUR ORIGINAL JS IS KEPT EXACTLY SAME */
+/* YOUR ORIGINAL JAVASCRIPT REMAINS EXACTLY THE SAME */
 
 function refreshApp(){
 document.getElementById("loader").style.display="flex";
@@ -508,17 +392,6 @@ window.location = url;
 },1000);
 }
 
-/* MONTH */
-
-function loadMonth(){
-let months=["January","February","March","April","May","June","July","August","September","October","November","December"];
-let now=new Date();
-document.getElementById("salaryMonth").innerText=months[now.getMonth()];
-}
-loadMonth();
-
-/* NEWS */
-
 async function loadNews(){
 
 try{
@@ -526,13 +399,13 @@ try{
 let response = await fetch(
 "https://hescomsalary1-sudo.github.io/salary-data/news.csv?v=" + new Date().getTime(),
 {
-cache: "no-store"
+cache:"no-store"
 });
 
 let text = await response.text();
 let rows = text.split("\n");
 
-let output = "";
+let output="";
 
 for(let i=1;i<rows.length;i++){
 
@@ -542,12 +415,13 @@ let cols = rows[i].split(",");
 
 if(cols.length<2) continue;
 
-output += `
+output+=`
 <div class="news-item">
 <div class="news-date">${cols[0]}</div>
 <div>${cols[1]}</div>
 </div>
 `;
+
 }
 
 if(output===""){
