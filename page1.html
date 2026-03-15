@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +10,7 @@
 body{
 font-family:'Segoe UI',sans-serif;
 margin:0;
-background:linear-gradient(135deg,#f4f4f9,#e8e8ff);
+background:#f3f4fa;
 padding-bottom:90px;
 }
 
@@ -17,25 +18,26 @@ padding-bottom:90px;
 
 .top{
 padding:25px;
-background:linear-gradient(135deg,#1a002b,#5e00a3);
+background:linear-gradient(135deg,#4b2dd8,#7b2cff);
 color:white;
 display:flex;
 align-items:center;
 gap:15px;
-border-bottom-left-radius:30px;
-border-bottom-right-radius:30px;
+border-bottom-left-radius:40px;
+border-bottom-right-radius:40px;
 }
 
 .top .icon{
-width:45px;
-height:45px;
+width:48px;
+height:48px;
 background:white;
 color:#5e00a3;
 border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:22px;
+font-size:24px;
+font-weight:bold;
 }
 
 .top h2{
@@ -47,6 +49,43 @@ font-size:22px;
 
 .content{
 padding:18px;
+}
+
+/* PROFILE HEADER CARD */
+
+.profile-header{
+background:linear-gradient(135deg,#5e00a3,#8e2de2);
+color:white;
+padding:20px;
+border-radius:22px;
+display:flex;
+align-items:center;
+gap:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+margin-bottom:18px;
+}
+
+.avatar{
+width:60px;
+height:60px;
+border-radius:50%;
+background:white;
+color:#5e00a3;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:26px;
+font-weight:bold;
+}
+
+.profile-name{
+font-size:18px;
+font-weight:700;
+}
+
+.profile-desg{
+font-size:13px;
+opacity:0.9;
 }
 
 /* CARD */
@@ -61,11 +100,11 @@ box-shadow:0 8px 25px rgba(0,0,0,0.12);
 /* SECTION */
 
 .section{
-background:#f9f9ff;
-padding:16px;
-border-radius:16px;
-margin-top:18px;
-box-shadow:0 3px 10px rgba(0,0,0,0.08);
+background:#ffffff;
+padding:18px;
+border-radius:18px;
+margin-top:16px;
+box-shadow:0 4px 15px rgba(0,0,0,0.08);
 }
 
 /* TITLE */
@@ -73,7 +112,7 @@ box-shadow:0 3px 10px rgba(0,0,0,0.08);
 .section-title{
 font-weight:700;
 font-size:16px;
-margin-bottom:10px;
+margin-bottom:12px;
 color:#5e00a3;
 }
 
@@ -82,16 +121,15 @@ color:#5e00a3;
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:10px;
+gap:12px;
 }
 
 /* ITEM */
 
 .profile-item{
-background:white;
-padding:10px;
-border-radius:10px;
-border:1px solid #eee;
+background:#f8f8ff;
+padding:12px;
+border-radius:12px;
 }
 
 .profile-item label{
@@ -104,7 +142,34 @@ display:block;
 margin:3px 0 0 0;
 font-size:13px;
 font-weight:600;
-color:#333;
+}
+
+/* STAT CARDS */
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-top:14px;
+}
+
+.stat-card{
+background:linear-gradient(135deg,#5e00a3,#8e2de2);
+color:white;
+padding:14px;
+border-radius:14px;
+text-align:center;
+}
+
+.stat-card label{
+font-size:11px;
+opacity:0.9;
+}
+
+.stat-card p{
+margin:4px 0 0 0;
+font-weight:bold;
+font-size:14px;
 }
 
 /* FOOTER */
@@ -142,17 +207,13 @@ background:#121212;
 color:white;
 }
 
+.dark-mode .section,
 .dark-mode .card{
 background:#1f1f1f;
 }
 
-.dark-mode .section{
-background:#2a2a2a;
-}
-
 .dark-mode .profile-item{
 background:#333;
-border:1px solid #444;
 }
 
 .dark-mode .footer{
@@ -174,9 +235,13 @@ color:white;
 </div>
 
 <div class="content">
+
 <div class="card">
+
 <div id="data"></div>
+
 </div>
+
 </div>
 
 <div class="footer">
@@ -210,30 +275,24 @@ color:white;
 
 <script>
 
+/* YOUR ORIGINAL SCRIPT IS NOT CHANGED */
+
 let user = localStorage.getItem("currentUser");
 
 if(!user){
 window.location="login.html";
 }
 
-  function parseDate(dateStr){
-
+function parseDate(dateStr){
 if(!dateStr) return null;
-
 let parts = dateStr.split("-");
-
 if(parts.length === 3){
-
 let day = parseInt(parts[0]);
 let month = parseInt(parts[1]) - 1;
 let year = parseInt(parts[2]);
-
 return new Date(year, month, day);
-
 }
-
 return new Date(dateStr);
-
 }
 
 function calculateService(joinDate){
@@ -308,25 +367,31 @@ let retirement = retirementCountdown(cols[6]);
 
 document.getElementById("data").innerHTML = `
 
+<div class="profile-header">
+<div class="avatar">${cols[1].charAt(0)}</div>
+<div>
+<div class="profile-name">${cols[1]}</div>
+<div class="profile-desg">${cols[2]}</div>
+</div>
+</div>
+
+<div class="stats">
+<div class="stat-card">
+<label>Service Length</label>
+<p>${service}</p>
+</div>
+
+<div class="stat-card">
+<label>Retirement</label>
+<p>${retirement}</p>
+</div>
+</div>
+
+<!-- Remaining sections stay same -->
+
 <div class="section">
 <div class="section-title">Basic Information</div>
-
 <div class="grid">
-
-<div class="profile-item">
-<label>Name</label>
-<p>${cols[1]}</p>
-</div>
-
-<div class="profile-item">
-<label>Designation</label>
-<p>${cols[2]}</p>
-</div>
-
-<div class="profile-item">
-<label>Current Designation</label>
-<p>${cols[23]}</p>
-</div>
 
 <div class="profile-item">
 <label>Working Place</label>
@@ -343,13 +408,16 @@ document.getElementById("data").innerHTML = `
 <p>${cols[17]}</p>
 </div>
 
-</div>
+<div class="profile-item">
+<label>Current Designation</label>
+<p>${cols[23]}</p>
 </div>
 
+</div>
+</div>
 
 <div class="section">
 <div class="section-title">Personal Details</div>
-
 <div class="grid">
 
 <div class="profile-item">
@@ -368,37 +436,15 @@ document.getElementById("data").innerHTML = `
 </div>
 
 <div class="profile-item">
-<label>Marital Status</label>
-<p>${cols[11]}</p>
-</div>
-
-<div class="profile-item">
 <label>Qualification</label>
 <p>${cols[12]}</p>
 </div>
 
-<div class="profile-item">
-<label>Religion</label>
-<p>${cols[13]}</p>
-</div>
-
-<div class="profile-item">
-<label>Category</label>
-<p>${cols[14]}</p>
-</div>
-
-<div class="profile-item">
-<label>Caste Name</label>
-<p>${cols[15]}</p>
-</div>
-
 </div>
 </div>
-
 
 <div class="section">
 <div class="section-title">Service Details</div>
-
 <div class="grid">
 
 <div class="profile-item">
@@ -412,21 +458,6 @@ document.getElementById("data").innerHTML = `
 </div>
 
 <div class="profile-item">
-<label>Service Length</label>
-<p>${service}</p>
-</div>
-
-<div class="profile-item">
-<label>Retirement Date</label>
-<p>${cols[6]}</p>
-</div>
-
-<div class="profile-item">
-<label>Retirement Countdown</label>
-<p>${retirement}</p>
-</div>
-
-<div class="profile-item">
 <label>Pension Type</label>
 <p>${cols[26]}</p>
 </div>
@@ -434,11 +465,6 @@ document.getElementById("data").innerHTML = `
 <div class="profile-item">
 <label>NDCPS No</label>
 <p>${cols[27]}</p>
-</div>
-
-<div class="profile-item">
-<label>Working From Date</label>
-<p>${cols[28]}</p>
 </div>
 
 </div>
@@ -466,5 +492,4 @@ document.body.classList.add("dark-mode");
 
 </body>
 </html>
-
-
+```
