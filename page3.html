@@ -33,13 +33,13 @@ text-align:center;
 padding:20px;
 }
 
-/* LIST BUTTONS */
+/* LIST BUTTON */
 
 .list-btn{
 background:white;
 padding:15px;
 border-radius:12px;
-margin-bottom:12px;
+margin-top:12px;
 font-weight:600;
 color:#4b2dd8;
 box-shadow:0 4px 12px rgba(0,0,0,0.08);
@@ -58,15 +58,15 @@ background:#ece8ff;
 font-size:18px;
 }
 
-/* DATA CONTAINER */
+/* RESULT BOX */
 
-.data-box{
-margin-top:15px;
+.result-box{
+display:none;
 background:white;
-border-radius:18px;
-padding:15px;
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
-min-height:80px;
+margin-top:8px;
+border-radius:12px;
+padding:12px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
 /* TABLE */
@@ -156,7 +156,7 @@ background:#333;
 color:white;
 }
 
-.dark-mode .data-box{
+.dark-mode .result-box{
 background:#1f1f1f;
 }
 
@@ -165,57 +165,73 @@ background:#1f1f1f;
 
 <body>
 
-<!-- HEADER -->
-
 <div class="top">
 Other Income
 </div>
-
-<!-- LOADER -->
 
 <div id="loader">
 <div class="spinner"></div>
 </div>
 
-<!-- CONTENT -->
-
 <div class="content">
 
-<div class="list-btn" onclick="loadIncome('Supplementary Salary')">
+<!-- Supplementary -->
+
+<div class="list-btn" onclick="loadIncome('Supplementary Salary','result1')">
 Supplementary Salary <span class="arrow">›</span>
 </div>
 
-<div class="list-btn" onclick="loadIncome('DA Arrears')">
+<div id="result1" class="result-box"></div>
+
+<!-- DA Arrears -->
+
+<div class="list-btn" onclick="loadIncome('DA Arrears','result2')">
 DA Arrears <span class="arrow">›</span>
 </div>
 
-<div class="list-btn" onclick="loadIncome('Double Wages')">
+<div id="result2" class="result-box"></div>
+
+<!-- Double Wages -->
+
+<div class="list-btn" onclick="loadIncome('Double Wages','result3')">
 Double Wages <span class="arrow">›</span>
 </div>
 
-<div class="list-btn" onclick="loadIncome('Medical Bills')">
+<div id="result3" class="result-box"></div>
+
+<!-- Medical -->
+
+<div class="list-btn" onclick="loadIncome('Medical Bills','result4')">
 Medical Bills <span class="arrow">›</span>
 </div>
 
-<div class="list-btn" onclick="loadIncome('TA Bills')">
+<div id="result4" class="result-box"></div>
+
+<!-- TA -->
+
+<div class="list-btn" onclick="loadIncome('TA Bills','result5')">
 TA Bills <span class="arrow">›</span>
 </div>
 
-<div class="list-btn" onclick="loadIncome('ELS Bills')">
+<div id="result5" class="result-box"></div>
+
+<!-- ELS -->
+
+<div class="list-btn" onclick="loadIncome('ELS Bills','result6')">
 ELS Bills <span class="arrow">›</span>
 </div>
 
-<div class="list-btn" onclick="loadIncome('Others')">
+<div id="result6" class="result-box"></div>
+
+<!-- Others -->
+
+<div class="list-btn" onclick="loadIncome('Others','result7')">
 Others <span class="arrow">›</span>
 </div>
 
-<div class="data-box">
-<div id="result">Select income type to view details</div>
-</div>
+<div id="result7" class="result-box"></div>
 
 </div>
-
-<!-- FOOTER -->
 
 <div class="footer">
 
@@ -254,17 +270,13 @@ if(!user){
 window.location.replace("login.html");
 }
 
-function logout(){
-localStorage.removeItem("currentUser");
-localStorage.removeItem("role");
-window.location.replace("login.html");
-}
-
-async function loadIncome(type){
+async function loadIncome(type,boxId){
 
 document.getElementById("loader").style.display="flex";
 
-let fileMap = {
+let box=document.getElementById(boxId);
+
+let fileMap={
 "Supplementary Salary":"supplementary.csv",
 "DA Arrears":"da_arrears.csv",
 "Double Wages":"double_wages.csv",
@@ -274,18 +286,19 @@ let fileMap = {
 "Others":"others.csv"
 };
 
-let fileName = fileMap[type];
+let fileName=fileMap[type];
 
 try{
 
-let response = await fetch(
-"https://hescomsalary1-sudo.github.io/salary-data/" + fileName
+let response=await fetch(
+"https://hescomsalary1-sudo.github.io/salary-data/"+fileName
 );
 
-let text = await response.text();
-let rows = text.trim().split("\n");
+let text=await response.text();
 
-let output = `
+let rows=text.trim().split("\n");
+
+let output=`
 <table>
 <tr>
 <th>Amount</th>
@@ -328,11 +341,13 @@ if(!found){
 output="No data found";
 }
 
-document.getElementById("result").innerHTML=output;
+box.innerHTML=output;
+box.style.display="block";
 
 }catch(error){
 
-document.getElementById("result").innerHTML="Error loading data";
+box.innerHTML="Error loading data";
+box.style.display="block";
 
 }
 
