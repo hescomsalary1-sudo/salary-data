@@ -44,47 +44,61 @@ margin:0;
 font-size:20px;
 }
 
-/* GRID */
-
 .menuGrid{
-display:grid;
-grid-template-columns:1fr 1fr;
+display:flex;
+flex-direction:column;
 gap:16px;
 padding:20px;
 }
 
-/* CARD */
-
 .menuCard{
+display:flex;
+align-items:center;
+gap:16px;
 background:white;
-padding:20px;
+padding:18px;
 border-radius:18px;
-text-align:center;
-font-size:14px;
-font-weight:600;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
 cursor:pointer;
 transition:0.25s;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
 }
 
 .menuCard:hover{
-transform:translateY(-4px);
+transform:translateY(-3px);
 box-shadow:0 10px 20px rgba(0,0,0,0.12);
 }
 
 .menuCard:active{
-transform:scale(0.96);
+transform:scale(0.97);
 }
 
-/* ICON */
-
 .menuIcon{
-font-size:32px;
-margin-bottom:10px;
+font-size:26px;
+width:48px;
+height:48px;
+background:linear-gradient(135deg,#6c39ff,#4b2dd8);
+color:white;
+border-radius:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-shrink:0;
+}
+
+.menuText{
+display:flex;
+flex-direction:column;
+}
+
+.menuTitle{
+font-size:15px;
+font-weight:700;
+color:#333;
+}
+
+.menuSub{
+font-size:12px;
+color:#888;
 }
 
 /* LOADER */
@@ -198,32 +212,50 @@ font-weight:600;
 
 <div class="menuCard" onclick="adminCheck('reports.html')">
 <div class="menuIcon">📊</div>
-Post Status Report
+<div class="menuText">
+<div class="menuTitle">Post Status Report</div>
+<div class="menuSub">View post status details</div>
+</div>
 </div>
 
 <div class="menuCard" onclick="openPage('salary_report.html')">
 <div class="menuIcon">💰</div>
-Salary Report
+<div class="menuText">
+<div class="menuTitle">Salary Report</div>
+<div class="menuSub">Monthly salary records</div>
+</div>
 </div>
 
 <div class="menuCard" onclick="adminCheck('sc_st_reports.html')">
 <div class="menuIcon">📋</div>
-SC/ST Report
+<div class="menuText">
+<div class="menuTitle">SC/ST Report</div>
+<div class="menuSub">Category report details</div>
+</div>
 </div>
 
 <div class="menuCard" onclick="openPage('holiday_report.html')">
 <div class="menuIcon">🏖</div>
-Holiday Report
+<div class="menuText">
+<div class="menuTitle">Holiday Report</div>
+<div class="menuSub">Official holidays list</div>
+</div>
 </div>
 
 <div class="menuCard" onclick="adminCheck('retirement_reports.html')">
 <div class="menuIcon">👴</div>
-Retirement Report
+<div class="menuText">
+<div class="menuTitle">Retirement Report</div>
+<div class="menuSub">Upcoming retirements</div>
+</div>
 </div>
 
 <div class="menuCard" onclick="openPage('other_reports.html')">
 <div class="menuIcon">📁</div>
-Other Reports
+<div class="menuText">
+<div class="menuTitle">Other Reports</div>
+<div class="menuSub">Additional reports</div>
+</div>
 </div>
 
 </div>
