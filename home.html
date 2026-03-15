@@ -58,42 +58,62 @@ body{
   padding-bottom:90px;
 }
 
-/* GRID */
+/* MAIN GRID (4 BUTTONS) */
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:15px;
+.grid-main{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+margin-bottom:15px;
+}
+
+/* SMALL GRID (2 BUTTONS) */
+
+.grid-small{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
 }
 
 /* CARD */
 
 .card{
-  padding:18px 10px;
-  border-radius:18px;
-  text-align:center;
-  cursor:pointer;
-  transition:0.3s;
-  min-height:95px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  color:white;
-  box-shadow:0 8px 20px rgba(0,0,0,0.12);
+padding:18px 10px;
+border-radius:18px;
+text-align:center;
+cursor:pointer;
+transition:0.3s;
+min-height:95px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+color:white;
+box-shadow:0 8px 20px rgba(0,0,0,0.12);
 }
 
 .card:hover{
-  transform:translateY(-5px);
+transform:translateY(-5px);
 }
 
 .card span{
-  font-size:26px;
+font-size:26px;
 }
 
 .card p{
-  margin-top:6px;
-  font-weight:bold;
-  font-size:14px;
+margin-top:6px;
+font-weight:bold;
+font-size:14px;
+}
+
+/* SMALL BUTTONS */
+
+.small-card{
+min-height:65px;
+font-size:13px;
+}
+
+.small-card span{
+font-size:20px;
 }
 
 /* COLORFUL BUTTONS */
@@ -361,8 +381,8 @@ Bulk Salary Upload
 </div>
 
 </div>
-
-<div class="grid">
+<!-- MAIN BUTTONS -->
+<div class="grid-main">
 
 <div class="card accounts" onclick="showLoader('accounts.html')">
 <span>👤</span>
@@ -387,12 +407,18 @@ Bulk Salary Upload
 <p>Forms and formats</p>
 </div>
 
-<div class="card settings" onclick="showLoader('page5.html')">
+</div>
+
+
+<!-- SMALL BUTTONS -->
+<div class="grid-small">
+
+<div class="card small-card settings" onclick="showLoader('page5.html')">
 <span>⚙</span>
 <p>Settings</p>
 </div>
 
-<div class="card about" onclick="showLoader('page2.html')">
+<div class="card small-card about" onclick="showLoader('page2.html')">
 <span>ℹ️</span>
 <p>About us</p>
 </div>
