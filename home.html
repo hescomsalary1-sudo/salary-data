@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
 body{
   font-family:sans-serif;
   margin:0;
@@ -13,6 +13,7 @@ body{
 }
 
 /* HEADER */
+
 .top{
   position:relative;
   padding:25px 20px 60px 20px;
@@ -49,12 +50,15 @@ body{
   opacity:0.7;
 }
 
-/* GRID BUTTONS */
+/* CONTENT */
+
 .content{
   padding:20px;
   margin-top:20px;
   padding-bottom:90px;
 }
+
+/* GRID */
 
 .grid{
   display:grid;
@@ -62,18 +66,20 @@ body{
   gap:15px;
 }
 
+/* CARD */
+
 .card{
-  background:white;
-  padding:15px 10px;
+  padding:18px 10px;
   border-radius:18px;
   text-align:center;
-  box-shadow:0 4px 10px rgba(0,0,0,0.08);
   cursor:pointer;
   transition:0.3s;
-  min-height:90px;
+  min-height:95px;
   display:flex;
   flex-direction:column;
   justify-content:center;
+  color:white;
+  box-shadow:0 8px 20px rgba(0,0,0,0.12);
 }
 
 .card:hover{
@@ -81,18 +87,49 @@ body{
 }
 
 .card span{
-  font-size:24px;
-  display:block;
+  font-size:26px;
 }
 
 .card p{
   margin-top:6px;
-  color:#5e00a3;
   font-weight:bold;
   font-size:14px;
 }
 
+/* COLORFUL BUTTONS */
+
+.accounts{
+background:linear-gradient(135deg,#6a5cff,#8f7bff);
+}
+
+.salary{
+background:linear-gradient(135deg,#ff7a18,#ffb347);
+}
+
+.income{
+background:linear-gradient(135deg,#00c9a7,#00e0b8);
+}
+
+.forms{
+background:linear-gradient(135deg,#ff4e8a,#ff7fb0);
+}
+
+.settings{
+background:linear-gradient(135deg,#5e00a3,#8c3dff);
+}
+
+.about{
+background:linear-gradient(135deg,#00a8ff,#6fd3ff);
+}
+
+.salary-info{
+font-size:11px;
+margin-top:4px;
+opacity:0.9;
+}
+
 /* ADMIN MENU */
+
 #adminMenu{
   text-align:center;
   margin-top:10px;
@@ -107,7 +144,8 @@ body{
   cursor:pointer;
 }
 
-/* MODAL BACKGROUND */
+/* MODAL */
+
 .modal{
   display:none;
   position:fixed;
@@ -121,49 +159,35 @@ body{
   z-index:999;
 }
 
-/* MODAL BOX */
-.modal-content{
+/* LOADER */
+
+#loader{
+  position:fixed;
+  width:100%;
+  height:100%;
   background:white;
-  width:80%;
-  max-width:320px;
-  padding:20px;
-  border-radius:15px;
-  text-align:center;
-  animation:popup 0.3s ease;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
 }
 
-@keyframes popup{
-  from{transform:scale(0.8); opacity:0;}
-  to{transform:scale(1); opacity:1;}
+.spinner{
+  width:35px;
+  height:35px;
+  border:6px solid #ddd;
+  border-top:6px solid #5e00a3;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
 }
 
-.modal-content h3{
-  margin-top:0;
-  color:#5e00a3;
-}
-
-.modal-buttons{
-  display:flex;
-  justify-content:space-between;
-  margin-top:20px;
-}
-
-.cancel-btn{
-  padding:8px 15px;
-  border:none;
-  background:#ccc;
-  border-radius:6px;
-}
-
-.logout-btn{
-  padding:8px 15px;
-  border:none;
-  background:#5e00a3;
-  color:white;
-  border-radius:6px;
+@keyframes spin{
+  0%{transform:rotate(0deg);}
+  100%{transform:rotate(360deg);}
 }
 
 /* FOOTER */
+
 .footer{
   position:fixed;
   bottom:0;
@@ -191,33 +215,8 @@ body{
   font-weight:600;
 }
 
-/* LOADER */
-#loader{
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:white;
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-}
+/* NEWS */
 
-.spinner{
-  width:35px;
-  height:35px;
-  border:6px solid #ddd;
-  border-top:6px solid #5e00a3;
-  border-radius:50%;
-  animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-  0%{transform:rotate(0deg);}
-  100%{transform:rotate(360deg);}
-}
-
-/* WHATS NEW BOX */
 .news-box{
   margin-top:20px;
   padding:20px;
@@ -246,32 +245,6 @@ body{
   color:#666;
   margin-bottom:4px;
   font-weight:600;
-}
-
-/* DARK MODE */
-.dark-mode{
-  background:#121212;
-  color:white;
-}
-
-.dark-mode .card{
-  background:#1f1f1f;
-  color:white;
-}
-
-.dark-mode .footer{
-  background:#1a1a1a;
-}
-
-.dark-mode .footer a{
-  color:white;
-}
-
-.dark-mode select,
-.dark-mode input{
-  background:#333;
-  color:white;
-  border:1px solid #555;
 }
 
 /* SLIDER */
@@ -312,7 +285,6 @@ flex:1;
 .banner-text h3{
 margin:0;
 font-size:18px;
-color:white;
 }
 
 .banner-text p{
@@ -374,7 +346,7 @@ Bulk Salary Upload
 <img src="https://cdn-icons-png.flaticon.com/512/1995/1995539.png">
 <div class="banner-text">
 <h3>Smart Salary Manager</h3>
-<p>Check salary details, income records and employee services easily in one place.</p>
+<p>Check salary details, income records and employee services easily.</p>
 <span class="banner-btn">Employee Services</span>
 </div>
 </div>
@@ -388,45 +360,39 @@ Bulk Salary Upload
 </div>
 </div>
 
-<div class="banner-box">
-<img src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png">
-<div class="banner-text">
-<h3>Employee Services</h3>
-<p>Access attendance, forms and employee information easily.</p>
-<span class="banner-btn">Employee Hub</span>
-</div>
-</div>
-
 </div>
 
 <div class="grid">
 
-<div class="card" onclick="showLoader('accounts.html')">
+<div class="card accounts" onclick="showLoader('accounts.html')">
 <span>👤</span>
 <p>My accounts</p>
 </div>
 
-<div class="card" onclick="showLoader('menu.html')">
+<div class="card salary" onclick="showLoader('menu.html')">
 <span>💰</span>
 <p>Salary</p>
+<div class="salary-info">
+<span id="salaryMonth"></span> Net: ₹<span id="netSalary">--</span>
+</div>
 </div>
 
-<div class="card" onclick="showLoader('page3.html')">
+<div class="card income" onclick="showLoader('page3.html')">
 <span>📅</span>
 <p>Non-salary income</p>
 </div>
 
-<div class="card" onclick="showLoader('page4.html')">
+<div class="card forms" onclick="showLoader('page4.html')">
 <span>📝</span>
 <p>Forms and formats</p>
 </div>
 
-<div class="card" onclick="showLoader('page5.html')">
+<div class="card settings" onclick="showLoader('page5.html')">
 <span>⚙</span>
 <p>Settings</p>
 </div>
 
-<div class="card" onclick="showLoader('page2.html')">
+<div class="card about" onclick="showLoader('page2.html')">
 <span>ℹ️</span>
 <p>About us</p>
 </div>
@@ -503,6 +469,26 @@ window.location = url;
 },1000);
 }
 
+/* CURRENT MONTH */
+
+function loadCurrentMonth(){
+
+let months=[
+"January","February","March","April","May","June",
+"July","August","September","October","November","December"
+];
+
+let now=new Date();
+let monthName=months[now.getMonth()];
+
+document.getElementById("salaryMonth").innerText=monthName;
+
+}
+
+loadCurrentMonth();
+
+/* NEWS */
+
 async function loadNews(){
 
 try{
@@ -510,23 +496,23 @@ try{
 let response = await fetch(
 "https://hescomsalary1-sudo.github.io/salary-data/news.csv?v=" + new Date().getTime(),
 {
-    cache: "no-store"
+cache:"no-store"
 });
 
 let text = await response.text();
 let rows = text.split("\n");
 
-let output = "";
+let output="";
 
 for(let i=1;i<rows.length;i++){
 
 if(rows[i].trim()==="") continue;
 
-let cols = rows[i].split(",");
+let cols=rows[i].split(",");
 
 if(cols.length<2) continue;
 
-output += `
+output+=`
 <div class="news-item">
 <div class="news-date">${cols[0]}</div>
 <div>${cols[1]}</div>
@@ -550,9 +536,7 @@ document.getElementById("newsData").innerHTML="Unable to load updates.";
 
 loadNews();
 
-if(localStorage.getItem("darkMode")==="true"){
-document.body.classList.add("dark-mode");
-}
+/* USER PROFILE */
 
 async function loadUserProfile(){
 
