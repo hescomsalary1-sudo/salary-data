@@ -29,7 +29,7 @@ margin:0;
 font-weight:600;
 }
 
-/* CARD */
+/* CARDS */
 
 .box{
 margin:18px;
@@ -39,7 +39,7 @@ background:white;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
 }
 
-/* TITLE */
+/* TITLES */
 
 .title{
 font-weight:700;
@@ -55,21 +55,11 @@ display:flex;
 justify-content:space-between;
 padding:10px 0;
 font-weight:600;
+border-bottom:1px solid #f0f0f0;
 }
 
-/* PROGRESS BAR */
-
-.progress{
-height:6px;
-background:#eee;
-border-radius:20px;
-overflow:hidden;
-margin-top:4px;
-}
-
-.progress div{
-height:100%;
-background:#4b2dd8;
+.row:last-child{
+border-bottom:none;
 }
 
 /* FILTER */
@@ -115,24 +105,8 @@ border-radius:14px;
 margin-bottom:10px;
 box-shadow:0 4px 12px rgba(0,0,0,0.06);
 font-weight:600;
-display:flex;
-justify-content:space-between;
-align-items:center;
+border-left:4px solid #4b2dd8;
 }
-
-/* BADGES */
-
-.badge{
-padding:4px 10px;
-border-radius:20px;
-font-size:12px;
-font-weight:700;
-color:white;
-}
-
-.el{background:#ff9800;}
-.fpl{background:#4caf50;}
-.cl{background:#2196f3;}
 
 /* FOOTER */
 
@@ -179,19 +153,16 @@ font-weight:600;
 <span>Earned Leave</span>
 <span id="elCredit">0</span>
 </div>
-<div class="progress"><div style="width:60%"></div></div>
 
 <div class="row">
 <span>Full Pay Leave</span>
 <span id="fplCredit">0</span>
 </div>
-<div class="progress"><div style="width:60%"></div></div>
 
 <div class="row">
 <span>Casual Leave</span>
 <span id="clCredit">0</span>
 </div>
-<div class="progress"><div style="width:60%"></div></div>
 
 </div>
 
@@ -297,16 +268,7 @@ if(leave && leave.trim() !== ""){
 
 leave = leave.trim();
 
-let badgeClass="";
-
-if(leave==="EL") badgeClass="el";
-if(leave==="FPL") badgeClass="fpl";
-if(leave==="CL") badgeClass="cl";
-
-output += `<div class="leave-item">
-<span>${month}-${year}</span>
-<span class="badge ${badgeClass}">${leave}</span>
-</div>`;
+output += `<div class="leave-item">${leave} - ${month}-${year}</div>`;
 
 if(leave==="EL") elTaken++;
 if(leave==="FPL") fplTaken++;
