@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +18,7 @@ padding-bottom:90px;
 
 .top{
 padding:25px;
-background:linear-gradient(135deg,#4b2dd8,#7b2cff);
+background:linear-gradient(135deg,#5e00a3,#8e2de2);
 color:white;
 display:flex;
 align-items:center;
@@ -63,7 +63,7 @@ box-shadow:0 10px 30px rgba(0,0,0,0.12);
 /* PROFILE HEADER */
 
 .profile-header{
-background:linear-gradient(135deg,#5e00a3,#8e2de2);
+background:linear-gradient(135deg,#4b2dd8,#7b2cff);
 color:white;
 padding:20px;
 border-radius:18px;
@@ -106,7 +106,7 @@ margin-bottom:15px;
 }
 
 .stat-card{
-background:linear-gradient(135deg,#5e00a3,#8e2de2);
+background:linear-gradient(135deg,#4b2dd8,#7b2cff);
 color:white;
 padding:14px;
 border-radius:14px;
@@ -389,16 +389,6 @@ document.getElementById("data").innerHTML = `
 <div class="grid">
 
 <div class="profile-item">
-<label>Name</label>
-<p>${cols[1]}</p>
-</div>
-
-<div class="profile-item">
-<label>Designation</label>
-<p>${cols[2]}</p>
-</div>
-
-<div class="profile-item">
 <label>Current Designation</label>
 <p>${cols[23]}</p>
 </div>
@@ -488,20 +478,12 @@ document.getElementById("data").innerHTML = `
 <p>${cols[19]}</p>
 </div>
 
-<div class="profile-item">
-<label>Service Length</label>
-<p>${service}</p>
-</div>
 
 <div class="profile-item">
 <label>Retirement Date</label>
 <p>${cols[6]}</p>
 </div>
 
-<div class="profile-item">
-<label>Retirement Countdown</label>
-<p>${retirement}</p>
-</div>
 
 <div class="profile-item">
 <label>Pension Type</label>
@@ -543,4 +525,3 @@ document.body.classList.add("dark-mode");
 
 </body>
 </html>
-```
