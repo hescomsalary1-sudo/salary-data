@@ -560,7 +560,8 @@ let year=document.getElementById("year").value;
 let month=document.getElementById("month").options[
 document.getElementById("month").selectedIndex].text;
 
-/* hide zero values */
+
+/* row generator */
 
 function pdfRow(name,value){
 if(value>0){
@@ -603,6 +604,8 @@ let pdfContent = `
 
 <tr>
 
+<td style="padding:10px;border-right:1px solid #ddd;vertical-align:top">
+
 <table style="width:100%;border-collapse:collapse;font-size:14px">
 
 ${pdfRow("Basic",s.basic)}
@@ -632,6 +635,9 @@ ${pdfRow("Other Earnings",s.other_earnings)}
 
 </td>
 
+
+<td style="padding:10px;vertical-align:top">
+
 <table style="width:100%;border-collapse:collapse;font-size:14px">
 
 ${pdfRow("LIC",s.LIC)}
@@ -654,6 +660,12 @@ ${pdfRow("Other Deduction",s.other_deduction)}
 <tr style="border-top:1px solid #000;font-weight:bold">
 <td>Total Deduction</td>
 <td style="text-align:right">₹ ${s.totalDeduction}</td>
+</tr>
+
+</table>
+
+</td>
+
 </tr>
 
 </table>
