@@ -33,7 +33,7 @@ text-align:center;
 padding:20px;
 }
 
-/* LIST BUTTON */
+/* BUTTON */
 
 .list-btn{
 background:white;
@@ -52,10 +52,6 @@ align-items:center;
 .list-btn:active{
 transform:scale(0.97);
 background:#ece8ff;
-}
-
-.arrow{
-font-size:18px;
 }
 
 /* RESULT BOX */
@@ -175,60 +171,39 @@ Other Income
 
 <div class="content">
 
-<!-- Supplementary -->
-
 <div class="list-btn" onclick="loadIncome('Supplementary Salary','result1')">
-Supplementary Salary <span class="arrow">›</span>
+Supplementary Salary
 </div>
-
 <div id="result1" class="result-box"></div>
 
-<!-- DA Arrears -->
-
 <div class="list-btn" onclick="loadIncome('DA Arrears','result2')">
-DA Arrears <span class="arrow">›</span>
+DA Arrears
 </div>
-
 <div id="result2" class="result-box"></div>
 
-<!-- Double Wages -->
-
 <div class="list-btn" onclick="loadIncome('Double Wages','result3')">
-Double Wages <span class="arrow">›</span>
+Double Wages
 </div>
-
 <div id="result3" class="result-box"></div>
 
-<!-- Medical -->
-
 <div class="list-btn" onclick="loadIncome('Medical Bills','result4')">
-Medical Bills <span class="arrow">›</span>
+Medical Bills
 </div>
-
 <div id="result4" class="result-box"></div>
 
-<!-- TA -->
-
 <div class="list-btn" onclick="loadIncome('TA Bills','result5')">
-TA Bills <span class="arrow">›</span>
+TA Bills
 </div>
-
 <div id="result5" class="result-box"></div>
 
-<!-- ELS -->
-
 <div class="list-btn" onclick="loadIncome('ELS Bills','result6')">
-ELS Bills <span class="arrow">›</span>
+ELS Bills
 </div>
-
 <div id="result6" class="result-box"></div>
 
-<!-- Others -->
-
 <div class="list-btn" onclick="loadIncome('Others','result7')">
-Others <span class="arrow">›</span>
+Others
 </div>
-
 <div id="result7" class="result-box"></div>
 
 </div>
@@ -271,6 +246,12 @@ window.location.replace("login.html");
 }
 
 async function loadIncome(type,boxId){
+
+/* hide previous tables */
+
+document.querySelectorAll('.result-box').forEach(box=>{
+box.style.display='none';
+});
 
 document.getElementById("loader").style.display="flex";
 
