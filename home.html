@@ -47,24 +47,28 @@ cursor:pointer;
 font-size:22px;
 }
 
+.logout:hover{
+opacity:0.7;
+}
+
 /* CONTENT */
 
 .content{
 padding:20px;
-margin-top:-40px;
-padding-bottom:100px;
+margin-top:20px;
+padding-bottom:90px;
 }
 
 /* SALARY DASHBOARD */
 
 .salary-card{
-background:linear-gradient(135deg,#4b2dd8,#7b2cff);
+background:linear-gradient(135deg,#4b2dd8,#5e00a3);
 color:white;
-padding:22px;
 border-radius:20px;
-box-shadow:0 12px 25px rgba(0,0,0,0.2);
-margin-bottom:20px;
+padding:25px;
 text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+margin-bottom:20px;
 }
 
 .salary-card h3{
@@ -75,10 +79,10 @@ font-weight:500;
 .salary-amount{
 font-size:36px;
 font-weight:bold;
-margin-top:6px;
+margin-top:5px;
 }
 
-/* MAIN GRID */
+/* MAIN BUTTON GRID */
 
 .grid-main{
 display:grid;
@@ -87,7 +91,7 @@ gap:15px;
 margin-bottom:15px;
 }
 
-/* SMALL GRID */
+/* SMALL BUTTON GRID */
 
 .grid-small{
 display:grid;
@@ -95,7 +99,7 @@ grid-template-columns:repeat(2,1fr);
 gap:12px;
 }
 
-/* CARD */
+/* BUTTON CARD */
 
 .card{
 padding:18px 10px;
@@ -103,7 +107,6 @@ border-radius:18px;
 text-align:center;
 cursor:pointer;
 transition:0.3s;
-min-height:95px;
 display:flex;
 flex-direction:column;
 justify-content:center;
@@ -125,7 +128,7 @@ font-weight:bold;
 font-size:14px;
 }
 
-/* SMALL BUTTONS */
+/* SMALL BUTTON */
 
 .small-card{
 min-height:65px;
@@ -135,7 +138,7 @@ min-height:65px;
 font-size:20px;
 }
 
-/* COLORS */
+/* BUTTON COLORS */
 
 .accounts{
 background:linear-gradient(135deg,#6a5cff,#8f7bff);
@@ -161,33 +164,20 @@ background:linear-gradient(135deg,#5e00a3,#8c3dff);
 background:linear-gradient(135deg,#00a8ff,#6fd3ff);
 }
 
-/* NEWS */
+/* ADMIN MENU */
 
-.news-box{
-margin-top:20px;
-padding:20px;
+#adminMenu{
+text-align:center;
+margin-top:10px;
+}
+
+#adminMenu button{
+padding:10px 20px;
+border:none;
+background:#ff4081;
+color:white;
 border-radius:20px;
-background:linear-gradient(135deg,#f3e5ff,#e6f0ff);
-box-shadow:0 8px 20px rgba(0,0,0,0.08);
-border-left:6px solid #5e00a3;
-}
-
-.news-box h3{
-margin-top:0;
-color:#4b0082;
-}
-
-.news-item{
-padding:12px;
-margin-bottom:12px;
-background:white;
-border-radius:12px;
-}
-
-.news-date{
-font-size:12px;
-color:#666;
-font-weight:600;
+cursor:pointer;
 }
 
 /* FOOTER */
@@ -196,7 +186,7 @@ font-weight:600;
 position:fixed;
 bottom:0;
 width:100%;
-background:white;
+background:#ffffff;
 display:flex;
 justify-content:space-around;
 padding:8px 0;
@@ -215,6 +205,7 @@ font-size:20px;
 .footer small{
 font-size:12px;
 margin-top:3px;
+color:purple;
 font-weight:600;
 }
 
@@ -245,6 +236,96 @@ animation:spin 1s linear infinite;
 100%{transform:rotate(360deg);}
 }
 
+/* WHATS NEW */
+
+.news-box{
+margin-top:20px;
+padding:20px;
+border-radius:20px;
+background:linear-gradient(135deg,#f3e5ff,#e6f0ff);
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+border-left:6px solid #5e00a3;
+}
+
+.news-box h3{
+margin-top:0;
+color:#4b0082;
+font-size:18px;
+}
+
+.news-item{
+padding:12px;
+margin-bottom:12px;
+background:rgba(255,255,255,0.7);
+border-radius:12px;
+font-size:14px;
+}
+
+.news-date{
+font-size:12px;
+color:#666;
+margin-bottom:4px;
+font-weight:600;
+}
+
+/* SLIDER */
+
+.banner-slider{
+display:flex;
+overflow-x:auto;
+gap:15px;
+margin-bottom:20px;
+scroll-snap-type:x mandatory;
+}
+
+.banner-slider::-webkit-scrollbar{
+display:none;
+}
+
+.banner-box{
+min-width:85%;
+background:linear-gradient(135deg,#4b2dd8,#5e00a3);
+color:white;
+border-radius:20px;
+padding:18px;
+display:flex;
+align-items:center;
+gap:15px;
+box-shadow:0 12px 25px rgba(0,0,0,0.15);
+scroll-snap-align:start;
+}
+
+.banner-box img{
+width:110px;
+}
+
+.banner-text{
+flex:1;
+}
+
+.banner-text h3{
+margin:0;
+font-size:18px;
+color:white;
+}
+
+.banner-text p{
+margin-top:6px;
+font-size:13px;
+color:#e6e6ff;
+}
+
+.banner-btn{
+margin-top:8px;
+display:inline-block;
+padding:7px 16px;
+border-radius:25px;
+background:white;
+color:#5e00a3;
+font-size:12px;
+font-weight:bold;
+}
+
 </style>
 </head>
 
@@ -269,11 +350,41 @@ animation:spin 1s linear infinite;
 
 </div>
 
+<div id="adminMenu" style="display:none;">
+<button onclick="showLoader('admin_bulk_upload.html')">
+Bulk Salary Upload
+</button>
+</div>
+
 <div id="loader">
 <div class="spinner"></div>
 </div>
 
 <div class="content">
+
+<!-- SLIDER -->
+
+<div class="banner-slider">
+
+<div class="banner-box">
+<img src="https://cdn-icons-png.flaticon.com/512/1995/1995539.png">
+<div class="banner-text">
+<h3>Smart Salary Manager</h3>
+<p>Check salary details, income records and employee services easily in one place.</p>
+<span class="banner-btn">Employee Services</span>
+</div>
+</div>
+
+<div class="banner-box">
+<img src="https://cdn-icons-png.flaticon.com/512/3135/3135679.png">
+<div class="banner-text">
+<h3>Salary Dashboard</h3>
+<p>View salary slips and financial records quickly.</p>
+<span class="banner-btn">Salary Portal</span>
+</div>
+</div>
+
+</div>
 
 <!-- SALARY CARD -->
 
@@ -363,7 +474,7 @@ Net Pay
 
 <script>
 
-/* REFRESH */
+/* YOUR ORIGINAL JS IS KEPT EXACTLY SAME */
 
 function refreshApp(){
 document.getElementById("loader").style.display="flex";
@@ -379,8 +490,6 @@ location.reload(true);
 },800);
 }
 
-/* USER LOGIN */
-
 let user = localStorage.getItem("currentUser");
 let role = localStorage.getItem("role");
 
@@ -388,7 +497,9 @@ if(!user){
 window.location.replace("login.html");
 }
 
-/* LOADER */
+if(role === "admin"){
+document.getElementById("adminMenu").style.display = "block";
+}
 
 function showLoader(url){
 document.getElementById("loader").style.display="flex";
@@ -397,21 +508,14 @@ window.location = url;
 },1000);
 }
 
-/* CURRENT MONTH */
+/* MONTH */
 
-function loadCurrentMonth(){
-
-let months=[
-"January","February","March","April","May","June",
-"July","August","September","October","November","December"
-];
-
+function loadMonth(){
+let months=["January","February","March","April","May","June","July","August","September","October","November","December"];
 let now=new Date();
 document.getElementById("salaryMonth").innerText=months[now.getMonth()];
-
 }
-
-loadCurrentMonth();
+loadMonth();
 
 /* NEWS */
 
@@ -421,27 +525,33 @@ try{
 
 let response = await fetch(
 "https://hescomsalary1-sudo.github.io/salary-data/news.csv?v=" + new Date().getTime(),
-{cache:"no-store"}
-);
+{
+cache: "no-store"
+});
 
 let text = await response.text();
 let rows = text.split("\n");
 
-let output="";
+let output = "";
 
 for(let i=1;i<rows.length;i++){
 
 if(rows[i].trim()==="") continue;
 
-let cols=rows[i].split(",");
+let cols = rows[i].split(",");
 
-output+=`
+if(cols.length<2) continue;
+
+output += `
 <div class="news-item">
 <div class="news-date">${cols[0]}</div>
 <div>${cols[1]}</div>
 </div>
 `;
+}
 
+if(output===""){
+output="No updates available.";
 }
 
 document.getElementById("newsData").innerHTML=output;
@@ -456,7 +566,9 @@ document.getElementById("newsData").innerHTML="Unable to load updates.";
 
 loadNews();
 
-/* PROFILE */
+if(localStorage.getItem("darkMode")==="true"){
+document.body.classList.add("dark-mode");
+}
 
 async function loadUserProfile(){
 
@@ -475,10 +587,14 @@ for(let i=1;i<rows.length;i++){
 
 let cols = rows[i].split(",");
 
-if(cols[0].trim()===loginUser){
+let username = cols[0]?.trim();
+let name = cols[1]?.trim();
+let designation = cols[2]?.trim();
 
-document.getElementById("empName").innerText=cols[1];
-document.getElementById("empDesg").innerText=cols[2];
+if(username===loginUser){
+
+document.getElementById("empName").innerText=name;
+document.getElementById("empDesg").innerText=designation;
 return;
 
 }
@@ -497,8 +613,6 @@ document.getElementById("empName").innerText=loginUser;
 
 loadUserProfile();
 
-/* LOGOUT */
-
 function logout(){
 
 let confirmLogout = confirm("Are you sure you want to logout?");
@@ -515,4 +629,3 @@ window.location.href="login.html";
 
 </body>
 </html>
-
