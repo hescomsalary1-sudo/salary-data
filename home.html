@@ -499,6 +499,100 @@ window.location.href="login.html";
 
 }
 
+async function loadCurrentMonthSalary(){
+
+let user = localStorage.getItem("currentUser");
+if(!user) return;
+
+let now = new Date();
+let year = now.getFullYear().toString();
+let month = String(now.getMonth()+1).padStart(2,"0");
+
+try{
+
+let response = await fetch(
+"https://hescomsalary1-sudo.github.io/salary-data/salary .csv?v=" + new Date().getTime()
+);
+
+let data = await response.text();
+let rows = data.trim().split("\n");
+
+for(let i=1;i<rows.length;i++){
+
+let cols = rows[i].split(",");
+
+if(cols[0]===user && cols[1]===year && cols[2]===month){
+
+let basic = +cols[3];
+let dearness_pay = +cols[4];
+let rouse_rent_allowances = +cols[5];
+let city_compensation_allowances = +cols[6];
+let personal_pay = +cols[7];
+let special_personal_pay = +cols[8];
+let conveyance_allowances = +cols[9];
+let washing_allowances = +cols[10];
+let sfta = +cols[11];
+let special_locality_allowances = +cols[12];
+let mwa = +cols[13];
+let hill_allowances = +cols[14];
+let charge_allowances = +cols[15];
+let pension_contribution_14_percent = +cols[16];
+let labour_welfare_fund_company_contribution = +cols[17];
+let cash_duty_allowances = +cols[18];
+let other_earnings = +cols[19];
+
+let LIC = +cols[20];
+let income_tax = +cols[21];
+let professional_tax = +cols[22];
+let KPTCL_employes_society = +cols[23];
+let PLI = +cols[24];
+let union_fund = +cols[25];
+let sc_st_union_fund = +cols[26];
+let house_rent = +cols[27];
+let urban_bank = +cols[28];
+let family_benefit_fund = +cols[29];
+let festival_advance = +cols[30];
+let PC_10_contribution = +cols[31];
+let PC_14_contribution = +cols[32];
+let LWF = +cols[33];
+let recovery_any = +cols[34];
+let other_deduction = +cols[35];
+
+let totalEarning =
+basic+dearness_pay+rouse_rent_allowances+city_compensation_allowances+
+personal_pay+special_personal_pay+conveyance_allowances+washing_allowances+
+sfta+special_locality_allowances+mwa+hill_allowances+charge_allowances+
+pension_contribution_14_percent+labour_welfare_fund_company_contribution+
+cash_duty_allowances+other_earnings;
+
+let totalDeduction =
+LIC+income_tax+professional_tax+KPTCL_employes_society+PLI+
+union_fund+sc_st_union_fund+house_rent+urban_bank+family_benefit_fund+
+festival_advance+PC_10_contribution+PC_14_contribution+LWF+
+recovery_any+other_deduction;
+
+let net = totalEarning-totalDeduction;
+
+document.getElementById("netSalary").innerText = net;
+
+return;
+
+}
+
+}
+
+document.getElementById("netSalary").innerText="0";
+
+}catch(e){
+
+document.getElementById("netSalary").innerText="--";
+
+}
+
+}
+
+loadCurrentMonthSalary();
+  
 </script>
 
 </body>
