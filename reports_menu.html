@@ -237,8 +237,13 @@ Other Reports
 function adminCheck(page){
 
 let role = localStorage.getItem("role");
+let user = localStorage.getItem("currentUser");
 
-if(role === "admin"){
+/* employees allowed to access admin reports */
+
+let allowedUsers = ["emp1"];  
+
+if(role === "admin" || allowedUsers.includes(user)){
 
 openPage(page);
 
