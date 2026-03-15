@@ -308,6 +308,7 @@ animation:spin 1s linear infinite;
 <div class="action-buttons" id="pdfButtons" style="display:none;">
 <button onclick="printSalary()">🖨 Print</button>
 <button onclick="downloadPDF()">📄 Download PDF</button>
+<button onclick="sharePDF()">📤 Share PDF</button>
 </div>
 
 </div>
@@ -706,6 +707,38 @@ html2pdf().set(opt).from(div).save();
 
 if(localStorage.getItem("darkMode")==="true"){
 document.body.classList.add("dark-mode");
+}
+
+  async function sharePDF(){
+
+let element = document.getElementById("result");
+
+let opt = {
+margin:0.5,
+filename:'Salary.pdf',
+image:{type:'jpeg',quality:0.98},
+html2canvas:{scale:2},
+jsPDF:{unit:'in',format:'a4',orientation:'portrait'}
+};
+
+let pdf = await html2pdf().set(opt).from(element).outputPdf('blob');
+
+let file = new File([pdf], "Salary.pdf", {type:"application/pdf"});
+
+if(navigator.share){
+
+navigator.share({
+title:"Salary Slip",
+text:"My Salary Slip",
+files:[file]
+});
+
+}else{
+
+alert("Sharing not supported on this device");
+
+}
+
 }
 
 </script>
