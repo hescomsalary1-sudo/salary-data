@@ -81,7 +81,7 @@ border:1px solid #ccc;
 font-size:14px;
 }
 
-/* CHECK BUTTON */
+/* BUTTON */
 
 .check-btn{
 background:#4b2dd8;
@@ -118,7 +118,7 @@ cursor:pointer;
 .salary-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:14px;
+gap:16px;
 margin-top:15px;
 }
 
@@ -126,44 +126,26 @@ margin-top:15px;
 
 .salary-card{
 background:white;
-padding:14px;
-border-radius:12px;
-box-shadow:0 4px 10px rgba(0,0,0,0.08);
+padding:16px;
+border-radius:14px;
+box-shadow:0 5px 12px rgba(0,0,0,0.08);
 font-size:13px;
+line-height:1.6;
 }
 
 .salary-card h4{
 margin-top:0;
 color:#4b2dd8;
-border-bottom:2px solid #f1f1f1;
+border-bottom:2px solid #f0f0f0;
 padding-bottom:6px;
-margin-bottom:8px;
-}
-
-/* SALARY ROW */
-
-.salary-row{
-display:flex;
-justify-content:space-between;
-padding:4px 0;
-border-bottom:1px dotted #eee;
-}
-
-.salary-row span:first-child{
-color:#555;
-}
-
-.salary-row span:last-child{
-font-weight:600;
+margin-bottom:10px;
 }
 
 /* TOTAL */
 
-.total-row{
-display:flex;
-justify-content:space-between;
-margin-top:8px;
-padding-top:6px;
+.total{
+margin-top:10px;
+padding-top:8px;
 border-top:2px solid #eee;
 font-weight:bold;
 color:#4b2dd8;
@@ -175,8 +157,8 @@ color:#4b2dd8;
 margin-top:18px;
 background:linear-gradient(135deg,#4b2dd8,#6c39ff);
 color:white;
-padding:16px;
-border-radius:14px;
+padding:18px;
+border-radius:16px;
 text-align:center;
 font-size:22px;
 font-weight:bold;
@@ -268,6 +250,16 @@ animation:spin 1s linear infinite;
 @keyframes spin{
 0%{transform:rotate(0deg);}
 100%{transform:rotate(360deg);}
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+.salary-grid{
+grid-template-columns:1fr;
+}
+
 }
 
 </style>
@@ -368,10 +360,7 @@ if(!user){ window.location="login.html"; }
 
 function showRow(name,value){
 if(value>0){
-return `<div class="salary-row">
-<span>${name}</span>
-<span>₹ ${value}</span>
-</div>`;
+return name + " ₹" + value + "<br>";
 }
 return "";
 }
@@ -444,14 +433,23 @@ recovery_any+other_deduction;
 
 let net=totalEarning-totalDeduction;
 
-window.salaryData={...cols,totalEarning,totalDeduction,net};
+window.salaryData={
+basic,dearness_pay,rouse_rent_allowances,city_compensation_allowances,
+personal_pay,special_personal_pay,conveyance_allowances,washing_allowances,
+sfta,special_locality_allowances,mwa,hill_allowances,charge_allowances,
+pension_contribution_14_percent,labour_welfare_fund_company_contribution,
+cash_duty_allowances,other_earnings,
+LIC,income_tax,professional_tax,KPTCL_employes_society,PLI,union_fund,
+sc_st_union_fund,house_rent,urban_bank,family_benefit_fund,festival_advance,
+PC_10_contribution,PC_14_contribution,LWF,recovery_any,other_deduction,
+totalEarning,totalDeduction,net
+};
 
 document.getElementById("loader").style.display="none";
 document.getElementById("pdfButtons").style.display="flex";
 
-document.getElementById("result").innerHTML=`
-
-<h3>Salary Details</h3>
+document.getElementById("result").innerHTML = `
+<h3 style="color:#4b2dd8">Salary Details</h3>
 
 <div class="salary-grid">
 
@@ -477,10 +475,7 @@ ${showRow("LWF Company Contribution",labour_welfare_fund_company_contribution)}
 ${showRow("Cash Duty Allowance",cash_duty_allowances)}
 ${showRow("Other Earnings",other_earnings)}
 
-<div class="total-row">
-<span>Total Earnings</span>
-<span>₹ ${totalEarning}</span>
-</div>
+<div class="total">Total Earnings ₹${totalEarning}</div>
 
 </div>
 
@@ -505,10 +500,7 @@ ${showRow("LWF",LWF)}
 ${showRow("Recovery",recovery_any)}
 ${showRow("Other Deduction",other_deduction)}
 
-<div class="total-row">
-<span>Total Deduction</span>
-<span>₹ ${totalDeduction}</span>
-</div>
+<div class="total">Total Deduction ₹${totalDeduction}</div>
 
 </div>
 
@@ -517,7 +509,6 @@ ${showRow("Other Deduction",other_deduction)}
 <div class="net-card">
 Net Salary ₹${net}
 </div>
-
 `;
 
 return;
