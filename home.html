@@ -303,7 +303,7 @@ animation:spin 1s linear infinite;
 <div class="salary-card">
 
 <div class="salary-info">
-<h3>Current Month Salary</h3>
+<h3>Last Month Salary</h3>
 <div class="salary-amount">₹<span id="netSalary">--</span></div>
 <div style="font-size:14px;opacity:0.9;">Net Pay</div>
 </div>
@@ -533,8 +533,13 @@ let user = localStorage.getItem("currentUser");
 if(!user) return;
 
 let now = new Date();
-let year = now.getFullYear().toString();
-let month = String(now.getMonth()+1).padStart(2,"0");
+
+/* GET PREVIOUS MONTH */
+
+let prevMonth = new Date(now.getFullYear(), now.getMonth()-1, 1);
+
+let year = prevMonth.getFullYear().toString();
+let month = String(prevMonth.getMonth()+1).padStart(2,"0");
 
 try{
 
