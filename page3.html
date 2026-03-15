@@ -55,25 +55,27 @@ padding:20px;
 
 .slider{
 display:flex;
+flex-wrap:nowrap;
 overflow-x:auto;
 gap:10px;
 padding-bottom:10px;
-scrollbar-width:none;
 }
 
 .slider::-webkit-scrollbar{
 display:none;
 }
 
+/* BUTTON */
+
 .slide-btn{
-flex:0 0 auto;
-padding:10px 16px;
+display:inline-block;
+padding:10px 18px;
 background:white;
 border-radius:25px;
 font-weight:600;
 color:#4b2dd8;
 border:1px solid #ddd;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
 cursor:pointer;
 white-space:nowrap;
 }
@@ -221,17 +223,11 @@ background:#1f1f1f;
 <div class="slider">
 
 <div class="slide-btn" onclick="loadIncome('Supplementary Salary')">Supplementary</div>
-
 <div class="slide-btn" onclick="loadIncome('DA Arrears')">DA Arrears</div>
-
 <div class="slide-btn" onclick="loadIncome('Double Wages')">Double Wages</div>
-
 <div class="slide-btn" onclick="loadIncome('Medical Bills')">Medical</div>
-
 <div class="slide-btn" onclick="loadIncome('TA Bills')">TA Bills</div>
-
 <div class="slide-btn" onclick="loadIncome('ELS Bills')">ELS Bills</div>
-
 <div class="slide-btn" onclick="loadIncome('Others')">Others</div>
 
 </div>
@@ -312,7 +308,6 @@ let response = await fetch(
 );
 
 let text = await response.text();
-
 let rows = text.trim().split("\n");
 
 let output = `
@@ -369,8 +364,6 @@ document.getElementById("result").innerHTML="Error loading data";
 document.getElementById("loader").style.display="none";
 
 }
-
-/* DARK MODE */
 
 if(localStorage.getItem("darkMode")==="true"){
 document.body.classList.add("dark-mode");
