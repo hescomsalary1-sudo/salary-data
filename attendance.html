@@ -102,6 +102,54 @@ font-weight:bold;
 font-size:14px;
 }
 
+  .summaryCards{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-top:15px;
+}
+
+.summaryCard{
+padding:15px;
+border-radius:14px;
+color:white;
+text-align:center;
+box-shadow:0 4px 10px rgba(0,0,0,0.15);
+}
+
+.sumIcon{
+font-size:18px;
+}
+
+.sumText{
+font-size:13px;
+margin-top:3px;
+}
+
+.sumCount{
+font-size:20px;
+font-weight:bold;
+margin-top:5px;
+}
+
+/* COLORS */
+
+.presentCard{
+background:linear-gradient(135deg,#28a745,#7be495);
+}
+
+.leaveCard{
+background:linear-gradient(135deg,#ffc107,#ffd966);
+}
+
+.absentCard{
+background:linear-gradient(135deg,#ff4d4d,#ff8080);
+}
+
+.holidayCard{
+background:linear-gradient(135deg,#2196f3,#64b5f6);
+}
+
 /* TABLE */
 
 table{
@@ -308,20 +356,33 @@ font-weight:600;
 
 <button onclick="searchAttendance()">Search</button>
 
-<table class="summary">
-<tr>
-<th>Total Present</th>
-<th>Total Leave</th>
-<th>Total Absent</th>
-<th>Holiday Working</th>
-</tr>
-<tr>
-<td id="presentCount">0</td>
-<td id="leaveCount">0</td>
-<td id="absentCount">0</td>
-<td id="holidayWork">0</td>
-</tr>
-</table>
+<div class="summaryCards">
+
+<div class="summaryCard presentCard">
+<div class="sumIcon">🟢</div>
+<div class="sumText">Present</div>
+<div class="sumCount" id="presentCount">0</div>
+</div>
+
+<div class="summaryCard leaveCard">
+<div class="sumIcon">🟡</div>
+<div class="sumText">Leave</div>
+<div class="sumCount" id="leaveCount">0</div>
+</div>
+
+<div class="summaryCard absentCard">
+<div class="sumIcon">🔴</div>
+<div class="sumText">Absent</div>
+<div class="sumCount" id="absentCount">0</div>
+</div>
+
+<div class="summaryCard holidayCard">
+<div class="sumIcon">🔵</div>
+<div class="sumText">Holiday Work</div>
+<div class="sumCount" id="holidayWork">0</div>
+</div>
+
+</div>
 
 </div>
 
