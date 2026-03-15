@@ -445,65 +445,74 @@ document.getElementById("result").innerHTML = `
 
 <h3>Salary Details</h3>
 
-<div class="salary-grid">
-
 <div class="salary-card">
 
 <h4>Earnings</h4>
 
-${showRow("Basic",s.basic)}
-${showRow("Dearness Pay",s.dearness_pay)}
-${showRow("House Rent Allowance",s.rouse_rent_allowances)}
-${showRow("City Compensation Allowance",s.city_compensation_allowances)}
-${showRow("Personal Pay",s.personal_pay)}
-${showRow("Special Personal Pay",s.special_personal_pay)}
-${showRow("Conveyance Allowance",s.conveyance_allowances)}
-${showRow("Washing Allowance",s.washing_allowances)}
-${showRow("SFTA",s.sfta)}
-${showRow("Special Locality Allowance",s.special_locality_allowances)}
-${showRow("MWA",s.mwa)}
-${showRow("Hill Allowance",s.hill_allowances)}
-${showRow("Charge Allowance",s.charge_allowances)}
-${showRow("Pension Contribution",s.pension_contribution_14_percent)}
-${showRow("LWF Company Contribution",s.labour_welfare_fund_company_contribution)}
-${showRow("Cash Duty Allowance",s.cash_duty_allowances)}
-${showRow("Other Earnings",s.other_earnings)}
-<br>
+<table style="width:100%;border-collapse:collapse">
 
-<b>Total Earnings ₹${s.totalEarning}</b>
+${s.basic>0?`<tr><td>Basic</td><td style="text-align:right">₹ ${s.basic}</td></tr>`:''}
+${s.dearness_pay>0?`<tr><td>Dearness Pay</td><td style="text-align:right">₹ ${s.dearness_pay}</td></tr>`:''}
+${s.rouse_rent_allowances>0?`<tr><td>House Rent Allowance</td><td style="text-align:right">₹ ${s.rouse_rent_allowances}</td></tr>`:''}
+${s.city_compensation_allowances>0?`<tr><td>City Compensation Allowance</td><td style="text-align:right">₹ ${s.city_compensation_allowances}</td></tr>`:''}
+${s.personal_pay>0?`<tr><td>Personal Pay</td><td style="text-align:right">₹ ${s.personal_pay}</td></tr>`:''}
+${s.special_personal_pay>0?`<tr><td>Special Personal Pay</td><td style="text-align:right">₹ ${s.special_personal_pay}</td></tr>`:''}
+${s.conveyance_allowances>0?`<tr><td>Conveyance Allowance</td><td style="text-align:right">₹ ${s.conveyance_allowances}</td></tr>`:''}
+${s.washing_allowances>0?`<tr><td>Washing Allowance</td><td style="text-align:right">₹ ${s.washing_allowances}</td></tr>`:''}
+${s.sfta>0?`<tr><td>SFTA</td><td style="text-align:right">₹ ${s.sfta}</td></tr>`:''}
+${s.special_locality_allowances>0?`<tr><td>Special Locality Allowance</td><td style="text-align:right">₹ ${s.special_locality_allowances}</td></tr>`:''}
+${s.mwa>0?`<tr><td>MWA</td><td style="text-align:right">₹ ${s.mwa}</td></tr>`:''}
+${s.hill_allowances>0?`<tr><td>Hill Allowance</td><td style="text-align:right">₹ ${s.hill_allowances}</td></tr>`:''}
+${s.charge_allowances>0?`<tr><td>Charge Allowance</td><td style="text-align:right">₹ ${s.charge_allowances}</td></tr>`:''}
+${s.pension_contribution_14_percent>0?`<tr><td>Pension Contribution</td><td style="text-align:right">₹ ${s.pension_contribution_14_percent}</td></tr>`:''}
+${s.labour_welfare_fund_company_contribution>0?`<tr><td>LWF Company Contribution</td><td style="text-align:right">₹ ${s.labour_welfare_fund_company_contribution}</td></tr>`:''}
+${s.cash_duty_allowances>0?`<tr><td>Cash Duty Allowance</td><td style="text-align:right">₹ ${s.cash_duty_allowances}</td></tr>`:''}
+${s.other_earnings>0?`<tr><td>Other Earnings</td><td style="text-align:right">₹ ${s.other_earnings}</td></tr>`:''}
+
+<tr style="border-top:1px solid #ddd;font-weight:bold">
+<td>Total Earnings</td>
+<td style="text-align:right">₹ ${s.totalEarning}</td>
+</tr>
+
+</table>
 
 </div>
+
 
 <div class="salary-card">
 
 <h4>Deductions</h4>
 
-${showRow("LIC",s.LIC)}
-${showRow("Income Tax",s.income_tax)}
-${showRow("Professional Tax",s.professional_tax)}
-${showRow("KPTCL Employee Society",s.KPTCL_employes_society)}
-${showRow("PLI",s.PLI)}
-${showRow("Union Fund",s.union_fund)}
-${showRow("SC/ST Union Fund",s.sc_st_union_fund)}
-${showRow("House Rent",s.house_rent)}
-${showRow("Urban Bank",s.urban_bank)}
-${showRow("Family Benefit Fund",s.family_benefit_fund)}
-${showRow("Festival Advance",s.festival_advance)}
-${showRow("PC 10% Contribution",s.PC_10_contribution)}
-${showRow("PC 14% Contribution",s.PC_14_contribution)}
-${showRow("LWF",s.LWF)}
-${showRow("Recovery",s.recovery_any)}
-${showRow("Other Deduction",s.other_deduction)}
-<br>
+<table style="width:100%;border-collapse:collapse">
 
-<b>Total Deduction ₹${s.totalDeduction}</b>
+${s.LIC>0?`<tr><td>LIC</td><td style="text-align:right">₹ ${s.LIC}</td></tr>`:''}
+${s.income_tax>0?`<tr><td>Income Tax</td><td style="text-align:right">₹ ${s.income_tax}</td></tr>`:''}
+${s.professional_tax>0?`<tr><td>Professional Tax</td><td style="text-align:right">₹ ${s.professional_tax}</td></tr>`:''}
+${s.KPTCL_employes_society>0?`<tr><td>KPTCL Employee Society</td><td style="text-align:right">₹ ${s.KPTCL_employes_society}</td></tr>`:''}
+${s.PLI>0?`<tr><td>PLI</td><td style="text-align:right">₹ ${s.PLI}</td></tr>`:''}
+${s.union_fund>0?`<tr><td>Union Fund</td><td style="text-align:right">₹ ${s.union_fund}</td></tr>`:''}
+${s.sc_st_union_fund>0?`<tr><td>SC/ST Union Fund</td><td style="text-align:right">₹ ${s.sc_st_union_fund}</td></tr>`:''}
+${s.house_rent>0?`<tr><td>House Rent</td><td style="text-align:right">₹ ${s.house_rent}</td></tr>`:''}
+${s.urban_bank>0?`<tr><td>Urban Bank</td><td style="text-align:right">₹ ${s.urban_bank}</td></tr>`:''}
+${s.family_benefit_fund>0?`<tr><td>Family Benefit Fund</td><td style="text-align:right">₹ ${s.family_benefit_fund}</td></tr>`:''}
+${s.festival_advance>0?`<tr><td>Festival Advance</td><td style="text-align:right">₹ ${s.festival_advance}</td></tr>`:''}
+${s.PC_10_contribution>0?`<tr><td>PC 10% Contribution</td><td style="text-align:right">₹ ${s.PC_10_contribution}</td></tr>`:''}
+${s.PC_14_contribution>0?`<tr><td>PC 14% Contribution</td><td style="text-align:right">₹ ${s.PC_14_contribution}</td></tr>`:''}
+${s.LWF>0?`<tr><td>LWF</td><td style="text-align:right">₹ ${s.LWF}</td></tr>`:''}
+${s.recovery_any>0?`<tr><td>Recovery</td><td style="text-align:right">₹ ${s.recovery_any}</td></tr>`:''}
+${s.other_deduction>0?`<tr><td>Other Deduction</td><td style="text-align:right">₹ ${s.other_deduction}</td></tr>`:''}
 
-</div>
+<tr style="border-top:1px solid #ddd;font-weight:bold">
+<td>Total Deduction</td>
+<td style="text-align:right">₹ ${s.totalDeduction}</td>
+</tr>
+
+</table>
 
 </div>
 
 <div class="net-card">
-Net Salary ₹${s.net}
+Net Salary ₹ ${s.net}
 </div>
 
 `;
