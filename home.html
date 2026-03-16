@@ -11,6 +11,7 @@ body{
 font-family:sans-serif;
 margin:0;
 background:#f3f4fa;
+padding-bottom:80px;
 }
 
 /* HEADER */
@@ -265,27 +266,30 @@ animation:spin 1s linear infinite;
 }
 
 
-  /* MODERN NAVIGATION */
+
+/* MODERN NAVIGATION */
 
 .navbar{
 
 position:fixed;
-bottom:20px;
-left:50%;
-transform:translateX(-50%);
 
-width:92%;
+bottom:0;          /* stick to bottom */
+
+left:0;
+
+width:100%;        /* full width */
+
 height:70px;
 
 background:white;
 
-border-radius:40px;
-
 display:flex;
+
 justify-content:space-around;
+
 align-items:center;
 
-box-shadow:0 10px 25px rgba(0,0,0,0.25);
+box-shadow:0 -5px 20px rgba(0,0,0,0.15);
 
 z-index:1000;
 
@@ -340,13 +344,15 @@ transition:0.35s;
 
 }
 
+/* INDICATOR POSITIONS */
+
 .navbar.pos0 .slider{ left:5px; }
 
-.navbar.pos1 .slider{ left:95px; }
+.navbar.pos1 .slider{ left:25%; }
 
-.navbar.pos2 .slider{ left:185px; }
+.navbar.pos2 .slider{ left:50%; }
 
-.navbar.pos3 .slider{ left:275px; }
+.navbar.pos3 .slider{ left:75%; }
 </style>
 </head>
 
@@ -705,6 +711,24 @@ document.getElementById("netSalary").innerText="--";
 }
 
 loadCurrentMonthSalary();
+
+  function goTab(index,url){
+
+let navbar=document.getElementById("navbar");
+
+navbar.className="navbar pos"+index;
+
+let items=document.querySelectorAll(".nav-item");
+
+items.forEach(item=>item.classList.remove("active"));
+
+items[index].classList.add("active");
+
+setTimeout(function(){
+window.location=url;
+},200);
+
+}
   
 </script>
 
