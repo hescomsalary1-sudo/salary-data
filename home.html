@@ -355,52 +355,7 @@ transition:0.35s;
 .navbar.pos2 .slider{ left:53%; }
 
 .navbar.pos3 .slider{ left:78%; }
-
-
-
-.popup{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.4);
-display:none;
-justify-content:center;
-align-items:center;
-z-index:9999;
-}
-
-.popup-box{
-background:white;
-padding:25px;
-border-radius:16px;
-width:80%;
-max-width:300px;
-text-align:center;
-}
-
-.popup-buttons{
-display:flex;
-justify-content:space-between;
-margin-top:20px;
-}
-
-.popup-buttons button{
-border:none;
-padding:10px 20px;
-border-radius:10px;
-cursor:pointer;
-}
-
-.cancel{
-background:#eee;
-}
-
-.exit{
-background:#4b2dd8;
-color:white;
-}
+  
 </style>
 </head>
 
@@ -778,67 +733,8 @@ window.location=url;
 
 }
 
-
-
-
-/* prevent previous page history */
-
-history.pushState(null,null,location.href);
-
-window.onpopstate=function(){
-
-document.getElementById("exitPopup").style.display="flex";
-
-/* keep user on home */
-
-history.pushState(null,null,location.href);
-
-};
-
-/* stay in app */
-
-function stayApp(){
-
-document.getElementById("exitPopup").style.display="none";
-
-}
-
-/* exit app */
-
-function exitApp(){
-
-if (navigator.app) {
-navigator.app.exitApp();
-}
-else if (navigator.device) {
-navigator.device.exitApp();
-}
-else {
-window.close();
-}
-
-}
-
-
-
-  
-
-
-  
 </script>
-<!-- EXIT POPUP -->
 
-<div id="exitPopup" class="popup">
-  <div class="popup-box">
-    <h3>Exit App</h3>
-    <p>Do you want to exit the app?</p>
 
-    <div class="popup-buttons">
-      <button class="cancel" onclick="stayApp()">No</button>
-      <button class="exit" onclick="exitApp()">Yes</button>
-    </div>
-
-  </div>
-</div>
 </body>
 </html>
