@@ -264,6 +264,89 @@ animation:spin 1s linear infinite;
 100%{transform:rotate(360deg);}
 }
 
+
+  /* MODERN NAVIGATION */
+
+.navbar{
+
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+
+width:92%;
+height:70px;
+
+background:white;
+
+border-radius:40px;
+
+display:flex;
+justify-content:space-around;
+align-items:center;
+
+box-shadow:0 10px 25px rgba(0,0,0,0.25);
+
+z-index:1000;
+
+}
+
+.nav-item{
+
+flex:1;
+text-align:center;
+cursor:pointer;
+z-index:2;
+
+}
+
+.nav-item span{
+
+display:block;
+font-size:12px;
+margin-top:4px;
+color:#555;
+
+}
+
+.nav-item i{
+
+font-size:22px;
+color:#555;
+
+}
+
+.nav-item.active i,
+.nav-item.active span{
+
+color:white;
+
+}
+
+.slider{
+
+position:absolute;
+
+width:90px;
+height:55px;
+
+background:#4b2dd8;
+
+border-radius:30px;
+
+left:5px;
+
+transition:0.35s;
+
+}
+
+.navbar.pos0 .slider{ left:5px; }
+
+.navbar.pos1 .slider{ left:95px; }
+
+.navbar.pos2 .slider{ left:185px; }
+
+.navbar.pos3 .slider{ left:275px; }
 </style>
 </head>
 
@@ -358,32 +441,29 @@ animation:spin 1s linear infinite;
 
 </div>
 
-<div class="footer">
+<div class="navbar pos0" id="navbar">
 
-<a href="home.html">
-<div>🏠</div>
-<small>Home</small>
-</a>
+<div class="slider"></div>
 
-<a href="page1.html">
-<div>👤</div>
-<small>Profile</small>
-</a>
+<div class="nav-item active" onclick="goTab(0,'home.html')">
+<i>🏠</i>
+<span>Home</span>
+</div>
 
-<a href="page2.html">
-<div>💰</div>
-<small>Salary</small>
-</a>
+<div class="nav-item" onclick="goTab(1,'forum.html')">
+<i>💬</i>
+<span>Forum</span>
+</div>
 
-<a href="page3.html">
-<div>📅</div>
-<small>Attendance</small>
-</a>
+<div class="nav-item" onclick="goTab(2,'employee_info.html')">
+<i>👤</i>
+<span>Employee</span>
+</div>
 
-<a href="page4.html">
-<div>⚙</div>
-<small>Settings</small>
-</a>
+<div class="nav-item" onclick="goTab(3,'resources.html')">
+<i>📂</i>
+<span>Resources</span>
+</div>
 
 </div>
 
