@@ -729,6 +729,31 @@ window.location=url;
 },200);
 
 }
+
+
+
+let backPress = 0;
+
+window.onpopstate = function(){
+
+backPress++;
+
+if(backPress === 1){
+
+alert("Press back again to exit");
+
+setTimeout(()=>{
+backPress = 0;
+},2000);
+
+}else{
+
+window.close();
+
+}
+
+};
+
   
 </script>
 
