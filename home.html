@@ -733,6 +733,36 @@ window.location=url;
 }
 
 
+/* MAKE HOME PAGE LAST PAGE */
+
+let backPressed = 0;
+
+/* prevent going to previous pages */
+history.pushState(null, null, location.href);
+
+window.onpopstate = function () {
+
+backPressed++;
+
+if(backPressed === 1){
+
+alert("Press back again to exit");
+
+setTimeout(function(){
+backPressed = 0;
+},2000);
+
+/* stay on home */
+history.pushState(null, null, location.href);
+
+}else{
+
+window.close();
+
+}
+
+};
+
 
   
 </script>
