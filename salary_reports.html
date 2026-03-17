@@ -6,7 +6,7 @@
 
 <style>
 body{font-family:sans-serif;margin:0;background:#f4f4f9;}
-.top{padding:18px;background:#4b2dd8;color:white;border-bottom-left-radius:25px;border-bottom-right-radius:25px;}
+.top{padding:18px;background:#4b2dd8;color:white;border-radius:0 0 25px 25px;}
 .content{padding:15px;}
 .card{background:white;padding:15px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
 select,button{width:100%;padding:10px;margin-top:10px;border-radius:8px;border:1px solid #ccc;}
@@ -37,6 +37,7 @@ button{background:#4b2dd8;color:white;font-weight:bold;border:none;}
 
 const baseURL = "https://hescomsalary1-sudo.github.io/salary-data/";
 
+/* LOAD CSV */
 async function loadCSV(file){
 let res = await fetch(baseURL + file);
 let text = await res.text();
@@ -44,7 +45,7 @@ text = text.replace(/^\uFEFF/, '');
 return text.trim().split("\n").map(r => r.split(","));
 }
 
-/* INIT */
+/* INIT YEAR */
 async function init(){
 
 let user = localStorage.getItem("currentUser")?.trim();
@@ -59,6 +60,7 @@ let u = r[0]?.trim();
 let y = r[1]?.trim();
 
 if(role !== "admin" && u !== user) return;
+
 if(y) years.add(y);
 });
 
@@ -75,23 +77,24 @@ let user = localStorage.getItem("currentUser")?.trim();
 let role = localStorage.getItem("role");
 let selectedYear = year.value;
 
+/* FILES */
 let salary = await loadCSV("salary%20.csv");
 
-let files = [
-"ta_bills.csv",
-"supplementary.csv",
-"medical_bills.csv",
-"els_bills.csv",
-"double_wages.csv",
-"da_arrears.csv",
-"others.csv"
-];
+let files = {
+"TA Bills":"ta_bills.csv",
+"Supplementary":"supplementary.csv",
+"Medical":"medical_bills.csv",
+"ELS":"els_bills.csv",
+"Double Wages":"double_wages.csv",
+"DA Arrears":"da_arrears.csv",
+"Others":"others.csv"
+};
 
 let totalSalary = 0;
-let totalBills = 0;
 let totalLIC = 0;
 
-/* SALARY */
+/* ===== SALARY ===== */
+
 salary.slice(1).forEach(r=>{
 
 let u = r[0]?.trim();
@@ -110,10 +113,16 @@ totalLIC += Number(r[20] || 0);
 
 });
 
-/* BILLS */
-for(let file of files){
+/* ===== BILLS (SEPARATE TOTALS) ===== */
 
-let data = await loadCSV(file);
+let billDetails = "";
+let totalBills = 0;
+
+for(let key in files){
+
+let data = await loadCSV(files[key]);
+
+let sum = 0;
 
 data.slice(1).forEach(r=>{
 
@@ -121,36 +130,44 @@ let u = r[0]?.trim();
 let y = r[1]?.trim();
 let amount = Number(r[2] || 0);
 
-/* 🔥 FIXED STATUS */
-let status = (r[4] || "").toLowerCase().trim();
-
 if(role !== "admin" && u !== user) return;
 if(y !== selectedYear) return;
 
-/* 🔥 ACCEPT ALL APPROVED VARIATIONS */
-if(!status.includes("approved")) return;
-
-totalBills += amount;
+sum += amount;
 
 });
+
+totalBills += sum;
+
+billDetails += `<b>${key}:</b> ₹${sum.toFixed(2)}<br>`;
+
 }
 
 /* FINAL */
 let totalIncome = totalSalary + totalBills;
+
+/* DISPLAY */
 
 result.innerHTML = `
 
 <div class="summary">
 <b>📊 Yearly Income Report</b><br><br>
 
-Salary Income: ₹${totalSalary.toFixed(2)}<br>
-Other Earnings (Bills): ₹${totalBills.toFixed(2)}<br>
-Total Income: ₹${totalIncome.toFixed(2)}
+<b>Salary Earnings:</b> ₹${totalSalary.toFixed(2)}<br><br>
+
+${billDetails}<br>
+
+<b>Total Other Earnings:</b> ₹${totalBills.toFixed(2)}<br><br>
+
+<b>Total Income:</b> ₹${totalIncome.toFixed(2)}
+
 </div>
 
 <div class="summary">
 <b>📉 LIC Deduction Report</b><br><br>
+
 Total LIC Deduction: ₹${totalLIC.toFixed(2)}
+
 </div>
 
 `;
