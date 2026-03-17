@@ -64,7 +64,6 @@ border:1px solid #ccc;
 font-size:14px;
 }
 
-/* BUTTON */
 button{
 background:linear-gradient(135deg,#4b2dd8,#7b2cff);
 color:white;
@@ -241,7 +240,9 @@ if(!user){window.location="login.html";}
 
 let allRows=[],page=0,perPage=10;
 
-function closePopup(){document.getElementById("popupBg").style.display="none";}
+function closePopup(){
+document.getElementById("popupBg").style.display="none";
+}
 
 function renderPage(){
 let start=page*perPage,end=start+perPage;
@@ -256,7 +257,6 @@ function prevPage(){if(page>0){page--;renderPage();}}
 function searchAttendance(){
 
 document.getElementById("loadingBg").style.display="flex";
-
 page=0;
 allRows=[];
 
@@ -270,12 +270,12 @@ fetch("https://hescomsalary1-sudo.github.io/salary-data/holidays.csv").then(r=>r
 
 document.getElementById("loadingBg").style.display="none";
 
-/* CREATE HOLIDAY MAP */
+/* HOLIDAY MAP */
 let holidayMap={};
 
 holidayData.trim().split("\n").slice(1).forEach(r=>{
 let c=r.split(",");
-holidayMap[c[0].trim()] = c[1]; // date -> name
+holidayMap[c[0].trim()] = c[1];
 });
 
 let rows=attendanceData.trim().split("\n");
@@ -300,10 +300,17 @@ let fullDate=`${day}-${monthNumber[month]}-${year}`;
 
 let status="",type="-",color="";
 
-/* CHECK HOLIDAY */
-if(holidayMap[fullDate]){
+/* COMBINED HOLIDAY CHECK */
+let isHolidayCSV = holidayMap[fullDate];
+let isHolidayCode = (code==="GH"||code==="CH"||code==="WH"||code==="MCL");
 
-let holidayName=holidayMap[fullDate];
+if(isHolidayCSV || isHolidayCode){
+
+let holidayName = holidayMap[fullDate] || 
+(code==="GH"?"Government Holiday":
+ code==="CH"?"Compensatory Holiday":
+ code==="WH"?"Weekly Holiday":
+ code==="MCL"?"Manual Cycle Holiday":"Holiday");
 
 if(code==="P"){
 status="Holiday Work";
@@ -316,12 +323,10 @@ type=holidayName;
 color="holiday";
 }
 
-/* DO NOT COUNT OTHER */
 }else{
 
 if(code==="P"){status="Present";present++;color="present";}
 else if(code==="A"){status="Absent";absent++;color="absent";}
-
 else if(code==="FPL"){status="Leave";type="Full Pay Leave";leave++;color="leave";}
 else if(code==="MDL"){status="Leave";type="Medical Leave";leave++;color="leave";}
 else if(code==="EL"){status="Leave";type="Earned Leave";leave++;color="leave";}
@@ -333,14 +338,11 @@ else if(code==="OT"){status="Other";type="Others";color="other";}
 
 }
 
-/* ADD ROW */
-allRows.push(`
-<tr>
+allRows.push(`<tr>
 <td>${fullDate}</td>
 <td class="${color}">${status}</td>
 <td>${type}</td>
-</tr>
-`);
+</tr>`);
 
 }
 
@@ -348,7 +350,6 @@ allRows.push(`
 
 }
 
-/* UPDATE SUMMARY */
 document.getElementById("presentCount").innerText=present;
 document.getElementById("leaveCount").innerText=leave;
 document.getElementById("absentCount").innerText=absent;
