@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Salary Reports</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+font-family:sans-serif;
+margin:0;
+background:#f4f4f9;
+padding-bottom:90px;
+}
+
+.top{
+padding:18px;
+background:#4b2dd8;
+color:white;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+}
+
+.content{
+padding:15px;
+}
+
+.card{
+background:white;
+padding:15px;
+border-radius:12px;
+box-shadow:0 4px 12px rgba(0,0,0,0.1);
+margin-bottom:15px;
+}
+
+select,button{
+width:100%;
+padding:10px;
+margin-top:10px;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+button{
+background:#4b2dd8;
+color:white;
+font-weight:bold;
+border:none;
+cursor:pointer;
+}
+
+.summary{
+background:#4b2dd8;
+color:white;
+padding:12px;
+border-radius:10px;
+margin-top:15px;
+font-size:14px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="top">
+<h3>💰 Salary Reports</h3>
+</div>
+
+<div class="content">
+
+<div class="card">
+<label>Select Year</label>
+<select id="year"></select>
+
+<button onclick="generateReport()">Generate Report</button>
+</div>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+const baseURL = "https://hescomsalary1-sudo.github.io/salary-data/";
+
+/* LOAD CSV */
+async function loadCSV(file){
+let r = await fetch(baseURL + file);
+let t = await r.text();
+return t.trim().split("\n").map(row => row.split(","));
+}
+
+/* INIT YEARS */
+async function init(){
+
+let user = (localStorage.getItem("currentUser") || "").trim();
+let role = localStorage.getItem("role");
+
+let data = await loadCSV("salary.csv");
+
+let years = new Set();
+
+for(let i=1;i<data.length;i++){
+
+let r = data[i];
+
+let csvUser = (r[0] || "").trim();
+let csvYear = (r[1] || "").trim();
+
+if(role !== "admin" && csvUser !== user) continue;
+
+if(csvYear) years.add(csvYear);
+
+}
+
+year.innerHTML = "";
+
+years.forEach(y=>{
+year.innerHTML += `<option value="${y}">${y}</option>`;
+});
+
+}
+
+init();
+
+/* GENERATE REPORT */
+async function generateReport(){
+
+let user = (localStorage.getItem("currentUser") || "").trim();
+let role = localStorage.getItem("role");
+let selectedYear = year.value;
+
+let salary = await loadCSV("salary.csv");
+
+/* BILL FILES */
+let files = [
+"ta_bills.csv",
+"supplementary.csv",
+"medical_bills.csv",
+"els_bills.csv",
+"double_wages.csv",
+"da_arrears.csv",
+"others.csv"
+];
+
+let totalSalary = 0;
+let totalLIC = 0;
+let totalBills = 0;
+
+/* ===== SALARY ===== */
+
+for(let i=1;i<salary.length;i++){
+
+let r = salary[i];
+
+let csvUser = (r[0] || "").trim();
+let yr = (r[1] || "").trim();
+
+if(role !== "admin" && csvUser !== user) continue;
+if(yr !== selectedYear) continue;
+
+/* ADD ALL EARNINGS */
+for(let j=3;j<=19;j++){
+totalSalary += Number(r[j] || 0);
+}
+
+/* LIC */
+totalLIC += Number(r[20] || 0);
+
+}
+
+/* ===== BILLS ===== */
+
+for(let file of files){
+
+let data = await loadCSV(file);
+
+for(let i=1;i<data.length;i++){
+
+let r = data[i];
+
+let csvUser = (r[0] || "").trim();
+let yr = (r[1] || "").trim();
+let amount = Number(r[2] || 0);
+let status = (r[4] || "").toLowerCase().trim();
+
+if(role !== "admin" && csvUser !== user) continue;
+if(yr !== selectedYear) continue;
+if(status !== "approved") continue;
+
+totalBills += amount;
+
+}
+
+}
+
+/* FINAL */
+
+let totalIncome = totalSalary + totalBills;
+
+/* DISPLAY */
+
+result.innerHTML = `
+
+<div class="summary">
+
+<b>User:</b> ${user}<br>
+<b>Year:</b> ${selectedYear}<br><br>
+
+<b>Salary Income:</b> ₹${totalSalary.toFixed(2)}<br>
+<b>Other Earnings (Bills):</b> ₹${totalBills.toFixed(2)}<br>
+<b>Total Income:</b> ₹${totalIncome.toFixed(2)}<br><br>
+
+<b>LIC Deduction:</b> ₹${totalLIC.toFixed(2)}
+
+</div>
+
+`;
+
+}
+
+</script>
+
+</body>
+</html>
