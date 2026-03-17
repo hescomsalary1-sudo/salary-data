@@ -14,6 +14,7 @@ padding-bottom:90px;
 }
 
 /* HEADER */
+
 .top{
 padding:18px;
 background:#4b2dd8;
@@ -38,6 +39,7 @@ justify-content:center;
 }
 
 /* CONTAINER */
+
 .container{
 background:white;
 margin:18px;
@@ -64,7 +66,8 @@ border:1px solid #ccc;
 font-size:14px;
 }
 
-/* BUTTON */
+/* SEARCH BUTTON */
+
 button{
 background:linear-gradient(135deg,#4b2dd8,#7b2cff);
 color:white;
@@ -74,8 +77,32 @@ font-weight:bold;
 box-shadow:0 3px 10px rgba(0,0,0,0.15);
 }
 
-/* SUMMARY CARDS */
-.summaryCards{
+/* SUMMARY */
+
+.summary{
+width:100%;
+margin-top:15px;
+border-collapse:collapse;
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 3px 10px rgba(0,0,0,0.12);
+}
+
+.summary th{
+background:linear-gradient(135deg,#4b2dd8,#7b2cff);
+color:white;
+padding:8px;
+font-size:13px;
+}
+
+.summary td{
+padding:10px;
+text-align:center;
+font-weight:bold;
+font-size:14px;
+}
+
+  .summaryCards{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:12px;
@@ -90,22 +117,47 @@ text-align:center;
 box-shadow:0 4px 10px rgba(0,0,0,0.15);
 }
 
-.sumIcon{font-size:18px;}
-.sumText{font-size:13px;margin-top:3px;}
-.sumCount{font-size:20px;font-weight:bold;margin-top:5px;}
+.sumIcon{
+font-size:18px;
+}
 
-.presentCard{background:linear-gradient(135deg,#28a745,#7be495);}
-.leaveCard{background:linear-gradient(135deg,#ffc107,#ffd966);}
-.absentCard{background:linear-gradient(135deg,#ff4d4d,#ff8080);}
-.holidayCard{background:linear-gradient(135deg,#2196f3,#64b5f6);}
+.sumText{
+font-size:13px;
+margin-top:3px;
+}
+
+.sumCount{
+font-size:20px;
+font-weight:bold;
+margin-top:5px;
+}
+
+/* COLORS */
+
+.presentCard{
+background:linear-gradient(135deg,#28a745,#7be495);
+}
+
+.leaveCard{
+background:linear-gradient(135deg,#ffc107,#ffd966);
+}
+
+.absentCard{
+background:linear-gradient(135deg,#ff4d4d,#ff8080);
+}
+
+.holidayCard{
+background:linear-gradient(135deg,#2196f3,#64b5f6);
+}
 
 /* TABLE */
+
 table{
 width:95%;
 margin:15px auto;
 border-collapse:separate;
 border-spacing:6px;
-font-size:12px;
+font-size:12px; /* smaller font as requested */
 }
 
 th{
@@ -113,6 +165,7 @@ background:linear-gradient(135deg,#4b2dd8,#7b2cff);
 color:white;
 padding:9px;
 border-radius:8px;
+font-size:12px;
 }
 
 td{
@@ -121,15 +174,31 @@ padding:8px;
 text-align:center;
 border-radius:8px;
 box-shadow:0 2px 6px rgba(0,0,0,0.1);
+font-size:12px;
 }
 
 /* STATUS COLORS */
-.present{color:#0a8a2a;font-weight:bold;}
-.absent{color:#d40000;font-weight:bold;}
-.leave{color:#b38f00;font-weight:bold;}
-.holiday{color:#0b5ed7;font-weight:bold;}
+
+.present{
+background:#e8fff0;
+color:#0a8a2a;
+font-weight:bold;
+}
+
+.absent{
+background:#ffeaea;
+color:#d40000;
+font-weight:bold;
+}
+
+.leave{
+background:#fff7d6;
+color:#b38f00;
+font-weight:bold;
+}
 
 /* PAGINATION */
+
 .pagination{
 display:none;
 justify-content:center;
@@ -146,7 +215,8 @@ border-radius:8px;
 cursor:pointer;
 }
 
-/* LOADING */
+/* LOADING SCREEN */
+
 .loadingBg{
 position:fixed;
 top:0;
@@ -165,6 +235,7 @@ background:white;
 padding:25px;
 border-radius:15px;
 text-align:center;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
 }
 
 .spinner{
@@ -184,6 +255,7 @@ margin-bottom:10px;
 }
 
 /* POPUP */
+
 .popupBg{
 position:fixed;
 top:0;
@@ -202,11 +274,20 @@ padding:25px;
 border-radius:15px;
 text-align:center;
 width:260px;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
 }
 
-.popup h3{margin-top:0;color:#5e00a3;}
+.popup h3{
+margin-top:0;
+color:#5e00a3;
+}
+
+.popup button{
+margin-top:15px;
+}
 
 /* FOOTER */
+
 .footer{
 position:fixed;
 bottom:0;
@@ -233,6 +314,7 @@ margin-top:3px;
 font-weight:600;
 }
 
+
 </style>
 </head>
 
@@ -246,6 +328,7 @@ font-weight:600;
 <div class="container">
 
 <div class="row">
+
 <select id="year">
 <option value="">Select Year</option>
 <option>2024</option>
@@ -268,11 +351,13 @@ font-weight:600;
 <option>Nov</option>
 <option>Dec</option>
 </select>
+
 </div>
 
 <button onclick="searchAttendance()">Search</button>
 
 <div class="summaryCards">
+
 <div class="summaryCard presentCard">
 <div class="sumIcon">🟢</div>
 <div class="sumText">Present</div>
@@ -296,6 +381,7 @@ font-weight:600;
 <div class="sumText">Holiday Work</div>
 <div class="sumCount" id="holidayWork">0</div>
 </div>
+
 </div>
 
 </div>
@@ -308,6 +394,7 @@ font-weight:600;
 </div>
 
 <!-- LOADING -->
+
 <div class="loadingBg" id="loadingBg">
 <div class="loaderBox">
 <div class="spinner"></div>
@@ -316,6 +403,7 @@ font-weight:600;
 </div>
 
 <!-- POPUP -->
+
 <div class="popupBg" id="popupBg">
 <div class="popup">
 <h3>Attendance not available</h3>
@@ -323,6 +411,8 @@ font-weight:600;
 <button onclick="closePopup()">OK</button>
 </div>
 </div>
+
+
 
 <script>
 
@@ -353,6 +443,7 @@ tableHTML+=allRows[i];
 }
 
 document.getElementById("attendanceTable").innerHTML=tableHTML;
+
 }
 
 function nextPage(){
@@ -403,8 +494,6 @@ let leaveCount=0;
 let absentCount=0;
 let holidayWork=0;
 
-let monthNumber={Jan:"01",Feb:"02",Mar:"03",Apr:"04",May:"05",Jun:"06",Jul:"07",Aug:"08",Sep:"09",Oct:"10",Nov:"11",Dec:"12"};
-
 for(let i=1;i<rows.length;i++){
 
 let col=rows[i].split(",");
@@ -416,42 +505,41 @@ let totalDays=Math.floor((col.length-3)/2);
 for(let d=0;d<totalDays;d++){
 
 let day=("0"+(d+1)).slice(-2);
+
+let monthNumber={Jan:"01",Feb:"02",Mar:"03",Apr:"04",May:"05",Jun:"06",Jul:"07",Aug:"08",Sep:"09",Oct:"10",Nov:"11",Dec:"12"};
+
 let fullDate=`${day}-${monthNumber[month]}-${year}`;
 
 let status=col[3+(d*2)]?.trim();
 let leaveType=col[4+(d*2)]?.trim()||"-";
 
-let statusText=status;
-let color="";
-
-/* HOLIDAY LOGIC */
 if(holidayMap[fullDate]){
+
 let holidayName=holidayMap[fullDate];
 
 if(status==="Present"){
-statusText="Holiday Work";
-color="holiday";
 leaveType=holidayName;
 holidayWork++;
 }else{
-statusText="Holiday";
-color="holiday";
+status="Holiday";
 leaveType=holidayName;
 }
+
 }
 
-/* NORMAL STATUS */
-else{
-if(status==="Present"){presentCount++; color="present";}
-else if(status==="Absent"){absentCount++; color="absent";}
-else if(status==="Leave"){leaveCount++; color="leave";}
-}
+if(status==="Present"){presentCount++;}
+else if(status==="Absent"){absentCount++;}
+else if(status==="Leave"){leaveCount++;}
 
-/* PUSH ROW */
+let color="";
+if(status==="Present"){color="present";}
+else if(status==="Absent"){color="absent";}
+else{color="leave";}
+
 allRows.push(`
-<tr>
-<td>${fullDate}</td>
-<td class="${color}">${statusText}</td>
+<tr class="${color}">
+<td>${day}</td>
+<td>${status}</td>
 <td>${leaveType}</td>
 </tr>
 `);
@@ -468,11 +556,16 @@ document.getElementById("absentCount").innerText=absentCount;
 document.getElementById("holidayWork").innerText=holidayWork;
 
 if(allRows.length===0){
+
 document.getElementById("popupBg").style.display="flex";
+
 }else{
+
 document.getElementById("attendanceTable").style.display="table";
 document.getElementById("pagination").style.display="flex";
+
 renderPage();
+
 }
 
 });
