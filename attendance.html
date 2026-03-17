@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-
 body{
 font-family:sans-serif;
 margin:0;
@@ -14,7 +13,6 @@ padding-bottom:90px;
 }
 
 /* HEADER */
-
 .top{
 padding:18px;
 background:#4b2dd8;
@@ -39,7 +37,6 @@ justify-content:center;
 }
 
 /* CONTAINER */
-
 .container{
 background:white;
 margin:18px;
@@ -66,8 +63,7 @@ border:1px solid #ccc;
 font-size:14px;
 }
 
-/* SEARCH BUTTON */
-
+/* BUTTON */
 button{
 background:linear-gradient(135deg,#4b2dd8,#7b2cff);
 color:white;
@@ -78,31 +74,7 @@ box-shadow:0 3px 10px rgba(0,0,0,0.15);
 }
 
 /* SUMMARY */
-
-.summary{
-width:100%;
-margin-top:15px;
-border-collapse:collapse;
-border-radius:12px;
-overflow:hidden;
-box-shadow:0 3px 10px rgba(0,0,0,0.12);
-}
-
-.summary th{
-background:linear-gradient(135deg,#4b2dd8,#7b2cff);
-color:white;
-padding:8px;
-font-size:13px;
-}
-
-.summary td{
-padding:10px;
-text-align:center;
-font-weight:bold;
-font-size:14px;
-}
-
-  .summaryCards{
+.summaryCards{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:12px;
@@ -117,47 +89,19 @@ text-align:center;
 box-shadow:0 4px 10px rgba(0,0,0,0.15);
 }
 
-.sumIcon{
-font-size:18px;
-}
+.sumCount{font-size:20px;font-weight:bold;}
 
-.sumText{
-font-size:13px;
-margin-top:3px;
-}
-
-.sumCount{
-font-size:20px;
-font-weight:bold;
-margin-top:5px;
-}
-
-/* COLORS */
-
-.presentCard{
-background:linear-gradient(135deg,#28a745,#7be495);
-}
-
-.leaveCard{
-background:linear-gradient(135deg,#ffc107,#ffd966);
-}
-
-.absentCard{
-background:linear-gradient(135deg,#ff4d4d,#ff8080);
-}
-
-.holidayCard{
-background:linear-gradient(135deg,#2196f3,#64b5f6);
-}
+.presentCard{background:linear-gradient(135deg,#28a745,#7be495);}
+.leaveCard{background:linear-gradient(135deg,#ffc107,#ffd966);}
+.absentCard{background:linear-gradient(135deg,#ff4d4d,#ff8080);}
+.holidayCard{background:linear-gradient(135deg,#2196f3,#64b5f6);}
 
 /* TABLE */
-
 table{
 width:95%;
 margin:15px auto;
-border-collapse:separate;
 border-spacing:6px;
-font-size:12px; /* smaller font as requested */
+font-size:12px;
 }
 
 th{
@@ -165,7 +109,6 @@ background:linear-gradient(135deg,#4b2dd8,#7b2cff);
 color:white;
 padding:9px;
 border-radius:8px;
-font-size:12px;
 }
 
 td{
@@ -174,30 +117,14 @@ padding:8px;
 text-align:center;
 border-radius:8px;
 box-shadow:0 2px 6px rgba(0,0,0,0.1);
-font-size:12px;
 }
 
-/* STATUS COLORS */
-
-.present{
-background:#e8fff0;
-color:#0a8a2a;
-font-weight:bold;
-}
-
-.absent{
-background:#ffeaea;
-color:#d40000;
-font-weight:bold;
-}
-
-.leave{
-background:#fff7d6;
-color:#b38f00;
-font-weight:bold;
-}
-
-/* PAGINATION */
+/* COLORS */
+.present{color:#0a8a2a;font-weight:bold;}
+.absent{color:#d40000;font-weight:bold;}
+.leave{color:#b38f00;font-weight:bold;}
+.holiday{color:#0b5ed7;font-weight:bold;}
+.other{color:#6b7280;font-weight:bold;}
 
 .pagination{
 display:none;
@@ -215,106 +142,35 @@ border-radius:8px;
 cursor:pointer;
 }
 
-/* LOADING SCREEN */
-
-.loadingBg{
+.loadingBg,.popupBg{
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
+top:0;left:0;width:100%;height:100%;
 background:rgba(0,0,0,0.4);
 display:none;
 align-items:center;
 justify-content:center;
-z-index:999;
 }
 
-.loaderBox{
+.loaderBox,.popup{
 background:white;
 padding:25px;
 border-radius:15px;
 text-align:center;
-box-shadow:0 5px 15px rgba(0,0,0,0.3);
 }
 
 .spinner{
-width:40px;
-height:40px;
+width:40px;height:40px;
 border:5px solid #ddd;
 border-top:5px solid #4b2dd8;
 border-radius:50%;
 animation:spin 1s linear infinite;
-margin:auto;
-margin-bottom:10px;
+margin:auto;margin-bottom:10px;
 }
 
 @keyframes spin{
 0%{transform:rotate(0deg);}
 100%{transform:rotate(360deg);}
 }
-
-/* POPUP */
-
-.popupBg{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.4);
-display:none;
-align-items:center;
-justify-content:center;
-}
-
-.popup{
-background:white;
-padding:25px;
-border-radius:15px;
-text-align:center;
-width:260px;
-box-shadow:0 5px 15px rgba(0,0,0,0.3);
-}
-
-.popup h3{
-margin-top:0;
-color:#5e00a3;
-}
-
-.popup button{
-margin-top:15px;
-}
-
-/* FOOTER */
-
-.footer{
-position:fixed;
-bottom:0;
-width:100%;
-background:white;
-display:flex;
-justify-content:space-around;
-padding:8px 0;
-box-shadow:0 -2px 10px rgba(0,0,0,0.1);
-}
-
-.footer a{
-text-decoration:none;
-display:flex;
-flex-direction:column;
-align-items:center;
-color:#5e00a3;
-font-size:20px;
-}
-
-.footer small{
-font-size:12px;
-margin-top:3px;
-font-weight:600;
-}
-
-
 </style>
 </head>
 
@@ -328,7 +184,6 @@ font-weight:600;
 <div class="container">
 
 <div class="row">
-
 <select id="year">
 <option value="">Select Year</option>
 <option>2024</option>
@@ -338,50 +193,20 @@ font-weight:600;
 
 <select id="month">
 <option value="">Select Month</option>
-<option>Jan</option>
-<option>Feb</option>
-<option>Mar</option>
-<option>Apr</option>
-<option>May</option>
-<option>Jun</option>
-<option>Jul</option>
-<option>Aug</option>
-<option>Sep</option>
-<option>Oct</option>
-<option>Nov</option>
-<option>Dec</option>
+<option>Jan</option><option>Feb</option><option>Mar</option>
+<option>Apr</option><option>May</option><option>Jun</option>
+<option>Jul</option><option>Aug</option><option>Sep</option>
+<option>Oct</option><option>Nov</option><option>Dec</option>
 </select>
-
 </div>
 
 <button onclick="searchAttendance()">Search</button>
 
 <div class="summaryCards">
-
-<div class="summaryCard presentCard">
-<div class="sumIcon">🟢</div>
-<div class="sumText">Present</div>
-<div class="sumCount" id="presentCount">0</div>
-</div>
-
-<div class="summaryCard leaveCard">
-<div class="sumIcon">🟡</div>
-<div class="sumText">Leave</div>
-<div class="sumCount" id="leaveCount">0</div>
-</div>
-
-<div class="summaryCard absentCard">
-<div class="sumIcon">🔴</div>
-<div class="sumText">Absent</div>
-<div class="sumCount" id="absentCount">0</div>
-</div>
-
-<div class="summaryCard holidayCard">
-<div class="sumIcon">🔵</div>
-<div class="sumText">Holiday Work</div>
-<div class="sumCount" id="holidayWork">0</div>
-</div>
-
+<div class="summaryCard presentCard"><div class="sumCount" id="presentCount">0</div>Present</div>
+<div class="summaryCard leaveCard"><div class="sumCount" id="leaveCount">0</div>Leave</div>
+<div class="summaryCard absentCard"><div class="sumCount" id="absentCount">0</div>Absent</div>
+<div class="summaryCard holidayCard"><div class="sumCount" id="holidayCount">0</div>Holiday</div>
 </div>
 
 </div>
@@ -393,156 +218,94 @@ font-weight:600;
 <button class="pageBtn" onclick="nextPage()">Next</button>
 </div>
 
-<!-- LOADING -->
-
 <div class="loadingBg" id="loadingBg">
 <div class="loaderBox">
 <div class="spinner"></div>
-<div>Loading attendance...</div>
+<div>Loading...</div>
 </div>
 </div>
-
-<!-- POPUP -->
 
 <div class="popupBg" id="popupBg">
 <div class="popup">
-<h3>Attendance not available</h3>
-<p>No records found for selected month.</p>
+<h3>No Data</h3>
 <button onclick="closePopup()">OK</button>
 </div>
 </div>
-
-
 
 <script>
 
 let user=localStorage.getItem("currentUser");
 if(!user){window.location="login.html";}
 
-let allRows=[];
-let page=0;
-let perPage=10;
+let allRows=[],page=0,perPage=10;
 
-function closePopup(){
-document.getElementById("popupBg").style.display="none";
-}
+function closePopup(){document.getElementById("popupBg").style.display="none";}
 
 function renderPage(){
-
-let start=page*perPage;
-let end=start+perPage;
-
-let tableHTML=`<tr>
-<th>Date</th>
-<th>Status</th>
-<th>Leave Type</th>
-</tr>`;
-
-for(let i=start;i<end && i<allRows.length;i++){
-tableHTML+=allRows[i];
+let start=page*perPage,end=start+perPage;
+let html=`<tr><th>Date</th><th>Status</th><th>Type</th></tr>`;
+for(let i=start;i<end&&i<allRows.length;i++){html+=allRows[i];}
+document.getElementById("attendanceTable").innerHTML=html;
 }
 
-document.getElementById("attendanceTable").innerHTML=tableHTML;
-
-}
-
-function nextPage(){
-if((page+1)*perPage<allRows.length){
-page++;
-renderPage();
-}
-}
-
-function prevPage(){
-if(page>0){
-page--;
-renderPage();
-}
-}
+function nextPage(){if((page+1)*perPage<allRows.length){page++;renderPage();}}
+function prevPage(){if(page>0){page--;renderPage();}}
 
 function searchAttendance(){
 
 document.getElementById("loadingBg").style.display="flex";
-
-page=0;
-allRows=[];
-
-document.getElementById("attendanceTable").style.display="none";
-document.getElementById("pagination").style.display="none";
+page=0;allRows=[];
 
 let year=document.getElementById("year").value.trim();
 let month=document.getElementById("month").value.trim();
 
-Promise.all([
-fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv").then(r=>r.text()),
-fetch("https://hescomsalary1-sudo.github.io/salary-data/holidays.csv").then(r=>r.text())
-]).then(([attendanceData,holidayData])=>{
+fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv")
+.then(r=>r.text())
+.then(data=>{
 
 document.getElementById("loadingBg").style.display="none";
 
-let holidayMap={};
+let rows=data.trim().split("\n");
 
-holidayData.trim().split("\n").slice(1).forEach(r=>{
-let c=r.split(",");
-holidayMap[c[0]?.trim()]=c[1];
-});
+let present=0,leave=0,absent=0,holiday=0;
 
-let rows=attendanceData.trim().split("\n");
-
-let presentCount=0;
-let leaveCount=0;
-let absentCount=0;
-let holidayWork=0;
+let monthNumber={Jan:"01",Feb:"02",Mar:"03",Apr:"04",May:"05",Jun:"06",Jul:"07",Aug:"08",Sep:"09",Oct:"10",Nov:"11",Dec:"12"};
 
 for(let i=1;i<rows.length;i++){
 
 let col=rows[i].split(",");
 
-if(col[0]?.trim()===user && col[1]?.trim()===month && col[2]?.trim()===year){
+if(col[0]===user && col[1]===year && col[2]===month){
 
-let totalDays=Math.floor((col.length-3)/2);
+for(let d=0;d<31;d++){
 
-for(let d=0;d<totalDays;d++){
+let code=col[3+d]?.trim();
+if(!code) continue;
+
+let status="",type="-",color="";
+
+if(code==="P"){status="Present";present++;color="present";}
+else if(code==="A"){status="Absent";absent++;color="absent";}
+else if(code==="FPL"){status="Leave";type="Full Pay Leave";leave++;color="leave";}
+else if(code==="MDL"){status="Leave";type="Medical Leave";leave++;color="leave";}
+else if(code==="EL"){status="Leave";type="Earned Leave";leave++;color="leave";}
+else if(code==="IL"){status="Leave";type="Injury Leave";leave++;color="leave";}
+else if(code==="SCL"){status="Leave";type="Special Casual Leave";leave++;color="leave";}
+else if(code==="PL"){status="Leave";type="Paternity Leave";leave++;color="leave";}
+else if(code==="ML"){status="Leave";type="Maternity Leave";leave++;color="leave";}
+else if(code==="GH"){status="Holiday";type="Gov Holiday";holiday++;color="holiday";}
+else if(code==="CH"){status="Holiday";type="Comp Holiday";holiday++;color="holiday";}
+else if(code==="WH"){status="Holiday";type="Weekly Holiday";holiday++;color="holiday";}
+else if(code==="OT"){status="Other";type="Others";color="other";}
 
 let day=("0"+(d+1)).slice(-2);
-
-let monthNumber={Jan:"01",Feb:"02",Mar:"03",Apr:"04",May:"05",Jun:"06",Jul:"07",Aug:"08",Sep:"09",Oct:"10",Nov:"11",Dec:"12"};
-
 let fullDate=`${day}-${monthNumber[month]}-${year}`;
 
-let status=col[3+(d*2)]?.trim();
-let leaveType=col[4+(d*2)]?.trim()||"-";
-
-if(holidayMap[fullDate]){
-
-let holidayName=holidayMap[fullDate];
-
-if(status==="Present"){
-leaveType=holidayName;
-holidayWork++;
-}else{
-status="Holiday";
-leaveType=holidayName;
-}
-
-}
-
-if(status==="Present"){presentCount++;}
-else if(status==="Absent"){absentCount++;}
-else if(status==="Leave"){leaveCount++;}
-
-let color="";
-if(status==="Present"){color="present";}
-else if(status==="Absent"){color="absent";}
-else{color="leave";}
-
-allRows.push(`
-<tr class="${color}">
-<td>${day}</td>
-<td>${status}</td>
-<td>${leaveType}</td>
-</tr>
-`);
+allRows.push(`<tr>
+<td>${fullDate}</td>
+<td class="${color}">${status}</td>
+<td>${type}</td>
+</tr>`);
 
 }
 
@@ -550,22 +313,17 @@ allRows.push(`
 
 }
 
-document.getElementById("presentCount").innerText=presentCount;
-document.getElementById("leaveCount").innerText=leaveCount;
-document.getElementById("absentCount").innerText=absentCount;
-document.getElementById("holidayWork").innerText=holidayWork;
+document.getElementById("presentCount").innerText=present;
+document.getElementById("leaveCount").innerText=leave;
+document.getElementById("absentCount").innerText=absent;
+document.getElementById("holidayCount").innerText=holiday;
 
 if(allRows.length===0){
-
 document.getElementById("popupBg").style.display="flex";
-
 }else{
-
 document.getElementById("attendanceTable").style.display="table";
 document.getElementById("pagination").style.display="flex";
-
 renderPage();
-
 }
 
 });
