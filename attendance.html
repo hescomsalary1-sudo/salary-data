@@ -7,44 +7,48 @@
 <style>
 
 body{
-font-family:sans-serif;
+font-family:'Segoe UI',sans-serif;
 margin:0;
-background:#f4f6ff;
+background:linear-gradient(135deg,#eef2ff,#f8fafc);
 padding-bottom:90px;
 }
 
 /* HEADER */
 .top{
 padding:18px;
-background:linear-gradient(135deg,#4b2dd8,#7b2cff);
+background:linear-gradient(135deg,#4f46e5,#7c3aed);
 color:white;
 display:flex;
 align-items:center;
-gap:10px;
-border-bottom-left-radius:30px;
-border-bottom-right-radius:30px;
+gap:12px;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+box-shadow:0 8px 20px rgba(0,0,0,0.15);
 }
 
 .icon{
-width:34px;
-height:34px;
+width:38px;
+height:38px;
 background:white;
-color:#5e00a3;
+color:#4f46e5;
 border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
+font-size:18px;
 }
 
 /* CONTAINER */
 .container{
-background:white;
+background:rgba(255,255,255,0.7);
+backdrop-filter:blur(12px);
 margin:18px;
 padding:18px;
 border-radius:18px;
-box-shadow:0 6px 18px rgba(0,0,0,0.12);
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
 }
 
+/* INPUT */
 .row{
 display:flex;
 gap:10px;
@@ -52,17 +56,18 @@ gap:10px;
 
 select,button{
 width:100%;
-padding:10px;
+padding:11px;
 margin-top:10px;
-border-radius:10px;
-border:1px solid #ccc;
+border-radius:12px;
+border:none;
+background:#f1f5f9;
+font-size:14px;
 }
 
 /* BUTTON */
 button{
-background:linear-gradient(135deg,#4b2dd8,#7b2cff);
+background:linear-gradient(135deg,#4f46e5,#7c3aed);
 color:white;
-border:none;
 font-weight:bold;
 }
 
@@ -75,71 +80,91 @@ margin-top:15px;
 }
 
 .summaryCard{
-padding:15px;
-border-radius:14px;
+padding:14px;
+border-radius:16px;
 color:white;
 text-align:center;
+box-shadow:0 6px 15px rgba(0,0,0,0.1);
 }
 
-.sumCount{font-size:20px;font-weight:bold;}
+.sumCount{font-size:22px;font-weight:bold;}
 
-.presentCard{background:#28a745;}
-.leaveCard{background:#ffc107;}
-.absentCard{background:#ff4d4d;}
-.holidayCard{background:#2196f3;}
+.presentCard{background:#22c55e;}
+.leaveCard{background:#facc15;color:#333;}
+.absentCard{background:#ef4444;}
+.holidayCard{background:#3b82f6;}
 
-/* CARD LIST */
+/* LIST */
 .attCard{
-background:white;
 margin:12px;
 padding:14px;
-border-radius:14px;
-box-shadow:0 4px 12px rgba(0,0,0,0.1);
+border-radius:16px;
+background:white;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
 display:flex;
 justify-content:space-between;
 align-items:center;
+position:relative;
 }
 
-.attLeft{display:flex;flex-direction:column;}
+/* LEFT COLOR STRIP */
+.attCard::before{
+content:"";
+position:absolute;
+left:0;
+top:0;
+height:100%;
+width:5px;
+border-radius:10px;
+}
 
+/* COLORS */
+.presentCardBar::before{background:#22c55e;}
+.absentCardBar::before{background:#ef4444;}
+.leaveCardBar::before{background:#facc15;}
+.holidayCardBar::before{background:#3b82f6;}
+
+/* TEXT */
 .attDate{
-font-weight:bold;
 font-size:14px;
+font-weight:600;
+color:#111;
 }
 
 .attType{
 font-size:12px;
-color:#777;
+color:#666;
+margin-top:3px;
 }
 
+/* STATUS CHIP */
 .attStatus{
 padding:6px 12px;
 border-radius:20px;
 font-size:12px;
-font-weight:bold;
+font-weight:600;
 }
 
-/* BADGES */
-.badge-present{background:#e8fff0;color:#0a8a2a;}
-.badge-absent{background:#ffeaea;color:#d40000;}
-.badge-leave{background:#fff7d6;color:#b38f00;}
-.badge-holiday{background:#e6f0ff;color:#0b5ed7;}
-.badge-other{background:#eee;color:#555;}
+.badge-present{background:#dcfce7;color:#166534;}
+.badge-absent{background:#fee2e2;color:#991b1b;}
+.badge-leave{background:#fef9c3;color:#854d0e;}
+.badge-holiday{background:#dbeafe;color:#1e40af;}
+.badge-other{background:#e5e7eb;color:#374151;}
 
 /* PAGINATION */
 .pagination{
 display:none;
 justify-content:center;
-gap:20px;
+gap:15px;
 margin:20px;
 }
 
 .pageBtn{
-padding:8px 15px;
-background:#4b2dd8;
+padding:8px 16px;
+border-radius:10px;
+background:#4f46e5;
 color:white;
 border:none;
-border-radius:8px;
 }
 
 /* LOADING */
@@ -189,15 +214,15 @@ text-align:center;
 <button onclick="searchAttendance()">Search</button>
 
 <div class="summaryCards">
-<div class="summaryCard presentCard"><div class="sumCount" id="presentCount">0</div>Present</div>
-<div class="summaryCard leaveCard"><div class="sumCount" id="leaveCount">0</div>Leave</div>
-<div class="summaryCard absentCard"><div class="sumCount" id="absentCount">0</div>Absent</div>
-<div class="summaryCard holidayCard"><div class="sumCount" id="holidayWork">0</div>Holiday Work</div>
+<div class="summaryCard presentCard"><div id="presentCount" class="sumCount">0</div>Present</div>
+<div class="summaryCard leaveCard"><div id="leaveCount" class="sumCount">0</div>Leave</div>
+<div class="summaryCard absentCard"><div id="absentCount" class="sumCount">0</div>Absent</div>
+<div class="summaryCard holidayCard"><div id="holidayWork" class="sumCount">0</div>Holiday Work</div>
 </div>
 
 </div>
 
-<div id="attendanceList" style="display:none;"></div>
+<div id="attendanceList"></div>
 
 <div class="pagination" id="pagination">
 <button class="pageBtn" onclick="prevPage()">Prev</button>
@@ -227,7 +252,7 @@ function closePopup(){document.getElementById("popupBg").style.display="none";}
 function renderPage(){
 let start=page*perPage,end=start+perPage;
 let html="";
-for(let i=start;i<end && i<allRows.length;i++){html+=allRows[i];}
+for(let i=start;i<end&&i<allRows.length;i++){html+=allRows[i];}
 document.getElementById("attendanceList").innerHTML=html;
 }
 
@@ -275,9 +300,9 @@ if(!code) continue;
 let day=("0"+(d+1)).slice(-2);
 let fullDate=`${day}-${monthNumber[month]}-${year}`;
 
-let status="",type="-",badge="";
+let status="",type="-",badge="",bar="";
 
-/* HOLIDAY LOGIC */
+/* HOLIDAY */
 let isHolidayCSV=holidayMap[fullDate];
 let isHolidayCode=(code==="GH"||code==="CH"||code==="WH"||code==="MCL");
 
@@ -286,37 +311,30 @@ if(isHolidayCSV || isHolidayCode){
 let holidayName=holidayMap[fullDate] || "Holiday";
 
 if(code==="P"){
-status="Holiday Work";
-type=holidayName;
-holidayWork++;
-badge="badge-holiday";
+status="Holiday Work";holidayWork++;
 }else{
 status="Holiday";
+}
+
 type=holidayName;
 badge="badge-holiday";
-}
+bar="holidayCardBar";
 
 }else{
 
-if(code==="P"){status="Present";present++;badge="badge-present";}
-else if(code==="A"){status="Absent";absent++;badge="badge-absent";}
-else{
-status="Leave";leave++;badge="badge-leave";
-type=code;
-}
+if(code==="P"){status="Present";present++;badge="badge-present";bar="presentCardBar";}
+else if(code==="A"){status="Absent";absent++;badge="badge-absent";bar="absentCardBar";}
+else{status="Leave";leave++;badge="badge-leave";bar="leaveCardBar";type=code;}
 
 }
 
-/* CARD */
 allRows.push(`
-<div class="attCard">
-  <div class="attLeft">
+<div class="attCard ${bar}">
+  <div>
     <div class="attDate">${fullDate}</div>
     <div class="attType">${type}</div>
   </div>
-  <div class="attStatus ${badge}">
-    ${status}
-  </div>
+  <div class="attStatus ${badge}">${status}</div>
 </div>
 `);
 
