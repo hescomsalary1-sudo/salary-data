@@ -133,7 +133,6 @@ loadIncome(type);
 
 };
 
-/* MAIN FUNCTION */
 async function loadIncome(type){
 
 loader.style.display="flex";
@@ -141,15 +140,12 @@ loader.style.display="flex";
 let fileName = fileMap[type];
 
 let output="";
+let selectedYear = "";
 
 /* 🔥 ELS SPECIAL SECTION */
 if(type==="ELS Bills"){
 
-/* LOAD LEAVES */
-let leavesRes = await fetch(
-"https://hescomsalary1-sudo.github.io/salary-data/leaves.csv"
-);
-
+let leavesRes = await fetch(baseURL+"leaves.csv");
 let leavesText = await leavesRes.text();
 let leavesRows = leavesText.trim().split("\n");
 
@@ -163,34 +159,37 @@ elCredit = Number(c[3] || 0);
 }
 }
 
-/* EL ELIGIBLE */
-let eligible = elCredit - 15;
-
-/* PREVIOUS SURRENDER */
-let elsRes = await fetch(
-"https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv"
-);
-
+/* GET YEAR FROM ELS FILE */
+let elsRes = await fetch(baseURL+"els_bills.csv");
 let elsText = await elsRes.text();
 let elsRows = elsText.trim().split("\n");
 
 let periods=[];
+let years=new Set();
 
 for(let i=1;i<elsRows.length;i++){
 let c=elsRows[i].split(",");
 
 if(c[0].trim()===user.trim()){
 periods.push(c[3]);
+years.add(c[1]);
 }
 }
+
+/* PICK FIRST YEAR */
+selectedYear = [...years][0] || "N/A";
+
+/* EL ELIGIBLE */
+let eligible = elCredit - 15;
 
 /* SUMMARY UI */
 output += `
 <div class="summary">
+<b>Year: ${selectedYear}</b><br><br>
 <b>EL Credit:</b> ${elCredit}<br>
-<b>Eligible EL for Surrender:</b> ${eligible}<br>
+<b>Eligible EL:</b> ${eligible}<br>
 <b>Previous Surrender:</b><br>
-${periods.length ? periods.join("<br>") : "No previous records"}
+${periods.length ? periods.join("<br>") : "No records"}
 </div>
 `;
 
@@ -198,28 +197,36 @@ ${periods.length ? periods.join("<br>") : "No previous records"}
 
 /* 🔥 NORMAL DATA */
 
-try{
-
-let res = await fetch(
-"https://hescomsalary1-sudo.github.io/salary-data/"+fileName
-);
-
+let res = await fetch(baseURL+fileName);
 let text = await res.text();
 let rows = text.trim().split("\n");
 
 let found=false;
+let currentYear="";
 
 for(let i=1;i<rows.length;i++){
 
 let c = rows[i].split(",");
 
 let username = c[0];
+let year = c[1];
 let amount = c[2];
 let period = c[3];
 let status = c[4];
 let remarks = c[5];
 
 if(username.trim()===user.trim()){
+
+/* 🔥 SHOW YEAR HEADER ONCE */
+if(currentYear !== year){
+currentYear = year;
+
+output += `
+<div class="summary">
+<b>Year: ${year}</b>
+</div>
+`;
+}
 
 let color = status.toLowerCase()==="paid" ? "#2e7d32" : "#d32f2f";
 
@@ -263,10 +270,6 @@ output+="<p>No data found</p>";
 }
 
 resultBox.innerHTML=output;
-
-}catch(e){
-resultBox.innerHTML="Error loading data";
-}
 
 loader.style.display="none";
 
