@@ -39,7 +39,7 @@ margin-bottom:15px;
 box-shadow:0 6px 15px rgba(0,0,0,0.1);
 }
 
-/* BUTTON */
+/* DOWNLOAD BUTTON */
 .download-btn{
 margin-top:12px;
 padding:10px;
@@ -56,7 +56,7 @@ cursor:pointer;
 background:white;
 border-radius:15px;
 padding:15px;
-margin-bottom:12px;
+margin-bottom:10px;
 box-shadow:0 6px 15px rgba(0,0,0,0.1);
 }
 
@@ -112,7 +112,7 @@ animation:spin 1s linear infinite;
 
 <div id="loader"><div class="spinner"></div></div>
 
-<div class="content" id="resultBox"></div>
+<div class="content" id="resultBox">Loading...</div>
 
 <script>
 
@@ -125,6 +125,7 @@ if(!user){
 window.location.replace("login.html");
 }
 
+/* FILE MAP */
 let fileMap={
 "Supplementary Salary":"supplementary.csv",
 "DA Arrears":"da_arrears.csv",
@@ -143,11 +144,12 @@ return;
 }
 
 title.innerText = type;
+
 loadIncome(type);
 
 };
 
-/* MAIN */
+/* MAIN FUNCTION */
 async function loadIncome(type){
 
 loader.style.display="flex";
@@ -155,45 +157,85 @@ loader.style.display="flex";
 let fileName = fileMap[type];
 let output = "";
 
-/* ===== ELS SPECIAL ===== */
+/* ================= ELS SPECIAL ================= */
 
 if(type==="ELS Bills"){
 
-/* leaves */
+/* LOAD LEAVES */
 let leaves = await fetch(baseURL+"leaves.csv");
 let ltext = await leaves.text();
 let lrows = ltext.trim().split("\n");
 
-let elCredit=0;
+let elCredit = 0;
 
 for(let i=1;i<lrows.length;i++){
-let c=lrows[i].split(",");
-if(c[0].trim()===user.trim()){
+let c = lrows[i].split(",");
+if(c[0].trim() === user.trim()){
 elCredit = Number(c[3] || 0);
 }
 }
 
-/* els bills */
+/* LOAD ELS RECORDS */
 let els = await fetch(baseURL+"els_bills.csv");
 let etext = await els.text();
 let erows = etext.trim().split("\n");
 
-let periods=[];
-let year="";
+let year = "";
+let records = "";
 
 for(let i=1;i<erows.length;i++){
-let c=erows[i].split(",");
 
-if(c[0].trim()===user.trim()){
-periods.push(c[3]);
-year = c[1];
+let c = erows[i].split(",");
+
+let username = c[0];
+let y = c[1];
+let amount = c[2];
+let period = c[3];
+let status = c[4];
+let remarks = c[5];
+
+if(username.trim() === user.trim()){
+
+year = y;
+
+let color = status.toLowerCase()==="paid" ? "#2e7d32" : "#d32f2f";
+
+records += `
+
+<div class="card">
+
+<div class="row">
+<span class="label">Amount</span>
+<span class="value">₹${amount}</span>
+</div>
+
+<div class="row">
+<span class="label">Period</span>
+<span class="value">${period}</span>
+</div>
+
+<div class="row">
+<span class="label">Status</span>
+<span class="status" style="background:${color}">
+${status}
+</span>
+</div>
+
+<div class="row">
+<span class="label">Remarks</span>
+<span class="value">${remarks}</span>
+</div>
+
+</div>
+
+`;
 }
 }
 
-/* eligible */
+/* EL ELIGIBLE */
 let eligible = elCredit - 15;
 
-/* 🔥 MERGED CONTAINER */
+/* SINGLE MERGED CONTAINER */
 output += `
 <div class="summary">
 
@@ -202,8 +244,9 @@ output += `
 <b>EL Credit:</b> ${elCredit}<br>
 <b>Eligible EL for Surrender:</b> ${eligible}<br><br>
 
-<b>Previous Surrender:</b><br>
-${periods.length ? periods.join("<br>") : "No records"}
+<b>ELS Records:</b><br><br>
+
+${records || "No records"}
 
 <div class="download-btn" onclick="downloadELS()">
 📄 Download ELS Application Form
@@ -212,17 +255,23 @@ ${periods.length ? periods.join("<br>") : "No records"}
 </div>
 `;
 
+resultBox.innerHTML = output;
+loader.style.display="none";
+return;
+
 }
 
-/* ===== NORMAL DATA ===== */
+/* ================= OTHER FILES ================= */
+
+try{
 
 let res = await fetch(baseURL+fileName);
 let text = await res.text();
 text = text.replace(/^\uFEFF/, '');
 let rows = text.trim().split("\n");
 
-let currentYear="";
 let found=false;
+let currentYear="";
 
 for(let i=1;i<rows.length;i++){
 
@@ -235,7 +284,7 @@ let period = c[3];
 let status = c[4];
 let remarks = c[5];
 
-if(username.trim()===user.trim()){
+if(username.trim() === user.trim()){
 
 /* YEAR HEADER */
 if(currentYear !== year){
@@ -280,7 +329,6 @@ ${status}
 
 found=true;
 }
-
 }
 
 if(!found){
@@ -288,16 +336,18 @@ output += "<p>No data found</p>";
 }
 
 resultBox.innerHTML = output;
+
+}catch(e){
+resultBox.innerHTML = "Error loading data";
+}
+
 loader.style.display="none";
 
 }
 
-/* DOWNLOAD FUNCTION */
+/* DOWNLOAD PDF */
 function downloadELS(){
-
-window.location.href =
-"https://hescomsalary1-sudo.github.io/salary-data/els_format.pdf";
-
+window.location.href = baseURL + "els_format.pdf";
 }
 
 </script>
