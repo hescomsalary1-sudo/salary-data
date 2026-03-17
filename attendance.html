@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
 body{
 font-family:sans-serif;
 margin:0;
@@ -171,6 +172,7 @@ margin:auto;margin-bottom:10px;
 0%{transform:rotate(0deg);}
 100%{transform:rotate(360deg);}
 }
+
 </style>
 </head>
 
@@ -206,7 +208,7 @@ margin:auto;margin-bottom:10px;
 <div class="summaryCard presentCard"><div class="sumCount" id="presentCount">0</div>Present</div>
 <div class="summaryCard leaveCard"><div class="sumCount" id="leaveCount">0</div>Leave</div>
 <div class="summaryCard absentCard"><div class="sumCount" id="absentCount">0</div>Absent</div>
-<div class="summaryCard holidayCard"><div class="sumCount" id="holidayCount">0</div>Holiday</div>
+<div class="summaryCard holidayCard"><div class="sumCount" id="holidayWork">0</div>Holiday Work</div>
 </div>
 
 </div>
@@ -254,6 +256,7 @@ function prevPage(){if(page>0){page--;renderPage();}}
 function searchAttendance(){
 
 document.getElementById("loadingBg").style.display="flex";
+
 page=0;
 allRows=[];
 
@@ -267,12 +270,12 @@ fetch("https://hescomsalary1-sudo.github.io/salary-data/holidays.csv").then(r=>r
 
 document.getElementById("loadingBg").style.display="none";
 
-/* HOLIDAY MAP */
+/* CREATE HOLIDAY MAP */
 let holidayMap={};
 
 holidayData.trim().split("\n").slice(1).forEach(r=>{
 let c=r.split(",");
-holidayMap[c[0]?.trim()] = c[1]; // store name
+holidayMap[c[0].trim()] = c[1]; // date -> name
 });
 
 let rows=attendanceData.trim().split("\n");
@@ -297,7 +300,7 @@ let fullDate=`${day}-${monthNumber[month]}-${year}`;
 
 let status="",type="-",color="";
 
-/* CHECK HOLIDAY FIRST */
+/* CHECK HOLIDAY */
 if(holidayMap[fullDate]){
 
 let holidayName=holidayMap[fullDate];
@@ -307,18 +310,14 @@ status="Holiday Work";
 type=holidayName;
 holidayWork++;
 color="holiday";
-}
-else{
+}else{
 status="Holiday";
 type=holidayName;
 color="holiday";
 }
 
-/* DO NOT COUNT AS PRESENT/ABSENT/LEAVE */
-}
-
-/* NORMAL DAYS */
-else{
+/* DO NOT COUNT OTHER */
+}else{
 
 if(code==="P"){status="Present";present++;color="present";}
 else if(code==="A"){status="Absent";absent++;color="absent";}
@@ -330,8 +329,8 @@ else if(code==="IL"){status="Leave";type="Injury Leave";leave++;color="leave";}
 else if(code==="SCL"){status="Leave";type="Special Casual Leave";leave++;color="leave";}
 else if(code==="PL"){status="Leave";type="Paternity Leave";leave++;color="leave";}
 else if(code==="ML"){status="Leave";type="Maternity Leave";leave++;color="leave";}
-
 else if(code==="OT"){status="Other";type="Others";color="other";}
+
 }
 
 /* ADD ROW */
@@ -349,7 +348,7 @@ allRows.push(`
 
 }
 
-/* SUMMARY UPDATE */
+/* UPDATE SUMMARY */
 document.getElementById("presentCount").innerText=present;
 document.getElementById("leaveCount").innerText=leave;
 document.getElementById("absentCount").innerText=absent;
