@@ -4,8 +4,6 @@
 <title>Master Reports</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 <style>
 
 body{
@@ -139,7 +137,7 @@ async function loadCSV(){
 let r = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
 let t = await r.text();
 
-// convert into 2D array (rows + columns)
+// convert into 2D array
 return t.trim().split("\n").map(row => row.split(","));
 
 }
@@ -182,41 +180,12 @@ loader.style.display="none";
 
 }
 
-/* GENERATE FULL PDF */
+/* 🔥 FIXED CSV DOWNLOAD (ANDROID SUPPORT) */
 
-async function downloadFullCSV(){
+function downloadFullCSV(){
 
-loader.style.display = "flex";
-
-try{
-
-let response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
-let csvData = await response.text();
-
-// create blob
-let blob = new Blob([csvData], { type: "text/csv" });
-
-// create download link
-let url = window.URL.createObjectURL(blob);
-let a = document.createElement("a");
-
-a.href = url;
-a.download = "Full_Employee_Data.csv";
-
-document.body.appendChild(a);
-a.click();
-
-// cleanup
-a.remove();
-window.URL.revokeObjectURL(url);
-
-}catch(e){
-
-alert("Download failed");
-
-}
-
-loader.style.display = "none";
+// direct file URL (important for WebView)
+window.location.href = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
 
 }
 
