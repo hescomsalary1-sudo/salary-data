@@ -9,7 +9,7 @@
 body{
 font-family:'Segoe UI',sans-serif;
 margin:0;
-background:#f3f5ff;
+background: linear-gradient(135deg, #eef2ff, #f3e8ff);
 padding-bottom:90px;
 }
 
@@ -29,17 +29,16 @@ font-weight:600;
 padding:20px;
 }
 
-/* SUMMARY BOX */
+/* SUMMARY */
 .summary{
-background: linear-gradient(135deg, #e0e7ff, #ede9fe, #f5f3ff);
-color:#4b2dd8;
+background: linear-gradient(135deg,#6c39ff,#4b2dd8);
+color:white;
 border-radius:15px;
 padding:15px;
 margin-bottom:15px;
-box-shadow:0 6px 15px rgba(0,0,0,0.1);
 }
 
-/* DOWNLOAD BUTTON */
+/* BUTTON */
 .download-btn{
 margin-top:12px;
 padding:10px;
@@ -53,7 +52,7 @@ cursor:pointer;
 
 /* CARD */
 .card{
-background:white;
+background: rgba(255,255,255,0.95);
 border-radius:15px;
 padding:15px;
 margin-bottom:10px;
@@ -161,109 +160,36 @@ let output = "";
 
 if(type==="ELS Bills"){
 
-/* LOAD LEAVES */
 let leaves = await fetch(baseURL+"leaves.csv");
 let ltext = await leaves.text();
 let lrows = ltext.trim().split("\n");
 
-let elCredit = 0;
+let elCredit=0;
 
 for(let i=1;i<lrows.length;i++){
-let c = lrows[i].split(",");
-if(c[0].trim() === user.trim()){
+let c=lrows[i].split(",");
+if(c[0].trim()===user.trim()){
 elCredit = Number(c[3] || 0);
 }
 }
 
-/* LOAD ELS RECORDS */
-let els = await fetch(baseURL+"els_bills.csv");
-let etext = await els.text();
-let erows = etext.trim().split("\n");
-
-let year = "";
-let records = "";
-
-for(let i=1;i<erows.length;i++){
-
-let c = erows[i].split(",");
-
-let username = c[0];
-let y = c[1];
-let amount = c[2];
-let period = c[3];
-let status = c[4];
-let remarks = c[5];
-
-if(username.trim() === user.trim()){
-
-year = y;
-
-let color = status.toLowerCase()==="paid" ? "#2e7d32" : "#d32f2f";
-
-records += `
-
-<div class="card">
-
-<div class="row">
-<span class="label">Amount</span>
-<span class="value">₹${amount}</span>
-</div>
-
-<div class="row">
-<span class="label">Period</span>
-<span class="value">${period}</span>
-</div>
-
-<div class="row">
-<span class="label">Status</span>
-<span class="status" style="background:${color}">
-${status}
-</span>
-</div>
-
-<div class="row">
-<span class="label">Remarks</span>
-<span class="value">${remarks}</span>
-</div>
-
-</div>
-
-`;
-}
-}
-
-/* EL ELIGIBLE */
 let eligible = elCredit - 15;
 
-/* SINGLE MERGED CONTAINER */
+/* SUMMARY */
 output += `
 <div class="summary">
-
-<b>Year: ${year || "N/A"}</b><br><br>
-
 <b>EL Credit:</b> ${elCredit}<br>
-<b>Eligible EL for Surrender:</b> ${eligible}<br><br>
-
-<b>ELS Records:</b><br><br>
-
-${records || "No records"}
+<b>Eligible EL:</b> ${eligible}
 
 <div class="download-btn" onclick="downloadELS()">
 📄 Download ELS Application Form
 </div>
-
 </div>
 `;
 
-resultBox.innerHTML = output;
-loader.style.display="none";
-return;
-
 }
 
-/* ================= OTHER FILES ================= */
-
-try{
+/* ================= DATA ================= */
 
 let res = await fetch(baseURL+fileName);
 let text = await res.text();
@@ -271,7 +197,6 @@ text = text.replace(/^\uFEFF/, '');
 let rows = text.trim().split("\n");
 
 let found=false;
-let currentYear="";
 
 for(let i=1;i<rows.length;i++){
 
@@ -284,18 +209,7 @@ let period = c[3];
 let status = c[4];
 let remarks = c[5];
 
-if(username.trim() === user.trim()){
-
-/* YEAR HEADER */
-if(currentYear !== year){
-currentYear = year;
-
-output += `
-<div class="summary">
-<b>Year: ${year}</b>
-</div>
-`;
-}
+if(username.trim()===user.trim()){
 
 let color = status.toLowerCase()==="paid" ? "#2e7d32" : "#d32f2f";
 
@@ -305,6 +219,11 @@ output += `
 <div class="row">
 <span class="label">Amount</span>
 <span class="value">₹${amount}</span>
+</div>
+
+<div class="row">
+<span class="label">Year</span>
+<span class="value">${year}</span>
 </div>
 
 <div class="row">
@@ -336,16 +255,11 @@ output += "<p>No data found</p>";
 }
 
 resultBox.innerHTML = output;
-
-}catch(e){
-resultBox.innerHTML = "Error loading data";
-}
-
 loader.style.display="none";
 
 }
 
-/* DOWNLOAD PDF */
+/* DOWNLOAD */
 function downloadELS(){
 window.location.href = baseURL + "els_format.pdf";
 }
