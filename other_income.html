@@ -18,8 +18,7 @@ padding-bottom:90px;
 padding:22px;
 background:#4b2dd8;
 color:white;
-border-bottom-left-radius:35px;
-border-bottom-right-radius:35px;
+border-radius:0 0 35px 35px;
 text-align:center;
 font-size:20px;
 font-weight:600;
@@ -38,6 +37,18 @@ border-radius:15px;
 padding:15px;
 margin-bottom:15px;
 box-shadow:0 6px 15px rgba(0,0,0,0.1);
+}
+
+/* BUTTON */
+.download-btn{
+margin-top:12px;
+padding:10px;
+background:white;
+color:#4b2dd8;
+border-radius:10px;
+text-align:center;
+font-weight:bold;
+cursor:pointer;
 }
 
 /* CARD */
@@ -101,9 +112,7 @@ animation:spin 1s linear infinite;
 
 <div id="loader"><div class="spinner"></div></div>
 
-<div class="content" id="resultBox">
-Loading...
-</div>
+<div class="content" id="resultBox"></div>
 
 <script>
 
@@ -116,7 +125,6 @@ if(!user){
 window.location.replace("login.html");
 }
 
-/* FILE MAP */
 let fileMap={
 "Supplementary Salary":"supplementary.csv",
 "DA Arrears":"da_arrears.csv",
@@ -135,12 +143,11 @@ return;
 }
 
 title.innerText = type;
-
 loadIncome(type);
 
 };
 
-/* MAIN FUNCTION */
+/* MAIN */
 async function loadIncome(type){
 
 loader.style.display="flex";
@@ -148,69 +155,74 @@ loader.style.display="flex";
 let fileName = fileMap[type];
 let output = "";
 
-/* ================= ELS SPECIAL ================= */
+/* ===== ELS SPECIAL ===== */
 
 if(type==="ELS Bills"){
 
-let leavesRes = await fetch(baseURL+"leaves.csv");
-let leavesText = await leavesRes.text();
-let leavesRows = leavesText.trim().split("\n");
+/* leaves */
+let leaves = await fetch(baseURL+"leaves.csv");
+let ltext = await leaves.text();
+let lrows = ltext.trim().split("\n");
 
 let elCredit=0;
 
-for(let i=1;i<leavesRows.length;i++){
-let c=leavesRows[i].split(",");
+for(let i=1;i<lrows.length;i++){
+let c=lrows[i].split(",");
 if(c[0].trim()===user.trim()){
 elCredit = Number(c[3] || 0);
 }
 }
 
-/* GET DATA FROM ELS */
-let elsRes = await fetch(baseURL+"els_bills.csv");
-let elsText = await elsRes.text();
-let elsRows = elsText.trim().split("\n");
+/* els bills */
+let els = await fetch(baseURL+"els_bills.csv");
+let etext = await els.text();
+let erows = etext.trim().split("\n");
 
 let periods=[];
-let years=new Set();
+let year="";
 
-for(let i=1;i<elsRows.length;i++){
-let c=elsRows[i].split(",");
+for(let i=1;i<erows.length;i++){
+let c=erows[i].split(",");
 
 if(c[0].trim()===user.trim()){
 periods.push(c[3]);
-years.add(c[1]);
+year = c[1];
 }
 }
 
-let selectedYear = [...years][0] || "N/A";
-
-/* EL ELIGIBLE */
+/* eligible */
 let eligible = elCredit - 15;
 
-/* SUMMARY BOX */
+/* 🔥 MERGED CONTAINER */
 output += `
 <div class="summary">
-<b>Year: ${selectedYear}</b><br><br>
+
+<b>Year: ${year || "N/A"}</b><br><br>
+
 <b>EL Credit:</b> ${elCredit}<br>
 <b>Eligible EL for Surrender:</b> ${eligible}<br><br>
+
 <b>Previous Surrender:</b><br>
 ${periods.length ? periods.join("<br>") : "No records"}
+
+<div class="download-btn" onclick="downloadELS()">
+📄 Download ELS Application Form
+</div>
+
 </div>
 `;
 
 }
 
-/* ================= NORMAL DATA ================= */
-
-try{
+/* ===== NORMAL DATA ===== */
 
 let res = await fetch(baseURL+fileName);
 let text = await res.text();
 text = text.replace(/^\uFEFF/, '');
 let rows = text.trim().split("\n");
 
-let found=false;
 let currentYear="";
+let found=false;
 
 for(let i=1;i<rows.length;i++){
 
@@ -225,7 +237,7 @@ let remarks = c[5];
 
 if(username.trim()===user.trim()){
 
-/* SHOW YEAR HEADER */
+/* YEAR HEADER */
 if(currentYear !== year){
 currentYear = year;
 
@@ -276,12 +288,15 @@ output += "<p>No data found</p>";
 }
 
 resultBox.innerHTML = output;
+loader.style.display="none";
 
-}catch(e){
-resultBox.innerHTML="Error loading data";
 }
 
-loader.style.display="none";
+/* DOWNLOAD FUNCTION */
+function downloadELS(){
+
+window.location.href =
+"https://hescomsalary1-sudo.github.io/salary-data/els_format.pdf";
 
 }
 
