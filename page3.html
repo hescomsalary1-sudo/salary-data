@@ -14,6 +14,7 @@ padding-bottom:90px;
 }
 
 /* HEADER */
+
 .top{
 padding:22px;
 background:#4b2dd8;
@@ -27,19 +28,45 @@ text-align:center;
 }
 
 /* CONTENT */
+
 .content{
 padding:20px;
 }
 
-/* RESULT BOX */
-.result-box{
+/* BUTTON */
+
+.list-btn{
 background:white;
-border-radius:12px;
 padding:15px;
+border-radius:12px;
+margin-top:12px;
+font-weight:600;
+color:#4b2dd8;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+cursor:pointer;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.list-btn:active{
+transform:scale(0.97);
+background:#ece8ff;
+}
+
+/* RESULT BOX */
+
+.result-box{
+display:none;
+background:white;
+margin-top:8px;
+border-radius:12px;
+padding:12px;
 box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
 /* TABLE */
+
 table{
 width:100%;
 border-collapse:collapse;
@@ -55,9 +82,11 @@ text-align:center;
 th{
 background:#4b2dd8;
 color:white;
+font-size:12px;
 }
 
 /* LOADER */
+
 #loader{
 position:fixed;
 width:100%;
@@ -84,6 +113,7 @@ animation:spin 1s linear infinite;
 }
 
 /* FOOTER */
+
 .footer{
 position:fixed;
 bottom:0;
@@ -110,12 +140,28 @@ margin-top:4px;
 font-weight:600;
 }
 
+/* DARK MODE */
+
+.dark-mode{
+background:#121212;
+color:white;
+}
+
+.dark-mode .list-btn{
+background:#333;
+color:white;
+}
+
+.dark-mode .result-box{
+background:#1f1f1f;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="top" id="title">
+<div class="top">
 Other Income
 </div>
 
@@ -125,9 +171,40 @@ Other Income
 
 <div class="content">
 
-<div id="resultBox" class="result-box">
-Loading...
+<div class="list-btn" onclick="loadIncome('Supplementary Salary','result1')">
+Supplementary Salary
 </div>
+<div id="result1" class="result-box"></div>
+
+<div class="list-btn" onclick="loadIncome('DA Arrears','result2')">
+DA Arrears
+</div>
+<div id="result2" class="result-box"></div>
+
+<div class="list-btn" onclick="loadIncome('Double Wages','result3')">
+Double Wages
+</div>
+<div id="result3" class="result-box"></div>
+
+<div class="list-btn" onclick="loadIncome('Medical Bills','result4')">
+Medical Bills
+</div>
+<div id="result4" class="result-box"></div>
+
+<div class="list-btn" onclick="loadIncome('TA Bills','result5')">
+TA Bills
+</div>
+<div id="result5" class="result-box"></div>
+
+<div class="list-btn" onclick="loadIncome('ELS Bills','result6')">
+ELS Bills
+</div>
+<div id="result6" class="result-box"></div>
+
+<div class="list-btn" onclick="loadIncome('Others','result7')">
+Others
+</div>
+<div id="result7" class="result-box"></div>
 
 </div>
 
@@ -163,13 +240,23 @@ Loading...
 <script>
 
 let user = localStorage.getItem("currentUser");
-let type = localStorage.getItem("incomeType");
 
 if(!user){
 window.location.replace("login.html");
 }
 
-/* FILE MAP */
+async function loadIncome(type,boxId){
+
+/* hide previous tables */
+
+document.querySelectorAll('.result-box').forEach(box=>{
+box.style.display='none';
+});
+
+document.getElementById("loader").style.display="flex";
+
+let box=document.getElementById(boxId);
+
 let fileMap={
 "Supplementary Salary":"supplementary.csv",
 "DA Arrears":"da_arrears.csv",
@@ -180,94 +267,68 @@ let fileMap={
 "Others":"others.csv"
 };
 
-/* AUTO LOAD */
-window.onload = function(){
-
-if(!type){
-document.getElementById("resultBox").innerHTML="No data selected";
-return;
-}
-
-/* Set title */
-document.getElementById("title").innerText = type;
-
-/* Load data */
-loadIncome(type);
-
-};
-
-/* LOAD FUNCTION */
-async function loadIncome(type){
-
-document.getElementById("loader").style.display="flex";
-
-let fileName = fileMap[type];
+let fileName=fileMap[type];
 
 try{
 
-let response = await fetch(
-"https://hescomsalary1-sudo.github.io/salary-data/" + fileName
+let response=await fetch(
+"https://hescomsalary1-sudo.github.io/salary-data/"+fileName
 );
 
-let text = await response.text();
-let rows = text.trim().split("\n");
+let text=await response.text();
 
-let output = `
+let rows=text.trim().split("\n");
+
+let output=`
 <table>
 <tr>
 <th>Amount</th>
-<th>Period</th>
+<th>Concerned Period</th>
 <th>Status</th>
 <th>Remarks</th>
 </tr>
 `;
 
-let found = false;
+let found=false;
 
 for(let i=1;i<rows.length;i++){
 
-let cols = rows[i].split(",");
+let cols=rows[i].split(",");
 
-/* CSV STRUCTURE */
-let username = cols[0];
-let year = cols[1];
-let amount = cols[2];
-let period = cols[3];
-let status = cols[4];
-let remarks = cols[5];
+if(cols[0].trim()===user.trim()){
 
-if(username.trim() === user.trim()){
+let statusColor=(cols[3].toLowerCase()==="paid")?"green":"red";
 
-let statusColor = status.toLowerCase()==="paid" ? "green" : "red";
-
-output += `
+output+=`
 <tr>
-<td>₹${amount}</td>
-<td>${period}</td>
+<td>${cols[1]}</td>
+<td>${cols[2]}</td>
 <td style="color:${statusColor};font-weight:bold;">
-${status}
+${cols[3]}
 </td>
-<td>${remarks}</td>
+<td>${cols[4]}</td>
 </tr>
 `;
 
-found = true;
+found=true;
 
 }
 
 }
 
-output += "</table>";
+output+="</table>";
 
 if(!found){
-output = "<p>No data found</p>";
+output="No data found";
 }
 
-document.getElementById("resultBox").innerHTML = output;
+box.innerHTML=output;
+box.style.display="block";
 
 }catch(error){
 
-document.getElementById("resultBox").innerHTML = "Error loading data";
+box.innerHTML="Error loading data";
+box.style.display="block";
 
 }
 
@@ -275,7 +336,6 @@ document.getElementById("loader").style.display="none";
 
 }
 
-/* DARK MODE */
 if(localStorage.getItem("darkMode")==="true"){
 document.body.classList.add("dark-mode");
 }
