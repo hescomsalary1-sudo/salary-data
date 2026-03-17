@@ -1,3 +1,3 @@
-username,amount,period,status,remarks
-emp1,5000,Jan 2026,Paid,Extra duty
-emp2,3000,Jan 2026,Pending,Approval waiting
+username,year,amount,period,status,remarks
+emp1,2026,5000,Jan-26,Paid,Extra duty
+emp2,2026,3000,Jan-26,Pending,Approval waiting
