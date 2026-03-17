@@ -1,95 +1,113 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Resources</title>
+<title>Other Income</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 
 body{
+font-family:'Segoe UI',sans-serif;
 margin:0;
-font-family:sans-serif;
-background:#f3f4fa;
-padding-bottom:80px;
+background:#f3f5ff;
+padding-bottom:90px;
 }
 
 /* HEADER */
-
 .top{
-padding:20px;
+padding:22px;
 background:#4b2dd8;
 color:white;
-text-align:center;
+border-bottom-left-radius:35px;
+border-bottom-right-radius:35px;
+box-shadow:0 6px 18px rgba(0,0,0,0.15);
 font-size:20px;
-font-weight:bold;
-border-bottom-left-radius:30px;
-border-bottom-right-radius:30px;
-}
-
-/* GRID */
-
-.container{
-padding:20px;
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:15px;
-}
-
-.card{
-background:white;
-padding:20px;
-border-radius:18px;
+font-weight:600;
 text-align:center;
-box-shadow:0 6px 15px rgba(0,0,0,0.08);
-cursor:pointer;
 }
 
-.icon{
-font-size:28px;
-margin-bottom:8px;
-color:#4b2dd8;
+/* CONTENT */
+.content{
+padding:20px;
 }
 
-.card p{
-margin:0;
+/* RESULT BOX */
+.result-box{
+background:white;
+border-radius:12px;
+padding:15px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* TABLE */
+table{
+width:100%;
+border-collapse:collapse;
 font-size:13px;
-font-weight:bold;
 }
 
-/* NAVBAR */
+th,td{
+border:1px solid #e0e0e0;
+padding:6px;
+text-align:center;
+}
 
-.navbar{
+th{
+background:#4b2dd8;
+color:white;
+}
+
+/* LOADER */
+#loader{
+position:fixed;
+width:100%;
+height:100%;
+background:white;
+display:none;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+.spinner{
+width:40px;
+height:40px;
+border:5px solid #ddd;
+border-top:5px solid #4b2dd8;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
+/* FOOTER */
+.footer{
 position:fixed;
 bottom:0;
-left:0;
 width:100%;
-height:60px;
-background:white;
+background:#ffffff;
 display:flex;
 justify-content:space-around;
+padding:10px 0;
+box-shadow:0 -3px 15px rgba(0,0,0,0.1);
+}
+
+.footer a{
+text-decoration:none;
+display:flex;
+flex-direction:column;
 align-items:center;
-box-shadow:0 -4px 15px rgba(0,0,0,0.12);
-}
-
-.nav-item{
-flex:1;
-text-align:center;
-font-size:11px;
-}
-
-.nav-item i{
-font-size:20px;
-color:#777;
-}
-
-.nav-item span{
-display:block;
-color:#777;
-}
-
-.nav-item.active i,
-.nav-item.active span{
 color:#4b2dd8;
+font-size:20px;
+}
+
+.footer small{
+font-size:11px;
+margin-top:4px;
+font-weight:600;
 }
 
 </style>
@@ -97,55 +115,172 @@ color:#4b2dd8;
 
 <body>
 
-<div class="top">Resources</div>
-
-<div class="container">
-
-<div class="card">
-<div class="icon">📄</div>
-<p>Salary Slips</p>
+<div class="top" id="title">
+Other Income
 </div>
 
-<div class="card">
-<div class="icon">📊</div>
-<p>Reports</p>
+<div id="loader">
+<div class="spinner"></div>
 </div>
 
-<div class="card">
-<div class="icon">📅</div>
-<p>Holiday List</p>
-</div>
+<div class="content">
 
-<div class="card">
-<div class="icon">📞</div>
-<p>Contact Admin</p>
+<div id="resultBox" class="result-box">
+Loading...
 </div>
 
 </div>
 
-<div class="navbar">
+<div class="footer">
 
-<div class="nav-item" onclick="location='home.html'">
-<i>🏠</i>
-<span>Home</span>
+<a href="home.html">
+<div>🏠</div>
+<small>Home</small>
+</a>
+
+<a href="page1.html">
+<div>👤</div>
+<small>Profile</small>
+</a>
+
+<a href="salary.html">
+<div>💰</div>
+<small>Salary</small>
+</a>
+
+<a href="page3.html">
+<div>📅</div>
+<small>Other</small>
+</a>
+
+<a href="page4.html">
+<div>⚙</div>
+<small>Settings</small>
+</a>
+
 </div>
 
-<div class="nav-item" onclick="location='forum.html'">
-<i>💬</i>
-<span>Forum</span>
-</div>
+<script>
 
-<div class="nav-item" onclick="location='employee_info.html'">
-<i>👤</i>
-<span>Employee</span>
-</div>
+let user = localStorage.getItem("currentUser");
+let type = localStorage.getItem("incomeType");
 
-<div class="nav-item active">
-<i>📂</i>
-<span>Resources</span>
-</div>
+if(!user){
+window.location.replace("login.html");
+}
 
-</div>
+/* FILE MAP */
+let fileMap={
+"Supplementary Salary":"supplementary.csv",
+"DA Arrears":"da_arrears.csv",
+"Double Wages":"double_wages.csv",
+"Medical Bills":"medical_bills.csv",
+"TA Bills":"ta_bills.csv",
+"ELS Bills":"els_bills.csv",
+"Others":"others.csv"
+};
+
+/* AUTO LOAD */
+window.onload = function(){
+
+if(!type){
+document.getElementById("resultBox").innerHTML="No data selected";
+return;
+}
+
+/* Set title */
+document.getElementById("title").innerText = type;
+
+/* Load data */
+loadIncome(type);
+
+};
+
+/* LOAD FUNCTION */
+async function loadIncome(type){
+
+document.getElementById("loader").style.display="flex";
+
+let fileName = fileMap[type];
+
+try{
+
+let response = await fetch(
+"https://hescomsalary1-sudo.github.io/salary-data/" + fileName
+);
+
+let text = await response.text();
+let rows = text.trim().split("\n");
+
+let output = `
+<table>
+<tr>
+<th>Amount</th>
+<th>Period</th>
+<th>Status</th>
+<th>Remarks</th>
+</tr>
+`;
+
+let found = false;
+
+for(let i=1;i<rows.length;i++){
+
+let cols = rows[i].split(",");
+
+/* CSV STRUCTURE */
+let username = cols[0];
+let year = cols[1];
+let amount = cols[2];
+let period = cols[3];
+let status = cols[4];
+let remarks = cols[5];
+
+if(username.trim() === user.trim()){
+
+let statusColor = status.toLowerCase()==="paid" ? "green" : "red";
+
+output += `
+<tr>
+<td>₹${amount}</td>
+<td>${period}</td>
+<td style="color:${statusColor};font-weight:bold;">
+${status}
+</td>
+<td>${remarks}</td>
+</tr>
+`;
+
+found = true;
+
+}
+
+}
+
+output += "</table>";
+
+if(!found){
+output = "<p>No data found</p>";
+}
+
+document.getElementById("resultBox").innerHTML = output;
+
+}catch(error){
+
+document.getElementById("resultBox").innerHTML = "Error loading data";
+
+}
+
+document.getElementById("loader").style.display="none";
+
+}
+
+/* DARK MODE */
+if(localStorage.getItem("darkMode")==="true"){
+document.body.classList.add("dark-mode");
+}
+
+</script>
 
 </body>
 </html>
