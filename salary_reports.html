@@ -97,7 +97,7 @@ async function init(){
 let user = (localStorage.getItem("currentUser") || "").trim();
 let role = localStorage.getItem("role");
 
-let data = await loadCSV("salary.csv");
+let data = await loadCSV("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
 
 let years = new Set();
 
@@ -131,7 +131,7 @@ let user = (localStorage.getItem("currentUser") || "").trim();
 let role = localStorage.getItem("role");
 let selectedYear = year.value;
 
-let salary = await loadCSV("salary.csv");
+let salary = await loadCSV("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
 
 /* BILL FILES */
 let files = [
