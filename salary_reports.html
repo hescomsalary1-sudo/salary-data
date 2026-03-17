@@ -88,6 +88,10 @@ const baseURL = "https://hescomsalary1-sudo.github.io/salary-data/";
 async function loadCSV(file){
 let r = await fetch(baseURL + file);
 let t = await r.text();
+
+// remove BOM if present
+t = t.replace(/^\uFEFF/, '');
+
 return t.trim().split("\n").map(row => row.split(","));
 }
 
@@ -97,7 +101,7 @@ async function init(){
 let user = (localStorage.getItem("currentUser") || "").trim();
 let role = localStorage.getItem("role");
 
-let data = await loadCSV("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
+let data = await loadCSV("salary.csv");
 
 let years = new Set();
 
@@ -114,6 +118,15 @@ if(csvYear) years.add(csvYear);
 
 }
 
+/* fallback (if no match) */
+if(years.size === 0){
+for(let i=1;i<data.length;i++){
+let yr = (data[i][1] || "").trim();
+if(yr) years.add(yr);
+}
+}
+
+/* render dropdown */
 year.innerHTML = "";
 
 years.forEach(y=>{
@@ -131,7 +144,7 @@ let user = (localStorage.getItem("currentUser") || "").trim();
 let role = localStorage.getItem("role");
 let selectedYear = year.value;
 
-let salary = await loadCSV("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
+let salary = await loadCSV("salary .csv");
 
 /* BILL FILES */
 let files = [
@@ -160,7 +173,7 @@ let yr = (r[1] || "").trim();
 if(role !== "admin" && csvUser !== user) continue;
 if(yr !== selectedYear) continue;
 
-/* ADD ALL EARNINGS */
+/* earnings columns */
 for(let j=3;j<=19;j++){
 totalSalary += Number(r[j] || 0);
 }
