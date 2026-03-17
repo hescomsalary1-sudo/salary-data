@@ -13,7 +13,6 @@ background:#f3f5ff;
 padding-bottom:90px;
 }
 
-/* HEADER */
 .top{
 padding:22px;
 background:#4b2dd8;
@@ -25,7 +24,6 @@ font-size:20px;
 font-weight:600;
 }
 
-/* CONTENT */
 .content{
 padding:20px;
 }
@@ -39,28 +37,29 @@ margin-bottom:12px;
 box-shadow:0 6px 15px rgba(0,0,0,0.1);
 }
 
-/* ROW */
 .row{
 display:flex;
 justify-content:space-between;
 margin-bottom:6px;
-font-size:14px;
 }
 
-.label{
-color:#777;
-}
+.label{color:#777;}
+.value{font-weight:600;}
 
-.value{
-font-weight:600;
-}
-
-/* STATUS */
 .status{
 padding:4px 10px;
 border-radius:20px;
 font-size:12px;
 color:white;
+}
+
+/* SUMMARY BOX */
+.summary{
+background:#4b2dd8;
+color:white;
+border-radius:15px;
+padding:15px;
+margin-bottom:15px;
 }
 
 /* LOADER */
@@ -124,21 +123,80 @@ let fileMap={
 window.onload = function(){
 
 if(!type){
-document.getElementById("resultBox").innerHTML="No data selected";
+resultBox.innerHTML="No data selected";
 return;
 }
 
-document.getElementById("title").innerText = type;
+title.innerText = type;
 
 loadIncome(type);
 
 };
 
+/* MAIN FUNCTION */
 async function loadIncome(type){
 
 loader.style.display="flex";
 
 let fileName = fileMap[type];
+
+let output="";
+
+/* 🔥 ELS SPECIAL SECTION */
+if(type==="ELS Bills"){
+
+/* LOAD LEAVES */
+let leavesRes = await fetch(
+"https://hescomsalary1-sudo.github.io/salary-data/leaves.csv"
+);
+
+let leavesText = await leavesRes.text();
+let leavesRows = leavesText.trim().split("\n");
+
+let elCredit=0;
+
+for(let i=1;i<leavesRows.length;i++){
+let c=leavesRows[i].split(",");
+
+if(c[0].trim()===user.trim()){
+elCredit = Number(c[3] || 0);
+}
+}
+
+/* EL ELIGIBLE */
+let eligible = elCredit - 15;
+
+/* PREVIOUS SURRENDER */
+let elsRes = await fetch(
+"https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv"
+);
+
+let elsText = await elsRes.text();
+let elsRows = elsText.trim().split("\n");
+
+let periods=[];
+
+for(let i=1;i<elsRows.length;i++){
+let c=elsRows[i].split(",");
+
+if(c[0].trim()===user.trim()){
+periods.push(c[3]);
+}
+}
+
+/* SUMMARY UI */
+output += `
+<div class="summary">
+<b>EL Credit:</b> ${elCredit}<br>
+<b>Eligible EL for Surrender:</b> ${eligible}<br>
+<b>Previous Surrender:</b><br>
+${periods.length ? periods.join("<br>") : "No previous records"}
+</div>
+`;
+
+}
+
+/* 🔥 NORMAL DATA */
 
 try{
 
@@ -148,8 +206,6 @@ let res = await fetch(
 
 let text = await res.text();
 let rows = text.trim().split("\n");
-
-let output = "";
 
 let found=false;
 
@@ -203,15 +259,13 @@ found=true;
 }
 
 if(!found){
-output="<p>No data found</p>";
+output+="<p>No data found</p>";
 }
 
-document.getElementById("resultBox").innerHTML = output;
+resultBox.innerHTML=output;
 
 }catch(e){
-
-document.getElementById("resultBox").innerHTML="Error loading data";
-
+resultBox.innerHTML="Error loading data";
 }
 
 loader.style.display="none";
