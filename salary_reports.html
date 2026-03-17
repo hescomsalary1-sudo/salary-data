@@ -84,12 +84,19 @@ font-size:14px;
 
 const baseURL = "https://hescomsalary1-sudo.github.io/salary-data/";
 
-/* LOAD CSV */
+/* LOAD CSV (WITH ERROR FIX) */
 async function loadCSV(file){
-let r = await fetch(baseURL + file);
-let t = await r.text();
 
-// remove BOM if present
+let response = await fetch(baseURL + file);
+
+if(!response.ok){
+alert("Error loading: " + file);
+throw new Error("File not found");
+}
+
+let t = await response.text();
+
+// remove BOM
 t = t.replace(/^\uFEFF/, '');
 
 return t.trim().split("\n").map(row => row.split(","));
@@ -101,7 +108,8 @@ async function init(){
 let user = (localStorage.getItem("currentUser") || "").trim();
 let role = localStorage.getItem("role");
 
-let data = await loadCSV("salary.csv");
+/* 🔥 FIXED FILE NAME (SPACE HANDLED) */
+let data = await loadCSV("salary%20.csv");
 
 let years = new Set();
 
@@ -118,7 +126,7 @@ if(csvYear) years.add(csvYear);
 
 }
 
-/* fallback (if no match) */
+/* fallback */
 if(years.size === 0){
 for(let i=1;i<data.length;i++){
 let yr = (data[i][1] || "").trim();
@@ -144,9 +152,9 @@ let user = (localStorage.getItem("currentUser") || "").trim();
 let role = localStorage.getItem("role");
 let selectedYear = year.value;
 
-let salary = await loadCSV("salary .csv");
+/* 🔥 FIXED FILE NAME */
+let salary = await loadCSV("salary%20.csv");
 
-/* BILL FILES */
 let files = [
 "ta_bills.csv",
 "supplementary.csv",
