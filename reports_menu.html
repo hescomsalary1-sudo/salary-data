@@ -197,7 +197,69 @@ margin-top:3px;
 color:#6c39ff;
 font-weight:600;
 }
+/* ADMIN BOX */
 
+.adminBox{
+margin:20px;
+padding:15px;
+background:linear-gradient(135deg,#f3f0ff,#ffffff);
+border-radius:20px;
+box-shadow:0 8px 25px rgba(0,0,0,0.08);
+}
+
+/* TITLE */
+
+.adminTitle{
+margin:0 0 12px 5px;
+color:#6c39ff;
+font-size:15px;
+font-weight:700;
+}
+
+/* GRID */
+
+.adminGrid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+}
+
+/* CARD */
+
+.adminCard{
+background:linear-gradient(135deg,#6c39ff,#4b2dd8);
+color:white;
+border-radius:18px;
+padding:18px;
+text-align:center;
+font-size:13px;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+}
+
+.adminCard div{
+font-size:26px;
+margin-bottom:8px;
+}
+
+.adminCard:hover{
+transform:translateY(-4px);
+box-shadow:0 12px 25px rgba(0,0,0,0.2);
+}
+
+.adminCard:active{
+transform:scale(0.95);
+}
+
+/* SECTION TITLE */
+
+.sectionTitle{
+padding:0 20px;
+font-size:14px;
+color:#444;
+margin-top:10px;
+}
 </style>
 </head>
 
@@ -210,37 +272,41 @@ font-weight:600;
 
 <div class="menuGrid">
 
-<!-- ================= ADMIN REPORTS ================= -->
+<!-- ================= ADMIN SECTION ================= -->
 
-<h3 style="padding:0 20px;color:#6c39ff;margin-bottom:5px;">👨‍💼 Admin Reports</h3>
+<div class="adminBox">
 
-<div class="menuCard" onclick="adminCheck('reports.html')">
-<div class="menuIcon">📊</div>
-<div class="menuText">
-<div class="menuTitle">Post Status Report 🔒</div>
-<div class="menuSub">Only admin access</div>
-</div>
-</div>
+<h3 class="adminTitle">👨‍💼 Admin Reports</h3>
 
-<div class="menuCard" onclick="adminCheck('sc_st_reports.html')">
-<div class="menuIcon">📋</div>
-<div class="menuText">
-<div class="menuTitle">SC/ST Report 🔒</div>
-<div class="menuSub">Category report details</div>
-</div>
+<div class="adminGrid">
+
+<div class="adminCard" onclick="adminCheck('master_reports.html')">
+<div>🧠</div>
+<p>Master Reports</p>
 </div>
 
-<div class="menuCard" onclick="adminCheck('retirement_reports.html')">
-<div class="menuIcon">👴</div>
-<div class="menuText">
-<div class="menuTitle">Retirement Report 🔒</div>
-<div class="menuSub">Upcoming retirements</div>
-</div>
+<div class="adminCard" onclick="adminCheck('reports.html')">
+<div>📊</div>
+<p>Post Status</p>
 </div>
 
-<!-- ================= EMPLOYEE REPORTS ================= -->
+<div class="adminCard" onclick="adminCheck('sc_st_reports.html')">
+<div>📋</div>
+<p>SC/ST</p>
+</div>
 
-<h3 style="padding:0 20px;color:#333;margin-top:15px;margin-bottom:5px;">👨‍💻 Employee Reports</h3>
+<div class="adminCard" onclick="adminCheck('retirement_reports.html')">
+<div>👴</div>
+<p>Retirement</p>
+</div>
+
+</div>
+
+</div>
+
+<!-- ================= EMPLOYEE SECTION ================= -->
+
+<h3 class="sectionTitle">👨‍💻 Employee Reports</h3>
 
 <div class="menuCard" onclick="openPage('salary_report.html')">
 <div class="menuIcon">💰</div>
