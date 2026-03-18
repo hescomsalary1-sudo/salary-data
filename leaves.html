@@ -27,45 +27,27 @@ box-shadow:0 6px 18px rgba(0,0,0,0.15);
 margin:0;
 }
 
+/* AS ON DATE */
 .asdate{
 font-size:14px;
 opacity:0.9;
 margin-top:6px;
 }
 
-/* CARD */
-.box{
-margin:18px;
-padding:20px;
-border-radius:18px;
-background:white;
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
+/* CREDIT BOX INSIDE HEADER */
+.credit-box{
+margin-top:18px;
+background:rgba(255,255,255,0.15);
+padding:15px;
+border-radius:15px;
+backdrop-filter:blur(5px);
 }
 
-.title{
-font-weight:700;
-margin-bottom:12px;
-color:#4b2dd8;
-}
-
-.row{
+.credit-row{
 display:flex;
 justify-content:space-between;
-padding:10px 0;
+padding:8px 0;
 font-weight:600;
-}
-
-.progress{
-height:6px;
-background:#eee;
-border-radius:20px;
-overflow:hidden;
-margin-bottom:12px;
-}
-.progress div{
-height:100%;
-background:#4b2dd8;
-width:0%;
 }
 
 /* FOOTER */
@@ -79,6 +61,7 @@ justify-content:space-around;
 padding:10px 0;
 box-shadow:0 -3px 15px rgba(0,0,0,0.1);
 }
+
 .footer a{
 text-decoration:none;
 display:flex;
@@ -87,6 +70,7 @@ align-items:center;
 color:#4b2dd8;
 font-size:20px;
 }
+
 .footer small{
 font-size:11px;
 margin-top:4px;
@@ -100,28 +84,29 @@ font-weight:600;
 
 <!-- HEADER -->
 <div class="top">
+
 <h2>Leave Dashboard</h2>
+
 <div class="asdate" id="asOnDate">As on Date: --</div>
-</div>
 
-<!-- CREDITED -->
-<div class="box">
+<!-- CREDITED LEAVES INSIDE HEADER -->
+<div class="credit-box">
 
-<div class="title">Credited Leaves</div>
-
-<div class="row">
+<div class="credit-row">
 <span>Earned Leave</span>
 <span id="elCredit">0</span>
 </div>
 
-<div class="row">
+<div class="credit-row">
 <span>Full Pay Leave</span>
 <span id="fplCredit">0</span>
 </div>
 
-<div class="row">
+<div class="credit-row">
 <span>Casual Leave</span>
 <span id="clCredit">0</span>
+</div>
+
 </div>
 
 </div>
@@ -139,7 +124,6 @@ font-weight:600;
 
 let user = localStorage.getItem("currentUser");
 
-/* LOAD CREDIT + DATE */
 async function loadEmployee(){
 
 let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
@@ -156,8 +140,8 @@ document.getElementById("elCredit").innerText = cols[3] || 0;
 document.getElementById("fplCredit").innerText = cols[4] || 0;
 document.getElementById("clCredit").innerText = cols[5] || 0;
 
-/* AS ON DATE */
-document.getElementById("asOnDate").innerText = "As on Date: " + (cols[6] || "--");
+document.getElementById("asOnDate").innerText =
+"As on Date: " + (cols[6] || "--");
 
 }
 }
