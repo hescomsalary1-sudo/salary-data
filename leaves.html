@@ -27,6 +27,12 @@ box-shadow:0 6px 18px rgba(0,0,0,0.15);
 margin:0;
 }
 
+.asdate{
+font-size:14px;
+opacity:0.9;
+margin-top:6px;
+}
+
 /* CARD */
 .box{
 margin:18px;
@@ -36,14 +42,12 @@ background:white;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
 }
 
-/* TITLE */
 .title{
 font-weight:700;
 margin-bottom:12px;
 color:#4b2dd8;
 }
 
-/* ROW */
 .row{
 display:flex;
 justify-content:space-between;
@@ -51,7 +55,6 @@ padding:10px 0;
 font-weight:600;
 }
 
-/* PROGRESS */
 .progress{
 height:6px;
 background:#eee;
@@ -63,54 +66,6 @@ margin-bottom:12px;
 height:100%;
 background:#4b2dd8;
 width:0%;
-}
-
-/* FILTER */
-.filter{
-padding:0 20px;
-}
-select{
-padding:12px;
-border-radius:12px;
-border:none;
-width:100%;
-background:white;
-box-shadow:0 3px 10px rgba(0,0,0,0.08);
-font-weight:600;
-}
-
-/* BUTTON */
-.btn{
-width:100%;
-padding:12px;
-border:none;
-border-radius:12px;
-background:#4b2dd8;
-color:white;
-font-weight:700;
-margin-top:10px;
-}
-
-/* SECTION */
-.section-title{
-padding:0 20px;
-font-weight:700;
-margin-top:18px;
-color:#4b2dd8;
-}
-
-/* LIST */
-.leave-list{
-padding:20px;
-}
-.leave-item{
-background:white;
-padding:14px;
-border-radius:14px;
-margin-bottom:10px;
-box-shadow:0 4px 12px rgba(0,0,0,0.06);
-font-weight:600;
-border-left:4px solid #4b2dd8;
 }
 
 /* FOOTER */
@@ -143,49 +98,32 @@ font-weight:600;
 
 <body>
 
+<!-- HEADER -->
 <div class="top">
 <h2>Leave Dashboard</h2>
+<div class="asdate" id="asOnDate">As on Date: --</div>
 </div>
 
 <!-- CREDITED -->
 <div class="box">
+
 <div class="title">Credited Leaves</div>
 
-<div class="row"><span>Earned Leave</span><span id="elCredit">0</span></div>
-<div class="progress"><div id="elBar"></div></div>
-
-<div class="row"><span>Full Pay Leave</span><span id="fplCredit">0</span></div>
-<div class="progress"><div id="fplBar"></div></div>
-
-<div class="row"><span>Casual Leave</span><span id="clCredit">0</span></div>
-<div class="progress"><div id="clBar"></div></div>
+<div class="row">
+<span>Earned Leave</span>
+<span id="elCredit">0</span>
 </div>
 
-<!-- YEAR -->
-<div class="filter">
-<select id="yearSelect">
-<option>2025</option>
-<option>2026</option>
-<option>2027</option>
-</select>
+<div class="row">
+<span>Full Pay Leave</span>
+<span id="fplCredit">0</span>
 </div>
 
-<!-- BUTTON -->
-<div style="padding:0 20px;">
-<button class="btn" onclick="showSummary()">View Summary</button>
+<div class="row">
+<span>Casual Leave</span>
+<span id="clCredit">0</span>
 </div>
 
-<!-- DETAILS -->
-<div class="section-title">Leave Taken Details</div>
-<div class="leave-list" id="leaveList"></div>
-
-<!-- BALANCE -->
-<div class="box">
-<div class="title">Leave Balance</div>
-
-<div class="row"><span>Earned Leave</span><span id="elBalance">0</span></div>
-<div class="row"><span>Full Pay Leave</span><span id="fplBalance">0</span></div>
-<div class="row"><span>Casual Leave</span><span id="clBalance">0</span></div>
 </div>
 
 <!-- FOOTER -->
@@ -201,10 +139,7 @@ font-weight:600;
 
 let user = localStorage.getItem("currentUser");
 
-let elCredit=0, fplCredit=0, clCredit=0;
-let elTaken=0, fplTaken=0, clTaken=0;
-
-/* LOAD CREDIT */
+/* LOAD CREDIT + DATE */
 async function loadEmployee(){
 
 let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
@@ -212,111 +147,24 @@ let text = await res.text();
 let rows = text.trim().split("\n");
 
 for(let i=1;i<rows.length;i++){
+
 let cols = rows[i].split(",");
 
 if(cols[0].trim() === user){
 
-elCredit = parseInt(cols[3]) || 0;
-fplCredit = parseInt(cols[4]) || 0;
-clCredit = parseInt(cols[5]) || 0;
+document.getElementById("elCredit").innerText = cols[3] || 0;
+document.getElementById("fplCredit").innerText = cols[4] || 0;
+document.getElementById("clCredit").innerText = cols[5] || 0;
+
+/* AS ON DATE */
+document.getElementById("asOnDate").innerText = "As on Date: " + (cols[6] || "--");
 
 }
 }
 
-elCreditEl.innerText = elCredit;
-fplCreditEl.innerText = fplCredit;
-clCreditEl.innerText = clCredit;
-
 }
 
-/* LOAD ATTENDANCE */
-yearSelect.onchange = loadAttendance;
-
-async function loadAttendance(){
-
-let year = yearSelect.value;
-
-let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
-let text = await res.text();
-let rows = text.trim().split("\n");
-
-elTaken=0; fplTaken=0; clTaken=0;
-let output="";
-
-for(let i=1;i<rows.length;i++){
-
-let cols = rows[i].split(",");
-
-if(cols[0].trim() !== user) continue;
-if(cols[1].trim() !== year) continue;
-
-let month = cols[2];
-
-for(let d=3; d<cols.length; d++){
-
-let val = cols[d]?.trim();
-
-if(val==="EL" || val==="FPL" || val==="CL"){
-
-output += `<div class="leave-item">${val} - Day ${d-2} (${month}-${year})</div>`;
-
-if(val==="EL") elTaken++;
-if(val==="FPL") fplTaken++;
-if(val==="CL") clTaken++;
-
-}
-
-}
-
-}
-
-leaveList.innerHTML = output || "No Leave Found";
-
-calculate();
-
-}
-
-/* SUMMARY BUTTON */
-function showSummary(){
-
-leaveList.innerHTML = `
-<div class="leave-item">🟢 Earned Leave Taken: ${elTaken}</div>
-<div class="leave-item">🟡 Full Pay Leave Taken: ${fplTaken}</div>
-<div class="leave-item">🔵 Casual Leave Taken: ${clTaken}</div>
-`;
-
-}
-
-/* BALANCE */
-function calculate(){
-
-elBalance.innerText = elCredit - elTaken;
-fplBalance.innerText = fplCredit - fplTaken;
-clBalance.innerText = clCredit - clTaken;
-
-/* PROGRESS */
-elBar.style.width = (elCredit? (elTaken/elCredit)*100:0) + "%";
-fplBar.style.width = (fplCredit? (fplTaken/fplCredit)*100:0) + "%";
-clBar.style.width = (clCredit? (clTaken/clCredit)*100:0) + "%";
-
-}
-
-/* AUTO YEAR */
-function autoYear(){
-
-let y = new Date().getFullYear().toString();
-for(let i=0;i<yearSelect.options.length;i++){
-if(yearSelect.options[i].value === y){
-yearSelect.selectedIndex=i;
-}
-}
-
-loadAttendance();
-
-}
-
-/* INIT */
-loadEmployee().then(autoYear);
+loadEmployee();
 
 </script>
 
