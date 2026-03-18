@@ -45,7 +45,7 @@ border-top-right-radius:30px;
 padding:20px 15px;
 }
 
-/* BUTTONS */
+/* TOP BUTTONS */
 .btn-grid{
 display:grid;
 grid-template-columns:1fr 1fr 1fr;
@@ -59,9 +59,27 @@ padding:18px 10px;
 border-radius:18px;
 text-align:center;
 font-weight:600;
+transition:0.2s;
 }
 
 .btn-card.active{
+background:#25166c;
+transform:scale(1.05);
+}
+
+/* EXTRA BUTTONS */
+.extra-btn{
+margin-top:15px;
+background:#4b2dd8;
+color:white;
+padding:14px;
+border-radius:15px;
+text-align:center;
+font-weight:600;
+transition:0.2s;
+}
+
+.extra-btn.active{
 background:#25166c;
 transform:scale(1.05);
 }
@@ -92,17 +110,6 @@ margin-top:10px;
 .item{
 padding-left:10px;
 margin:4px 0;
-}
-
-/* EXTRA BUTTON */
-.extra-btn{
-margin-top:15px;
-background:#4b2dd8;
-color:white;
-padding:14px;
-border-radius:15px;
-text-align:center;
-font-weight:600;
 }
 
 /* FOOTER */
@@ -149,9 +156,14 @@ text-align:center;
 <div class="section-title">Leave History</div>
 <div class="list-box" id="leaveContainer"></div>
 
-<!-- STEP 3 BUTTONS -->
-<div class="extra-btn" onclick="showOtherLeaves()">Other Leaves Taken Details</div>
-<div class="extra-btn" onclick="showBalance()">Leave Balance</div>
+<!-- EXTRA BUTTONS -->
+<div class="extra-btn" onclick="activateExtra(this); showOtherLeaves()">
+Other Leaves Taken Details
+</div>
+
+<div class="extra-btn" onclick="activateExtra(this); showBalance()">
+Leave Balance
+</div>
 
 </div>
 
@@ -200,15 +212,29 @@ document.getElementById("asOnDate").innerText =
 
 }
 
-/* BUTTON */
+/* TOP BUTTON CLICK */
 function filterLeave(type,el){
 
 currentType = type;
 
+/* remove all highlights */
 document.querySelectorAll(".btn-card").forEach(b=>b.classList.remove("active"));
+document.querySelectorAll(".extra-btn").forEach(b=>b.classList.remove("active"));
+
+/* activate top */
 el.classList.add("active");
 
 loadAttendance();
+
+}
+
+/* EXTRA BUTTON CLICK */
+function activateExtra(el){
+
+document.querySelectorAll(".btn-card").forEach(b=>b.classList.remove("active"));
+document.querySelectorAll(".extra-btn").forEach(b=>b.classList.remove("active"));
+
+el.classList.add("active");
 
 }
 
@@ -240,12 +266,12 @@ if(!val) continue;
 let day = ("0"+(d-2)).slice(-2);
 let date = `${day}-${month}-${year}`;
 
-/* COUNT */
+/* count */
 if(val==="EL") elTaken++;
 if(val==="FPL") fplTaken++;
 if(val==="CL") clTaken++;
 
-/* FILTER */
+/* filter */
 if(val === currentType){
 
 let key = month+"-"+year;
@@ -260,7 +286,6 @@ monthMap[key].push(date+" - "+val);
 
 }
 
-/* DISPLAY */
 render(monthMap);
 
 }
