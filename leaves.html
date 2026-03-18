@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-
 body{
 font-family:'Segoe UI',sans-serif;
 margin:0;
@@ -59,7 +58,6 @@ padding:18px 10px;
 border-radius:18px;
 text-align:center;
 font-weight:600;
-transition:0.2s;
 }
 
 .btn-card.active{
@@ -76,7 +74,6 @@ padding:14px;
 border-radius:15px;
 text-align:center;
 font-weight:600;
-transition:0.2s;
 }
 
 .extra-btn.active{
@@ -127,7 +124,6 @@ text-decoration:none;
 color:#4b2dd8;
 text-align:center;
 }
-
 </style>
 </head>
 
@@ -170,13 +166,12 @@ text-align:center;
 <script>
 
 let user = localStorage.getItem("currentUser");
-
 let currentType = "EL";
 
 let elCredit=0,fplCredit=0,clCredit=0;
 let elTaken=0,fplTaken=0,clTaken=0;
 
-let creditCalculated = false; // 🔥 FIX
+let creditCalculated = false;
 
 /* LOAD CREDIT */
 async function loadEmployee(){
@@ -230,7 +225,7 @@ el.classList.add("active");
 
 }
 
-/* RANGE GROUPING */
+/* RANGE GROUP */
 function groupRanges(arr){
 
 if(arr.length===0) return [];
@@ -253,7 +248,6 @@ prev=cur;
 }
 
 res.push({start:start,end:prev,type:start.type});
-
 return res;
 }
 
@@ -266,11 +260,7 @@ let rows = text.trim().split("\n");
 
 let monthMap={};
 
-let currentYear = new Date().getFullYear();
-let prevYear = (currentYear - 1).toString();
-
 elTaken=0;fplTaken=0;clTaken=0;
-let prevElTaken=0, prevFplTaken=0;
 
 for(let i=1;i<rows.length;i++){
 
@@ -288,9 +278,6 @@ for(let d=3;d<34;d++){
 let val=c[d]?.trim();
 if(!val) continue;
 
-/* CURRENT YEAR */
-if(year == currentYear){
-
 if(val==="EL") elTaken++;
 if(val==="FPL") fplTaken++;
 if(val==="CL") clTaken++;
@@ -301,31 +288,39 @@ list.push({day:d-2,type:val,month,year});
 
 }
 
-/* PREVIOUS YEAR */
-if(year == prevYear){
-
-if(val==="EL") prevElTaken++;
-if(val==="FPL") prevFplTaken++;
-
-}
-
-}
-
 if(list.length){
 monthMap[month+"-"+year]=groupRanges(list);
 }
 
 }
 
-/* APPLY POLICY ONLY ONCE */
+/* APPLY DATE BASED CREDIT ONLY ONCE */
 if(!creditCalculated){
 
-let prevElBalance = elCredit - prevElTaken;
-let prevFplBalance = fplCredit - prevFplTaken;
+let today = new Date();
+let year = today.getFullYear();
 
-elCredit = prevElBalance + 30;
-fplCredit = prevFplBalance + 10;
-clCredit = 10;
+let jan1 = new Date(year, 0, 1);
+let july1 = new Date(year, 6, 1);
+
+let finalEL = elCredit;
+let finalFPL = fplCredit;
+let finalCL = clCredit;
+
+if(today >= jan1 && today < july1){
+finalEL = elCredit + 15;
+finalFPL = fplCredit + 5;
+}
+
+if(today >= july1){
+finalEL = elCredit + 30;
+finalFPL = fplCredit + 10;
+}
+
+/* UPDATE */
+elCredit = finalEL;
+fplCredit = finalFPL;
+clCredit = finalCL;
 
 document.getElementById("elCredit").innerText = elCredit;
 document.getElementById("fplCredit").innerText = fplCredit;
