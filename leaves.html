@@ -45,29 +45,37 @@ border-top-right-radius:30px;
 padding:20px 15px;
 }
 
-/* SLIDER BUTTONS */
+
+/* SLIDER BUTTONS (PREMIUM FIXED) */
 .btn-scroll{
 display:flex;
 overflow-x:auto;
-gap:12px;
-padding-bottom:5px;
+gap:15px;
+padding:10px 5px;
+scroll-snap-type:x mandatory;
 }
-.btn-scroll::-webkit-scrollbar{display:none;}
+
+.btn-scroll::-webkit-scrollbar{
+display:none;
+}
 
 .btn-card{
-min-width:130px;
+flex:0 0 180px;   /* BIG SIZE RESTORED */
 background:#0f766e;
 color:white;
-padding:18px 10px;
-border-radius:18px;
+padding:22px 12px;
+border-radius:22px;
 text-align:center;
-font-weight:600;
-box-shadow:0 6px 15px rgba(0,0,0,0.15);
+font-weight:700;
+font-size:15px;
+box-shadow:0 8px 20px rgba(0,0,0,0.18);
+transition:0.3s;
+scroll-snap-align:start;
 }
 
 .btn-card.active{
 background:#134e4a;
-transform:scale(1.05);
+transform:scale(1.06);
 }
 
 /* HISTORY */
@@ -136,14 +144,12 @@ text-align:center;
 <!-- CURVE -->
 <div class="curve-box">
 
-<!-- SLIDING BUTTONS -->
 <div class="btn-scroll">
-<div class="btn-card active" onclick="filterLeave('EL',this)">Earned Leave</div>
-<div class="btn-card" onclick="filterLeave('FPL',this)">Full Pay Leave</div>
-<div class="btn-card" onclick="filterLeave('CL',this)">Casual Leave</div>
-<div class="btn-card" onclick="filterLeave('OTHER',this)">Other Leave</div>
+  <div class="btn-card active" onclick="filterLeave('EL',this)">Earned Leave</div>
+  <div class="btn-card" onclick="filterLeave('FPL',this)">Full Pay Leave</div>
+  <div class="btn-card" onclick="filterLeave('CL',this)">Casual Leave</div>
+  <div class="btn-card" onclick="filterLeave('OTHER',this)">Other Leave</div>
 </div>
-
 <div class="section-title">Leave History</div>
 
 <div class="list-box" id="leaveContainer">
