@@ -59,6 +59,7 @@ padding:18px 10px;
 border-radius:18px;
 text-align:center;
 font-weight:600;
+transition:0.2s;
 }
 
 .btn-card.active{
@@ -75,6 +76,7 @@ padding:14px;
 border-radius:15px;
 text-align:center;
 font-weight:600;
+transition:0.2s;
 }
 
 .extra-btn.active{
@@ -168,10 +170,13 @@ text-align:center;
 <script>
 
 let user = localStorage.getItem("currentUser");
+
 let currentType = "EL";
 
 let elCredit=0,fplCredit=0,clCredit=0;
 let elTaken=0,fplTaken=0,clTaken=0;
+
+let creditCalculated = false; // 🔥 FIX
 
 /* LOAD CREDIT */
 async function loadEmployee(){
@@ -252,7 +257,7 @@ res.push({start:start,end:prev,type:start.type});
 return res;
 }
 
-/* LOAD ATTENDANCE (UPDATED POLICY LOGIC) */
+/* LOAD ATTENDANCE */
 async function loadAttendance(){
 
 let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
@@ -312,7 +317,9 @@ monthMap[month+"-"+year]=groupRanges(list);
 
 }
 
-/* APPLY POLICY */
+/* APPLY POLICY ONLY ONCE */
+if(!creditCalculated){
+
 let prevElBalance = elCredit - prevElTaken;
 let prevFplBalance = fplCredit - prevFplTaken;
 
@@ -320,10 +327,12 @@ elCredit = prevElBalance + 30;
 fplCredit = prevFplBalance + 10;
 clCredit = 10;
 
-/* UPDATE UI */
 document.getElementById("elCredit").innerText = elCredit;
 document.getElementById("fplCredit").innerText = fplCredit;
 document.getElementById("clCredit").innerText = clCredit;
+
+creditCalculated = true;
+}
 
 renderRanges(monthMap);
 
