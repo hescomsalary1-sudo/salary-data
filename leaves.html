@@ -9,11 +9,11 @@
 body{
 font-family:'Segoe UI',sans-serif;
 margin:0;
-background:#f4f6ff;
+background:#eef2ff;
 padding-bottom:90px;
 }
 
-/* HEADER */
+/* HEADER (UNCHANGED) */
 .top{
 padding:28px 22px;
 background:linear-gradient(135deg,#4b2dd8,#7b5cff);
@@ -24,7 +24,6 @@ border-bottom-right-radius:35px;
 
 .asdate{font-size:14px;margin-top:5px;opacity:0.9;}
 
-/* CREDIT BOX */
 .credit-box{
 margin-top:15px;
 background:rgba(255,255,255,0.15);
@@ -37,35 +36,61 @@ justify-content:space-between;
 padding:8px 0;
 }
 
-/* BUTTONS */
-.btns{
-display:flex;
-gap:10px;
-padding:15px;
-}
-.btn{
-flex:1;
-padding:10px;
-border:none;
-border-radius:12px;
-background:#ddd;
-font-weight:bold;
-}
-.active{
-background:#4b2dd8;
-color:white;
+/* CURVED CONTAINER */
+.curve-box{
+margin-top:-20px;
+background:#e6ebff;
+border-top-left-radius:30px;
+border-top-right-radius:30px;
+padding:20px 15px;
 }
 
-/* LIST */
-.container{
-padding:15px;
+/* BUTTON CARDS */
+.btn-grid{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:12px;
 }
-.card{
+
+.btn-card{
+background:#0f766e;
+color:white;
+padding:18px 10px;
+border-radius:18px;
+text-align:center;
+font-weight:600;
+box-shadow:0 6px 15px rgba(0,0,0,0.15);
+transition:0.3s;
+}
+
+.btn-card.active{
+background:#134e4a;
+transform:scale(1.05);
+}
+
+/* HISTORY TITLE */
+.section-title{
+margin-top:20px;
+font-size:20px;
+font-weight:bold;
+color:#0f766e;
+}
+
+/* LIST BOX */
+.list-box{
+margin-top:10px;
 background:white;
-padding:12px;
-border-radius:12px;
-margin-bottom:10px;
-box-shadow:0 4px 10px rgba(0,0,0,0.08);
+border-radius:25px;
+padding:20px;
+min-height:200px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* ITEM */
+.item{
+padding:10px;
+border-bottom:1px solid #eee;
+font-weight:600;
 }
 
 /* FOOTER */
@@ -78,7 +103,6 @@ display:flex;
 justify-content:space-around;
 padding:10px 0;
 }
-
 .footer a{
 text-decoration:none;
 color:#4b2dd8;
@@ -90,7 +114,7 @@ text-align:center;
 
 <body>
 
-<!-- HEADER -->
+<!-- HEADER (UNCHANGED) -->
 <div class="top">
 <h2>Leave Dashboard</h2>
 <div class="asdate" id="asOnDate">As on Date: --</div>
@@ -102,15 +126,25 @@ text-align:center;
 </div>
 </div>
 
+<!-- CURVED SECTION -->
+<div class="curve-box">
+
 <!-- BUTTONS -->
-<div class="btns">
-<button class="btn active" onclick="filterLeave('EL',this)">EL</button>
-<button class="btn" onclick="filterLeave('FPL',this)">FPL</button>
-<button class="btn" onclick="filterLeave('CL',this)">CL</button>
+<div class="btn-grid">
+<div class="btn-card active" onclick="filterLeave('EL',this)">Earned Leave</div>
+<div class="btn-card" onclick="filterLeave('FPL',this)">Full Pay Leave</div>
+<div class="btn-card" onclick="filterLeave('CL',this)">Casual Leave</div>
 </div>
 
+<!-- TITLE -->
+<div class="section-title">Leave History</div>
+
 <!-- LIST -->
-<div class="container" id="leaveContainer"></div>
+<div class="list-box" id="leaveContainer">
+No Data found
+</div>
+
+</div>
 
 <!-- FOOTER -->
 <div class="footer">
@@ -123,7 +157,6 @@ text-align:center;
 <script>
 
 let user = localStorage.getItem("currentUser");
-
 let currentType = "EL";
 
 /* LOAD CREDIT */
@@ -142,7 +175,6 @@ if(c[0] === user){
 elCredit.innerText = c[3];
 fplCredit.innerText = c[4];
 clCredit.innerText = c[5];
-
 asOnDate.innerText = "As on Date: " + c[6];
 
 }
@@ -150,14 +182,14 @@ asOnDate.innerText = "As on Date: " + c[6];
 
 }
 
-/* FILTER BUTTON */
-function filterLeave(type,btn){
+/* BUTTON CLICK */
+function filterLeave(type,el){
 
 currentType = type;
 
 /* highlight */
-document.querySelectorAll(".btn").forEach(b=>b.classList.remove("active"));
-btn.classList.add("active");
+document.querySelectorAll(".btn-card").forEach(b=>b.classList.remove("active"));
+el.classList.add("active");
 
 loadAttendance();
 
@@ -183,29 +215,27 @@ let month = c[2];
 
 let count = 0;
 
-/* check 31 days */
 for(let d=3; d<34; d++){
-let val = c[d]?.trim();
-if(val === currentType){
+if(c[d]?.trim() === currentType){
 count++;
 }
 }
 
-/* store month wise */
 if(count>0){
-monthMap[month+"-"+year] = (monthMap[month+"-"+year] || 0) + count;
+let key = month+"-"+year;
+monthMap[key] = (monthMap[key] || 0) + count;
 }
 
 }
 
-/* display */
+/* DISPLAY */
 let html = "";
 
-for(let key in monthMap){
-html += `<div class="card">${key} : ${monthMap[key]} days</div>`;
+for(let k in monthMap){
+html += `<div class="item">${k} : ${monthMap[k]} days</div>`;
 }
 
-leaveContainer.innerHTML = html || "No Data";
+leaveContainer.innerHTML = html || "No Data found";
 
 }
 
