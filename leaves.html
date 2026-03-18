@@ -14,22 +14,18 @@ padding-bottom:90px;
 }
 
 /* HEADER */
-
 .top{
 padding:28px 22px;
-background:#4b2dd8;
+background:linear-gradient(135deg,#4b2dd8,#7b5cff);
 color:white;
 border-bottom-left-radius:35px;
 border-bottom-right-radius:35px;
 box-shadow:0 6px 18px rgba(0,0,0,0.15);
 }
 
-.top h2{
-margin:0;
-}
+.top h2{margin:0;}
 
 /* CARD */
-
 .box{
 margin:18px;
 padding:20px;
@@ -39,7 +35,6 @@ box-shadow:0 6px 18px rgba(0,0,0,0.08);
 }
 
 /* TITLE */
-
 .title{
 font-weight:700;
 margin-bottom:12px;
@@ -47,7 +42,6 @@ color:#4b2dd8;
 }
 
 /* ROW */
-
 .row{
 display:flex;
 justify-content:space-between;
@@ -55,8 +49,7 @@ padding:10px 0;
 font-weight:600;
 }
 
-/* PROGRESS BAR */
-
+/* PROGRESS */
 .progress{
 height:6px;
 background:#eee;
@@ -64,19 +57,27 @@ border-radius:20px;
 overflow:hidden;
 margin-bottom:12px;
 }
-
 .progress div{
 height:100%;
 background:#4b2dd8;
 width:0%;
 }
 
-/* FILTER */
-
-.filter{
-padding:0 20px;
+/* BUTTON */
+.btn{
+margin-top:12px;
+padding:12px;
+width:100%;
+border:none;
+border-radius:12px;
+background:#4b2dd8;
+color:white;
+font-weight:600;
+cursor:pointer;
 }
 
+/* FILTER */
+.filter{padding:0 20px;}
 select{
 padding:12px;
 border-radius:12px;
@@ -87,21 +88,8 @@ box-shadow:0 3px 10px rgba(0,0,0,0.08);
 font-weight:600;
 }
 
-/* SECTION */
-
-.section-title{
-padding:0 20px;
-font-weight:700;
-margin-top:18px;
-color:#4b2dd8;
-}
-
 /* LEAVE LIST */
-
-.leave-list{
-padding:20px;
-}
-
+.leave-list{padding:20px;}
 .leave-item{
 background:white;
 padding:14px;
@@ -112,8 +100,25 @@ font-weight:600;
 border-left:4px solid #4b2dd8;
 }
 
-/* FOOTER */
+/* POPUP */
+.popup{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,0.5);
+display:none;
+justify-content:center;
+align-items:center;
+}
+.popup-box{
+background:white;
+padding:20px;
+border-radius:16px;
+width:80%;
+text-align:center;
+}
 
+/* FOOTER */
 .footer{
 position:fixed;
 bottom:0;
@@ -124,7 +129,6 @@ justify-content:space-around;
 padding:10px 0;
 box-shadow:0 -3px 15px rgba(0,0,0,0.1);
 }
-
 .footer a{
 text-decoration:none;
 display:flex;
@@ -133,12 +137,7 @@ align-items:center;
 color:#4b2dd8;
 font-size:20px;
 }
-
-.footer small{
-font-size:11px;
-margin-top:4px;
-font-weight:600;
-}
+.footer small{font-size:11px;margin-top:4px;}
 
 </style>
 </head>
@@ -149,186 +148,160 @@ font-weight:600;
 <h2>Leave Dashboard</h2>
 </div>
 
+<!-- CREDIT -->
 <div class="box">
-
 <div class="title">Credited Leaves</div>
 
-<div class="row">
-<span>Earned Leave</span>
-<span id="elCredit">0</span>
-</div>
+<div class="row"><span>Earned Leave</span><span id="elCredit">0</span></div>
 <div class="progress"><div id="elBar"></div></div>
 
-<div class="row">
-<span>Full Pay Leave</span>
-<span id="fplCredit">0</span>
-</div>
+<div class="row"><span>Full Pay Leave</span><span id="fplCredit">0</span></div>
 <div class="progress"><div id="fplBar"></div></div>
 
-<div class="row">
-<span>Casual Leave</span>
-<span id="clCredit">0</span>
-</div>
+<div class="row"><span>Casual Leave</span><span id="clCredit">0</span></div>
 <div class="progress"><div id="clBar"></div></div>
-
 </div>
 
+<!-- YEAR -->
 <div class="filter">
 <select id="yearSelect">
-<option>Select Year</option>
 <option>2025</option>
 <option>2026</option>
 <option>2027</option>
 </select>
 </div>
 
-<div class="section-title">Leave Taken Details</div>
+<!-- TAKEN -->
+<div class="box">
+<div class="title">Leave Taken</div>
+
+<div class="row"><span>EL Taken</span><span id="elTaken">0</span></div>
+<div class="row"><span>FPL Taken</span><span id="fplTaken">0</span></div>
+<div class="row"><span>CL Taken</span><span id="clTaken">0</span></div>
+
+<button class="btn" onclick="showDetails()">View Details</button>
+</div>
+
+<!-- DETAILS -->
 <div class="leave-list" id="leaveList"></div>
 
+<!-- BALANCE -->
 <div class="box">
-
 <div class="title">Leave Balance</div>
 
-<div class="row">
-<span>Earned Leave</span>
-<span id="elBalance">0</span>
+<div class="row"><span>EL Balance</span><span id="elBalance">0</span></div>
+<div class="row"><span>FPL Balance</span><span id="fplBalance">0</span></div>
+<div class="row"><span>CL Balance</span><span id="clBalance">0</span></div>
 </div>
 
-<div class="row">
-<span>Full Pay Leave</span>
-<span id="fplBalance">0</span>
+<!-- POPUP -->
+<div class="popup" id="popup">
+<div class="popup-box">
+<h3>Remaining Leaves</h3>
+<p id="popupData"></p>
+<button class="btn" onclick="closePopup()">Close</button>
+</div>
 </div>
 
-<div class="row">
-<span>Casual Leave</span>
-<span id="clBalance">0</span>
-</div>
-
-</div>
-
+<!-- FOOTER -->
 <div class="footer">
-<a href="home.html"><div>🏠</div><small>Home</small></a>
-<a href="accounts.html"><div>👤</div><small>Profile</small></a>
-<a href="salary.html"><div>💰</div><small>Salary</small></a>
-<a href="page3.html"><div>📅</div><small>Attendance</small></a>
-<a href="page4.html"><div>⚙</div><small>Settings</small></a>
+<a href="home.html">🏠<small>Home</small></a>
+<a href="accounts.html">👤<small>Profile</small></a>
+<a href="salary.html">💰<small>Salary</small></a>
+<a href="page3.html">📅<small>Attendance</small></a>
+<a href="page4.html">⚙<small>Settings</small></a>
 </div>
 
 <script>
 
 let user = localStorage.getItem("currentUser");
 
-let elCredit=0, fplCredit=0, clCredit=0;
-let elTaken=0, fplTaken=0, clTaken=0;
+let elCredit=0,fplCredit=0,clCredit=0;
+let elTaken=0,fplTaken=0,clTaken=0;
 
 async function loadEmployee(){
-
 let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
 let text = await res.text();
 let rows = text.trim().split("\n");
 
 for(let i=1;i<rows.length;i++){
-let cols = rows[i].trim().split(",");
-
-if(cols[0].trim() === user){
-
-elCredit = parseInt(cols[3]) || 0;
-fplCredit = parseInt(cols[4]) || 0;
-clCredit = parseInt(cols[5]) || 0;
-
+let cols = rows[i].split(",");
+if(cols[0].trim()===user){
+elCredit = +cols[3]||0;
+fplCredit = +cols[4]||0;
+clCredit = +cols[5]||0;
 }
 }
 
-document.getElementById("elCredit").innerText = elCredit;
-document.getElementById("fplCredit").innerText = fplCredit;
-document.getElementById("clCredit").innerText = clCredit;
-
+elCreditEl.innerText=elCredit;
+fplCreditEl.innerText=fplCredit;
+clCreditEl.innerText=clCredit;
 }
-
-yearSelect.onchange = loadAttendance;
 
 async function loadAttendance(){
 
-let selectedYear = document.getElementById("yearSelect").value;
+let year = yearSelect.value;
 
 let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
 let text = await res.text();
 let rows = text.trim().split("\n");
 
-elTaken=0; fplTaken=0; clTaken=0;
+elTaken=0;fplTaken=0;clTaken=0;
 let output="";
 
 for(let i=1;i<rows.length;i++){
+let cols = rows[i].split(",");
 
-let cols = rows[i].trim().split(",");
+if(cols[0].trim()!==user) continue;
+if(cols[2].trim()!==year) continue;
 
-if(cols[0].trim() !== user) continue;
-if(cols[2].trim() !== selectedYear) continue;
+let month = cols[1];
 
-let month = cols[1].trim();
-let year = cols[2].trim();
+for(let d=3; d<cols.length; d++){
+let val = cols[d].trim();
 
-for(let c=3; c<cols.length; c+=2){
-
-let leave = cols[c+1];
-
-if(leave && leave.trim() !== ""){
-
-leave = leave.trim();
-
-output += `<div class="leave-item">${leave} - ${month}-${year}</div>`;
-
-if(leave==="EL") elTaken++;
-if(leave==="FPL") fplTaken++;
-if(leave==="CL") clTaken++;
-
+if(val==="EL"){elTaken++; output+=`<div class="leave-item">EL - ${month}</div>`;}
+if(val==="FPL"){fplTaken++; output+=`<div class="leave-item">FPL - ${month}</div>`;}
+if(val==="CL"){clTaken++; output+=`<div class="leave-item">CL - ${month}</div>`;}
+}
 }
 
-}
-
-}
+elTakenEl.innerText=elTaken;
+fplTakenEl.innerText=fplTaken;
+clTakenEl.innerText=clTaken;
 
 leaveList.innerHTML = output || "No Leave Found";
 
 calculateBalance();
-
 }
 
 function calculateBalance(){
 
-document.getElementById("elBalance").innerText = elCredit - elTaken;
-document.getElementById("fplBalance").innerText = fplCredit - fplTaken;
-document.getElementById("clBalance").innerText = clCredit - clTaken;
+elBalance.innerText = elCredit-elTaken;
+fplBalance.innerText = fplCredit-fplTaken;
+clBalance.innerText = clCredit-clTaken;
 
-/* Progress Bars */
-
-let elPercent = elCredit ? (elTaken/elCredit)*100 : 0;
-let fplPercent = fplCredit ? (fplTaken/fplCredit)*100 : 0;
-let clPercent = clCredit ? (clTaken/clCredit)*100 : 0;
-
-document.getElementById("elBar").style.width = elPercent+"%";
-document.getElementById("fplBar").style.width = fplPercent+"%";
-document.getElementById("clBar").style.width = clPercent+"%";
-
+elBar.style.width = (elTaken/elCredit*100||0)+"%";
+fplBar.style.width = (fplTaken/fplCredit*100||0)+"%";
+clBar.style.width = (clTaken/clCredit*100||0)+"%";
 }
 
-function autoLoadYear(){
-
-let yearSelect = document.getElementById("yearSelect");
-let currentYear = new Date().getFullYear().toString();
-
-for(let i=0;i<yearSelect.options.length;i++){
-if(yearSelect.options[i].value === currentYear){
-yearSelect.selectedIndex = i;
-break;
-}
+function showDetails(){
+popup.style.display="flex";
+popupData.innerHTML = `
+EL Remaining: ${elCredit-elTaken}<br>
+FPL Remaining: ${fplCredit-fplTaken}<br>
+CL Remaining: ${clCredit-clTaken}
+`;
 }
 
-loadAttendance();
-
+function closePopup(){
+popup.style.display="none";
 }
 
-loadEmployee().then(autoLoadYear);
+yearSelect.onchange=loadAttendance;
+
+loadEmployee().then(loadAttendance);
 
 </script>
 
