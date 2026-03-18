@@ -36,7 +36,7 @@ justify-content:space-between;
 padding:8px 0;
 }
 
-/* CURVED */
+/* CURVE */
 .curve-box{
 margin-top:-20px;
 background:#e6ebff;
@@ -59,7 +59,6 @@ padding:18px 10px;
 border-radius:18px;
 text-align:center;
 font-weight:600;
-box-shadow:0 6px 15px rgba(0,0,0,0.15);
 }
 
 .btn-card.active{
@@ -82,7 +81,6 @@ background:white;
 border-radius:25px;
 padding:20px;
 min-height:200px;
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
 }
 
 .month{
@@ -94,6 +92,17 @@ margin-top:10px;
 .item{
 padding-left:10px;
 margin:4px 0;
+}
+
+/* EXTRA BUTTONS */
+.extra-btn{
+margin-top:15px;
+background:#4b2dd8;
+color:white;
+padding:14px;
+border-radius:15px;
+text-align:center;
+font-weight:600;
 }
 
 /* FOOTER */
@@ -117,7 +126,6 @@ text-align:center;
 
 <body>
 
-<!-- HEADER -->
 <div class="top">
 <h2>Leave Dashboard</h2>
 <div class="asdate" id="asOnDate">As on Date: --</div>
@@ -129,10 +137,9 @@ text-align:center;
 </div>
 </div>
 
-<!-- CURVE -->
 <div class="curve-box">
 
-<!-- BUTTONS -->
+<!-- MAIN BUTTONS -->
 <div class="btn-grid">
 <div class="btn-card active" onclick="filterLeave('EL',this)">Earned Leave</div>
 <div class="btn-card" onclick="filterLeave('FPL',this)">Full Pay Leave</div>
@@ -140,14 +147,14 @@ text-align:center;
 </div>
 
 <div class="section-title">Leave History</div>
+<div class="list-box" id="leaveContainer"></div>
 
-<div class="list-box" id="leaveContainer">
-No Data found
+<!-- STEP 3 BUTTONS -->
+<div class="extra-btn" onclick="showOtherLeaves()">Other Leaves Taken Details</div>
+<div class="extra-btn" onclick="showBalance()">Leave Balance</div>
+
 </div>
 
-</div>
-
-<!-- FOOTER -->
 <div class="footer">
 <a href="home.html">🏠<br>Home</a>
 <a href="accounts.html">👤<br>Profile</a>
@@ -160,24 +167,29 @@ No Data found
 let user = localStorage.getItem("currentUser");
 let currentType = "EL";
 
+let elCredit=0,fplCredit=0,clCredit=0;
+let elTaken=0,fplTaken=0,clTaken=0;
+
 /* LOAD CREDIT */
 async function loadEmployee(){
 
-let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
-let text = await res.text();
-let rows = text.trim().split("\n");
+let res=await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
+let text=await res.text();
+let rows=text.trim().split("\n");
 
 for(let i=1;i<rows.length;i++){
+let c=rows[i].split(",");
 
-let c = rows[i].split(",");
+if(c[0]===user){
+elCredit=parseInt(c[3])||0;
+fplCredit=parseInt(c[4])||0;
+clCredit=parseInt(c[5])||0;
 
-if(c[0] === user){
+elCreditEl.innerText=elCredit;
+fplCreditEl.innerText=fplCredit;
+clCreditEl.innerText=clCredit;
 
-elCredit.innerText = c[3];
-fplCredit.innerText = c[4];
-clCredit.innerText = c[5];
-asOnDate.innerText = "As on Date: " + c[6];
-
+asOnDate.innerText="As on Date: "+c[6];
 }
 }
 
@@ -185,76 +197,124 @@ asOnDate.innerText = "As on Date: " + c[6];
 
 /* BUTTON */
 function filterLeave(type,el){
-
-currentType = type;
-
+currentType=type;
 document.querySelectorAll(".btn-card").forEach(b=>b.classList.remove("active"));
 el.classList.add("active");
-
 loadAttendance();
-
 }
 
 /* LOAD ATTENDANCE */
 async function loadAttendance(){
 
-let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
-let text = await res.text();
-let rows = text.trim().split("\n");
+let res=await fetch("attendance.csv");
+let text=await res.text();
+let rows=text.trim().split("\n");
 
-let monthMap = {};
-
-/* MONTH MAP */
-const monthNum={
-Jan:"01",Feb:"02",Mar:"03",Apr:"04",May:"05",Jun:"06",
-Jul:"07",Aug:"08",Sep:"09",Oct:"10",Nov:"11",Dec:"12"
-};
+let monthMap={};
+elTaken=0;fplTaken=0;clTaken=0;
 
 for(let i=1;i<rows.length;i++){
 
-let c = rows[i].split(",");
+let c=rows[i].split(",");
+if(c[0]!==user) continue;
 
-if(c[0] !== user) continue;
+let year=c[1];
+let month=c[2];
 
-let year = c[1];
-let month = c[2];
+for(let d=3;d<34;d++){
 
-for(let d=3; d<34; d++){
-
-let val = c[d]?.trim();
+let val=c[d]?.trim();
 if(!val) continue;
 
-/* FILTER */
-if(val !== currentType) continue;
+let day=("0"+(d-2)).slice(-2);
+let date=`${day}-${month}-${year}`;
 
-/* DATE FORMAT */
-let day = ("0"+(d-2)).slice(-2);
-let fullDate = `${day}-${month}-${year}`;
+if(val==="EL"){elTaken++;}
+if(val==="FPL"){fplTaken++;}
+if(val==="CL"){clTaken++;}
 
-let key = month+"-"+year;
+if(val===currentType){
 
+let key=month+"-"+year;
+if(!monthMap[key]) monthMap[key]=[];
+monthMap[key].push(date+" - "+val);
+
+}
+
+}
+
+}
+
+render(monthMap);
+
+}
+
+/* OTHER LEAVES */
+async function showOtherLeaves(){
+
+let res=await fetch("attendance.csv");
+let text=await res.text();
+let rows=text.trim().split("\n");
+
+let monthMap={};
+
+for(let i=1;i<rows.length;i++){
+
+let c=rows[i].split(",");
+if(c[0]!==user) continue;
+
+let year=c[1];
+let month=c[2];
+
+for(let d=3;d<34;d++){
+
+let val=c[d]?.trim();
+if(!val) continue;
+
+if(val==="EL"||val==="FPL"||val==="CL"||val==="GH") continue;
+
+let day=("0"+(d-2)).slice(-2);
+let date=`${day}-${month}-${year}`;
+
+let key=month+"-"+year;
 if(!monthMap[key]) monthMap[key]=[];
 
-monthMap[key].push(fullDate + " - " + val);
+monthMap[key].push(date+" - "+val);
 
 }
 
 }
 
-/* DISPLAY */
+render(monthMap);
+
+}
+
+/* BALANCE */
+function showBalance(){
+
+let html=`
+<div class="item">EL Balance : ${elCredit-elTaken}</div>
+<div class="item">FPL Balance : ${fplCredit-fplTaken}</div>
+<div class="item">CL Balance : ${clCredit-clTaken}</div>
+`;
+
+leaveContainer.innerHTML=html;
+
+}
+
+/* RENDER */
+function render(map){
+
 let html="";
 
-for(let m in monthMap){
-
-html += `<div class="month">${m}</div>`;
-
-monthMap[m].forEach(x=>{
-html += `<div class="item">• ${x}</div>`;
+for(let m in map){
+html+=`<div class="month">${m}</div>`;
+map[m].forEach(x=>{
+html+=`<div class="item">• ${x}</div>`;
 });
-
 }
 
-leaveContainer.innerHTML = html || "No Data found";
+leaveContainer.innerHTML=html||"No Data";
 
 }
 
