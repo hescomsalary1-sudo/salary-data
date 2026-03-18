@@ -16,7 +16,7 @@ padding-bottom:90px;
 /* HEADER */
 .top{
 padding:28px 22px;
-background:linear-gradient(135deg,#4b2dd8,#7b5cff);
+background:#4b2dd8;
 color:white;
 border-bottom-left-radius:35px;
 border-bottom-right-radius:35px;
@@ -26,7 +26,7 @@ border-bottom-right-radius:35px;
 
 .credit-box{
 margin-top:15px;
-background:rgba(255,255,255,0.15);
+background:#25166c;
 padding:15px;
 border-radius:15px;
 }
@@ -36,7 +36,7 @@ justify-content:space-between;
 padding:8px 0;
 }
 
-/* CURVE */
+/* CURVED */
 .curve-box{
 margin-top:-20px;
 background:#e6ebff;
@@ -45,67 +45,55 @@ border-top-right-radius:30px;
 padding:20px 15px;
 }
 
-
-/* SLIDER BUTTONS (PREMIUM FIXED) */
-.btn-scroll{
-display:flex;
-overflow-x:auto;
-gap:15px;
-padding:15px 5px;
-scroll-snap-type:x mandatory;
-}
-
-.btn-scroll::-webkit-scrollbar{
-display:none;
+/* BUTTONS */
+.btn-grid{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:12px;
 }
 
 .btn-card{
-flex:0 0 180px;   /* BIG SIZE RESTORED */
-background:#0f766e;
+background:#4b2dd8;
 color:white;
-padding:22px 22px;
-border-radius:22px;
+padding:18px 10px;
+border-radius:18px;
 text-align:center;
-font-weight:700;
-font-size:15px;
-box-shadow:0 8px 20px rgba(0,0,0,0.18);
-transition:0.3s;
-scroll-snap-align:start;
+font-weight:600;
+box-shadow:0 6px 15px rgba(0,0,0,0.15);
 }
 
 .btn-card.active{
-background:#134e4a;
-transform:scale(1.06);
+background:#25166c;
+transform:scale(1.05);
 }
 
-/* HISTORY */
+/* TITLE */
 .section-title{
 margin-top:20px;
 font-size:20px;
 font-weight:bold;
-color:#0f766e;
+color:#990000;
 }
 
+/* LIST */
 .list-box{
 margin-top:10px;
 background:white;
 border-radius:25px;
-padding:15px;
+padding:20px;
 min-height:200px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
 }
 
-/* MONTH */
 .month{
 font-weight:bold;
-margin-top:10px;
 color:#4b2dd8;
+margin-top:10px;
 }
 
-/* ITEM */
 .item{
 padding-left:10px;
 margin:4px 0;
-font-size:14px;
 }
 
 /* FOOTER */
@@ -144,12 +132,13 @@ text-align:center;
 <!-- CURVE -->
 <div class="curve-box">
 
-<div class="btn-scroll">
-  <div class="btn-card active" onclick="filterLeave('EL',this)">Earned Leave</div>
-  <div class="btn-card" onclick="filterLeave('FPL',this)">Full Pay Leave</div>
-  <div class="btn-card" onclick="filterLeave('CL',this)">Casual Leave</div>
-  <div class="btn-card" onclick="filterLeave('OTHER',this)">Other Leave</div>
+<!-- BUTTONS -->
+<div class="btn-grid">
+<div class="btn-card active" onclick="filterLeave('EL',this)">Earned Leave</div>
+<div class="btn-card" onclick="filterLeave('FPL',this)">Full Pay Leave</div>
+<div class="btn-card" onclick="filterLeave('CL',this)">Casual Leave</div>
 </div>
+
 <div class="section-title">Leave History</div>
 
 <div class="list-box" id="leaveContainer">
@@ -171,80 +160,82 @@ No Data found
 let user = localStorage.getItem("currentUser");
 let currentType = "EL";
 
+/* LOAD CREDIT */
+async function loadEmployee(){
+
+let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
+let text = await res.text();
+let rows = text.trim().split("\n");
+
+for(let i=1;i<rows.length;i++){
+
+let c = rows[i].split(",");
+
+if(c[0] === user){
+
+elCredit.innerText = c[3];
+fplCredit.innerText = c[4];
+clCredit.innerText = c[5];
+asOnDate.innerText = "As on Date: " + c[6];
+
+}
+}
+
+}
+
+/* BUTTON */
+function filterLeave(type,el){
+
+currentType = type;
+
+document.querySelectorAll(".btn-card").forEach(b=>b.classList.remove("active"));
+el.classList.add("active");
+
+loadAttendance();
+
+}
+
+/* LOAD ATTENDANCE */
+async function loadAttendance(){
+
+let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
+let text = await res.text();
+let rows = text.trim().split("\n");
+
+let monthMap = {};
+
 /* MONTH MAP */
 const monthNum={
 Jan:"01",Feb:"02",Mar:"03",Apr:"04",May:"05",Jun:"06",
 Jul:"07",Aug:"08",Sep:"09",Oct:"10",Nov:"11",Dec:"12"
 };
 
-/* LOAD CREDIT */
-async function loadEmployee(){
-let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
-let text = await res.text();
-let rows = text.trim().split("\n");
-
 for(let i=1;i<rows.length;i++){
+
 let c = rows[i].split(",");
-if(c[0]===user){
-elCredit.innerText=c[3];
-fplCredit.innerText=c[4];
-clCredit.innerText=c[5];
-asOnDate.innerText="As on Date: "+c[6];
-}
-}
-}
 
-/* BUTTON */
-function filterLeave(type,el){
-currentType=type;
-document.querySelectorAll(".btn-card").forEach(b=>b.classList.remove("active"));
-el.classList.add("active");
-loadAttendance();
-}
+if(c[0] !== user) continue;
 
-/* LOAD ATTENDANCE */
-async function loadAttendance(){
-
-let res=await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
-let text=await res.text();
-let rows=text.trim().split("\n");
-
-let monthMap={};
-
-for(let i=1;i<rows.length;i++){
-
-let c=rows[i].split(",");
-if(c[0]!==user) continue;
-
-let year=c[1];
-let month=c[2];
+let year = c[1];
+let month = c[2];
 
 for(let d=3; d<34; d++){
 
-let val=c[d]?.trim();
+let val = c[d]?.trim();
 if(!val) continue;
 
-let show=false;
+/* FILTER */
+if(val !== currentType) continue;
 
-if(currentType==="EL" && val==="EL") show=true;
-else if(currentType==="FPL" && val==="FPL") show=true;
-else if(currentType==="CL" && val==="CL") show=true;
-else if(currentType==="OTHER"){
-if(val!=="EL" && val!=="FPL" && val!=="CL" && val!=="P" && val!=="A"){
-show=true;
-}
-}
+/* DATE FORMAT */
+let day = ("0"+(d-2)).slice(-2);
+let fullDate = `${day}-${month}-${year}`;
 
-if(show){
+let key = month+"-"+year;
 
-let day=("0"+(d-2)).slice(-2);
-let fullDate = `${day}-${monthNum[month]}-${year}`;
+if(!monthMap[key]) monthMap[key]=[];
 
-if(!monthMap[month+"-"+year]) monthMap[month+"-"+year]=[];
-
-monthMap[month+"-"+year].push(`${fullDate} - ${val}`);
-
-}
+monthMap[key].push(fullDate + " - " + val);
 
 }
 
@@ -255,10 +246,10 @@ let html="";
 
 for(let m in monthMap){
 
-html+=`<div class="month">${m}</div>`;
+html += `<div class="month">${m}</div>`;
 
 monthMap[m].forEach(x=>{
-html+=`<div class="item">• ${x}</div>`;
+html += `<div class="item">• ${x}</div>`;
 });
 
 }
