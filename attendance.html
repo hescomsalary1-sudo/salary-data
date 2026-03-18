@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Leaves</title>
+<title>Attendance</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -9,103 +9,178 @@
 body{
 font-family:'Segoe UI',sans-serif;
 margin:0;
-background:#eef2ff;
+background:linear-gradient(135deg,#eef2ff,#f8fafc);
 padding-bottom:90px;
 }
 
-/* HEADER (UNCHANGED) */
+/* HEADER */
 .top{
-padding:28px 22px;
-background:linear-gradient(135deg,#4b2dd8,#7b5cff);
+padding:18px;
+background:linear-gradient(135deg,#4f46e5,#7c3aed);
 color:white;
-border-bottom-left-radius:35px;
-border-bottom-right-radius:35px;
+display:flex;
+align-items:center;
+gap:12px;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+box-shadow:0 8px 20px rgba(0,0,0,0.15);
 }
 
-.asdate{font-size:14px;margin-top:5px;opacity:0.9;}
+.icon{
+width:38px;
+height:38px;
+background:white;
+color:#4f46e5;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:18px;
+}
 
-.credit-box{
+/* CONTAINER */
+.container{
+background:rgba(255,255,255,0.7);
+backdrop-filter:blur(12px);
+margin:18px;
+padding:18px;
+border-radius:18px;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* INPUT */
+.row{
+display:flex;
+gap:10px;
+}
+
+select,button{
+width:100%;
+padding:11px;
+margin-top:10px;
+border-radius:12px;
+border:none;
+background:#f1f5f9;
+font-size:14px;
+}
+
+/* BUTTON */
+button{
+background:linear-gradient(135deg,#4f46e5,#7c3aed);
+color:white;
+font-weight:bold;
+}
+
+/* SUMMARY */
+.summaryCards{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
 margin-top:15px;
-background:rgba(255,255,255,0.15);
-padding:15px;
-border-radius:15px;
 }
-.credit-row{
+
+.summaryCard{
+padding:14px;
+border-radius:16px;
+color:white;
+text-align:center;
+box-shadow:0 6px 15px rgba(0,0,0,0.1);
+}
+
+.sumCount{font-size:22px;font-weight:bold;}
+
+.presentCard{background:#22c55e;}
+.leaveCard{background:#facc15;color:#333;}
+.absentCard{background:#ef4444;}
+.holidayCard{background:#3b82f6;}
+
+/* LIST */
+.attCard{
+margin:12px;
+padding:14px;
+border-radius:16px;
+background:white;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
 display:flex;
 justify-content:space-between;
-padding:8px 0;
+align-items:center;
+position:relative;
 }
 
-/* CURVED CONTAINER */
-.curve-box{
-margin-top:-20px;
-background:#e6ebff;
-border-top-left-radius:30px;
-border-top-right-radius:30px;
-padding:20px 15px;
+/* LEFT COLOR STRIP */
+.attCard::before{
+content:"";
+position:absolute;
+left:0;
+top:0;
+height:100%;
+width:5px;
+border-radius:10px;
 }
 
-/* BUTTON CARDS */
-.btn-grid{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:12px;
+/* COLORS */
+.presentCardBar::before{background:#22c55e;}
+.absentCardBar::before{background:#ef4444;}
+.leaveCardBar::before{background:#facc15;}
+.holidayCardBar::before{background:#3b82f6;}
+
+/* TEXT */
+.attDate{
+font-size:14px;
+font-weight:600;
+color:#111;
 }
 
-.btn-card{
-background:#0f766e;
+.attType{
+font-size:12px;
+color:#666;
+margin-top:3px;
+}
+
+/* STATUS CHIP */
+.attStatus{
+padding:6px 12px;
+border-radius:20px;
+font-size:12px;
+font-weight:600;
+}
+
+.badge-present{background:#dcfce7;color:#166534;}
+.badge-absent{background:#fee2e2;color:#991b1b;}
+.badge-leave{background:#fef9c3;color:#854d0e;}
+.badge-holiday{background:#dbeafe;color:#1e40af;}
+.badge-other{background:#e5e7eb;color:#374151;}
+
+/* PAGINATION */
+.pagination{
+display:none;
+justify-content:center;
+gap:15px;
+margin:20px;
+}
+
+.pageBtn{
+padding:8px 16px;
+border-radius:10px;
+background:#4f46e5;
 color:white;
-padding:18px 10px;
-border-radius:18px;
-text-align:center;
-font-weight:600;
-box-shadow:0 6px 15px rgba(0,0,0,0.15);
-transition:0.3s;
+border:none;
 }
 
-.btn-card.active{
-background:#134e4a;
-transform:scale(1.05);
-}
-
-/* HISTORY TITLE */
-.section-title{
-margin-top:20px;
-font-size:20px;
-font-weight:bold;
-color:#0f766e;
-}
-
-/* LIST BOX */
-.list-box{
-margin-top:10px;
-background:white;
-border-radius:25px;
-padding:20px;
-min-height:200px;
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
-}
-
-/* ITEM */
-.item{
-padding:10px;
-border-bottom:1px solid #eee;
-font-weight:600;
-}
-
-/* FOOTER */
-.footer{
+/* LOADING */
+.loadingBg,.popupBg{
 position:fixed;
-bottom:0;
-width:100%;
-background:white;
-display:flex;
-justify-content:space-around;
-padding:10px 0;
+top:0;left:0;width:100%;height:100%;
+background:rgba(0,0,0,0.4);
+display:none;
+align-items:center;
+justify-content:center;
 }
-.footer a{
-text-decoration:none;
-color:#4b2dd8;
+
+.loaderBox,.popup{
+background:white;
+padding:25px;
+border-radius:15px;
 text-align:center;
 }
 
@@ -114,133 +189,177 @@ text-align:center;
 
 <body>
 
-<!-- HEADER (UNCHANGED) -->
 <div class="top">
-<h2>Leave Dashboard</h2>
-<div class="asdate" id="asOnDate">As on Date: --</div>
-
-<div class="credit-box">
-<div class="credit-row"><span>EL</span><span id="elCredit">0</span></div>
-<div class="credit-row"><span>FPL</span><span id="fplCredit">0</span></div>
-<div class="credit-row"><span>CL</span><span id="clCredit">0</span></div>
-</div>
+<div class="icon">📅</div>
+<h2>Attendance</h2>
 </div>
 
-<!-- CURVED SECTION -->
-<div class="curve-box">
+<div class="container">
 
-<!-- BUTTONS -->
-<div class="btn-grid">
-<div class="btn-card active" onclick="filterLeave('EL',this)">Earned Leave</div>
-<div class="btn-card" onclick="filterLeave('FPL',this)">Full Pay Leave</div>
-<div class="btn-card" onclick="filterLeave('CL',this)">Casual Leave</div>
+<div class="row">
+<select id="year">
+<option value="">Year</option>
+<option>2024</option><option>2025</option><option>2026</option>
+</select>
+
+<select id="month">
+<option value="">Month</option>
+<option>Jan</option><option>Feb</option><option>Mar</option>
+<option>Apr</option><option>May</option><option>Jun</option>
+<option>Jul</option><option>Aug</option><option>Sep</option>
+<option>Oct</option><option>Nov</option><option>Dec</option>
+</select>
 </div>
 
-<!-- TITLE -->
-<div class="section-title">Leave History</div>
+<button onclick="searchAttendance()">Search</button>
 
-<!-- LIST -->
-<div class="list-box" id="leaveContainer">
-No Data found
+<div class="summaryCards">
+<div class="summaryCard presentCard"><div id="presentCount" class="sumCount">0</div>Present</div>
+<div class="summaryCard leaveCard"><div id="leaveCount" class="sumCount">0</div>Leave</div>
+<div class="summaryCard absentCard"><div id="absentCount" class="sumCount">0</div>Absent</div>
+<div class="summaryCard holidayCard"><div id="holidayWork" class="sumCount">0</div>Holiday Work</div>
 </div>
 
 </div>
 
-<!-- FOOTER -->
-<div class="footer">
-<a href="home.html">🏠<br>Home</a>
-<a href="accounts.html">👤<br>Profile</a>
-<a href="salary.html">💰<br>Salary</a>
-<a href="page3.html">📅<br>Attendance</a>
+<div id="attendanceList"></div>
+
+<div class="pagination" id="pagination">
+<button class="pageBtn" onclick="prevPage()">Prev</button>
+<button class="pageBtn" onclick="nextPage()">Next</button>
+</div>
+
+<div class="loadingBg" id="loadingBg">
+<div class="loaderBox">Loading...</div>
+</div>
+
+<div class="popupBg" id="popupBg">
+<div class="popup">
+<h3>No Data</h3>
+<button onclick="closePopup()">OK</button>
+</div>
 </div>
 
 <script>
 
-let user = localStorage.getItem("currentUser");
-let currentType = "EL";
+let user=localStorage.getItem("currentUser");
+if(!user){window.location="login.html";}
 
-/* LOAD CREDIT */
-async function loadEmployee(){
+let allRows=[],page=0,perPage=10;
 
-let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
-let text = await res.text();
-let rows = text.trim().split("\n");
+function closePopup(){document.getElementById("popupBg").style.display="none";}
+
+function renderPage(){
+let start=page*perPage,end=start+perPage;
+let html="";
+for(let i=start;i<end&&i<allRows.length;i++){html+=allRows[i];}
+document.getElementById("attendanceList").innerHTML=html;
+}
+
+function nextPage(){if((page+1)*perPage<allRows.length){page++;renderPage();}}
+function prevPage(){if(page>0){page--;renderPage();}}
+
+function searchAttendance(){
+
+document.getElementById("loadingBg").style.display="flex";
+page=0;allRows=[];
+
+let year=document.getElementById("year").value.trim();
+let month=document.getElementById("month").value.trim();
+
+Promise.all([
+fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv").then(r=>r.text()),
+fetch("https://hescomsalary1-sudo.github.io/salary-data/holidays.csv").then(r=>r.text())
+]).then(([attendanceData,holidayData])=>{
+
+document.getElementById("loadingBg").style.display="none";
+
+let holidayMap={};
+holidayData.trim().split("\n").slice(1).forEach(r=>{
+let c=r.split(",");
+holidayMap[c[0].trim()]=c[1];
+});
+
+let rows=attendanceData.trim().split("\n");
+
+let present=0,leave=0,absent=0,holidayWork=0;
+
+let monthNumber={Jan:"01",Feb:"02",Mar:"03",Apr:"04",May:"05",Jun:"06",Jul:"07",Aug:"08",Sep:"09",Oct:"10",Nov:"11",Dec:"12"};
 
 for(let i=1;i<rows.length;i++){
 
-let c = rows[i].split(",");
+let col=rows[i].split(",");
 
-if(c[0] === user){
+if(col[0]===user && col[1]===year && col[2]===month){
 
-elCredit.innerText = c[3];
-fplCredit.innerText = c[4];
-clCredit.innerText = c[5];
-asOnDate.innerText = "As on Date: " + c[6];
+for(let d=0;d<31;d++){
 
-}
-}
+let code=col[3+d]?.trim();
+if(!code) continue;
 
-}
+let day=("0"+(d+1)).slice(-2);
+let fullDate=`${day}-${monthNumber[month]}-${year}`;
 
-/* BUTTON CLICK */
-function filterLeave(type,el){
+let status="",type="-",badge="",bar="";
 
-currentType = type;
+/* HOLIDAY */
+let isHolidayCSV=holidayMap[fullDate];
+let isHolidayCode=(code==="GH"||code==="CH"||code==="WH"||code==="MCL");
 
-/* highlight */
-document.querySelectorAll(".btn-card").forEach(b=>b.classList.remove("active"));
-el.classList.add("active");
+if(isHolidayCSV || isHolidayCode){
 
-loadAttendance();
+let holidayName=holidayMap[fullDate] || "Holiday";
 
-}
-
-/* LOAD ATTENDANCE */
-async function loadAttendance(){
-
-let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
-let text = await res.text();
-let rows = text.trim().split("\n");
-
-let monthMap = {};
-
-for(let i=1;i<rows.length;i++){
-
-let c = rows[i].split(",");
-
-if(c[0] !== user) continue;
-
-let year = c[1];
-let month = c[2];
-
-let count = 0;
-
-for(let d=3; d<34; d++){
-if(c[d]?.trim() === currentType){
-count++;
-}
+if(code==="P"){
+status="Holiday Work";holidayWork++;
+}else{
+status="Holiday";
 }
 
-if(count>0){
-let key = month+"-"+year;
-monthMap[key] = (monthMap[key] || 0) + count;
+type=holidayName;
+badge="badge-holiday";
+bar="holidayCardBar";
+
+}else{
+
+if(code==="P"){status="Present";present++;badge="badge-present";bar="presentCardBar";}
+else if(code==="A"){status="Absent";absent++;badge="badge-absent";bar="absentCardBar";}
+else{status="Leave";leave++;badge="badge-leave";bar="leaveCardBar";type=code;}
+
+}
+
+allRows.push(`
+<div class="attCard ${bar}">
+  <div>
+    <div class="attDate">${fullDate}</div>
+    <div class="attType">${type}</div>
+  </div>
+  <div class="attStatus ${badge}">${status}</div>
+</div>
+`);
+
 }
 
 }
 
-/* DISPLAY */
-let html = "";
-
-for(let k in monthMap){
-html += `<div class="item">${k} : ${monthMap[k]} days</div>`;
 }
 
-leaveContainer.innerHTML = html || "No Data found";
+document.getElementById("presentCount").innerText=present;
+document.getElementById("leaveCount").innerText=leave;
+document.getElementById("absentCount").innerText=absent;
+document.getElementById("holidayWork").innerText=holidayWork;
 
+if(allRows.length===0){
+document.getElementById("popupBg").style.display="flex";
+}else{
+document.getElementById("attendanceList").style.display="block";
+document.getElementById("pagination").style.display="flex";
+renderPage();
 }
 
-/* INIT */
-loadEmployee().then(loadAttendance);
+});
+
+}
 
 </script>
 
