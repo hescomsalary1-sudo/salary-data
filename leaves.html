@@ -13,7 +13,7 @@ background:#eef2ff;
 padding-bottom:90px;
 }
 
-/* HEADER (UNCHANGED) */
+/* HEADER */
 .top{
 padding:28px 22px;
 background:linear-gradient(135deg,#4b2dd8,#7b5cff);
@@ -36,7 +36,7 @@ justify-content:space-between;
 padding:8px 0;
 }
 
-/* CURVED CONTAINER */
+/* CURVE */
 .curve-box{
 margin-top:-20px;
 background:#e6ebff;
@@ -45,22 +45,24 @@ border-top-right-radius:30px;
 padding:20px 15px;
 }
 
-/* BUTTON ROW (UPDATED) */
-.btn-grid{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:8px;
+/* SLIDER BUTTONS */
+.btn-scroll{
+display:flex;
+overflow-x:auto;
+gap:12px;
+padding-bottom:5px;
 }
+.btn-scroll::-webkit-scrollbar{display:none;}
 
 .btn-card{
+min-width:130px;
 background:#0f766e;
 color:white;
-padding:12px 5px;
-border-radius:14px;
+padding:18px 10px;
+border-radius:18px;
 text-align:center;
-font-size:12px;
 font-weight:600;
-box-shadow:0 4px 10px rgba(0,0,0,0.15);
+box-shadow:0 6px 15px rgba(0,0,0,0.15);
 }
 
 .btn-card.active{
@@ -84,7 +86,7 @@ padding:15px;
 min-height:200px;
 }
 
-/* MONTH CARD */
+/* MONTH */
 .month{
 font-weight:bold;
 margin-top:10px;
@@ -94,8 +96,8 @@ color:#4b2dd8;
 /* ITEM */
 .item{
 padding-left:10px;
-font-size:14px;
 margin:4px 0;
+font-size:14px;
 }
 
 /* FOOTER */
@@ -134,12 +136,12 @@ text-align:center;
 <!-- CURVE -->
 <div class="curve-box">
 
-<!-- BUTTONS -->
-<div class="btn-grid">
-<div class="btn-card active" onclick="filterLeave('EL',this)">EL</div>
-<div class="btn-card" onclick="filterLeave('FPL',this)">FPL</div>
-<div class="btn-card" onclick="filterLeave('CL',this)">CL</div>
-<div class="btn-card" onclick="filterLeave('OTHER',this)">Other</div>
+<!-- SLIDING BUTTONS -->
+<div class="btn-scroll">
+<div class="btn-card active" onclick="filterLeave('EL',this)">Earned Leave</div>
+<div class="btn-card" onclick="filterLeave('FPL',this)">Full Pay Leave</div>
+<div class="btn-card" onclick="filterLeave('CL',this)">Casual Leave</div>
+<div class="btn-card" onclick="filterLeave('OTHER',this)">Other Leave</div>
 </div>
 
 <div class="section-title">Leave History</div>
@@ -163,6 +165,12 @@ No Data found
 let user = localStorage.getItem("currentUser");
 let currentType = "EL";
 
+/* MONTH MAP */
+const monthNum={
+Jan:"01",Feb:"02",Mar:"03",Apr:"04",May:"05",Jun:"06",
+Jul:"07",Aug:"08",Sep:"09",Oct:"10",Nov:"11",Dec:"12"
+};
+
 /* LOAD CREDIT */
 async function loadEmployee(){
 let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
@@ -171,46 +179,45 @@ let rows = text.trim().split("\n");
 
 for(let i=1;i<rows.length;i++){
 let c = rows[i].split(",");
-if(c[0] === user){
-elCredit.innerText = c[3];
-fplCredit.innerText = c[4];
-clCredit.innerText = c[5];
-asOnDate.innerText = "As on Date: " + c[6];
+if(c[0]===user){
+elCredit.innerText=c[3];
+fplCredit.innerText=c[4];
+clCredit.innerText=c[5];
+asOnDate.innerText="As on Date: "+c[6];
 }
 }
 }
 
 /* BUTTON */
 function filterLeave(type,el){
-currentType = type;
+currentType=type;
 document.querySelectorAll(".btn-card").forEach(b=>b.classList.remove("active"));
 el.classList.add("active");
 loadAttendance();
 }
 
-/* LOAD ATTENDANCE (UPDATED) */
+/* LOAD ATTENDANCE */
 async function loadAttendance(){
 
-let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
-let text = await res.text();
-let rows = text.trim().split("\n");
+let res=await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
+let text=await res.text();
+let rows=text.trim().split("\n");
 
-let monthMap = {};
+let monthMap={};
 
 for(let i=1;i<rows.length;i++){
 
-let c = rows[i].split(",");
-if(c[0] !== user) continue;
+let c=rows[i].split(",");
+if(c[0]!==user) continue;
 
-let year = c[1];
-let month = c[2];
+let year=c[1];
+let month=c[2];
 
 for(let d=3; d<34; d++){
 
-let val = c[d]?.trim();
+let val=c[d]?.trim();
 if(!val) continue;
 
-/* FILTER */
 let show=false;
 
 if(currentType==="EL" && val==="EL") show=true;
@@ -224,13 +231,12 @@ show=true;
 
 if(show){
 
-let key = month+"-"+year;
-if(!monthMap[key]) monthMap[key]=[];
+let day=("0"+(d-2)).slice(-2);
+let fullDate = `${day}-${monthNum[month]}-${year}`;
 
-monthMap[key].push({
-day:(d-2),
-type:val
-});
+if(!monthMap[month+"-"+year]) monthMap[month+"-"+year]=[];
+
+monthMap[month+"-"+year].push(`${fullDate} - ${val}`);
 
 }
 
@@ -243,10 +249,10 @@ let html="";
 
 for(let m in monthMap){
 
-html += `<div class="month">${m}</div>`;
+html+=`<div class="month">${m}</div>`;
 
 monthMap[m].forEach(x=>{
-html += `<div class="item">• ${x.day} - ${x.type}</div>`;
+html+=`<div class="item">• ${x}</div>`;
 });
 
 }
