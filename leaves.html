@@ -168,13 +168,12 @@ text-align:center;
 <script>
 
 let user = localStorage.getItem("currentUser");
-
 let currentType = "EL";
 
 let elCredit=0,fplCredit=0,clCredit=0;
 let elTaken=0,fplTaken=0,clTaken=0;
 
-/* LOAD CREDIT (FIXED PROPERLY) */
+/* LOAD CREDIT */
 async function loadEmployee(){
 
 let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
@@ -253,7 +252,7 @@ res.push({start:start,end:prev,type:start.type});
 return res;
 }
 
-/* LOAD ATTENDANCE */
+/* LOAD ATTENDANCE (UPDATED POLICY LOGIC) */
 async function loadAttendance(){
 
 let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
@@ -262,7 +261,11 @@ let rows = text.trim().split("\n");
 
 let monthMap={};
 
+let currentYear = new Date().getFullYear();
+let prevYear = (currentYear - 1).toString();
+
 elTaken=0;fplTaken=0;clTaken=0;
+let prevElTaken=0, prevFplTaken=0;
 
 for(let i=1;i<rows.length;i++){
 
@@ -280,6 +283,9 @@ for(let d=3;d<34;d++){
 let val=c[d]?.trim();
 if(!val) continue;
 
+/* CURRENT YEAR */
+if(year == currentYear){
+
 if(val==="EL") elTaken++;
 if(val==="FPL") fplTaken++;
 if(val==="CL") clTaken++;
@@ -290,11 +296,34 @@ list.push({day:d-2,type:val,month,year});
 
 }
 
+/* PREVIOUS YEAR */
+if(year == prevYear){
+
+if(val==="EL") prevElTaken++;
+if(val==="FPL") prevFplTaken++;
+
+}
+
+}
+
 if(list.length){
 monthMap[month+"-"+year]=groupRanges(list);
 }
 
 }
+
+/* APPLY POLICY */
+let prevElBalance = elCredit - prevElTaken;
+let prevFplBalance = fplCredit - prevFplTaken;
+
+elCredit = prevElBalance + 30;
+fplCredit = prevFplBalance + 10;
+clCredit = 10;
+
+/* UPDATE UI */
+document.getElementById("elCredit").innerText = elCredit;
+document.getElementById("fplCredit").innerText = fplCredit;
+document.getElementById("clCredit").innerText = clCredit;
 
 renderRanges(monthMap);
 
