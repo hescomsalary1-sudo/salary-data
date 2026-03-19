@@ -288,6 +288,7 @@ return t.trim().split("\n");
 }
 
 async function init(){
+
 let rows=await loadCSV();
 
 let places=new Set();
@@ -304,12 +305,10 @@ places.forEach(p=>division.innerHTML+=`<option>${p}</option>`);
 
 post.innerHTML="<option value=''>All</option>";
 posts.forEach(p=>post.innerHTML+=`<option>${p}</option>`);
+
 }
 
 init();
-
-
-
 
 async function generateReport(){
 
@@ -317,16 +316,16 @@ loader.style.display="flex";
 
 let rows=await loadCSV();
 
-// 🔥 GET HEADER INDEX (IMPORTANT FIX)
 let headers = rows[0].split(",");
-
 let otherIndex = headers.indexOf("Counted_posts_other_division");
 
 let div=division.value;
 let pst=post.value;
 
-let sanctioned=0;
-let working=0;
+let totalRows=0;
+let workingCount=0;
+let vacantCount=0;
+let otherNotBlank=0;
 
 let workingRows="";
 let vacantRows="";
@@ -338,45 +337,47 @@ let c=rows[i].split(",");
 let name=c[1]?.trim();
 let post=c[2]?.trim();
 let place=c[3]?.trim();
-
-// 🔥 USE CORRECT COLUMN INDEX
-let other = c[otherIndex]?.trim();
+let other=c[otherIndex]?.trim();
 
 if(div && place!=div) continue;
 if(pst && post!=pst) continue;
 
-let otherCount = parseInt(other) || 0;
-
-// ❌ SKIP rows counted in other division
-if(otherCount > 0){
-continue;
-}
-
-// ✅ VALID SANCTIONED POSTS
-sanctioned++;
+totalRows++;
 
 if(name){
+workingCount++;
+}else{
+vacantCount++;
+}
 
-working++;
+if(other && other !== ""){
+otherNotBlank++;
+}
 
+if(name){
 workingRows+=`
 <tr>
 <td>${name}</td>
 <td>${post}</td>
 <td>${place}</td>
 </tr>`;
-
 }else{
-
 vacantRows+=`
 <tr>
 <td>${post}</td>
 <td>${place}</td>
 </tr>`;
-
 }
 
 }
+
+let sanctioned = totalRows - otherNotBlank;
+let working = workingCount - otherNotBlank;
+let vacant = vacantCount - otherNotBlank;
+
+if(sanctioned < 0) sanctioned = 0;
+if(working < 0) working = 0;
+if(vacant < 0) vacant = 0;
 
 loader.style.display="none";
 
@@ -385,8 +386,6 @@ popup.style.display="flex";
 result.innerHTML="";
 return;
 }
-
-let vacant = sanctioned - working;
 
 result.innerHTML=`
 
@@ -417,8 +416,6 @@ window.workingTable=workingRows;
 window.vacantTable=vacantRows;
 
 }
-
-
 
 function showWorking(){
 workTab.classList.add("active");
