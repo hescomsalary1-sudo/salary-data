@@ -221,12 +221,11 @@ let c=parseCSVRow(rows[i]);
 let name=c[1]?.trim();
 let post=c[2]?.trim();
 let place=c[3]?.trim();
-  
 
 if(div && place!=div) continue;
 if(pst && post!=pst) continue;
 
-// ✅ COUNTS
+// COUNTS
 if(c[sIndex]?.trim()) sanctioned++;
 if(c[wIndex]?.trim()) working++;
 if(!name) vacant++;
@@ -251,11 +250,11 @@ Vacant : ${vacant}
 </div>
 
 <div class="tabs">
-<button class="tabbtn active" onclick="showWorking()">Working</button>
-<button class="tabbtn" onclick="showVacant()">Vacant</button>
+<button id="workTab" class="tabbtn active" onclick="showWorking()">Working</button>
+<button id="vacTab" class="tabbtn" onclick="showVacant()">Vacant</button>
 </div>
 
-<div id="tableArea" class="tableWrap">
+<div id="tableArea">
 <table>
 <tr><th>Name</th><th>Post</th><th>Place</th></tr>
 ${workingRows}
@@ -268,11 +267,25 @@ window.vacantTable=vacantRows;
 }
 
 function showWorking(){
-tableArea.innerHTML=`<table><tr><th>Name</th><th>Post</th><th>Place</th></tr>${workingTable}</table>`;
+
+document.getElementById("workTab").classList.add("active");
+document.getElementById("vacTab").classList.remove("active");
+
+tableArea.innerHTML=`<table>
+<tr><th>Name</th><th>Post</th><th>Place</th></tr>
+${workingTable}
+</table>`;
 }
 
 function showVacant(){
-tableArea.innerHTML=`<table><tr><th>Post</th><th>Place</th></tr>${vacantTable}</table>`;
+
+document.getElementById("vacTab").classList.add("active");
+document.getElementById("workTab").classList.remove("active");
+
+tableArea.innerHTML=`<table>
+<tr><th>Post</th><th>Place</th></tr>
+${vacantTable}
+</table>`;
 }
 
 function downloadPDF(){
