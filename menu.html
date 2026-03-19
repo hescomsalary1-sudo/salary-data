@@ -14,7 +14,6 @@ padding-bottom:90px;
 }
 
 /* HEADER */
-
 .top{
 padding:22px;
 background:#4b2dd8;
@@ -55,7 +54,6 @@ margin-top:4px;
 }
 
 /* WELCOME CARD */
-
 .welcome{
 margin:20px;
 padding:16px;
@@ -67,21 +65,18 @@ color:#4b2dd8;
 }
 
 /* CONTENT */
-
 .content{
 padding:10px 20px;
 }
 
 /* GRID */
-
 .grid{
 display:grid;
 grid-template-columns:repeat(2,1fr);
 gap:18px;
 }
 
-/* PREMIUM BUTTON */
-
+/* CARD */
 .card{
 background:linear-gradient(135deg,#ffffff,#f1efff);
 border-radius:20px;
@@ -99,8 +94,6 @@ transition:0.25s;
 .card:active{
 transform:scale(0.96);
 }
-
-/* ICON CIRCLE */
 
 .circle{
 width:55px;
@@ -123,34 +116,41 @@ font-weight:600;
 color:#4b2dd8;
 }
 
-/* LOADER */
+/* ✅ SKELETON LOADER */
+
 #loader{
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:white;
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
+position:fixed;
+top:0;
+left:0;
+width:100vw;
+height:100vh;
+background:#f3f5ff;
+display:none;
+flex-direction:column;
+padding:20px;
+gap:15px;
+z-index:99999;
 }
 
-.spinner{
-  width:35px;
-  height:35px;
-  border:6px solid #ddd;
-  border-top:6px solid #5e00a3;
-  border-radius:50%;
-  animation:spin 1s linear infinite;
+/* shimmer */
+@keyframes shimmer{
+0%{background-position:-400px 0;}
+100%{background-position:400px 0;}
 }
 
-@keyframes spin{
-  0%{transform:rotate(0deg);}
-  100%{transform:rotate(360deg);}
+.skeleton{
+height:20px;
+border-radius:6px;
+background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
+background-size:400px 100%;
+animation:shimmer 1.2s infinite;
 }
+
+.skel-circle{width:50px;height:50px;border-radius:50%;}
+.skel-card{height:90px;border-radius:20px;}
+.skel-line{height:14px;}
 
 /* FOOTER */
-
 .footer{
 position:fixed;
 bottom:0;
@@ -177,7 +177,7 @@ margin-top:4px;
 font-weight:600;
 }
 
-  .info-card{
+.info-card{
 margin:20px;
 padding:18px;
 background:white;
@@ -204,38 +204,44 @@ line-height:1.5;
 <body>
 
 <!-- HEADER -->
-
 <div class="top">
-
 <div class="top-row">
 <div class="icon">₹</div>
 <h2>Salary Menu</h2>
 </div>
-
 <div class="subtitle">Employee Salary Services</div>
-
 </div>
 
-<!-- WELCOME CARD -->
-
+<!-- INFO -->
 <div class="info-card">
 <h3>Salary Services</h3>
 <p>
 Access your salary information, generate detailed reports, and view the official holiday list. 
-This section allows employees to quickly check salary records, financial reports, and important updates related to payroll services.
 </p>
 </div>
 
-<!-- LOADER -->
-
+<!-- ✅ SKELETON LOADER -->
 <div id="loader">
-<div class="spinner"></div>
+
+<div style="display:flex;align-items:center;gap:10px;">
+<div class="skeleton skel-circle"></div>
+<div style="flex:1;">
+<div class="skeleton skel-line" style="width:60%;margin-bottom:6px;"></div>
+<div class="skeleton skel-line" style="width:40%;"></div>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
+<div class="skeleton skel-card"></div>
+<div class="skeleton skel-card"></div>
+<div class="skeleton skel-card"></div>
+<div class="skeleton skel-card"></div>
+</div>
+
 </div>
 
 <!-- CONTENT -->
-
 <div class="content">
-
 <div class="grid">
 
 <div class="card" onclick="showLoader('salary.html')">
@@ -254,38 +260,15 @@ This section allows employees to quickly check salary records, financial reports
 </div>
 
 </div>
-
 </div>
 
 <!-- FOOTER -->
-
 <div class="footer">
-
-<a href="home.html">
-<div>🏠</div>
-<small>Home</small>
-</a>
-
-<a href="page1.html">
-<div>👤</div>
-<small>Profile</small>
-</a>
-
-<a href="menu.html">
-<div>💰</div>
-<small>Salary</small>
-</a>
-
-<a href="page3.html">
-<div>📅</div>
-<small>Attendance</small>
-</a>
-
-<a href="page4.html">
-<div>⚙</div>
-<small>Settings</small>
-</a>
-
+<a href="home.html"><div>🏠</div><small>Home</small></a>
+<a href="page1.html"><div>👤</div><small>Profile</small></a>
+<a href="menu.html"><div>💰</div><small>Salary</small></a>
+<a href="page3.html"><div>📅</div><small>Attendance</small></a>
+<a href="page4.html"><div>⚙</div><small>Settings</small></a>
 </div>
 
 <script>
@@ -296,16 +279,21 @@ if(!user){
 window.location.replace("login.html");
 }
 
-// SHOW USER NAME
-document.getElementById("userName").innerText = user;
-
 // LOADER NAVIGATION
 function showLoader(url){
 document.getElementById("loader").style.display="flex";
+document.body.style.overflow="hidden";
+
 setTimeout(function(){
 window.location = url;
 },700);
 }
+
+// hide loader after load
+window.onload=function(){
+document.getElementById("loader").style.display="none";
+document.body.style.overflow="auto";
+};
 
 </script>
 
