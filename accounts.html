@@ -202,8 +202,11 @@ font-weight:600;
 <!-- HEADER -->
 
 <div class="top">
-<div class="icon">👤</div>
+
+<div class="icon" onclick="goBack()" style="cursor:pointer;">←</div>
+
 <h2>My Account</h2>
+
 </div>
 
 <!-- PROFILE SUMMARY -->
@@ -341,6 +344,14 @@ window.location="leaves.html";
 function openOthers(){
 showLoader();
 window.location="others.html";
+}
+
+  function goBack(){
+if(document.referrer){
+history.back();
+}else{
+window.location="home.html";
+}
 }
 
 </script>
