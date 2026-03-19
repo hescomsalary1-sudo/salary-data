@@ -5,36 +5,183 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{font-family:'Segoe UI',sans-serif;margin:0;background:#f3f5ff;padding-bottom:90px;}
-.top{padding:22px;background:#4b2dd8;color:white;border-bottom-left-radius:35px;border-bottom-right-radius:35px;text-align:center;font-size:20px;font-weight:600;}
-.content{padding:20px;}
+
+body{
+font-family:'Segoe UI',sans-serif;
+margin:0;
+background: linear-gradient(135deg,#eef2ff,#f3e8ff);
+padding-bottom:90px;
+}
+
+/* HEADER */
+.top{
+padding:25px 20px 30px;
+background: linear-gradient(135deg,#6c39ff,#4b2dd8);
+color:white;
+border-radius:0 0 35px 35px;
+text-align:left;
+}
+
+.top h2{
+margin:0;
+font-size:22px;
+}
+
+.top p{
+margin:5px 0 0;
+font-size:13px;
+opacity:0.85;
+}
+
+/* CONTENT */
+.content{
+padding:18px;
+}
+
+/* CARD BUTTON */
 .list-btn{
-background:white;padding:15px;border-radius:12px;margin-top:12px;font-weight:600;color:#4b2dd8;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:space-between;
+background: rgba(255,255,255,0.9);
+backdrop-filter: blur(10px);
+padding:16px;
+border-radius:15px;
+margin-top:12px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+cursor:pointer;
+transition:0.2s;
 }
-.list-btn:active{transform:scale(0.97);background:#ece8ff;}
+
+.list-btn:hover{
+transform:translateY(-2px);
+}
+
+.list-btn:active{
+transform:scale(0.96);
+}
+
+/* LEFT ICON */
+.left{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.icon{
+font-size:22px;
+background:#f0ecff;
+padding:10px;
+border-radius:12px;
+}
+
+/* TEXT */
+.text{
+font-weight:600;
+color:#4b2dd8;
+}
+
+/* ARROW */
+.arrow{
+font-size:18px;
+color:#999;
+}
+
+/* FOOTER */
 .footer{
-position:fixed;bottom:0;width:100%;background:#fff;
-display:flex;justify-content:space-around;padding:10px 0;
+position:fixed;
+bottom:0;
+width:100%;
+background:#fff;
+display:flex;
+justify-content:space-around;
+padding:10px 0;
 box-shadow:0 -3px 15px rgba(0,0,0,0.1);
+border-top-left-radius:20px;
+border-top-right-radius:20px;
 }
-.footer a{text-decoration:none;display:flex;flex-direction:column;align-items:center;color:#4b2dd8;}
+
+.footer a{
+text-decoration:none;
+display:flex;
+flex-direction:column;
+align-items:center;
+font-size:12px;
+color:#777;
+}
+
+.footer a.active{
+color:#4b2dd8;
+font-weight:600;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="top">Other Income</div>
+<div class="top">
+<h2>Other Income</h2>
+<p>Select income category</p>
+</div>
 
 <div class="content">
 
-<div class="list-btn" onclick="openIncome('Supplementary Salary')">Supplementary Salary</div>
-<div class="list-btn" onclick="openIncome('DA Arrears')">DA Arrears</div>
-<div class="list-btn" onclick="openIncome('Double Wages')">Double Wages</div>
-<div class="list-btn" onclick="openIncome('Medical Bills')">Medical Bills</div>
-<div class="list-btn" onclick="openIncome('TA Bills')">TA Bills</div>
-<div class="list-btn" onclick="openIncome('ELS Bills')">ELS Bills</div>
-<div class="list-btn" onclick="openIncome('Others')">Others</div>
+<div class="list-btn" onclick="openIncome('Supplementary Salary')">
+<div class="left">
+<div class="icon">💵</div>
+<div class="text">Supplementary Salary</div>
+</div>
+<div class="arrow">›</div>
+</div>
+
+<div class="list-btn" onclick="openIncome('DA Arrears')">
+<div class="left">
+<div class="icon">📊</div>
+<div class="text">DA Arrears</div>
+</div>
+<div class="arrow">›</div>
+</div>
+
+<div class="list-btn" onclick="openIncome('Double Wages')">
+<div class="left">
+<div class="icon">💰</div>
+<div class="text">Double Wages</div>
+</div>
+<div class="arrow">›</div>
+</div>
+
+<div class="list-btn" onclick="openIncome('Medical Bills')">
+<div class="left">
+<div class="icon">🏥</div>
+<div class="text">Medical Bills</div>
+</div>
+<div class="arrow">›</div>
+</div>
+
+<div class="list-btn" onclick="openIncome('TA Bills')">
+<div class="left">
+<div class="icon">🚕</div>
+<div class="text">TA Bills</div>
+</div>
+<div class="arrow">›</div>
+</div>
+
+<div class="list-btn" onclick="openIncome('ELS Bills')">
+<div class="left">
+<div class="icon">📄</div>
+<div class="text">ELS Bills</div>
+</div>
+<div class="arrow">›</div>
+</div>
+
+<div class="list-btn" onclick="openIncome('Others')">
+<div class="left">
+<div class="icon">📦</div>
+<div class="text">Others</div>
+</div>
+<div class="arrow">›</div>
+</div>
 
 </div>
 
@@ -42,7 +189,7 @@ box-shadow:0 -3px 15px rgba(0,0,0,0.1);
 <a href="home.html">🏠<small>Home</small></a>
 <a href="page1.html">👤<small>Profile</small></a>
 <a href="salary.html">💰<small>Salary</small></a>
-<a href="page3.html">📅<small>Other</small></a>
+<a href="page3.html" class="active">📅<small>Other</small></a>
 <a href="page4.html">⚙<small>Settings</small></a>
 </div>
 
@@ -53,7 +200,7 @@ if(!user){
 window.location.replace("login.html");
 }
 
-/* 🔥 REDIRECT FUNCTION */
+/* REDIRECT FUNCTION */
 function openIncome(type){
 localStorage.setItem("incomeType", type);
 window.location.href = "other_income.html";
