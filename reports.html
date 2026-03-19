@@ -309,11 +309,18 @@ posts.forEach(p=>post.innerHTML+=`<option>${p}</option>`);
 init();
 
 
+<script>
+
 async function generateReport(){
 
 loader.style.display="flex";
 
 let rows=await loadCSV();
+
+// 🔥 GET HEADER INDEX (IMPORTANT FIX)
+let headers = rows[0].split(",");
+
+let otherIndex = headers.indexOf("Counted_posts_other_division");
 
 let div=division.value;
 let pst=post.value;
@@ -331,12 +338,13 @@ let c=rows[i].split(",");
 let name=c[1]?.trim();
 let post=c[2]?.trim();
 let place=c[3]?.trim();
-let other=c[33]?.trim();
+
+// 🔥 USE CORRECT COLUMN INDEX
+let other = c[otherIndex]?.trim();
 
 if(div && place!=div) continue;
 if(pst && post!=pst) continue;
 
-// convert other division count
 let otherCount = parseInt(other) || 0;
 
 // ❌ SKIP rows counted in other division
@@ -344,7 +352,7 @@ if(otherCount > 0){
 continue;
 }
 
-// ✅ ONLY VALID SANCTIONED POSTS
+// ✅ VALID SANCTIONED POSTS
 sanctioned++;
 
 if(name){
@@ -409,6 +417,8 @@ window.workingTable=workingRows;
 window.vacantTable=vacantRows;
 
 }
+
+</script>
 
 
 function showWorking(){
