@@ -413,12 +413,40 @@ html || "No ELS Data";
 }
 
 /* ✅ UPDATED BALANCE ONLY */
-function showBalance(){
+/* ✅ FIXED BALANCE (AUTO LOAD ELS) */
+async function showBalance(){
 
-let elBalance = elCredit - elTaken - elsDaysCurrentYear;
+let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv");
+let text = await res.text();
+let rows = text.trim().split("\n");
+
+let currentYear = new Date().getFullYear().toString();
+
+let totalELS = 0;
+
+for(let i=1;i<rows.length;i++){
+
+let c = rows[i].split(",");
+
+if(c[0].trim() === user && c[1].trim() === currentYear){
+
+let days = parseInt(c[6]) || 0;
+totalELS += days;
+
+}
+}
+
+/* update global also (optional but safe) */
+elsDaysCurrentYear = totalELS;
+
+let elBalance = elCredit - elTaken - totalELS;
 
 let html = `
-<div class="item">EL Balance : ${elBalance}</div>
+<div class="item">EL Credit : ${elCredit}</div>
+<div class="item">EL Taken : ${elTaken}</div>
+<div class="item">ELS Days : ${totalELS}</div>
+<hr>
+<div class="item"><b>EL Balance : ${elBalance}</b></div>
 <div class="item">FPL Balance : ${fplCredit - fplTaken}</div>
 <div class="item">CL Balance : ${clCredit - clTaken}</div>
 `;
@@ -426,7 +454,6 @@ let html = `
 document.getElementById("leaveContainer").innerHTML = html;
 
 }
-
 /* RENDER */
 function renderRanges(map){
 
