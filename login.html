@@ -1,230 +1,249 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Salary Prompt - Login</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salary Prompt - Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: #ffffff;
-        }
+<style>
+body {
+margin: 0;
+font-family: 'Segoe UI', sans-serif;
+background: #ffffff;
+}
 
-        /* TOP PURPLE SECTION */
-        .top {
-            position: relative;
-            height: 45vh;
-            background: #4b2dd8;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            text-align: center;
-        }
+/* TOP */
+.top {
+position: relative;
+height: 45vh;
+background: #4b2dd8;
+color: white;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+text-align: center;
+}
 
-        .top h1 {
-            margin: 0;
-            font-size: 34px;
-            letter-spacing: 2px;
-        }
+.top h1 {
+margin: 0;
+font-size: 34px;
+letter-spacing: 2px;
+}
 
-        .top p {
-            margin-top: 8px;
-            font-size: 14px;
-            opacity: 0.85;
-        }
+.top p {
+margin-top: 8px;
+font-size: 14px;
+opacity: 0.85;
+}
 
-        /* WAVE */
-        .wave {
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            width: 100%;
-        }
+.wave {
+position: absolute;
+bottom: -1px;
+left: 0;
+width: 100%;
+}
 
-        /* LOGIN SECTION */
-        .bottom {
-            padding-top: 60px;
-            display: flex;
-            justify-content: center;
-        }
+/* LOGIN */
+.bottom {
+padding-top: 60px;
+display: flex;
+justify-content: center;
+}
 
-        .login-box {
-            width: 85%;
-            max-width: 320px;
-        }
+.login-box {
+width: 85%;
+max-width: 320px;
+}
 
-        .input-group {
-            margin-bottom: 25px;
-            position: relative;
-        }
+.input-group {
+margin-bottom: 25px;
+position: relative;
+}
 
-        input {
-            width: 100%;
-            padding: 10px 0;
-            border: none;
-            border-bottom: 2px solid #ccc;
-            outline: none;
-            font-size: 14px;
-        }
+input {
+width: 100%;
+padding: 10px 0;
+border: none;
+border-bottom: 2px solid #ccc;
+outline: none;
+font-size: 14px;
+}
 
-        input:focus {
-            border-bottom: 2px solid #5e00a3;
-        }
+input:focus {
+border-bottom: 2px solid #5e00a3;
+}
 
-        .toggle-password {
-            position: absolute;
-            right: 0;
-            top: 10px;
-            cursor: pointer;
-            font-size: 13px;
-            color: #5e00a3;
-        }
+.toggle-password {
+position: absolute;
+right: 0;
+top: 10px;
+cursor: pointer;
+font-size: 13px;
+color: #5e00a3;
+}
 
-        button {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            background: #4b2dd8;
-            color: white;
-            font-size: 15px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+button {
+width: 100%;
+padding: 12px;
+border: none;
+background: #4b2dd8;
+color: white;
+font-size: 15px;
+border-radius: 25px;
+cursor: pointer;
+}
 
-        button:hover {
-            background: #3b0066;
-        }
+#error {
+color: red;
+font-size: 13px;
+margin-bottom: 15px;
+text-align: center;
+}
 
-        #error {
-            color: red;
-            font-size: 13px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
+/* ✅ SKELETON LOADER */
 
 #loader{
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:white;
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
+position:fixed;
+top:0;
+left:0;
+width:100vw;
+height:100vh;
+background:#ffffff;
+display:none;
+flex-direction:column;
+padding:20px;
+gap:15px;
+z-index:99999;
 }
 
-.spinner{
-  width:35px;
-  height:35px;
-  border:4px solid #ddd;
-  border-top:4px solid #4b2dd8;
-  border-radius:50%;
-  animation:spin 1s linear infinite;
+/* shimmer */
+@keyframes shimmer{
+0%{background-position:-400px 0;}
+100%{background-position:400px 0;}
 }
 
-@keyframes spin{
-  0%{transform:rotate(0deg);}
-  100%{transform:rotate(360deg);}
+.skeleton{
+height:20px;
+border-radius:6px;
+background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
+background-size:400px 100%;
+animation:shimmer 1.2s infinite;
 }
 
-    </style>
+.skel-circle{width:60px;height:60px;border-radius:50%;}
+.skel-big{height:120px;border-radius:20px;}
+.skel-line{height:15px;}
+
+</style>
 </head>
 
 <body>
+
+<!-- ✅ SKELETON LOADER -->
 <div id="loader">
-  <div class="spinner"></div>
+
+<div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+<div class="skeleton skel-circle"></div>
+<div class="skeleton skel-line" style="width:60%;"></div>
 </div>
 
-    <!-- TOP SECTION -->
-    <div class="top">
-        <h1>Salary Prompt</h1>
-        <p>Secure Employee Login</p>
+<div class="skeleton skel-big"></div>
 
-        <!-- SVG WAVE -->
-        <svg class="wave" viewBox="0 0 1440 320">
-            <path fill="#ffffff" fill-opacity="1"
-                d="M0,160L80,170C160,180,320,200,480,186.7C640,173,800,127,960,112C1120,96,1280,112,1360,120L1440,128L1440,320L0,320Z">
-            </path>
-        </svg>
-    </div>
+<div class="skeleton skel-line"></div>
+<div class="skeleton skel-line" style="width:80%;"></div>
+<div class="skeleton skel-line"></div>
 
-    <!-- LOGIN AREA -->
-    <div class="bottom">
-        <div class="login-box">
+</div>
 
-            <div id="error"></div>
+<!-- TOP -->
+<div class="top">
+<h1>Salary Prompt</h1>
+<p>Secure Employee Login</p>
 
-            <div class="input-group">
-                <input type="text" id="username" placeholder="Username">
-            </div>
+<svg class="wave" viewBox="0 0 1440 320">
+<path fill="#ffffff"
+d="M0,160L80,170C160,180,320,200,480,186.7C640,173,800,127,960,112C1120,96,1280,112,1360,120L1440,128L1440,320L0,320Z">
+</path>
+</svg>
+</div>
 
-            <div class="input-group">
-                <input type="password" id="password" placeholder="Password">
-                <span class="toggle-password" onclick="togglePassword()">View</span>
-            </div>
+<!-- LOGIN -->
+<div class="bottom">
+<div class="login-box">
 
-            <button onclick="login()">Login</button>
+<div id="error"></div>
 
-        </div>
-    </div>
+<div class="input-group">
+<input type="text" id="username" placeholder="Username">
+</div>
+
+<div class="input-group">
+<input type="password" id="password" placeholder="Password">
+<span class="toggle-password" onclick="togglePassword()">View</span>
+</div>
+
+<button onclick="login()">Login</button>
+
+</div>
+</div>
 
 <script>
 
 const users = {
-  "admin": {password:"admin123", role:"admin"},
-  "emp1": {password:"1234", role:"employee"},
-  "emp2": {password:"1234", role:"employee"},
+"admin": {password:"admin123", role:"admin"},
+"emp1": {password:"1234", role:"employee"},
+"emp2": {password:"1234", role:"employee"},
 "emp3": {password:"1234", role:"employee"},
 "emp4": {password:"1234", role:"employee"},
 "emp5": {password:"1234", role:"employee"},
 "emp356": {password:"1234", role:"employee"},
-    "emp108": {password:"1234", role:"employee"}
+"emp108": {password:"1234", role:"employee"}
 };
 
 function login(){
 
-  let user = document.getElementById("username").value.trim();
-  let pass = document.getElementById("password").value.trim();
+let user = document.getElementById("username").value.trim();
+let pass = document.getElementById("password").value.trim();
 
-  if(users[user]){
+if(users[user]){
 
-      // Check if user has changed password
-      let savedPassword = localStorage.getItem(user+"_password");
+let savedPassword = localStorage.getItem(user+"_password");
+let correctPassword = savedPassword ? savedPassword : users[user].password;
 
-      let correctPassword = savedPassword ? savedPassword : users[user].password;
+if(pass === correctPassword){
 
-      if(pass === correctPassword){
+document.getElementById("loader").style.display="flex";
+document.body.style.overflow="hidden";
 
-          document.getElementById("loader").style.display="flex";
+localStorage.setItem("currentUser",user);
+localStorage.setItem("role",users[user].role);
 
-          localStorage.setItem("currentUser",user);
-          localStorage.setItem("role",users[user].role);
+setTimeout(function(){
+window.location="home.html";
+},1500);
 
-          setTimeout(function(){
-              window.location="home.html";
-          },2000);
+}else{
+document.getElementById("error").innerText="Invalid Username or Password";
+}
 
-      } else {
-          document.getElementById("error").innerText="Invalid Username or Password";
-      }
+}else{
+document.getElementById("error").innerText="Invalid Username or Password";
+}
 
-  } else {
-      document.getElementById("error").innerText="Invalid Username or Password";
-  }
 }
 
 function togglePassword(){
-  let passField=document.getElementById("password");
-  passField.type = passField.type === "password" ? "text" : "password";
+let passField=document.getElementById("password");
+passField.type = passField.type === "password" ? "text" : "password";
 }
+
+// hide loader on load
+window.onload=function(){
+document.getElementById("loader").style.display="none";
+document.body.style.overflow="auto";
+};
 
 </script>
 
 </body>
-
 </html>
