@@ -174,8 +174,9 @@ let elTaken=0,fplTaken=0,clTaken=0;
 
 let creditCalculated = false;
 
-/* ✅ NEW FILTER VARIABLES */
+/* ✅ FIX VARIABLES */
 let asOnDay=1, asOnMonth=1, asOnYear=new Date().getFullYear();
+let dataReady = false;
 
 let elsDaysCurrentYear = 0;
 
@@ -200,7 +201,7 @@ document.getElementById("elCredit").innerText = elCredit;
 document.getElementById("fplCredit").innerText = fplCredit;
 document.getElementById("clCredit").innerText = clCredit;
 
-/* ✅ PARSE DATE */
+/* PARSE DATE */
 let asDate = c[6] || "--";
 document.getElementById("asOnDate").innerText = "As on Date: " + asDate;
 
@@ -283,7 +284,7 @@ if(!val) continue;
 
 let day = d-2;
 
-/* ✅ FILTER */
+/* FILTER */
 if(year != asOnYear) continue;
 if(month < asOnMonth) continue;
 if(month == asOnMonth && day < asOnDay) continue;
@@ -304,7 +305,7 @@ monthMap[month+"-"+year]=groupRanges(list);
 
 }
 
-/* CREDIT LOGIC SAME */
+/* CREDIT */
 if(!creditCalculated){
 
 let today = new Date();
@@ -344,6 +345,7 @@ renderRanges(monthMap);
 
 /* OTHER LEAVES */
 async function showOtherLeaves(){
+if(!dataReady){ setTimeout(showOtherLeaves,300); return; }
 
 let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
 let text = await res.text();
@@ -369,7 +371,6 @@ if(!val) continue;
 
 let day = d-2;
 
-/* FILTER */
 if(year != asOnYear) continue;
 if(month < asOnMonth) continue;
 if(month == asOnMonth && day < asOnDay) continue;
@@ -387,11 +388,11 @@ monthMap[month+"-"+year]=groupRanges(list);
 }
 
 renderRanges(monthMap);
-
 }
 
 /* ELS */
 async function showELS(){
+if(!dataReady){ setTimeout(showELS,300); return; }
 
 let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv");
 let text = await res.text();
@@ -419,11 +420,11 @@ html += `<div class="item">• ${c[3]} | Days: ${days} | ${c[4]}</div>`;
 
 document.getElementById("leaveContainer").innerHTML =
 html || "No ELS Data";
-
 }
 
 /* BALANCE */
 async function showBalance(){
+if(!dataReady){ setTimeout(showBalance,300); return; }
 
 let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv");
 let text = await res.text();
@@ -472,7 +473,6 @@ let html = `
 `;
 
 document.getElementById("leaveContainer").innerHTML = html;
-
 }
 
 /* RENDER */
@@ -504,7 +504,10 @@ document.getElementById("leaveContainer").innerHTML = html || "No Data found";
 }
 
 /* INIT */
-loadEmployee().then(loadAttendance);
+loadEmployee().then(()=>{
+dataReady = true;
+loadAttendance();
+});
 
 </script>
 
