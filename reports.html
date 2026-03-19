@@ -7,31 +7,101 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-body{font-family:sans-serif;margin:0;background:#f4f4f9;padding-bottom:90px;}
-.top{padding:18px;background:#4b2dd8;color:white;display:flex;align-items:center;gap:10px;border-bottom-left-radius:25px;border-bottom-right-radius:25px;}
-.top .icon{width:32px;height:32px;background:white;color:#5e00a3;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;}
+
+body{
+font-family:sans-serif;
+margin:0;
+background:#f4f4f9;
+padding-bottom:90px;
+}
+
+/* HEADER */
+.top{
+padding:18px;
+background:#4b2dd8;
+color:white;
+display:flex;
+align-items:center;
+gap:10px;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+}
+
+.top .icon{
+width:32px;height:32px;background:white;color:#5e00a3;
+border-radius:50%;display:flex;align-items:center;justify-content:center;
+}
+
+/* CONTENT */
 .content{padding:15px;}
-.filterCard{background:white;padding:15px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);margin-bottom:15px;}
-.filterGroup{margin-bottom:10px;}
-.filterGroup label{font-size:13px;font-weight:600;display:block;margin-bottom:3px;}
-select{width:100%;padding:7px;border-radius:6px;border:1px solid #ccc;font-size:13px;}
+
+.filterCard{
+background:white;padding:15px;border-radius:12px;
+box-shadow:0 4px 12px rgba(0,0,0,0.1);margin-bottom:15px;
+}
+
+select{
+width:100%;padding:8px;border-radius:6px;border:1px solid #ccc;
+}
+
+/* BUTTON */
 .buttonRow{display:flex;gap:10px;margin-top:10px;}
-.btn{flex:1;padding:9px;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;}
+.btn{flex:1;padding:10px;border:none;border-radius:6px;font-weight:600;}
 .generateBtn{background:#4b2dd8;color:white;}
 .pdfBtn{background:#ff9800;color:white;}
-.summary{background:#4b2dd8;color:white;padding:12px;border-radius:10px;margin:12px 0;font-size:14px;}
+
+/* SUMMARY */
+.summary{
+background:#4b2dd8;color:white;padding:12px;
+border-radius:10px;margin:12px 0;
+}
+
+/* TABS */
 .tabs{display:flex;gap:6px;margin-bottom:10px;}
-.tabbtn{flex:1;padding:8px;background:#e5d6ff;border:none;border-radius:6px;font-size:13px;cursor:pointer;}
+.tabbtn{
+flex:1;padding:8px;background:#e5d6ff;border:none;border-radius:6px;
+}
 .tabbtn.active{background:#5e00a3;color:white;}
-table{width:100%;border-collapse:collapse;background:white;font-size:12px;}
-th,td{padding:6px;border:1px solid #ddd;text-align:left;}
+
+/* ✅ MOBILE TABLE FIX */
+.tableWrap{
+overflow-x:auto;
+background:white;
+border-radius:10px;
+}
+
+table{
+min-width:500px;
+width:100%;
+border-collapse:collapse;
+font-size:12px;
+}
+
+th,td{
+padding:8px;border:1px solid #ddd;text-align:left;
+}
+
 th{background:#4b2dd8;color:white;}
-#loader{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.9);justify-content:center;align-items:center;z-index:9999;}
-.spinner{width:40px;height:40px;border:5px solid #ddd;border-top:5px solid #4b2dd8;border-radius:50%;animation:spin 1s linear infinite;}
+
+/* LOADER */
+#loader{
+display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+background:rgba(255,255,255,0.9);justify-content:center;align-items:center;
+}
+
+.spinner{
+width:40px;height:40px;border:5px solid #ddd;
+border-top:5px solid #4b2dd8;border-radius:50%;
+animation:spin 1s linear infinite;
+}
 @keyframes spin{100%{transform:rotate(360deg);}}
-#popup{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);justify-content:center;align-items:center;}
-.popupBox{background:white;padding:20px;border-radius:10px;text-align:center;}
-.footer{position:fixed;bottom:0;width:100%;background:#fff;display:flex;justify-content:space-around;padding:6px 0;}
+
+/* FOOTER */
+.footer{
+position:fixed;bottom:0;width:100%;background:#fff;
+display:flex;justify-content:space-around;padding:6px 0;
+}
+
 </style>
 </head>
 
@@ -46,15 +116,9 @@ th{background:#4b2dd8;color:white;}
 
 <div class="filterCard">
 
-<div class="filterGroup">
-<label>Division</label>
 <select id="division"></select>
-</div>
-
-<div class="filterGroup">
-<label>Post</label>
+<br><br>
 <select id="post"></select>
-</div>
 
 <div class="buttonRow">
 <button class="btn generateBtn" onclick="generateReport()">Generate</button>
@@ -77,16 +141,9 @@ th{background:#4b2dd8;color:white;}
 
 <div id="loader"><div class="spinner"></div></div>
 
-<div id="popup">
-<div class="popupBox">
-<h3>No Data</h3>
-<button onclick="popup.style.display='none'">OK</button>
-</div>
-</div>
-
 <script>
 
-// ✅ CSV parser
+// CSV parser
 function parseCSVRow(row){
 let result=[],current="",inside=false;
 for(let c of row){
@@ -114,18 +171,13 @@ places.add(c[3]);
 posts.add(c[2]);
 }
 
-division.innerHTML="<option value=''>All</option>";
+division.innerHTML="<option value=''>All Division</option>";
 places.forEach(p=>division.innerHTML+=`<option>${p}</option>`);
 
-post.innerHTML="<option value=''>All</option>";
+post.innerHTML="<option value=''>All Post</option>";
 posts.forEach(p=>post.innerHTML+=`<option>${p}</option>`);
 }
 init();
-
-// ✅ STRONG VALUE CHECK
-function isValid(val){
-return val && val.trim()!=="" && val.trim()!=="0" && val.trim().toLowerCase()!=="null";
-}
 
 async function generateReport(){
 
@@ -136,9 +188,9 @@ let headers=parseCSVRow(rows[0]);
 
 let sIndex=headers.indexOf("sanctioned_post");
 let wIndex=headers.indexOf("working_post");
-let vIndex=headers.indexOf("vacant_post");
 
 let sanctioned=0,working=0,vacant=0;
+
 let workingRows="",vacantRows="";
 
 let div=division.value;
@@ -155,10 +207,12 @@ let place=c[3]?.trim();
 if(div && place!=div) continue;
 if(pst && post!=pst) continue;
 
-if(isValid(c[sIndex])) sanctioned++;
-if(isValid(c[wIndex])) working++;
-if(isValid(c[vIndex])) vacant++;
+// ✅ COUNTS
+if(c[sIndex]?.trim()) sanctioned++;
+if(c[wIndex]?.trim()) working++;
+if(!name) vacant++;
 
+// TABLE
 if(name){
 workingRows+=`<tr><td>${name}</td><td>${post}</td><td>${place}</td></tr>`;
 }else{
@@ -170,6 +224,7 @@ vacantRows+=`<tr><td>${post}</td><td>${place}</td></tr>`;
 loader.style.display="none";
 
 result.innerHTML=`
+
 <div class="summary">
 Sanctioned : ${sanctioned}<br>
 Working : ${working}<br>
@@ -181,7 +236,7 @@ Vacant : ${vacant}
 <button class="tabbtn" onclick="showVacant()">Vacant</button>
 </div>
 
-<div id="tableArea">
+<div id="tableArea" class="tableWrap">
 <table>
 <tr><th>Name</th><th>Post</th><th>Place</th></tr>
 ${workingRows}
