@@ -5,76 +5,88 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
 body{
-  font-family:sans-serif;
+  font-family:'Segoe UI',sans-serif;
   margin:0;
-  background:#f4f4f9;
+  background: linear-gradient(135deg,#eef2ff,#f3e8ff);
   padding-bottom:90px;
 }
 
 /* HEADER */
 .top{
-  padding:20px;
-  background:#4b2dd8;
+  padding:25px 20px 30px;
+  background: linear-gradient(135deg,#6c39ff,#4b2dd8);
   color:white;
   display:flex;
   align-items:center;
-  gap:10px;
-  border-bottom-left-radius:30px;
-  border-bottom-right-radius:30px;
+  gap:12px;
+  border-radius:0 0 35px 35px;
 }
 
 .top .icon{
-  width:35px;
-  height:35px;
+  width:40px;
+  height:40px;
   background:white;
-  color:#5e00a3;
+  color:#4b2dd8;
   border-radius:50%;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:18px;
+  font-size:20px;
 }
 
 .top h2{
   margin:0;
+  font-size:20px;
 }
 
 /* CONTENT */
 .content{
-  padding:20px;
+  padding:18px;
 }
 
+/* GRID */
 .grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:15px;
+  gap:14px;
 }
 
+/* CARD */
 .card{
-  background:white;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(10px);
   padding:20px;
   border-radius:18px;
   text-align:center;
-  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
   cursor:pointer;
-  transition:0.3s;
+  transition:0.25s;
 }
 
+/* HOVER */
 .card:hover{
-  transform:translateY(-5px);
+  transform:translateY(-4px);
 }
 
+/* CLICK */
+.card:active{
+  transform:scale(0.96);
+}
+
+/* ICON */
 .card span{
-  font-size:26px;
+  font-size:32px;
   display:block;
 }
 
+/* TEXT */
 .card p{
-  margin-top:8px;
+  margin-top:10px;
   font-size:14px;
-  font-weight:bold;
-  color:#5e00a3;
+  font-weight:600;
+  color:#4b2dd8;
 }
 
 /* FOOTER */
@@ -85,8 +97,10 @@ body{
   background:#ffffff;
   display:flex;
   justify-content:space-around;
-  padding:8px 0;
-  box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+  padding:10px 0;
+  box-shadow:0 -3px 15px rgba(0,0,0,0.1);
+  border-top-left-radius:20px;
+  border-top-right-radius:20px;
 }
 
 .footer a{
@@ -94,14 +108,18 @@ body{
   display:flex;
   flex-direction:column;
   align-items:center;
-  color:#5e00a3;
-  font-size:20px;
+  color:#777;
+  font-size:18px;
 }
 
 .footer small{
   font-size:12px;
   margin-top:3px;
-  color:#5e00a3;
+}
+
+/* ACTIVE FOOTER */
+.footer a.active{
+  color:#4b2dd8;
   font-weight:600;
 }
 
@@ -123,6 +141,7 @@ body{
 .dark-mode .footer a{
   color:white;
 }
+
 </style>
 </head>
 
@@ -189,21 +208,18 @@ body{
 
 <!-- FOOTER -->
 <div class="footer">
-<a href="home.html"><div>🏠</div><small>Home</small></a>
-<a href="page1.html"><div>👤</div><small>Profile</small></a>
-<a href="salary.html"><div>💰</div><small>Salary</small></a>
-<a href="page3.html"><div>📅</div><small>Attendance</small></a>
-<a href="page4.html"><div>⚙</div><small>Formats</small></a>
+<a href="home.html">🏠<small>Home</small></a>
+<a href="page1.html">👤<small>Profile</small></a>
+<a href="salary.html">💰<small>Salary</small></a>
+<a href="page3.html">📅<small>Attendance</small></a>
+<a href="page4.html" class="active">⚙<small>Formats</small></a>
 </div>
 
 <script>
 
 function openPDF(file){
-
 const url="https://hescomsalary1-sudo.github.io/salary-data/"+file;
-
 window.location.href=url;
-
 }
 
 if(localStorage.getItem("darkMode")==="true"){
