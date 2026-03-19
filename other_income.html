@@ -214,7 +214,10 @@ document.getElementById("noDataPopup").style.display="flex";
 function closePopup(){
 document.getElementById("noDataPopup").style.display="none";
 
-/* GO BACK TO PAGE3 */
+/* 🔥 CLEAR PREVIOUS SELECTION */
+localStorage.removeItem("incomeType");
+
+/* GO BACK */
 window.location.href = "page3.html";
 }
 
