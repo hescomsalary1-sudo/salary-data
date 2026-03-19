@@ -281,6 +281,31 @@ color:#5e00a3;
 
 <script>
 
+// ✅ CSV PARSER (FIXES YOUR ISSUE)
+function parseCSVRow(row){
+  let result = [];
+  let current = "";
+  let insideQuotes = false;
+
+  for(let i=0;i<row.length;i++){
+    let char = row[i];
+
+    if(char === '"'){
+      insideQuotes = !insideQuotes;
+    } 
+    else if(char === ',' && !insideQuotes){
+      result.push(current);
+      current = "";
+    } 
+    else{
+      current += char;
+    }
+  }
+
+  result.push(current);
+  return result;
+}
+
 async function loadCSV(){
 let r=await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
 let t=await r.text();
@@ -294,7 +319,7 @@ let places=new Set();
 let posts=new Set();
 
 for(let i=1;i<rows.length;i++){
-let c=rows[i].split(",");
+let c=parseCSVRow(rows[i]);
 places.add(c[3]);
 posts.add(c[2]);
 }
@@ -313,12 +338,11 @@ async function generateReport(){
 loader.style.display="flex";
 
 let rows=await loadCSV();
-let headers = rows[0].split(",");
+let headers=parseCSVRow(rows[0]);
 
-// 🔥 get indexes
-let sIndex = headers.indexOf("sanctioned_post");
-let wIndex = headers.indexOf("working_post");
-let vIndex = headers.indexOf("vacant_post");
+let sIndex=headers.indexOf("sanctioned_post");
+let wIndex=headers.indexOf("working_post");
+let vIndex=headers.indexOf("vacant_post");
 
 let div=division.value;
 let pst=post.value;
@@ -332,7 +356,7 @@ let vacantRows="";
 
 for(let i=1;i<rows.length;i++){
 
-let c=rows[i].split(",");
+let c=parseCSVRow(rows[i]);
 
 let name=c[1]?.trim();
 let post=c[2]?.trim();
@@ -345,12 +369,12 @@ let v=c[vIndex]?.trim();
 if(div && place!=div) continue;
 if(pst && post!=pst) continue;
 
-// ✅ count non-blank
+// ✅ COUNT NON-BLANK
 if(s) sanctioned++;
 if(w) working++;
 if(v) vacant++;
 
-// table (same as before)
+// TABLE
 if(name){
 workingRows+=`
 <tr>
