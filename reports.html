@@ -63,62 +63,26 @@ flex:1;padding:8px;background:#e5d6ff;border:none;border-radius:6px;
 }
 .tabbtn.active{background:#5e00a3;color:white;}
 
-/* DESKTOP NORMAL TABLE */
+
+/* TABLE */
+
 table{
 width:100%;
 border-collapse:collapse;
+background:white;
 font-size:12px;
 }
 
 th,td{
-padding:8px;
+padding:6px;
 border:1px solid #ddd;
 text-align:left;
+word-break:break-word;
 }
 
 th{
 background:#4b2dd8;
 color:white;
-}
-
-/* 📱 MOBILE VIEW */
-@media(max-width:600px){
-
-table, thead, tbody, th, td, tr{
-display:block;
-width:100%;
-}
-
-thead{
-display:none;
-}
-
-tr{
-background:white;
-margin-bottom:10px;
-border-radius:10px;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
-padding:10px;
-}
-
-td{
-border:none;
-padding:6px 0;
-font-size:13px;
-}
-
-td:before{
-font-weight:bold;
-display:block;
-color:#4b2dd8;
-margin-bottom:2px;
-}
-
-/* Labels */
-td:nth-child(1):before{content:"Name";}
-td:nth-child(2):before{content:"Post";}
-td:nth-child(3):before{content:"Place";}
-
 }
 
 /* LOADER */
