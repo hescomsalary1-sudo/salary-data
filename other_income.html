@@ -102,55 +102,6 @@ animation:spin 1s linear infinite;
 100%{transform:rotate(360deg);}
 }
 
-/* ✅ POPUP */
-.popup{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.5);
-display:none;
-justify-content:center;
-align-items:center;
-z-index:99999;
-}
-
-.popup-box{
-background:white;
-padding:25px;
-border-radius:15px;
-text-align:center;
-width:80%;
-max-width:320px;
-animation:fadeIn 0.3s ease;
-}
-
-.popup-box h2{
-margin:10px 0;
-}
-
-.popup-box p{
-color:#666;
-font-size:14px;
-}
-
-.popup-box button{
-margin-top:15px;
-padding:10px 20px;
-border:none;
-background:#4b2dd8;
-color:white;
-border-radius:8px;
-font-size:16px;
-cursor:pointer;
-}
-
-@keyframes fadeIn{
-from{transform:scale(0.8); opacity:0;}
-to{transform:scale(1); opacity:1;}
-}
-
 </style>
 </head>
 
@@ -161,15 +112,6 @@ to{transform:scale(1); opacity:1;}
 <div id="loader"><div class="spinner"></div></div>
 
 <div class="content" id="resultBox">Loading...</div>
-
-<!-- ✅ POPUP -->
-<div id="noDataPopup" class="popup">
-  <div class="popup-box">
-    <h2>No Records Found</h2>
-    <p>No data available for this category.</p>
-    <button onclick="closePopup()">OK</button>
-  </div>
-</div>
 
 <script>
 
@@ -205,22 +147,6 @@ title.innerText = type;
 loadIncome(type);
 
 };
-
-/* ✅ POPUP FUNCTIONS */
-function showPopup(){
-document.getElementById("noDataPopup").style.display="flex";
-}
-
-function closePopup(){
-document.getElementById("noDataPopup").style.display="none";
-
-/* 🔥 CLEAR PREVIOUS SELECTION */
-localStorage.removeItem("incomeType");
-
-/* GO BACK */
-window.location.href = "page3.html";
-}
-
 
 /* MAIN FUNCTION */
 async function loadIncome(type){
@@ -270,19 +196,17 @@ let res = await fetch(baseURL+fileName);
 let text = await res.text();
 text = text.replace(/^\uFEFF/, '');
 
-/* ✅ CHECK EMPTY FILE */
+/* ✅ EMPTY FILE CHECK */
 if(!text || text.trim()===""){
-loader.style.display="none";
-showPopup();
+showNoData();
 return;
 }
 
 let rows = text.trim().split("\n");
 
-/* ✅ CHECK NO ROWS */
+/* ✅ NO ROWS CHECK */
 if(rows.length<=1){
-loader.style.display="none";
-showPopup();
+showNoData();
 return;
 }
 
@@ -347,14 +271,42 @@ found=true;
 
 /* ✅ FINAL CHECK */
 if(!found || !hasAmount){
-loader.style.display="none";
-showPopup();
+showNoData();
 return;
 }
 
 resultBox.innerHTML = output;
 loader.style.display="none";
 
+}
+
+/* ✅ NO DATA UI FUNCTION */
+function showNoData(){
+
+loader.style.display="none";
+
+resultBox.innerHTML = `
+<div style="
+text-align:center;
+margin-top:60px;
+padding:25px;
+background:white;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
+">
+
+<div style="font-size:65px;">📭</div>
+
+<h2 style="color:#4b2dd8;margin:10px 0;">
+No Records Found
+</h2>
+
+<p style="color:#777;font-size:14px;">
+No data available for this category
+</p>
+
+</div>
+`;
 }
 
 /* DOWNLOAD */
