@@ -206,7 +206,7 @@ let name=c[1]?.trim();
 let post=c[2]?.trim();
 let place=c[3]?.trim();
   
-if(div && name!=div) continue;
+
 if(div && place!=div) continue;
 if(pst && post!=pst) continue;
 
@@ -219,7 +219,7 @@ if(!name) vacant++;
 if(name){
 workingRows+=`<tr><td>${name}</td><td>${post}</td><td>${place}</td></tr>`;
 }else{
-vacantRows+=`<tr><td>${post}</td><td>${place}</td></tr>`;
+vacantRows+=`<tr><td>${name}</td><td>${post}</td><td>${place}</td></tr>`;
 }
 
 }
