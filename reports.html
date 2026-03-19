@@ -308,6 +308,7 @@ posts.forEach(p=>post.innerHTML+=`<option>${p}</option>`);
 
 init();
 
+
 async function generateReport(){
 
 loader.style.display="flex";
@@ -319,7 +320,6 @@ let pst=post.value;
 
 let sanctioned=0;
 let working=0;
-let otherTotal=0;
 
 let workingRows="";
 let vacantRows="";
@@ -328,46 +328,47 @@ for(let i=1;i<rows.length;i++){
 
 let c=rows[i].split(",");
 
-let name=c[1];
-let post=c[2];
-let place=c[3];
-let other=c[31];
+let name=c[1]?.trim();
+let post=c[2]?.trim();
+let place=c[3]?.trim();
+let other=c[31]?.trim();
 
 if(div && place!=div) continue;
 if(pst && post!=pst) continue;
 
+// convert other division count
 let otherCount = parseInt(other) || 0;
 
-sanctioned++;
-if(name) working++;
+// ❌ SKIP rows counted in other division
+if(otherCount > 0){
+continue;
+}
 
-otherTotal += otherCount;
+// ✅ ONLY VALID SANCTIONED POSTS
+sanctioned++;
 
 if(name){
+
+working++;
+
 workingRows+=`
 <tr>
 <td>${name}</td>
 <td>${post}</td>
 <td>${place}</td>
 </tr>`;
+
 }else{
+
 vacantRows+=`
 <tr>
 <td>${post}</td>
 <td>${place}</td>
 </tr>`;
-}
 
 }
 
-// FINAL CALCULATION
-sanctioned = sanctioned - otherTotal;
-working = working - otherTotal;
-
-if(sanctioned < 0) sanctioned = 0;
-if(working < 0) working = 0;
-
-let vacant = sanctioned - working;
+}
 
 loader.style.display="none";
 
@@ -376,6 +377,8 @@ popup.style.display="flex";
 result.innerHTML="";
 return;
 }
+
+let vacant = sanctioned - working;
 
 result.innerHTML=`
 
@@ -406,6 +409,7 @@ window.workingTable=workingRows;
 window.vacantTable=vacantRows;
 
 }
+
 
 function showWorking(){
 workTab.classList.add("active");
