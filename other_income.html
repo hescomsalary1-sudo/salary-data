@@ -50,31 +50,52 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* CARD */
+/* MODERN CARD */
 .card{
-background: rgba(255,255,255,0.95);
-border-radius:15px;
-padding:15px;
-margin-bottom:10px;
-box-shadow:0 6px 15px rgba(0,0,0,0.1);
+background: rgba(255,255,255,0.85);
+backdrop-filter: blur(10px);
+border-radius:18px;
+padding:18px;
+margin-bottom:14px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+animation:fadeUp 0.3s ease;
 }
 
 /* ROW */
 .row{
 display:flex;
 justify-content:space-between;
-margin-bottom:6px;
+align-items:center;
+margin-bottom:10px;
 }
 
-.label{color:#777;}
-.value{font-weight:600;}
+/* LABEL */
+.label{
+color:#888;
+font-size:13px;
+}
+
+/* VALUE */
+.value{
+font-weight:600;
+font-size:15px;
+color:#333;
+}
+
+/* AMOUNT SPECIAL */
+.row:first-child .value{
+font-size:20px;
+font-weight:700;
+color:#4b2dd8;
+}
 
 /* STATUS */
 .status{
-padding:4px 10px;
+padding:5px 12px;
 border-radius:20px;
 font-size:12px;
 color:white;
+font-weight:600;
 }
 
 /* LOADER */
@@ -100,6 +121,12 @@ animation:spin 1s linear infinite;
 
 @keyframes spin{
 100%{transform:rotate(360deg);}
+}
+
+/* CARD ANIMATION */
+@keyframes fadeUp{
+from{opacity:0; transform:translateY(10px);}
+to{opacity:1; transform:translateY(0);}
 }
 
 </style>
@@ -196,7 +223,7 @@ let res = await fetch(baseURL+fileName);
 let text = await res.text();
 text = text.replace(/^\uFEFF/, '');
 
-/* ✅ EMPTY FILE CHECK */
+/* EMPTY FILE */
 if(!text || text.trim()===""){
 showNoData();
 return;
@@ -204,7 +231,7 @@ return;
 
 let rows = text.trim().split("\n");
 
-/* ✅ NO ROWS CHECK */
+/* NO ROWS */
 if(rows.length<=1){
 showNoData();
 return;
@@ -236,29 +263,29 @@ output += `
 <div class="card">
 
 <div class="row">
-<span class="label">Amount</span>
+<span class="label">💰 Amount</span>
 <span class="value">₹${amount}</span>
 </div>
 
 <div class="row">
-<span class="label">Year</span>
+<span class="label">📅 Year</span>
 <span class="value">${year}</span>
 </div>
 
 <div class="row">
-<span class="label">Period</span>
+<span class="label">🗓 Period</span>
 <span class="value">${period}</span>
 </div>
 
 <div class="row">
-<span class="label">Status</span>
+<span class="label">📌 Status</span>
 <span class="status" style="background:${color}">
 ${status}
 </span>
 </div>
 
 <div class="row">
-<span class="label">Remarks</span>
+<span class="label">📝 Remarks</span>
 <span class="value">${remarks}</span>
 </div>
 
@@ -269,7 +296,7 @@ found=true;
 }
 }
 
-/* ✅ FINAL CHECK */
+/* FINAL CHECK */
 if(!found || !hasAmount){
 showNoData();
 return;
@@ -280,7 +307,7 @@ loader.style.display="none";
 
 }
 
-/* ✅ NO DATA UI FUNCTION */
+/* NO DATA UI */
 function showNoData(){
 
 loader.style.display="none";
