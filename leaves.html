@@ -174,10 +174,9 @@ let elTaken=0,fplTaken=0,clTaken=0;
 
 let creditCalculated = false;
 
-/* ✅ FILTER VARIABLES */
+/* ✅ NEW FILTER VARIABLES */
 let asOnDay=1, asOnMonth=1, asOnYear=new Date().getFullYear();
 
-/* EXISTING */
 let elsDaysCurrentYear = 0;
 
 /* LOAD CREDIT */
@@ -201,7 +200,7 @@ document.getElementById("elCredit").innerText = elCredit;
 document.getElementById("fplCredit").innerText = fplCredit;
 document.getElementById("clCredit").innerText = clCredit;
 
-/* ✅ PARSE AS ON DATE */
+/* ✅ PARSE DATE */
 let asDate = c[6] || "--";
 document.getElementById("asOnDate").innerText = "As on Date: " + asDate;
 
@@ -289,7 +288,6 @@ if(year != asOnYear) continue;
 if(month < asOnMonth) continue;
 if(month == asOnMonth && day < asOnDay) continue;
 
-/* COUNT */
 if(val==="EL") elTaken++;
 if(val==="FPL") fplTaken++;
 if(val==="CL") clTaken++;
@@ -344,7 +342,7 @@ renderRanges(monthMap);
 
 }
 
-/* OTHER LEAVES (FILTERED) */
+/* OTHER LEAVES */
 async function showOtherLeaves(){
 
 let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
@@ -371,7 +369,7 @@ if(!val) continue;
 
 let day = d-2;
 
-/* ✅ FILTER */
+/* FILTER */
 if(year != asOnYear) continue;
 if(month < asOnMonth) continue;
 if(month == asOnMonth && day < asOnDay) continue;
@@ -392,26 +390,117 @@ renderRanges(monthMap);
 
 }
 
-/* KEEP ELS + BALANCE SAME */
-async function showELS(){ /* SAME AS YOUR CODE */ }
-async function showBalance(){ /* SAME AS YOUR CODE */ }
+/* ELS */
+async function showELS(){
+
+let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv");
+let text = await res.text();
+let rows = text.trim().split("\n");
+
+let currentYear = asOnYear.toString();
+
+let html="";
+elsDaysCurrentYear = 0;
+
+for(let i=1;i<rows.length;i++){
+
+let c = rows[i].split(",");
+
+if(c[0].trim() === user && c[1].trim() === currentYear){
+
+let days = parseInt(c[6]) || 0;
+elsDaysCurrentYear += days;
+
+html += `<div class="item">• ${c[3]} | Days: ${days} | ${c[4]}</div>`;
+
+}
+
+}
+
+document.getElementById("leaveContainer").innerHTML =
+html || "No ELS Data";
+
+}
+
+/* BALANCE */
+async function showBalance(){
+
+let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv");
+let text = await res.text();
+let rows = text.trim().split("\n");
+
+let currentYear = asOnYear.toString();
+
+let totalELS = 0;
+
+for(let i=1;i<rows.length;i++){
+
+let c = rows[i].split(",");
+
+if(c[0].trim() === user && c[1].trim() === currentYear){
+
+let days = parseInt(c[6]) || 0;
+totalELS += days;
+
+}
+}
+
+let elBalance = elCredit - elTaken - totalELS;
+let fplBalance = fplCredit - fplTaken;
+let clBalance = clCredit - clTaken;
+
+let html = `
+<div class="month">EL DETAILS</div>
+<div class="item">Credit : ${elCredit}</div>
+<div class="item">Taken : ${elTaken}</div>
+<div class="item">ELS Days : ${totalELS}</div>
+<div class="item"><b>Balance : ${elBalance}</b></div>
+
+<br>
+
+<div class="month">FPL DETAILS</div>
+<div class="item">Credit : ${fplCredit}</div>
+<div class="item">Taken : ${fplTaken}</div>
+<div class="item"><b>Balance : ${fplBalance}</b></div>
+
+<br>
+
+<div class="month">CL DETAILS</div>
+<div class="item">Credit : ${clCredit}</div>
+<div class="item">Taken : ${clTaken}</div>
+<div class="item"><b>Balance : ${clBalance}</b></div>
+`;
+
+document.getElementById("leaveContainer").innerHTML = html;
+
+}
 
 /* RENDER */
 function renderRanges(map){
+
 let html="";
+
 for(let m in map){
+
 html+=`<div class="month">${m}</div>`;
+
 map[m].forEach(r=>{
+
 let s=("0"+r.start.day).slice(-2);
 let e=("0"+r.end.day).slice(-2);
+
 if(s===e){
 html+=`<div class="item">• ${s}-${r.start.month}-${r.start.year} - ${r.type}</div>`;
 }else{
 html+=`<div class="item">• ${r.type} from ${s}-${r.start.month}-${r.start.year} to ${e}-${r.start.month}-${r.start.year}</div>`;
 }
+
 });
+
 }
+
 document.getElementById("leaveContainer").innerHTML = html || "No Data found";
+
 }
 
 /* INIT */
