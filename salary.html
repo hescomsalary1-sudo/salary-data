@@ -9,16 +9,17 @@
 <style>
 
 body{
-font-family:'Segoe UI',sans-serif;
+font-family:sans-serif;
 margin:0;
-background: linear-gradient(135deg,#eef2ff,#f3e8ff);
+background:#f4f4f9;
 padding-bottom:90px;
 }
 
 /* HEADER */
+
 .top{
 padding:20px;
-background: linear-gradient(135deg,#6c39ff,#4b2dd8);
+background:#4b2dd8;
 color:white;
 display:flex;
 align-items:center;
@@ -31,7 +32,7 @@ border-bottom-right-radius:30px;
 width:35px;
 height:35px;
 background:white;
-color:#4b2dd8;
+color:#5e00a3;
 border-radius:50%;
 display:flex;
 align-items:center;
@@ -40,76 +41,71 @@ font-weight:bold;
 font-size:18px;
 }
 
-.top h2{margin:0;}
+.top h2{
+margin:0;
+}
 
 /* CONTENT */
-.content{padding:18px;}
 
-/* 🔥 MODERN CONTAINER */
-.control-frame{
-background: rgba(255,255,255,0.9);
-backdrop-filter: blur(10px);
+.content{
 padding:20px;
-border-radius:18px;
-box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* MAIN FRAME */
+
+.control-frame{
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 6px 14px rgba(0,0,0,0.15);
 margin-bottom:20px;
 }
 
 /* ROW */
+
 .control-row{
 display:flex;
-gap:15px;
-align-items:flex-end;
-flex-wrap:wrap;
+gap:20px;
+align-items:flex-start;
 }
 
 /* DROPDOWNS */
+
 .dropdown-column{
 flex:1;
 display:flex;
 flex-direction:column;
 }
 
-label{
-font-size:13px;
-color:#555;
-margin-bottom:4px;
-}
-
-/* 🔽 MODERN SELECT */
 select{
-padding:12px;
+padding:10px;
 margin-bottom:12px;
-border-radius:10px;
-border:1px solid #ddd;
-font-size:14px;
-background:white;
-box-shadow:0 4px 10px rgba(0,0,0,0.05);
+border-radius:8px;
+border:1px solid #ccc;
+font-size:15px;
 }
 
-/* 🔘 BIG BUTTON */
+/* BIG BUTTON */
+
 .check-btn{
-background: linear-gradient(135deg,#6c39ff,#4b2dd8);
+background:#4b2dd8;
 color:white;
 border:none;
-border-radius:14px;
-padding:16px 20px;
-font-size:16px;
-font-weight:600;
+border-radius:12px;
+padding:22px 25px;
+font-size:18px;
+font-weight:bold;
 cursor:pointer;
-box-shadow:0 8px 20px rgba(0,0,0,0.15);
+box-shadow:0 6px 14px rgba(0,0,0,0.2);
 transition:0.2s;
 }
 
 .check-btn:hover{
-transform:translateY(-2px);
-}
-
-.check-btn:active{
-transform:scale(0.96);
+transform:scale(1.03);
 }
 
 /* ACTION BUTTONS */
+
 .action-buttons{
 margin-top:15px;
 display:flex;
@@ -117,28 +113,21 @@ gap:10px;
 flex-wrap:wrap;
 }
 
-/* 🔘 SMALL BUTTONS */
 button{
-padding:10px 14px;
+padding:10px 16px;
 background:#4b2dd8;
 color:white;
 border:none;
-border-radius:10px;
+border-radius:8px;
 cursor:pointer;
-font-size:13px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-transition:0.2s;
 }
 
 button:hover{
-transform:translateY(-2px);
-}
-
-button:active{
-transform:scale(0.95);
+opacity:0.9;
 }
 
 /* GRID */
+
 .salary-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -147,6 +136,7 @@ margin-top:10px;
 }
 
 /* CARD */
+
 .salary-card{
 background:white;
 padding:15px;
@@ -164,9 +154,10 @@ padding-bottom:5px;
 }
 
 /* NET */
+
 .net-card{
 margin-top:15px;
-background: linear-gradient(135deg,#6c39ff,#4b2dd8);
+background:#4b2dd8;
 color:white;
 padding:15px;
 border-radius:12px;
@@ -176,6 +167,7 @@ font-weight:bold;
 }
 
 /* FOOTER */
+
 .footer{
 position:fixed;
 bottom:0;
@@ -208,6 +200,7 @@ font-weight:bold;
 }
 
 /* DARK MODE */
+
 .dark-mode{
 background:#121212;
 color:white;
@@ -233,6 +226,7 @@ color:white;
 }
 
 /* LOADER */
+
 .loader{
 display:none;
 position:fixed;
@@ -262,3 +256,461 @@ animation:spin 1s linear infinite;
 
 </style>
 </head>
+
+<body>
+
+<div class="top">
+<div class="icon">₹</div>
+<h2>Monthly Salary</h2>
+</div>
+
+<div class="content">
+
+<div class="control-frame">
+
+<div class="control-row">
+
+<div class="dropdown-column">
+
+<label>Select Year:</label>
+
+<select id="year">
+<option>2026</option>
+<option>2027</option>
+<option>2028</option>
+</select>
+
+<label>Select Month:</label>
+
+<select id="month">
+
+<option value="01">January</option>
+<option value="02">February</option>
+<option value="03">March</option>
+<option value="04">April</option>
+<option value="05">May</option>
+<option value="06">June</option>
+<option value="07">July</option>
+<option value="08">August</option>
+<option value="09">September</option>
+<option value="10">October</option>
+<option value="11">November</option>
+<option value="12">December</option>
+
+</select>
+
+</div>
+
+<button class="check-btn" onclick="loadSalary()">Check Salary</button>
+
+</div>
+
+<div class="action-buttons" id="pdfButtons" style="display:none;">
+<button onclick="printSalary()">🖨 Print</button>
+<button onclick="downloadPDF()">📄 Download PDF</button>
+</div>
+
+</div>
+
+<div id="result"></div>
+
+</div>
+
+<div class="footer">
+
+<a href="home.html">
+<div>🏠</div>
+<small>Home</small>
+</a>
+
+<a href="page1.html">
+<div>👤</div>
+<small>Profile</small>
+</a>
+
+<a href="salary.html" class="active">
+<div>💰</div>
+<small>Salary</small>
+</a>
+
+<a href="page3.html">
+<div>📅</div>
+<small>Attendance</small>
+</a>
+
+<a href="page4.html">
+<div>⚙</div>
+<small>Settings</small>
+</a>
+
+</div>
+
+<script>
+
+let user = localStorage.getItem("currentUser");
+if(!user){ window.location="login.html"; }
+
+function showRow(name,value){
+if(value>0){
+return name + " ₹" + value + "<br>";
+}
+return "";
+}
+
+async function loadSalary(){
+document.getElementById("loader").style.display="flex";
+
+let year = document.getElementById("year").value;
+let month = document.getElementById("month").value;
+
+/* FIXED CSV URL */
+let response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
+let data = await response.text();
+
+let rows = data.trim().split("\n");
+
+for(let i=1;i<rows.length;i++){
+
+let cols = rows[i].split(",");
+
+if(cols[0] === user && cols[1] === year && cols[2] === month){
+
+let basic = +cols[3];
+let dearness_pay = +cols[4];
+let rouse_rent_allowances = +cols[5];
+let city_compensation_allowances = +cols[6];
+let personal_pay = +cols[7];
+let special_personal_pay = +cols[8];
+let conveyance_allowances = +cols[9];
+let washing_allowances = +cols[10];
+let sfta = +cols[11];
+let special_locality_allowances = +cols[12];
+let mwa = +cols[13];
+let hill_allowances = +cols[14];
+let charge_allowances = +cols[15];
+let pension_contribution_14_percent = +cols[16];
+let labour_welfare_fund_company_contribution = +cols[17];
+let cash_duty_allowances = +cols[18];
+let other_earnings = +cols[19];
+
+let LIC = +cols[20];
+let income_tax = +cols[21];
+let professional_tax = +cols[22];
+let KPTCL_employes_society = +cols[23];
+let PLI = +cols[24];
+let union_fund = +cols[25];
+let sc_st_union_fund = +cols[26];
+let house_rent = +cols[27];
+let urban_bank = +cols[28];
+let family_benefit_fund = +cols[29];
+let festival_advance = +cols[30];
+let PC_10_contribution = +cols[31];
+let PC_14_contribution = +cols[32];
+let LWF = +cols[33];
+let recovery_any = +cols[34];
+let other_deduction = +cols[35];
+
+let totalEarning =
+basic+dearness_pay+rouse_rent_allowances+city_compensation_allowances+
+personal_pay+special_personal_pay+conveyance_allowances+washing_allowances+
+sfta+special_locality_allowances+mwa+hill_allowances+charge_allowances+
+pension_contribution_14_percent+labour_welfare_fund_company_contribution+
+cash_duty_allowances+other_earnings;
+
+let totalDeduction =
+LIC+income_tax+professional_tax+KPTCL_employes_society+PLI+
+union_fund+sc_st_union_fund+house_rent+urban_bank+family_benefit_fund+
+festival_advance+PC_10_contribution+PC_14_contribution+LWF+
+recovery_any+other_deduction;
+
+let net = totalEarning-totalDeduction;
+
+window.salaryData={
+basic,dearness_pay,rouse_rent_allowances,city_compensation_allowances,
+personal_pay,special_personal_pay,conveyance_allowances,washing_allowances,
+sfta,special_locality_allowances,mwa,hill_allowances,charge_allowances,
+pension_contribution_14_percent,labour_welfare_fund_company_contribution,
+cash_duty_allowances,other_earnings,
+LIC,income_tax,professional_tax,KPTCL_employes_society,PLI,union_fund,
+sc_st_union_fund,house_rent,urban_bank,family_benefit_fund,festival_advance,
+PC_10_contribution,PC_14_contribution,LWF,recovery_any,other_deduction,
+totalEarning,totalDeduction,net
+};
+
+let s = window.salaryData;
+document.getElementById("loader").style.display="none";
+document.getElementById("pdfButtons").style.display="flex";
+
+document.getElementById("result").innerHTML = `
+
+<h3>Salary Details</h3>
+
+<div class="salary-card">
+
+<h4>Earnings</h4>
+
+<table style="width:100%;border-collapse:collapse">
+
+${s.basic>0?`<tr><td>Basic</td><td style="text-align:right">₹ ${s.basic}</td></tr>`:''}
+${s.dearness_pay>0?`<tr><td>Dearness Pay</td><td style="text-align:right">₹ ${s.dearness_pay}</td></tr>`:''}
+${s.rouse_rent_allowances>0?`<tr><td>House Rent Allowance</td><td style="text-align:right">₹ ${s.rouse_rent_allowances}</td></tr>`:''}
+${s.city_compensation_allowances>0?`<tr><td>City Compensation Allowance</td><td style="text-align:right">₹ ${s.city_compensation_allowances}</td></tr>`:''}
+${s.personal_pay>0?`<tr><td>Personal Pay</td><td style="text-align:right">₹ ${s.personal_pay}</td></tr>`:''}
+${s.special_personal_pay>0?`<tr><td>Special Personal Pay</td><td style="text-align:right">₹ ${s.special_personal_pay}</td></tr>`:''}
+${s.conveyance_allowances>0?`<tr><td>Conveyance Allowance</td><td style="text-align:right">₹ ${s.conveyance_allowances}</td></tr>`:''}
+${s.washing_allowances>0?`<tr><td>Washing Allowance</td><td style="text-align:right">₹ ${s.washing_allowances}</td></tr>`:''}
+${s.sfta>0?`<tr><td>SFTA</td><td style="text-align:right">₹ ${s.sfta}</td></tr>`:''}
+${s.special_locality_allowances>0?`<tr><td>Special Locality Allowance</td><td style="text-align:right">₹ ${s.special_locality_allowances}</td></tr>`:''}
+${s.mwa>0?`<tr><td>MWA</td><td style="text-align:right">₹ ${s.mwa}</td></tr>`:''}
+${s.hill_allowances>0?`<tr><td>Hill Allowance</td><td style="text-align:right">₹ ${s.hill_allowances}</td></tr>`:''}
+${s.charge_allowances>0?`<tr><td>Charge Allowance</td><td style="text-align:right">₹ ${s.charge_allowances}</td></tr>`:''}
+${s.pension_contribution_14_percent>0?`<tr><td>Pension Contribution</td><td style="text-align:right">₹ ${s.pension_contribution_14_percent}</td></tr>`:''}
+${s.labour_welfare_fund_company_contribution>0?`<tr><td>LWF Company Contribution</td><td style="text-align:right">₹ ${s.labour_welfare_fund_company_contribution}</td></tr>`:''}
+${s.cash_duty_allowances>0?`<tr><td>Cash Duty Allowance</td><td style="text-align:right">₹ ${s.cash_duty_allowances}</td></tr>`:''}
+${s.other_earnings>0?`<tr><td>Other Earnings</td><td style="text-align:right">₹ ${s.other_earnings}</td></tr>`:''}
+
+<tr style="border-top:1px solid #ddd;font-weight:bold">
+<td>Total Earnings</td>
+<td style="text-align:right">₹ ${s.totalEarning}</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="salary-card">
+
+<h4>Deductions</h4>
+
+<table style="width:100%;border-collapse:collapse">
+
+${s.LIC>0?`<tr><td>LIC</td><td style="text-align:right">₹ ${s.LIC}</td></tr>`:''}
+${s.income_tax>0?`<tr><td>Income Tax</td><td style="text-align:right">₹ ${s.income_tax}</td></tr>`:''}
+${s.professional_tax>0?`<tr><td>Professional Tax</td><td style="text-align:right">₹ ${s.professional_tax}</td></tr>`:''}
+${s.KPTCL_employes_society>0?`<tr><td>KPTCL Employee Society</td><td style="text-align:right">₹ ${s.KPTCL_employes_society}</td></tr>`:''}
+${s.PLI>0?`<tr><td>PLI</td><td style="text-align:right">₹ ${s.PLI}</td></tr>`:''}
+${s.union_fund>0?`<tr><td>Union Fund</td><td style="text-align:right">₹ ${s.union_fund}</td></tr>`:''}
+${s.sc_st_union_fund>0?`<tr><td>SC/ST Union Fund</td><td style="text-align:right">₹ ${s.sc_st_union_fund}</td></tr>`:''}
+${s.house_rent>0?`<tr><td>House Rent</td><td style="text-align:right">₹ ${s.house_rent}</td></tr>`:''}
+${s.urban_bank>0?`<tr><td>Urban Bank</td><td style="text-align:right">₹ ${s.urban_bank}</td></tr>`:''}
+${s.family_benefit_fund>0?`<tr><td>Family Benefit Fund</td><td style="text-align:right">₹ ${s.family_benefit_fund}</td></tr>`:''}
+${s.festival_advance>0?`<tr><td>Festival Advance</td><td style="text-align:right">₹ ${s.festival_advance}</td></tr>`:''}
+${s.PC_10_contribution>0?`<tr><td>PC 10% Contribution</td><td style="text-align:right">₹ ${s.PC_10_contribution}</td></tr>`:''}
+${s.PC_14_contribution>0?`<tr><td>PC 14% Contribution</td><td style="text-align:right">₹ ${s.PC_14_contribution}</td></tr>`:''}
+${s.LWF>0?`<tr><td>LWF</td><td style="text-align:right">₹ ${s.LWF}</td></tr>`:''}
+${s.recovery_any>0?`<tr><td>Recovery</td><td style="text-align:right">₹ ${s.recovery_any}</td></tr>`:''}
+${s.other_deduction>0?`<tr><td>Other Deduction</td><td style="text-align:right">₹ ${s.other_deduction}</td></tr>`:''}
+
+<tr style="border-top:1px solid #ddd;font-weight:bold">
+<td>Total Deduction</td>
+<td style="text-align:right">₹ ${s.totalDeduction}</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="net-card">
+Net Salary ₹ ${s.net}
+</div>
+
+`;
+
+return;
+
+}
+
+}
+
+document.getElementById("loader").style.display="none";
+document.getElementById("result").innerHTML="No salary found.";
+document.getElementById("pdfButtons").style.display="none";
+
+}
+
+function printSalary(){
+let content=document.getElementById("result").innerHTML;
+let win=window.open('', '', 'width=800,height=600');
+win.document.write('<html><body>'+content+'</body></html>');
+win.document.close();
+win.print();
+}
+
+async function downloadPDF(){
+
+let s = window.salaryData;
+
+/* fetch employee details */
+
+let response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
+let data = await response.text();
+
+let rows = data.trim().split("\n");
+
+let empName = user;
+let empDesignation = "";
+let empPlace = "";
+
+for(let i=1;i<rows.length;i++){
+
+let cols = rows[i].split(",");
+
+if(cols[0] === user){
+empName = cols[1];
+empDesignation = cols[2];
+empPlace = cols[3];
+break;
+}
+
+}
+
+let year=document.getElementById("year").value;
+let month=document.getElementById("month").options[
+document.getElementById("month").selectedIndex].text;
+
+
+/* row generator */
+
+function pdfRow(name,value){
+if(value>0){
+return `
+<tr>
+<td style="padding:4px 6px">${name}</td>
+<td style="text-align:right;padding:4px 6px">₹ ${value}</td>
+</tr>`;
+}
+return "";
+}
+
+let pdfContent = `
+
+<div style="font-family:sans-serif;padding:20px">
+
+<div style="text-align:center">
+<h2>HUBLI ELECTRICITY SUPPLY COMPANY LTD.</h2>
+<h4>O & M Division, Sirsi</h4>
+
+<div style="display:flex;justify-content:space-between;margin-top:10px">
+<p><b>Name :</b> ${empName}</p>
+<p><b>Designation :</b> ${empDesignation}</p>
+</div>
+
+<div style="display:flex;justify-content:space-between">
+<p><b>Working Place :</b> ${empPlace}</p>
+<p><b>Month :</b> ${month} ${year}</p>
+</div>
+
+<hr>
+</div>
+
+<table style="width:100%;border-collapse:collapse;margin-top:20px">
+
+<tr>
+<th style="background:#5e00a3;color:white;padding:8px">Earnings</th>
+<th style="background:#5e00a3;color:white;padding:8px">Deductions</th>
+</tr>
+
+<tr>
+
+<td style="padding:10px;border-right:1px solid #ddd;vertical-align:top">
+
+<table style="width:100%;border-collapse:collapse;font-size:14px">
+
+${pdfRow("Basic",s.basic)}
+${pdfRow("Dearness Pay",s.dearness_pay)}
+${pdfRow("House Rent Allowance",s.rouse_rent_allowances)}
+${pdfRow("City Compensation Allowance",s.city_compensation_allowances)}
+${pdfRow("Personal Pay",s.personal_pay)}
+${pdfRow("Special Personal Pay",s.special_personal_pay)}
+${pdfRow("Conveyance Allowance",s.conveyance_allowances)}
+${pdfRow("Washing Allowance",s.washing_allowances)}
+${pdfRow("SFTA",s.sfta)}
+${pdfRow("Special Locality Allowance",s.special_locality_allowances)}
+${pdfRow("MWA",s.mwa)}
+${pdfRow("Hill Allowance",s.hill_allowances)}
+${pdfRow("Charge Allowance",s.charge_allowances)}
+${pdfRow("Pension Contribution",s.pension_contribution_14_percent)}
+${pdfRow("LWF Company Contribution",s.labour_welfare_fund_company_contribution)}
+${pdfRow("Cash Duty Allowance",s.cash_duty_allowances)}
+${pdfRow("Other Earnings",s.other_earnings)}
+
+<tr style="border-top:1px solid #000;font-weight:bold">
+<td>Total Earnings</td>
+<td style="text-align:right">₹ ${s.totalEarning}</td>
+</tr>
+
+</table>
+
+</td>
+
+
+<td style="padding:10px;vertical-align:top">
+
+<table style="width:100%;border-collapse:collapse;font-size:14px">
+
+${pdfRow("LIC",s.LIC)}
+${pdfRow("Income Tax",s.income_tax)}
+${pdfRow("Professional Tax",s.professional_tax)}
+${pdfRow("KPTCL Employee Society",s.KPTCL_employes_society)}
+${pdfRow("PLI",s.PLI)}
+${pdfRow("Union Fund",s.union_fund)}
+${pdfRow("SC/ST Union Fund",s.sc_st_union_fund)}
+${pdfRow("House Rent",s.house_rent)}
+${pdfRow("Urban Bank",s.urban_bank)}
+${pdfRow("Family Benefit Fund",s.family_benefit_fund)}
+${pdfRow("Festival Advance",s.festival_advance)}
+${pdfRow("PC 10% Contribution",s.PC_10_contribution)}
+${pdfRow("PC 14% Contribution",s.PC_14_contribution)}
+${pdfRow("LWF",s.LWF)}
+${pdfRow("Recovery",s.recovery_any)}
+${pdfRow("Other Deduction",s.other_deduction)}
+
+<tr style="border-top:1px solid #000;font-weight:bold">
+<td>Total Deduction</td>
+<td style="text-align:right">₹ ${s.totalDeduction}</td>
+</tr>
+
+</table>
+
+</td>
+
+</tr>
+
+</table>
+
+<hr style="margin-top:20px">
+
+<div style="text-align:right;font-size:22px;font-weight:bold;margin-top:20px">
+Net Salary : ₹ ${s.net}
+</div>
+
+</div>
+`;
+
+let div=document.createElement("div");
+div.innerHTML=pdfContent;
+
+let opt={
+margin:0.8,
+filename:'Salary.pdf',
+image:{type:'jpeg',quality:0.98},
+html2canvas:{scale:2},
+pagebreak:{mode:['avoid-all','css','legacy']},
+jsPDF:{unit:'in',format:'a4',orientation:'portrait'}
+};
+
+html2pdf().set(opt).from(div).save();
+
+}
+
+if(localStorage.getItem("darkMode")==="true"){
+document.body.classList.add("dark-mode");
+}
+
+</script>
+<div class="loader" id="loader">
+<div class="spinner"></div>
+</div>
+</body>
+</html>
