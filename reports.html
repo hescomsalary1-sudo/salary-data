@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,8 +14,6 @@ margin:0;
 background:#f4f4f9;
 padding-bottom:90px;
 }
-
-/* HEADER */
 
 .top{
 padding:18px;
@@ -41,13 +38,9 @@ justify-content:center;
 font-size:18px;
 }
 
-/* CONTENT */
-
 .content{
 padding:15px;
 }
-
-/* FILTER CARD */
 
 .filterCard{
 background:white;
@@ -76,8 +69,6 @@ border:1px solid #ccc;
 font-size:13px;
 }
 
-/* BUTTONS */
-
 .buttonRow{
 display:flex;
 gap:10px;
@@ -104,8 +95,6 @@ background:#ff9800;
 color:white;
 }
 
-/* SUMMARY */
-
 .summary{
 background:#4b2dd8;
 color:white;
@@ -114,8 +103,6 @@ border-radius:10px;
 margin:12px 0;
 font-size:14px;
 }
-
-/* TABS */
 
 .tabs{
 display:flex;
@@ -138,8 +125,6 @@ background:#5e00a3;
 color:white;
 }
 
-/* TABLE */
-
 table{
 width:100%;
 border-collapse:collapse;
@@ -158,8 +143,6 @@ th{
 background:#4b2dd8;
 color:white;
 }
-
-/* LOADER */
 
 #loader{
 display:none;
@@ -187,8 +170,6 @@ animation:spin 1s linear infinite;
 0%{transform:rotate(0deg);}
 100%{transform:rotate(360deg);}
 }
-
-/* POPUP */
 
 #popup{
 display:none;
@@ -224,8 +205,6 @@ border:none;
 padding:8px 15px;
 border-radius:6px;
 }
-
-/* FOOTER */
 
 .footer{
 position:fixed;
@@ -290,12 +269,8 @@ color:#5e00a3;
 <a href="page4.html">⚙<small>Settings</small></a>
 </div>
 
-<!-- LOADER -->
-<div id="loader">
-<div class="spinner"></div>
-</div>
+<div id="loader"><div class="spinner"></div></div>
 
-<!-- POPUP -->
 <div id="popup">
 <div class="popupBox">
 <h3>No Data</h3>
@@ -307,30 +282,21 @@ color:#5e00a3;
 <script>
 
 async function loadCSV(){
-
 let r=await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
 let t=await r.text();
-
 return t.trim().split("\n");
-
 }
 
-/* INIT DROPDOWNS */
-
 async function init(){
-
 let rows=await loadCSV();
 
 let places=new Set();
 let posts=new Set();
 
 for(let i=1;i<rows.length;i++){
-
 let c=rows[i].split(",");
-
 places.add(c[3]);
 posts.add(c[2]);
-
 }
 
 division.innerHTML="<option value=''>All</option>";
@@ -338,12 +304,9 @@ places.forEach(p=>division.innerHTML+=`<option>${p}</option>`);
 
 post.innerHTML="<option value=''>All</option>";
 posts.forEach(p=>post.innerHTML+=`<option>${p}</option>`);
-
 }
 
 init();
-
-/* GENERATE REPORT */
 
 async function generateReport(){
 
@@ -356,6 +319,7 @@ let pst=post.value;
 
 let sanctioned=0;
 let working=0;
+let otherTotal=0;
 
 let workingRows="";
 let vacantRows="";
@@ -367,80 +331,75 @@ let c=rows[i].split(",");
 let name=c[1];
 let post=c[2];
 let place=c[3];
+let other=c[31];
 
 if(div && place!=div) continue;
 if(pst && post!=pst) continue;
 
+let otherCount = parseInt(other) || 0;
+
 sanctioned++;
+if(name) working++;
+
+otherTotal += otherCount;
 
 if(name){
-
-working++;
-
 workingRows+=`
 <tr>
 <td>${name}</td>
 <td>${post}</td>
 <td>${place}</td>
 </tr>`;
-
 }else{
-
 vacantRows+=`
 <tr>
 <td>${post}</td>
 <td>${place}</td>
 </tr>`;
-
 }
 
 }
+
+// FINAL CALCULATION
+sanctioned = sanctioned - otherTotal;
+working = working - otherTotal;
+
+if(sanctioned < 0) sanctioned = 0;
+if(working < 0) working = 0;
+
+let vacant = sanctioned - working;
 
 loader.style.display="none";
 
 if(sanctioned==0){
-
 popup.style.display="flex";
 result.innerHTML="";
 return;
-
 }
-
-let vacant=sanctioned-working;
 
 result.innerHTML=`
 
 <div class="summary">
-
 Sanctioned : ${sanctioned}<br>
 Working : ${working}<br>
 Vacant : ${vacant}
-
 </div>
 
 <div class="tabs">
-
 <button id="workTab" class="tabbtn active" onclick="showWorking()">Working</button>
 <button id="vacTab" class="tabbtn" onclick="showVacant()">Vacant</button>
-
 </div>
 
 <div id="tableArea">
-
 <table>
-
 <tr>
 <th>Name</th>
 <th>Post</th>
 <th>Place</th>
 </tr>
-
 ${workingRows}
-
 </table>
-
 </div>
-
 `;
 
 window.workingTable=workingRows;
@@ -449,12 +408,10 @@ window.vacantTable=vacantRows;
 }
 
 function showWorking(){
-
 workTab.classList.add("active");
 vacTab.classList.remove("active");
 
 tableArea.innerHTML=`
-
 <table>
 <tr>
 <th>Name</th>
@@ -463,16 +420,13 @@ tableArea.innerHTML=`
 </tr>
 ${workingTable}
 </table>`;
-
 }
 
 function showVacant(){
-
 vacTab.classList.add("active");
 workTab.classList.remove("active");
 
 tableArea.innerHTML=`
-
 <table>
 <tr>
 <th>Post</th>
@@ -480,16 +434,11 @@ tableArea.innerHTML=`
 </tr>
 ${vacantTable}
 </table>`;
-
 }
-
-/* POPUP CLOSE */
 
 function closePopup(){
 popup.style.display="none";
 }
-
-/* PDF */
 
 function downloadPDF(){
 html2pdf().from(result).save("Post_Report.pdf");
