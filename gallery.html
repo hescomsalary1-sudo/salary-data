@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Forum</title>
+<title>Gallery</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -10,83 +10,91 @@ body{
 margin:0;
 font-family:sans-serif;
 background:#f3f4fa;
-padding-bottom:80px;
 }
 
 /* HEADER */
-
-.top{
+.header{
 padding:20px;
-background:#4b2dd8;
+background:linear-gradient(135deg,#4B2DD8,#6A42E8);
 color:white;
-text-align:center;
 font-size:20px;
 font-weight:bold;
-border-bottom-left-radius:30px;
-border-bottom-right-radius:30px;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
 }
 
-/* POSTS */
-
-.container{
-padding:20px;
+/* GALLERY GRID */
+.gallery{
+padding:15px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
 }
 
-.post{
-background:white;
-padding:18px;
-border-radius:18px;
-margin-bottom:15px;
-box-shadow:0 6px 15px rgba(0,0,0,0.08);
+/* IMAGE CARD */
+.card{
+position:relative;
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 6px 15px rgba(0,0,0,0.15);
+cursor:pointer;
 }
 
-.post-title{
-font-weight:bold;
-color:#4b2dd8;
-margin-bottom:5px;
+.card img{
+width:100%;
+height:140px;
+object-fit:cover;
 }
 
-.post-date{
-font-size:12px;
-color:#777;
-margin-bottom:8px;
-}
-
-/* NAVBAR */
-
-.navbar{
-position:fixed;
+/* OVERLAY TEXT */
+.overlay{
+position:absolute;
 bottom:0;
+width:100%;
+padding:8px;
+background:linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+color:white;
+font-size:13px;
+}
+
+/* POPUP */
+.popup{
+position:fixed;
+top:0;
 left:0;
 width:100%;
-height:60px;
-background:white;
-display:flex;
-justify-content:space-around;
+height:100%;
+background:rgba(0,0,0,0.9);
+display:none;
+justify-content:center;
 align-items:center;
-box-shadow:0 -4px 15px rgba(0,0,0,0.12);
+z-index:999;
 }
 
-.nav-item{
-flex:1;
-text-align:center;
-cursor:pointer;
-font-size:11px;
+.popup img{
+width:90%;
+border-radius:10px;
 }
 
-.nav-item i{
-font-size:20px;
-color:#777;
+/* SKELETON LOADER */
+#loader{
+display:flex;
+flex-direction:column;
+gap:12px;
+padding:15px;
 }
 
-.nav-item span{
-display:block;
-color:#777;
+.skeleton{
+height:140px;
+border-radius:15px;
+background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
+background-size:400px 100%;
+animation:shimmer 1.2s infinite;
 }
 
-.nav-item.active i,
-.nav-item.active span{
-color:#4b2dd8;
+@keyframes shimmer{
+0%{background-position:-400px 0;}
+100%{background-position:400px 0;}
 }
 
 </style>
@@ -94,47 +102,97 @@ color:#4b2dd8;
 
 <body>
 
-<div class="top">Employee Forum</div>
+<div class="header">📸 Gallery</div>
 
-<div class="container">
-
-<div class="post">
-<div class="post-title">Salary Update</div>
-<div class="post-date">10 Mar 2026</div>
-Salary will be credited on 12th March.
+<!-- LOADER -->
+<div id="loader">
+<div class="skeleton"></div>
+<div class="skeleton"></div>
+<div class="skeleton"></div>
+<div class="skeleton"></div>
 </div>
 
-<div class="post">
-<div class="post-title">Attendance Correction</div>
-<div class="post-date">8 Mar 2026</div>
-Please contact admin for attendance corrections.
+<!-- GALLERY -->
+<div class="gallery" id="gallery" style="display:none;"></div>
+
+<!-- POPUP -->
+<div class="popup" id="popup" onclick="closeImage()">
+<img id="popupImg">
 </div>
 
-</div>
+<script>
 
-<div class="navbar">
+/* SAMPLE IMAGES (you can change later) */
 
-<div class="nav-item" onclick="location='home.html'">
-<i>🏠</i>
-<span>Home</span>
-</div>
+let images = [
+{
+url:"https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
+title:"Team Meeting"
+},
+{
+url:"https://images.unsplash.com/photo-1529333166437-7750a6dd5a70",
+title:"Office Celebration"
+},
+{
+url:"https://images.unsplash.com/photo-1504384308090-c894fdcc538d",
+title:"Work Session"
+},
+{
+url:"https://images.unsplash.com/photo-1492724441997-5dc865305da7",
+title:"Office Event"
+},
+{
+url:"https://images.unsplash.com/photo-1515169067865-5387ec356754",
+title:"Birthday Celebration"
+},
+{
+url:"https://images.unsplash.com/photo-1503428593586-e225b39bddfe",
+title:"Group Photo"
+}
+];
 
-<div class="nav-item active">
-<i>💬</i>
-<span>Forum</span>
-</div>
+/* LOAD GALLERY */
 
-<div class="nav-item" onclick="location='employee_info.html'">
-<i>👤</i>
-<span>Employee</span>
-</div>
+function loadGallery(){
 
-<div class="nav-item" onclick="location='resources.html'">
-<i>📂</i>
-<span>Resources</span>
-</div>
+let gallery = document.getElementById("gallery");
 
+let html = "";
+
+images.forEach(img => {
+
+html += `
+<div class="card" onclick="openImage('${img.url}')">
+<img src="${img.url}" loading="lazy">
+<div class="overlay">${img.title}</div>
 </div>
+`;
+
+});
+
+gallery.innerHTML = html;
+
+/* hide loader */
+document.getElementById("loader").style.display="none";
+gallery.style.display="grid";
+
+}
+
+/* IMAGE POPUP */
+
+function openImage(src){
+document.getElementById("popupImg").src = src;
+document.getElementById("popup").style.display="flex";
+}
+
+function closeImage(){
+document.getElementById("popup").style.display="none";
+}
+
+/* DELAY (simulate loading) */
+setTimeout(loadGallery,800);
+
+</script>
 
 </body>
 </html>
