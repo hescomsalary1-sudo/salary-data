@@ -403,6 +403,53 @@ transform:scale(0.9);
 .gallery-btn:hover{
 box-shadow:0 8px 18px rgba(75,45,216,0.4);
 }
+
+
+  .visitor-wrapper{
+display:flex;
+justify-content:flex-end;
+align-items:center;
+gap:8px;
+margin-bottom:10px;
+}
+
+/* small visitor badge */
+.visitor-card{
+padding:8px 12px;
+border-radius:14px;
+background:#4B2DD8;
+color:white;
+font-size:13px;
+font-weight:600;
+box-shadow:0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* proper button (not text arrow) */
+.gallery-btn{
+width:42px;
+height:42px;
+border:none;
+border-radius:12px;
+background:white;
+color:#4B2DD8;
+font-size:20px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+box-shadow:0 6px 12px rgba(0,0,0,0.15);
+transition:0.2s;
+}
+
+/* press effect */
+.gallery-btn:active{
+transform:scale(0.9);
+}
+
+/* optional hover */
+.gallery-btn:hover{
+background:#f3f0ff;
+}
 </style>
 </head>
 
@@ -480,17 +527,15 @@ box-shadow:0 8px 18px rgba(75,45,216,0.4);
 </div
   <!-- VISITOR COUNT -->
 
-<div style="display:flex; justify-content:flex-end; align-items:center; gap:10px; margin-bottom:10px;">
+<div class="visitor-wrapper">
 
-  <!-- Visitor Count -->
   <div class="visitor-card">
     👥 <span id="visitorCount">1</span>
   </div>
 
-  <!-- Arrow Button -->
-  <div class="gallery-btn" onclick="openGallery()">
-    ➜
-  </div>
+  <button class="gallery-btn" onclick="openGallery()">
+    📸
+  </button>
 
 </div>
   
