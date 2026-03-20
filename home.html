@@ -801,41 +801,32 @@ document.body.style.overflow="auto";
 };
 
 
-function loadVisitorCount(){
+/* UNIQUE USER TRACKING */
 
-fetch("https://api.countapi.xyz/hit/hescomsalaryapp123/home")
-.then(res => res.json())
-.then(data => {
+function trackUsers(){
 
-if(!data || !data.value){
-document.getElementById("visitorCount").innerText = "0";
-return;
-}
+let totalUsers = localStorage.getItem("totalUsers");
+let userVisited = localStorage.getItem("visited");
 
-let target = data.value;
-let count = 0;
+/* first time user */
+if(!userVisited){
 
-let interval = setInterval(()=>{
-count += Math.ceil(target/40);
+let newCount = totalUsers ? parseInt(totalUsers) + 1 : 1;
 
-if(count >= target){
-count = target;
-clearInterval(interval);
-}
+localStorage.setItem("totalUsers", newCount);
+localStorage.setItem("visited", "yes");
 
-document.getElementById("visitorCount").innerText = count;
+document.getElementById("visitorCount").innerText = newCount;
 
-},20);
+}else{
 
-})
-.catch((err)=>{
-console.log("Visitor API error:", err);
-document.getElementById("visitorCount").innerText = "0";
-});
+document.getElementById("visitorCount").innerText = totalUsers || 1;
 
 }
 
-loadVisitorCount();
+}
+
+trackUsers();
 </script>
 
 
