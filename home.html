@@ -369,16 +369,16 @@ transition:0.35s;
 
 .navbar.pos3 .slider{ left:78%; }
 
-  .visitor-card{
-margin:10px 0 20px 0;
-padding:15px;
-border-radius:18px;
-background:black;
+.visitor-card{
+position:absolute;
+top:160px;
+right:20px;
+padding:8px 12px;
+border-radius:20px;
+background:#4B2DD8;
 color:white;
-text-align:center;
-font-size:20px;
-font-weight:bold;
-box-shadow:0 10px 20px rgba(0,0,0,0.15);
+font-size:13px;
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
   
 </style>
@@ -456,7 +456,12 @@ box-shadow:0 10px 20px rgba(0,0,0,0.15);
 <img src="https://cdn-icons-png.flaticon.com/512/3135/3135679.png">
 
 </div
+  <!-- VISITOR COUNT -->
 
+<div class="visitor-card">
+👥 <span id="visitorCount">Loading...</span><br>
+<span style="font-size:13px;font-weight:400;">Total Users</span>
+</div>
   
 
 <!-- MAIN BUTTONS -->
@@ -504,12 +509,7 @@ box-shadow:0 10px 20px rgba(0,0,0,0.15);
 </div>
 
 </div>
-  <!-- VISITOR COUNT -->
 
-<div class="visitor-card">
-👥 <span id="visitorCount">Loading...</span><br>
-<span style="font-size:13px;font-weight:400;">Total Users</span>
-</div>
 
 <div class="navbar pos0" id="navbar">
 
