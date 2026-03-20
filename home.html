@@ -452,28 +452,30 @@ background:#f3f0ff;
 }
 
 
-  .visitor-row{
+.visitor-row{
 display:flex;
 align-items:center;
 gap:10px;
 margin-bottom:15px;
 }
 
-/* LEFT SMALL BOX */
+/* USER BOX */
 .visitor-box{
-padding:10px 12px;
+padding:10px 14px;
 border-radius:10px;
 background:#4B2DD8;
 color:white;
 font-size:13px;
 font-weight:600;
+white-space:nowrap; /* prevent break */
 box-shadow:0 4px 10px rgba(0,0,0,0.15);
 }
 
-/* RIGHT ARROW BUTTON */
+/* ARROW BUTTON (RESPONSIVE WIDTH) */
 .gallery-arrow{
+flex:1; /* 🔥 takes remaining space */
 position:relative;
-padding:12px 25px;
+padding:12px 15px;
 background:linear-gradient(135deg,#6A42E8,#4B2DD8);
 color:white;
 font-weight:600;
@@ -481,6 +483,7 @@ border-radius:10px;
 cursor:pointer;
 box-shadow:0 6px 12px rgba(0,0,0,0.2);
 transition:0.2s;
+text-align:center; /* center text */
 }
 
 /* ARROW TIP */
@@ -488,17 +491,17 @@ transition:0.2s;
 content:"";
 position:absolute;
 top:0;
-right:-20px;
+right:-18px;
 width:0;
 height:0;
 border-top:22px solid transparent;
 border-bottom:22px solid transparent;
-border-left:20px solid #4B2DD8;
+border-left:18px solid #4B2DD8;
 }
 
 /* CLICK EFFECT */
 .gallery-arrow:active{
-transform:scale(0.96);
+transform:scale(0.97);
 }
 </style>
 </head>
@@ -581,7 +584,7 @@ transform:scale(0.96);
 
   <!-- USER COUNT -->
   <div class="visitor-box">
-    👥 <span id="visitorCount">1</span>
+    Users: <span id="visitorCount">1</span>
   </div>
 
   <!-- GALLERY BUTTON -->
@@ -590,7 +593,6 @@ transform:scale(0.96);
   </div>
 
 </div>
-  
 
 <!-- MAIN BUTTONS -->
 
