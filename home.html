@@ -368,6 +368,18 @@ transition:0.35s;
 .navbar.pos2 .slider{ left:53%; }
 
 .navbar.pos3 .slider{ left:78%; }
+
+  .visitor-card{
+margin:10px 0 20px 0;
+padding:15px;
+border-radius:18px;
+background:linear-gradient(135deg,#6A42E8,#4B2DD8);
+color:white;
+text-align:center;
+font-size:20px;
+font-weight:bold;
+box-shadow:0 10px 20px rgba(0,0,0,0.15);
+}
   
 </style>
 </head>
@@ -443,6 +455,13 @@ transition:0.35s;
 
 <img src="https://cdn-icons-png.flaticon.com/512/3135/3135679.png">
 
+</div
+
+  <!-- VISITOR COUNT -->
+
+<div class="visitor-card">
+👥 <span id="visitorCount">Loading...</span><br>
+<span style="font-size:13px;font-weight:400;">Total Users</span>
 </div>
 
 <!-- MAIN BUTTONS -->
@@ -779,6 +798,39 @@ window.onload = function(){
 document.getElementById("loader").style.display="none";
 document.body.style.overflow="auto";
 };
+
+
+  /* VISITOR COUNT */
+
+function loadVisitorCount(){
+
+fetch("https://api.countapi.xyz/hit/hescomsalaryapp/home")
+.then(res => res.json())
+.then(data => {
+
+let target = data.value;
+let count = 0;
+
+let interval = setInterval(()=>{
+count += Math.ceil(target/50);
+
+if(count >= target){
+count = target;
+clearInterval(interval);
+}
+
+document.getElementById("visitorCount").innerText = count;
+
+},20);
+
+})
+.catch(()=>{
+document.getElementById("visitorCount").innerText="--";
+});
+
+}
+
+loadVisitorCount();
 </script>
 
 
