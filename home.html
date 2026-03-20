@@ -800,19 +800,22 @@ document.body.style.overflow="auto";
 };
 
 
-  /* VISITOR COUNT */
-
 function loadVisitorCount(){
 
-fetch("https://api.countapi.xyz/hit/hescomsalaryapp/home")
+fetch("https://api.countapi.xyz/hit/hescomsalaryapp123/home")
 .then(res => res.json())
 .then(data => {
+
+if(!data || !data.value){
+document.getElementById("visitorCount").innerText = "0";
+return;
+}
 
 let target = data.value;
 let count = 0;
 
 let interval = setInterval(()=>{
-count += Math.ceil(target/50);
+count += Math.ceil(target/40);
 
 if(count >= target){
 count = target;
@@ -824,8 +827,9 @@ document.getElementById("visitorCount").innerText = count;
 },20);
 
 })
-.catch(()=>{
-document.getElementById("visitorCount").innerText="--";
+.catch((err)=>{
+console.log("Visitor API error:", err);
+document.getElementById("visitorCount").innerText = "0";
 });
 
 }
