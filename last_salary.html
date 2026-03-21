@@ -227,14 +227,7 @@ LIC+income_tax+pt+society+PLI+union+scst+rent+bank+
 family+festival+pc10+pc14+lwf+recovery+other_ded;
 
 let net = totalE - totalD;
-window.salaryData = {
-basic,dearness_pay,hra,cca,personal_pay,special_personal_pay,
-conveyance,washing,sfta,locality,mwa,hill,charge,pension,
-lwf_company,cash_duty,other,
-LIC,income_tax,pt,society,PLI,union,scst,rent,bank,family,
-festival,pc10,pc14,lwf,recovery,other_ded,
-totalE,totalD,net
-};
+
 document.getElementById("loader").style.display="none";
 
 document.getElementById("result").innerHTML = `
@@ -326,184 +319,23 @@ document.getElementById("result").innerHTML="Error loading salary";
 
 }
 
-async function downloadPDF(){
+function downloadPDF(){
 
-let s = window.salaryData;
-if(!s){
-alert("Salary not loaded");
-return;
-}
+let element = document.getElementById("result");
 
-/* employee details */
-let response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
-let data = await response.text();
-let rows = data.trim().split("\n");
-
-let empName = user;
-let empDesignation = "";
-let empPlace = "";
-
-for(let i=1;i<rows.length;i++){
-let cols = rows[i].split(",");
-if(cols[0] === user){
-empName = cols[1];
-empDesignation = cols[2];
-empPlace = cols[3];
-break;
-}
-}
-
-/* last month */
-let now = new Date();
-let prev = new Date(now.getFullYear(), now.getMonth()-1, 1);
-
-let year = prev.getFullYear();
-let monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-let month = monthNames[prev.getMonth()];
-
-/* row */
-function pdfRow(name,value){
-return value>0?`
-<tr>
-<td style="padding:4px 6px">${name}</td>
-<td style="text-align:right;padding:4px 6px">₹ ${value}</td>
-</tr>`:"";
-}
-
-/* FULL CONTENT */
-let pdfContent = `
-<div style="font-family:sans-serif;padding:15px">
-
-<div style="text-align:center">
-<h2>HUBLI ELECTRICITY SUPPLY COMPANY LTD.</h2>
-<h4>O & M Division, Sirsi</h4>
-
-<div style="display:flex;justify-content:space-between">
-<p><b>Name :</b> ${empName}</p>
-<p><b>Designation :</b> ${empDesignation}</p>
-</div>
-
-<div style="display:flex;justify-content:space-between">
-<p><b>Working Place :</b> ${empPlace}</p>
-<p><b>Month :</b> ${month} ${year}</p>
-</div>
-
-<hr>
-</div>
-
-<table style="width:100%;border-collapse:collapse;margin-top:10px">
-
-<tr>
-<th style="background:#5e00a3;color:white;padding:8px">Earnings</th>
-<th style="background:#5e00a3;color:white;padding:8px">Deductions</th>
-</tr>
-
-<tr>
-
-<td style="vertical-align:top;padding:10px">
-<table style="width:100%;font-size:13px">
-
-${pdfRow("Basic",s.basic)}
-${pdfRow("Dearness Pay",s.dearness_pay)}
-${pdfRow("HRA",s.hra)}
-${pdfRow("CCA",s.cca)}
-${pdfRow("Personal Pay",s.personal_pay)}
-${pdfRow("Special Pay",s.special_personal_pay)}
-${pdfRow("Conveyance",s.conveyance)}
-${pdfRow("Washing",s.washing)}
-${pdfRow("SFTA",s.sfta)}
-${pdfRow("Locality",s.locality)}
-${pdfRow("MWA",s.mwa)}
-${pdfRow("Hill",s.hill)}
-${pdfRow("Charge",s.charge)}
-${pdfRow("Pension",s.pension)}
-${pdfRow("LWF Company",s.lwf_company)}
-${pdfRow("Cash Duty",s.cash_duty)}
-${pdfRow("Other",s.other)}
-
-<tr>
-<td><b>Total Earnings</b></td>
-<td style="text-align:right"><b>₹ ${s.totalE}</b></td>
-</tr>
-
-</table>
-</td>
-
-<td style="vertical-align:top;padding:10px">
-<table style="width:100%;font-size:13px">
-
-${pdfRow("LIC",s.LIC)}
-${pdfRow("Income Tax",s.income_tax)}
-${pdfRow("Professional Tax",s.pt)}
-${pdfRow("Society",s.society)}
-${pdfRow("PLI",s.PLI)}
-${pdfRow("Union",s.union)}
-${pdfRow("SC/ST",s.scst)}
-${pdfRow("House Rent",s.rent)}
-${pdfRow("Bank",s.bank)}
-${pdfRow("Family",s.family)}
-${pdfRow("Festival",s.festival)}
-${pdfRow("PC 10%",s.pc10)}
-${pdfRow("PC 14%",s.pc14)}
-${pdfRow("LWF",s.lwf)}
-${pdfRow("Recovery",s.recovery)}
-${pdfRow("Other Deduction",s.other_ded)}
-
-<tr>
-<td><b>Total Deduction</b></td>
-<td style="text-align:right"><b>₹ ${s.totalD}</b></td>
-</tr>
-
-</table>
-</td>
-
-</tr>
-
-</table>
-
-<hr>
-
-<div style="text-align:right;font-size:20px;font-weight:bold">
-Net Salary : ₹ ${s.net}
-</div>
-
-</div>
-`;
-
-/* 🔥 IMPORTANT: attach properly */
-let container = document.createElement("div");
-container.innerHTML = pdfContent;
-container.style.width = "800px";
-container.style.background = "white";
-document.body.appendChild(container);
-
-/* 🔥 CORRECT SETTINGS */
-html2pdf().set({
+let opt = {
 margin:0.5,
-filename:'Salary.pdf',
-image:{type:'jpeg',quality:0.98},
-html2canvas:{
-scale:2,
-useCORS:true
-},
-pagebreak:{mode:['css','legacy']},   // ✅ FIX
-jsPDF:{
-unit:'in',
-format:'a4',
-orientation:'portrait'
-}
-}).from(container).save().then(()=>{
-document.body.removeChild(container);
-});
+filename:'Last_Salary.pdf',
+image:{ type:'jpeg', quality:0.98 },
+html2canvas:{ scale:2 },
+jsPDF:{ unit:'in', format:'a4', orientation:'portrait' }
+};
+
+html2pdf().set(opt).from(element).save();
 
 }
 
-html2pdf().set(opt).from(div).save();
-
-}
 loadLastSalary();
-
-
 
 </script>
 
