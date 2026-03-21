@@ -2,13 +2,14 @@
 <html>
 <head>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <title>Last Month Salary</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- PDF LIBRARY -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 <style>
+
+/* SAME DESIGN AS salary.html */
 
 body{
 font-family:sans-serif;
@@ -49,8 +50,8 @@ background:white;
 padding:15px;
 border-radius:12px;
 box-shadow:0 4px 10px rgba(0,0,0,0.08);
-margin-bottom:15px;
 font-size:14px;
+margin-bottom:15px;
 }
 
 .salary-card h4{
@@ -58,15 +59,6 @@ margin-top:0;
 color:#4b2dd8;
 border-bottom:1px solid #eee;
 padding-bottom:5px;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-}
-
-td{
-padding:6px 0;
 }
 
 .net-card{
@@ -80,34 +72,26 @@ font-size:20px;
 font-weight:bold;
 }
 
-.action-btn{
-margin-top:15px;
-padding:12px;
+button{
+padding:10px 16px;
 background:#4b2dd8;
 color:white;
 border:none;
-border-radius:10px;
+border-radius:8px;
 cursor:pointer;
-width:100%;
-font-size:15px;
-}
-
-.back-btn{
-margin:15px 20px;
-background:#999;
 }
 
 .loader{
-display:flex;
+display:none;
 position:fixed;
 top:0;
 left:0;
 width:100%;
 height:100%;
-background:white;
+background:rgba(255,255,255,0.8);
+z-index:9999;
 align-items:center;
 justify-content:center;
-z-index:9999;
 }
 
 .spinner{
@@ -134,9 +118,16 @@ animation:spin 1s linear infinite;
 <h2>Last Month Salary</h2>
 </div>
 
-<div class="content" id="result"></div>
+<div class="content">
 
-<button class="action-btn back-btn" onclick="goBack()">⬅ Back</button>
+<div id="result"></div>
+
+<div style="margin-top:15px;">
+<button onclick="printSalary()">🖨 Print</button>
+<button onclick="downloadPDF()">📄 Download PDF</button>
+</div>
+
+</div>
 
 <div class="loader" id="loader">
 <div class="spinner"></div>
@@ -147,11 +138,12 @@ animation:spin 1s linear infinite;
 let user = localStorage.getItem("currentUser");
 if(!user){ window.location="login.html"; }
 
-function goBack(){
-window.location="home.html";
-}
+/* AUTO LOAD PREVIOUS MONTH */
+loadSalary();
 
-async function loadLastSalary(){
+async function loadSalary(){
+
+document.getElementById("loader").style.display="flex";
 
 let now = new Date();
 let prev = new Date(now.getFullYear(), now.getMonth()-1, 1);
@@ -159,84 +151,83 @@ let prev = new Date(now.getFullYear(), now.getMonth()-1, 1);
 let year = prev.getFullYear().toString();
 let month = String(prev.getMonth()+1).padStart(2,"0");
 
-try{
-
-let response = await fetch(
-"https://hescomsalary1-sudo.github.io/salary-data/salary .csv?v=" + new Date().getTime()
-);
-
+let response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
 let data = await response.text();
+
 let rows = data.trim().split("\n");
 
 for(let i=1;i<rows.length;i++){
 
-let c = rows[i].split(",");
+let cols = rows[i].split(",");
 
-if(c[0]===user && c[1]===year && c[2]===month){
+if(cols[0]===user && cols[1]===year && cols[2]===month){
 
-/* ===== FULL ORIGINAL VARIABLES ===== */
+/* ===== SAME VARIABLES ===== */
 
-let basic = +c[3];
-let dearness_pay = +c[4];
-let hra = +c[5];
-let cca = +c[6];
-let personal_pay = +c[7];
-let special_personal_pay = +c[8];
-let conveyance = +c[9];
-let washing = +c[10];
-let sfta = +c[11];
-let locality = +c[12];
-let mwa = +c[13];
-let hill = +c[14];
-let charge = +c[15];
-let pension = +c[16];
-let lwf_company = +c[17];
-let cash_duty = +c[18];
-let other = +c[19];
+let basic = +cols[3];
+let dearness_pay = +cols[4];
+let rouse_rent_allowances = +cols[5];
+let city_compensation_allowances = +cols[6];
+let personal_pay = +cols[7];
+let special_personal_pay = +cols[8];
+let conveyance_allowances = +cols[9];
+let washing_allowances = +cols[10];
+let sfta = +cols[11];
+let special_locality_allowances = +cols[12];
+let mwa = +cols[13];
+let hill_allowances = +cols[14];
+let charge_allowances = +cols[15];
+let pension_contribution_14_percent = +cols[16];
+let labour_welfare_fund_company_contribution = +cols[17];
+let cash_duty_allowances = +cols[18];
+let other_earnings = +cols[19];
 
-let LIC = +c[20];
-let income_tax = +c[21];
-let pt = +c[22];
-let society = +c[23];
-let PLI = +c[24];
-let union = +c[25];
-let scst = +c[26];
-let rent = +c[27];
-let bank = +c[28];
-let family = +c[29];
-let festival = +c[30];
-let pc10 = +c[31];
-let pc14 = +c[32];
-let lwf = +c[33];
-let recovery = +c[34];
-let other_ded = +c[35];
+let LIC = +cols[20];
+let income_tax = +cols[21];
+let professional_tax = +cols[22];
+let KPTCL_employes_society = +cols[23];
+let PLI = +cols[24];
+let union_fund = +cols[25];
+let sc_st_union_fund = +cols[26];
+let house_rent = +cols[27];
+let urban_bank = +cols[28];
+let family_benefit_fund = +cols[29];
+let festival_advance = +cols[30];
+let PC_10_contribution = +cols[31];
+let PC_14_contribution = +cols[32];
+let LWF = +cols[33];
+let recovery_any = +cols[34];
+let other_deduction = +cols[35];
 
-let totalE =
-basic+dearness_pay+hra+cca+personal_pay+special_personal_pay+
-conveyance+washing+sfta+locality+mwa+hill+charge+pension+
-lwf_company+cash_duty+other;
+let totalEarning =
+basic+dearness_pay+rouse_rent_allowances+city_compensation_allowances+
+personal_pay+special_personal_pay+conveyance_allowances+washing_allowances+
+sfta+special_locality_allowances+mwa+hill_allowances+charge_allowances+
+pension_contribution_14_percent+labour_welfare_fund_company_contribution+
+cash_duty_allowances+other_earnings;
 
-let totalD =
-LIC+income_tax+pt+society+PLI+union+scst+rent+bank+
-family+festival+pc10+pc14+lwf+recovery+other_ded;
+let totalDeduction =
+LIC+income_tax+professional_tax+KPTCL_employes_society+PLI+
+union_fund+sc_st_union_fund+house_rent+urban_bank+family_benefit_fund+
+festival_advance+PC_10_contribution+PC_14_contribution+LWF+
+recovery_any+other_deduction;
 
-let net = totalE - totalD;
+let net = totalEarning-totalDeduction;
 
-/* STORE FOR PDF */
-window.salaryData = {
-basic,dearness_pay,hra,cca,personal_pay,special_personal_pay,
-conveyance,washing,sfta,locality,mwa,hill,charge,pension,
-lwf_company,cash_duty,other,
-LIC,income_tax,pt,society,PLI,union,scst,rent,bank,family,
-festival,pc10,pc14,lwf,recovery,other_ded,
-totalE,totalD,net
+/* STORE */
+window.salaryData={
+basic,dearness_pay,rouse_rent_allowances,city_compensation_allowances,
+personal_pay,special_personal_pay,conveyance_allowances,washing_allowances,
+sfta,special_locality_allowances,mwa,hill_allowances,charge_allowances,
+pension_contribution_14_percent,labour_welfare_fund_company_contribution,
+cash_duty_allowances,other_earnings,
+LIC,income_tax,professional_tax,KPTCL_employes_society,PLI,union_fund,
+sc_st_union_fund,house_rent,urban_bank,family_benefit_fund,festival_advance,
+PC_10_contribution,PC_14_contribution,LWF,recovery_any,other_deduction,
+totalEarning,totalDeduction,net
 };
 
-/* ===== FULL UI ===== */
-
-function row(name,val){
-return val>0?`<tr><td>${name}</td><td style="text-align:right">₹ ${val}</td></tr>`:'';
-}
+let s=window.salaryData;
 
 document.getElementById("loader").style.display="none";
 
@@ -245,90 +236,48 @@ document.getElementById("result").innerHTML = `
 
 <div class="salary-card">
 <h4>Earnings</h4>
-<table>
-${row("Basic",basic)}
-${row("Dearness Pay",dearness_pay)}
-${row("HRA",hra)}
-${row("CCA",cca)}
-${row("Personal Pay",personal_pay)}
-${row("Special Pay",special_personal_pay)}
-${row("Conveyance",conveyance)}
-${row("Washing",washing)}
-${row("SFTA",sfta)}
-${row("Locality",locality)}
-${row("MWA",mwa)}
-${row("Hill",hill)}
-${row("Charge",charge)}
-${row("Pension",pension)}
-${row("LWF Company",lwf_company)}
-${row("Cash Duty",cash_duty)}
-${row("Other",other)}
-
-<tr><td><b>Total Earnings</b></td><td style="text-align:right"><b>₹ ${totalE}</b></td></tr>
-</table>
+${Object.entries(s).filter(([k,v])=>v>0 && !k.includes("Deduction") && !k.includes("total")).map(([k,v])=>`${k} ₹${v}<br>`).join("")}
+<b>Total Earnings ₹ ${s.totalEarning}</b>
 </div>
 
 <div class="salary-card">
 <h4>Deductions</h4>
-<table>
-${row("LIC",LIC)}
-${row("Income Tax",income_tax)}
-${row("PT",pt)}
-${row("Society",society)}
-${row("PLI",PLI)}
-${row("Union",union)}
-${row("SC/ST",scst)}
-${row("House Rent",rent)}
-${row("Bank",bank)}
-${row("Family",family)}
-${row("Festival",festival)}
-${row("PC 10%",pc10)}
-${row("PC 14%",pc14)}
-${row("LWF",lwf)}
-${row("Recovery",recovery)}
-${row("Other",other_ded)}
-
-<tr><td><b>Total Deduction</b></td><td style="text-align:right"><b>₹ ${totalD}</b></td></tr>
-</table>
+<b>Total Deduction ₹ ${s.totalDeduction}</b>
 </div>
 
-<div class="net-card">Net Salary ₹ ${net}</div>
-
-<button class="action-btn" onclick="downloadPDF()">📄 Download PDF</button>
+<div class="net-card">
+Net Salary ₹ ${s.net}
+</div>
 `;
 
 return;
-
 }
-
 }
 
 document.getElementById("loader").style.display="none";
 document.getElementById("result").innerHTML="No salary found";
-
-}catch(e){
-document.getElementById("loader").style.display="none";
-document.getElementById("result").innerHTML="Error loading salary";
 }
 
+/* PRINT */
+function printSalary(){
+let content=document.getElementById("result").innerHTML;
+let win=window.open('', '', 'width=800,height=600');
+win.document.write('<html><body>'+content+'</body></html>');
+win.document.close();
+win.print();
 }
 
-/* ===== STABLE PDF (NO BLANK / NO CUT) ===== */
+/* ✅ STABLE PDF (NO BUG) */
 function downloadPDF(){
-
-let element = document.getElementById("result");
+let element=document.getElementById("result");
 
 html2pdf().set({
 margin:0.5,
 filename:'Salary.pdf',
-image:{type:'jpeg',quality:0.98},
 html2canvas:{scale:2},
-jsPDF:{unit:'in',format:'a4',orientation:'portrait'}
+jsPDF:{unit:'in',format:'a4'}
 }).from(element).save();
-
 }
-
-loadLastSalary();
 
 </script>
 
