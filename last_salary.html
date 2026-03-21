@@ -482,11 +482,11 @@ let div=document.createElement("div");
 div.innerHTML=pdfContent;
 
 let opt={
-margin:0.8,
+margin:0.5,
 filename:'Salary.pdf',
 image:{type:'jpeg',quality:0.98},
 html2canvas:{scale:2},
-pagebreak:{mode:['avoid-all','css','legacy']},
+pagebreak:{mode:['css','legacy']},   // ❌ removed avoid-all
 jsPDF:{unit:'in',format:'a4',orientation:'portrait'}
 };
 
