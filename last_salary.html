@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <title>Last Month Salary</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- PDF LIBRARY -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
 
@@ -37,10 +41,6 @@ justify-content:center;
 font-weight:bold;
 }
 
-.top h2{
-margin:0;
-}
-
 /* CONTENT */
 .content{
 padding:20px;
@@ -63,6 +63,16 @@ border-bottom:1px solid #eee;
 padding-bottom:5px;
 }
 
+/* TABLE */
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+td{
+padding:6px 0;
+}
+
 /* NET */
 .net-card{
 margin-top:15px;
@@ -75,15 +85,23 @@ font-size:20px;
 font-weight:bold;
 }
 
-/* BACK BUTTON */
-.back-btn{
-margin:20px;
+/* BUTTONS */
+.action-btn{
+margin-top:15px;
+padding:12px;
 background:#4b2dd8;
 color:white;
-padding:12px;
+border:none;
 border-radius:10px;
-text-align:center;
 cursor:pointer;
+width:100%;
+font-size:15px;
+}
+
+/* BACK */
+.back-btn{
+margin:15px 20px;
+background:#999;
 }
 
 /* LOADER */
@@ -126,7 +144,7 @@ animation:spin 1s linear infinite;
 
 <div class="content" id="result"></div>
 
-<div class="back-btn" onclick="goBack()">⬅ Back</div>
+<button class="action-btn back-btn" onclick="goBack()">⬅ Back</button>
 
 <div class="loader" id="loader">
 <div class="spinner"></div>
@@ -144,8 +162,6 @@ window.location="home.html";
 async function loadLastSalary(){
 
 let now = new Date();
-
-/* 🔥 AUTO PREVIOUS MONTH */
 let prev = new Date(now.getFullYear(), now.getMonth()-1, 1);
 
 let year = prev.getFullYear().toString();
@@ -165,8 +181,6 @@ for(let i=1;i<rows.length;i++){
 let c = rows[i].split(",");
 
 if(c[0]===user && c[1]===year && c[2]===month){
-
-/* SAME VARIABLES AS YOUR salary.html */
 
 let basic = +c[3];
 let dearness_pay = +c[4];
@@ -214,8 +228,6 @@ family+festival+pc10+pc14+lwf+recovery+other_ded;
 
 let net = totalE - totalD;
 
-/* UI OUTPUT */
-
 document.getElementById("loader").style.display="none";
 
 document.getElementById("result").innerHTML = `
@@ -225,57 +237,67 @@ document.getElementById("result").innerHTML = `
 <div class="salary-card">
 <h4>Earnings</h4>
 
-${basic>0?`Basic ₹ ${basic}<br>`:''}
-${dearness_pay>0?`DA ₹ ${dearness_pay}<br>`:''}
-${hra>0?`HRA ₹ ${hra}<br>`:''}
-${cca>0?`CCA ₹ ${cca}<br>`:''}
-${personal_pay>0?`Personal Pay ₹ ${personal_pay}<br>`:''}
-${special_personal_pay>0?`Special Pay ₹ ${special_personal_pay}<br>`:''}
-${conveyance>0?`Conveyance ₹ ${conveyance}<br>`:''}
-${washing>0?`Washing ₹ ${washing}<br>`:''}
-${sfta>0?`SFTA ₹ ${sfta}<br>`:''}
-${locality>0?`Locality ₹ ${locality}<br>`:''}
-${mwa>0?`MWA ₹ ${mwa}<br>`:''}
-${hill>0?`Hill ₹ ${hill}<br>`:''}
-${charge>0?`Charge ₹ ${charge}<br>`:''}
-${pension>0?`Pension ₹ ${pension}<br>`:''}
-${lwf_company>0?`LWF Company ₹ ${lwf_company}<br>`:''}
-${cash_duty>0?`Cash Duty ₹ ${cash_duty}<br>`:''}
-${other>0?`Other ₹ ${other}<br>`:''}
+<table>
+${basic>0?`<tr><td>Basic</td><td style="text-align:right">₹ ${basic}</td></tr>`:''}
+${dearness_pay>0?`<tr><td>Dearness Pay</td><td style="text-align:right">₹ ${dearness_pay}</td></tr>`:''}
+${hra>0?`<tr><td>HRA</td><td style="text-align:right">₹ ${hra}</td></tr>`:''}
+${cca>0?`<tr><td>CCA</td><td style="text-align:right">₹ ${cca}</td></tr>`:''}
+${personal_pay>0?`<tr><td>Personal Pay</td><td style="text-align:right">₹ ${personal_pay}</td></tr>`:''}
+${special_personal_pay>0?`<tr><td>Special Pay</td><td style="text-align:right">₹ ${special_personal_pay}</td></tr>`:''}
+${conveyance>0?`<tr><td>Conveyance</td><td style="text-align:right">₹ ${conveyance}</td></tr>`:''}
+${washing>0?`<tr><td>Washing</td><td style="text-align:right">₹ ${washing}</td></tr>`:''}
+${sfta>0?`<tr><td>SFTA</td><td style="text-align:right">₹ ${sfta}</td></tr>`:''}
+${locality>0?`<tr><td>Locality</td><td style="text-align:right">₹ ${locality}</td></tr>`:''}
+${mwa>0?`<tr><td>MWA</td><td style="text-align:right">₹ ${mwa}</td></tr>`:''}
+${hill>0?`<tr><td>Hill</td><td style="text-align:right">₹ ${hill}</td></tr>`:''}
+${charge>0?`<tr><td>Charge</td><td style="text-align:right">₹ ${charge}</td></tr>`:''}
+${pension>0?`<tr><td>Pension</td><td style="text-align:right">₹ ${pension}</td></tr>`:''}
+${lwf_company>0?`<tr><td>LWF Company</td><td style="text-align:right">₹ ${lwf_company}</td></tr>`:''}
+${cash_duty>0?`<tr><td>Cash Duty</td><td style="text-align:right">₹ ${cash_duty}</td></tr>`:''}
+${other>0?`<tr><td>Other Earnings</td><td style="text-align:right">₹ ${other}</td></tr>`:''}
 
-<hr>
-<b>Total Earnings ₹ ${totalE}</b>
+<tr style="border-top:1px solid #ddd;font-weight:bold">
+<td>Total Earnings</td>
+<td style="text-align:right">₹ ${totalE}</td>
+</tr>
 
+</table>
 </div>
 
 <div class="salary-card">
 <h4>Deductions</h4>
 
-${LIC>0?`LIC ₹ ${LIC}<br>`:''}
-${income_tax>0?`Income Tax ₹ ${income_tax}<br>`:''}
-${pt>0?`PT ₹ ${pt}<br>`:''}
-${society>0?`Society ₹ ${society}<br>`:''}
-${PLI>0?`PLI ₹ ${PLI}<br>`:''}
-${union>0?`Union ₹ ${union}<br>`:''}
-${scst>0?`SC/ST ₹ ${scst}<br>`:''}
-${rent>0?`House Rent ₹ ${rent}<br>`:''}
-${bank>0?`Bank ₹ ${bank}<br>`:''}
-${family>0?`Family ₹ ${family}<br>`:''}
-${festival>0?`Festival ₹ ${festival}<br>`:''}
-${pc10>0?`PC 10% ₹ ${pc10}<br>`:''}
-${pc14>0?`PC 14% ₹ ${pc14}<br>`:''}
-${lwf>0?`LWF ₹ ${lwf}<br>`:''}
-${recovery>0?`Recovery ₹ ${recovery}<br>`:''}
-${other_ded>0?`Other ₹ ${other_ded}<br>`:''}
+<table>
+${LIC>0?`<tr><td>LIC</td><td style="text-align:right">₹ ${LIC}</td></tr>`:''}
+${income_tax>0?`<tr><td>Income Tax</td><td style="text-align:right">₹ ${income_tax}</td></tr>`:''}
+${pt>0?`<tr><td>Professional Tax</td><td style="text-align:right">₹ ${pt}</td></tr>`:''}
+${society>0?`<tr><td>Society</td><td style="text-align:right">₹ ${society}</td></tr>`:''}
+${PLI>0?`<tr><td>PLI</td><td style="text-align:right">₹ ${PLI}</td></tr>`:''}
+${union>0?`<tr><td>Union</td><td style="text-align:right">₹ ${union}</td></tr>`:''}
+${scst>0?`<tr><td>SC/ST</td><td style="text-align:right">₹ ${scst}</td></tr>`:''}
+${rent>0?`<tr><td>House Rent</td><td style="text-align:right">₹ ${rent}</td></tr>`:''}
+${bank>0?`<tr><td>Bank</td><td style="text-align:right">₹ ${bank}</td></tr>`:''}
+${family>0?`<tr><td>Family</td><td style="text-align:right">₹ ${family}</td></tr>`:''}
+${festival>0?`<tr><td>Festival</td><td style="text-align:right">₹ ${festival}</td></tr>`:''}
+${pc10>0?`<tr><td>PC 10%</td><td style="text-align:right">₹ ${pc10}</td></tr>`:''}
+${pc14>0?`<tr><td>PC 14%</td><td style="text-align:right">₹ ${pc14}</td></tr>`:''}
+${lwf>0?`<tr><td>LWF</td><td style="text-align:right">₹ ${lwf}</td></tr>`:''}
+${recovery>0?`<tr><td>Recovery</td><td style="text-align:right">₹ ${recovery}</td></tr>`:''}
+${other_ded>0?`<tr><td>Other Deduction</td><td style="text-align:right">₹ ${other_ded}</td></tr>`:''}
 
-<hr>
-<b>Total Deduction ₹ ${totalD}</b>
+<tr style="border-top:1px solid #ddd;font-weight:bold">
+<td>Total Deduction</td>
+<td style="text-align:right">₹ ${totalD}</td>
+</tr>
 
+</table>
 </div>
 
 <div class="net-card">
 Net Salary ₹ ${net}
 </div>
+
+<button class="action-btn" onclick="downloadPDF()">📄 Download PDF</button>
 
 `;
 
@@ -294,6 +316,22 @@ document.getElementById("loader").style.display="none";
 document.getElementById("result").innerHTML="Error loading salary";
 
 }
+
+}
+
+function downloadPDF(){
+
+let element = document.getElementById("result");
+
+let opt = {
+margin:0.5,
+filename:'Last_Salary.pdf',
+image:{ type:'jpeg', quality:0.98 },
+html2canvas:{ scale:2 },
+jsPDF:{ unit:'in', format:'a4', orientation:'portrait' }
+};
+
+html2pdf().set(opt).from(element).save();
 
 }
 
