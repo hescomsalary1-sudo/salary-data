@@ -411,6 +411,23 @@ border-left:18px solid #7b2cff;
 .gallery-arrow:active{
 transform:scale(0.97);
 }
+
+
+  .quick-info-btn{
+margin-top:10px;
+display:inline-block;
+padding:8px 14px;
+background:rgba(255,255,255,0.2);
+border-radius:20px;
+font-size:13px;
+cursor:pointer;
+transition:0.2s;
+}
+
+.quick-info-btn:active{
+transform:scale(0.95);
+background:rgba(255,255,255,0.3);
+}
 </style>
 </head>
 
@@ -481,6 +498,11 @@ transform:scale(0.97);
 <h3>Last Month Salary</h3>
 <div class="salary-amount">₹<span id="netSalary">--</span></div>
 <div style="font-size:14px;opacity:0.9;">Net Pay</div>
+
+<!-- QUICK INFO BUTTON -->
+<div class="quick-info-btn" onclick="openLastSalary()">
+  Quick Info ➜
+</div>
 </div>
 
 <img src="https://cdn-icons-png.flaticon.com/512/3135/3135679.png">
@@ -875,6 +897,17 @@ document.body.style.overflow = "hidden";
 // open gallery page
 setTimeout(function(){
 window.location = "gallery.html";
+},800);
+
+}
+
+  function openLastSalary(){
+
+document.getElementById("loader").style.display = "flex";
+document.body.style.overflow = "hidden";
+
+setTimeout(function(){
+window.location = "last_salary.html";
 },800);
 
 }
