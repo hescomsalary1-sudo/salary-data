@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Last Salary Details</title>
+<title>Last Month Salary</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -9,60 +9,109 @@
 body{
 font-family:sans-serif;
 margin:0;
-background:#f3f4fa;
-padding:15px;
+background:#f4f4f9;
+padding-bottom:90px;
 }
 
 /* HEADER */
-.header{
+.top{
+padding:20px;
+background:#4b2dd8;
+color:white;
+display:flex;
+align-items:center;
+gap:10px;
+border-bottom-left-radius:30px;
+border-bottom-right-radius:30px;
+}
+
+.top .icon{
+width:35px;
+height:35px;
+background:white;
+color:#5e00a3;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+}
+
+.top h2{
+margin:0;
+}
+
+/* CONTENT */
+.content{
+padding:20px;
+}
+
+/* CARD */
+.salary-card{
+background:white;
+padding:15px;
+border-radius:12px;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+margin-bottom:15px;
+font-size:14px;
+}
+
+.salary-card h4{
+margin-top:0;
+color:#4b2dd8;
+border-bottom:1px solid #eee;
+padding-bottom:5px;
+}
+
+/* NET */
+.net-card{
+margin-top:15px;
 background:#4b2dd8;
 color:white;
 padding:15px;
 border-radius:12px;
-margin-bottom:15px;
-}
-
-/* CARD */
-.card{
-background:white;
-padding:15px;
-border-radius:15px;
-margin-bottom:12px;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
-}
-
-.title{
+text-align:center;
+font-size:20px;
 font-weight:bold;
-margin-bottom:10px;
-color:#4b2dd8;
 }
 
-/* ROW */
-.row{
-display:flex;
-justify-content:space-between;
-margin:6px 0;
-font-size:14px;
-}
-
-/* TOTAL */
-.total{
-font-weight:bold;
-color:green;
-}
-
-.deduction{
-color:red;
-}
-
+/* BACK BUTTON */
 .back-btn{
-margin-top:15px;
-padding:12px;
+margin:20px;
 background:#4b2dd8;
 color:white;
-text-align:center;
+padding:12px;
 border-radius:10px;
+text-align:center;
 cursor:pointer;
+}
+
+/* LOADER */
+.loader{
+display:flex;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:white;
+align-items:center;
+justify-content:center;
+z-index:9999;
+}
+
+.spinner{
+border:6px solid #eee;
+border-top:6px solid #5e00a3;
+border-radius:50%;
+width:45px;
+height:45px;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
 }
 
 </style>
@@ -70,54 +119,45 @@ cursor:pointer;
 
 <body>
 
-<div class="header">
-<h3>Last Month Salary</h3>
-<div id="monthYear"></div>
+<div class="top">
+<div class="icon">₹</div>
+<h2>Last Month Salary</h2>
 </div>
 
-<div class="card">
-<div class="title">Earnings</div>
-<div id="earnings"></div>
-</div>
-
-<div class="card">
-<div class="title">Deductions</div>
-<div id="deductions"></div>
-</div>
-
-<div class="card total">
-Net Salary: ₹ <span id="net"></span>
-</div>
+<div class="content" id="result"></div>
 
 <div class="back-btn" onclick="goBack()">⬅ Back</div>
 
+<div class="loader" id="loader">
+<div class="spinner"></div>
+</div>
+
 <script>
+
+let user = localStorage.getItem("currentUser");
+if(!user){ window.location="login.html"; }
 
 function goBack(){
 window.location="home.html";
 }
 
-async function loadSalary(){
-
-let user = localStorage.getItem("currentUser");
-if(!user) return;
+async function loadLastSalary(){
 
 let now = new Date();
+
+/* 🔥 AUTO PREVIOUS MONTH */
 let prev = new Date(now.getFullYear(), now.getMonth()-1, 1);
 
 let year = prev.getFullYear().toString();
 let month = String(prev.getMonth()+1).padStart(2,"0");
 
-document.getElementById("monthYear").innerText =
-month + " / " + year;
-
 try{
 
-let res = await fetch(
+let response = await fetch(
 "https://hescomsalary1-sudo.github.io/salary-data/salary .csv?v=" + new Date().getTime()
 );
 
-let data = await res.text();
+let data = await response.text();
 let rows = data.trim().split("\n");
 
 for(let i=1;i<rows.length;i++){
@@ -126,43 +166,118 @@ let c = rows[i].split(",");
 
 if(c[0]===user && c[1]===year && c[2]===month){
 
-let earnings = [
-["Basic",c[3]],
-["DA",c[4]],
-["HRA",c[5]],
-["CCA",c[6]],
-["Other",c[19]]
-];
+/* SAME VARIABLES AS YOUR salary.html */
 
-let deductions = [
-["LIC",c[20]],
-["Income Tax",c[21]],
-["PT",c[22]],
-["Other",c[35]]
-];
+let basic = +c[3];
+let dearness_pay = +c[4];
+let hra = +c[5];
+let cca = +c[6];
+let personal_pay = +c[7];
+let special_personal_pay = +c[8];
+let conveyance = +c[9];
+let washing = +c[10];
+let sfta = +c[11];
+let locality = +c[12];
+let mwa = +c[13];
+let hill = +c[14];
+let charge = +c[15];
+let pension = +c[16];
+let lwf_company = +c[17];
+let cash_duty = +c[18];
+let other = +c[19];
 
-let earnHTML="";
-let totalE=0;
+let LIC = +c[20];
+let income_tax = +c[21];
+let pt = +c[22];
+let society = +c[23];
+let PLI = +c[24];
+let union = +c[25];
+let scst = +c[26];
+let rent = +c[27];
+let bank = +c[28];
+let family = +c[29];
+let festival = +c[30];
+let pc10 = +c[31];
+let pc14 = +c[32];
+let lwf = +c[33];
+let recovery = +c[34];
+let other_ded = +c[35];
 
-earnings.forEach(e=>{
-let val = +e[1] || 0;
-totalE+=val;
-earnHTML+=`<div class="row"><span>${e[0]}</span><span>₹${val}</span></div>`;
-});
+let totalE =
+basic+dearness_pay+hra+cca+personal_pay+special_personal_pay+
+conveyance+washing+sfta+locality+mwa+hill+charge+pension+
+lwf_company+cash_duty+other;
 
-let dedHTML="";
-let totalD=0;
+let totalD =
+LIC+income_tax+pt+society+PLI+union+scst+rent+bank+
+family+festival+pc10+pc14+lwf+recovery+other_ded;
 
-deductions.forEach(d=>{
-let val = +d[1] || 0;
-totalD+=val;
-dedHTML+=`<div class="row deduction"><span>${d[0]}</span><span>₹${val}</span></div>`;
-});
+let net = totalE - totalD;
 
-document.getElementById("earnings").innerHTML=earnHTML;
-document.getElementById("deductions").innerHTML=dedHTML;
+/* UI OUTPUT */
 
-document.getElementById("net").innerText = totalE - totalD;
+document.getElementById("loader").style.display="none";
+
+document.getElementById("result").innerHTML = `
+
+<h3>${month}/${year}</h3>
+
+<div class="salary-card">
+<h4>Earnings</h4>
+
+${basic>0?`Basic ₹ ${basic}<br>`:''}
+${dearness_pay>0?`DA ₹ ${dearness_pay}<br>`:''}
+${hra>0?`HRA ₹ ${hra}<br>`:''}
+${cca>0?`CCA ₹ ${cca}<br>`:''}
+${personal_pay>0?`Personal Pay ₹ ${personal_pay}<br>`:''}
+${special_personal_pay>0?`Special Pay ₹ ${special_personal_pay}<br>`:''}
+${conveyance>0?`Conveyance ₹ ${conveyance}<br>`:''}
+${washing>0?`Washing ₹ ${washing}<br>`:''}
+${sfta>0?`SFTA ₹ ${sfta}<br>`:''}
+${locality>0?`Locality ₹ ${locality}<br>`:''}
+${mwa>0?`MWA ₹ ${mwa}<br>`:''}
+${hill>0?`Hill ₹ ${hill}<br>`:''}
+${charge>0?`Charge ₹ ${charge}<br>`:''}
+${pension>0?`Pension ₹ ${pension}<br>`:''}
+${lwf_company>0?`LWF Company ₹ ${lwf_company}<br>`:''}
+${cash_duty>0?`Cash Duty ₹ ${cash_duty}<br>`:''}
+${other>0?`Other ₹ ${other}<br>`:''}
+
+<hr>
+<b>Total Earnings ₹ ${totalE}</b>
+
+</div>
+
+<div class="salary-card">
+<h4>Deductions</h4>
+
+${LIC>0?`LIC ₹ ${LIC}<br>`:''}
+${income_tax>0?`Income Tax ₹ ${income_tax}<br>`:''}
+${pt>0?`PT ₹ ${pt}<br>`:''}
+${society>0?`Society ₹ ${society}<br>`:''}
+${PLI>0?`PLI ₹ ${PLI}<br>`:''}
+${union>0?`Union ₹ ${union}<br>`:''}
+${scst>0?`SC/ST ₹ ${scst}<br>`:''}
+${rent>0?`House Rent ₹ ${rent}<br>`:''}
+${bank>0?`Bank ₹ ${bank}<br>`:''}
+${family>0?`Family ₹ ${family}<br>`:''}
+${festival>0?`Festival ₹ ${festival}<br>`:''}
+${pc10>0?`PC 10% ₹ ${pc10}<br>`:''}
+${pc14>0?`PC 14% ₹ ${pc14}<br>`:''}
+${lwf>0?`LWF ₹ ${lwf}<br>`:''}
+${recovery>0?`Recovery ₹ ${recovery}<br>`:''}
+${other_ded>0?`Other ₹ ${other_ded}<br>`:''}
+
+<hr>
+<b>Total Deduction ₹ ${totalD}</b>
+
+</div>
+
+<div class="net-card">
+Net Salary ₹ ${net}
+</div>
+
+`;
 
 return;
 
@@ -170,15 +285,19 @@ return;
 
 }
 
+document.getElementById("loader").style.display="none";
+document.getElementById("result").innerHTML="No salary found";
+
 }catch(e){
 
-alert("Error loading salary");
+document.getElementById("loader").style.display="none";
+document.getElementById("result").innerHTML="Error loading salary";
 
 }
 
 }
 
-loadSalary();
+loadLastSalary();
 
 </script>
 
