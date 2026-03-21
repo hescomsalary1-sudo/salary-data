@@ -362,16 +362,18 @@ let monthNames = ["January","February","March","April","May","June","July","Augu
 let month = monthNames[prev.getMonth()];
 
 /* 🔹 row */
-function row(name,value){
-return value>0?`
+function pdfRow(name,value){
+if(value>0){
+return `
 <tr>
 <td style="padding:4px 6px">${name}</td>
 <td style="text-align:right;padding:4px 6px">₹ ${value}</td>
-</tr>`:"";
+</tr>`;
+}
+return "";
 }
 
-/* 🔥 PDF */
-let html = `
+let pdfContent = `
 
 <div style="font-family:sans-serif;padding:20px">
 
@@ -379,7 +381,7 @@ let html = `
 <h2>HUBLI ELECTRICITY SUPPLY COMPANY LTD.</h2>
 <h4>O & M Division, Sirsi</h4>
 
-<div style="display:flex;justify-content:space-between">
+<div style="display:flex;justify-content:space-between;margin-top:10px">
 <p><b>Name :</b> ${empName}</p>
 <p><b>Designation :</b> ${empDesignation}</p>
 </div>
@@ -392,7 +394,7 @@ let html = `
 <hr>
 </div>
 
-<table style="width:100%;border-collapse:collapse">
+<table style="width:100%;border-collapse:collapse;margin-top:20px">
 
 <tr>
 <th style="background:#5e00a3;color:white;padding:8px">Earnings</th>
@@ -402,84 +404,93 @@ let html = `
 <tr>
 
 <td style="padding:10px;border-right:1px solid #ddd;vertical-align:top">
-<table style="width:100%">
 
-${row("Basic",s.basic)}
-${row("Dearness Pay",s.dearness_pay)}
-${row("HRA",s.hra)}
-${row("CCA",s.cca)}
-${row("Personal Pay",s.personal_pay)}
-${row("Special Pay",s.special_personal_pay)}
-${row("Conveyance",s.conveyance)}
-${row("Washing",s.washing)}
-${row("SFTA",s.sfta)}
-${row("Locality",s.locality)}
-${row("MWA",s.mwa)}
-${row("Hill",s.hill)}
-${row("Charge",s.charge)}
-${row("Pension",s.pension)}
-${row("LWF Company",s.lwf_company)}
-${row("Cash Duty",s.cash_duty)}
-${row("Other Earnings",s.other)}
+<table style="width:100%;border-collapse:collapse;font-size:14px">
 
-<tr>
-<td><b>Total Earnings</b></td>
-<td style="text-align:right"><b>₹ ${s.totalE}</b></td>
+${pdfRow("Basic",s.basic)}
+${pdfRow("Dearness Pay",s.dearness_pay)}
+${pdfRow("House Rent Allowance",s.rouse_rent_allowances)}
+${pdfRow("City Compensation Allowance",s.city_compensation_allowances)}
+${pdfRow("Personal Pay",s.personal_pay)}
+${pdfRow("Special Personal Pay",s.special_personal_pay)}
+${pdfRow("Conveyance Allowance",s.conveyance_allowances)}
+${pdfRow("Washing Allowance",s.washing_allowances)}
+${pdfRow("SFTA",s.sfta)}
+${pdfRow("Special Locality Allowance",s.special_locality_allowances)}
+${pdfRow("MWA",s.mwa)}
+${pdfRow("Hill Allowance",s.hill_allowances)}
+${pdfRow("Charge Allowance",s.charge_allowances)}
+${pdfRow("Pension Contribution",s.pension_contribution_14_percent)}
+${pdfRow("LWF Company Contribution",s.labour_welfare_fund_company_contribution)}
+${pdfRow("Cash Duty Allowance",s.cash_duty_allowances)}
+${pdfRow("Other Earnings",s.other_earnings)}
+
+<tr style="border-top:1px solid #000;font-weight:bold">
+<td>Total Earnings</td>
+<td style="text-align:right">₹ ${s.totalEarning}</td>
 </tr>
 
 </table>
+
 </td>
+
 
 <td style="padding:10px;vertical-align:top">
-<table style="width:100%">
 
-${row("LIC",s.LIC)}
-${row("Income Tax",s.income_tax)}
-${row("Professional Tax",s.pt)}
-${row("Society",s.society)}
-${row("PLI",s.PLI)}
-${row("Union",s.union)}
-${row("SC/ST",s.scst)}
-${row("House Rent",s.rent)}
-${row("Bank",s.bank)}
-${row("Family",s.family)}
-${row("Festival",s.festival)}
-${row("PC 10%",s.pc10)}
-${row("PC 14%",s.pc14)}
-${row("LWF",s.lwf)}
-${row("Recovery",s.recovery)}
-${row("Other Deduction",s.other_ded)}
+<table style="width:100%;border-collapse:collapse;font-size:14px">
 
-<tr>
-<td><b>Total Deduction</b></td>
-<td style="text-align:right"><b>₹ ${s.totalD}</b></td>
+${pdfRow("LIC",s.LIC)}
+${pdfRow("Income Tax",s.income_tax)}
+${pdfRow("Professional Tax",s.professional_tax)}
+${pdfRow("KPTCL Employee Society",s.KPTCL_employes_society)}
+${pdfRow("PLI",s.PLI)}
+${pdfRow("Union Fund",s.union_fund)}
+${pdfRow("SC/ST Union Fund",s.sc_st_union_fund)}
+${pdfRow("House Rent",s.house_rent)}
+${pdfRow("Urban Bank",s.urban_bank)}
+${pdfRow("Family Benefit Fund",s.family_benefit_fund)}
+${pdfRow("Festival Advance",s.festival_advance)}
+${pdfRow("PC 10% Contribution",s.PC_10_contribution)}
+${pdfRow("PC 14% Contribution",s.PC_14_contribution)}
+${pdfRow("LWF",s.LWF)}
+${pdfRow("Recovery",s.recovery_any)}
+${pdfRow("Other Deduction",s.other_deduction)}
+
+<tr style="border-top:1px solid #000;font-weight:bold">
+<td>Total Deduction</td>
+<td style="text-align:right">₹ ${s.totalDeduction}</td>
 </tr>
 
 </table>
+
 </td>
 
 </tr>
 
 </table>
 
-<hr>
+<hr style="margin-top:20px">
 
-<div style="text-align:right;font-size:22px;font-weight:bold">
+<div style="text-align:right;font-size:22px;font-weight:bold;margin-top:20px">
 Net Salary : ₹ ${s.net}
 </div>
 
 </div>
 `;
 
-let div = document.createElement("div");
-div.innerHTML = html;
+let div=document.createElement("div");
+div.innerHTML=pdfContent;
 
-html2pdf().set({
+let opt={
 margin:0.8,
 filename:'Salary.pdf',
+image:{type:'jpeg',quality:0.98},
 html2canvas:{scale:2},
-jsPDF:{unit:'in',format:'a4'}
-}).from(div).save();
+pagebreak:{mode:['avoid-all','css','legacy']},
+jsPDF:{unit:'in',format:'a4',orientation:'portrait'}
+};
+
+html2pdf().set(opt).from(div).save();
 
 }
 loadLastSalary();
