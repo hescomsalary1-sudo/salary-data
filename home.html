@@ -431,7 +431,8 @@ background:rgba(255,255,255,0.3);
 
   /* ATTENDANCE CARD */
 
-/* COMPACT ATTENDANCE CARD */
+
+/* ATTENDANCE CARD SIDE LAYOUT */
 
 .attendance-card{
 margin:15px 0;
@@ -439,61 +440,71 @@ padding:12px;
 border-radius:18px;
 background:linear-gradient(135deg,#ffffff,#f1efff);
 box-shadow:0 8px 18px rgba(0,0,0,0.08);
+}
+
+/* HEADER CENTER */
+.attendance-card h3,
+.attendance-card .date{
 text-align:center;
 }
 
-/* TITLE SMALL */
-.attendance-card h3{
-margin:0;
-font-size:14px;
-color:#2400b7;
-}
-
-/* DATE SMALL */
-.attendance-card .date{
-font-size:11px;
-margin-bottom:6px;
-}
-
-/* SMALL CHART */
+/* MAIN ROW (CHART + LEGEND) */
 .chart-box{
-margin:5px 0;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+margin-top:10px;
 }
 
+/* LEFT CHART */
 .donut{
-width:90px;     /* 🔥 reduced */
-height:90px;
+width:80px;
+height:80px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-shrink:0;
+}
+
+/* INNER */
+.center{
+width:55px;
+height:55px;
+background:white;
 border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
 }
 
-/* INNER SMALL */
-.center{
-width:60px;
-height:60px;
-}
-
 .center span{
-font-size:14px;
+font-size:13px;
+font-weight:bold;
+color:#2400b7;
 }
 
-/* LEGEND COMPACT */
+/* RIGHT LEGEND */
 .legend{
-margin-top:5px;
+flex:1;
 font-size:12px;
 }
 
+/* ROWS */
 .legend div{
-margin:2px 0;
+display:flex;
+justify-content:space-between;
+margin:4px 0;
 }
 
-/* DOT SMALL */
+/* DOT */
 .dot{
 height:8px;
 width:8px;
-margin-right:5px;
+border-radius:50%;
+display:inline-block;
+margin-right:6px;
 }
 
 .blue{ background:#1e6fd9; }
@@ -597,26 +608,21 @@ margin-right:5px;
 
 </div>
 
-  <!-- ATTENDANCE CARD -->
+<div class="chart-box">
 
-<div class="attendance-card">
-
-  <h3>📊 Attendance Report</h3>
-  <p class="date">This Month</p>
-
-  <div class="chart-box">
-    <div class="donut" id="donutChart">
-      <div class="center">
-        <span id="percentText">0%</span>
-      </div>
+  <!-- LEFT DONUT -->
+  <div class="donut" id="donutChart">
+    <div class="center">
+      <span id="percentText">0%</span>
     </div>
   </div>
 
+  <!-- RIGHT DETAILS -->
   <div class="legend">
-    <div><span class="dot blue"></span> Present <b id="presentVal">0%</b></div>
-    <div><span class="dot green"></span> Late <b id="lateVal">0%</b></div>
-    <div><span class="dot yellow"></span> Leave <b id="leaveVal">0%</b></div>
-    <div><span class="dot red"></span> Absent <b id="absentVal">0%</b></div>
+    <div><span><span class="dot blue"></span> Present</span> <b id="presentVal">0%</b></div>
+    <div><span><span class="dot green"></span> Late</span> <b id="lateVal">0%</b></div>
+    <div><span><span class="dot yellow"></span> Leave</span> <b id="leaveVal">0%</b></div>
+    <div><span><span class="dot red"></span> Absent</span> <b id="absentVal">0%</b></div>
   </div>
 
 </div>
