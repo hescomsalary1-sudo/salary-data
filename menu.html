@@ -197,7 +197,28 @@ font-size:13px;
 color:#555;
 line-height:1.5;
 }
+/* GRAPH CARD */
 
+.graph-card{
+margin:20px 0;
+padding:16px;
+background:white;
+border-radius:18px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+.graph-title{
+font-size:14px;
+font-weight:600;
+color:#2400b7;
+}
+
+.graph-value{
+font-size:20px;
+font-weight:bold;
+color:#2400b7;
+margin-top:5px;
+}
 </style>
 </head>
 
@@ -258,6 +279,17 @@ line-height:1.5;
 </div>
 
 </div>
+<!-- SALARY GRAPH CARD -->
+
+<div class="graph-card">
+
+  <div class="graph-title">📈 Salary Growth</div>
+  <div class="graph-value" id="latestSalary">₹0</div>
+
+  <canvas id="salaryChart"></canvas>
+
+</div>
+  
 </div>
 
 <!-- FOOTER -->
@@ -268,7 +300,7 @@ line-height:1.5;
 <a href="page3.html"><div>📅</div><small>Attendance</small></a>
 <a href="page4.html"><div>⚙</div><small>Settings</small></a>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 
 // LOGIN CHECK
@@ -292,6 +324,82 @@ window.onload=function(){
 document.getElementById("loader").style.display="none";
 document.body.style.overflow="auto";
 };
+
+
+async function loadSalaryGraph(){
+
+let user = localStorage.getItem("currentUser");
+if(!user) return;
+
+let res = await fetch(
+"https://hescomsalary1-sudo.github.io/salary-data/salary .csv?v=" + new Date().getTime()
+);
+
+let text = await res.text();
+let rows = text.trim().split("\n");
+
+let months = [];
+let netSalary = [];
+
+for(let i=1;i<rows.length;i++){
+
+let cols = rows[i].split(",");
+
+if(cols[0] === user){
+
+let month = cols[2];
+
+// earnings
+let earning = 0;
+for(let j=3;j<=19;j++){
+earning += +cols[j] || 0;
+}
+
+// deduction
+let deduction = 0;
+for(let j=20;j<=35;j++){
+deduction += +cols[j] || 0;
+}
+
+let net = earning - deduction;
+
+months.push(month);
+netSalary.push(net);
+
+}
+
+}
+
+// show latest
+if(netSalary.length>0){
+document.getElementById("latestSalary").innerText =
+"₹" + netSalary[netSalary.length-1];
+}
+
+// chart
+new Chart(document.getElementById("salaryChart"), {
+type:"line",
+data:{
+labels:months,
+datasets:[{
+data:netSalary,
+borderColor:"#2400b7",
+backgroundColor:"rgba(36,0,183,0.1)",
+fill:true,
+tension:0.4,
+pointRadius:3
+}]
+},
+options:{
+plugins:{legend:{display:false}},
+scales:{y:{beginAtZero:true}}
+}
+});
+
+}
+
+loadSalaryGraph();
+
 
 </script>
 
