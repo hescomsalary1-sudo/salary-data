@@ -9,15 +9,16 @@
 body{
 font-family:'Segoe UI',sans-serif;
 margin:0;
-background: linear-gradient(135deg, #f7f8fc, #edf5ff);
+background:#f3f5ff;
 padding-bottom:90px;
 }
 
 /* HEADER */
+
 .top{
 padding:22px;
-background: linear-gradient(135deg, #f7f8fc, #edf5ff);
-color:#2400b7;
+background:#4b2dd8;
+color:white;
 border-bottom-left-radius:35px;
 border-bottom-right-radius:35px;
 box-shadow:0 6px 18px rgba(0,0,0,0.15);
@@ -33,7 +34,7 @@ gap:12px;
 width:38px;
 height:38px;
 background:white;
-color:#2400b7;
+color:#4b2dd8;
 border-radius:50%;
 display:flex;
 align-items:center;
@@ -54,6 +55,7 @@ margin-top:4px;
 }
 
 /* WELCOME CARD */
+
 .welcome{
 margin:20px;
 padding:16px;
@@ -65,20 +67,23 @@ color:#4b2dd8;
 }
 
 /* CONTENT */
+
 .content{
 padding:10px 20px;
 }
 
 /* GRID */
+
 .grid{
 display:grid;
 grid-template-columns:repeat(2,1fr);
 gap:18px;
 }
 
-/* CARD */
+/* PREMIUM BUTTON */
+
 .card{
-background: linear-gradient(135deg, #f7f8fc, #edf5ff);
+background:linear-gradient(135deg,#ffffff,#f1efff);
 border-radius:20px;
 padding:20px;
 display:flex;
@@ -94,6 +99,8 @@ transition:0.25s;
 .card:active{
 transform:scale(0.96);
 }
+
+/* ICON CIRCLE */
 
 .circle{
 width:55px;
@@ -116,41 +123,34 @@ font-weight:600;
 color:#4b2dd8;
 }
 
-/* ✅ SKELETON LOADER */
-
+/* LOADER */
 #loader{
-position:fixed;
-top:0;
-left:0;
-width:100vw;
-height:100vh;
-background:#f3f5ff;
-display:none;
-flex-direction:column;
-padding:20px;
-gap:15px;
-z-index:99999;
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:white;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
 }
 
-/* shimmer */
-@keyframes shimmer{
-0%{background-position:-400px 0;}
-100%{background-position:400px 0;}
+.spinner{
+  width:35px;
+  height:35px;
+  border:6px solid #ddd;
+  border-top:6px solid #5e00a3;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
 }
 
-.skeleton{
-height:20px;
-border-radius:6px;
-background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
-background-size:400px 100%;
-animation:shimmer 1.2s infinite;
+@keyframes spin{
+  0%{transform:rotate(0deg);}
+  100%{transform:rotate(360deg);}
 }
-
-.skel-circle{width:50px;height:50px;border-radius:50%;}
-.skel-card{height:90px;border-radius:20px;}
-.skel-line{height:14px;}
 
 /* FOOTER */
+
 .footer{
 position:fixed;
 bottom:0;
@@ -177,7 +177,7 @@ margin-top:4px;
 font-weight:600;
 }
 
-.info-card{
+  .info-card{
 margin:20px;
 padding:18px;
 background:white;
@@ -197,118 +197,45 @@ font-size:13px;
 color:#555;
 line-height:1.5;
 }
-/* GRAPH CARD */
 
-.graph-card{
-margin:20px 0;
-padding:16px;
-background:white;
-border-radius:18px;
-box-shadow:0 8px 20px rgba(0,0,0,0.08);
-}
-
-.graph-title{
-font-size:14px;
-font-weight:600;
-color:#2400b7;
-}
-
-.graph-value{
-font-size:20px;
-font-weight:bold;
-color:#2400b7;
-margin-top:5px;
-}
-
-  .salary-dashboard{
-margin:20px 0;
-padding:18px;
-background:white;
-border-radius:20px;
-box-shadow:0 10px 25px rgba(0,0,0,0.1);
-}
-
-/* SMALL GRAPH */
-#miniChart{
-height:120px !important;
-margin-bottom:20px;
-}
-
-/* BIG DONUT */
-.donut-big{
-width:140px;
-height:140px;
-margin:auto;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-}
-
-.donut-center{
-width:95px;
-height:95px;
-background:white;
-border-radius:50%;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-}
-
-.donut-center span{
-font-size:18px;
-font-weight:bold;
-color:#2400b7;
-}
-
-.donut-center p{
-font-size:11px;
-margin:0;
-color:#777;
-}
 </style>
 </head>
 
 <body>
 
 <!-- HEADER -->
+
 <div class="top">
+
 <div class="top-row">
 <div class="icon">₹</div>
 <h2>Salary Menu</h2>
 </div>
+
 <div class="subtitle">Employee Salary Services</div>
+
 </div>
 
+<!-- WELCOME CARD -->
 
+<div class="info-card">
+<h3>Salary Services</h3>
+<p>
+Access your salary information, generate detailed reports, and view the official holiday list. 
+This section allows employees to quickly check salary records, financial reports, and important updates related to payroll services.
+</p>
+</div>
 
-<!-- ✅ SKELETON LOADER -->
+<!-- LOADER -->
+
 <div id="loader">
-
-<div style="display:flex;align-items:center;gap:10px;">
-<div class="skeleton skel-circle"></div>
-<div style="flex:1;">
-<div class="skeleton skel-line" style="width:60%;margin-bottom:6px;"></div>
-<div class="skeleton skel-line" style="width:40%;"></div>
-</div>
-</div>
-
-<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
-<div class="skeleton skel-card"></div>
-<div class="skeleton skel-card"></div>
-<div class="skeleton skel-card"></div>
-<div class="skeleton skel-card"></div>
-  <div class="skeleton skel-card"></div>
-<div class="skeleton skel-card"></div>
-<div class="skeleton skel-card"></div>
-<div class="skeleton skel-card"></div>
-</div>
-
+<div class="spinner"></div>
 </div>
 
 <!-- CONTENT -->
+
 <div class="content">
+
 <div class="grid">
 
 <div class="card" onclick="showLoader('salary.html')">
@@ -327,33 +254,40 @@ color:#777;
 </div>
 
 </div>
-<!-- SALARY GRAPH CARD -->
-<div class="salary-dashboard">
 
-  <!-- TOP SMALL GRAPH -->
-  <canvas id="miniChart"></canvas>
-
-  <!-- BIG DONUT -->
-  <div class="donut-big" id="salaryDonut">
-    <div class="donut-center">
-      <span id="perfText">0%</span>
-      <p>Growth</p>
-    </div>
-  </div>
-
-</div>
-  
 </div>
 
 <!-- FOOTER -->
+
 <div class="footer">
-<a href="home.html"><div>🏠</div><small>Home</small></a>
-<a href="page1.html"><div>👤</div><small>Profile</small></a>
-<a href="menu.html"><div>💰</div><small>Salary</small></a>
-<a href="page3.html"><div>📅</div><small>Attendance</small></a>
-<a href="page4.html"><div>⚙</div><small>Settings</small></a>
+
+<a href="home.html">
+<div>🏠</div>
+<small>Home</small>
+</a>
+
+<a href="page1.html">
+<div>👤</div>
+<small>Profile</small>
+</a>
+
+<a href="menu.html">
+<div>💰</div>
+<small>Salary</small>
+</a>
+
+<a href="page3.html">
+<div>📅</div>
+<small>Attendance</small>
+</a>
+
+<a href="page4.html">
+<div>⚙</div>
+<small>Settings</small>
+</a>
+
 </div>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
 
 // LOGIN CHECK
@@ -362,151 +296,16 @@ if(!user){
 window.location.replace("login.html");
 }
 
+// SHOW USER NAME
+document.getElementById("userName").innerText = user;
+
 // LOADER NAVIGATION
 function showLoader(url){
 document.getElementById("loader").style.display="flex";
-document.body.style.overflow="hidden";
-
 setTimeout(function(){
 window.location = url;
 },700);
 }
-
-// hide loader after load
-window.onload=function(){
-document.getElementById("loader").style.display="none";
-document.body.style.overflow="auto";
-};
-
-
-<script>
-
-async function loadSalaryDashboard(){
-
-let user = localStorage.getItem("currentUser");
-if(!user) return;
-
-let res = await fetch(
-"https://hescomsalary1-sudo.github.io/salary-data/salary.csv?v=" + new Date().getTime()
-);
-
-let text = await res.text();
-let rows = text.trim().split("\n");
-
-let months=[];
-let netSalary=[];
-
-for(let i=1;i<rows.length;i++){
-
-let cols = rows[i].split(",");
-
-if(cols[0]===user){
-
-let month = cols[2].padStart(2,"0"); // 🔥 fix sorting
-
-// earnings
-let earning=0;
-for(let j=3;j<=19;j++){
-earning += +cols[j] || 0;
-}
-
-// deduction
-let deduction=0;
-for(let j=20;j<=35;j++){
-deduction += +cols[j] || 0;
-}
-
-let net = earning - deduction;
-
-months.push(month);
-netSalary.push(net);
-
-}
-
-}
-
-// ❗ NO DATA CHECK
-if(netSalary.length===0){
-document.getElementById("perfText").innerText="0%";
-return;
-}
-
-// 🔥 SORT MONTHS PROPERLY
-let combined = months.map((m,i)=>({m,n:netSalary[i]}));
-combined.sort((a,b)=>a.m - b.m);
-
-months = combined.map(x=>x.m);
-netSalary = combined.map(x=>x.n);
-
-// 🔥 CREATE GRADIENT GRAPH
-let ctx = document.getElementById("miniChart").getContext("2d");
-
-let gradient = ctx.createLinearGradient(0,0,0,120);
-gradient.addColorStop(0,"rgba(36,0,183,0.4)");
-gradient.addColorStop(1,"rgba(36,0,183,0)");
-
-new Chart(ctx,{
-type:"line",
-data:{
-labels:months,
-datasets:[{
-data:netSalary,
-borderColor:"#2400b7",
-backgroundColor:gradient,
-fill:true,
-tension:0.5,
-pointRadius:4,
-pointBackgroundColor:"#2400b7"
-}]
-},
-options:{
-plugins:{legend:{display:false}},
-scales:{
-x:{
-ticks:{color:"#555"}
-},
-y:{
-ticks:{
-callback:(v)=>"₹"+v
-}
-}
-}
-}
-});
-
-// 🔥 GROWTH CALCULATION
-let last = netSalary[netSalary.length-1];
-let prev = netSalary.length>1 ? netSalary[netSalary.length-2] : last;
-
-let growth = 0;
-if(prev>0){
-growth = Math.round(((last-prev)/prev)*100);
-}
-
-// 🔥 LIMIT (avoid huge %)
-if(growth>100) growth=100;
-if(growth<-100) growth=-100;
-
-// 🔥 TEXT
-document.getElementById("perfText").innerText = growth + "%";
-
-// 🔥 COLOR LOGIC
-let color="#4caf50"; // green
-
-if(growth<0) color="#f44336";
-else if(growth<10) color="#ffc107";
-
-// 🔥 DONUT FIX
-let value = Math.min(Math.abs(growth),100);
-
-document.getElementById("salaryDonut").style.background =
-`conic-gradient(${color} ${value}%, #e6e6e6 0%)`;
-
-}
-
-loadSalaryDashboard();
-
-</script>
 
 </script>
 
