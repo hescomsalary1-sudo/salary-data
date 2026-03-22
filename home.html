@@ -511,6 +511,31 @@ margin-right:6px;
 .green{ background:#4caf50; }
 .yellow{ background:#ffc107; }
 .red{ background:#f44336; }
+
+  /* HEADER CONTAINER */
+
+.att-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:8px;
+padding:6px 10px;
+background:rgba(36,0,183,0.06);
+border-radius:10px;
+}
+
+/* TITLE */
+.att-title{
+font-size:13px;
+font-weight:600;
+color:#2400b7;
+}
+
+/* DATE */
+.att-date{
+font-size:11px;
+color:#777;
+}
 </style>
 </head>
 
@@ -607,7 +632,10 @@ margin-right:6px;
   </div>
 
 </div>
-
+<div class="att-header">
+  <div class="att-title">📊 Attendance Report</div>
+  <div class="att-date">This Month</div>
+</div>
 <div class="chart-box">
 
   <!-- LEFT DONUT -->
