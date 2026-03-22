@@ -913,17 +913,15 @@ window.location = "last_salary.html";
 }
 
 
-history.pushState(null, null, location.href);
 
-window.onpopstate = function () {
-    if (navigator.app) {
-        navigator.app.exitApp();
-    } else if (navigator.device) {
-        navigator.device.exitApp();
-    } else {
-        window.close();
-    }
-};
+(function () {
+    // Clear history effect
+    history.pushState(null, "", location.href);
+
+    window.onpopstate = function () {
+        history.go(1); // Force forward (no back)
+    };
+})();
 </script>
 
 
