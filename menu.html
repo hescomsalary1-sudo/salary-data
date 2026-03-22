@@ -219,6 +219,54 @@ font-weight:bold;
 color:#2400b7;
 margin-top:5px;
 }
+
+  .salary-dashboard{
+margin:20px 0;
+padding:18px;
+background:white;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* SMALL GRAPH */
+#miniChart{
+height:120px !important;
+margin-bottom:20px;
+}
+
+/* BIG DONUT */
+.donut-big{
+width:140px;
+height:140px;
+margin:auto;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.donut-center{
+width:95px;
+height:95px;
+background:white;
+border-radius:50%;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+}
+
+.donut-center span{
+font-size:18px;
+font-weight:bold;
+color:#2400b7;
+}
+
+.donut-center p{
+font-size:11px;
+margin:0;
+color:#777;
+}
 </style>
 </head>
 
@@ -280,13 +328,18 @@ margin-top:5px;
 
 </div>
 <!-- SALARY GRAPH CARD -->
+<div class="salary-dashboard">
 
-<div class="graph-card">
+  <!-- TOP SMALL GRAPH -->
+  <canvas id="miniChart"></canvas>
 
-  <div class="graph-title">📈 Salary Growth</div>
-  <div class="graph-value" id="latestSalary">₹0</div>
-
-  <canvas id="salaryChart"></canvas>
+  <!-- BIG DONUT -->
+  <div class="donut-big" id="salaryDonut">
+    <div class="donut-center">
+      <span id="perfText">0%</span>
+      <p>Growth</p>
+    </div>
+  </div>
 
 </div>
   
@@ -326,37 +379,37 @@ document.body.style.overflow="auto";
 };
 
 
-async function loadSalaryGraph(){
+async function loadSalaryDashboard(){
 
 let user = localStorage.getItem("currentUser");
 if(!user) return;
 
 let res = await fetch(
-"https://hescomsalary1-sudo.github.io/salary-data/salary .csv?v=" + new Date().getTime()
+"https://hescomsalary1-sudo.github.io/salary-data/salary.csv?v=" + new Date().getTime()
 );
 
 let text = await res.text();
 let rows = text.trim().split("\n");
 
-let months = [];
-let netSalary = [];
+let months=[];
+let netSalary=[];
 
 for(let i=1;i<rows.length;i++){
 
 let cols = rows[i].split(",");
 
-if(cols[0] === user){
+if(cols[0]===user){
 
 let month = cols[2];
 
 // earnings
-let earning = 0;
+let earning=0;
 for(let j=3;j<=19;j++){
 earning += +cols[j] || 0;
 }
 
 // deduction
-let deduction = 0;
+let deduction=0;
 for(let j=20;j<=35;j++){
 deduction += +cols[j] || 0;
 }
@@ -370,35 +423,50 @@ netSalary.push(net);
 
 }
 
-// show latest
-if(netSalary.length>0){
-document.getElementById("latestSalary").innerText =
-"₹" + netSalary[netSalary.length-1];
-}
-
-// chart
-new Chart(document.getElementById("salaryChart"), {
+// SMALL LINE GRAPH
+new Chart(document.getElementById("miniChart"),{
 type:"line",
 data:{
 labels:months,
 datasets:[{
 data:netSalary,
 borderColor:"#2400b7",
-backgroundColor:"rgba(36,0,183,0.1)",
-fill:true,
+backgroundColor:"transparent",
 tension:0.4,
-pointRadius:3
+pointRadius:2
 }]
 },
 options:{
 plugins:{legend:{display:false}},
-scales:{y:{beginAtZero:true}}
+scales:{x:{display:false},y:{display:false}}
 }
 });
 
+// CALCULATE GROWTH %
+let last = netSalary[netSalary.length-1] || 0;
+let prev = netSalary[netSalary.length-2] || last;
+
+let growth = 0;
+if(prev>0){
+growth = Math.round(((last-prev)/prev)*100);
 }
 
-loadSalaryGraph();
+// SHOW TEXT
+document.getElementById("perfText").innerText = growth + "%";
+
+// DONUT COLOR
+let color = "#4caf50"; // green
+
+if(growth<0) color="#f44336";
+else if(growth<10) color="#ffc107";
+
+// APPLY DONUT
+document.getElementById("salaryDonut").style.background =
+`conic-gradient(${color} ${Math.abs(growth)}%, #eee 0%)`;
+
+}
+
+loadSalaryDashboard();
 
 
 </script>
