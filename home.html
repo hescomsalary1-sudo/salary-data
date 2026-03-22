@@ -1056,14 +1056,20 @@ window.location = "last_salary.html";
 
 
 // SAMPLE DATA (you can later connect CSV)
+
 async function loadAttendance(){
 
 let user = localStorage.getItem("currentUser");
 if(!user) return;
 
+user = user.trim().toLowerCase();   // 🔥 FIX
+
 let now = new Date();
 let year = now.getFullYear().toString();
-let month = now.toLocaleString('default', { month: 'short' }); // Jan, Feb
+
+// 🔥 FORCE MONTH FORMAT
+let months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+let month = months[now.getMonth()];
 
 try{
 
@@ -1082,9 +1088,12 @@ for(let i=1;i<rows.length;i++){
 
 let cols = rows[i].split(",");
 
-if(cols[0]===user && cols[1]===year && cols[2]===month){
+let csvUser = cols[0]?.trim().toLowerCase();  // 🔥 FIX
+let csvYear = cols[1]?.trim();
+let csvMonth = cols[2]?.trim();
 
-// days start from index 3
+if(csvUser===user && csvYear===year && csvMonth===month){
+
 for(let j=3;j<cols.length;j++){
 
 let val = cols[j]?.trim();
@@ -1095,7 +1104,7 @@ present++;
 else if(val==="A"){
 absent++;
 }
-else if(val==="EL" || val==="CL" || val==="FPL" || val==="IL" || val==="MDL"){
+else if(["EL","CL","FPL","IL","MDL"].includes(val)){
 leave++;
 }
 
@@ -1106,10 +1115,13 @@ break;
 
 }
 
-// total working days
-let total = present + absent + leave;
+// DEBUG (important)
+console.log("User:", user);
+console.log("Month:", month);
+console.log("Present:", present, "Leave:", leave, "Absent:", absent);
 
-// avoid divide by zero
+// total
+let total = present + absent + leave;
 if(total === 0) total = 1;
 
 // percentage
@@ -1123,10 +1135,10 @@ document.getElementById("presentVal").innerText = presentPer + "%";
 document.getElementById("leaveVal").innerText = leavePer + "%";
 document.getElementById("absentVal").innerText = absentPer + "%";
 
-// hide late (not needed)
+// hide late
 document.getElementById("lateVal").parentElement.style.display="none";
 
-// gradient calculation
+// gradient
 let p1 = presentPer;
 let p2 = p1 + leavePer;
 
@@ -1138,12 +1150,13 @@ document.getElementById("donutChart").style.background =
 )`;
 
 }catch(e){
-console.log("Attendance error", e);
+console.log("Error:", e);
 }
 
 }
 
 loadAttendance();
+
 
 </script>
 
