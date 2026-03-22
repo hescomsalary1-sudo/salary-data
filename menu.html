@@ -379,6 +379,8 @@ document.body.style.overflow="auto";
 };
 
 
+<script>
+
 async function loadSalaryDashboard(){
 
 let user = localStorage.getItem("currentUser");
@@ -400,7 +402,7 @@ let cols = rows[i].split(",");
 
 if(cols[0]===user){
 
-let month = cols[2];
+let month = cols[2].padStart(2,"0"); // 🔥 fix sorting
 
 // earnings
 let earning=0;
@@ -423,51 +425,88 @@ netSalary.push(net);
 
 }
 
-// SMALL LINE GRAPH
-new Chart(document.getElementById("miniChart"),{
+// ❗ NO DATA CHECK
+if(netSalary.length===0){
+document.getElementById("perfText").innerText="0%";
+return;
+}
+
+// 🔥 SORT MONTHS PROPERLY
+let combined = months.map((m,i)=>({m,n:netSalary[i]}));
+combined.sort((a,b)=>a.m - b.m);
+
+months = combined.map(x=>x.m);
+netSalary = combined.map(x=>x.n);
+
+// 🔥 CREATE GRADIENT GRAPH
+let ctx = document.getElementById("miniChart").getContext("2d");
+
+let gradient = ctx.createLinearGradient(0,0,0,120);
+gradient.addColorStop(0,"rgba(36,0,183,0.4)");
+gradient.addColorStop(1,"rgba(36,0,183,0)");
+
+new Chart(ctx,{
 type:"line",
 data:{
 labels:months,
 datasets:[{
 data:netSalary,
 borderColor:"#2400b7",
-backgroundColor:"transparent",
-tension:0.4,
-pointRadius:2
+backgroundColor:gradient,
+fill:true,
+tension:0.5,
+pointRadius:4,
+pointBackgroundColor:"#2400b7"
 }]
 },
 options:{
 plugins:{legend:{display:false}},
-scales:{x:{display:false},y:{display:false}}
+scales:{
+x:{
+ticks:{color:"#555"}
+},
+y:{
+ticks:{
+callback:(v)=>"₹"+v
+}
+}
+}
 }
 });
 
-// CALCULATE GROWTH %
-let last = netSalary[netSalary.length-1] || 0;
-let prev = netSalary[netSalary.length-2] || last;
+// 🔥 GROWTH CALCULATION
+let last = netSalary[netSalary.length-1];
+let prev = netSalary.length>1 ? netSalary[netSalary.length-2] : last;
 
 let growth = 0;
 if(prev>0){
 growth = Math.round(((last-prev)/prev)*100);
 }
 
-// SHOW TEXT
+// 🔥 LIMIT (avoid huge %)
+if(growth>100) growth=100;
+if(growth<-100) growth=-100;
+
+// 🔥 TEXT
 document.getElementById("perfText").innerText = growth + "%";
 
-// DONUT COLOR
-let color = "#4caf50"; // green
+// 🔥 COLOR LOGIC
+let color="#4caf50"; // green
 
 if(growth<0) color="#f44336";
 else if(growth<10) color="#ffc107";
 
-// APPLY DONUT
+// 🔥 DONUT FIX
+let value = Math.min(Math.abs(growth),100);
+
 document.getElementById("salaryDonut").style.background =
-`conic-gradient(${color} ${Math.abs(growth)}%, #eee 0%)`;
+`conic-gradient(${color} ${value}%, #e6e6e6 0%)`;
 
 }
 
 loadSalaryDashboard();
 
+</script>
 
 </script>
 
