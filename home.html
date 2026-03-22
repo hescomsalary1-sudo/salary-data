@@ -1065,11 +1065,14 @@ if(!user) return;
 user = user.trim().toLowerCase();   // 🔥 FIX
 
 let now = new Date();
-let year = now.getFullYear().toString();
 
-// 🔥 FORCE MONTH FORMAT
+// 🔥 GET PREVIOUS MONTH
+let prevMonth = new Date(now.getFullYear(), now.getMonth()-1, 1);
+
+let year = prevMonth.getFullYear().toString();
+
 let months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-let month = months[now.getMonth()];
+let month = months[prevMonth.getMonth()];
 
 try{
 
