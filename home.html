@@ -911,6 +911,20 @@ window.location = "last_salary.html";
 },800);
 
 }
+
+
+// Push a dummy state so back button can be controlled
+history.pushState(null, null, location.href);
+
+window.onpopstate = function () {
+    // When back button pressed on home page
+    if (confirm("Do you want to exit the app?")) {
+        window.close(); // Works in some browsers / WebView
+    } else {
+        // Stay on home page
+        history.pushState(null, null, location.href);
+    }
+};
 </script>
 
 
