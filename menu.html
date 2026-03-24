@@ -310,12 +310,12 @@ if(cols[0] !== user) return;
 let year = Number(cols[1]);
 let month = Number(cols[2]);
 
-// ✅ CORRECT SALARY
-let basic = Number(cols[3])||0;
-let da = Number(cols[4])||0;
-let hra = Number(cols[5])||0;
 
-let earnings = basic + da + hra;
+// ✅ TOTAL EARNINGS (3 → 19)
+let earnings = 0;
+for(let i=3;i<=19;i++){
+earnings += Number(cols[i]) || 0;
+}
 
 // deductions
 let deductions = 0;
