@@ -355,7 +355,19 @@ monthly.push({year,month,net,earnings,deductions});
 
 monthly.sort((a,b)=>a.year-b.year||a.month-b.month);
 
-let last = monthly.length ? monthly[monthly.length-1] : null;
+// sort properly
+monthly.sort((a,b)=>{
+return (a.year*100 + a.month) - (b.year*100 + b.month);
+});
+
+// ✅ get previous month
+let last = null;
+
+if(monthly.length >= 2){
+last = monthly[monthly.length - 2]; // previous month
+}else if(monthly.length === 1){
+last = monthly[0]; // fallback
+}
 
 if(last){
 document.getElementById("currentSalary").innerText="₹ "+last.earnings;
