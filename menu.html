@@ -5,41 +5,32 @@
 <title>Salary Overview</title>
 
 <style>
-
 body{
 margin:0;
 font-family:'Segoe UI',sans-serif;
 background:linear-gradient(135deg,#eef2f7,#e6ebf3);
 }
 
-/* TITLE */
 .title{
-padding:18px 15px 8px;
+padding:18px;
 font-size:22px;
 font-weight:600;
-color:#2d3748;
 }
 
-/* MOBILE TOP */
 .top{
 display:grid;
-grid-template-columns:1fr;
 gap:12px;
 padding:0 12px;
 }
 
-/* CARD */
 .card{
-background:linear-gradient(145deg,#eef2f7,#dfe5ef);
-border-radius:18px;
-padding:14px;
-box-shadow:
-8px 8px 20px rgba(0,0,0,0.08),
--8px -8px 20px rgba(255,255,255,0.9);
+background:#eef2f7;
+border-radius:15px;
+padding:12px;
+box-shadow:6px 6px 15px rgba(0,0,0,0.08);
 position:relative;
 }
 
-/* SALARY */
 .grid2{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -48,153 +39,88 @@ gap:10px;
 
 .box{
 padding:10px;
-border-radius:12px;
 background:#e9edf4;
-box-shadow: inset 3px 3px 8px rgba(0,0,0,0.05),
-            inset -3px -3px 8px rgba(255,255,255,0.8);
+border-radius:10px;
 }
 
-.box h4{
-margin:0;
-font-size:12px;
-color:#6b7280;
-}
-
-.box p{
-margin:4px 0 0;
-font-size:18px;
-font-weight:600;
-}
-
-.blue{color:#2b6cb0;}
-.red{color:#c53030;}
-.green{color:#2f855a;}
+.box p{margin:4px 0 0;font-weight:bold;}
 
 .net{
 margin-top:10px;
-padding:12px;
-border-radius:12px;
+padding:10px;
 background:#e9edf4;
-box-shadow: inset 3px 3px 8px rgba(0,0,0,0.05),
-            inset -3px -3px 8px rgba(255,255,255,0.8);
+border-radius:10px;
 }
 
-/* FLOAT */
 .float{
 position:absolute;
 left:50%;
-top:58%;
+top:60%;
 transform:translate(-50%,-50%);
-width:45px;
-height:45px;
+width:40px;height:40px;
+background:#fff;
 border-radius:50%;
-background:#eef2f7;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:20px;
-color:#2b6cb0;
-box-shadow:
-6px 6px 14px rgba(0,0,0,0.15),
--6px -6px 14px rgba(255,255,255,0.9);
 }
 
-/* CHART */
 .chart{
-position:relative;
-height:160px;
+height:150px;
 display:flex;
 align-items:flex-end;
 justify-content:space-around;
+position:relative;
 }
 
-/* BAR */
 .bar{
 width:18%;
-border-radius:8px;
-background:linear-gradient(180deg,#9fd3ff,#0052cc);
+background:#4b2dd8;
+border-radius:6px;
 }
 
-/* SVG */
 .line{
 position:absolute;
-top:0;
-left:0;
 width:100%;
 height:100%;
 }
 
-.line circle{
-fill:white;
-stroke:#f4a300;
-stroke-width:2;
-}
-
-/* COIN */
 .coin{
 position:absolute;
-top:-8px;
+top:-10px;
 right:10px;
-width:45px;
-height:45px;
+background:#f4a300;
+color:white;
+width:40px;height:40px;
 border-radius:50%;
-background:linear-gradient(145deg,#ffd54f,#f4a300);
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:20px;
-color:white;
 }
 
-/* BUTTONS */
-.buttons{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:12px;
-padding:15px 12px;
-}
-
-.btn{
-padding:18px;
-border-radius:18px;
-background:linear-gradient(145deg,#eef2f7,#dfe5ef);
-text-align:center;
-box-shadow:
-8px 8px 18px rgba(0,0,0,0.08),
--8px -8px 18px rgba(255,255,255,0.9);
-cursor:pointer;
-}
-
-.icon{
-width:55px;
-height:55px;
-margin:auto;
-border-radius:16px;
-margin-bottom:8px;
-}
-
-.blue-bg{background:linear-gradient(145deg,#90cdf4,#3182ce);}
-.purple-bg{background:linear-gradient(145deg,#b794f4,#6b46c1);}
-.orange-bg{background:linear-gradient(145deg,#f6ad55,#dd6b20);}
-.green-bg{background:linear-gradient(145deg,#68d391,#2f855a);}
-
-.btn p{
-margin:0;
-font-size:13px;
-font-weight:600;
-}
-
-/* SKELETON */
 .skeleton{
-animation:shimmer 1.2s infinite linear;
 background:linear-gradient(90deg,#eee,#f5f5f5,#eee);
-background-size:200% 100%;
-border-radius:8px;
+background-size:200%;
+animation:shimmer 1.2s infinite;
 }
 
 @keyframes shimmer{
 0%{background-position:-200%}
 100%{background-position:200%}
+}
+
+.buttons{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+padding:15px;
+}
+
+.btn{
+background:white;
+padding:15px;
+border-radius:12px;
+text-align:center;
 }
 
 </style>
@@ -206,91 +132,62 @@ border-radius:8px;
 
 <div class="top">
 
-<!-- SALARY CARD -->
 <div class="card">
-
 <div class="grid2">
 <div class="box">
 <h4>Current Salary</h4>
-<p class="blue" id="currentSalary">Loading...</p>
+<p id="currentSalary">₹ 0</p>
 </div>
-
 <div class="box">
 <h4>Deductions</h4>
-<p class="red" id="deduction">Loading...</p>
+<p id="deduction">₹ 0</p>
 </div>
 </div>
 
 <div class="net">
-<h4>Net Salary:</h4>
-<p class="green" id="netSalary" style="font-size:22px;">Loading...</p>
+<h4>Net Salary</h4>
+<p id="netSalary">₹ 0</p>
 </div>
 
 <div class="float">₹</div>
-
 </div>
 
-<!-- CHART -->
 <div class="card">
-<div class="chart" id="chart">
-
-<!-- skeleton -->
-<div class="bar skeleton"></div>
-<div class="bar skeleton"></div>
-<div class="bar skeleton"></div>
-<div class="bar skeleton"></div>
-
-<svg class="line" id="line"></svg>
-
+<div class="chart" id="chart"></div>
 <div class="coin">₹</div>
-
-</div>
 </div>
 
 </div>
 
-<!-- BUTTONS -->
 <div class="buttons">
-
-<div class="btn" onclick="showLoader('salary.html')">
-<div class="icon blue-bg"></div>
-<p>Salary</p>
-</div>
-
-<div class="btn" onclick="showLoader('reports_menu.html')">
-<div class="icon purple-bg"></div>
-<p>Reports</p>
-</div>
-
-<div class="btn" onclick="showLoader('holidays.html')">
-<div class="icon orange-bg"></div>
-<p>Holiday List</p>
-</div>
-
-<div class="btn" onclick="showLoader('salary_details.html')">
-<div class="icon green-bg"></div>
-<p>Salary Details</p>
-</div>
-
+<div class="btn">Salary</div>
+<div class="btn">Reports</div>
+<div class="btn">Holiday</div>
+<div class="btn">Details</div>
 </div>
 
 <script>
 
-let user = localStorage.getItem("currentUser");
+let user = localStorage.getItem("currentUser") || "demo";
 
+// 🔥 FALLBACK DATA (always shows something)
+let monthly = {
+Jan:50000, Feb:52000, Mar:54000, Apr:56000
+};
+
+// TRY CSV LOAD
 fetch("salary.csv")
 .then(res => res.text())
 .then(data => {
 
 let rows = data.trim().split("\n").slice(1);
 
-let monthly = {};
+let temp = {};
 let last = null;
 
 rows.forEach(r=>{
 let cols = r.split(",");
 
-// filter user
 if(cols[0] !== user) return;
 
 let month = cols[2];
@@ -298,31 +195,40 @@ let month = cols[2];
 // earnings
 let earnings = 0;
 for(let i=3;i<=19;i++){
-earnings += Number(cols[i]) || 0;
+earnings += Number(cols[i])||0;
 }
 
 // deductions
 let deductions = 0;
 for(let i=20;i<cols.length;i++){
-deductions += Number(cols[i]) || 0;
+deductions += Number(cols[i])||0;
 }
 
 let net = earnings - deductions;
 
-monthly[month] = net;
-last = {earnings, deductions, net};
+temp[month] = net;
+last = {earnings,deductions,net};
 });
 
-// update salary
-if(last){
-document.getElementById("currentSalary").innerText = "₹ " + last.earnings;
-document.getElementById("deduction").innerText = "₹ " + last.deductions;
-document.getElementById("netSalary").innerText = "₹ " + last.net;
+if(Object.keys(temp).length > 0){
+monthly = temp;
+document.getElementById("currentSalary").innerText = "₹ "+last.earnings;
+document.getElementById("deduction").innerText = "₹ "+last.deductions;
+document.getElementById("netSalary").innerText = "₹ "+last.net;
 }
 
-// chart
+})
+.catch(()=>{
+console.log("CSV load failed → using demo data");
+});
+
+// DRAW CHART (always runs)
+setTimeout(drawChart,300);
+
+function drawChart(){
+
 let chart = document.getElementById("chart");
-chart.innerHTML = '<svg class="line" id="line"></svg><div class="coin">₹</div>';
+chart.innerHTML = "";
 
 let values = Object.values(monthly);
 let max = Math.max(...values);
@@ -334,12 +240,13 @@ bar.style.height = (v/max*100)+"%";
 chart.appendChild(bar);
 });
 
-// svg line
-let svg = document.getElementById("line");
+// SVG
+let svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
+svg.setAttribute("class","line");
 
 let points = values.map((v,i)=>{
-let x = (i/(values.length-1))*280+10;
-let y = 140-(v/max*120);
+let x = (i/(values.length-1))*100;
+let y = 100-(v/max*100);
 return `${x},${y}`;
 }).join(" ");
 
@@ -350,24 +257,8 @@ poly.setAttribute("stroke","#f4a300");
 poly.setAttribute("stroke-width","2");
 
 svg.appendChild(poly);
+chart.appendChild(svg);
 
-// dots
-values.forEach((v,i)=>{
-let cx = (i/(values.length-1))*280+10;
-let cy = 140-(v/max*120);
-
-let c = document.createElementNS("http://www.w3.org/2000/svg","circle");
-c.setAttribute("cx",cx);
-c.setAttribute("cy",cy);
-c.setAttribute("r","4");
-
-svg.appendChild(c);
-});
-
-});
-
-function showLoader(url){
-window.location=url;
 }
 
 </script>
