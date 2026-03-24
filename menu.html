@@ -329,19 +329,57 @@ border-radius:50%;
 
 let user = localStorage.getItem("currentUser");
 
-// 🔥 FIX URL (your URL had space)
-let url = "https://hescomsalary1-sudo.github.io/salary-data/salary .csv";
+// ✅ FIXED URL (removed space)
+let url = "https://hescomsalary1-sudo.github.io/salary-data/salary.csv";
 
-// BUTTON LOADER
+
+// ✅ SINGLE showLoader (fixed)
 function showLoader(url){
-document.body.innerHTML += '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:white;display:flex;align-items:center;justify-content:center;z-index:9999"><div style="width:40px;height:40px;border:5px solid #ddd;border-top:5px solid #4b2dd8;border-radius:50%;animation:spin 1s linear infinite"></div></div>';
-setTimeout(()=>{ window.location=url },500);
+let loader = document.createElement("div");
+loader.style.position="fixed";
+loader.style.top="0";
+loader.style.left="0";
+loader.style.width="100%";
+loader.style.height="100%";
+loader.style.background="white";
+loader.style.display="flex";
+loader.style.alignItems="center";
+loader.style.justifyContent="center";
+loader.style.zIndex="99999";
+
+loader.innerHTML = `
+<div style="
+width:40px;
+height:40px;
+border:5px solid #ddd;
+border-top:5px solid #4b2dd8;
+border-radius:50%;
+animation:spin 1s linear infinite;
+"></div>
+
+<style>
+@keyframes spin{
+0%{transform:rotate(0)}
+100%{transform:rotate(360deg)}
 }
+</style>
+`;
+
+document.body.appendChild(loader);
+
+setTimeout(()=>{ window.location = url },500);
+}
+
 
 // FETCH CSV
 fetch(url)
 .then(res => res.text())
 .then(data => {
+
+if(!data){
+console.log("No data");
+return;
+}
 
 let rows = data.trim().split("\n").slice(1);
 
@@ -350,18 +388,17 @@ let monthly = [];
 rows.forEach(r=>{
 let cols = r.split(",");
 
+// user filter
 if(cols[0] !== user) return;
 
-let year = cols[1];
-let month = cols[2];
+let year = Number(cols[1]);
+let month = Number(cols[2]);
 
-// earnings
 let earnings = 0;
 for(let i=3;i<=19;i++){
 earnings += Number(cols[i]) || 0;
 }
 
-// deductions
 let deductions = 0;
 for(let i=20;i<cols.length;i++){
 deductions += Number(cols[i]) || 0;
@@ -369,23 +406,16 @@ deductions += Number(cols[i]) || 0;
 
 let net = earnings - deductions;
 
-monthly.push({
-year: Number(year),
-month: Number(month),
-net,
-earnings,
-deductions
+monthly.push({year, month, net, earnings, deductions});
 });
-});
+
 
 // SORT + LAST 12 MONTHS
-monthly.sort((a,b)=>{
-return a.year - b.year || a.month - b.month;
-});
-
+monthly.sort((a,b)=> a.year - b.year || a.month - b.month);
 monthly = monthly.slice(-12);
 
-// UPDATE SALARY (latest)
+
+// UPDATE SALARY
 let last = monthly[monthly.length-1];
 
 if(last){
@@ -394,31 +424,42 @@ document.getElementById("deduction").innerText = "₹ " + last.deductions;
 document.getElementById("netSalary").innerText = "₹ " + last.net;
 }
 
-// DRAW CHART
+
+// CHART
 let chart = document.getElementById("chart");
 
-// remove skeleton
-chart.innerHTML = '<svg class="line" id="line"></svg><div class="coin">₹</div>';
+// ✅ REMOVE ONLY LOADER (not full UI)
+let loader = document.getElementById("loader");
+if(loader) loader.style.display = "none";
+
+// clear old bars only
+chart.querySelectorAll(".bar").forEach(b => b.remove());
+
+// clear svg
+document.getElementById("line").innerHTML = "";
 
 let values = monthly.map(m => m.net);
 
-// SCALE FIX (₹10K style)
+if(values.length === 0){
+console.log("No user data");
+return;
+}
+
 let max = Math.max(...values);
 let min = Math.min(...values);
 
-// normalize
+// BARS
 values.forEach(v=>{
 let bar = document.createElement("div");
 bar.className="bar";
 
-// scale between 20%–100% (better visual)
-let h = ((v - min) / (max - min || 1)) * 80 + 20;
+let h = ((v - min)/(max - min || 1))*80 + 20;
 bar.style.height = h + "%";
 
 chart.appendChild(bar);
 });
 
-// SVG LINE
+// LINE
 let svg = document.getElementById("line");
 
 let points = values.map((v,i)=>{
@@ -451,13 +492,12 @@ svg.appendChild(c);
 })
 .catch(err=>{
 console.log("CSV error:", err);
+
+// fallback → remove loader
+let loader = document.getElementById("loader");
+if(loader) loader.style.display = "none";
 });
-function showLoader(url){
-document.getElementById("loader").style.display="flex";
-setTimeout(function(){
-window.location = url;
-},1000);
-}
+
 </script>
 
 </body>
