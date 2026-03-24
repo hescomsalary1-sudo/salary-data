@@ -1,105 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title>Menu</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Salary Overview</title>
 
 <style>
 
 body{
-margin:0;
 font-family:'Segoe UI',sans-serif;
-background:linear-gradient(135deg,#eef2f7,#e6ebf3);
-}
-
-/* TITLE */
-.title{
-padding:18px 16px 6px;
-font-size:22px;
-font-weight:600;
-color:#2d3748;
-}
-
-/* TOP SECTION */
-.top{
-display:grid;
-grid-template-columns:1fr;
-gap:12px;
-padding:0 12px;
-}
-
-/* CARD */
-.card{
-background:linear-gradient(145deg,#eef2f7,#dfe5ef);
-border-radius:18px;
-padding:14px;
-box-shadow:
-8px 8px 20px rgba(0,0,0,0.08),
--8px -8px 20px rgba(255,255,255,0.9);
-position:relative;
-}
-
-/* SALARY BOX */
-.grid2{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-}
-
-.box{
-padding:10px;
-border-radius:12px;
-background:#e9edf4;
-box-shadow: inset 3px 3px 8px rgba(0,0,0,0.05),
-            inset -3px -3px 8px rgba(255,255,255,0.8);
-}
-
-.box h4{
 margin:0;
-font-size:12px;
-color:#6b7280;
+background: linear-gradient(135deg, #f7f8fc, #edf5ff);
+padding-bottom:90px;
 }
 
-.box p{
-margin:4px 0 0;
-font-size:18px;
-font-weight:600;
+/* HEADER */
+.top{
+padding:20px;
+background: linear-gradient(135deg, #f7f8fc, #edf5ff);
+color:#2400b7;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+box-shadow:0 6px 18px rgba(0,0,0,0.15);
 }
 
-.blue{color:#2b6cb0;}
-.red{color:#c53030;}
-.green{color:#2f855a;}
-
-.net{
-margin-top:10px;
-padding:12px;
-border-radius:12px;
-background:#e9edf4;
-box-shadow: inset 3px 3px 8px rgba(0,0,0,0.05),
-            inset -3px -3px 8px rgba(255,255,255,0.8);
+.top-row{
+display:flex;
+align-items:center;
+gap:12px;
 }
 
-/* FLOAT ₹ */
-.float{
-position:absolute;
-left:50%;
-top:58%;
-transform:translate(-50%,-50%);
-width:45px;
-height:45px;
+.icon{
+width:36px;
+height:36px;
+background:white;
+color:#4b2dd8;
 border-radius:50%;
-background:#eef2f7;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:20px;
-color:#2b6cb0;
-box-shadow:
-6px 6px 14px rgba(0,0,0,0.15),
--6px -6px 14px rgba(255,255,255,0.9);
+font-weight:bold;
 }
 
-/* CHART */
+/* CHART CARD */
+.chart-card{
+margin:12px;
+padding:15px;
+background:white;
+border-radius:18px;
+box-shadow:0 6px 18px rgba(0,0,0,0.1);
+}
+
 .chart{
 position:relative;
 height:160px;
@@ -112,27 +62,19 @@ justify-content:space-around;
 .bar{
 width:18%;
 border-radius:8px;
-background:linear-gradient(180deg,
-rgba(173,216,230,0.5),
-rgba(0,102,204,0.95));
-box-shadow:inset 0 0 8px rgba(255,255,255,0.4);
+background:linear-gradient(180deg,#9fd3ff,#0052cc);
 }
-
-.bar:nth-child(1){height:60%;}
-.bar:nth-child(2){height:70%;}
-.bar:nth-child(3){height:80%;}
-.bar:nth-child(4){height:90%;}
 
 /* LINE */
-.line{
+svg{
 position:absolute;
-width:100%;
-height:100%;
 top:0;
 left:0;
+width:100%;
+height:100%;
 }
 
-.line circle{
+circle{
 fill:white;
 stroke:#f4a300;
 stroke-width:3;
@@ -141,68 +83,51 @@ stroke-width:3;
 /* COIN */
 .coin{
 position:absolute;
-top:-8px;
+top:-10px;
 right:10px;
 width:45px;
 height:45px;
+background:#f4a300;
+color:white;
 border-radius:50%;
-background:linear-gradient(145deg,#ffd54f,#f4a300);
 display:flex;
 align-items:center;
 justify-content:center;
 font-size:20px;
-color:white;
-box-shadow:0 4px 12px rgba(0,0,0,0.3);
 }
 
-/* BUTTON GRID */
-.buttons{
+/* CONTENT */
+.content{
+padding:10px 15px;
+}
+
+.grid{
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:12px;
-padding:15px 12px;
+gap:15px;
 }
 
 /* BUTTON */
-.btn{
-padding:18px;
-border-radius:18px;
-background:linear-gradient(145deg,#eef2f7,#dfe5ef);
+.card{
+background:white;
+border-radius:16px;
+padding:16px;
 text-align:center;
-box-shadow:
-8px 8px 18px rgba(0,0,0,0.08),
--8px -8px 18px rgba(255,255,255,0.9);
-transition:0.3s;
+box-shadow:0 6px 15px rgba(0,0,0,0.08);
 cursor:pointer;
 }
 
-.btn:active{
-transform:scale(0.94);
-}
-
-/* ICON BOX */
-.icon{
-width:55px;
-height:55px;
+.circle{
+width:50px;
+height:50px;
+background:#4b2dd8;
+color:white;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
 margin:auto;
-border-radius:16px;
 margin-bottom:8px;
-box-shadow:
-5px 5px 12px rgba(0,0,0,0.15),
--5px -5px 12px rgba(255,255,255,0.9);
-}
-
-/* COLORS */
-.blue-bg{background:linear-gradient(145deg,#90cdf4,#3182ce);}
-.purple-bg{background:linear-gradient(145deg,#b794f4,#6b46c1);}
-.orange-bg{background:linear-gradient(145deg,#f6ad55,#dd6b20);}
-.green-bg{background:linear-gradient(145deg,#68d391,#2f855a);}
-
-.btn p{
-margin:0;
-font-weight:600;
-color:#4a5568;
-font-size:13px;
 }
 
 </style>
@@ -210,87 +135,112 @@ font-size:13px;
 
 <body>
 
-<div class="title">Salary Overview</div>
-
 <div class="top">
-
-<!-- LEFT CARD -->
-<div class="card">
-
-<div class="grid2">
-<div class="box">
-<h4>Current Salary</h4>
-<p class="blue">₹85,000</p>
-</div>
-
-<div class="box">
-<h4>Deductions</h4>
-<p class="red">₹5,000</p>
+<div class="top-row">
+<div class="icon">₹</div>
+<h2>Salary Menu</h2>
 </div>
 </div>
 
-<div class="net">
-<h4>Net Salary:</h4>
-<p class="green" style="font-size:22px;">₹80,000</p>
-</div>
-
-<div class="float">₹</div>
-
-</div>
-
-<!-- CHART -->
-<div class="card">
-
-<div class="chart">
-
-<div class="bar"></div>
-<div class="bar"></div>
-<div class="bar"></div>
-<div class="bar"></div>
-
-<svg class="line" viewBox="0 0 300 150">
-<polyline points="20,110 90,80 150,80 220,50 280,20"
-fill="none" stroke="#f4a300" stroke-width="3"/>
-
-<circle cx="20" cy="110" r="4"/>
-<circle cx="90" cy="80" r="4"/>
-<circle cx="150" cy="80" r="4"/>
-<circle cx="220" cy="50" r="4"/>
-<circle cx="280" cy="20" r="4"/>
-</svg>
-
+<!-- 🔥 CHART -->
+<div class="chart-card">
+<div class="chart" id="chart"></div>
 <div class="coin">₹</div>
-
-</div>
-
-</div>
-
 </div>
 
 <!-- BUTTONS -->
-<div class="buttons">
+<div class="content">
+<div class="grid">
 
-<div class="btn">
-<div class="icon blue-bg"></div>
-<p>View Payslip</p>
+<div class="card" onclick="showLoader('salary.html')">
+<div class="circle">💰</div>
+<p>Salary</p>
 </div>
 
-<div class="btn">
-<div class="icon purple-bg"></div>
-<p>Salary Breakdown</p>
+<div class="card" onclick="showLoader('reports_menu.html')">
+<div class="circle">📊</div>
+<p>Reports</p>
 </div>
 
-<div class="btn">
-<div class="icon orange-bg"></div>
-<p>Allowances & Deductions</p>
-</div>
-
-<div class="btn">
-<div class="icon green-bg"></div>
-<p>Download Payslip</p>
+<div class="card" onclick="showLoader('holidays.html')">
+<div class="circle">🎉</div>
+<p>Holiday List</p>
 </div>
 
 </div>
+</div>
+
+<script>
+
+// LOAD CSV (place your CSV file in same folder)
+fetch("salary.csv")
+.then(res => res.text())
+.then(data => {
+
+let rows = data.split("\n").slice(1);
+
+let monthly = {};
+
+rows.forEach(r=>{
+let cols = r.split(",");
+
+let month = cols[2];
+
+// earnings (adjust indexes if needed)
+let earnings =
+Number(cols[3]) + Number(cols[4]) + Number(cols[5]) +
+Number(cols[6]) + Number(cols[7]) + Number(cols[8]) +
+Number(cols[9]) + Number(cols[10]) + Number(cols[11]);
+
+// deductions
+let deductions =
+Number(cols[20]) + Number(cols[21]) + Number(cols[22]) +
+Number(cols[23]) + Number(cols[24]) + Number(cols[25]);
+
+let net = earnings - deductions;
+
+monthly[month] = net;
+});
+
+// CREATE CHART
+let values = Object.values(monthly);
+let max = Math.max(...values);
+
+let chart = document.getElementById("chart");
+
+values.forEach((v,i)=>{
+let bar = document.createElement("div");
+bar.className="bar";
+bar.style.height = (v/max*100)+"%";
+chart.appendChild(bar);
+});
+
+// LINE SVG
+let svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
+
+let points = values.map((v,i)=>{
+let x = (i/(values.length-1))*100;
+let y = 100-(v/max*100);
+return `${x},${y}`;
+}).join(" ");
+
+let poly = document.createElementNS("http://www.w3.org/2000/svg","polyline");
+poly.setAttribute("points",points);
+poly.setAttribute("fill","none");
+poly.setAttribute("stroke","#f4a300");
+poly.setAttribute("stroke-width","3");
+
+svg.appendChild(poly);
+
+chart.appendChild(svg);
+
+});
+
+function showLoader(url){
+window.location=url;
+}
+
+</script>
 
 </body>
 </html>
