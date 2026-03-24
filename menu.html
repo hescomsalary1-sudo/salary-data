@@ -184,18 +184,43 @@ font-size:13px;
 font-weight:600;
 }
 
-/* SKELETON */
-.skeleton{
-animation:shimmer 1.2s infinite linear;
-background:linear-gradient(90deg,#eee,#f5f5f5,#eee);
-background-size:200% 100%;
-border-radius:8px;
+#loader{
+position:fixed;
+top:0;
+left:0;
+width:100vw;
+height:100vh;
+background:#f3f4fa;
+display:none;
+flex-direction:column;
+padding:20px;
+gap:15px;
+z-index:99999; /* 🔥 very important */
+overflow:hidden;
 }
 
+/* shimmer */
 @keyframes shimmer{
-0%{background-position:-200%}
-100%{background-position:200%}
+0%{background-position:-400px 0;}
+100%{background-position:400px 0;}
 }
+
+.skeleton{
+height:20px;
+border-radius:6px;
+background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
+background-size:400px 100%;
+animation:shimmer 1.2s infinite;
+}
+
+.skel-big{height:80px;border-radius:20px;}
+.skel-circle{
+width:55px;
+height:55px;
+border-radius:50%;
+}
+.skel-line{height:15px;}
+.skel-card{height:90px;border-radius:20px;}
 
 </style>
 </head>
@@ -234,11 +259,37 @@ border-radius:8px;
 <div class="card">
 <div class="chart" id="chart">
 
-<!-- skeleton -->
-<div class="bar skeleton"></div>
-<div class="bar skeleton"></div>
-<div class="bar skeleton"></div>
-<div class="bar skeleton"></div>
+<div id="loader">
+
+<!-- header -->
+<div style="display:flex;align-items:center;gap:10px;">
+<div class="skeleton skel-circle"></div>
+<div style="flex:1;">
+<div class="skeleton skel-line" style="width:60%;margin-bottom:6px;"></div>
+<div class="skeleton skel-line" style="width:40%;"></div>
+</div>
+</div>
+
+<!-- salary card -->
+<div class="skeleton skel-big"></div>
+
+<!-- grid -->
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
+<div class="skeleton skel-card"></div>
+<div class="skeleton skel-card"></div>
+<div class="skeleton skel-card"></div>
+<div class="skeleton skel-card"></div>
+</div>
+
+<!-- news -->
+<div class="skeleton skel-line" style="width:70%;"></div>
+<div class="skeleton skel-line"></div>
+<div class="skeleton skel-line" style="width:90%;"></div>
+  <div class="skeleton skel-card"></div>
+<div class="skeleton skel-card"></div>
+<div class="skeleton skel-card"></div>
+
+</div>
 
 <svg class="line" id="line"></svg>
 
@@ -401,7 +452,12 @@ svg.appendChild(c);
 .catch(err=>{
 console.log("CSV error:", err);
 });
-
+function showLoader(url){
+document.getElementById("loader").style.display="flex";
+setTimeout(function(){
+window.location = url;
+},1000);
+}
 </script>
 
 </body>
