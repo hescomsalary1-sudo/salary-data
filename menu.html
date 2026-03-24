@@ -5,6 +5,7 @@
 <title>Salary Overview</title>
 
 <style>
+
 /* --- SAME YOUR CSS (NO CHANGE) --- */
 body{
 margin:0;
@@ -192,7 +193,7 @@ left:0;
 width:100vw;
 height:100vh;
 background:#f3f4fa;
-display:flex;
+display:none; /* ✅ FIXED */
 flex-direction:column;
 padding:20px;
 gap:15px;
@@ -216,12 +217,37 @@ animation:shimmer 1.2s infinite;
 .skel-circle{width:55px;height:55px;border-radius:50%;}
 .skel-line{height:15px;}
 .skel-card{height:90px;border-radius:20px;}
+
 </style>
 </head>
 
 <body>
 
-<div id="loader"></div>
+<!-- ✅ SKELETON CONTENT ADDED -->
+<div id="loader">
+
+<div style="display:flex;align-items:center;gap:10px;">
+<div class="skeleton skel-circle"></div>
+<div style="flex:1;">
+<div class="skeleton skel-line" style="width:60%;margin-bottom:6px;"></div>
+<div class="skeleton skel-line" style="width:40%;"></div>
+</div>
+</div>
+
+<div class="skeleton skel-big"></div>
+
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
+<div class="skeleton skel-card"></div>
+<div class="skeleton skel-card"></div>
+<div class="skeleton skel-card"></div>
+<div class="skeleton skel-card"></div>
+</div>
+
+<div class="skeleton skel-line" style="width:70%;"></div>
+<div class="skeleton skel-line"></div>
+<div class="skeleton skel-line" style="width:90%;"></div>
+
+</div>
 
 <div class="title">Salary Overview</div>
 
@@ -285,10 +311,12 @@ animation:shimmer 1.2s infinite;
 
 let user = localStorage.getItem("currentUser");
 
+// show loader on page load
+document.getElementById("loader").style.display="flex";
+
 // FIXED URL
 let url = "https://hescomsalary1-sudo.github.io/salary-data/salary%20.csv";
 
-// BUTTON LOADER (SKELETON)
 function showLoader(url){
 document.getElementById("loader").style.display="flex";
 setTimeout(()=>{ window.location=url },800);
@@ -310,14 +338,11 @@ if(cols[0] !== user) return;
 let year = Number(cols[1]);
 let month = Number(cols[2]);
 
-
-// ✅ TOTAL EARNINGS (3 → 19)
 let earnings = 0;
 for(let i=3;i<=19;i++){
 earnings += Number(cols[i]) || 0;
 }
 
-// deductions
 let deductions = 0;
 for(let i=20;i<cols.length;i++){
 deductions += Number(cols[i])||0;
@@ -328,7 +353,6 @@ let net = earnings - deductions;
 monthly.push({year,month,net,earnings,deductions});
 });
 
-// sort + last month
 monthly.sort((a,b)=>a.year-b.year||a.month-b.month);
 
 let last = monthly.length ? monthly[monthly.length-1] : null;
@@ -339,7 +363,6 @@ document.getElementById("deduction").innerText="₹ "+last.deductions;
 document.getElementById("netSalary").innerText="₹ "+last.net;
 }
 
-// chart
 let chart=document.getElementById("chart");
 chart.querySelectorAll(".bar").forEach(b=>b.remove());
 document.getElementById("line").innerHTML="";
@@ -372,7 +395,7 @@ poly.setAttribute("stroke-width","2");
 
 svg.appendChild(poly);
 
-// hide skeleton
+// hide loader
 document.getElementById("loader").style.display="none";
 
 });
