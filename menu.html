@@ -397,6 +397,7 @@ document.getElementById("line").innerHTML="";
 let last12 = monthly.slice(-12);
 let values = last12.map(m=>m.net);
 let months = last12.map(m=>m.month);
+let years = last12.map(m=>m.year);
             // ✅ AXIS ADD
 
 let names=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -424,9 +425,17 @@ yAxis.style.justifyContent = "space-between";
 /* X AXIS */
 let xAxis=document.getElementById("xAxis");
 xAxis.innerHTML="";
-months.forEach(m=>{
+
+months.forEach((m,i)=>{
 let d=document.createElement("div");
-d.innerText=names[m-1];
+
+// ✅ Month + Year
+d.innerText = names[m-1] + " " + years[i];
+
+// optional: make it smaller
+d.style.textAlign="center";
+d.style.fontSize="9px";
+
 xAxis.appendChild(d);
 });
 
