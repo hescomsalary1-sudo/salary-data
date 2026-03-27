@@ -410,7 +410,7 @@ yAxis.innerHTML="";
 for(let i=yMax;i>=0;i-=10000){
 let d=document.createElement("div");
 d.style.height = (160 / (yMax/10000)) + "px";
-d.innerText=(i/1000)+"K";
+d.innerText=(i/10000)+"K";
 yAxis.appendChild(d);
 }
 yAxis.style.display = "flex";
