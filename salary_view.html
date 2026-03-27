@@ -298,7 +298,10 @@ async function loadSalary(){
 document.getElementById("loader").style.display="flex";
 
 let year = localStorage.getItem("selectedYear");
-let month = localStorage.getItem("selectedMonth
+let month = localStorage.getItem("selectedMonth");
+
+// ✅ FIX FORMAT
+month = month.toString().padStart(2,"0");
 let names=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
 document.getElementById("selectedInfo").innerText =
