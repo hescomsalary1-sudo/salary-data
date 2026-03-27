@@ -469,10 +469,7 @@ document.getElementById("result").innerHTML="No salary found.";
 document.getElementById("pdfButtons").style.display="none";
 
 }
-// ✅ AUTO LOAD WHEN PAGE OPENS
-window.onload = function(){
-loadSalary();
-}
+
 function printSalary(){
 let content=document.getElementById("result").innerHTML;
 let win=window.open('', '', 'width=800,height=600');
@@ -653,7 +650,10 @@ document.body.classList.add("dark-mode");
 }
 
 </script>
-
+// ✅ AUTO LOAD WHEN PAGE OPENS
+window.onload = function(){
+loadSalary();
+}
 <div class="loader" id="loader">
 <div class="spinner"></div>
 </div>
