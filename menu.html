@@ -106,12 +106,14 @@ position:relative;
 height:160px;
 display:flex;
 align-items:flex-end;
-justify-content:space-around;
+justify-content:space-between; /* better spacing */
+gap:6px; /* ✅ add gap */
+padding:0 5px; /* small side spacing */
 }
 
 /* BAR */
 .bar{
-width:18%;
+width:10px;
 border-radius:8px;
 background:linear-gradient(180deg,#9fd3ff,#0052cc);
 }
@@ -430,7 +432,9 @@ months.forEach((m,i)=>{
 let d=document.createElement("div");
 
 // ✅ Month + Year
-d.innerText = names[m-1] + " " + years[i];
+d.innerHTML = names[m-1] + "<br>" + years[i];
+d.style.textAlign = "center";
+d.style.fontSize = "9px";
 
 // optional: make it smaller
 d.style.textAlign="center";
