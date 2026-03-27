@@ -334,8 +334,8 @@ return "";
 async function loadSalary(){
 document.getElementById("loader").style.display="flex";
 
-let year = document.getElementById("year").value;
-let month = document.getElementById("month").value;
+let year = localStorage.getItem("selectedYear");
+let month = localStorage.getItem("selectedMonth");
 
 /* FIXED CSV URL */
 let response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
