@@ -41,43 +41,57 @@ position:relative;
 }
 
 /* SALARY */
+/* 🔥 MODERN SALARY CARDS */
+
 .grid2{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:10px;
+gap:8px; /* smaller gap */
 }
 
 .box{
-padding:10px;
-border-radius:12px;
-background:#e9edf4;
-box-shadow: inset 3px 3px 8px rgba(0,0,0,0.05),
-            inset -3px -3px 8px rgba(255,255,255,0.8);
+padding:8px;
+border-radius:14px;
+background:linear-gradient(145deg,#ffffff,#e6ebf3);
+box-shadow:
+4px 4px 10px rgba(0,0,0,0.08),
+-4px -4px 10px rgba(255,255,255,0.9);
+transition:0.2s;
 }
 
 .box h4{
 margin:0;
-font-size:12px;
+font-size:11px;
 color:#6b7280;
 }
 
 .box p{
-margin:4px 0 0;
-font-size:18px;
+margin:3px 0 0;
+font-size:15px; /* smaller */
 font-weight:600;
 }
 
-.blue{color:#2b6cb0;}
-.red{color:#c53030;}
-.green{color:#2f855a;}
-
+/* NET CARD (highlight) */
 .net{
-margin-top:10px;
-padding:12px;
-border-radius:12px;
-background:#e9edf4;
-box-shadow: inset 3px 3px 8px rgba(0,0,0,0.05),
-            inset -3px -3px 8px rgba(255,255,255,0.8);
+margin-top:8px;
+padding:10px;
+border-radius:14px;
+background:linear-gradient(135deg,#4facfe,#0052cc);
+color:white;
+text-align:center;
+box-shadow:0 6px 15px rgba(0,82,204,0.3);
+}
+
+.net h4{
+margin:0;
+font-size:12px;
+opacity:0.9;
+}
+
+.net p{
+margin:4px 0 0;
+font-size:18px;
+font-weight:700;
 }
 
 /* FLOAT */
