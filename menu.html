@@ -5,8 +5,6 @@
 <title>Salary Overview</title>
 
 <style>
-
-/* --- SAME YOUR CSS (NO CHANGE) --- */
 body{
 margin:0;
 font-family:'Segoe UI',sans-serif;
@@ -21,26 +19,17 @@ font-weight:600;
 color:#2d3748;
 }
 
-/* MOBILE TOP */
-.top{
-display:grid;
-grid-template-columns:1fr;
-gap:12px;
-padding:0 12px;
-}
-
 /* CARD */
 .card{
-background:linear-gradient(145deg,#eef2f7,#dfe5ef);
+background:rgba(255,255,255,0.6);
+backdrop-filter:blur(10px);
 border-radius:18px;
 padding:14px;
-box-shadow:
-8px 8px 20px rgba(0,0,0,0.08),
--8px -8px 20px rgba(255,255,255,0.9);
-position:relative;
+margin:10px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
-/* SALARY */
+/* SALARY BOX */
 .grid2{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -50,101 +39,19 @@ gap:10px;
 .box{
 padding:10px;
 border-radius:12px;
-background:#e9edf4;
-box-shadow: inset 3px 3px 8px rgba(0,0,0,0.05),
-            inset -3px -3px 8px rgba(255,255,255,0.8);
-}
-
-.box h4{
-margin:0;
-font-size:12px;
-color:#6b7280;
-}
-
-.box p{
-margin:4px 0 0;
-font-size:18px;
-font-weight:600;
+background:#eef2f7;
 }
 
 .blue{color:#2b6cb0;}
 .red{color:#c53030;}
 .green{color:#2f855a;}
 
-.net{
-margin-top:10px;
-padding:12px;
-border-radius:12px;
-background:#e9edf4;
-box-shadow: inset 3px 3px 8px rgba(0,0,0,0.05),
-            inset -3px -3px 8px rgba(255,255,255,0.8);
-}
-
-/* FLOAT */
-.float{
-position:absolute;
-left:50%;
-top:58%;
-transform:translate(-50%,-50%);
-width:45px;
-height:45px;
-border-radius:50%;
-background:#eef2f7;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:20px;
-color:#2b6cb0;
-box-shadow:
-6px 6px 14px rgba(0,0,0,0.15),
--6px -6px 14px rgba(255,255,255,0.9);
-}
-
 /* CHART */
-.chart{
-position:relative;
-height:160px;
+#chart{
+height:180px;
 display:flex;
 align-items:flex-end;
-justify-content:space-around;
-}
-
-/* BAR */
-.bar{
-width:18%;
-border-radius:8px;
-background:linear-gradient(180deg,#9fd3ff,#0052cc);
-}
-
-/* SVG */
-.line{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-}
-
-.line circle{
-fill:white;
-stroke:#f4a300;
-stroke-width:2;
-}
-
-/* COIN */
-.coin{
-position:absolute;
-top:-8px;
-right:10px;
-width:45px;
-height:45px;
-border-radius:50%;
-background:linear-gradient(145deg,#ffd54f,#f4a300);
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:20px;
-color:white;
+gap:6px;
 }
 
 /* BUTTONS */
@@ -152,254 +59,163 @@ color:white;
 display:grid;
 grid-template-columns:repeat(2,1fr);
 gap:12px;
-padding:15px 12px;
+padding:10px;
 }
 
 .btn{
-padding:18px;
-border-radius:18px;
-background:linear-gradient(145deg,#eef2f7,#dfe5ef);
+padding:16px;
+border-radius:20px;
+background:rgba(255,255,255,0.6);
+backdrop-filter:blur(10px);
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
 text-align:center;
-box-shadow:
-8px 8px 18px rgba(0,0,0,0.08),
--8px -8px 18px rgba(255,255,255,0.9);
 cursor:pointer;
+transition:0.2s;
 }
 
-.icon{
-width:55px;
-height:55px;
-margin:auto;
-border-radius:16px;
-margin-bottom:8px;
+.btn:active{
+transform:scale(0.96);
 }
-
-.blue-bg{background:linear-gradient(145deg,#90cdf4,#3182ce);}
-.purple-bg{background:linear-gradient(145deg,#b794f4,#6b46c1);}
-.orange-bg{background:linear-gradient(145deg,#f6ad55,#dd6b20);}
-.green-bg{background:linear-gradient(145deg,#68d391,#2f855a);}
-
-.btn p{
-margin:0;
-font-size:13px;
-font-weight:600;
-}
-
-/* SKELETON */
-#loader{
-position:fixed;
-top:0;
-left:0;
-width:100vw;
-height:100vh;
-background:#f3f4fa;
-display:none;
-flex-direction:column;
-padding:20px;
-gap:15px;
-z-index:99999;
-}
-
-@keyframes shimmer{
-0%{background-position:-400px 0;}
-100%{background-position:400px 0;}
-}
-
-.skeleton{
-height:20px;
-border-radius:6px;
-background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
-background-size:400px 100%;
-animation:shimmer 1.2s infinite;
-}
-
-.skel-big{height:80px;border-radius:20px;}
-.skel-circle{width:55px;height:55px;border-radius:50%;}
-.skel-line{height:15px;}
-.skel-card{height:90px;border-radius:20px;}
-
 </style>
 </head>
 
 <body>
 
-<div id="loader">
-<div style="display:flex;align-items:center;gap:10px;">
-<div class="skeleton skel-circle"></div>
-<div style="flex:1;">
-<div class="skeleton skel-line" style="width:60%;margin-bottom:6px;"></div>
-<div class="skeleton skel-line" style="width:40%;"></div>
-</div>
-</div>
-
-<div class="skeleton skel-big"></div>
-
-<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
-<div class="skeleton skel-card"></div>
-<div class="skeleton skel-card"></div>
-<div class="skeleton skel-card"></div>
-<div class="skeleton skel-card"></div>
-</div>
-</div>
-
 <div class="title">Salary Overview</div>
 
-<div class="top">
+<!-- ✅ USER PREVIEW -->
+<div class="card">
+<h4 id="userName"></h4>
+<p id="monthYear"></p>
+<h2 id="netHighlight"></h2>
+</div>
 
+<!-- ✅ SALARY -->
 <div class="card">
 <div class="grid2">
 <div class="box">
-<h4>Current Salary</h4>
-<p class="blue" id="currentSalary">Loading...</p>
+<p>Current Salary</p>
+<h3 id="currentSalary"></h3>
 </div>
 
 <div class="box">
-<h4>Deductions</h4>
-<p class="red" id="deduction">Loading...</p>
+<p>Deductions</p>
+<h3 id="deduction"></h3>
 </div>
 </div>
 
-<div class="net">
-<h4>Net Salary:</h4>
-<p class="green" id="netSalary" style="font-size:22px;">Loading...</p>
+<p style="margin-top:10px;">Net Salary</p>
+<h2 class="green" id="netSalary"></h2>
 </div>
 
-<div class="float">₹</div>
-</div>
-
+<!-- ✅ CHART -->
 <div class="card">
 
 <div style="display:flex;">
-<div id="yAxis" style="width:40px;font-size:10px;color:#6b7280;"></div>
 
+<!-- Y AXIS -->
+<div id="yAxis" style="width:40px;font-size:10px;"></div>
+
+<!-- CHART -->
 <div style="flex:1;">
-<div class="chart" id="chart">
-<svg class="line" id="line"></svg>
-<div class="coin">₹</div>
-</div>
-
-<div id="xAxis" style="display:flex;justify-content:space-around;font-size:10px;color:#6b7280;margin-top:4px;"></div>
-</div>
+<div id="chart"></div>
+<div id="xAxis" style="display:flex;justify-content:space-between;font-size:10px;margin-top:6px;"></div>
 </div>
 
 </div>
 
 </div>
 
+<!-- ✅ BUTTONS -->
 <div class="buttons">
-<div class="btn" onclick="showLoader('salary.html')"><div class="icon blue-bg"></div><p>Salary</p></div>
-<div class="btn" onclick="showLoader('reports_menu.html')"><div class="icon purple-bg"></div><p>Reports</p></div>
-<div class="btn" onclick="showLoader('holidays.html')"><div class="icon orange-bg"></div><p>Holiday List</p></div>
-<div class="btn" onclick="showLoader('salary_details.html')"><div class="icon green-bg"></div><p>Salary Details</p></div>
+<div class="btn" onclick="go('salary.html')">Salary</div>
+<div class="btn" onclick="go('reports_menu.html')">Reports</div>
+<div class="btn" onclick="go('holidays.html')">Holiday List</div>
+<div class="btn" onclick="go('salary_details.html')">Salary Details</div>
 </div>
 
 <script>
 
 let user = localStorage.getItem("currentUser");
-document.getElementById("loader").style.display="flex";
-
 let url = "https://hescomsalary1-sudo.github.io/salary-data/salary%20.csv";
 
-function showLoader(url){
-document.getElementById("loader").style.display="flex";
-setTimeout(()=>{ window.location=url },800);
-}
+function go(u){ window.location=u; }
 
 fetch(url)
-.then(res => res.text())
-.then(data => {
+.then(res=>res.text())
+.then(data=>{
 
-let rows = data.trim().split("\n").slice(1);
-let monthly = [];
+let rows=data.trim().split("\n").slice(1);
+let monthly=[];
 
 rows.forEach(r=>{
-let cols = r.split(",");
-if(cols[0] !== user) return;
+let c=r.split(",");
+if(c[0]!==user) return;
 
-let year = Number(cols[1]);
-let month = Number(cols[2]);
+let year=+c[1];
+let month=+c[2];
 
-let earnings = 0;
-for(let i=3;i<=19;i++){ earnings += Number(cols[i]) || 0; }
+let earn=0;
+for(let i=3;i<=19;i++) earn+=+c[i]||0;
 
-let deductions = 0;
-for(let i=20;i<cols.length;i++){ deductions += Number(cols[i])||0; }
+let ded=0;
+for(let i=20;i<c.length;i++) ded+=+c[i]||0;
 
-let net = earnings - deductions;
-monthly.push({year,month,net,earnings,deductions});
+monthly.push({year,month,earn,ded,net:earn-ded});
 });
 
-monthly.sort((a,b)=> (a.year*100+a.month)-(b.year*100+b.month));
+monthly.sort((a,b)=>(a.year*100+a.month)-(b.year*100+b.month));
 
 let last = monthly.length>=2 ? monthly[monthly.length-2] : monthly[0];
 
+let names=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+/* USER PREVIEW */
 if(last){
-document.getElementById("currentSalary").innerText="₹ "+last.earnings;
-document.getElementById("deduction").innerText="₹ "+last.deductions;
+document.getElementById("userName").innerText=user;
+document.getElementById("monthYear").innerText=names[last.month-1]+" "+last.year;
+document.getElementById("netHighlight").innerText="₹ "+last.net;
+
+document.getElementById("currentSalary").innerText="₹ "+last.earn;
+document.getElementById("deduction").innerText="₹ "+last.ded;
 document.getElementById("netSalary").innerText="₹ "+last.net;
 }
 
-/* ✅ NEW CHART LOGIC */
+/* CHART */
+let last12=monthly.slice(-12);
+let values=last12.map(m=>m.net);
+let months=last12.map(m=>m.month);
 
-let last12 = monthly.slice(-12);
-let values = last12.map(m=>m.net);
-let months = last12.map(m=>m.month);
-
-let maxVal = Math.max(...values);
-let yMax = Math.ceil(maxVal/10000)*10000;
+let max=Math.max(...values);
+let yMax=Math.ceil(max/10000)*10000;
 
 /* Y AXIS */
 let yAxis=document.getElementById("yAxis");
-yAxis.innerHTML="";
 for(let i=yMax;i>=0;i-=10000){
 let d=document.createElement("div");
-d.style.height="20px";
+d.style.height="25px";
 d.innerText=(i/1000)+"K";
 yAxis.appendChild(d);
 }
 
+/* BARS */
+let chart=document.getElementById("chart");
+values.forEach(v=>{
+let bar=document.createElement("div");
+bar.style.flex="1";
+bar.style.height=(v/yMax)*100+"%";
+bar.style.background="linear-gradient(180deg,#4facfe,#0052cc)";
+bar.style.borderRadius="8px";
+chart.appendChild(bar);
+});
+
 /* X AXIS */
-let names=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 let xAxis=document.getElementById("xAxis");
-xAxis.innerHTML="";
 months.forEach(m=>{
 let d=document.createElement("div");
 d.innerText=names[m-1];
 xAxis.appendChild(d);
 });
-
-/* BARS */
-let chart=document.getElementById("chart");
-chart.querySelectorAll(".bar").forEach(b=>b.remove());
-document.getElementById("line").innerHTML="";
-
-values.forEach(v=>{
-let bar=document.createElement("div");
-bar.className="bar";
-bar.style.height=(v/yMax)*100+"%";
-chart.appendChild(bar);
-});
-
-/* LINE */
-let svg=document.getElementById("line");
-let w=chart.clientWidth;
-let h=chart.clientHeight;
-
-let points=values.map((v,i)=>{
-let x=(i/(values.length-1))*w;
-let y=h-(v/yMax)*h;
-return `${x},${y}`;
-}).join(" ");
-
-let poly=document.createElementNS("http://www.w3.org/2000/svg","polyline");
-poly.setAttribute("points",points);
-poly.setAttribute("fill","none");
-poly.setAttribute("stroke","#f4a300");
-poly.setAttribute("stroke-width","2");
-
-svg.appendChild(poly);
-
-document.getElementById("loader").style.display="none";
 
 });
 
