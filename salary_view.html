@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Last Salary Details</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+font-family:sans-serif;
+margin:0;
+background:#f3f4fa;
+padding:15px;
+}
+
+/* HEADER */
+.header{
+background:#4b2dd8;
+color:white;
+padding:15px;
+border-radius:12px;
+margin-bottom:15px;
+}
+
+/* CARD */
+.card{
+background:white;
+padding:15px;
+border-radius:15px;
+margin-bottom:12px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.title{
+font-weight:bold;
+margin-bottom:10px;
+color:#4b2dd8;
+}
+
+/* ROW */
+.row{
+display:flex;
+justify-content:space-between;
+margin:6px 0;
+font-size:14px;
+}
+
+/* TOTAL */
+.total{
+font-weight:bold;
+color:green;
+}
+
+.deduction{
+color:red;
+}
+
+.back-btn{
+margin-top:15px;
+padding:12px;
+background:#4b2dd8;
+color:white;
+text-align:center;
+border-radius:10px;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<h3>Last Month Salary</h3>
+<div id="monthYear"></div>
+</div>
+
+<div class="card">
+<div class="title">Earnings</div>
+<div id="earnings"></div>
+</div>
+
+<div class="card">
+<div class="title">Deductions</div>
+<div id="deductions"></div>
+</div>
+
+<div class="card total">
+Net Salary: ₹ <span id="net"></span>
+</div>
+
+<div class="back-btn" onclick="goBack()">⬅ Back</div>
+
+<script>
+
+function goBack(){
+window.location="home.html";
+}
+
+async function loadSalary(){
+
+let user = localStorage.getItem("currentUser");
+if(!user) return;
+
+let now = new Date();
+let prev = new Date(now.getFullYear(), now.getMonth()-1, 1);
+
+let year = prev.getFullYear().toString();
+let month = String(prev.getMonth()+1).padStart(2,"0");
+
+document.getElementById("monthYear").innerText =
+month + " / " + year;
+
+try{
+
+let res = await fetch(
+"https://hescomsalary1-sudo.github.io/salary-data/salary .csv?v=" + new Date().getTime()
+);
+
+let data = await res.text();
+let rows = data.trim().split("\n");
+
+for(let i=1;i<rows.length;i++){
+
+let c = rows[i].split(",");
+
+if(c[0]===user && c[1]===year && c[2]===month){
+
+let earnings = [
+["Basic",c[3]],
+["DA",c[4]],
+["HRA",c[5]],
+["CCA",c[6]],
+["Other",c[19]]
+];
+
+let deductions = [
+["LIC",c[20]],
+["Income Tax",c[21]],
+["PT",c[22]],
+["Other",c[35]]
+];
+
+let earnHTML="";
+let totalE=0;
+
+earnings.forEach(e=>{
+let val = +e[1] || 0;
+totalE+=val;
+earnHTML+=`<div class="row"><span>${e[0]}</span><span>₹${val}</span></div>`;
+});
+
+let dedHTML="";
+let totalD=0;
+
+deductions.forEach(d=>{
+let val = +d[1] || 0;
+totalD+=val;
+dedHTML+=`<div class="row deduction"><span>${d[0]}</span><span>₹${val}</span></div>`;
+});
+
+document.getElementById("earnings").innerHTML=earnHTML;
+document.getElementById("deductions").innerHTML=dedHTML;
+
+document.getElementById("net").innerText = totalE - totalD;
+
+return;
+
+}
+
+}
+
+}catch(e){
+
+alert("Error loading salary");
+
+}
+
+}
+
+loadSalary();
+
+</script>
+
+</body>
+</html>
