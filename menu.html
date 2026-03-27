@@ -429,7 +429,7 @@ let min=Math.min(...values);
 values.forEach(v=>{
 let bar=document.createElement("div");
 bar.className="bar";
-bar.style.height=((v-min)/(max-min||1))*80+20+"%";
+bar.style.height=(v/yMax)*100+"%";
 chart.appendChild(bar);
 });
 
