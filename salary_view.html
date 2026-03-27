@@ -509,9 +509,12 @@ break;
 
 }
 
-let year=document.getElementById("year").value;
-let month=document.getElementById("month").options[
-document.getElementById("month").selectedIndex].text;
+let year = localStorage.getItem("selectedYear");
+let monthNum = localStorage.getItem("selectedMonth");
+
+let names=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+let month = names[monthNum-1];
 
 
 /* row generator */
