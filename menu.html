@@ -275,10 +275,25 @@ animation:shimmer 1.2s infinite;
 </div>
 
 <div class="card">
+
+<div style="display:flex;">
+
+<!-- Y AXIS -->
+<div id="yAxis" style="width:40px;font-size:10px;color:#6b7280;"></div>
+
+<!-- CHART AREA -->
+<div style="flex:1;">
 <div class="chart" id="chart">
 <svg class="line" id="line"></svg>
 <div class="coin">₹</div>
 </div>
+
+<!-- X AXIS -->
+<div id="xAxis" style="display:flex;justify-content:space-around;font-size:10px;color:#6b7280;margin-top:4px;"></div>
+</div>
+
+</div>
+
 </div>
 
 </div>
@@ -379,7 +394,34 @@ let chart=document.getElementById("chart");
 chart.querySelectorAll(".bar").forEach(b=>b.remove());
 document.getElementById("line").innerHTML="";
 
-let values=monthly.slice(-12).map(m=>m.net);
+let last12 = monthly.slice(-12);
+let values = last12.map(m=>m.net);
+let months = last12.map(m=>m.month);
+            // ✅ AXIS ADD
+
+let names=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+/* Y AXIS */
+let maxVal = Math.max(...values);
+let yMax = Math.ceil(maxVal/10000)*10000;
+
+let yAxis=document.getElementById("yAxis");
+yAxis.innerHTML="";
+for(let i=yMax;i>=0;i-=10000){
+let d=document.createElement("div");
+d.style.height="20px";
+d.innerText=(i/1000)+"K";
+yAxis.appendChild(d);
+}
+
+/* X AXIS */
+let xAxis=document.getElementById("xAxis");
+xAxis.innerHTML="";
+months.forEach(m=>{
+let d=document.createElement("div");
+d.innerText=names[m-1];
+xAxis.appendChild(d);
+});
 
 let max=Math.max(...values);
 let min=Math.min(...values);
