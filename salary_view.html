@@ -499,10 +499,29 @@ document.getElementById("pdfButtons").style.display="none";
 
 function printSalary(){
 let content=document.getElementById("result").innerHTML;
+
 let win=window.open('', '', 'width=800,height=600');
-win.document.write('<html><body>'+content+'</body></html>');
+
+win.document.write(`
+<html>
+<head>
+<title>Print</title>
+<style>
+body{font-family:sans-serif;padding:20px;}
+</style>
+</head>
+<body>
+${content}
+</body>
+</html>
+`);
+
 win.document.close();
+
+// ✅ IMPORTANT FIX
+setTimeout(()=>{
 win.print();
+},500);
 }
 
 async function downloadPDF(){
