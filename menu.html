@@ -275,9 +275,22 @@ animation:shimmer 1.2s infinite;
 </div>
 
 <div class="card">
+<div style="display:flex;">
+
+<!-- Y AXIS -->
+<div id="yAxis" style="width:40px;font-size:10px;color:#6b7280;"></div>
+
+<!-- CHART -->
+<div style="flex:1;">
 <div class="chart" id="chart">
 <svg class="line" id="line"></svg>
 <div class="coin">₹</div>
+</div>
+
+<!-- X AXIS -->
+<div id="xAxis" style="display:flex;justify-content:space-around;font-size:10px;color:#6b7280;margin-top:4px;"></div>
+</div>
+
 </div>
 </div>
 
@@ -379,23 +392,58 @@ let chart=document.getElementById("chart");
 chart.querySelectorAll(".bar").forEach(b=>b.remove());
 document.getElementById("line").innerHTML="";
 
-let values=monthly.slice(-12).map(m=>m.net);
+let last12 = monthly.slice(-12);
 
-let max=Math.max(...values);
-let min=Math.min(...values);
+let values = last12.map(m => m.net);
+let months = last12.map(m => m.month);
+
+// ---------------- Y AXIS (10K intervals) ----------------
+let maxVal = Math.max(...values);
+let yMax = Math.ceil(maxVal / 10000) * 10000;
+
+let yAxis = document.getElementById("yAxis");
+yAxis.innerHTML = "";
+
+for(let i = yMax; i >= 0; i -= 10000){
+let div = document.createElement("div");
+div.style.height = "20px";
+div.innerText = (i/1000) + "K";
+yAxis.appendChild(div);
+}
+
+// ---------------- X AXIS (12 months) ----------------
+let monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+let xAxis = document.getElementById("xAxis");
+xAxis.innerHTML = "";
+
+months.forEach(m=>{
+let div = document.createElement("div");
+div.innerText = monthNames[m-1];
+xAxis.appendChild(div);
+});
+
+// ---------------- BARS ----------------
+let chart=document.getElementById("chart");
+chart.querySelectorAll(".bar").forEach(b=>b.remove());
+document.getElementById("line").innerHTML="";
 
 values.forEach(v=>{
 let bar=document.createElement("div");
 bar.className="bar";
-bar.style.height=((v-min)/(max-min||1))*80+20+"%";
+bar.style.height=(v/yMax)*100+"%";
 chart.appendChild(bar);
 });
 
+// ---------------- LINE ----------------
 let svg=document.getElementById("line");
 
-let points=values.map((v,i)=>{
-let x=(i/(values.length-1))*280+10;
-let y=140-((v-min)/(max-min||1))*120;
+let width = chart.clientWidth;
+let height = chart.clientHeight;
+
+let points = values.map((v,i)=>{
+let x = (i/(values.length-1)) * width;
+let y = height - (v/yMax)*height;
 return `${x},${y}`;
 }).join(" ");
 
