@@ -402,17 +402,21 @@ let months = last12.map(m=>m.month);
 let names=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
 /* Y AXIS */
+let step = 25000;
+
 let maxVal = Math.max(...values);
-let yMax = Math.ceil(maxVal/10000)*10000;
+let yMax = Math.ceil(maxVal/step)*step;
 
 let yAxis=document.getElementById("yAxis");
 yAxis.innerHTML="";
-for(let i=yMax;i>=0;i-=25000){
+
+for(let i=yMax;i>=0;i-=step){
 let d=document.createElement("div");
-d.style.height = (160 / (yMax/25000)) + "px";
+d.style.height = (160 / (yMax/step)) + "px";
 d.innerText=(i/1000)+"K";
 yAxis.appendChild(d);
 }
+
 yAxis.style.display = "flex";
 yAxis.style.flexDirection = "column";
 yAxis.style.justifyContent = "space-between";
