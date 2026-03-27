@@ -407,9 +407,9 @@ let yMax = Math.ceil(maxVal/10000)*10000;
 
 let yAxis=document.getElementById("yAxis");
 yAxis.innerHTML="";
-for(let i=yMax;i>=0;i-=20000){
+for(let i=yMax;i>=0;i-=25000){
 let d=document.createElement("div");
-d.style.height = (160 / (yMax/20000)) + "px";
+d.style.height = (160 / (yMax/25000)) + "px";
 d.innerText=(i/1000)+"K";
 yAxis.appendChild(d);
 }
