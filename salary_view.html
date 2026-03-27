@@ -267,44 +267,7 @@ animation:spin 1s linear infinite;
 
 <div class="content">
 
-<div class="control-frame">
 
-<div class="control-row">
-
-<div class="dropdown-column">
-
-<label>Select Year:</label>
-
-<select id="year">
-<option>2026</option>
-<option>2027</option>
-<option>2028</option>
-</select>
-
-<label>Select Month:</label>
-
-<select id="month">
-
-<option value="01">January</option>
-<option value="02">February</option>
-<option value="03">March</option>
-<option value="04">April</option>
-<option value="05">May</option>
-<option value="06">June</option>
-<option value="07">July</option>
-<option value="08">August</option>
-<option value="09">September</option>
-<option value="10">October</option>
-<option value="11">November</option>
-<option value="12">December</option>
-
-</select>
-
-</div>
-
-<button class="check-btn" onclick="loadSalary()">Check Salary</button>
-
-</div>
 
 <div class="action-buttons" id="pdfButtons" style="display:none;">
 <button onclick="printSalary()">🖨 Print</button>
@@ -312,7 +275,7 @@ animation:spin 1s linear infinite;
 </div>
 
 </div>
-
+<h3 id="selectedInfo" style="text-align:center;"></h3>
 <div id="result"></div>
 
 </div>
@@ -335,7 +298,11 @@ async function loadSalary(){
 document.getElementById("loader").style.display="flex";
 
 let year = localStorage.getItem("selectedYear");
-let month = localStorage.getItem("selectedMonth");
+let month = localStorage.getItem("selectedMonth
+let names=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+document.getElementById("selectedInfo").innerText =
+names[month-1] + " " + year;
 
 /* FIXED CSV URL */
 let response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
@@ -502,7 +469,10 @@ document.getElementById("result").innerHTML="No salary found.";
 document.getElementById("pdfButtons").style.display="none";
 
 }
-
+// ✅ AUTO LOAD WHEN PAGE OPENS
+window.onload = function(){
+loadSalary();
+}
 function printSalary(){
 let content=document.getElementById("result").innerHTML;
 let win=window.open('', '', 'width=800,height=600');
@@ -683,6 +653,7 @@ document.body.classList.add("dark-mode");
 }
 
 </script>
+
 <div class="loader" id="loader">
 <div class="spinner"></div>
 </div>
