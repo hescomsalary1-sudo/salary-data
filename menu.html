@@ -193,7 +193,7 @@ left:0;
 width:100vw;
 height:100vh;
 background:#f3f4fa;
-display:none; /* ✅ FIXED */
+display:none;
 flex-direction:column;
 padding:20px;
 gap:15px;
@@ -223,9 +223,7 @@ animation:shimmer 1.2s infinite;
 
 <body>
 
-<!-- ✅ SKELETON CONTENT ADDED -->
 <div id="loader">
-
 <div style="display:flex;align-items:center;gap:10px;">
 <div class="skeleton skel-circle"></div>
 <div style="flex:1;">
@@ -242,11 +240,6 @@ animation:shimmer 1.2s infinite;
 <div class="skeleton skel-card"></div>
 <div class="skeleton skel-card"></div>
 </div>
-
-<div class="skeleton skel-line" style="width:70%;"></div>
-<div class="skeleton skel-line"></div>
-<div class="skeleton skel-line" style="width:90%;"></div>
-
 </div>
 
 <div class="title">Salary Overview</div>
@@ -275,59 +268,36 @@ animation:shimmer 1.2s infinite;
 </div>
 
 <div class="card">
-<div style="display:flex;">
 
-<!-- Y AXIS -->
+<div style="display:flex;">
 <div id="yAxis" style="width:40px;font-size:10px;color:#6b7280;"></div>
 
-<!-- CHART -->
 <div style="flex:1;">
 <div class="chart" id="chart">
 <svg class="line" id="line"></svg>
 <div class="coin">₹</div>
 </div>
 
-<!-- X AXIS -->
 <div id="xAxis" style="display:flex;justify-content:space-around;font-size:10px;color:#6b7280;margin-top:4px;"></div>
 </div>
-
 </div>
+
 </div>
 
 </div>
 
 <div class="buttons">
-
-<div class="btn" onclick="showLoader('salary.html')">
-<div class="icon blue-bg"></div>
-<p>Salary</p>
-</div>
-
-<div class="btn" onclick="showLoader('reports_menu.html')">
-<div class="icon purple-bg"></div>
-<p>Reports</p>
-</div>
-
-<div class="btn" onclick="showLoader('holidays.html')">
-<div class="icon orange-bg"></div>
-<p>Holiday List</p>
-</div>
-
-<div class="btn" onclick="showLoader('salary_details.html')">
-<div class="icon green-bg"></div>
-<p>Salary Details</p>
-</div>
-
+<div class="btn" onclick="showLoader('salary.html')"><div class="icon blue-bg"></div><p>Salary</p></div>
+<div class="btn" onclick="showLoader('reports_menu.html')"><div class="icon purple-bg"></div><p>Reports</p></div>
+<div class="btn" onclick="showLoader('holidays.html')"><div class="icon orange-bg"></div><p>Holiday List</p></div>
+<div class="btn" onclick="showLoader('salary_details.html')"><div class="icon green-bg"></div><p>Salary Details</p></div>
 </div>
 
 <script>
 
 let user = localStorage.getItem("currentUser");
-
-// show loader on page load
 document.getElementById("loader").style.display="flex";
 
-// FIXED URL
 let url = "https://hescomsalary1-sudo.github.io/salary-data/salary%20.csv";
 
 function showLoader(url){
@@ -340,47 +310,28 @@ fetch(url)
 .then(data => {
 
 let rows = data.trim().split("\n").slice(1);
-
 let monthly = [];
 
 rows.forEach(r=>{
 let cols = r.split(",");
-
 if(cols[0] !== user) return;
 
 let year = Number(cols[1]);
 let month = Number(cols[2]);
 
 let earnings = 0;
-for(let i=3;i<=19;i++){
-earnings += Number(cols[i]) || 0;
-}
+for(let i=3;i<=19;i++){ earnings += Number(cols[i]) || 0; }
 
 let deductions = 0;
-for(let i=20;i<cols.length;i++){
-deductions += Number(cols[i])||0;
-}
+for(let i=20;i<cols.length;i++){ deductions += Number(cols[i])||0; }
 
 let net = earnings - deductions;
-
 monthly.push({year,month,net,earnings,deductions});
 });
 
-monthly.sort((a,b)=>a.year-b.year||a.month-b.month);
+monthly.sort((a,b)=> (a.year*100+a.month)-(b.year*100+b.month));
 
-// sort properly
-monthly.sort((a,b)=>{
-return (a.year*100 + a.month) - (b.year*100 + b.month);
-});
-
-// ✅ get previous month
-let last = null;
-
-if(monthly.length >= 2){
-last = monthly[monthly.length - 2]; // previous month
-}else if(monthly.length === 1){
-last = monthly[0]; // fallback
-}
+let last = monthly.length>=2 ? monthly[monthly.length-2] : monthly[0];
 
 if(last){
 document.getElementById("currentSalary").innerText="₹ "+last.earnings;
@@ -388,42 +339,36 @@ document.getElementById("deduction").innerText="₹ "+last.deductions;
 document.getElementById("netSalary").innerText="₹ "+last.net;
 }
 
-let chart=document.getElementById("chart");
-chart.querySelectorAll(".bar").forEach(b=>b.remove());
-document.getElementById("line").innerHTML="";
+/* ✅ NEW CHART LOGIC */
 
 let last12 = monthly.slice(-12);
+let values = last12.map(m=>m.net);
+let months = last12.map(m=>m.month);
 
-let values = last12.map(m => m.net);
-let months = last12.map(m => m.month);
-
-// ---------------- Y AXIS (10K intervals) ----------------
 let maxVal = Math.max(...values);
-let yMax = Math.ceil(maxVal / 10000) * 10000;
+let yMax = Math.ceil(maxVal/10000)*10000;
 
-let yAxis = document.getElementById("yAxis");
-yAxis.innerHTML = "";
-
-for(let i = yMax; i >= 0; i -= 10000){
-let div = document.createElement("div");
-div.style.height = "20px";
-div.innerText = (i/1000) + "K";
-yAxis.appendChild(div);
+/* Y AXIS */
+let yAxis=document.getElementById("yAxis");
+yAxis.innerHTML="";
+for(let i=yMax;i>=0;i-=10000){
+let d=document.createElement("div");
+d.style.height="20px";
+d.innerText=(i/1000)+"K";
+yAxis.appendChild(d);
 }
 
-// ---------------- X AXIS (12 months) ----------------
-let monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-
-let xAxis = document.getElementById("xAxis");
-xAxis.innerHTML = "";
-
+/* X AXIS */
+let names=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+let xAxis=document.getElementById("xAxis");
+xAxis.innerHTML="";
 months.forEach(m=>{
-let div = document.createElement("div");
-div.innerText = monthNames[m-1];
-xAxis.appendChild(div);
+let d=document.createElement("div");
+d.innerText=names[m-1];
+xAxis.appendChild(d);
 });
 
-// ---------------- BARS ----------------
+/* BARS */
 let chart=document.getElementById("chart");
 chart.querySelectorAll(".bar").forEach(b=>b.remove());
 document.getElementById("line").innerHTML="";
@@ -435,15 +380,14 @@ bar.style.height=(v/yMax)*100+"%";
 chart.appendChild(bar);
 });
 
-// ---------------- LINE ----------------
+/* LINE */
 let svg=document.getElementById("line");
+let w=chart.clientWidth;
+let h=chart.clientHeight;
 
-let width = chart.clientWidth;
-let height = chart.clientHeight;
-
-let points = values.map((v,i)=>{
-let x = (i/(values.length-1)) * width;
-let y = height - (v/yMax)*height;
+let points=values.map((v,i)=>{
+let x=(i/(values.length-1))*w;
+let y=h-(v/yMax)*h;
 return `${x},${y}`;
 }).join(" ");
 
@@ -455,7 +399,6 @@ poly.setAttribute("stroke-width","2");
 
 svg.appendChild(poly);
 
-// hide loader
 document.getElementById("loader").style.display="none";
 
 });
