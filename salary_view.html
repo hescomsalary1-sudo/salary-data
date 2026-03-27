@@ -110,21 +110,39 @@ transform:scale(1.03);
 .action-buttons{
 margin-top:15px;
 display:flex;
-gap:10px;
+gap:12px;
 flex-wrap:wrap;
+justify-content:center;
 }
 
 button{
-padding:10px 16px;
-background:#4b2dd8;
-color:white;
+padding:12px 18px;
 border:none;
-border-radius:8px;
+border-radius:12px;
+font-weight:600;
 cursor:pointer;
+display:flex;
+align-items:center;
+gap:6px;
+transition:0.2s;
+box-shadow:0 6px 12px rgba(0,0,0,0.15);
 }
 
-button:hover{
-opacity:0.9;
+/* PRINT BUTTON */
+button:nth-child(1){
+background:linear-gradient(135deg,#48bb78,#2f855a);
+color:white;
+}
+
+/* PDF BUTTON */
+button:nth-child(2){
+background:linear-gradient(135deg,#ed8936,#dd6b20);
+color:white;
+}
+
+/* CLICK EFFECT */
+button:active{
+transform:scale(0.95);
 }
 
 /* GRID */
@@ -139,32 +157,38 @@ margin-top:10px;
 /* CARD */
 
 .salary-card{
-background:white;
-padding:15px;
-border-radius:12px;
-box-shadow:0 4px 10px rgba(0,0,0,0.08);
+background:linear-gradient(145deg,#ffffff,#e6ebf3);
+padding:16px;
+border-radius:16px;
+box-shadow:
+6px 6px 15px rgba(0,0,0,0.08),
+-6px -6px 15px rgba(255,255,255,0.9);
 font-size:14px;
 line-height:1.6;
+margin-bottom:12px;
 }
 
+/* HEADER */
 .salary-card h4{
-margin-top:0;
+margin:0 0 8px;
 color:#4b2dd8;
-border-bottom:1px solid #eee;
-padding-bottom:5px;
+font-size:15px;
+border-left:4px solid #4b2dd8;
+padding-left:8px;
 }
 
 /* NET */
 
 .net-card{
 margin-top:15px;
-background:#4b2dd8;
+background:linear-gradient(135deg,#4facfe,#0052cc);
 color:white;
-padding:15px;
-border-radius:12px;
+padding:18px;
+border-radius:16px;
 text-align:center;
 font-size:20px;
 font-weight:bold;
+box-shadow:0 8px 20px rgba(0,82,204,0.3);
 }
 
 /* FOOTER */
