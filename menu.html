@@ -437,7 +437,7 @@ let svg=document.getElementById("line");
 
 let points=values.map((v,i)=>{
 let x=(i/(values.length-1))*280+10;
-let y=140-((v-min)/(max-min||1))*120;
+let y = 140 - (v / yMax) * 120;
 return `${x},${y}`;
 }).join(" ");
 
