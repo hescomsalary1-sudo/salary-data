@@ -56,11 +56,56 @@ margin-top:10px;
 
 .pending{color:red;font-weight:600;}
 .resolved{color:green;font-weight:600;}
+
+  #loader{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#f4f6fb;
+padding:20px;
+display:flex;
+flex-direction:column;
+gap:15px;
+z-index:9999;
+}
+
+/* shimmer */
+@keyframes shimmer{
+0%{background-position:-400px 0;}
+100%{background-position:400px 0;}
+}
+
+.skeleton{
+border-radius:12px;
+background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
+background-size:400px 100%;
+animation:shimmer 1.2s infinite;
+}
+
+.skel-title{
+height:30px;
+width:60%;
+}
+
+.skel-box{
+height:80px;
+border-radius:15px;
+}
 </style>
 </head>
 
 <body>
+<div id="loader">
 
+<div class="skeleton skel-title"></div>
+
+<div class="skeleton skel-box"></div>
+<div class="skeleton skel-box"></div>
+<div class="skeleton skel-box"></div>
+
+</div>
 <div class="top">Ask Questions - <span id="uname"></span></div>
 
 <div class="container">
@@ -143,7 +188,7 @@ ${solutionText}
 `;
 });
 document.getElementById("list").innerHTML = html;
-
+document.getElementById("loader").style.display = "none";
 });
 
 }
