@@ -296,7 +296,7 @@ return;
 
 document.getElementById("loader").style.display="flex";
 
-let url = "https://script.google.com/macros/s/AKfycbwgEgFyYYhnyCXR6fjuXFavceW3hwcfgSOFs_Uob_VlHmFjZmPdQiEY5bkJZrFRBa5y/exec?username=" + user + "&password=" + pass;
+let url = "https://script.google.com/macros/s/AKfycbwpKkkmsAJiaq0-Be6s3sRrCjn1fRxyNpKYXYHzh7Wug30OaSmq-0mRXz_P3hWxdANv/exec?username=" + user + "&password=" + pass;
 
 fetch(url)
 .then(res => res.json())
@@ -353,7 +353,7 @@ formData.append("username", user);
 formData.append("oldPassword", oldPass);
 formData.append("newPassword", newPass);
 
-fetch("https://script.google.com/macros/s/AKfycbwgEgFyYYhnyCXR6fjuXFavceW3hwcfgSOFs_Uob_VlHmFjZmPdQiEY5bkJZrFRBa5y/exec", {
+fetch("https://script.google.com/macros/s/AKfycbwpKkkmsAJiaq0-Be6s3sRrCjn1fRxyNpKYXYHzh7Wug30OaSmq-0mRXz_P3hWxdANv/exec", {
 method:"POST",
 body: formData
 })
