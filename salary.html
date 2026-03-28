@@ -50,19 +50,27 @@ gap:10px;
 .month-btn{
 padding:14px;
 border-radius:14px;
-background:#ffffff;            /* white background */
-color:#3b1eff;                 /* blue text */
+background:#ffffff;        /* white */
+color:#3b1eff;             /* blue text */
 text-align:center;
-font-weight:700;               /* bold text */
+font-weight:700;
 cursor:pointer;
 transition:0.25s;
-border:2px solid #3b1eff;      /* blue border */
+
+/* soft shadow (modern) */
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* hover effect */
+/* hover */
 .month-btn:hover{
-background:#3b1eff;
-color:#ffffff;
+transform:translateY(-2px);
+box-shadow:0 8px 18px rgba(0,0,0,0.12);
+}
+
+/* click */
+.month-btn:active{
+transform:scale(0.95);
+box-shadow:0 3px 8px rgba(0,0,0,0.1);
 }
 
 /* click effect */
