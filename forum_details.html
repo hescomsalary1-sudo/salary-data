@@ -164,26 +164,17 @@ color:#3b1eff;
 
 <script>
 
-// get type
-let params = new URLSearchParams(window.location.search);
-let type = params.get("type");
-
-let title = document.getElementById("title");
-let content = document.getElementById("content");
-
-// DATA SWITCH
-if(type==="ask"){
-title.innerText="Ask Questions";
-
+// STORAGE
 let questions = JSON.parse(localStorage.getItem("forumData")) || [];
 
+// ADD QUESTION
 function addQuestion(){
 
-let title = document.getElementById("qTitle").value;
-let desc = document.getElementById("qDesc").value;
+let title = document.getElementById("qTitle").value.trim();
+let desc = document.getElementById("qDesc").value.trim();
 let cat = document.getElementById("qCategory").value;
 
-if(title=="" || desc==""){
+if(title==="" || desc===""){
 alert("Fill all fields");
 return;
 }
@@ -207,33 +198,28 @@ document.getElementById("qTitle").value="";
 document.getElementById("qDesc").value="";
 }
 
-function displayQuestions(list=questions){
+// DISPLAY
+function displayQuestions(list){
+
+let data = list || questions;
 
 let html="";
 
-list.forEach(q=>{
-
+data.forEach(q=>{
 html += `
 <div class="question">
 <div class="title">❓ ${q.title}</div>
 <div>${q.desc}</div>
-
-<div class="meta">
-${q.cat} • ${q.time}
-</div>
-
-<div class="tag ${q.status}">
-${q.status}
-</div>
-
+<div class="meta">${q.cat} • ${q.time}</div>
+<div class="tag ${q.status}">${q.status}</div>
 </div>
 `;
-
 });
 
 document.getElementById("questionList").innerHTML = html;
 }
 
+// FILTER
 function filterData(cat){
 
 if(cat==="All"){
@@ -246,7 +232,10 @@ displayQuestions(filtered);
 }
 
 // INIT
+window.onload = function(){
 displayQuestions();
+};
+
 
 else if(type==="contact"){
 title.innerText="Contact Us";
