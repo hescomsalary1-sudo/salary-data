@@ -61,7 +61,7 @@ margin-top:10px;
 
 <body>
 
-<div class="top">Ask Questions</div>
+<div class="top">Ask Questions - <span id="uname"></span></div>
 
 <div class="container">
 
@@ -94,11 +94,17 @@ margin-top:10px;
 <script>
 
 const API_URL = "https://script.google.com/macros/s/AKfycbyVRJmKNn3_bCYB4f8DKevV2pkiptB4YogrVt-fNyEKl0E7NsdOvwOJsfXRmecTPTI9/exec";
+const user = localStorage.getItem("currentUser");
 
+if(!user){
+alert("User not logged in");
+window.location = "login.html";
+}
+  document.getElementById("uname").innerText = user;
 // LOAD QUESTIONS
 function loadQuestions(){
 
-fetch(API_URL)
+fetch(API_URL + "?username=" + user)
 .then(res=>res.json())
 .then(data=>{
 
@@ -157,9 +163,10 @@ return;
 fetch(API_URL,{
 method:"POST",
 body: JSON.stringify({
-title:title,
-desc:desc,
-category:cat
+username: user,
+title: title,
+desc: desc,
+category: cat
 })
 })
 .then(res=>res.json())
