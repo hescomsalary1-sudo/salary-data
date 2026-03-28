@@ -414,15 +414,21 @@ try{
 data = JSON.parse(text);
 }catch(e){
 console.log("Server response:", text);
-alert("Server Error");
-return;
+
+// ✅ treat as fail instead of error
+data = {status:"fail"};
 }
 
 // ✅ SUCCESS POPUP
 if(data.status==="updated"){
+
 document.getElementById("successPopup").style.display="flex";
+
 }else{
-alert("Invalid Username or Password");
+
+// show nice message instead of alert
+document.getElementById("error").innerText = "Invalid Username or Old Password";
+
 }
 
 })
