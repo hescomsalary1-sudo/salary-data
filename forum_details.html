@@ -53,12 +53,11 @@ let type = params.get("type");
 let title = document.getElementById("title");
 let content = document.getElementById("content");
 
-// DATA SWITCH
+// ASK
 if(type==="ask"){
 title.innerText="Ask Questions";
 
 content.innerHTML=`
-
 <div style="margin-bottom:15px;">
 <input id="qTitle" placeholder="Enter your question title"
 style="width:100%;padding:10px;border-radius:10px;border:1px solid #ddd;margin-bottom:10px;">
@@ -85,10 +84,44 @@ Submit Question
 <div id="questionList"></div>
 `;
 
-// load previous data
 displayQuestions();
 }
-  let questions = JSON.parse(localStorage.getItem("forumData")) || [];
+
+// OTHER PAGES
+else if(type==="contact"){
+title.innerText="Contact Us";
+content.innerHTML=`Email: support@yourapp.com<br>Phone: +91 9876543210`;
+}
+
+else if(type==="help"){
+title.innerText="Help";
+content.innerHTML=`Help content here`;
+}
+
+else if(type==="privacy"){
+title.innerText="Privacy Policy";
+content.innerHTML=`Privacy details`;
+}
+
+else if(type==="terms"){
+title.innerText="Terms & Conditions";
+content.innerHTML=`Terms details`;
+}
+
+else if(type==="copyright"){
+title.innerText="Copyright Policy";
+content.innerHTML=`Copyright details`;
+}
+
+else if(type==="org"){
+title.innerText="Organization Chart";
+content.innerHTML=`CEO → Manager → Team Lead → Employee`;
+}
+
+
+// ✅ NOW ADD FUNCTIONS BELOW
+
+let questions = JSON.parse(localStorage.getItem("forumData")) || [];
 
 function addQuestion(){
 
@@ -114,7 +147,6 @@ localStorage.setItem("forumData", JSON.stringify(questions));
 
 displayQuestions();
 
-// clear
 document.getElementById("qTitle").value="";
 document.getElementById("qDesc").value="";
 }
@@ -124,7 +156,6 @@ function displayQuestions(){
 let html="";
 
 questions.forEach(q=>{
-
 html += `
 <div style="background:#f9fafc;padding:10px;border-radius:10px;margin-top:10px;">
 <b>❓ ${q.title}</b><br>
@@ -132,57 +163,10 @@ ${q.desc}<br>
 <small>${q.cat} • ${q.time}</small>
 </div>
 `;
-
 });
 
 let list = document.getElementById("questionList");
 if(list) list.innerHTML = html;
-}
-else if(type==="contact"){
-title.innerText="Contact Us";
-content.innerHTML=`
-Email: support@yourapp.com <br>
-Phone: +91 9876543210 <br>
-Working Hours: 9 AM - 6 PM
-`;
-}
-
-else if(type==="help"){
-title.innerText="Help";
-content.innerHTML=`
-• Check salary in Salary page<br>
-• Download payslip from details page<br>
-• Contact admin if issue persists
-`;
-}
-
-else if(type==="privacy"){
-title.innerText="Privacy Policy";
-content.innerHTML=`
-We respect your privacy. Your salary data is secure and not shared with third parties.
-`;
-}
-
-else if(type==="terms"){
-title.innerText="Terms & Conditions";
-content.innerHTML=`
-By using this app, you agree to company policies.
-Unauthorized access is prohibited.
-`;
-}
-
-else if(type==="copyright"){
-title.innerText="Copyright Policy";
-content.innerHTML=`
-All content belongs to the organization. Unauthorized copying is prohibited.
-`;
-}
-
-else if(type==="org"){
-title.innerText="Organization Chart";
-content.innerHTML=`
-CEO → Manager → Team Lead → Employee
-`;
 }
 
 
