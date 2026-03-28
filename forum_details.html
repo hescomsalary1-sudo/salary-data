@@ -17,278 +17,96 @@ background:linear-gradient(135deg,#2400b7,#3b1eff);
 color:white;
 padding:20px;
 text-align:center;
-font-size:20px;
+font-size:18px;
 font-weight:600;
 }
 
-/* CONTAINER */
+/* CONTENT */
 .container{
 padding:15px;
 }
 
-/* CARD */
 .card{
 background:white;
-border-radius:15px;
 padding:15px;
-margin-bottom:15px;
+border-radius:15px;
 box-shadow:0 4px 12px rgba(0,0,0,0.08);
-}
-
-/* INPUT */
-input, textarea, select{
-width:100%;
-padding:10px;
-margin-top:8px;
-border-radius:10px;
-border:1px solid #ddd;
-outline:none;
-}
-
-/* BUTTON */
-button{
-width:100%;
-padding:12px;
-margin-top:10px;
-border:none;
-border-radius:25px;
-background:linear-gradient(135deg,#2400b7,#3b1eff);
-color:white;
-font-weight:600;
-cursor:pointer;
-}
-
-/* QUESTION LIST */
-.question{
-padding:12px;
-border-radius:12px;
-background:#f9fafc;
-margin-top:10px;
-}
-
-.title{
-font-weight:600;
-}
-
-.meta{
-font-size:12px;
-color:#666;
-margin-top:5px;
-}
-
-/* TAGS */
-.tag{
-display:inline-block;
-padding:4px 8px;
-border-radius:8px;
-font-size:11px;
-margin-top:5px;
-}
-
-.pending{background:#fff3cd;color:#856404;}
-.resolved{background:#d4edda;color:#155724;}
-.urgent{background:#f8d7da;color:#721c24;}
-
-/* ANNOUNCEMENT */
-.announce{
-background:#e6ebff;
-border-left:4px solid #3b1eff;
-}
-
-/* FILTER */
-.filter{
-display:flex;
-gap:8px;
-flex-wrap:wrap;
-}
-
-.filter button{
-width:auto;
-padding:6px 12px;
-border-radius:20px;
-background:#e6ebff;
-color:#3b1eff;
+line-height:1.6;
 }
 </style>
 </head>
 
 <body>
 
-<div class="top">💬 Forum</div>
+<div class="top" id="title">Details</div>
 
 <div class="container">
-
-<!-- ASK QUESTION -->
-<div class="card">
-<h3>Ask Question</h3>
-
-<input id="qTitle" placeholder="Enter title">
-
-<textarea id="qDesc" placeholder="Describe your issue"></textarea>
-
-<select id="qCategory">
-<option>Salary</option>
-<option>Leave</option>
-<option>Technical</option>
-<option>Other</option>
-</select>
-
-<button onclick="addQuestion()">Submit</button>
-</div>
-
-<!-- ANNOUNCEMENTS -->
-<div class="card announce">
-<h3>📢 Announcements</h3>
-<p>Salary will be credited on 5th</p>
-<p>New leave policy updated</p>
-</div>
-
-<!-- FILTER -->
-<div class="card">
-<div class="filter">
-<button onclick="filterData('All')">All</button>
-<button onclick="filterData('Salary')">Salary</button>
-<button onclick="filterData('Leave')">Leave</button>
-<button onclick="filterData('Technical')">Technical</button>
-<button onclick="filterData('Other')">Other</button>
-</div>
-</div>
-
-<!-- QUESTIONS -->
-<div class="card">
-<h3>Recent Questions</h3>
-<div id="questionList"></div>
-</div>
-
+<div class="card" id="content"></div>
 </div>
 
 <script>
 
-// GET TYPE
+// get type
 let params = new URLSearchParams(window.location.search);
 let type = params.get("type");
 
-// ELEMENTS
 let title = document.getElementById("title");
-let container = document.getElementById("container");
+let content = document.getElementById("content");
 
-// STORAGE
-let questions = JSON.parse(localStorage.getItem("forumData")) || [];
-
-// ===== ASK PAGE =====
-if(type === "ask"){
-
-title.innerText = "Ask Questions";
-
-container.innerHTML = `
-<div class="card">
-<input id="qTitle" placeholder="Enter title">
-<textarea id="qDesc" placeholder="Describe your issue"></textarea>
-
-<select id="qCategory">
-<option>Salary</option>
-<option>Leave</option>
-<option>Technical</option>
-<option>Other</option>
-</select>
-
-<button onclick="addQuestion()">Submit</button>
-</div>
-
-<div class="card">
-<h3>Recent Questions</h3>
-<div id="questionList"></div>
-</div>
+// DATA SWITCH
+if(type==="ask"){
+title.innerText="Ask Questions";
+content.innerHTML=`
+You can raise queries related to salary, deductions, and technical issues.
+Please provide clear details for faster resolution.
 `;
-
-displayQuestions();
 }
 
-// ===== CONTACT =====
-else if(type === "contact"){
-title.innerText = "Contact Us";
-container.innerHTML = `<div class="card">Contact details here</div>`;
-}
-
-// ===== HELP =====
-else if(type === "help"){
-title.innerText = "Help";
-container.innerHTML = `<div class="card">Help content here</div>`;
-}
-
-// ===== PRIVACY =====
-else if(type === "privacy"){
-title.innerText = "Privacy Policy";
-container.innerHTML = `<div class="card">Privacy content</div>`;
-}
-
-// ===== TERMS =====
-else if(type === "terms"){
-title.innerText = "Terms";
-container.innerHTML = `<div class="card">Terms content</div>`;
-}
-
-// ===== COPYRIGHT =====
-else if(type === "copyright"){
-title.innerText = "Copyright";
-container.innerHTML = `<div class="card">Copyright content</div>`;
-}
-
-// ===== ORG =====
-else if(type === "org"){
-title.innerText = "Organization";
-container.innerHTML = `<div class="card">CEO → Manager → Employee</div>`;
-}
-
-
-// ===== FUNCTIONS =====
-
-// ADD QUESTION
-function addQuestion(){
-
-let title = document.getElementById("qTitle").value.trim();
-let desc = document.getElementById("qDesc").value.trim();
-let cat = document.getElementById("qCategory").value;
-
-if(title==="" || desc===""){
-alert("Fill all fields");
-return;
-}
-
-let obj = {
-title, desc, cat,
-status:"pending",
-time:new Date().toLocaleString()
-};
-
-questions.unshift(obj);
-
-localStorage.setItem("forumData", JSON.stringify(questions));
-
-displayQuestions();
-
-document.getElementById("qTitle").value="";
-document.getElementById("qDesc").value="";
-}
-
-// DISPLAY
-function displayQuestions(){
-
-let html = "";
-
-questions.forEach(q=>{
-html += `
-<div class="question">
-<div class="title">❓ ${q.title}</div>
-<div>${q.desc}</div>
-<div class="meta">${q.cat} • ${q.time}</div>
-<div class="tag ${q.status}">${q.status}</div>
-</div>
+else if(type==="contact"){
+title.innerText="Contact Us";
+content.innerHTML=`
+Email: support@yourapp.com <br>
+Phone: +91 9876543210 <br>
+Working Hours: 9 AM - 6 PM
 `;
-});
+}
 
-let list = document.getElementById("questionList");
-if(list) list.innerHTML = html;
+else if(type==="help"){
+title.innerText="Help";
+content.innerHTML=`
+• Check salary in Salary page<br>
+• Download payslip from details page<br>
+• Contact admin if issue persists
+`;
+}
+
+else if(type==="privacy"){
+title.innerText="Privacy Policy";
+content.innerHTML=`
+We respect your privacy. Your salary data is secure and not shared with third parties.
+`;
+}
+
+else if(type==="terms"){
+title.innerText="Terms & Conditions";
+content.innerHTML=`
+By using this app, you agree to company policies.
+Unauthorized access is prohibited.
+`;
+}
+
+else if(type==="copyright"){
+title.innerText="Copyright Policy";
+content.innerHTML=`
+All content belongs to the organization. Unauthorized copying is prohibited.
+`;
+}
+
+else if(type==="org"){
+title.innerText="Organization Chart";
+content.innerHTML=`
+CEO → Manager → Team Lead → Employee
+`;
 }
 
 </script>
