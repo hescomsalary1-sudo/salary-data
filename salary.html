@@ -48,8 +48,8 @@ gap:10px;
 
 /* MONTH BUTTON */
 .month-btn{
-padding:14px 10px;
-border-radius:14px;
+padding:16px 10px;
+border-radius:16px;
 background:#ffffff;
 border:2px solid #3b1eff;
 color:#3b1eff;
@@ -60,13 +60,33 @@ transition:0.25s;
 display:flex;
 flex-direction:column;
 align-items:center;
-gap:5px;
+gap:6px;
+box-shadow:0 4px 10px rgba(0,0,0,0.05);
 }
 
 /* hover */
 .month-btn:hover{
 background:#3b1eff;
 color:white;
+}
+
+/* click */
+.month-btn:active{
+transform:scale(0.95);
+}
+
+/* icon circle */
+.month-icon{
+width:30px;
+height:30px;
+border-radius:50%;
+background:#3b1eff;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:12px;
+font-weight:bold;
 }
 
 /* click */
@@ -158,18 +178,65 @@ animation:shimmer 1.2s infinite;
 
 <div class="month-grid">
 
-<div class="month-btn" onclick="openSalary(1)">🌸 Jan</div>
-<div class="month-btn" onclick="openSalary(2)">❤️ Feb</div>
-<div class="month-btn" onclick="openSalary(3)">🌿 Mar</div>
-<div class="month-btn" onclick="openSalary(4)">🌼 Apr</div>
-<div class="month-btn" onclick="openSalary(5)">☀️ May</div>
-<div class="month-btn" onclick="openSalary(6)">🌧️ Jun</div>
-<div class="month-btn" onclick="openSalary(7)">🌱 Jul</div>
-<div class="month-btn" onclick="openSalary(8)">🌻 Aug</div>
-<div class="month-btn" onclick="openSalary(9)">🍁 Sep</div>
-<div class="month-btn" onclick="openSalary(10)">🎃 Oct</div>
-<div class="month-btn" onclick="openSalary(11)">🪔 Nov</div>
-<div class="month-btn" onclick="openSalary(12)">🎄 Dec</div>
+<div class="month-btn" onclick="openSalary(1)">
+  <div class="month-icon">01</div>
+  Jan
+</div>
+
+<div class="month-btn" onclick="openSalary(2)">
+  <div class="month-icon">02</div>
+  Feb
+</div>
+
+<div class="month-btn" onclick="openSalary(3)">
+  <div class="month-icon">03</div>
+  Mar
+</div>
+
+<div class="month-btn" onclick="openSalary(4)">
+  <div class="month-icon">04</div>
+  Apr
+</div>
+
+<div class="month-btn" onclick="openSalary(5)">
+  <div class="month-icon">05</div>
+  May
+</div>
+
+<div class="month-btn" onclick="openSalary(6)">
+  <div class="month-icon">06</div>
+  Jun
+</div>
+
+<div class="month-btn" onclick="openSalary(7)">
+  <div class="month-icon">07</div>
+  Jul
+</div>
+
+<div class="month-btn" onclick="openSalary(8)">
+  <div class="month-icon">08</div>
+  Aug
+</div>
+
+<div class="month-btn" onclick="openSalary(9)">
+  <div class="month-icon">09</div>
+  Sep
+</div>
+
+<div class="month-btn" onclick="openSalary(10)">
+  <div class="month-icon">10</div>
+  Oct
+</div>
+
+<div class="month-btn" onclick="openSalary(11)">
+  <div class="month-icon">11</div>
+  Nov
+</div>
+
+<div class="month-btn" onclick="openSalary(12)">
+  <div class="month-icon">12</div>
+  Dec
+</div>
 
 </div>
 
