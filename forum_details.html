@@ -164,8 +164,122 @@ color:#3b1eff;
 
 <script>
 
+<script>
+
+// GET TYPE
+let params = new URLSearchParams(window.location.search);
+let type = params.get("type");
+
+// ELEMENTS
+let title = document.querySelector(".top");
+let container = document.querySelector(".container");
+
 // STORAGE
 let questions = JSON.parse(localStorage.getItem("forumData")) || [];
+
+// ---------- ASK ----------
+if(type === "ask"){
+
+title.innerText = "Ask Questions";
+
+container.innerHTML = `
+<div class="card">
+
+<input id="qTitle" placeholder="Enter title">
+<textarea id="qDesc" placeholder="Describe your issue"></textarea>
+
+<select id="qCategory">
+<option>Salary</option>
+<option>Leave</option>
+<option>Technical</option>
+<option>Other</option>
+</select>
+
+<button onclick="addQuestion()">Submit</button>
+
+</div>
+
+<div class="card">
+<h3>Recent Questions</h3>
+<div id="questionList"></div>
+</div>
+`;
+
+displayQuestions();
+}
+
+// ---------- CONTACT ----------
+else if(type === "contact"){
+title.innerText = "Contact Us";
+
+container.innerHTML = `
+<div class="card">
+Email: support@yourapp.com <br><br>
+Phone: +91 9876543210 <br><br>
+Working Hours: 9 AM - 6 PM
+</div>
+`;
+}
+
+// ---------- HELP ----------
+else if(type === "help"){
+title.innerText = "Help";
+
+container.innerHTML = `
+<div class="card">
+• Check salary in Salary page<br>
+• Download payslip from details page<br>
+• Contact admin if issue persists
+</div>
+`;
+}
+
+// ---------- PRIVACY ----------
+else if(type === "privacy"){
+title.innerText = "Privacy Policy";
+
+container.innerHTML = `
+<div class="card">
+Your data is secure and not shared with anyone.
+</div>
+`;
+}
+
+// ---------- TERMS ----------
+else if(type === "terms"){
+title.innerText = "Terms & Conditions";
+
+container.innerHTML = `
+<div class="card">
+Use app responsibly. Unauthorized use is prohibited.
+</div>
+`;
+}
+
+// ---------- COPYRIGHT ----------
+else if(type === "copyright"){
+title.innerText = "Copyright";
+
+container.innerHTML = `
+<div class="card">
+All rights reserved by organization.
+</div>
+`;
+}
+
+// ---------- ORG ----------
+else if(type === "org"){
+title.innerText = "Organization Chart";
+
+container.innerHTML = `
+<div class="card">
+CEO → Manager → Team Lead → Employee
+</div>
+`;
+}
+
+
+// ================= FUNCTIONS =================
 
 // ADD QUESTION
 function addQuestion(){
@@ -174,7 +288,7 @@ let title = document.getElementById("qTitle").value.trim();
 let desc = document.getElementById("qDesc").value.trim();
 let cat = document.getElementById("qCategory").value;
 
-if(title==="" || desc===""){
+if(title === "" || desc === ""){
 alert("Fill all fields");
 return;
 }
@@ -193,19 +307,16 @@ localStorage.setItem("forumData", JSON.stringify(questions));
 
 displayQuestions();
 
-// clear
 document.getElementById("qTitle").value="";
 document.getElementById("qDesc").value="";
 }
 
 // DISPLAY
-function displayQuestions(list){
+function displayQuestions(){
 
-let data = list || questions;
+let html = "";
 
-let html="";
-
-data.forEach(q=>{
+questions.forEach(q=>{
 html += `
 <div class="question">
 <div class="title">❓ ${q.title}</div>
@@ -216,73 +327,11 @@ html += `
 `;
 });
 
-document.getElementById("questionList").innerHTML = html;
+let list = document.getElementById("questionList");
+if(list) list.innerHTML = html;
 }
 
-// FILTER
-function filterData(cat){
-
-if(cat==="All"){
-displayQuestions();
-return;
-}
-
-let filtered = questions.filter(q=>q.cat===cat);
-displayQuestions(filtered);
-}
-
-// INIT
-window.onload = function(){
-displayQuestions();
-};
-
-
-else if(type==="contact"){
-title.innerText="Contact Us";
-content.innerHTML=`
-Email: support@yourapp.com <br>
-Phone: +91 9876543210 <br>
-Working Hours: 9 AM - 6 PM
-`;
-}
-
-else if(type==="help"){
-title.innerText="Help";
-content.innerHTML=`
-• Check salary in Salary page<br>
-• Download payslip from details page<br>
-• Contact admin if issue persists
-`;
-}
-
-else if(type==="privacy"){
-title.innerText="Privacy Policy";
-content.innerHTML=`
-We respect your privacy. Your salary data is secure and not shared with third parties.
-`;
-}
-
-else if(type==="terms"){
-title.innerText="Terms & Conditions";
-content.innerHTML=`
-By using this app, you agree to company policies.
-Unauthorized access is prohibited.
-`;
-}
-
-else if(type==="copyright"){
-title.innerText="Copyright Policy";
-content.innerHTML=`
-All content belongs to the organization. Unauthorized copying is prohibited.
-`;
-}
-
-else if(type==="org"){
-title.innerText="Organization Chart";
-content.innerHTML=`
-CEO → Manager → Team Lead → Employee
-`;
-}
+</script>
 
 </script>
 
