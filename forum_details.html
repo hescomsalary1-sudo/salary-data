@@ -56,10 +56,37 @@ let content = document.getElementById("content");
 // DATA SWITCH
 if(type==="ask"){
 title.innerText="Ask Questions";
+
 content.innerHTML=`
-You can raise queries related to salary, deductions, and technical issues.
-Please provide clear details for faster resolution.
+
+<div style="margin-bottom:15px;">
+<input id="qTitle" placeholder="Enter your question title"
+style="width:100%;padding:10px;border-radius:10px;border:1px solid #ddd;margin-bottom:10px;">
+
+<textarea id="qDesc" placeholder="Describe your issue"
+style="width:100%;padding:10px;border-radius:10px;border:1px solid #ddd;margin-bottom:10px;"></textarea>
+
+<select id="qCategory"
+style="width:100%;padding:10px;border-radius:10px;border:1px solid #ddd;margin-bottom:10px;">
+<option>Salary</option>
+<option>Leave</option>
+<option>Technical</option>
+<option>Other</option>
+</select>
+
+<button onclick="addQuestion()"
+style="width:100%;padding:12px;border:none;border-radius:25px;
+background:linear-gradient(135deg,#2400b7,#3b1eff);color:white;font-weight:600;">
+Submit Question
+</button>
+</div>
+
+<h4>Recent Questions</h4>
+<div id="questionList"></div>
 `;
+
+// load previous data
+displayQuestions();
 }
 
 else if(type==="contact"){
@@ -107,6 +134,57 @@ title.innerText="Organization Chart";
 content.innerHTML=`
 CEO → Manager → Team Lead → Employee
 `;
+}
+
+  let questions = JSON.parse(localStorage.getItem("forumData")) || [];
+
+function addQuestion(){
+
+let title = document.getElementById("qTitle").value;
+let desc = document.getElementById("qDesc").value;
+let cat = document.getElementById("qCategory").value;
+
+if(title=="" || desc==""){
+alert("Please fill all fields");
+return;
+}
+
+let obj = {
+title,
+desc,
+cat,
+time:new Date().toLocaleString()
+};
+
+questions.unshift(obj);
+
+localStorage.setItem("forumData", JSON.stringify(questions));
+
+displayQuestions();
+
+// clear
+document.getElementById("qTitle").value="";
+document.getElementById("qDesc").value="";
+}
+
+function displayQuestions(){
+
+let html="";
+
+questions.forEach(q=>{
+
+html += `
+<div style="background:#f9fafc;padding:10px;border-radius:10px;margin-top:10px;">
+<b>❓ ${q.title}</b><br>
+${q.desc}<br>
+<small>${q.cat} • ${q.time}</small>
+</div>
+`;
+
+});
+
+let list = document.getElementById("questionList");
+if(list) list.innerHTML = html;
 }
 
 </script>
