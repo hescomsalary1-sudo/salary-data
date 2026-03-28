@@ -13,56 +13,75 @@ background:linear-gradient(135deg,#eef2f7,#e6ebf3);
 
 /* HEADER */
 .top{
-padding:20px;
-font-size:20px;
+padding:25px 20px;
+font-size:22px;
 font-weight:600;
 text-align:center;
-color:#2d3748;
+color:white;
+background:linear-gradient(135deg,#2400b7,#3b1eff);
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+box-shadow:0 5px 20px rgba(0,0,0,0.15);
 }
 
 /* CARD */
 .card{
-margin:15px;
+margin:20px;
 padding:20px;
-border-radius:18px;
-background:linear-gradient(145deg,#ffffff,#e6ebf3);
-box-shadow:6px 6px 15px rgba(0,0,0,0.08),
--6px -6px 15px rgba(255,255,255,0.9);
+border-radius:20px;
+background:rgba(255,255,255,0.6);
+backdrop-filter:blur(12px);
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* LABEL */
+label{
+font-weight:600;
+color:#333;
 }
 
 /* DROPDOWN */
 select{
 width:100%;
-padding:10px;
-border-radius:10px;
-border:1px solid #ccc;
-margin-bottom:15px;
+padding:12px;
+border-radius:12px;
+border:none;
+margin:10px 0 20px;
+background:#f4f6fb;
+font-size:14px;
+box-shadow:inset 2px 2px 5px rgba(0,0,0,0.05);
 }
 
 /* MONTH GRID */
 .month-grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
-gap:10px;
+gap:12px;
 }
 
 /* MONTH BUTTON */
 .month-btn{
-padding:14px;
-border-radius:14px;
+padding:16px;
+border-radius:16px;
 background:linear-gradient(135deg,#4facfe,#0052cc);
 color:white;
 text-align:center;
 font-weight:600;
 cursor:pointer;
-transition:0.2s;
+transition:0.3s;
+box-shadow:0 5px 15px rgba(0,82,204,0.3);
+}
+
+.month-btn:hover{
+transform:translateY(-3px);
+box-shadow:0 10px 20px rgba(0,82,204,0.4);
 }
 
 .month-btn:active{
 transform:scale(0.95);
 }
 
-  /* LOADER */
+/* LOADER */
 #loader{
 position:fixed;
 top:0;
@@ -91,13 +110,14 @@ animation:shimmer 1.2s infinite;
 
 .skel-title{height:25px;width:50%;}
 .skel-dropdown{height:40px;width:100%;}
-.skel-btn{height:45px;border-radius:12px;}
+.skel-btn{height:50px;border-radius:15px;}
 </style>
 </head>
 
 <body>
-<div id="loader" style="display:none;">
 
+<!-- LOADER -->
+<div id="loader" style="display:none;">
 <div class="skeleton skel-title"></div>
 <div class="skeleton skel-dropdown"></div>
 
@@ -114,31 +134,16 @@ animation:shimmer 1.2s infinite;
 <div class="skeleton skel-btn"></div>
 <div class="skeleton skel-btn"></div>
 <div class="skeleton skel-btn"></div>
-  <div class="skeleton skel-btn"></div>
-<div class="skeleton skel-btn"></div>
-<div class="skeleton skel-btn"></div>
-<div class="skeleton skel-btn"></div>
-<div class="skeleton skel-btn"></div>
-<div class="skeleton skel-btn"></div>
-<div class="skeleton skel-btn"></div>
-<div class="skeleton skel-btn"></div>
-<div class="skeleton skel-btn"></div>
-<div class="skeleton skel-btn"></div>
-<div class="skeleton skel-btn"></div>
-<div class="skeleton skel-btn"></div>
 </div>
-<div class="skeleton skel-title"></div>
-<div class="skeleton skel-dropdown"></div>
-  <div class="skeleton skel-dropdown"></div>
-  <div class="skeleton skel-dropdown"></div>
-  <div class="skeleton skel-dropdown"></div>
-  <div class="skeleton skel-dropdown"></div>
 </div>
-<div class="top">Select Salary</div>
 
+<!-- HEADER -->
+<div class="top">💼 Select Salary</div>
+
+<!-- CARD -->
 <div class="card">
 
-<label>Select Year:</label>
+<label>Select Year</label>
 <select id="year">
 <option value="2026">2026</option>
 <option value="2027">2027</option>
@@ -169,23 +174,18 @@ function openSalary(month){
 
 let year=document.getElementById("year").value;
 
-// save
 localStorage.setItem("selectedYear",year);
 localStorage.setItem("selectedMonth",month);
 
-// ✅ SHOW SKELETON
+// show loader
 document.getElementById("loader").style.display="flex";
-
-// hide main content (optional but better)
 document.body.style.overflow="hidden";
 
-// delay then navigate
 setTimeout(()=>{
 window.location="salary_view.html";
 },600);
 
 }
-
 </script>
 
 </body>
