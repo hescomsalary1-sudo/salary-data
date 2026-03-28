@@ -365,9 +365,7 @@ document.getElementById("changeBox").style.display="flex";
 document.getElementById("cp_user").value = document.getElementById("username").value;
 }
 
-function closeBox(){
-document.getElementById("changeBox").style.display="none";
-}
+document.getElementById("successPopup").style.display="flex";
 
 function changePassword(){
 
@@ -419,26 +417,14 @@ window.onload=function(){
 document.getElementById("loader").style.display="none";
 document.body.style.overflow="auto";
 };
-  function closeSuccess(){
+function closeSuccess(){
 document.getElementById("successPopup").style.display="none";
+closeBox(); // now closes change password after success
 }
 </script>
+<!-- ✅ CHANGE PASSWORD BOX -->
 <div id="changeBox" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#00000080;justify-content:center;align-items:center;">
 
-<div style="background:white;padding:25px;border-radius:15px;width:280px;text-align:center;animation:pop 0.3s ease;">
-  
-  <div style="font-size:40px;color:green;">✔</div>
-  <h3 style="margin:10px 0;">Success</h3>
-  <p>Password Updated Successfully</p>
-
-  <button onclick="closeSuccess()" style="margin-top:10px;">OK</button>
-<div id="cpLoader">
-  <div class="cp-spinner"></div>
-</div>
-  <div id="successPopup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#00000080;justify-content:center;align-items:center;z-index:99999;">
-
-</div>
-</div>
 <div style="background:white;padding:20px;border-radius:10px;width:300px;">
 <h3>Change Password</h3>
 
@@ -448,6 +434,25 @@ document.getElementById("successPopup").style.display="none";
 
 <button onclick="changePassword()">Update</button>
 <button onclick="closeBox()">Cancel</button>
+
+</div>
+</div>
+
+<!-- ✅ LOADER -->
+<div id="cpLoader">
+  <div class="cp-spinner"></div>
+</div>
+
+<!-- ✅ SUCCESS POPUP -->
+<div id="successPopup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#00000080;justify-content:center;align-items:center;z-index:99999;">
+
+<div style="background:white;padding:25px;border-radius:15px;width:280px;text-align:center;animation:pop 0.3s ease;">
+  
+  <div style="font-size:40px;color:green;">✔</div>
+  <h3 style="margin:10px 0;">Success</h3>
+  <p>Password Updated Successfully</p>
+
+  <button onclick="closeSuccess()" style="margin-top:10px;">OK</button>
 
 </div>
 </div>
