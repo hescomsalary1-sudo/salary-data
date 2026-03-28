@@ -340,10 +340,10 @@ try{
 data = JSON.parse(text);
 }catch(e){
 console.log("Server response:", text);
+document.getElementById("loader").style.display="none";
 alert("Server Error");
 return;
 }
-.then(data => {
 
 if(data.status === "success"){
 
@@ -362,7 +362,6 @@ document.getElementById("error").innerText="Invalid Username or Password";
 document.getElementById("loader").style.display="none";
 document.getElementById("error").innerText="Server Error";
 });
-
 }
 
 function togglePassword(){
@@ -376,7 +375,9 @@ document.getElementById("changeBox").style.display="flex";
 document.getElementById("cp_user").value = document.getElementById("username").value;
 }
 
-document.getElementById("successPopup").style.display="flex";
+function closeBox(){
+document.getElementById("changeBox").style.display="none";
+}
 
 function changePassword(){
 
