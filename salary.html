@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Select Salary</title>
 
@@ -49,80 +48,20 @@ gap:10px;
 
 /* MONTH BUTTON */
 .month-btn{
-position:relative;
-padding:14px 10px;
-border-radius:18px;
-background:linear-gradient(145deg,#ffffff,#e6ebf3);
-box-shadow:
-6px 6px 16px rgba(0,0,0,0.08),
--6px -6px 16px rgba(255,255,255,0.9);
+padding:14px;
+border-radius:14px;
+background:linear-gradient(135deg,#4facfe,#0052cc);
+color:white;
 text-align:center;
-cursor:pointer;
-transition:all 0.25s ease;
-overflow:hidden;
-}
-
-/* ICON CIRCLE */
-.month-icon{
-width:40px;
-height:40px;
-margin:auto;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-margin-bottom:6px;
-font-size:20px;
-color:white;
-box-shadow:0 4px 10px rgba(0,0,0,0.2);
-}
-
-/* different colors like your dashboard */
-.blue{background:linear-gradient(135deg,#4facfe,#0052cc);}
-.purple{background:linear-gradient(135deg,#a18cd1,#6b46c1);}
-.orange{background:linear-gradient(135deg,#f6ad55,#dd6b20);}
-.green{background:linear-gradient(135deg,#48bb78,#2f855a);}
-
-
-
-/* TEXT */
-.month-btn p{
-margin:0;
-font-size:12px;
 font-weight:600;
-color:#2d3748;
+cursor:pointer;
+transition:0.2s;
 }
 
-/* CLICK EFFECT */
-.month-btn:active{
-transform:scale(0.95);
-box-shadow:inset 4px 4px 10px rgba(0,0,0,0.1),
-           inset -4px -4px 10px rgba(255,255,255,0.8);
-}
-
-/* click */
 .month-btn:active{
 transform:scale(0.95);
 }
 
-/* icon circle */
-.month-icon{
-width:30px;
-height:30px;
-border-radius:50%;
-background:#3b1eff;
-color:white;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:12px;
-font-weight:bold;
-}
-
-/* click */
-.month-btn:active{
-transform:scale(0.95);
-}
   /* LOADER */
 #loader{
 position:fixed;
@@ -208,65 +147,18 @@ animation:shimmer 1.2s infinite;
 
 <div class="month-grid">
 
-<div class="month-btn" onclick="openSalary(1)">
-  <div class="month-icon blue"><span class="material-icons">calendar_today</span></div>
-  <p>Jan</p>
-</div>
-
-<div class="month-btn" onclick="openSalary(2)">
-  <div class="month-icon purple"><span class="material-icons">event</span></div>
-  <p>Feb</p>
-</div>
-
-<div class="month-btn" onclick="openSalary(3)">
-  <div class="month-icon green"><span class="material-icons">date_range</span></div>
-  <p>Mar</p>
-</div>
-
-<div class="month-btn" onclick="openSalary(4)">
-  <div class="month-icon orange"><span class="material-icons">calendar_month</span></div>
-  <p>Apr</p>
-</div>
-
-<div class="month-btn" onclick="openSalary(5)">
-  <div class="month-icon blue"><span class="material-icons">today</span></div>
-  <p>May</p>
-</div>
-
-<div class="month-btn" onclick="openSalary(6)">
-  <div class="month-icon purple"><span class="material-icons">event_note</span></div>
-  <p>Jun</p>
-</div>
-
-<div class="month-btn" onclick="openSalary(7)">
-  <div class="month-icon green"><span class="material-icons">schedule</span></div>
-  <p>Jul</p>
-</div>
-
-<div class="month-btn" onclick="openSalary(8)">
-  <div class="month-icon orange"><span class="material-icons">calendar_view_month</span></div>
-  <p>Aug</p>
-</div>
-
-<div class="month-btn" onclick="openSalary(9)">
-  <div class="month-icon blue"><span class="material-icons">event_available</span></div>
-  <p>Sep</p>
-</div>
-
-<div class="month-btn" onclick="openSalary(10)">
-  <div class="month-icon purple"><span class="material-icons">event_busy</span></div>
-  <p>Oct</p>
-</div>
-
-<div class="month-btn" onclick="openSalary(11)">
-  <div class="month-icon green"><span class="material-icons">calendar_view_day</span></div>
-  <p>Nov</p>
-</div>
-
-<div class="month-btn" onclick="openSalary(12)">
-  <div class="month-icon orange"><span class="material-icons">calendar_today</span></div>
-  <p>Dec</p>
-</div>
+<div class="month-btn" onclick="openSalary(1)">Jan</div>
+<div class="month-btn" onclick="openSalary(2)">Feb</div>
+<div class="month-btn" onclick="openSalary(3)">Mar</div>
+<div class="month-btn" onclick="openSalary(4)">Apr</div>
+<div class="month-btn" onclick="openSalary(5)">May</div>
+<div class="month-btn" onclick="openSalary(6)">Jun</div>
+<div class="month-btn" onclick="openSalary(7)">Jul</div>
+<div class="month-btn" onclick="openSalary(8)">Aug</div>
+<div class="month-btn" onclick="openSalary(9)">Sep</div>
+<div class="month-btn" onclick="openSalary(10)">Oct</div>
+<div class="month-btn" onclick="openSalary(11)">Nov</div>
+<div class="month-btn" onclick="openSalary(12)">Dec</div>
 
 </div>
 
