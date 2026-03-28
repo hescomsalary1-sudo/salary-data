@@ -164,27 +164,24 @@ color:#3b1eff;
 
 <script>
 
-<script>
-
 // GET TYPE
 let params = new URLSearchParams(window.location.search);
 let type = params.get("type");
 
 // ELEMENTS
-let title = document.querySelector(".top");
-let container = document.querySelector(".container");
+let title = document.getElementById("title");
+let container = document.getElementById("container");
 
 // STORAGE
 let questions = JSON.parse(localStorage.getItem("forumData")) || [];
 
-// ---------- ASK ----------
+// ===== ASK PAGE =====
 if(type === "ask"){
 
 title.innerText = "Ask Questions";
 
 container.innerHTML = `
 <div class="card">
-
 <input id="qTitle" placeholder="Enter title">
 <textarea id="qDesc" placeholder="Describe your issue"></textarea>
 
@@ -196,7 +193,6 @@ container.innerHTML = `
 </select>
 
 <button onclick="addQuestion()">Submit</button>
-
 </div>
 
 <div class="card">
@@ -208,78 +204,44 @@ container.innerHTML = `
 displayQuestions();
 }
 
-// ---------- CONTACT ----------
+// ===== CONTACT =====
 else if(type === "contact"){
 title.innerText = "Contact Us";
-
-container.innerHTML = `
-<div class="card">
-Email: support@yourapp.com <br><br>
-Phone: +91 9876543210 <br><br>
-Working Hours: 9 AM - 6 PM
-</div>
-`;
+container.innerHTML = `<div class="card">Contact details here</div>`;
 }
 
-// ---------- HELP ----------
+// ===== HELP =====
 else if(type === "help"){
 title.innerText = "Help";
-
-container.innerHTML = `
-<div class="card">
-• Check salary in Salary page<br>
-• Download payslip from details page<br>
-• Contact admin if issue persists
-</div>
-`;
+container.innerHTML = `<div class="card">Help content here</div>`;
 }
 
-// ---------- PRIVACY ----------
+// ===== PRIVACY =====
 else if(type === "privacy"){
 title.innerText = "Privacy Policy";
-
-container.innerHTML = `
-<div class="card">
-Your data is secure and not shared with anyone.
-</div>
-`;
+container.innerHTML = `<div class="card">Privacy content</div>`;
 }
 
-// ---------- TERMS ----------
+// ===== TERMS =====
 else if(type === "terms"){
-title.innerText = "Terms & Conditions";
-
-container.innerHTML = `
-<div class="card">
-Use app responsibly. Unauthorized use is prohibited.
-</div>
-`;
+title.innerText = "Terms";
+container.innerHTML = `<div class="card">Terms content</div>`;
 }
 
-// ---------- COPYRIGHT ----------
+// ===== COPYRIGHT =====
 else if(type === "copyright"){
 title.innerText = "Copyright";
-
-container.innerHTML = `
-<div class="card">
-All rights reserved by organization.
-</div>
-`;
+container.innerHTML = `<div class="card">Copyright content</div>`;
 }
 
-// ---------- ORG ----------
+// ===== ORG =====
 else if(type === "org"){
-title.innerText = "Organization Chart";
-
-container.innerHTML = `
-<div class="card">
-CEO → Manager → Team Lead → Employee
-</div>
-`;
+title.innerText = "Organization";
+container.innerHTML = `<div class="card">CEO → Manager → Employee</div>`;
 }
 
 
-// ================= FUNCTIONS =================
+// ===== FUNCTIONS =====
 
 // ADD QUESTION
 function addQuestion(){
@@ -288,15 +250,13 @@ let title = document.getElementById("qTitle").value.trim();
 let desc = document.getElementById("qDesc").value.trim();
 let cat = document.getElementById("qCategory").value;
 
-if(title === "" || desc === ""){
+if(title==="" || desc===""){
 alert("Fill all fields");
 return;
 }
 
 let obj = {
-title,
-desc,
-cat,
+title, desc, cat,
 status:"pending",
 time:new Date().toLocaleString()
 };
@@ -330,8 +290,6 @@ html += `
 let list = document.getElementById("questionList");
 if(list) list.innerHTML = html;
 }
-
-</script>
 
 </script>
 
