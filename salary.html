@@ -48,26 +48,52 @@ gap:10px;
 
 /* MONTH BUTTON */
 .month-btn{
-padding:16px 10px;
-border-radius:16px;
-background:#ffffff;
-border:2px solid #3b1eff;
-color:#3b1eff;
+position:relative;
+padding:14px 10px;
+border-radius:18px;
+background:linear-gradient(145deg,#ffffff,#e6ebf3);
+box-shadow:
+6px 6px 16px rgba(0,0,0,0.08),
+-6px -6px 16px rgba(255,255,255,0.9);
 text-align:center;
-font-weight:600;
 cursor:pointer;
-transition:0.25s;
-display:flex;
-flex-direction:column;
-align-items:center;
-gap:6px;
-box-shadow:0 4px 10px rgba(0,0,0,0.05);
+transition:all 0.25s ease;
+overflow:hidden;
 }
 
-/* hover */
-.month-btn:hover{
-background:#3b1eff;
+/* ICON CIRCLE */
+.month-icon{
+width:40px;
+height:40px;
+margin:auto;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+margin-bottom:6px;
+font-size:14px;
 color:white;
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* BLUE ICON */
+.month-blue{
+background:linear-gradient(135deg,#4facfe,#0052cc);
+}
+
+/* TEXT */
+.month-btn p{
+margin:0;
+font-size:12px;
+font-weight:600;
+color:#2d3748;
+}
+
+/* CLICK EFFECT */
+.month-btn:active{
+transform:scale(0.95);
+box-shadow:inset 4px 4px 10px rgba(0,0,0,0.1),
+           inset -4px -4px 10px rgba(255,255,255,0.8);
 }
 
 /* click */
@@ -179,63 +205,63 @@ animation:shimmer 1.2s infinite;
 <div class="month-grid">
 
 <div class="month-btn" onclick="openSalary(1)">
-  <div class="month-icon">01</div>
-  Jan
+  <div class="month-icon month-blue">01</div>
+  <p>Jan</p>
 </div>
 
 <div class="month-btn" onclick="openSalary(2)">
-  <div class="month-icon">02</div>
-  Feb
+  <div class="month-icon month-blue">02</div>
+  <p>Feb</p>
 </div>
 
 <div class="month-btn" onclick="openSalary(3)">
-  <div class="month-icon">03</div>
-  Mar
+  <div class="month-icon month-blue">03</div>
+  <p>Mar</p>
 </div>
 
 <div class="month-btn" onclick="openSalary(4)">
-  <div class="month-icon">04</div>
-  Apr
+  <div class="month-icon month-blue">04</div>
+  <p>Apr</p>
 </div>
 
 <div class="month-btn" onclick="openSalary(5)">
-  <div class="month-icon">05</div>
-  May
+  <div class="month-icon month-blue">05</div>
+  <p>May</p>
 </div>
 
 <div class="month-btn" onclick="openSalary(6)">
-  <div class="month-icon">06</div>
-  Jun
+  <div class="month-icon month-blue">06</div>
+  <p>Jun</p>
 </div>
 
 <div class="month-btn" onclick="openSalary(7)">
-  <div class="month-icon">07</div>
-  Jul
+  <div class="month-icon month-blue">07</div>
+  <p>Jul</p>
 </div>
 
 <div class="month-btn" onclick="openSalary(8)">
-  <div class="month-icon">08</div>
-  Aug
+  <div class="month-icon month-blue">08</div>
+  <p>Aug</p>
 </div>
 
 <div class="month-btn" onclick="openSalary(9)">
-  <div class="month-icon">09</div>
-  Sep
+  <div class="month-icon month-blue">09</div>
+  <p>Sep</p>
 </div>
 
 <div class="month-btn" onclick="openSalary(10)">
-  <div class="month-icon">10</div>
-  Oct
+  <div class="month-icon month-blue">10</div>
+  <p>Oct</p>
 </div>
 
 <div class="month-btn" onclick="openSalary(11)">
-  <div class="month-icon">11</div>
-  Nov
+  <div class="month-icon month-blue">11</div>
+  <p>Nov</p>
 </div>
 
 <div class="month-btn" onclick="openSalary(12)">
-  <div class="month-icon">12</div>
-  Dec
+  <div class="month-icon month-blue">12</div>
+  <p>Dec</p>
 </div>
 
 </div>
