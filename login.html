@@ -239,6 +239,19 @@ transition: 0.3s;
 background: #3b1eff;
 color: white;
 }
+  .share-btn{
+background: #f5f6ff;
+color: #3b1eff;
+border-radius: 25px;
+font-weight: 500;
+border: none;
+transition: 0.3s;
+}
+
+.share-btn:hover{
+background: #3b1eff;
+color: white;
+}
 </style>
 </head>
 
@@ -329,7 +342,9 @@ d="M0,160L80,170C160,180,320,200,480,186.7C640,173,800,127,960,112C1120,96,1280,
   <button class="change-btn" onclick="openChangePassword()">
 🔐 Change Password
 </button>
-
+<button class="share-btn" onclick="shareApp()">
+📤 Share App
+</button>
 </div>
 </div>
 
@@ -482,7 +497,24 @@ document.body.style.overflow="auto";
   function closeError(){
 document.getElementById("errorPopup").style.display="none";
 }
+function shareApp(){
 
+let shareData = {
+title: "Salary Prompt App",
+text: "Check your salary details easily with this app!",
+url: window.location.href
+};
+
+// mobile share (best)
+if(navigator.share){
+navigator.share(shareData);
+}else{
+// fallback
+navigator.clipboard.writeText(shareData.url);
+alert("Link copied! Share it manually.");
+}
+
+}
 </script>
 <!-- ✅ CHANGE PASSWORD BOX -->
 <div id="changeBox" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#00000080;justify-content:center;align-items:center;">
