@@ -189,6 +189,38 @@ margin-top: 20px;
 display: flex;
 justify-content: center;
 }
+
+  /* CHANGE PASSWORD LOADER */
+#cpLoader{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#ffffffcc;
+display:none;
+justify-content:center;
+align-items:center;
+z-index:99999;
+}
+
+.cp-spinner{
+width:50px;
+height:50px;
+border:5px solid #eee;
+border-top:5px solid #3b1eff;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+  @keyframes pop{
+from{transform:scale(0.8);opacity:0;}
+to{transform:scale(1);opacity:1;}
+}
 </style>
 </head>
 
@@ -348,6 +380,9 @@ alert("Please fill all fields");
 return;
 }
 
+// ✅ show loader
+document.getElementById("cpLoader").style.display="flex";
+
 let formData = new URLSearchParams();
 formData.append("username", user);
 formData.append("oldPassword", oldPass);
@@ -359,15 +394,22 @@ body: formData
 })
 .then(res=>res.json())
 .then(data=>{
+
+// hide loader
+document.getElementById("cpLoader").style.display="none";
+
 if(data.status==="updated"){
-alert("Password Updated Successfully");
 closeBox();
+
+// show success popup
+document.getElementById("successPopup").style.display="flex";
+
 }else{
 alert("Invalid Username or Password");
 }
 })
 .catch(err=>{
-console.log(err);
+document.getElementById("cpLoader").style.display="none";
 alert("Server Error");
 });
 }
@@ -379,7 +421,21 @@ document.body.style.overflow="auto";
 };
 </script>
 <div id="changeBox" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#00000080;justify-content:center;align-items:center;">
+<div id="cpLoader">
+  <div class="cp-spinner"></div>
+</div>
+  <div id="successPopup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#00000080;justify-content:center;align-items:center;z-index:99999;">
 
+<div style="background:white;padding:25px;border-radius:15px;width:280px;text-align:center;animation:pop 0.3s ease;">
+  
+  <div style="font-size:40px;color:green;">✔</div>
+  <h3 style="margin:10px 0;">Success</h3>
+  <p>Password Updated Successfully</p>
+
+  <button onclick="closeSuccess()" style="margin-top:10px;">OK</button>
+
+</div>
+</div>
 <div style="background:white;padding:20px;border-radius:10px;width:300px;">
 <h3>Change Password</h3>
 
