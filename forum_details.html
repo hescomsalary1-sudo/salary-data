@@ -46,14 +46,10 @@ line-height:1.6;
 
 <script>
 
-
-// wait until page loads
-document.addEventListener("DOMContentLoaded", function(){
-
 let questions = JSON.parse(localStorage.getItem("forumData")) || [];
 
 // ADD QUESTION
-window.addQuestion = function(){
+function addQuestion(){
 
 let title = document.getElementById("qTitle").value.trim();
 let desc = document.getElementById("qDesc").value.trim();
@@ -65,30 +61,35 @@ return;
 }
 
 let obj = {
-title,
-desc,
-cat,
-status:"pending",
-time:new Date().toLocaleString()
+title: title,
+desc: desc,
+cat: cat,
+status: "pending",
+time: new Date().toLocaleString()
 };
 
 questions.unshift(obj);
 
+// save
 localStorage.setItem("forumData", JSON.stringify(questions));
 
+// update UI
 displayQuestions();
 
 // clear inputs
-document.getElementById("qTitle").value="";
-document.getElementById("qDesc").value="";
-};
+document.getElementById("qTitle").value = "";
+document.getElementById("qDesc").value = "";
+}
+
 
 // DISPLAY QUESTIONS
-function displayQuestions(list = questions){
+function displayQuestions(list){
 
-let html="";
+let data = list || questions;
 
-list.forEach(q=>{
+let html = "";
+
+data.forEach(q => {
 
 html += `
 <div class="question">
@@ -110,8 +111,9 @@ ${q.status}
 document.getElementById("questionList").innerHTML = html;
 }
 
+
 // FILTER
-window.filterData = function(cat){
+function filterData(cat){
 
 if(cat === "All"){
 displayQuestions();
@@ -120,12 +122,13 @@ return;
 
 let filtered = questions.filter(q => q.cat === cat);
 displayQuestions(filtered);
-};
+}
 
-// INITIAL LOAD
+
+// INIT (IMPORTANT)
+window.onload = function(){
 displayQuestions();
-
-});
+};
 
 
 
