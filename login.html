@@ -331,7 +331,18 @@ document.getElementById("loader").style.display="flex";
 let url = "https://script.google.com/macros/s/AKfycbwpKkkmsAJiaq0-Be6s3sRrCjn1fRxyNpKYXYHzh7Wug30OaSmq-0mRXz_P3hWxdANv/exec?username=" + user + "&password=" + pass;
 
 fetch(url)
-.then(res => res.json())
+.then(res => res.text())
+.then(text => {
+
+let data;
+
+try{
+data = JSON.parse(text);
+}catch(e){
+console.log("Server response:", text);
+alert("Server Error");
+return;
+}
 .then(data => {
 
 if(data.status === "success"){
@@ -378,7 +389,7 @@ alert("Please fill all fields");
 return;
 }
 
-// ✅ show loader
+// show loader
 document.getElementById("cpLoader").style.display="flex";
 
 let formData = new URLSearchParams();
@@ -390,21 +401,29 @@ fetch("https://script.google.com/macros/s/AKfycbwpKkkmsAJiaq0-Be6s3sRrCjn1fRxyNp
 method:"POST",
 body: formData
 })
-.then(res=>res.json())
-.then(data=>{
+.then(res => res.text())
+.then(text => {
 
 // hide loader
 document.getElementById("cpLoader").style.display="none";
 
+let data;
+
+try{
+data = JSON.parse(text);
+}catch(e){
+console.log("Server response:", text);
+alert("Server Error");
+return;
+}
+
+// ✅ SUCCESS POPUP
 if(data.status==="updated"){
-closeBox();
-
-// show success popup
 document.getElementById("successPopup").style.display="flex";
-
 }else{
 alert("Invalid Username or Password");
 }
+
 })
 .catch(err=>{
 document.getElementById("cpLoader").style.display="none";
