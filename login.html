@@ -276,55 +276,51 @@ d="M0,160L80,170C160,180,320,200,480,186.7C640,173,800,127,960,112C1120,96,1280,
 </div>
 
 <button onclick="login()">Login</button>
+  <button onclick="openChangePassword()">Change Password</button>
 
 </div>
 </div>
 
 <script>
 
-const users = {
-"admin": {password:"admin123", role:"admin"},
-"emp1": {password:"1234", role:"employee"},
-"emp2": {password:"1234", role:"employee"},
-"emp3": {password:"1234", role:"employee"},
-"emp4": {password:"1234", role:"employee"},
-"emp5": {password:"1234", role:"employee"},
-"emp356": {password:"1234", role:"employee"},
-"emp108": {password:"1234", role:"employee"}
-};
 
 function login(){
 
 let user = document.getElementById("username").value.trim();
 let pass = document.getElementById("password").value.trim();
 
-if(users[user]){
-
-let savedPassword = localStorage.getItem(user+"_password");
-let correctPassword = savedPassword ? savedPassword : users[user].password;
-
-if(pass === correctPassword){
+if(user === "" || pass === ""){
+document.getElementById("error").innerText="Enter Username & Password";
+return;
+}
 
 document.getElementById("loader").style.display="flex";
-document.body.style.overflow="hidden";
 
-localStorage.setItem("currentUser",user);
-localStorage.setItem("role",users[user].role);
+let url = "https://script.google.com/macros/s/AKfycbyc7vjy4TUw923w6SVx8PVN21AWb2EytRgbZxmmA8uwYEhWAUs9yRhJPxF7rXN4JiDo/exec?username=" + user + "&password=" + pass;
 
-setTimeout(function(){
+fetch(url)
+.then(res => res.json())
+.then(data => {
+
+if(data.status === "success"){
+
+localStorage.setItem("currentUser", user);
+localStorage.setItem("role", data.role);
+
 window.location="home.html";
-},1500);
 
 }else{
+document.getElementById("loader").style.display="none";
 document.getElementById("error").innerText="Invalid Username or Password";
 }
 
-}else{
-document.getElementById("error").innerText="Invalid Username or Password";
-}
+})
+.catch(err => {
+document.getElementById("loader").style.display="none";
+document.getElementById("error").innerText="Server Error";
+});
 
 }
-
 function togglePassword(){
 let passField=document.getElementById("password");
 passField.type = passField.type === "password" ? "text" : "password";
@@ -336,7 +332,52 @@ document.getElementById("loader").style.display="none";
 document.body.style.overflow="auto";
 };
 
-</script>
+  function openChangePassword(){
+document.getElementById("changeBox").style.display="flex";
+}
 
+function closeBox(){
+document.getElementById("changeBox").style.display="none";
+}
+
+function changePassword(){
+
+let user = document.getElementById("cp_user").value;
+let oldPass = document.getElementById("old_pass").value;
+let newPass = document.getElementById("new_pass").value;
+
+fetch("https://script.google.com/macros/s/AKfycbyc7vjy4TUw923w6SVx8PVN21AWb2EytRgbZxmmA8uwYEhWAUs9yRhJPxF7rXN4JiDo/exec", {
+method:"POST",
+body: JSON.stringify({
+username:user,
+oldPassword:oldPass,
+newPassword:newPass
+})
+})
+.then(res=>res.json())
+.then(data=>{
+if(data.status==="updated"){
+alert("Password Updated");
+closeBox();
+}else{
+alert("Invalid Details");
+}
+});
+}
+</script>
+<div id="changeBox" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#00000080;justify-content:center;align-items:center;">
+
+<div style="background:white;padding:20px;border-radius:10px;width:300px;">
+<h3>Change Password</h3>
+
+<input id="cp_user" placeholder="Username"><br><br>
+<input id="old_pass" type="password" placeholder="Old Password"><br><br>
+<input id="new_pass" type="password" placeholder="New Password"><br><br>
+
+<button onclick="changePassword()">Update</button>
+<button onclick="closeBox()">Cancel</button>
+
+</div>
+</div>
 </body>
 </html>
