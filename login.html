@@ -321,16 +321,21 @@ document.getElementById("error").innerText="Server Error";
 });
 
 }
+
 function togglePassword(){
 let passField=document.getElementById("password");
 passField.type = passField.type === "password" ? "text" : "password";
 }
 
-// hide loader on load
-window.onload=function(){
-document.getElementById("loader").style.display="none";
-document.body.style.overflow="auto";
-};
+// ✅ FIXED FUNCTIONS
+function openChangePassword(){
+document.getElementById("changeBox").style.display="flex";
+document.getElementById("cp_user").value = document.getElementById("username").value;
+}
+
+function closeBox(){
+document.getElementById("changeBox").style.display="none";
+}
 
 function changePassword(){
 
@@ -368,6 +373,12 @@ console.log(err);
 alert("Server Error");
 });
 }
+
+// loader hide
+window.onload=function(){
+document.getElementById("loader").style.display="none";
+document.body.style.overflow="auto";
+};
 </script>
 <div id="changeBox" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#00000080;justify-content:center;align-items:center;">
 
