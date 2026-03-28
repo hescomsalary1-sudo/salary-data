@@ -46,90 +46,20 @@ line-height:1.6;
 
 <script>
 
-// get type
-let params = new URLSearchParams(window.location.search);
-let type = params.get("type");
 
-let title = document.getElementById("title");
-let content = document.getElementById("content");
-
-// ASK
-if(type==="ask"){
-title.innerText="Ask Questions";
-
-content.innerHTML=`
-<div style="margin-bottom:15px;">
-<input id="qTitle" placeholder="Enter your question title"
-style="width:100%;padding:10px;border-radius:10px;border:1px solid #ddd;margin-bottom:10px;">
-
-<textarea id="qDesc" placeholder="Describe your issue"
-style="width:100%;padding:10px;border-radius:10px;border:1px solid #ddd;margin-bottom:10px;"></textarea>
-
-<select id="qCategory"
-style="width:100%;padding:10px;border-radius:10px;border:1px solid #ddd;margin-bottom:10px;">
-<option>Salary</option>
-<option>Leave</option>
-<option>Technical</option>
-<option>Other</option>
-</select>
-
-<button onclick="addQuestion()"
-style="width:100%;padding:12px;border:none;border-radius:25px;
-background:linear-gradient(135deg,#2400b7,#3b1eff);color:white;font-weight:600;">
-Submit Question
-</button>
-</div>
-
-<h4>Recent Questions</h4>
-<div id="questionList"></div>
-`;
-
-displayQuestions();
-}
-
-// OTHER PAGES
-else if(type==="contact"){
-title.innerText="Contact Us";
-content.innerHTML=`Email: support@yourapp.com<br>Phone: +91 9876543210`;
-}
-
-else if(type==="help"){
-title.innerText="Help";
-content.innerHTML=`Help content here`;
-}
-
-else if(type==="privacy"){
-title.innerText="Privacy Policy";
-content.innerHTML=`Privacy details`;
-}
-
-else if(type==="terms"){
-title.innerText="Terms & Conditions";
-content.innerHTML=`Terms details`;
-}
-
-else if(type==="copyright"){
-title.innerText="Copyright Policy";
-content.innerHTML=`Copyright details`;
-}
-
-else if(type==="org"){
-title.innerText="Organization Chart";
-content.innerHTML=`CEO → Manager → Team Lead → Employee`;
-}
-
-
-// ✅ NOW ADD FUNCTIONS BELOW
+// wait until page loads
+document.addEventListener("DOMContentLoaded", function(){
 
 let questions = JSON.parse(localStorage.getItem("forumData")) || [];
 
-function addQuestion(){
+// ADD QUESTION
+window.addQuestion = function(){
 
-let title = document.getElementById("qTitle").value;
-let desc = document.getElementById("qDesc").value;
+let title = document.getElementById("qTitle").value.trim();
+let desc = document.getElementById("qDesc").value.trim();
 let cat = document.getElementById("qCategory").value;
 
-if(title=="" || desc==""){
+if(title === "" || desc === ""){
 alert("Please fill all fields");
 return;
 }
@@ -138,6 +68,7 @@ let obj = {
 title,
 desc,
 cat,
+status:"pending",
 time:new Date().toLocaleString()
 };
 
@@ -147,27 +78,54 @@ localStorage.setItem("forumData", JSON.stringify(questions));
 
 displayQuestions();
 
+// clear inputs
 document.getElementById("qTitle").value="";
 document.getElementById("qDesc").value="";
-}
+};
 
-function displayQuestions(){
+// DISPLAY QUESTIONS
+function displayQuestions(list = questions){
 
 let html="";
 
-questions.forEach(q=>{
+list.forEach(q=>{
+
 html += `
-<div style="background:#f9fafc;padding:10px;border-radius:10px;margin-top:10px;">
-<b>❓ ${q.title}</b><br>
-${q.desc}<br>
-<small>${q.cat} • ${q.time}</small>
+<div class="question">
+<div class="title">❓ ${q.title}</div>
+<div>${q.desc}</div>
+
+<div class="meta">
+${q.cat} • ${q.time}
+</div>
+
+<div class="tag ${q.status}">
+${q.status}
+</div>
 </div>
 `;
+
 });
 
-let list = document.getElementById("questionList");
-if(list) list.innerHTML = html;
+document.getElementById("questionList").innerHTML = html;
 }
+
+// FILTER
+window.filterData = function(cat){
+
+if(cat === "All"){
+displayQuestions();
+return;
+}
+
+let filtered = questions.filter(q => q.cat === cat);
+displayQuestions(filtered);
+};
+
+// INITIAL LOAD
+displayQuestions();
+
+});
 
 
 
