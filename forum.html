@@ -15,91 +15,166 @@ background:#f4f6fb;
 .top{
 background:linear-gradient(135deg,#2400b7,#3b1eff);
 color:white;
-padding:20px;
-text-align:center;
-font-size:20px;
+padding:25px 20px 30px;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+}
+
+.top h2{
+margin:0;
 font-weight:600;
 }
 
-/* LIST */
-.container{
-padding:15px;
+.top p{
+margin:5px 0 0;
+font-size:13px;
+opacity:0.9;
 }
 
+/* CONTAINER */
+.container{
+padding:15px;
+margin-top:-20px;
+}
+
+/* CARD ITEM */
 .item{
 background:white;
 padding:15px;
-border-radius:15px;
-margin-bottom:12px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-cursor:pointer;
+border-radius:18px;
+margin-bottom:15px;
+box-shadow:0 6px 15px rgba(0,0,0,0.08);
 display:flex;
-justify-content:space-between;
 align-items:center;
-transition:0.2s;
+justify-content:space-between;
+cursor:pointer;
+transition:0.25s;
+}
+
+/* LEFT SIDE */
+.left{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+/* ICON CIRCLE */
+.icon{
+width:45px;
+height:45px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+font-size:20px;
+}
+
+/* COLORS */
+.blue{background:linear-gradient(135deg,#4facfe,#0052cc);}
+.purple{background:linear-gradient(135deg,#a18cd1,#6b46c1);}
+.orange{background:linear-gradient(135deg,#f6ad55,#dd6b20);}
+.green{background:linear-gradient(135deg,#48bb78,#2f855a);}
+.red{background:linear-gradient(135deg,#fc5c7d,#c0392b);}
+.dark{background:linear-gradient(135deg,#434343,#000000);}
+
+/* TEXT */
+.text{
+font-size:15px;
+font-weight:600;
+color:#2d3748;
+}
+
+/* ARROW */
+.arrow{
+font-size:18px;
+color:#aaa;
+}
+
+/* HOVER / CLICK */
+.item:hover{
+transform:translateY(-2px);
+box-shadow:0 10px 20px rgba(0,0,0,0.1);
 }
 
 .item:active{
-transform:scale(0.97);
-}
-
-.item span{
-font-size:16px;
-font-weight:500;
-}
-
-.arrow{
-color:#999;
+transform:scale(0.96);
 }
 </style>
 </head>
 
 <body>
 
-<div class="top">📘 Forum & Help</div>
+<!-- HEADER -->
+<div class="top">
+<h2>💬 Forum & Help</h2>
+<p>Get support, policies & information</p>
+</div>
 
+<!-- LIST -->
 <div class="container">
 
 <div class="item" onclick="openPage('ask')">
-<span>❓ Ask Questions</span>
-<span class="arrow">›</span>
+<div class="left">
+<div class="icon blue">❓</div>
+<div class="text">Ask Questions</div>
+</div>
+<div class="arrow">›</div>
 </div>
 
 <div class="item" onclick="openPage('contact')">
-<span>📞 Contact Us</span>
-<span class="arrow">›</span>
+<div class="left">
+<div class="icon green">📞</div>
+<div class="text">Contact Us</div>
+</div>
+<div class="arrow">›</div>
 </div>
 
 <div class="item" onclick="openPage('help')">
-<span>🆘 Help</span>
-<span class="arrow">›</span>
+<div class="left">
+<div class="icon purple">🆘</div>
+<div class="text">Help</div>
+</div>
+<div class="arrow">›</div>
 </div>
 
 <div class="item" onclick="openPage('privacy')">
-<span>🔒 Privacy Policy</span>
-<span class="arrow">›</span>
+<div class="left">
+<div class="icon dark">🔒</div>
+<div class="text">Privacy Policy</div>
+</div>
+<div class="arrow">›</div>
 </div>
 
 <div class="item" onclick="openPage('terms')">
-<span>📜 Terms & Conditions</span>
-<span class="arrow">›</span>
+<div class="left">
+<div class="icon orange">📜</div>
+<div class="text">Terms & Conditions</div>
+</div>
+<div class="arrow">›</div>
 </div>
 
 <div class="item" onclick="openPage('copyright')">
-<span>© Copyright Policy</span>
-<span class="arrow">›</span>
+<div class="left">
+<div class="icon red">©</div>
+<div class="text">Copyright Policy</div>
+</div>
+<div class="arrow">›</div>
 </div>
 
 <div class="item" onclick="openPage('org')">
-<span>🏢 Organization Chart</span>
-<span class="arrow">›</span>
+<div class="left">
+<div class="icon blue">🏢</div>
+<div class="text">Organization Chart</div>
+</div>
+<div class="arrow">›</div>
 </div>
 
 </div>
 
 <script>
 function openPage(type){
-window.location = "forum_details.html?type=" + type;
+window.location="forum_details.html?type="+type;
 }
 </script>
 
