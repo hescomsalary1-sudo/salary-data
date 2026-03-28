@@ -108,17 +108,31 @@ data.reverse().forEach(q=>{
 
 let statusClass = q.status === "resolved" ? "resolved" : "pending";
 
+let solutionHtml = "";
+
+if(q.solution && q.solution.trim() !== ""){
+solutionHtml = `
+<div style="margin-top:8px;padding:8px;background:#e6fffa;border-left:4px solid green;border-radius:8px;">
+<b>✅ Solution:</b><br>
+${q.solution}
+</div>
+`;
+}
+
 html += `
 <div class="question">
 <b>${q.title}</b><br>
 ${q.desc}<br>
+
 <small>${q.category} • ${new Date(q.time).toLocaleString()}</small><br>
+
 <span class="${statusClass}">${q.status}</span>
+
+${solutionHtml}
+
 </div>
 `;
-
 });
-
 document.getElementById("list").innerHTML = html;
 
 });
