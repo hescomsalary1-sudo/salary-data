@@ -332,22 +332,22 @@ document.getElementById("loader").style.display="none";
 document.body.style.overflow="auto";
 };
 
-  function openChangePassword(){
-document.getElementById("changeBox").style.display="flex";
-}
-
-function closeBox(){
-document.getElementById("changeBox").style.display="none";
-}
-
 function changePassword(){
 
 let user = document.getElementById("cp_user").value;
 let oldPass = document.getElementById("old_pass").value;
 let newPass = document.getElementById("new_pass").value;
 
+if(user=="" || oldPass=="" || newPass==""){
+alert("Please fill all fields");
+return;
+}
+
 fetch("https://script.google.com/macros/s/AKfycbyc7vjy4TUw923w6SVx8PVN21AWb2EytRgbZxmmA8uwYEhWAUs9yRhJPxF7rXN4JiDo/exec", {
 method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
 body: JSON.stringify({
 username:user,
 oldPassword:oldPass,
@@ -357,11 +357,15 @@ newPassword:newPass
 .then(res=>res.json())
 .then(data=>{
 if(data.status==="updated"){
-alert("Password Updated");
+alert("Password Updated Successfully");
 closeBox();
 }else{
-alert("Invalid Details");
+alert("Invalid Username or Password");
 }
+})
+.catch(err=>{
+console.log(err);
+alert("Server Error");
 });
 }
 </script>
