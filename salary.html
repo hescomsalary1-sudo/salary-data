@@ -50,14 +50,22 @@ gap:10px;
 .month-btn{
 padding:14px;
 border-radius:14px;
-background:linear-gradient(135deg,#4facfe,#0052cc);
-color:white;
+background:#ffffff;            /* white background */
+color:#3b1eff;                 /* blue text */
 text-align:center;
-font-weight:600;
+font-weight:700;               /* bold text */
 cursor:pointer;
-transition:0.2s;
+transition:0.25s;
+border:2px solid #3b1eff;      /* blue border */
 }
 
+/* hover effect */
+.month-btn:hover{
+background:#3b1eff;
+color:#ffffff;
+}
+
+/* click effect */
 .month-btn:active{
 transform:scale(0.95);
 }
