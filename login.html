@@ -348,16 +348,14 @@ alert("Please fill all fields");
 return;
 }
 
+let formData = new URLSearchParams();
+formData.append("username", user);
+formData.append("oldPassword", oldPass);
+formData.append("newPassword", newPass);
+
 fetch("https://script.google.com/macros/s/AKfycbwgEgFyYYhnyCXR6fjuXFavceW3hwcfgSOFs_Uob_VlHmFjZmPdQiEY5bkJZrFRBa5y/exec", {
 method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body: JSON.stringify({
-username:user,
-oldPassword:oldPass,
-newPassword:newPass
-})
+body: formData
 })
 .then(res=>res.json())
 .then(data=>{
