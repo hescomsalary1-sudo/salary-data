@@ -45,7 +45,42 @@ line-height:1.6;
 </div>
 
 <script>
+// get type
+var params = new URLSearchParams(window.location.search);
+var type = params.get("type");
 
+var titleEl = document.getElementById("title");
+var content = document.getElementById("content");
+
+// LOAD ASK PAGE UI
+if(type === "ask"){
+
+titleEl.innerText = "Ask Questions";
+
+content.innerHTML = `
+<div class="card">
+
+<input id="qTitle" placeholder="Enter title">
+<textarea id="qDesc" placeholder="Describe your issue"></textarea>
+
+<select id="qCategory">
+<option>Salary</option>
+<option>Leave</option>
+<option>Technical</option>
+<option>Other</option>
+</select>
+
+<button onclick="addQuestion()">Submit</button>
+
+</div>
+
+<div class="card">
+<h3>Recent Questions</h3>
+<div id="questionList"></div>
+</div>
+`;
+
+}
 var questions = JSON.parse(localStorage.getItem("forumData")) || [];
 
 function addQuestion(){
