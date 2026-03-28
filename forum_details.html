@@ -2,112 +2,167 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Details</title>
 
 <style>
 body{
 margin:0;
-font-family:'Segoe UI',sans-serif;
+font-family:'Segoe UI';
 background:#f4f6fb;
 }
 
-/* HEADER */
 .top{
 background:linear-gradient(135deg,#2400b7,#3b1eff);
 color:white;
 padding:20px;
 text-align:center;
-font-size:18px;
 font-weight:600;
 }
 
-/* CONTENT */
-.container{
-padding:15px;
-}
+.container{padding:15px;}
 
 .card{
 background:white;
 padding:15px;
 border-radius:15px;
+margin-bottom:15px;
 box-shadow:0 4px 12px rgba(0,0,0,0.08);
-line-height:1.6;
 }
+
+input, textarea, select{
+width:100%;
+padding:10px;
+margin-top:8px;
+border-radius:10px;
+border:1px solid #ddd;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:25px;
+background:#3b1eff;
+color:white;
+font-weight:600;
+}
+
+.question{
+padding:10px;
+border-radius:10px;
+background:#f9fafc;
+margin-top:10px;
+}
+
+.pending{color:red;font-weight:600;}
+.resolved{color:green;font-weight:600;}
 </style>
 </head>
 
 <body>
 
-<div class="top" id="title">Details</div>
+<div class="top">Ask Questions</div>
 
 <div class="container">
-<div class="card" id="content"></div>
+
+<!-- FORM -->
+<div class="card">
+
+<input id="title" placeholder="Enter Title">
+
+<textarea id="desc" placeholder="Describe your issue"></textarea>
+
+<select id="cat">
+<option>Salary</option>
+<option>Technical</option>
+<option>Leave</option>
+<option>Other</option>
+</select>
+
+<button onclick="submitQuestion()">Submit</button>
+
+</div>
+
+<!-- LIST -->
+<div class="card">
+<h3>Questions</h3>
+<div id="list"></div>
+</div>
+
 </div>
 
 <script>
 
-// get type
-let params = new URLSearchParams(window.location.search);
-let type = params.get("type");
+const API_URL = "YOUR_DEPLOYED_WEB_APP_URL";
 
-let title = document.getElementById("title");
-let content = document.getElementById("content");
+// LOAD QUESTIONS
+function loadQuestions(){
 
-// DATA SWITCH
-if(type==="ask"){
-title.innerText="Ask Questions";
-content.innerHTML=`
-You can raise queries related to salary, deductions, and technical issues.
-Please provide clear details for faster resolution.
+fetch(API_URL)
+.then(res=>res.json())
+.then(data=>{
+
+let html="";
+
+data.reverse().forEach(q=>{
+
+let statusClass = q.status === "resolved" ? "resolved" : "pending";
+
+html += `
+<div class="question">
+<b>${q.title}</b><br>
+${q.desc}<br>
+<small>${q.category} • ${new Date(q.time).toLocaleString()}</small><br>
+<span class="${statusClass}">${q.status}</span>
+</div>
 `;
+
+});
+
+document.getElementById("list").innerHTML = html;
+
+});
+
 }
 
-else if(type==="contact"){
-title.innerText="Contact Us";
-content.innerHTML=`
-Email: support@yourapp.com <br>
-Phone: +91 9876543210 <br>
-Working Hours: 9 AM - 6 PM
-`;
+// SUBMIT
+function submitQuestion(){
+
+let title = document.getElementById("title").value.trim();
+let desc = document.getElementById("desc").value.trim();
+let cat = document.getElementById("cat").value;
+
+if(title=="" || desc==""){
+alert("Fill all fields");
+return;
 }
 
-else if(type==="help"){
-title.innerText="Help";
-content.innerHTML=`
-• Check salary in Salary page<br>
-• Download payslip from details page<br>
-• Contact admin if issue persists
-`;
+fetch(API_URL,{
+method:"POST",
+body: JSON.stringify({
+title:title,
+desc:desc,
+category:cat
+})
+})
+.then(res=>res.json())
+.then(data=>{
+
+if(data.status==="success"){
+alert("Submitted successfully");
+
+document.getElementById("title").value="";
+document.getElementById("desc").value="";
+
+loadQuestions();
 }
 
-else if(type==="privacy"){
-title.innerText="Privacy Policy";
-content.innerHTML=`
-We respect your privacy. Your salary data is secure and not shared with third parties.
-`;
+});
+
 }
 
-else if(type==="terms"){
-title.innerText="Terms & Conditions";
-content.innerHTML=`
-By using this app, you agree to company policies.
-Unauthorized access is prohibited.
-`;
-}
-
-else if(type==="copyright"){
-title.innerText="Copyright Policy";
-content.innerHTML=`
-All content belongs to the organization. Unauthorized copying is prohibited.
-`;
-}
-
-else if(type==="org"){
-title.innerText="Organization Chart";
-content.innerHTML=`
-CEO → Manager → Team Lead → Employee
-`;
-}
+// INIT
+loadQuestions();
 
 </script>
 
