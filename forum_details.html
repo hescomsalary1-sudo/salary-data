@@ -46,21 +46,29 @@ line-height:1.6;
 
 <script>
 
-let questions = JSON.parse(localStorage.getItem("forumData")) || [];
+var questions = JSON.parse(localStorage.getItem("forumData")) || [];
 
-// ADD QUESTION
 function addQuestion(){
 
-let title = document.getElementById("qTitle").value.trim();
-let desc = document.getElementById("qDesc").value.trim();
-let cat = document.getElementById("qCategory").value;
+var titleEl = document.getElementById("qTitle");
+var descEl = document.getElementById("qDesc");
+var catEl = document.getElementById("qCategory");
+
+if(!titleEl || !descEl || !catEl){
+alert("Input elements not found");
+return;
+}
+
+var title = titleEl.value.trim();
+var desc = descEl.value.trim();
+var cat = catEl.value;
 
 if(title === "" || desc === ""){
 alert("Please fill all fields");
 return;
 }
 
-let obj = {
+var obj = {
 title: title,
 desc: desc,
 cat: cat,
@@ -70,49 +78,43 @@ time: new Date().toLocaleString()
 
 questions.unshift(obj);
 
-// save
 localStorage.setItem("forumData", JSON.stringify(questions));
 
-// update UI
 displayQuestions();
 
-// clear inputs
-document.getElementById("qTitle").value = "";
-document.getElementById("qDesc").value = "";
+// clear
+titleEl.value = "";
+descEl.value = "";
 }
 
+function displayQuestions(){
 
-// DISPLAY QUESTIONS
-function displayQuestions(list){
+var list = document.getElementById("questionList");
 
-let data = list || questions;
+if(!list){
+console.log("questionList not found");
+return;
+}
 
-let html = "";
+var html = "";
 
-data.forEach(q => {
+for(var i=0; i<questions.length; i++){
+
+var q = questions[i];
 
 html += `
 <div class="question">
 <div class="title">❓ ${q.title}</div>
 <div>${q.desc}</div>
-
-<div class="meta">
-${q.cat} • ${q.time}
-</div>
-
-<div class="tag ${q.status}">
-${q.status}
-</div>
+<div class="meta">${q.cat} • ${q.time}</div>
+<div class="tag ${q.status}">${q.status}</div>
 </div>
 `;
-
-});
-
-document.getElementById("questionList").innerHTML = html;
 }
 
+list.innerHTML = html;
+}
 
-// FILTER
 function filterData(cat){
 
 if(cat === "All"){
@@ -120,17 +122,38 @@ displayQuestions();
 return;
 }
 
-let filtered = questions.filter(q => q.cat === cat);
-displayQuestions(filtered);
+var filtered = [];
+
+for(var i=0; i<questions.length; i++){
+if(questions[i].cat === cat){
+filtered.push(questions[i]);
+}
 }
 
+var list = document.getElementById("questionList");
 
-// INIT (IMPORTANT)
+var html = "";
+
+for(var i=0; i<filtered.length; i++){
+var q = filtered[i];
+
+html += `
+<div class="question">
+<div class="title">❓ ${q.title}</div>
+<div>${q.desc}</div>
+<div class="meta">${q.cat} • ${q.time}</div>
+<div class="tag ${q.status}">${q.status}</div>
+</div>
+`;
+}
+
+list.innerHTML = html;
+}
+
+// INIT
 window.onload = function(){
 displayQuestions();
 };
-
-
 
 </script>
 
