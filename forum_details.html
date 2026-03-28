@@ -93,7 +93,7 @@ margin-top:10px;
 
 <script>
 
-const API_URL = "https://script.google.com/macros/s/AKfycbynAt3u1ObOWVVB_MUowwLSKfKXzAs1PyclVISPCBGRv0Fu9zOhnDqQBP53rUtNWYfp/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbyVRJmKNn3_bCYB4f8DKevV2pkiptB4YogrVt-fNyEKl0E7NsdOvwOJsfXRmecTPTI9/exec";
 
 // LOAD QUESTIONS
 function loadQuestions(){
@@ -108,27 +108,30 @@ data.reverse().forEach(q=>{
 
 let statusClass = q.status === "resolved" ? "resolved" : "pending";
 
-let solutionHtml = "";
+let solutionText = "";
 
 if(q.solution && q.solution.trim() !== ""){
-solutionHtml = `
-<div style="margin-top:8px;padding:8px;background:#e6fffa;border-left:4px solid green;border-radius:8px;">
-<b>✅ Solution:</b><br>
-${q.solution}
+solutionText = `
+<div style="margin-top:5px;color:green;font-weight:600;">
+✅ Solution: ${q.solution}
 </div>
 `;
 }
 
 html += `
 <div class="question">
-<b>${q.title}</b><br>
-${q.desc}<br>
+
+<b>❓ ${q.title}</b><br>
+
+${q.desc}
+
+${solutionText}
+
+<br>
 
 <small>${q.category} • ${new Date(q.time).toLocaleString()}</small><br>
 
 <span class="${statusClass}">${q.status}</span>
-
-${solutionHtml}
 
 </div>
 `;
