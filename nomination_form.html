@@ -2,80 +2,34 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
 body{margin:0;font-family:'Segoe UI';background:#f4f6fb;}
-
-.top{
-background:linear-gradient(135deg,#2400b7,#3b1eff);
-color:white;padding:20px;text-align:center;
-}
-
-.top-btns{
-display:flex;gap:10px;padding:10px;
-}
-.top-btns button{
-flex:1;padding:10px;border:none;border-radius:20px;
-color:white;font-weight:600;
-}
+.top{background:#2400b7;color:white;padding:20px;text-align:center;}
+.top-btns{display:flex;gap:10px;padding:10px;}
+.top-btns button{flex:1;padding:10px;border:none;border-radius:20px;color:white;font-weight:600;}
 .fill{background:#3b1eff;}
 .view{background:#28a745;}
-
 .container{padding:15px;}
-
-.card{
-background:white;padding:15px;border-radius:15px;
-margin-bottom:15px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-}
-
-input, select{
-width:100%;padding:10px;margin-top:8px;
-border-radius:10px;border:1px solid #ddd;
-}
-
-button{
-width:100%;padding:12px;margin-top:10px;
-border:none;border-radius:25px;
-background:#3b1eff;color:white;font-weight:600;
-}
-
+.card{background:white;padding:15px;border-radius:15px;margin-bottom:15px;box-shadow:0 4px 12px rgba(0,0,0,0.08);}
+input,select{width:100%;padding:10px;margin-top:8px;border-radius:10px;border:1px solid #ddd;}
+button{width:100%;padding:12px;margin-top:10px;border:none;border-radius:25px;background:#3b1eff;color:white;font-weight:600;}
 .add-btn{background:#28a745;}
 .remove-btn{background:#ff4d4d;}
-
-#shareStatus{text-align:center;font-weight:600;margin:10px 0;}
-
-#statusBox{margin:10px;}
-
-#loader{
-position:fixed;top:0;left:0;width:100%;height:100%;
-background:rgba(255,255,255,0.7);
-display:none;align-items:center;justify-content:center;
-}
-
-.spinner{
-width:50px;height:50px;
-border:5px solid #ddd;
-border-top:5px solid #3b1eff;
-border-radius:50%;
-animation:spin 1s linear infinite;
-}
+#shareStatus{text-align:center;font-weight:600;margin:10px;}
+#loader{position:fixed;top:0;left:0;width:100%;height:100%;display:none;align-items:center;justify-content:center;background:rgba(255,255,255,0.7);}
+.spinner{width:50px;height:50px;border:5px solid #ddd;border-top:5px solid #3b1eff;border-radius:50%;animation:spin 1s linear infinite;}
 @keyframes spin{100%{transform:rotate(360deg);}}
 </style>
 </head>
 
 <body>
 
-<div class="top">
-<h2>👨‍👩‍👧 Nomination Form</h2>
-</div>
+<div class="top">Nomination Form</div>
 
 <div class="top-btns">
-<button class="fill" onclick="showForm()">Fill Nomination</button>
-<button class="view" onclick="goView()">View Nomination</button>
+<button class="fill" onclick="location.href='nomination_form.html'">Fill</button>
+<button class="view" onclick="location.href='view_nomination.html'">View</button>
 </div>
-
-<div id="statusBox"></div>
 
 <div class="container">
 
@@ -86,8 +40,7 @@ animation:spin 1s linear infinite;
 <div id="shareStatus">Total Share: 0%</div>
 
 <button id="addBtn" class="add-btn" onclick="addNominee()">+ Add Nominee</button>
-
-<button id="submitBtn" onclick="submitData()">Submit Nomination</button>
+<button id="submitBtn" onclick="submitData()">Submit</button>
 
 </div>
 
@@ -95,72 +48,26 @@ animation:spin 1s linear infinite;
 
 <script>
 
-const API_URL = "https://script.google.com/macros/s/AKfycbypluGz-gNpj27PwATNGLpytspTNmB1lrCJ6WCcmPjuba394eo54YC5wD30HV1yYmhxUw/exec";
+const API_URL = "YOUR_SCRIPT_URL";
 const user = localStorage.getItem("currentUser");
-
-/* CHECK EXISTING */
-function checkExisting(){
-
-fetch(API_URL + "?user=" + user)
-.then(res=>res.json())
-.then(data=>{
-
-let box = document.getElementById("statusBox");
-
-if(data.length > 0){
-
-box.innerHTML = `
-<div style="background:#e6f4ea;padding:12px;border-radius:12px;text-align:center;">
-✅ Nomination already filed<br><br>
-<button onclick="goView()">View</button>
-<button onclick="editNomination()" style="background:#ff9800;">Edit</button>
-</div>
-`;
-
-document.getElementById("submitBtn").style.display="none";
-document.getElementById("addBtn").style.display="none";
-
-}else{
-box.innerHTML = "";
-}
-
-});
-}
 
 /* ADD NOMINEE */
 function addNominee(){
+let div=document.createElement("div");
+div.className="card nominee";
 
-let div = document.createElement("div");
-div.className = "card nominee";
-
-div.innerHTML = `
-<input placeholder="Nominee Name" class="name">
-
+div.innerHTML=`
+<input placeholder="Name" class="name">
 <select class="relation">
-<option value="">Select Relationship</option>
-<option>Father</option>
-<option>Mother</option>
-<option>Wife</option>
-<option>Husband</option>
-<option>Son</option>
-<option>Daughter</option>
-<option>Brother</option>
-<option>Sister</option>
-<option>Other</option>
+<option>Father</option><option>Mother</option><option>Wife</option>
+<option>Husband</option><option>Son</option><option>Daughter</option>
+<option>Brother</option><option>Sister</option><option>Other</option>
 </select>
-
-<input type="date" class="dob">
-<input placeholder="Mobile" class="mobile">
-<input placeholder="Address" class="address">
 <input type="number" placeholder="Share %" class="share" oninput="checkShare()">
-<input placeholder="Aadhar Number" class="aadhar">
-<input placeholder="Guardian (if minor)" class="guardian">
-
 <button class="remove-btn" onclick="this.parentElement.remove();checkShare()">Remove</button>
 `;
 
 document.getElementById("nomineeList").appendChild(div);
-checkShare();
 }
 
 /* DEFAULT */
@@ -168,57 +75,51 @@ addNominee();
 
 /* SHARE CHECK */
 function checkShare(){
-
-let shares = document.querySelectorAll(".share");
-let total = 0;
-
-shares.forEach(s=>{
-total += Number(s.value || 0);
-});
-
-let status = document.getElementById("shareStatus");
-let addBtn = document.getElementById("addBtn");
-let submitBtn = document.getElementById("submitBtn");
-
-status.innerText = "Total Share: " + total + "%";
-
-if(total < 100){
-status.style.color="orange";
-addBtn.disabled=false;
-submitBtn.disabled=true;
-submitBtn.style.opacity="0.5";
-}
-else if(total === 100){
-status.style.color="green";
-addBtn.disabled=true;
-submitBtn.disabled=false;
-submitBtn.style.opacity="1";
-}
-else{
-status.style.color="red";
-submitBtn.disabled=true;
-}
-}
-
-/* VALIDATE */
-function validate(){
 let total=0;
 document.querySelectorAll(".share").forEach(s=>{
 total+=Number(s.value||0);
 });
-if(total!==100){
-alert("Total share must be 100%");
-return false;
+document.getElementById("shareStatus").innerText="Total Share: "+total+"%";
+
+let submit=document.getElementById("submitBtn");
+if(total===100){
+submit.disabled=false;
+submit.style.opacity="1";
+}else{
+submit.disabled=true;
+submit.style.opacity="0.5";
 }
-return true;
 }
+
+/* LOAD EDIT DATA */
+function loadEditData(){
+let data=localStorage.getItem("editNomination");
+if(!data) return;
+
+data=JSON.parse(data);
+document.getElementById("nomineeList").innerHTML="";
+
+data.forEach(n=>{
+let div=document.createElement("div");
+div.className="card nominee";
+
+div.innerHTML=`
+<input value="${n.name}" class="name">
+<select class="relation"><option>${n.relation}</option></select>
+<input type="number" value="${n.share}" class="share" oninput="checkShare()">
+<button class="remove-btn" onclick="this.parentElement.remove();checkShare()">Remove</button>
+`;
+
+document.getElementById("nomineeList").appendChild(div);
+});
+
+checkShare();
+}
+
+loadEditData();
 
 /* SUBMIT */
 function submitData(){
-
-if(!validate()) return;
-
-let empName=document.getElementById("empName").value;
 
 let nominees=[];
 
@@ -226,57 +127,36 @@ document.querySelectorAll(".nominee").forEach(n=>{
 nominees.push({
 name:n.querySelector(".name").value,
 relation:n.querySelector(".relation").value,
-dob:n.querySelector(".dob").value,
-mobile:n.querySelector(".mobile").value,
-address:n.querySelector(".address").value,
-share:n.querySelector(".share").value,
-aadhar:n.querySelector(".aadhar").value,
-guardian:n.querySelector(".guardian").value
+share:n.querySelector(".share").value
 });
 });
 
 document.getElementById("loader").style.display="flex";
 
-fetch(API_URL,{
+/* DELETE OLD */
+fetch(API_URL+"?action=delete&user="+user)
+.then(()=>{
+
+/* SAVE NEW */
+return fetch(API_URL,{
 method:"POST",
-body: JSON.stringify({
-user,
-emp_name: empName,
-nominees
-})
+body:JSON.stringify({user,nominees})
+});
+
 })
 .then(res=>res.json())
 .then(()=>{
 document.getElementById("loader").style.display="none";
-alert("Submitted Successfully");
-location.reload();
+alert("Saved");
+localStorage.removeItem("editNomination");
+location.href="view_nomination.html";
 })
 .catch(()=>{
-document.getElementById("loader").style.display="none";
-alert("Error submitting data");
+alert("Error");
 });
 
 }
 
-/* NAVIGATION */
-function goView(){
-window.location="view_nomination.html";
-}
-
-function showForm(){
-window.location="nomination_form.html";
-}
-
-function editNomination(){
-if(confirm("Edit nomination?")){
-window.location="nomination_form.html";
-}
-}
-
-/* INIT */
-checkExisting();
-
 </script>
-
 </body>
 </html>
