@@ -154,14 +154,46 @@ color:#28a745;
 margin-top:15px;
 background:#2575fc;
 }
+
+  /* header layout */
+.header-flex{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+/* header image */
+.header-img{
+width:90px;
+}
+
+/* form section with image */
+.form-flex{
+display:flex;
+gap:10px;
+align-items:center;
+}
+
+/* side image */
+.side-img{
+width:120px;
+}
 </style>
 </head>
 
 <body>
 
 <div class="top">
-<h2>📞 Contact Us</h2>
-<p>We are here to help you</p>
+  <div class="header-flex">
+    
+    <div>
+      <h2>📞 Contact Us</h2>
+      <p>We are here to help you</p>
+    </div>
+
+    <img src="https://cdn-icons-png.flaticon.com/512/3059/3059518.png" class="header-img">
+
+  </div>
 </div>
 
 <div class="container">
@@ -196,7 +228,9 @@ Your Company, India
 </div>
 
 <!-- FORM -->
-<div class="form">
+<div class="form-flex">
+
+<div class="form" style="flex:1;">
 <h3>Send Message</h3>
 
 <input id="name" placeholder="Your Name">
@@ -206,6 +240,8 @@ Your Company, India
 
 <button onclick="sendMessage()">Send Message</button>
 </div>
+
+<img src="https://cdn-icons-png.flaticon.com/512/561/561127.png" class="side-img">
 
 </div>
 
