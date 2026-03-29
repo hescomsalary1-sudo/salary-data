@@ -147,7 +147,7 @@ animation:spin 1s linear infinite;
 
 <script>
 
-const API_URL = "https://script.google.com/macros/s/AKfycbysFkSIJyB9n5zC1458wrfVx5bj4WR8ITBRkcoXib11sYOAVHslhraYiMVN7c4ELiKhfw/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzYMFFE-KfL5JamBrzIUC6oOCqP5eynVS3ksV2kkF-dY6g4J1Y08qdAQKErGg64qNS1BQ/exec";
 const user = localStorage.getItem("currentUser");
 
 /* ADD NOMINEE */
@@ -204,26 +204,48 @@ let status = document.getElementById("shareStatus");
 let addBtn = document.getElementById("addBtn");
 let submitBtn = document.getElementById("submitBtn");
 
+// show total
 status.innerText = "Total Share: " + total + "%";
 
+// ✅ CASE 1: LESS THAN 100
 if(total < 100){
+
 status.style.color = "orange";
+
+// allow adding more nominees
 addBtn.disabled = false;
 addBtn.style.opacity = "1";
+
+// block submit
 submitBtn.disabled = true;
 submitBtn.style.opacity = "0.5";
+
 }
+
+// ✅ CASE 2: EXACTLY 100
 else if(total === 100){
+
 status.style.color = "green";
+
+// stop adding
 addBtn.disabled = true;
 addBtn.style.opacity = "0.5";
+
+// allow submit
 submitBtn.disabled = false;
 submitBtn.style.opacity = "1";
+
 }
+
+// ❌ CASE 3: MORE THAN 100
 else{
+
 status.style.color = "red";
+
+// block submit
 submitBtn.disabled = true;
 submitBtn.style.opacity = "0.5";
+
 }
 }
 
