@@ -125,11 +125,10 @@ animation:spin 1s linear infinite;
 
 <!-- TOP BUTTONS -->
 <div class="top-btns">
-<div id="infoText" style="text-align:center;color:#2d3748;font-weight:600;margin:10px 15px;"></div>
 <button class="fill" onclick="showForm()">Fill Nomination</button>
 <button class="view" onclick="goView()">View Nomination</button>
 </div>
-
+<div id="infoText" style="text-align:center;color:#2d3748;font-weight:600;margin:10px 15px;"></div>
 <div class="container">
 
 <input id="empName" placeholder="Employee Name">
@@ -299,19 +298,24 @@ function showForm(){
 window.location = "nomination_form.html";
 }
 
-  function checkNominationStatus(){
+function checkNominationStatus(){
 
 fetch(API_URL + "?user=" + user)
 .then(res=>res.json())
 .then(data=>{
 
-if(data.length > 0){
+console.log("DATA:", data); // 👈 debug
+
+if(data && data.length > 0){
 
 document.getElementById("infoText").innerText =
 "Nomination already filed. If you want to edit, please click View Nomination and update.";
 
 }
 
+})
+.catch(err=>{
+console.log("ERROR:", err);
 });
 }
   checkNominationStatus();
