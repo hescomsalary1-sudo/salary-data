@@ -300,7 +300,57 @@ location.reload();
 
 /* NAVIGATION */
 function goView(){
-window.location="view_nomination.html";
+
+document.getElementById("loader").style.display="flex";
+
+fetch(API_URL + "?user=" + user)
+.then(res=>res.json())
+.then(data=>{
+
+document.getElementById("loader").style.display="none";
+
+// hide form
+document.querySelector(".container").style.display="none";
+
+let html = "<h3 style='padding:10px'>📋 Nomination Details</h3>";
+
+data.forEach(n=>{
+html += `
+<div class="card">
+<b>${n.name}</b><br>
+${n.relation}<br>
+Share: ${n.share}%
+</div>
+`;
+});
+
+html += `
+<button onclick="backToForm()" style="background:#3b1eff;">⬅ Back</button>
+<button onclick="goEdit()" style="background:#ff9800;">✏ Edit</button>
+`;
+
+document.getElementById("statusBox").innerHTML = html;
+
+});
+}
+
+/* BACK */
+function backToForm(){
+document.querySelector(".container").style.display="block";
+checkExisting();
+}
+
+/* EDIT → PAGE 2 */
+function goEdit(){
+
+fetch(API_URL + "?user=" + user)
+.then(res=>res.json())
+.then(data=>{
+
+localStorage.setItem("editNomination", JSON.stringify(data));
+window.location = "view_nomination.html";
+
+});
 }
 
 function showForm(){
