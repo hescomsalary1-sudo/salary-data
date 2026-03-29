@@ -4,157 +4,181 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{
-margin:0;
-font-family:'Segoe UI';
-background:#f4f6fb;
-text-align:center;
-}
+body{margin:0;font-family:'Segoe UI';background:#f4f6fb;}
 
-/* HEADER */
 .top{
 background:linear-gradient(135deg,#2400b7,#3b1eff);
-color:white;
-padding:20px;
+color:white;padding:20px;text-align:center;
 }
 
-/* TREE */
-.tree ul{
-padding-top:20px;
-position:relative;
-}
+.container{padding:15px;}
 
-.tree li{
-display:inline-block;
-text-align:center;
-list-style:none;
-position:relative;
-padding:20px 5px 0 5px;
-}
-
-/* lines */
-.tree li::before, .tree li::after{
-content:'';
-position:absolute;
-top:0;
-right:50%;
-border-top:2px solid #ccc;
-width:50%;
-height:20px;
-}
-
-.tree li::after{
-right:auto;
-left:50%;
-border-left:2px solid #ccc;
-}
-
-.tree li:only-child::after, .tree li:only-child::before{
-display:none;
-}
-
-.tree li:only-child{ padding-top:0;}
-
-.tree li:first-child::before, .tree li:last-child::after{
-border:none;
-}
-
-.tree ul ul::before{
-content:'';
-position:absolute;
-top:0;
-left:50%;
-border-left:2px solid #ccc;
-width:0;
-height:20px;
-}
-
-/* NODE BOX */
-.node{
+.card{
 background:white;
-padding:10px 15px;
-border-radius:12px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-display:inline-block;
-min-width:120px;
-font-size:13px;
+padding:15px;
+border-radius:15px;
+margin-bottom:15px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+input{
+width:100%;
+padding:10px;
+margin-top:8px;
+border-radius:10px;
+border:1px solid #ddd;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:25px;
+background:#3b1eff;
+color:white;
 font-weight:600;
 }
 
-/* COLORS */
-.main{background:#3b1eff;color:white;}
-.sub{background:#2575fc;color:white;}
-.sec{background:#e6f0ff;color:#333;}
+.add-btn{background:#28a745;}
+.remove-btn{background:#ff4d4d;}
+
+#loader{
+position:fixed;
+top:0;left:0;width:100%;height:100%;
+background:rgba(255,255,255,0.7);
+display:none;align-items:center;justify-content:center;
+}
+
+.spinner{
+width:50px;height:50px;
+border:5px solid #ddd;
+border-top:5px solid #3b1eff;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{100%{transform:rotate(360deg);}}
 </style>
 </head>
 
 <body>
 
 <div class="top">
-<h2>🏢 Organization Chart</h2>
+<h2>Nomination Form</h2>
 </div>
 
-<div class="tree">
+<div class="container">
 
-<ul>
-<li>
-<div class="node main">O & M Division<br>HESCOM, Sirsi</div>
+<input id="empName" placeholder="Employee Name">
 
-<ul>
+<div id="nomineeList"></div>
 
-<!-- Sirsi -->
-<li>
-<div class="node sub">Sirsi Subdivision</div>
-<ul>
-<li><div class="node sec">R-1 Section</div></li>
-<li><div class="node sec">R-2 Section</div></li>
-<li><div class="node sec">Hulekal</div></li>
-<li><div class="node sec">Banavasi</div></li>
-</ul>
-</li>
+<button class="add-btn" onclick="addNominee()">+ Add Nominee</button>
 
-<!-- Siddapur -->
-<li>
-<div class="node sub">Siddapur Subdivision</div>
-<ul>
-<li><div class="node sec">Town Section</div></li>
-<li><div class="node sec">Rural Section</div></li>
-<li><div class="node sec">Herur</div></li>
-<li><div class="node sec">Bilagi</div></li>
-</ul>
-</li>
-
-<!-- Yellapur -->
-<li>
-<div class="node sub">Yellapur Subdivision</div>
-<ul>
-<li><div class="node sec">Town Section</div></li>
-<li><div class="node sec">Rural Section</div></li>
-<li><div class="node sec">Manchikeri</div></li>
-<li><div class="node sec">Kiravatti</div></li>
-</ul>
-</li>
-
-<!-- Mundgod -->
-<li>
-<div class="node sub">Mundgod Subdivision</div>
-<ul>
-<li><div class="node sec">Mundgod Section</div></li>
-<li><div class="node sec">Malgi Section</div></li>
-</ul>
-</li>
-
-<!-- Accounting -->
-<li>
-<div class="node sub">Sirsi Accounting Section</div>
-</li>
-
-</ul>
-
-</li>
-</ul>
+<button onclick="submitData()">Submit</button>
 
 </div>
+
+<div id="loader"><div class="spinner"></div></div>
+
+<script>
+
+const API_URL = "YOUR_SCRIPT_URL";
+const user = localStorage.getItem("currentUser");
+
+// ADD NOMINEE
+function addNominee(){
+
+let div = document.createElement("div");
+div.className = "card nominee";
+
+div.innerHTML = `
+<input placeholder="Nominee Name" class="name">
+<input placeholder="Relationship" class="relation">
+<input type="date" class="dob">
+<input placeholder="Mobile" class="mobile">
+<input placeholder="Address" class="address">
+<input type="number" placeholder="Share %" class="share">
+<input placeholder="Aadhar Number" class="aadhar">
+<input placeholder="Guardian (if minor)" class="guardian">
+<button class="remove-btn" onclick="this.parentElement.remove()">Remove</button>
+`;
+
+document.getElementById("nomineeList").appendChild(div);
+}
+
+addNominee();
+
+// VALIDATION
+function validate(){
+
+let shares = document.querySelectorAll(".share");
+let total = 0;
+
+shares.forEach(s=>{
+total += Number(s.value || 0);
+});
+
+if(total !== 100){
+alert("Total share must be 100%");
+return false;
+}
+
+return true;
+}
+
+// SUBMIT
+function submitData(){
+
+if(!validate()) return;
+
+let empName = document.getElementById("empName").value;
+
+let nominees = [];
+
+document.querySelectorAll(".nominee").forEach(n=>{
+
+nominees.push({
+name: n.querySelector(".name").value,
+relation: n.querySelector(".relation").value,
+dob: n.querySelector(".dob").value,
+mobile: n.querySelector(".mobile").value,
+address: n.querySelector(".address").value,
+share: n.querySelector(".share").value,
+aadhar: n.querySelector(".aadhar").value,
+guardian: n.querySelector(".guardian").value
+});
+
+});
+
+document.getElementById("loader").style.display="flex";
+
+fetch(API_URL,{
+method:"POST",
+body: JSON.stringify({
+user,
+emp_name: empName,
+nominees
+})
+})
+.then(res=>res.json())
+.then(()=>{
+
+document.getElementById("loader").style.display="none";
+alert("Submitted Successfully");
+
+location.reload();
+
+})
+.catch(()=>{
+document.getElementById("loader").style.display="none";
+alert("Error");
+});
+
+}
+
+</script>
 
 </body>
 </html>
