@@ -86,6 +86,18 @@ color:white;
 font-weight:600;
 }
 
+/* LINK */
+.link{
+text-align:center;
+margin-top:10px;
+}
+
+.link a{
+color:#2575fc;
+font-weight:600;
+text-decoration:none;
+}
+
 /* LOADER */
 #loader{
 position:fixed;
@@ -204,7 +216,13 @@ Your Company, India
 <input id="subject" placeholder="Subject">
 <textarea id="message" placeholder="Your Message"></textarea>
 
-<button onclick="sendMessage()">Send Message</button>
+<button id="sendBtn" onclick="sendMessage()">Send Message</button>
+
+<!-- ✅ VIEW MESSAGES LINK -->
+<div class="link">
+<a href="my_messages.html">View Your Messages →</a>
+</div>
+
 </div>
 
 </div>
@@ -226,7 +244,10 @@ Your Company, India
 
 <script>
 
-const API_URL = "https://script.google.com/macros/s/AKfycbxuI559g0ETeuhhEjI_evqyMDGxMh9VN2bS-tuw01JpsOsqDtr4qQJb91MKrSIrwas/exec"; // optional
+const API_URL = "https://script.google.com/macros/s/AKfycbxuI559g0ETeuhhEjI_evqyMDGxMh9VN2bS-tuw01JpsOsqDtr4qQJb91MKrSIrwas/exec";
+
+// 🔥 get logged user
+const user = localStorage.getItem("currentUser");
 
 function sendMessage(){
 
@@ -240,14 +261,21 @@ alert("Please fill all fields");
 return;
 }
 
+// disable button
+document.getElementById("sendBtn").disabled = true;
+document.getElementById("sendBtn").innerText = "Sending...";
+
 // show loader
 document.getElementById("loader").style.display="flex";
 
-// 👉 if using backend
 fetch(API_URL,{
 method:"POST",
 body: JSON.stringify({
-name,email,subject,message
+user, // 🔥 important
+name,
+email,
+subject,
+message
 })
 })
 .then(res=>res.json())
@@ -255,27 +283,22 @@ name,email,subject,message
 
 document.getElementById("loader").style.display="none";
 showPopup();
-
 clearForm();
+
+// enable button
+document.getElementById("sendBtn").disabled = false;
+document.getElementById("sendBtn").innerText = "Send Message";
 
 })
 .catch(()=>{
 
 document.getElementById("loader").style.display="none";
-showPopup(); // still show success (or you can show error)
+alert("Error sending message");
 
-clearForm();
+document.getElementById("sendBtn").disabled = false;
+document.getElementById("sendBtn").innerText = "Send Message";
 
 });
-
-// 👉 if NO backend, just simulate
-/*
-setTimeout(()=>{
-document.getElementById("loader").style.display="none";
-showPopup();
-clearForm();
-},1500);
-*/
 
 }
 
