@@ -114,7 +114,13 @@ fetch(API_URL+"?user="+user)
 
 document.getElementById("loader").style.display="none";
 
-let html="";
+let empName = data.length > 0 ? data[0].emp_name : "";
+
+let html = `
+<div class="card">
+<b>Employee Name:</b> ${empName}
+</div>
+`;
 
 data.forEach(n=>{
 html+=`
