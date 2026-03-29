@@ -198,7 +198,7 @@ background:#2575fc;
 <div class="form">
 <h3>Send Message</h3>
 
-<input id="name" readonly>
+<input id="name" placeholder="Your Name">
 <input id="email" placeholder="Your Email">
 <input id="subject" placeholder="Subject">
 <textarea id="message" placeholder="Your Message"></textarea>
@@ -234,14 +234,13 @@ alert("User not logged in");
 window.location = "login.html";
 }
 
-// autofill name
-document.getElementById("name").value = user;
+
 
 const API_URL = "https://script.google.com/macros/s/AKfycbxVyQy7X52wHDexkvBqfODTLAM6fIwW5HBRJEGhBkKmrR6hGjeFePyEVsWxjno4nwPO/exec";
 
 function sendMessage(){
 
-let name = user;
+let name = document.getElementById("name").value.trim();
 let email = document.getElementById("email").value.trim();
 let subject = document.getElementById("subject").value.trim();
 let message = document.getElementById("message").value.trim();
