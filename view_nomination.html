@@ -2,159 +2,54 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-body{
-margin:0;
-font-family:'Segoe UI';
-background:#f4f6fb;
-text-align:center;
-}
-
-/* HEADER */
-.top{
-background:linear-gradient(135deg,#2400b7,#3b1eff);
-color:white;
-padding:20px;
-}
-
-/* TREE */
-.tree ul{
-padding-top:20px;
-position:relative;
-}
-
-.tree li{
-display:inline-block;
-text-align:center;
-list-style:none;
-position:relative;
-padding:20px 5px 0 5px;
-}
-
-/* lines */
-.tree li::before, .tree li::after{
-content:'';
-position:absolute;
-top:0;
-right:50%;
-border-top:2px solid #ccc;
-width:50%;
-height:20px;
-}
-
-.tree li::after{
-right:auto;
-left:50%;
-border-left:2px solid #ccc;
-}
-
-.tree li:only-child::after, .tree li:only-child::before{
-display:none;
-}
-
-.tree li:only-child{ padding-top:0;}
-
-.tree li:first-child::before, .tree li:last-child::after{
-border:none;
-}
-
-.tree ul ul::before{
-content:'';
-position:absolute;
-top:0;
-left:50%;
-border-left:2px solid #ccc;
-width:0;
-height:20px;
-}
-
-/* NODE BOX */
-.node{
-background:white;
-padding:10px 15px;
-border-radius:12px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-display:inline-block;
-min-width:120px;
-font-size:13px;
-font-weight:600;
-}
-
-/* COLORS */
-.main{background:#3b1eff;color:white;}
-.sub{background:#2575fc;color:white;}
-.sec{background:#e6f0ff;color:#333;}
+body{font-family:'Segoe UI';background:#f4f6fb;padding:15px;}
+.card{background:white;padding:15px;margin-bottom:10px;border-radius:12px;}
+button{padding:10px;border:none;border-radius:10px;background:#3b1eff;color:white;}
 </style>
 </head>
 
 <body>
 
-<div class="top">
-<h2>🏢 Organization Chart</h2>
+<h3>My Nomination</h3>
+
+<div id="list"></div>
+
+<script>
+
+const API_URL="YOUR_SCRIPT_URL";
+const user=localStorage.getItem("currentUser");
+
+fetch(API_URL+"?user="+user)
+.then(res=>res.json())
+.then(data=>{
+
+let html="";
+
+data.forEach(n=>{
+html+=`
+<div class="card">
+<b>${n.name}</b><br>
+${n.relation}<br>
+Share: ${n.share}%
 </div>
+`;
+});
 
-<div class="tree">
+// store for edit
+localStorage.setItem("editNomination", JSON.stringify(data));
 
-<ul>
-<li>
-<div class="node main">O & M Division<br>HESCOM, Sirsi</div>
+html+=`<button onclick="edit()">Edit</button>`;
 
-<ul>
+document.getElementById("list").innerHTML=html;
 
-<!-- Sirsi -->
-<li>
-<div class="node sub">Sirsi Subdivision</div>
-<ul>
-<li><div class="node sec">R-1 Section</div></li>
-<li><div class="node sec">R-2 Section</div></li>
-<li><div class="node sec">Hulekal</div></li>
-<li><div class="node sec">Banavasi</div></li>
-</ul>
-</li>
+});
 
-<!-- Siddapur -->
-<li>
-<div class="node sub">Siddapur Subdivision</div>
-<ul>
-<li><div class="node sec">Town Section</div></li>
-<li><div class="node sec">Rural Section</div></li>
-<li><div class="node sec">Herur</div></li>
-<li><div class="node sec">Bilagi</div></li>
-</ul>
-</li>
+function edit(){
+window.location="nomination_form.html";
+}
 
-<!-- Yellapur -->
-<li>
-<div class="node sub">Yellapur Subdivision</div>
-<ul>
-<li><div class="node sec">Town Section</div></li>
-<li><div class="node sec">Rural Section</div></li>
-<li><div class="node sec">Manchikeri</div></li>
-<li><div class="node sec">Kiravatti</div></li>
-</ul>
-</li>
-
-<!-- Mundgod -->
-<li>
-<div class="node sub">Mundgod Subdivision</div>
-<ul>
-<li><div class="node sec">Mundgod Section</div></li>
-<li><div class="node sec">Malgi Section</div></li>
-</ul>
-</li>
-
-<!-- Accounting -->
-<li>
-<div class="node sub">Sirsi Accounting Section</div>
-</li>
-
-</ul>
-
-</li>
-</ul>
-
-</div>
+</script>
 
 </body>
 </html>
