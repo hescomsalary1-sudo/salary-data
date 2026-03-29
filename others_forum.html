@@ -2,12 +2,11 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Details</title>
 
 <style>
 body{
 margin:0;
-font-family:'Segoe UI',sans-serif;
+font-family:'Segoe UI';
 background:#f4f6fb;
 }
 
@@ -17,15 +16,14 @@ background:linear-gradient(135deg,#2400b7,#3b1eff);
 color:white;
 padding:20px;
 text-align:center;
-font-size:18px;
-font-weight:600;
 }
 
-/* CONTENT */
+/* CONTAINER */
 .container{
 padding:15px;
 }
 
+/* CARD */
 .card{
 background:white;
 padding:15px;
@@ -38,76 +36,66 @@ line-height:1.6;
 
 <body>
 
-<div class="top" id="title">Details</div>
+<!-- HEADER -->
+<div class="top">
+<h2 id="title">Loading...</h2>
+</div>
 
+<!-- CONTENT -->
 <div class="container">
 <div class="card" id="content"></div>
 </div>
 
 <script>
 
-// get type
-let params = new URLSearchParams(window.location.search);
-let type = params.get("type");
+// ✅ STEP 3.2 → GET TYPE FROM URL
+const params = new URLSearchParams(window.location.search);
+const type = params.get("type");
 
-let title = document.getElementById("title");
-let content = document.getElementById("content");
+// ✅ STEP 3.3 → SET TITLE
+let title = "";
 
-// DATA SWITCH
-if(type==="ask"){
-title.innerText="Ask Questions";
-content.innerHTML=`
-You can raise queries related to salary, deductions, and technical issues.
-Please provide clear details for faster resolution.
+if(type === "privacy") title = "Privacy Policy";
+if(type === "terms") title = "Terms & Conditions";
+if(type === "copyright") title = "Copyright Policy";
+if(type === "org") title = "Organization Chart";
+
+document.getElementById("title").innerText = title;
+
+
+// ✅ STEP 3.4 → SET CONTENT
+let content = "";
+
+if(type === "privacy"){
+content = `
+<b>Privacy Policy</b><br><br>
+We respect your privacy. Your data is सुरक्षित and used only for app functionality.
 `;
 }
 
-else if(type==="contact"){
-title.innerText="Contact Us";
-content.innerHTML=`
-Email: support@yourapp.com <br>
-Phone: +91 9876543210 <br>
-Working Hours: 9 AM - 6 PM
+if(type === "terms"){
+content = `
+<b>Terms & Conditions</b><br><br>
+Use this app responsibly. Misuse may lead to account restrictions.
 `;
 }
 
-else if(type==="help"){
-title.innerText="Help";
-content.innerHTML=`
-• Check salary in Salary page<br>
-• Download payslip from details page<br>
-• Contact admin if issue persists
+if(type === "copyright"){
+content = `
+<b>Copyright Policy</b><br><br>
+All content belongs to company. Unauthorized use is prohibited.
 `;
 }
 
-else if(type==="privacy"){
-title.innerText="Privacy Policy";
-content.innerHTML=`
-We respect your privacy. Your salary data is secure and not shared with third parties.
+if(type === "org"){
+content = `
+<b>Organization Chart</b><br><br>
+Admin → Manager → Employees
 `;
 }
 
-else if(type==="terms"){
-title.innerText="Terms & Conditions";
-content.innerHTML=`
-By using this app, you agree to company policies.
-Unauthorized access is prohibited.
-`;
-}
-
-else if(type==="copyright"){
-title.innerText="Copyright Policy";
-content.innerHTML=`
-All content belongs to the organization. Unauthorized copying is prohibited.
-`;
-}
-
-else if(type==="org"){
-title.innerText="Organization Chart";
-content.innerHTML=`
-CEO → Manager → Team Lead → Employee
-`;
-}
+// 👉 SHOW CONTENT
+document.getElementById("content").innerHTML = content;
 
 </script>
 
