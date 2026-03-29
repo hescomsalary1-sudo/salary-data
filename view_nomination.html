@@ -4,23 +4,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{font-family:'Segoe UI';background:#f4f6fb;margin:0;}
-
-.top{
-background:linear-gradient(135deg,#2400b7,#3b1eff);
-color:white;padding:15px;text-align:center;
+body{
+font-family:'Segoe UI';
+background:#f4f6fb;
+margin:0;
 }
 
-.container{padding:15px;}
+/* HEADER */
+.top{
+background:linear-gradient(135deg,#2400b7,#3b1eff);
+color:white;
+padding:15px;
+text-align:center;
+}
 
+/* CONTAINER */
+.container{
+padding:15px;
+}
+
+/* CARD */
 .card{
 background:white;
 padding:15px;
-margin-bottom:10px;
+margin-bottom:12px;
 border-radius:12px;
 box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }
 
+/* INPUT */
 input, select{
 width:100%;
 padding:10px;
@@ -29,6 +41,7 @@ border-radius:10px;
 border:1px solid #ddd;
 }
 
+/* BUTTON */
 button{
 width:100%;
 padding:12px;
@@ -40,48 +53,99 @@ color:white;
 font-weight:600;
 }
 
-.remove-btn{background:#ff4d4d;}
+.edit-btn{background:#ff9800;}
+.cancel-btn{background:#999;}
+
+/* LOADER */
+#loader{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(255,255,255,0.7);
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.spinner{
+width:50px;
+height:50px;
+border:5px solid #ddd;
+border-top:5px solid #3b1eff;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+100%{transform:rotate(360deg);}
+}
 </style>
 </head>
 
 <body>
 
 <div class="top">
-<h3>✏ Edit Nomination</h3>
+<h3>📋 My Nomination</h3>
 </div>
+
+<div id="loader"><div class="spinner"></div></div>
 
 <div class="container">
 
-<div id="list"></div>
+<div id="viewBox"></div>
 
-<div id="shareStatus">Total Share: 0%</div>
-
-<button onclick="submitData()">Update Nomination</button>
+<div id="editBox"></div>
 
 </div>
 
 <script>
 
-const API_URL="https://script.google.com/macros/s/AKfycbypluGz-gNpj27PwATNGLpytspTNmB1lrCJ6WCcmPjuba394eo54YC5wD30HV1yYmhxUw/exec";
+const API_URL="https://script.google.com/macros/s/AKfycbwT7GKCLUMvBzv2ytvni_HWYUiWZKUO6tYYg6QvSKsfkRkoFuaL6rHky5yVP6VtMCLdAQ/exec";
 const user=localStorage.getItem("currentUser");
 
 /* LOAD DATA */
-function load(){
+function loadData(){
 
-let data = localStorage.getItem("editNomination");
+fetch(API_URL+"?user="+user)
+.then(res=>res.json())
+.then(data=>{
 
-if(!data){
-alert("No data found");
-return;
-}
-
-data = JSON.parse(data);
+document.getElementById("loader").style.display="none";
 
 let html="";
 
 data.forEach(n=>{
-html += `
-<div class="card nominee">
+html+=`
+<div class="card">
+<b>${n.name}</b><br>
+${n.relation}<br>
+Share: ${n.share}%
+</div>
+`;
+});
+
+// EDIT BUTTON
+html+=`<button class="edit-btn" onclick='showEdit(${JSON.stringify(data)})'>✏ Edit</button>`;
+
+document.getElementById("viewBox").innerHTML=html;
+
+});
+
+}
+
+loadData();
+
+/* SHOW EDIT FORM */
+function showEdit(data){
+
+let html=`<div class="card">
+<h3>✏ Edit Nomination</h3>`;
+
+data.forEach(n=>{
+html+=`
+<div class="nominee">
 
 <input value="${n.name}" class="name">
 
@@ -98,42 +162,24 @@ html += `
 <option>Other</option>
 </select>
 
-<input type="number" value="${n.share}" class="share" oninput="checkShare()">
-
-<button class="remove-btn" onclick="this.parentElement.remove();checkShare()">Remove</button>
+<input type="number" value="${n.share}" class="share">
 
 </div>
 `;
 });
 
-document.getElementById("list").innerHTML = html;
+html+=`
+<button onclick="updateData()">Update</button>
+<button class="cancel-btn" onclick="cancelEdit()">Cancel</button>
+</div>
+`;
 
-checkShare();
+document.getElementById("editBox").innerHTML=html;
+
 }
 
-load();
-
-/* SHARE CHECK */
-function checkShare(){
-let total=0;
-document.querySelectorAll(".share").forEach(s=>{
-total+=Number(s.value||0);
-});
-document.getElementById("shareStatus").innerText="Total Share: "+total+"%";
-}
-
-/* SUBMIT UPDATE */
-function submitData(){
-
-let total=0;
-document.querySelectorAll(".share").forEach(s=>{
-total+=Number(s.value||0);
-});
-
-if(total!==100){
-alert("Total must be 100%");
-return;
-}
+/* UPDATE DATA */
+function updateData(){
 
 let nominees=[];
 
@@ -144,6 +190,8 @@ relation:n.querySelector(".relation").value,
 share:n.querySelector(".share").value
 });
 });
+
+document.getElementById("loader").style.display="flex";
 
 // DELETE OLD + SAVE NEW
 fetch(API_URL+"?action=delete&user="+user)
@@ -157,10 +205,21 @@ body:JSON.stringify({user,nominees})
 })
 .then(res=>res.json())
 .then(()=>{
+
+document.getElementById("loader").style.display="none";
+
 alert("Updated Successfully");
-localStorage.removeItem("editNomination");
-window.location="nomination_form.html";
+
+// refresh UI
+document.getElementById("editBox").innerHTML="";
+loadData();
+
 });
+}
+
+/* CANCEL */
+function cancelEdit(){
+document.getElementById("editBox").innerHTML="";
 }
 
 </script>
