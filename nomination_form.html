@@ -4,15 +4,45 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{margin:0;font-family:'Segoe UI';background:#f4f6fb;}
-
-.top{
-background:linear-gradient(135deg,#2400b7,#3b1eff);
-color:white;padding:20px;text-align:center;
+body{
+margin:0;
+font-family:'Segoe UI';
+background:#f4f6fb;
 }
 
-.container{padding:15px;}
+/* HEADER */
+.top{
+background:linear-gradient(135deg,#2400b7,#3b1eff);
+color:white;
+padding:20px;
+text-align:center;
+}
 
+/* BUTTON BAR */
+.top-btns{
+display:flex;
+gap:10px;
+padding:10px;
+}
+
+.top-btns button{
+flex:1;
+padding:10px;
+border:none;
+border-radius:20px;
+color:white;
+font-weight:600;
+}
+
+.fill{background:#3b1eff;}
+.view{background:#28a745;}
+
+/* CONTAINER */
+.container{
+padding:15px;
+}
+
+/* CARD */
 .card{
 background:white;
 padding:15px;
@@ -21,7 +51,8 @@ margin-bottom:15px;
 box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
-input{
+/* INPUT */
+input, select{
 width:100%;
 padding:10px;
 margin-top:8px;
@@ -29,6 +60,7 @@ border-radius:10px;
 border:1px solid #ddd;
 }
 
+/* BUTTON */
 button{
 width:100%;
 padding:12px;
@@ -40,32 +72,61 @@ color:white;
 font-weight:600;
 }
 
-.add-btn{background:#28a745;}
-.remove-btn{background:#ff4d4d;}
+/* ADD BTN */
+.add-btn{
+background:#28a745;
+}
 
+/* REMOVE */
+.remove-btn{
+background:#ff4d4d;
+}
+
+/* SHARE STATUS */
+#shareStatus{
+text-align:center;
+font-weight:600;
+margin:10px 0;
+}
+
+/* LOADER */
 #loader{
 position:fixed;
-top:0;left:0;width:100%;height:100%;
+top:0;
+left:0;
+width:100%;
+height:100%;
 background:rgba(255,255,255,0.7);
-display:none;align-items:center;justify-content:center;
+display:none;
+align-items:center;
+justify-content:center;
 }
 
 .spinner{
-width:50px;height:50px;
+width:50px;
+height:50px;
 border:5px solid #ddd;
 border-top:5px solid #3b1eff;
 border-radius:50%;
 animation:spin 1s linear infinite;
 }
 
-@keyframes spin{100%{transform:rotate(360deg);}}
+@keyframes spin{
+100%{transform:rotate(360deg);}
+}
 </style>
 </head>
 
 <body>
 
 <div class="top">
-<h2>Nomination Form</h2>
+<h2>👨‍👩‍👧 Nomination Form</h2>
+</div>
+
+<!-- TOP BUTTONS -->
+<div class="top-btns">
+<button class="fill" onclick="showForm()">Fill Nomination</button>
+<button class="view" onclick="goView()">View Nomination</button>
 </div>
 
 <div class="container">
@@ -74,9 +135,11 @@ animation:spin 1s linear infinite;
 
 <div id="nomineeList"></div>
 
-<button class="add-btn" onclick="addNominee()">+ Add Nominee</button>
+<div id="shareStatus">Total Share: 0%</div>
 
-<button onclick="submitData()">Submit</button>
+<button id="addBtn" class="add-btn" onclick="addNominee()">+ Add Nominee</button>
+
+<button id="submitBtn" onclick="submitData()">Submit Nomination</button>
 
 </div>
 
@@ -84,10 +147,10 @@ animation:spin 1s linear infinite;
 
 <script>
 
-const API_URL = "https://script.google.com/macros/s/AKfycbz3Jv1XG9TzL0Ig9QjZQ5NRxc_EqJAFNFHYoO_rFDnUjpa5oCdK42iC8GzaAlKVJqaMiw/exec";
+const API_URL = "YOUR_SCRIPT_URL";
 const user = localStorage.getItem("currentUser");
 
-// ADD NOMINEE
+/* ADD NOMINEE */
 function addNominee(){
 
 let div = document.createElement("div");
@@ -95,22 +158,76 @@ div.className = "card nominee";
 
 div.innerHTML = `
 <input placeholder="Nominee Name" class="name">
-<input placeholder="Relationship" class="relation">
+
+<select class="relation">
+<option value="">Select Relationship</option>
+<option>Father</option>
+<option>Mother</option>
+<option>Wife</option>
+<option>Husband</option>
+<option>Son</option>
+<option>Daughter</option>
+<option>Brother</option>
+<option>Sister</option>
+<option>Other</option>
+</select>
+
 <input type="date" class="dob">
 <input placeholder="Mobile" class="mobile">
 <input placeholder="Address" class="address">
-<input type="number" placeholder="Share %" class="share">
+<input type="number" placeholder="Share %" class="share" oninput="checkShare()">
 <input placeholder="Aadhar Number" class="aadhar">
 <input placeholder="Guardian (if minor)" class="guardian">
-<button class="remove-btn" onclick="this.parentElement.remove()">Remove</button>
+
+<button class="remove-btn" onclick="this.parentElement.remove();checkShare()">Remove</button>
 `;
 
 document.getElementById("nomineeList").appendChild(div);
+
+checkShare();
 }
 
+/* DEFAULT */
 addNominee();
 
-// VALIDATION
+/* SHARE VALIDATION */
+function checkShare(){
+
+let shares = document.querySelectorAll(".share");
+let total = 0;
+
+shares.forEach(s=>{
+total += Number(s.value || 0);
+});
+
+let status = document.getElementById("shareStatus");
+let addBtn = document.getElementById("addBtn");
+let submitBtn = document.getElementById("submitBtn");
+
+status.innerText = "Total Share: " + total + "%";
+
+if(total < 100){
+status.style.color = "orange";
+addBtn.disabled = false;
+addBtn.style.opacity = "1";
+submitBtn.disabled = true;
+submitBtn.style.opacity = "0.5";
+}
+else if(total === 100){
+status.style.color = "green";
+addBtn.disabled = true;
+addBtn.style.opacity = "0.5";
+submitBtn.disabled = false;
+submitBtn.style.opacity = "1";
+}
+else{
+status.style.color = "red";
+submitBtn.disabled = true;
+submitBtn.style.opacity = "0.5";
+}
+}
+
+/* VALIDATE */
 function validate(){
 
 let shares = document.querySelectorAll(".share");
@@ -121,14 +238,14 @@ total += Number(s.value || 0);
 });
 
 if(total !== 100){
-alert("Total share must be 100%");
+alert("Total share must be exactly 100%");
 return false;
 }
 
 return true;
 }
 
-// SUBMIT
+/* SUBMIT */
 function submitData(){
 
 if(!validate()) return;
@@ -138,7 +255,6 @@ let empName = document.getElementById("empName").value;
 let nominees = [];
 
 document.querySelectorAll(".nominee").forEach(n=>{
-
 nominees.push({
 name: n.querySelector(".name").value,
 relation: n.querySelector(".relation").value,
@@ -149,7 +265,6 @@ share: n.querySelector(".share").value,
 aadhar: n.querySelector(".aadhar").value,
 guardian: n.querySelector(".guardian").value
 });
-
 });
 
 document.getElementById("loader").style.display="flex";
@@ -164,18 +279,23 @@ nominees
 })
 .then(res=>res.json())
 .then(()=>{
-
 document.getElementById("loader").style.display="none";
 alert("Submitted Successfully");
-
 location.reload();
-
 })
 .catch(()=>{
 document.getElementById("loader").style.display="none";
 alert("Error");
 });
+}
 
+/* NAVIGATION */
+function goView(){
+window.location = "view_nomination.html";
+}
+
+function showForm(){
+window.location = "nomination_form.html";
 }
 
 </script>
