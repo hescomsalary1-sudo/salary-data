@@ -211,7 +211,7 @@ Your Company, India
 <div class="form">
 <h3>Send Message</h3>
 
-<input id="name" placeholder="Your Name">
+<input id="name" placeholder="User Name" readonly>
 <input id="email" placeholder="Your Email">
 <input id="subject" placeholder="Subject">
 <textarea id="message" placeholder="Your Message"></textarea>
@@ -243,7 +243,15 @@ Your Company, India
 </div>
 
 <script>
+const user = localStorage.getItem("currentUser");
 
+if(!user){
+alert("User not logged in");
+window.location = "login.html";
+}
+
+// auto fill
+document.getElementById("name").value = user;
 const API_URL = "https://script.google.com/macros/s/AKfycbxuI559g0ETeuhhEjI_evqyMDGxMh9VN2bS-tuw01JpsOsqDtr4qQJb91MKrSIrwas/exec";
 
 // 🔥 get logged user
@@ -251,7 +259,7 @@ const user = localStorage.getItem("currentUser");
 
 function sendMessage(){
 
-let name = document.getElementById("name").value.trim();
+let name = user; // 🔥 always use logged user
 let email = document.getElementById("email").value.trim();
 let subject = document.getElementById("subject").value.trim();
 let message = document.getElementById("message").value.trim();
