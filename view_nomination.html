@@ -120,8 +120,13 @@ data.forEach(n=>{
 html+=`
 <div class="card">
 <b>${n.name}</b><br>
-${n.relation}<br>
-Share: ${n.share}%
+Relation: ${n.relation}<br>
+DOB: ${n.dob || '-'}<br>
+Mobile: ${n.mobile || '-'}<br>
+Address: ${n.address || '-'}<br>
+Share: ${n.share}%<br>
+Aadhar: ${n.aadhar || '-'}<br>
+Guardian: ${n.guardian || '-'}
 </div>
 `;
 });
@@ -162,7 +167,12 @@ html+=`
 <option>Other</option>
 </select>
 
+<input type="date" value="${n.dob || ''}" class="dob">
+<input value="${n.mobile || ''}" class="mobile">
+<input value="${n.address || ''}" class="address">
 <input type="number" value="${n.share}" class="share">
+<input value="${n.aadhar || ''}" class="aadhar">
+<input value="${n.guardian || ''}" class="guardian">
 
 </div>
 `;
@@ -187,7 +197,12 @@ document.querySelectorAll(".nominee").forEach(n=>{
 nominees.push({
 name:n.querySelector(".name").value,
 relation:n.querySelector(".relation").value,
-share:n.querySelector(".share").value
+dob:n.querySelector(".dob").value,
+mobile:n.querySelector(".mobile").value,
+address:n.querySelector(".address").value,
+share:n.querySelector(".share").value,
+aadhar:n.querySelector(".aadhar").value,
+guardian:n.querySelector(".guardian").value
 });
 });
 
@@ -210,13 +225,11 @@ document.getElementById("loader").style.display="none";
 
 alert("Updated Successfully");
 
-// refresh UI
 document.getElementById("editBox").innerHTML="";
 loadData();
 
 });
 }
-
 /* CANCEL */
 function cancelEdit(){
 document.getElementById("editBox").innerHTML="";
