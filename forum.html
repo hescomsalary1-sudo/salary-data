@@ -227,13 +227,26 @@ function openPage(type){
 
 // show loader
 document.getElementById("loader").style.display = "flex";
-
-// optional: disable scroll
 document.body.style.overflow = "hidden";
 
-// delay then open page
 setTimeout(()=>{
-window.location = "forum_details.html?type=" + type;
+
+// dynamic pages
+if(type === "ask"){
+  window.location = "forum_details.html?type=ask";
+}
+else if(type === "contact"){
+  window.location = "contact_us.html";
+}
+else if(type === "help"){
+  window.location = "forum_details.html?type=help";
+}
+
+// static combined page
+else if(type === "privacy" || type === "terms" || type === "copyright" || type === "org"){
+  window.location = "others_forum.html?type=" + type;
+}
+
 },600);
 
 }
