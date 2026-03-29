@@ -4,62 +4,116 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{margin:0;font-family:'Segoe UI';background:#f4f6fb;}
+body{
+margin:0;
+font-family:'Segoe UI';
+background:#f4f6fb;
+}
 
+/* HEADER */
 .top{
 background:linear-gradient(135deg,#2400b7,#3b1eff);
-color:white;padding:20px;text-align:center;
+color:white;
+padding:20px;
+text-align:center;
 }
 
+/* BUTTON BAR */
 .top-btns{
-display:flex;gap:10px;padding:10px;
+display:flex;
+gap:10px;
+padding:10px;
 }
+
 .top-btns button{
-flex:1;padding:10px;border:none;border-radius:20px;
-color:white;font-weight:600;
+flex:1;
+padding:10px;
+border:none;
+border-radius:20px;
+color:white;
+font-weight:600;
 }
+
 .fill{background:#3b1eff;}
 .view{background:#28a745;}
 
-.container{padding:15px;}
+/* CONTAINER */
+.container{
+padding:15px;
+}
 
+/* CARD */
 .card{
-background:white;padding:15px;border-radius:15px;
+background:white;
+padding:15px;
+border-radius:15px;
 margin-bottom:15px;
 box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
+/* INPUT */
 input, select{
-width:100%;padding:10px;margin-top:8px;
-border-radius:10px;border:1px solid #ddd;
+width:100%;
+padding:10px;
+margin-top:8px;
+border-radius:10px;
+border:1px solid #ddd;
 }
 
+/* BUTTON */
 button{
-width:100%;padding:12px;margin-top:10px;
-border:none;border-radius:25px;
-background:#3b1eff;color:white;font-weight:600;
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:25px;
+background:#3b1eff;
+color:white;
+font-weight:600;
 }
 
-.add-btn{background:#28a745;}
-.remove-btn{background:#ff4d4d;}
+/* ADD BTN */
+.add-btn{
+background:#28a745;
+}
 
-#shareStatus{text-align:center;font-weight:600;margin:10px 0;}
-#statusBox{margin:10px;}
+/* REMOVE */
+.remove-btn{
+background:#ff4d4d;
+}
 
+/* SHARE STATUS */
+#shareStatus{
+text-align:center;
+font-weight:600;
+margin:10px 0;
+}
+
+/* LOADER */
 #loader{
-position:fixed;top:0;left:0;width:100%;height:100%;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
 background:rgba(255,255,255,0.7);
-display:none;align-items:center;justify-content:center;
+display:none;
+align-items:center;
+justify-content:center;
 }
 
 .spinner{
-width:50px;height:50px;
+width:50px;
+height:50px;
 border:5px solid #ddd;
 border-top:5px solid #3b1eff;
 border-radius:50%;
 animation:spin 1s linear infinite;
 }
-@keyframes spin{100%{transform:rotate(360deg);}}
+
+@keyframes spin{
+100%{transform:rotate(360deg);}
+}
 </style>
 </head>
 
@@ -69,12 +123,11 @@ animation:spin 1s linear infinite;
 <h2>👨‍👩‍👧 Nomination Form</h2>
 </div>
 
+<!-- TOP BUTTONS -->
 <div class="top-btns">
 <button class="fill" onclick="showForm()">Fill Nomination</button>
 <button class="view" onclick="goView()">View Nomination</button>
 </div>
-
-<div id="statusBox"></div>
 
 <div class="container">
 
@@ -94,37 +147,8 @@ animation:spin 1s linear infinite;
 
 <script>
 
-const API_URL = "https://script.google.com/macros/s/AKfycbypluGz-gNpj27PwATNGLpytspTNmB1lrCJ6WCcmPjuba394eo54YC5wD30HV1yYmhxUw/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbz3Jv1XG9TzL0Ig9QjZQ5NRxc_EqJAFNFHYoO_rFDnUjpa5oCdK42iC8GzaAlKVJqaMiw/exec";
 const user = localStorage.getItem("currentUser");
-
-/* CHECK EXISTING */
-function checkExisting(){
-
-fetch(API_URL + "?user=" + user)
-.then(res=>res.json())
-.then(data=>{
-
-let box = document.getElementById("statusBox");
-
-if(data.length > 0){
-
-box.innerHTML = `
-<div style="background:#e6f4ea;padding:12px;border-radius:12px;text-align:center;">
-✅ Nomination already filed<br><br>
-<button onclick="goView()">View</button>
-<button onclick="editNomination()" style="background:#ff9800;">Edit</button>
-</div>
-`;
-
-document.getElementById("submitBtn").style.display="none";
-document.getElementById("addBtn").style.display="none";
-
-}else{
-box.innerHTML = "";
-}
-
-});
-}
 
 /* ADD NOMINEE */
 function addNominee(){
@@ -159,18 +183,20 @@ div.innerHTML = `
 `;
 
 document.getElementById("nomineeList").appendChild(div);
+
 checkShare();
 }
 
 /* DEFAULT */
 addNominee();
 
-/* SHARE CHECK */
+/* SHARE VALIDATION */
 function checkShare(){
 
+let shares = document.querySelectorAll(".share");
 let total = 0;
 
-document.querySelectorAll(".share").forEach(s=>{
+shares.forEach(s=>{
 total += Number(s.value || 0);
 });
 
@@ -181,189 +207,96 @@ let submitBtn = document.getElementById("submitBtn");
 status.innerText = "Total Share: " + total + "%";
 
 if(total < 100){
-status.style.color="orange";
-addBtn.disabled=false;
-submitBtn.disabled=true;
-submitBtn.style.opacity="0.5";
+status.style.color = "orange";
+addBtn.disabled = false;
+addBtn.style.opacity = "1";
+submitBtn.disabled = true;
+submitBtn.style.opacity = "0.5";
 }
 else if(total === 100){
-status.style.color="green";
-addBtn.disabled=true;
-submitBtn.disabled=false;
-submitBtn.style.opacity="1";
+status.style.color = "green";
+addBtn.disabled = true;
+addBtn.style.opacity = "0.5";
+submitBtn.disabled = false;
+submitBtn.style.opacity = "1";
 }
 else{
-status.style.color="red";
-submitBtn.disabled=true;
+status.style.color = "red";
+submitBtn.disabled = true;
+submitBtn.style.opacity = "0.5";
 }
-}
-
-/* LOAD EDIT DATA */
-function loadEditData(){
-
-let data = localStorage.getItem("editNomination");
-if(!data) return;
-
-data = JSON.parse(data);
-
-// clear existing
-document.getElementById("nomineeList").innerHTML="";
-
-data.forEach(n=>{
-
-let div = document.createElement("div");
-div.className="card nominee";
-
-div.innerHTML=`
-<input value="${n.name}" class="name">
-
-<select class="relation">
-<option>${n.relation}</option>
-<option>Father</option>
-<option>Mother</option>
-<option>Wife</option>
-<option>Husband</option>
-<option>Son</option>
-<option>Daughter</option>
-<option>Brother</option>
-<option>Sister</option>
-<option>Other</option>
-</select>
-
-<input type="number" value="${n.share}" class="share" oninput="checkShare()">
-
-<button class="remove-btn" onclick="this.parentElement.remove();checkShare()">Remove</button>
-`;
-
-document.getElementById("nomineeList").appendChild(div);
-
-});
-
-checkShare();
 }
 
 /* VALIDATE */
 function validate(){
-let total=0;
-document.querySelectorAll(".share").forEach(s=>{
-total+=Number(s.value||0);
+
+let shares = document.querySelectorAll(".share");
+let total = 0;
+
+shares.forEach(s=>{
+total += Number(s.value || 0);
 });
-if(total!==100){
-alert("Total share must be 100%");
+
+if(total !== 100){
+alert("Total share must be exactly 100%");
 return false;
 }
+
 return true;
 }
 
-/* SUBMIT (UPDATED) */
+/* SUBMIT */
 function submitData(){
 
 if(!validate()) return;
 
-let empName=document.getElementById("empName").value;
+let empName = document.getElementById("empName").value;
 
-let nominees=[];
+let nominees = [];
 
 document.querySelectorAll(".nominee").forEach(n=>{
 nominees.push({
-name:n.querySelector(".name").value,
-relation:n.querySelector(".relation").value,
-share:n.querySelector(".share").value
+name: n.querySelector(".name").value,
+relation: n.querySelector(".relation").value,
+dob: n.querySelector(".dob").value,
+mobile: n.querySelector(".mobile").value,
+address: n.querySelector(".address").value,
+share: n.querySelector(".share").value,
+aadhar: n.querySelector(".aadhar").value,
+guardian: n.querySelector(".guardian").value
 });
 });
 
 document.getElementById("loader").style.display="flex";
 
-// 🔥 DELETE OLD FIRST
-fetch(API_URL + "?action=delete&user=" + user)
-.then(()=>{
-
-return fetch(API_URL,{
+fetch(API_URL,{
 method:"POST",
 body: JSON.stringify({
 user,
 emp_name: empName,
 nominees
 })
-});
-
 })
 .then(res=>res.json())
 .then(()=>{
 document.getElementById("loader").style.display="none";
-alert("Updated Successfully");
-localStorage.removeItem("editNomination");
+alert("Submitted Successfully");
 location.reload();
+})
+.catch(()=>{
+document.getElementById("loader").style.display="none";
+alert("Error");
 });
-
 }
 
 /* NAVIGATION */
 function goView(){
-
-document.getElementById("loader").style.display="flex";
-
-fetch(API_URL + "?user=" + user)
-.then(res=>res.json())
-.then(data=>{
-
-document.getElementById("loader").style.display="none";
-
-// hide form
-document.querySelector(".container").style.display="none";
-
-let html = "<h3 style='padding:10px'>📋 Nomination Details</h3>";
-
-data.forEach(n=>{
-html += `
-<div class="card">
-<b>${n.name}</b><br>
-${n.relation}<br>
-Share: ${n.share}%
-</div>
-`;
-});
-
-html += `
-<button onclick="backToForm()" style="background:#3b1eff;">⬅ Back</button>
-<button onclick="goEdit()" style="background:#ff9800;">✏ Edit</button>
-`;
-
-document.getElementById("statusBox").innerHTML = html;
-
-});
-}
-
-/* BACK */
-function backToForm(){
-document.querySelector(".container").style.display="block";
-checkExisting();
-}
-
-/* EDIT → PAGE 2 */
-function goEdit(){
-
-fetch(API_URL + "?user=" + user)
-.then(res=>res.json())
-.then(data=>{
-
-localStorage.setItem("editNomination", JSON.stringify(data));
 window.location = "view_nomination.html";
-
-});
 }
 
 function showForm(){
-window.location="nomination_form.html";
+window.location = "nomination_form.html";
 }
-
-function editNomination(){
-window.location="view_nomination.html";
-}
-
-/* INIT */
-checkExisting();
-loadEditData();
 
 </script>
 
