@@ -253,21 +253,20 @@ border-radius:50%;
 
 
 
-/* MODERN FLOATING NAVBAR */
+/* MODERN SOLID FOOTER */
 
 .navbar{
 position:fixed;
-bottom:12px;
-left:50%;
-transform:translateX(-50%);
-width:90%;
+bottom:0;
+left:0;
+width:100%;
 height:65px;
 background:white;
-border-radius:25px;
 display:flex;
 justify-content:space-around;
 align-items:center;
-box-shadow:0 8px 25px rgba(0,0,0,0.15);
+border-top:1px solid #eee;
+box-shadow:0 -4px 15px rgba(0,0,0,0.08);
 z-index:1000;
 }
 
@@ -277,14 +276,17 @@ flex:1;
 text-align:center;
 cursor:pointer;
 position:relative;
+padding-top:6px;
 }
 
+/* ICON */
 .nav-item i{
 font-size:22px;
 color:#888;
 transition:0.3s;
 }
 
+/* TEXT */
 .nav-item span{
 display:block;
 font-size:11px;
@@ -293,27 +295,29 @@ color:#888;
 transition:0.3s;
 }
 
-/* ACTIVE ITEM */
+/* ACTIVE STATE */
 .nav-item.active i,
 .nav-item.active span{
-color:white;
+color:#2400b7;
+font-weight:600;
 }
 
-/* ACTIVE BACKGROUND (CIRCLE) */
+/* TOP INDICATOR LINE */
 .nav-item.active::before{
 content:'';
 position:absolute;
-top:-18px;
-left:50%;
-transform:translateX(-50%);
-width:55px;
-height:55px;
+top:0;
+left:25%;
+width:50%;
+height:3px;
 background:linear-gradient(135deg,#2400b7,#3b1eff);
-border-radius:50%;
-z-index:-1;
-box-shadow:0 6px 15px rgba(59,30,255,0.4);
+border-radius:5px;
 }
 
+/* CLICK EFFECT */
+.nav-item:active{
+transform:scale(0.9);
+}
 
 /* POSITIONS */
 
