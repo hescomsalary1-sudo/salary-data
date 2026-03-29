@@ -31,6 +31,69 @@ border-radius:15px;
 box-shadow:0 4px 12px rgba(0,0,0,0.08);
 line-height:1.6;
 }
+
+  /* TREE DESIGN */
+.tree ul{
+padding-top:20px;
+position:relative;
+}
+
+.tree li{
+display:inline-block;
+text-align:center;
+list-style:none;
+position:relative;
+padding:20px 5px 0 5px;
+}
+
+.tree li::before, .tree li::after{
+content:'';
+position:absolute;
+top:0;
+right:50%;
+border-top:2px solid #ccc;
+width:50%;
+height:20px;
+}
+
+.tree li::after{
+right:auto;
+left:50%;
+border-left:2px solid #ccc;
+}
+
+.tree li:only-child::after, .tree li:only-child::before{
+display:none;
+}
+
+.tree li:first-child::before, .tree li:last-child::after{
+border:none;
+}
+
+.tree ul ul::before{
+content:'';
+position:absolute;
+top:0;
+left:50%;
+border-left:2px solid #ccc;
+height:20px;
+}
+
+/* NODE STYLE */
+.node{
+background:white;
+padding:10px;
+border-radius:12px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+display:inline-block;
+min-width:110px;
+font-size:12px;
+font-weight:600;
+}
+
+.main{background:#3b1eff;color:white;}
+.sub{background:#2575fc;color:white;}
+.sec{background:#e6f0ff;color:#333;}
 </style>
 </head>
 
@@ -256,8 +319,63 @@ For any copyright-related concerns, please use the "Contact Us" section in the a
 
 if(type === "org"){
 content = `
-<b>Organization Chart</b><br><br>
-Admin → Manager → Employees
+
+<div class="tree">
+<ul>
+<li>
+
+<div class="node main">O & M Division<br>HESCOM, Sirsi</div>
+
+<ul>
+
+<li>
+<div class="node sub">Sirsi Subdivision</div>
+<ul>
+<li><div class="node sec">R-1 Section</div></li>
+<li><div class="node sec">R-2 Section</div></li>
+<li><div class="node sec">Hulekal</div></li>
+<li><div class="node sec">Banavasi</div></li>
+</ul>
+</li>
+
+<li>
+<div class="node sub">Siddapur Subdivision</div>
+<ul>
+<li><div class="node sec">Town Section</div></li>
+<li><div class="node sec">Rural Section</div></li>
+<li><div class="node sec">Herur</div></li>
+<li><div class="node sec">Bilagi</div></li>
+</ul>
+</li>
+
+<li>
+<div class="node sub">Yellapur Subdivision</div>
+<ul>
+<li><div class="node sec">Town Section</div></li>
+<li><div class="node sec">Rural Section</div></li>
+<li><div class="node sec">Manchikeri</div></li>
+<li><div class="node sec">Kiravatti</div></li>
+</ul>
+</li>
+
+<li>
+<div class="node sub">Mundgod Subdivision</div>
+<ul>
+<li><div class="node sec">Mundgod Section</div></li>
+<li><div class="node sec">Malgi Section</div></li>
+</ul>
+</li>
+
+<li>
+<div class="node sub">Sirsi Accounting Section</div>
+</li>
+
+</ul>
+
+</li>
+</ul>
+</div>
+
 `;
 }
 
