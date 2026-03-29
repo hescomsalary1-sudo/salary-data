@@ -418,6 +418,18 @@ content = `
 // 👉 SHOW CONTENT
 document.getElementById("content").innerHTML = content;
 
+  function toggle(el){
+let content = el.nextElementSibling;
+
+if(content.style.display === "block"){
+content.style.display = "none";
+el.querySelector("span").innerText = "+";
+}else{
+content.style.display = "block";
+el.querySelector("span").innerText = "-";
+}
+}
+
 </script>
 
 </body>
