@@ -94,6 +94,41 @@ font-weight:600;
 .main{background:#3b1eff;color:white;}
 .sub{background:#2575fc;color:white;}
 .sec{background:#e6f0ff;color:#333;}
+
+  /* ACCORDION STYLE */
+.accordion{
+background:white;
+border-radius:15px;
+margin-bottom:10px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+overflow:hidden;
+}
+
+.acc-header{
+padding:14px;
+font-weight:600;
+background:#2575fc;
+color:white;
+cursor:pointer;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.acc-content{
+display:none;
+padding:10px 15px;
+background:#f9fafc;
+}
+
+.section{
+background:white;
+padding:10px;
+margin:6px 0;
+border-radius:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.05);
+font-size:14px;
+}
 </style>
 </head>
 
@@ -320,60 +355,61 @@ For any copyright-related concerns, please use the "Contact Us" section in the a
 if(type === "org"){
 content = `
 
-<div class="tree">
-<ul>
-<li>
+<div class="accordion">
+<div class="acc-header" onclick="toggle(this)">🏢 O & M Division - HESCOM, Sirsi <span>+</span></div>
+<div class="acc-content">
 
-<div class="node main">O & M Division<br>HESCOM, Sirsi</div>
+<!-- Sirsi -->
+<div class="accordion">
+<div class="acc-header" onclick="toggle(this)">Sirsi Subdivision <span>+</span></div>
+<div class="acc-content">
+<div class="section">R-1 Section</div>
+<div class="section">R-2 Section</div>
+<div class="section">Hulekal</div>
+<div class="section">Banavasi</div>
+</div>
+</div>
 
-<ul>
+<!-- Siddapur -->
+<div class="accordion">
+<div class="acc-header" onclick="toggle(this)">Siddapur Subdivision <span>+</span></div>
+<div class="acc-content">
+<div class="section">Town Section</div>
+<div class="section">Rural Section</div>
+<div class="section">Herur</div>
+<div class="section">Bilagi</div>
+</div>
+</div>
 
-<li>
-<div class="node sub">Sirsi Subdivision</div>
-<ul>
-<li><div class="node sec">R-1 Section</div></li>
-<li><div class="node sec">R-2 Section</div></li>
-<li><div class="node sec">Hulekal</div></li>
-<li><div class="node sec">Banavasi</div></li>
-</ul>
-</li>
+<!-- Yellapur -->
+<div class="accordion">
+<div class="acc-header" onclick="toggle(this)">Yellapur Subdivision <span>+</span></div>
+<div class="acc-content">
+<div class="section">Town Section</div>
+<div class="section">Rural Section</div>
+<div class="section">Manchikeri</div>
+<div class="section">Kiravatti</div>
+</div>
+</div>
 
-<li>
-<div class="node sub">Siddapur Subdivision</div>
-<ul>
-<li><div class="node sec">Town Section</div></li>
-<li><div class="node sec">Rural Section</div></li>
-<li><div class="node sec">Herur</div></li>
-<li><div class="node sec">Bilagi</div></li>
-</ul>
-</li>
+<!-- Mundgod -->
+<div class="accordion">
+<div class="acc-header" onclick="toggle(this)">Mundgod Subdivision <span>+</span></div>
+<div class="acc-content">
+<div class="section">Mundgod Section</div>
+<div class="section">Malgi Section</div>
+</div>
+</div>
 
-<li>
-<div class="node sub">Yellapur Subdivision</div>
-<ul>
-<li><div class="node sec">Town Section</div></li>
-<li><div class="node sec">Rural Section</div></li>
-<li><div class="node sec">Manchikeri</div></li>
-<li><div class="node sec">Kiravatti</div></li>
-</ul>
-</li>
+<!-- Accounting -->
+<div class="accordion">
+<div class="acc-header" onclick="toggle(this)">Sirsi Accounting Section <span>+</span></div>
+<div class="acc-content">
+<div class="section">Accounts & Billing</div>
+</div>
+</div>
 
-<li>
-<div class="node sub">Mundgod Subdivision</div>
-<ul>
-<li><div class="node sec">Mundgod Section</div></li>
-<li><div class="node sec">Malgi Section</div></li>
-</ul>
-</li>
-
-<li>
-<div class="node sub">Sirsi Accounting Section</div>
-</li>
-
-</ul>
-
-</li>
-</ul>
+</div>
 </div>
 
 `;
