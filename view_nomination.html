@@ -4,21 +4,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{
-font-family:'Segoe UI';
-background:#f4f6fb;
-padding:15px;
-margin:0;
-}
+body{font-family:'Segoe UI';background:#f4f6fb;margin:0;}
 
 .top{
 background:linear-gradient(135deg,#2400b7,#3b1eff);
-color:white;
-padding:15px;
-text-align:center;
-border-radius:0 0 15px 15px;
-margin:-15px -15px 15px -15px;
+color:white;padding:15px;text-align:center;
 }
+
+.container{padding:15px;}
 
 .card{
 background:white;
@@ -28,120 +21,146 @@ border-radius:12px;
 box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }
 
-button{
-padding:12px;
-border:none;
+input, select{
+width:100%;
+padding:10px;
+margin-top:8px;
 border-radius:10px;
+border:1px solid #ddd;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:25px;
 background:#3b1eff;
 color:white;
-width:100%;
-margin-top:10px;
 font-weight:600;
 }
 
-.edit-btn{
-background:#ff9800;
-}
-
-#loader{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-display:flex;
-align-items:center;
-justify-content:center;
-background:rgba(255,255,255,0.7);
-}
-
-.spinner{
-width:50px;
-height:50px;
-border:5px solid #ddd;
-border-top:5px solid #3b1eff;
-border-radius:50%;
-animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-100%{transform:rotate(360deg);}
-}
-
-.empty{
-text-align:center;
-margin-top:50px;
-color:#777;
-}
+.remove-btn{background:#ff4d4d;}
 </style>
 </head>
 
 <body>
 
 <div class="top">
-<h3>📋 My Nomination</h3>
+<h3>✏ Edit Nomination</h3>
 </div>
 
-<div id="loader"><div class="spinner"></div></div>
+<div class="container">
 
 <div id="list"></div>
 
+<div id="shareStatus">Total Share: 0%</div>
+
+<button onclick="submitData()">Update Nomination</button>
+
+</div>
+
 <script>
 
-const API_URL="https://script.google.com/macros/s/AKfycbypluGz-gNpj27PwATNGLpytspTNmB1lrCJ6WCcmPjuba394eo54YC5wD30HV1yYmhxUw/exec"; // 🔥 replace
+const API_URL="YOUR_SCRIPT_URL";
 const user=localStorage.getItem("currentUser");
 
-fetch(API_URL+"?user="+user)
-.then(res=>res.json())
-.then(data=>{
+/* LOAD DATA */
+function load(){
 
-document.getElementById("loader").style.display="none";
+let data = localStorage.getItem("editNomination");
+
+if(!data){
+alert("No data found");
+return;
+}
+
+data = JSON.parse(data);
 
 let html="";
 
-if(data.length === 0){
-html = `<div class="empty">No nomination found</div>`;
-}else{
-
 data.forEach(n=>{
-html+=`
-<div class="card">
-<b>${n.name}</b><br>
-${n.relation}<br>
-Share: ${n.share}%
+html += `
+<div class="card nominee">
+
+<input value="${n.name}" class="name">
+
+<select class="relation">
+<option>${n.relation}</option>
+<option>Father</option>
+<option>Mother</option>
+<option>Wife</option>
+<option>Husband</option>
+<option>Son</option>
+<option>Daughter</option>
+<option>Brother</option>
+<option>Sister</option>
+<option>Other</option>
+</select>
+
+<input type="number" value="${n.share}" class="share" oninput="checkShare()">
+
+<button class="remove-btn" onclick="this.parentElement.remove();checkShare()">Remove</button>
+
 </div>
 `;
 });
 
-// 🔥 store data for edit
-localStorage.setItem("editNomination", JSON.stringify(data));
+document.getElementById("list").innerHTML = html;
 
-// 🔥 working edit button
-html+=`<button class="edit-btn" onclick="edit()">✏ Edit Nomination</button>`;
+checkShare();
 }
 
-document.getElementById("list").innerHTML=html;
+load();
 
-})
-.catch(()=>{
-document.getElementById("loader").style.display="none";
-document.getElementById("list").innerHTML="<div class='empty'>Error loading data</div>";
+/* SHARE CHECK */
+function checkShare(){
+let total=0;
+document.querySelectorAll(".share").forEach(s=>{
+total+=Number(s.value||0);
+});
+document.getElementById("shareStatus").innerText="Total Share: "+total+"%";
+}
+
+/* SUBMIT UPDATE */
+function submitData(){
+
+let total=0;
+document.querySelectorAll(".share").forEach(s=>{
+total+=Number(s.value||0);
 });
 
-// ✅ EDIT FUNCTION (WORKING)
-function edit(){
-
-// ensure data exists
-let data = localStorage.getItem("editNomination");
-
-if(!data){
-alert("No data to edit");
+if(total!==100){
+alert("Total must be 100%");
 return;
 }
 
-// go to form
-window.location="nomination_form.html";
+let nominees=[];
 
+document.querySelectorAll(".nominee").forEach(n=>{
+nominees.push({
+name:n.querySelector(".name").value,
+relation:n.querySelector(".relation").value,
+share:n.querySelector(".share").value
+});
+});
+
+// DELETE OLD + SAVE NEW
+fetch(API_URL+"?action=delete&user="+user)
+.then(()=>{
+
+return fetch(API_URL,{
+method:"POST",
+body:JSON.stringify({user,nominees})
+});
+
+})
+.then(res=>res.json())
+.then(()=>{
+alert("Updated Successfully");
+localStorage.removeItem("editNomination");
+window.location="nomination_form.html";
+});
 }
 
 </script>
