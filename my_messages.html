@@ -2,112 +2,205 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Details</title>
 
 <style>
 body{
 margin:0;
-font-family:'Segoe UI',sans-serif;
+font-family:'Segoe UI';
 background:#f4f6fb;
 }
 
 /* HEADER */
 .top{
-background:linear-gradient(135deg,#2400b7,#3b1eff);
+background:linear-gradient(135deg,#6a11cb,#2575fc);
 color:white;
 padding:20px;
 text-align:center;
-font-size:18px;
-font-weight:600;
 }
 
-/* CONTENT */
+/* CONTAINER */
 .container{
 padding:15px;
 }
 
-.card{
+/* MESSAGE CARD */
+.msg{
 background:white;
-padding:15px;
 border-radius:15px;
+padding:15px;
+margin-bottom:15px;
 box-shadow:0 4px 12px rgba(0,0,0,0.08);
-line-height:1.6;
+animation:fade 0.3s ease;
+}
+
+@keyframes fade{
+from{opacity:0;transform:translateY(10px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+/* SUBJECT */
+.subject{
+font-weight:600;
+font-size:16px;
+margin-bottom:5px;
+color:#2d3748;
+}
+
+/* DATE */
+.date{
+font-size:12px;
+color:#888;
+margin-bottom:8px;
+}
+
+/* MESSAGE TEXT */
+.text{
+font-size:14px;
+color:#444;
+}
+
+/* REPLY */
+.reply{
+margin-top:10px;
+padding:10px;
+border-radius:10px;
+background:#e6f4ea;
+color:#2e7d32;
+font-size:14px;
+}
+
+/* PENDING */
+.pending{
+margin-top:10px;
+font-size:13px;
+color:red;
+font-weight:600;
+}
+
+/* LOADER */
+#loader{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#f4f6fb;
+display:flex;
+flex-direction:column;
+gap:15px;
+padding:20px;
+z-index:9999;
+}
+
+/* SHIMMER */
+@keyframes shimmer{
+0%{background-position:-400px 0;}
+100%{background-position:400px 0;}
+}
+
+.skeleton{
+border-radius:12px;
+background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
+background-size:400px 100%;
+animation:shimmer 1.2s infinite;
+}
+
+.skel{
+height:100px;
+}
+
+/* EMPTY */
+.empty{
+text-align:center;
+margin-top:50px;
+color:#777;
 }
 </style>
 </head>
 
 <body>
 
-<div class="top" id="title">Details</div>
-
-<div class="container">
-<div class="card" id="content"></div>
+<div class="top">
+<h2>📩 My Messages</h2>
 </div>
+
+<!-- LOADER -->
+<div id="loader">
+<div class="skeleton skel"></div>
+<div class="skeleton skel"></div>
+<div class="skeleton skel"></div>
+</div>
+
+<div class="container" id="list"></div>
 
 <script>
 
-// get type
-let params = new URLSearchParams(window.location.search);
-let type = params.get("type");
+const API_URL = "https://script.google.com/macros/s/AKfycbxuI559g0ETeuhhEjI_evqyMDGxMh9VN2bS-tuw01JpsOsqDtr4qQJb91MKrSIrwas/exec";
 
-let title = document.getElementById("title");
-let content = document.getElementById("content");
+// 🔐 get logged user
+const user = localStorage.getItem("currentUser");
 
-// DATA SWITCH
-if(type==="ask"){
-title.innerText="Ask Questions";
-content.innerHTML=`
-You can raise queries related to salary, deductions, and technical issues.
-Please provide clear details for faster resolution.
+fetch(API_URL)
+.then(res=>res.json())
+.then(data=>{
+
+// 🔥 filter only this user
+data = data.filter(m => m.user === user);
+
+let html = "";
+
+if(data.length === 0){
+html = `<div class="empty">No messages found</div>`;
+}else{
+
+data.reverse().forEach(msg=>{
+
+let replySection = "";
+
+if(msg.reply && msg.reply.trim() !== ""){
+replySection = `
+<div class="reply">
+✅ Admin Reply: ${msg.reply}
+</div>
+`;
+}else{
+replySection = `
+<div class="pending">
+⏳ Waiting for reply
+</div>
 `;
 }
 
-else if(type==="contact"){
-title.innerText="Contact Us";
-content.innerHTML=`
-Email: support@yourapp.com <br>
-Phone: +91 9876543210 <br>
-Working Hours: 9 AM - 6 PM
+html += `
+<div class="msg">
+
+<div class="subject">📌 ${msg.subject}</div>
+
+<div class="date">
+${new Date(msg.time).toLocaleString()}
+</div>
+
+<div class="text">${msg.message}</div>
+
+${replySection}
+
+</div>
 `;
+
+});
 }
 
-else if(type==="help"){
-title.innerText="Help";
-content.innerHTML=`
-• Check salary in Salary page<br>
-• Download payslip from details page<br>
-• Contact admin if issue persists
-`;
-}
+document.getElementById("list").innerHTML = html;
+document.getElementById("loader").style.display = "none";
 
-else if(type==="privacy"){
-title.innerText="Privacy Policy";
-content.innerHTML=`
-We respect your privacy. Your salary data is secure and not shared with third parties.
-`;
-}
+})
+.catch(()=>{
 
-else if(type==="terms"){
-title.innerText="Terms & Conditions";
-content.innerHTML=`
-By using this app, you agree to company policies.
-Unauthorized access is prohibited.
-`;
-}
+document.getElementById("loader").style.display = "none";
+document.getElementById("list").innerHTML =
+"<div class='empty'>Error loading messages</div>";
 
-else if(type==="copyright"){
-title.innerText="Copyright Policy";
-content.innerHTML=`
-All content belongs to the organization. Unauthorized copying is prohibited.
-`;
-}
-
-else if(type==="org"){
-title.innerText="Organization Chart";
-content.innerHTML=`
-CEO → Manager → Team Lead → Employee
-`;
-}
+});
 
 </script>
 
