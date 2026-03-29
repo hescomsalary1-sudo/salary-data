@@ -178,47 +178,33 @@ background:#2575fc;
 
 <div class="container">
 
-<!-- CONTACT CARDS -->
 <div class="cards">
-
 <div class="card">
 <div class="icon blue">📞</div>
-<div>
-<b>Call Us</b><br>
-+91 9876543210
-</div>
+<div><b>Call Us</b><br>+91 9876543210</div>
 </div>
 
 <div class="card">
 <div class="icon green">✉️</div>
-<div>
-<b>Email</b><br>
-support@yourapp.com
-</div>
+<div><b>Email</b><br>support@yourapp.com</div>
 </div>
 
 <div class="card">
 <div class="icon purple">📍</div>
-<div>
-<b>Address</b><br>
-Your Company, India
+<div><b>Address</b><br>Your Company, India</div>
 </div>
 </div>
 
-</div>
-
-<!-- FORM -->
 <div class="form">
 <h3>Send Message</h3>
 
-<input id="name" placeholder="User Name" readonly>
+<input id="name" readonly>
 <input id="email" placeholder="Your Email">
 <input id="subject" placeholder="Subject">
 <textarea id="message" placeholder="Your Message"></textarea>
 
 <button id="sendBtn" onclick="sendMessage()">Send Message</button>
 
-<!-- ✅ VIEW MESSAGES LINK -->
 <div class="link">
 <a href="my_messages.html">View Your Messages →</a>
 </div>
@@ -227,12 +213,8 @@ Your Company, India
 
 </div>
 
-<!-- LOADER -->
-<div id="loader">
-<div class="spinner"></div>
-</div>
+<div id="loader"><div class="spinner"></div></div>
 
-<!-- POPUP -->
 <div id="popup" class="popup">
 <div class="popup-box">
 <div class="check">✔</div>
@@ -243,6 +225,8 @@ Your Company, India
 </div>
 
 <script>
+
+// ✅ SINGLE user variable
 const user = localStorage.getItem("currentUser");
 
 if(!user){
@@ -250,21 +234,19 @@ alert("User not logged in");
 window.location = "login.html";
 }
 
-// auto fill
+// autofill name
 document.getElementById("name").value = user;
-const API_URL = "https://script.google.com/macros/s/AKfycbxuI559g0ETeuhhEjI_evqyMDGxMh9VN2bS-tuw01JpsOsqDtr4qQJb91MKrSIrwas/exec";
 
-// 🔥 get logged user
-const user = localStorage.getItem("currentUser");
+const API_URL = "https://script.google.com/macros/s/AKfycbxuI559g0ETeuhhEjI_evqyMDGxMh9VN2bS-tuw01JpsOsqDtr4qQJb91MKrSIrwas/exec";
 
 function sendMessage(){
 
-let name = user; // 🔥 always use logged user
+let name = user;
 let email = document.getElementById("email").value.trim();
 let subject = document.getElementById("subject").value.trim();
 let message = document.getElementById("message").value.trim();
 
-if(name=="" || email=="" || subject=="" || message==""){
+if(email=="" || subject=="" || message==""){
 alert("Please fill all fields");
 return;
 }
@@ -279,7 +261,7 @@ document.getElementById("loader").style.display="flex";
 fetch(API_URL,{
 method:"POST",
 body: JSON.stringify({
-user, // 🔥 important
+user,
 name,
 email,
 subject,
@@ -287,13 +269,12 @@ message
 })
 })
 .then(res=>res.json())
-.then(data=>{
+.then(()=>{
 
 document.getElementById("loader").style.display="none";
 showPopup();
 clearForm();
 
-// enable button
 document.getElementById("sendBtn").disabled = false;
 document.getElementById("sendBtn").innerText = "Send Message";
 
@@ -319,7 +300,6 @@ document.getElementById("popup").style.display="none";
 }
 
 function clearForm(){
-document.getElementById("name").value="";
 document.getElementById("email").value="";
 document.getElementById("subject").value="";
 document.getElementById("message").value="";
