@@ -44,7 +44,6 @@ background:#3b1eff;color:white;font-weight:600;
 .remove-btn{background:#ff4d4d;}
 
 #shareStatus{text-align:center;font-weight:600;margin:10px 0;}
-
 #statusBox{margin:10px;}
 
 #loader{
@@ -169,10 +168,9 @@ addNominee();
 /* SHARE CHECK */
 function checkShare(){
 
-let shares = document.querySelectorAll(".share");
 let total = 0;
 
-shares.forEach(s=>{
+document.querySelectorAll(".share").forEach(s=>{
 total += Number(s.value || 0);
 });
 
@@ -200,6 +198,50 @@ submitBtn.disabled=true;
 }
 }
 
+/* LOAD EDIT DATA */
+function loadEditData(){
+
+let data = localStorage.getItem("editNomination");
+if(!data) return;
+
+data = JSON.parse(data);
+
+// clear existing
+document.getElementById("nomineeList").innerHTML="";
+
+data.forEach(n=>{
+
+let div = document.createElement("div");
+div.className="card nominee";
+
+div.innerHTML=`
+<input value="${n.name}" class="name">
+
+<select class="relation">
+<option>${n.relation}</option>
+<option>Father</option>
+<option>Mother</option>
+<option>Wife</option>
+<option>Husband</option>
+<option>Son</option>
+<option>Daughter</option>
+<option>Brother</option>
+<option>Sister</option>
+<option>Other</option>
+</select>
+
+<input type="number" value="${n.share}" class="share" oninput="checkShare()">
+
+<button class="remove-btn" onclick="this.parentElement.remove();checkShare()">Remove</button>
+`;
+
+document.getElementById("nomineeList").appendChild(div);
+
+});
+
+checkShare();
+}
+
 /* VALIDATE */
 function validate(){
 let total=0;
@@ -213,7 +255,7 @@ return false;
 return true;
 }
 
-/* SUBMIT */
+/* SUBMIT (UPDATED) */
 function submitData(){
 
 if(!validate()) return;
@@ -226,34 +268,32 @@ document.querySelectorAll(".nominee").forEach(n=>{
 nominees.push({
 name:n.querySelector(".name").value,
 relation:n.querySelector(".relation").value,
-dob:n.querySelector(".dob").value,
-mobile:n.querySelector(".mobile").value,
-address:n.querySelector(".address").value,
-share:n.querySelector(".share").value,
-aadhar:n.querySelector(".aadhar").value,
-guardian:n.querySelector(".guardian").value
+share:n.querySelector(".share").value
 });
 });
 
 document.getElementById("loader").style.display="flex";
 
-fetch(API_URL,{
+// 🔥 DELETE OLD FIRST
+fetch(API_URL + "?action=delete&user=" + user)
+.then(()=>{
+
+return fetch(API_URL,{
 method:"POST",
 body: JSON.stringify({
 user,
 emp_name: empName,
 nominees
 })
+});
+
 })
 .then(res=>res.json())
 .then(()=>{
 document.getElementById("loader").style.display="none";
-alert("Submitted Successfully");
+alert("Updated Successfully");
+localStorage.removeItem("editNomination");
 location.reload();
-})
-.catch(()=>{
-document.getElementById("loader").style.display="none";
-alert("Error submitting data");
 });
 
 }
@@ -268,13 +308,12 @@ window.location="nomination_form.html";
 }
 
 function editNomination(){
-if(confirm("Edit nomination?")){
-window.location="nomination_form.html";
-}
+window.location="view_nomination.html";
 }
 
 /* INIT */
 checkExisting();
+loadEditData();
 
 </script>
 
