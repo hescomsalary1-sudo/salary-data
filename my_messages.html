@@ -135,17 +135,27 @@ color:#777;
 
 <script>
 
-const API_URL = "https://script.google.com/macros/s/AKfycbxuI559g0ETeuhhEjI_evqyMDGxMh9VN2bS-tuw01JpsOsqDtr4qQJb91MKrSIrwas/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzVDAYC78EU0lxn1mE3MmhsI8yg8ivDN3Z37zxbWmG0Q26ck6fd8UaAu-LqmN152Rbv/exec";
 
-// 🔐 get logged user
+// ✅ get user
 const user = localStorage.getItem("currentUser");
+
+if(!user){
+alert("User not logged in");
+window.location = "login.html";
+}
+
+// normalize function (avoid mismatch)
+function normalize(str){
+return (str || "").toString().trim().toLowerCase();
+}
 
 fetch(API_URL)
 .then(res=>res.json())
 .then(data=>{
 
-// 🔥 filter only this user
-data = data.filter(m => m.user === user);
+// ✅ filter safely
+data = data.filter(m => normalize(m.user) === normalize(user));
 
 let html = "";
 
@@ -157,7 +167,7 @@ data.reverse().forEach(msg=>{
 
 let replySection = "";
 
-if(msg.reply && msg.reply.trim() !== ""){
+if(msg.reply && msg.reply.toString().trim() !== ""){
 replySection = `
 <div class="reply">
 ✅ Admin Reply: ${msg.reply}
@@ -171,14 +181,20 @@ replySection = `
 `;
 }
 
+// safe date
+let timeText = "";
+try{
+timeText = new Date(msg.time).toLocaleString();
+}catch{
+timeText = msg.time;
+}
+
 html += `
 <div class="msg">
 
 <div class="subject">📌 ${msg.subject}</div>
 
-<div class="date">
-${new Date(msg.time).toLocaleString()}
-</div>
+<div class="date">${timeText}</div>
 
 <div class="text">${msg.message}</div>
 
