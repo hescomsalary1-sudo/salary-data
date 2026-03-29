@@ -149,39 +149,40 @@ document.getElementById("viewBox").innerHTML=html;
 loadData();
 
 /* SHOW EDIT FORM */
-function showEdit(data){
-
-let html=`<div class="card">
-<h3>✏ Edit Nomination</h3>`;
-
 data.forEach(n=>{
+
 html+=`
 <div class="nominee">
 
-<input value="${n.name}" class="name">
+<input value="${n.name || ''}" class="name">
 
 <select class="relation">
-<option>${n.relation}</option>
-<option>Father</option>
-<option>Mother</option>
-<option>Wife</option>
-<option>Husband</option>
-<option>Son</option>
-<option>Daughter</option>
-<option>Brother</option>
-<option>Sister</option>
-<option>Other</option>
+<option ${n.relation=="Father"?"selected":""}>Father</option>
+<option ${n.relation=="Mother"?"selected":""}>Mother</option>
+<option ${n.relation=="Wife"?"selected":""}>Wife</option>
+<option ${n.relation=="Husband"?"selected":""}>Husband</option>
+<option ${n.relation=="Son"?"selected":""}>Son</option>
+<option ${n.relation=="Daughter"?"selected":""}>Daughter</option>
+<option ${n.relation=="Brother"?"selected":""}>Brother</option>
+<option ${n.relation=="Sister"?"selected":""}>Sister</option>
+<option ${n.relation=="Other"?"selected":""}>Other</option>
 </select>
 
 <input type="date" value="${n.dob || ''}" class="dob">
-<input value="${n.mobile || ''}" class="mobile">
-<input value="${n.address || ''}" class="address">
-<input type="number" value="${n.share}" class="share">
-<input value="${n.aadhar || ''}" class="aadhar">
-<input value="${n.guardian || ''}" class="guardian">
+
+<input placeholder="Mobile" value="${n.mobile || ''}" class="mobile">
+
+<input placeholder="Address" value="${n.address || ''}" class="address">
+
+<input type="number" placeholder="Share %" value="${n.share || ''}" class="share">
+
+<input placeholder="Aadhar" value="${n.aadhar || ''}" class="aadhar">
+
+<input placeholder="Guardian" value="${n.guardian || ''}" class="guardian">
 
 </div>
 `;
+
 });
 
 html+=`
