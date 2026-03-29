@@ -15,7 +15,7 @@ background:#f4f6fb;
 .top{
 background:linear-gradient(135deg,#2400b7,#3b1eff);
 color:white;
-padding:25px 20px 30px;
+padding:25px 20px 35px;
 border-bottom-left-radius:25px;
 border-bottom-right-radius:25px;
 }
@@ -34,49 +34,71 @@ opacity:0.9;
 /* CONTAINER */
 .container{
 padding:15px;
-margin-top:-20px;
+margin-top:-25px;
 }
 
-/* CARD ITEM */
-.item{
+/* SECTION TITLE */
+.section-title{
+font-size:13px;
+color:#666;
+margin:15px 5px 8px;
+font-weight:600;
+}
+
+/* CARD GROUP */
+.group{
 background:white;
-padding:15px;
 border-radius:18px;
+padding:10px;
+box-shadow:0 6px 15px rgba(0,0,0,0.06);
 margin-bottom:15px;
-box-shadow:0 6px 15px rgba(0,0,0,0.08);
+}
+
+/* ITEM */
+.item{
 display:flex;
 align-items:center;
 justify-content:space-between;
+padding:12px;
+border-radius:14px;
 cursor:pointer;
 transition:0.25s;
 }
 
-/* LEFT SIDE */
+.item:hover{
+background:#f1f4ff;
+}
+
+.item:active{
+transform:scale(0.97);
+}
+
+/* LEFT */
 .left{
 display:flex;
 align-items:center;
 gap:12px;
 }
 
-/* ICON CIRCLE */
+/* ICON */
 .icon{
-width:45px;
-height:45px;
+width:42px;
+height:42px;
 border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
 color:white;
-font-size:20px;
+font-size:18px;
 }
 
 /* COLORS */
-.blue{background:linear-gradient(135deg,#4facfe,#0052cc);}
-.purple{background:linear-gradient(135deg,#a18cd1,#6b46c1);}
-.orange{background:linear-gradient(135deg,#f6ad55,#dd6b20);}
-.green{background:linear-gradient(135deg,#48bb78,#2f855a);}
-.red{background:linear-gradient(135deg,#fc5c7d,#c0392b);}
-.dark{background:linear-gradient(135deg,#434343,#000000);}
+.blue{background:#2575fc;}
+.green{background:#28a745;}
+.purple{background:#6f42c1;}
+.orange{background:#f6ad55;}
+.red{background:#fc5c7d;}
+.dark{background:#434343;}
 
 /* TEXT */
 .text{
@@ -87,21 +109,11 @@ color:#2d3748;
 
 /* ARROW */
 .arrow{
-font-size:18px;
 color:#aaa;
+font-size:16px;
 }
 
-/* HOVER / CLICK */
-.item:hover{
-transform:translateY(-2px);
-box-shadow:0 10px 20px rgba(0,0,0,0.1);
-}
-
-.item:active{
-transform:scale(0.96);
-}
-
-  /* LOADER */
+/* LOADER */
 #loader{
 position:fixed;
 top:0;
@@ -109,60 +121,49 @@ left:0;
 width:100%;
 height:100%;
 background:#f4f6fb;
-padding:20px;
 display:flex;
 flex-direction:column;
-gap:15px;
+gap:12px;
+padding:20px;
 z-index:9999;
-}
-
-/* shimmer animation */
-@keyframes shimmer{
-0%{background-position:-400px 0;}
-100%{background-position:400px 0;}
+display:none;
 }
 
 .skeleton{
-border-radius:12px;
+height:60px;
+border-radius:15px;
 background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
 background-size:400px 100%;
 animation:shimmer 1.2s infinite;
 }
 
-.skel-title{
-height:30px;
-width:60%;
-margin-bottom:10px;
-}
-
-.skel-item{
-height:60px;
-border-radius:18px;
+@keyframes shimmer{
+0%{background-position:-400px 0;}
+100%{background-position:400px 0;}
 }
 </style>
 </head>
 
 <body>
-<div id="loader" style="display:none;">
 
-<div class="skeleton skel-title"></div>
-
-<div class="skeleton skel-item"></div>
-<div class="skeleton skel-item"></div>
-<div class="skeleton skel-item"></div>
-<div class="skeleton skel-item"></div>
-<div class="skeleton skel-item"></div>
-<div class="skeleton skel-item"></div>
-
+<div id="loader">
+<div class="skeleton"></div>
+<div class="skeleton"></div>
+<div class="skeleton"></div>
 </div>
+
 <!-- HEADER -->
 <div class="top">
 <h2>💬 Forum & Help</h2>
 <p>Get support, policies & information</p>
 </div>
 
-<!-- LIST -->
 <div class="container">
+
+<!-- PRIMARY ACTIONS -->
+<div class="section-title">Quick Actions</div>
+
+<div class="group">
 
 <div class="item" onclick="openPage('ask')">
 <div class="left">
@@ -180,6 +181,20 @@ border-radius:18px;
 <div class="arrow">›</div>
 </div>
 
+</div>
+
+<!-- INFORMATION -->
+<div class="section-title">Information</div>
+
+<div class="group">
+
+<div class="item" onclick="openPage('help')">
+<div class="left">
+<div class="icon purple">🆘</div>
+<div class="text">Help</div>
+</div>
+<div class="arrow">›</div>
+</div>
 
 <div class="item" onclick="openPage('privacy')">
 <div class="left">
@@ -215,32 +230,30 @@ border-radius:18px;
 
 </div>
 
+</div>
+
 <script>
 function openPage(type){
 
-// show loader
-document.getElementById("loader").style.display = "flex";
-document.body.style.overflow = "hidden";
+document.getElementById("loader").style.display="flex";
+document.body.style.overflow="hidden";
 
 setTimeout(()=>{
 
-// dynamic pages
 if(type === "ask"){
-  window.location = "forum_details.html?type=ask";
+window.location = "forum_details.html?type=ask";
 }
 else if(type === "contact"){
-  window.location = "contact_us.html";
+window.location = "contact_us.html";
 }
 else if(type === "help"){
-  window.location = "forum_details.html?type=help";
+window.location = "forum_details.html?type=help";
+}
+else{
+window.location = "others_forum.html?type=" + type;
 }
 
-// static combined page
-else if(type === "privacy" || type === "terms" || type === "copyright" || type === "org"){
-  window.location = "others_forum.html?type=" + type;
-}
-
-},600);
+},500);
 
 }
 </script>
