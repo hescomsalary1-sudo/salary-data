@@ -1,151 +1,183 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Resources</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-
 body{
 margin:0;
-font-family:sans-serif;
-background:#f3f4fa;
-padding-bottom:80px;
+font-family:'Segoe UI';
+background:#f4f6fb;
 }
 
 /* HEADER */
-
 .top{
-padding:20px;
-background:#4b2dd8;
+background:linear-gradient(135deg,#2400b7,#3b1eff);
 color:white;
+padding:20px;
 text-align:center;
-font-size:20px;
-font-weight:bold;
-border-bottom-left-radius:30px;
-border-bottom-right-radius:30px;
 }
 
-/* GRID */
-
+/* LIST */
 .container{
-padding:20px;
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:15px;
+padding:15px;
 }
 
-.card{
+/* CARD ITEM */
+.item{
+display:flex;
+align-items:center;
+gap:15px;
 background:white;
-padding:20px;
 border-radius:18px;
-text-align:center;
+padding:15px;
+margin-bottom:12px;
 box-shadow:0 6px 15px rgba(0,0,0,0.08);
 cursor:pointer;
+transition:0.3s;
 }
 
-.icon{
-font-size:28px;
-margin-bottom:8px;
-color:#4b2dd8;
+.item:hover{
+transform:translateY(-2px);
 }
 
-.card p{
+/* ICON */
+.item img{
+width:45px;
+height:45px;
+}
+
+/* TEXT */
+.text{
+flex:1;
+}
+
+.text h4{
 margin:0;
-font-size:13px;
-font-weight:bold;
+font-size:15px;
+color:#333;
 }
 
-/* NAVBAR */
+.text p{
+margin:3px 0 0;
+font-size:12px;
+color:#777;
+}
 
-.navbar{
+/* ARROW */
+.arrow{
+font-size:18px;
+color:#999;
+}
+
+/* LOADER */
+#loader{
 position:fixed;
-bottom:0;
+top:0;
 left:0;
 width:100%;
+height:100%;
+background:#f4f6fb;
+display:none;
+flex-direction:column;
+gap:15px;
+padding:20px;
+z-index:9999;
+}
+
+@keyframes shimmer{
+0%{background-position:-400px 0;}
+100%{background-position:400px 0;}
+}
+
+.skeleton{
 height:60px;
-background:white;
-display:flex;
-justify-content:space-around;
-align-items:center;
-box-shadow:0 -4px 15px rgba(0,0,0,0.12);
+border-radius:12px;
+background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
+background-size:400px 100%;
+animation:shimmer 1.2s infinite;
 }
-
-.nav-item{
-flex:1;
-text-align:center;
-font-size:11px;
-}
-
-.nav-item i{
-font-size:20px;
-color:#777;
-}
-
-.nav-item span{
-display:block;
-color:#777;
-}
-
-.nav-item.active i,
-.nav-item.active span{
-color:#4b2dd8;
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="top">Resources</div>
+<div class="top">
+<h2>📚 Resources</h2>
+</div>
 
 <div class="container">
 
-<div class="card">
-<div class="icon">📄</div>
-<p>Salary Slips</p>
+<!-- OLD RECORDS -->
+<div class="item" onclick="openPage('old_records.html')">
+<img src="https://cdn-icons-png.flaticon.com/512/2920/2920222.png">
+<div class="text">
+<h4>Old Records</h4>
+<p>Attendance & Leave history</p>
+</div>
+<div class="arrow">›</div>
 </div>
 
-<div class="card">
-<div class="icon">📊</div>
-<p>Reports</p>
+<!-- SENIORITY -->
+<div class="item" onclick="openPage('seniority.html')">
+<img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+<div class="text">
+<h4>Seniority</h4>
+<p>Mech.Gr-2, Powerman, Junior Powerman</p>
+</div>
+<div class="arrow">›</div>
 </div>
 
-<div class="card">
-<div class="icon">📅</div>
-<p>Holiday List</p>
+<!-- PROMOTIONS -->
+<div class="item" onclick="openPage('promotions.html')">
+<img src="https://cdn-icons-png.flaticon.com/512/190/190411.png">
+<div class="text">
+<h4>Promotions</h4>
+<p>Check promotion details & updates</p>
+</div>
+<div class="arrow">›</div>
 </div>
 
-<div class="card">
-<div class="icon">📞</div>
-<p>Contact Admin</p>
+<!-- SITE MAP -->
+<div class="item" onclick="openPage('site_map.html')">
+<img src="https://cdn-icons-png.flaticon.com/512/684/684908.png">
+<div class="text">
+<h4>Site Map</h4>
+<p>Explore all sections of the app</p>
 </div>
-
-</div>
-
-<div class="navbar">
-
-<div class="nav-item" onclick="location='home.html'">
-<i>🏠</i>
-<span>Home</span>
-</div>
-
-<div class="nav-item" onclick="location='forum.html'">
-<i>💬</i>
-<span>Forum</span>
-</div>
-
-<div class="nav-item" onclick="location='employee_info.html'">
-<i>👤</i>
-<span>Employee</span>
-</div>
-
-<div class="nav-item active">
-<i>📂</i>
-<span>Resources</span>
+<div class="arrow">›</div>
 </div>
 
 </div>
+
+<!-- LOADER -->
+<div id="loader">
+<div class="skeleton"></div>
+<div class="skeleton"></div>
+<div class="skeleton"></div>
+</div>
+
+<script>
+
+let isLoading = false;
+
+function openPage(url){
+
+if(isLoading) return;
+isLoading = true;
+
+// show loader
+document.getElementById("loader").style.display = "flex";
+document.body.style.overflow = "hidden";
+
+// navigate
+setTimeout(()=>{
+window.location = url;
+}, 700);
+
+}
+
+</script>
 
 </body>
 </html>
