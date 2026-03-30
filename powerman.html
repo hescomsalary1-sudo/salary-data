@@ -17,6 +17,7 @@ padding:20px;
 text-align:center;
 }
 
+/* SEARCH */
 .search{
 padding:15px;
 }
@@ -28,6 +29,7 @@ border-radius:10px;
 border:1px solid #ddd;
 }
 
+/* LIST */
 .list{
 padding:15px;
 }
@@ -72,6 +74,7 @@ background:rgba(0,0,0,0.4);
 display:none;
 justify-content:center;
 align-items:center;
+z-index:999;
 }
 
 .popup-box{
@@ -79,9 +82,23 @@ background:white;
 border-radius:15px;
 padding:20px;
 width:90%;
-max-width:350px;
-max-height:80%;
+max-width:380px;
+max-height:85%;
 overflow:auto;
+}
+
+.popup-box h3{
+margin-top:0;
+}
+
+/* FIELD */
+.field{
+margin-bottom:8px;
+font-size:13px;
+}
+
+.field b{
+color:#333;
 }
 
 .close{
@@ -122,7 +139,7 @@ animation:shimmer 1.2s infinite;
 </div>
 
 <div class="search">
-<input type="text" placeholder="Search..." oninput="filterList(this.value)">
+<input type="text" placeholder="Search employee..." oninput="filterList(this.value)">
 </div>
 
 <div id="loader">
@@ -132,13 +149,15 @@ animation:shimmer 1.2s infinite;
 
 <div class="list" id="list"></div>
 
+<!-- POPUP -->
 <div id="popup">
 <div class="popup-box" id="popupContent"></div>
 </div>
 
 <script>
 
-const API_URL = "https://script.google.com/macros/s/AKfycbznn--Oe4nvKeeuKzrvsb52sJf_rdg1LyP0wDIDcE_LtQuHOhPNdl4HUANbyHjaUwSb/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbxhZ8-_dAPWY9SdF5-XkcweYqQeDVeVMST9hJ1G_oxhHgL2bU9vfA3FGpFJAXgeKy22/exec";
+
 let data = [];
 
 /* LOAD DATA */
@@ -146,7 +165,8 @@ function loadData(){
 
 document.getElementById("loader").style.display="block";
 
-fetch(API_URL + "?type=Powerman&year=2026")
+// 👉 change year=powerman if using separate sheet
+fetch(API_URL + "?year=2026")
 .then(res=>res.json())
 .then(json=>{
 
@@ -155,10 +175,14 @@ document.getElementById("loader").style.display="none";
 data = json.map(d=>({
 no: d["Seniority_No."] || "",
 name: d["Name"] || "",
-place: d["Working_place"] || "",
 type: d["Recruitment_type"] || "",
+place: d["Working_place"] || "",
+category: d["SC_ST_GM"] || "",
 dob: d["Date_of_Birth"] || "",
 entry: d["Date_of_entry"] || "",
+jm: d["Recruitment_date_of_Juniorman_powerman"] || "",
+apm: d["Date_of_recruitment_promotion_as_APM"] || "",
+pm: d["Date_of_recruitment_promotion_as_Powerman"] || "",
 qualification: d["Qualification"] || "",
 remarks: d["Remarks"] || ""
 }));
@@ -168,12 +192,13 @@ renderList(data);
 })
 .catch(()=>{
 document.getElementById("loader").style.display="none";
-document.getElementById("list").innerHTML="Failed to load";
+document.getElementById("list").innerHTML =
+"<div style='text-align:center'>Failed to load data</div>";
 });
 
 }
 
-/* RENDER */
+/* RENDER LIST */
 function renderList(list){
 
 let html="";
@@ -189,17 +214,20 @@ html+=`
 });
 
 document.getElementById("list").innerHTML =
-html || "No data";
-
+html || "<div style='text-align:center'>No data found</div>";
 }
 
 /* SEARCH */
-function filterList(t){
-let f = data.filter(d=>d.name.toLowerCase().includes(t.toLowerCase()));
-renderList(f);
+function filterList(text){
+
+let filtered = data.filter(d =>
+d.name.toLowerCase().includes(text.toLowerCase())
+);
+
+renderList(filtered);
 }
 
-/* POPUP */
+/* POPUP (FULL DETAILS) */
 function showPopup(i){
 
 let d = data[i];
@@ -208,12 +236,19 @@ document.getElementById("popup").style.display="flex";
 
 document.getElementById("popupContent").innerHTML = `
 <h3>${d.name}</h3>
-<p>No: ${d.no}</p>
-<p>Place: ${d.place}</p>
-<p>DOB: ${d.dob}</p>
-<p>Entry: ${d.entry}</p>
-<p>Qualification: ${d.qualification}</p>
-<p>Remarks: ${d.remarks}</p>
+
+<div class="field"><b>Seniority No:</b> ${d.no}</div>
+<div class="field"><b>Working Place:</b> ${d.place}</div>
+<div class="field"><b>Recruitment Type:</b> ${d.type}</div>
+<div class="field"><b>Category:</b> ${d.category}</div>
+<div class="field"><b>Date of Birth:</b> ${d.dob}</div>
+<div class="field"><b>Date of Entry:</b> ${d.entry}</div>
+<div class="field"><b>Junior Powerman:</b> ${d.jm}</div>
+<div class="field"><b>APM:</b> ${d.apm}</div>
+<div class="field"><b>Powerman:</b> ${d.pm}</div>
+<div class="field"><b>Qualification:</b> ${d.qualification}</div>
+<div class="field"><b>Remarks:</b> ${d.remarks}</div>
+
 <button class="close" onclick="closePopup()">Close</button>
 `;
 }
