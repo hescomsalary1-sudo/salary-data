@@ -8,7 +8,6 @@ body{
 margin:0;
 font-family:'Segoe UI';
 background:#f4f6fb;
-text-align:center;
 }
 
 /* HEADER */
@@ -16,145 +15,225 @@ text-align:center;
 background:linear-gradient(135deg,#2400b7,#3b1eff);
 color:white;
 padding:20px;
-}
-
-/* TREE */
-.tree ul{
-padding-top:20px;
-position:relative;
-}
-
-.tree li{
-display:inline-block;
 text-align:center;
-list-style:none;
-position:relative;
-padding:20px 5px 0 5px;
 }
 
-/* lines */
-.tree li::before, .tree li::after{
-content:'';
-position:absolute;
-top:0;
-right:50%;
-border-top:2px solid #ccc;
-width:50%;
-height:20px;
+/* TABS */
+.tabs{
+display:flex;
+gap:10px;
+padding:15px;
+overflow:auto;
 }
 
-.tree li::after{
-right:auto;
-left:50%;
-border-left:2px solid #ccc;
-}
-
-.tree li:only-child::after, .tree li:only-child::before{
-display:none;
-}
-
-.tree li:only-child{ padding-top:0;}
-
-.tree li:first-child::before, .tree li:last-child::after{
-border:none;
-}
-
-.tree ul ul::before{
-content:'';
-position:absolute;
-top:0;
-left:50%;
-border-left:2px solid #ccc;
-width:0;
-height:20px;
-}
-
-/* NODE BOX */
-.node{
-background:white;
+.tab{
 padding:10px 15px;
-border-radius:12px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-display:inline-block;
-min-width:120px;
-font-size:13px;
+border-radius:20px;
+background:white;
+font-size:12px;
 font-weight:600;
+cursor:pointer;
+white-space:nowrap;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }
 
-/* COLORS */
-.main{background:#3b1eff;color:white;}
-.sub{background:#2575fc;color:white;}
-.sec{background:#e6f0ff;color:#333;}
+.tab.active{
+background:#3b1eff;
+color:white;
+}
+
+/* SEARCH */
+.search{
+padding:0 15px;
+}
+
+.search input{
+width:100%;
+padding:10px;
+border-radius:10px;
+border:1px solid #ddd;
+}
+
+/* LIST */
+.list{
+padding:15px;
+}
+
+.item{
+display:flex;
+align-items:center;
+justify-content:space-between;
+background:white;
+border-radius:15px;
+padding:12px;
+margin-bottom:10px;
+box-shadow:0 4px 12px rgba(0,0,0,0.06);
+}
+
+/* LEFT */
+.left{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+/* RANK */
+.rank{
+background:#3b1eff;
+color:white;
+padding:6px 10px;
+border-radius:12px;
+font-size:12px;
+}
+
+/* NAME */
+.name{
+font-size:14px;
+color:#333;
+}
+
+/* RIGHT */
+.right{
+font-size:12px;
+color:#777;
+}
+
+/* EMPTY */
+.empty{
+text-align:center;
+color:#777;
+margin-top:30px;
+}
+
+/* LOADER */
+#loader{
+display:none;
+padding:15px;
+}
+
+.skeleton{
+height:50px;
+border-radius:10px;
+margin-bottom:10px;
+background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
+background-size:400px 100%;
+animation:shimmer 1.2s infinite;
+}
+
+@keyframes shimmer{
+0%{background-position:-400px 0;}
+100%{background-position:400px 0;}
+}
 </style>
 </head>
 
 <body>
 
 <div class="top">
-<h2>🏢 Organization Chart</h2>
+<h2>📊 Seniority</h2>
 </div>
 
-<div class="tree">
-
-<ul>
-<li>
-<div class="node main">O & M Division<br>HESCOM, Sirsi</div>
-
-<ul>
-
-<!-- Sirsi -->
-<li>
-<div class="node sub">Sirsi Subdivision</div>
-<ul>
-<li><div class="node sec">R-1 Section</div></li>
-<li><div class="node sec">R-2 Section</div></li>
-<li><div class="node sec">Hulekal</div></li>
-<li><div class="node sec">Banavasi</div></li>
-</ul>
-</li>
-
-<!-- Siddapur -->
-<li>
-<div class="node sub">Siddapur Subdivision</div>
-<ul>
-<li><div class="node sec">Town Section</div></li>
-<li><div class="node sec">Rural Section</div></li>
-<li><div class="node sec">Herur</div></li>
-<li><div class="node sec">Bilagi</div></li>
-</ul>
-</li>
-
-<!-- Yellapur -->
-<li>
-<div class="node sub">Yellapur Subdivision</div>
-<ul>
-<li><div class="node sec">Town Section</div></li>
-<li><div class="node sec">Rural Section</div></li>
-<li><div class="node sec">Manchikeri</div></li>
-<li><div class="node sec">Kiravatti</div></li>
-</ul>
-</li>
-
-<!-- Mundgod -->
-<li>
-<div class="node sub">Mundgod Subdivision</div>
-<ul>
-<li><div class="node sec">Mundgod Section</div></li>
-<li><div class="node sec">Malgi Section</div></li>
-</ul>
-</li>
-
-<!-- Accounting -->
-<li>
-<div class="node sub">Sirsi Accounting Section</div>
-</li>
-
-</ul>
-
-</li>
-</ul>
-
+<!-- TABS -->
+<div class="tabs">
+<div class="tab active" onclick="switchTab('mech')">Mech.Gr-2</div>
+<div class="tab" onclick="switchTab('power')">Powerman</div>
+<div class="tab" onclick="switchTab('junior')">Junior Powerman</div>
 </div>
+
+<!-- SEARCH -->
+<div class="search">
+<input type="text" placeholder="Search employee..." oninput="filterList(this.value)">
+</div>
+
+<!-- LOADER -->
+<div id="loader">
+<div class="skeleton"></div>
+<div class="skeleton"></div>
+<div class="skeleton"></div>
+</div>
+
+<!-- LIST -->
+<div class="list" id="list"></div>
+
+<script>
+
+let currentType = "mech";
+let data = [];
+
+/* SWITCH TAB */
+function switchTab(type){
+
+currentType = type;
+
+// active UI
+document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+event.target.classList.add("active");
+
+loadData();
+}
+
+/* LOAD DATA (DEMO NOW) */
+function loadData(){
+
+document.getElementById("loader").style.display="block";
+document.getElementById("list").innerHTML="";
+
+setTimeout(()=>{
+
+document.getElementById("loader").style.display="none";
+
+// SAMPLE DATA
+data = [];
+
+for(let i=1;i<=15;i++){
+data.push({
+rank:i,
+name:`Employee ${i}`,
+dept: currentType.toUpperCase()
+});
+}
+
+renderList(data);
+
+},800);
+
+}
+
+/* RENDER */
+function renderList(list){
+
+let html="";
+
+list.forEach(d=>{
+html+=`
+<div class="item">
+<div class="left">
+<div class="rank">#${d.rank}</div>
+<div class="name">${d.name}</div>
+</div>
+<div class="right">${d.dept}</div>
+</div>
+`;
+});
+
+document.getElementById("list").innerHTML =
+html || `<div class="empty">No data found</div>`;
+}
+
+/* SEARCH */
+function filterList(text){
+
+let filtered = data.filter(d =>
+d.name.toLowerCase().includes(text.toLowerCase())
+);
+
+renderList(filtered);
+
+}
+
+loadData();
+
+</script>
 
 </body>
 </html>
