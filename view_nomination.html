@@ -178,7 +178,8 @@ html+=`
 
 <input placeholder="Address" value="${n.address || ''}" class="address">
 
-<input type="number" placeholder="Share %" value="${n.share || ''}" class="share">
+<!-- ✅ IMPORTANT CHANGE -->
+<input type="number" placeholder="Share %" value="${n.share || ''}" class="share" oninput="checkEditShare()">
 
 <input placeholder="Aadhar" value="${n.aadhar || ''}" class="aadhar">
 
@@ -189,6 +190,9 @@ html+=`
 
 });
 
+// ✅ ADD STATUS DISPLAY
+html += `<div id="editShareStatus"></div>`;
+
 html+=`
 <button onclick="updateData()">Update</button>
 <button class="cancel-btn" onclick="cancelEdit()">Cancel</button>
@@ -197,10 +201,25 @@ html+=`
 
 document.getElementById("editBox").innerHTML=html;
 
+// ✅ CALL AFTER LOAD
+checkEditShare();
 }
 
 /* UPDATE DATA */
 function updateData(){
+
+let shares = document.querySelectorAll(".share");
+let total = 0;
+
+shares.forEach(s=>{
+total += Number(s.value || 0);
+});
+
+// ❌ BLOCK IF NOT 100
+if(total !== 100){
+alert("Total share must be exactly 100%");
+return;
+}
 
 let nominees=[];
 
@@ -252,7 +271,34 @@ alert("Error updating");
 function cancelEdit(){
 document.getElementById("editBox").innerHTML="";
 }
+function checkEditShare(){
 
+let shares = document.querySelectorAll(".share");
+let total = 0;
+
+shares.forEach(s=>{
+total += Number(s.value || 0);
+});
+
+let status = document.getElementById("editShareStatus");
+
+status.innerText = "Total Share: " + total + "%";
+
+// ✅ LESS THAN 100
+if(total < 100){
+status.style.color = "orange";
+}
+
+// ✅ EXACT 100
+else if(total === 100){
+status.style.color = "green";
+}
+
+// ❌ MORE THAN 100
+else{
+status.style.color = "red";
+}
+}
 </script>
 
 </body>
