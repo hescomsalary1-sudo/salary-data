@@ -16,9 +16,10 @@ background:linear-gradient(135deg,#2400b7,#3b1eff);
 color:white;
 padding:20px;
 text-align:center;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* LIST */
+/* CONTAINER */
 .container{
 padding:15px;
 }
@@ -29,16 +30,19 @@ display:flex;
 align-items:center;
 gap:15px;
 background:white;
-border-radius:18px;
-padding:15px;
+border-radius:20px;
+padding:16px;
 margin-bottom:12px;
-box-shadow:0 6px 15px rgba(0,0,0,0.08);
+box-shadow:0 8px 18px rgba(0,0,0,0.08);
 cursor:pointer;
 transition:0.3s;
+position:relative;
 }
 
+/* HOVER EFFECT */
 .item:hover{
-transform:translateY(-2px);
+transform:translateY(-3px);
+box-shadow:0 12px 25px rgba(0,0,0,0.12);
 }
 
 /* ICON */
@@ -55,11 +59,11 @@ flex:1;
 .text h4{
 margin:0;
 font-size:15px;
-color:#333;
+color:#222;
 }
 
 .text p{
-margin:3px 0 0;
+margin:4px 0 0;
 font-size:12px;
 color:#777;
 }
@@ -67,7 +71,7 @@ color:#777;
 /* ARROW */
 .arrow{
 font-size:18px;
-color:#999;
+color:#bbb;
 }
 
 /* LOADER */
@@ -85,14 +89,15 @@ padding:20px;
 z-index:9999;
 }
 
+/* SKELETON */
 @keyframes shimmer{
 0%{background-position:-400px 0;}
 100%{background-position:400px 0;}
 }
 
 .skeleton{
-height:60px;
-border-radius:12px;
+height:65px;
+border-radius:14px;
 background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
 background-size:400px 100%;
 animation:shimmer 1.2s infinite;
@@ -109,7 +114,7 @@ animation:shimmer 1.2s infinite;
 <div class="container">
 
 <!-- OLD RECORDS -->
-<div class="item" onclick="openPage('old_records.html')">
+<div class="item" onclick="openPage('resource_view.html')">
 <img src="https://cdn-icons-png.flaticon.com/512/2920/2920222.png">
 <div class="text">
 <h4>Old Records</h4>
@@ -123,27 +128,27 @@ animation:shimmer 1.2s infinite;
 <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
 <div class="text">
 <h4>Seniority</h4>
-<p>Mech.Gr-2, Powerman, Junior Powerman</p>
+<p>Divisional cadre details</p>
 </div>
 <div class="arrow">›</div>
 </div>
 
 <!-- PROMOTIONS -->
-<div class="item" onclick="openPage('promotions.html')">
+<div class="item" onclick="openPage('promotion.html')">
 <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png">
 <div class="text">
 <h4>Promotions</h4>
-<p>Check promotion details & updates</p>
+<p>Promotion updates & history</p>
 </div>
 <div class="arrow">›</div>
 </div>
 
 <!-- SITE MAP -->
-<div class="item" onclick="openPage('site_map.html')">
+<div class="item" onclick="openPage('sitemap.html')">
 <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png">
 <div class="text">
 <h4>Site Map</h4>
-<p>Explore all sections of the app</p>
+<p>Explore all sections</p>
 </div>
 <div class="arrow">›</div>
 </div>
