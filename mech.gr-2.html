@@ -1,193 +1,312 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Master Reports</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-
 body{
-font-family:sans-serif;
 margin:0;
-background:#f4f4f9;
-padding-bottom:90px;
+font-family:'Segoe UI';
+background:#f4f6fb;
 }
 
-/* HEADER */
 .top{
-padding:18px;
-background:#4b2dd8;
+background:linear-gradient(135deg,#009688,#4db6ac);
+color:white;
+padding:20px;
+text-align:center;
+border-bottom-left-radius:20px;
+border-bottom-right-radius:20px;
+}
+
+.year-box,.search{padding:10px 15px;}
+
+select,input{
+width:100%;
+padding:12px;
+border-radius:12px;
+border:none;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+.list{padding:10px 15px;}
+
+.item{
+display:flex;
+align-items:center;
+gap:12px;
+background:white;
+border-radius:15px;
+padding:12px;
+margin-bottom:10px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+cursor:pointer;
+}
+
+.avatar{
+width:45px;
+height:45px;
+border-radius:50%;
+background:#009688;
 color:white;
 display:flex;
 align-items:center;
-gap:10px;
-border-bottom-left-radius:25px;
-border-bottom-right-radius:25px;
+justify-content:center;
+font-weight:bold;
 }
 
-/* CONTENT */
-.content{
-padding:15px;
-}
+.info{flex:1;}
+.name{font-weight:600;}
+.place{font-size:12px;color:#777;}
 
-/* BUTTON */
-.btn{
-width:100%;
-padding:12px;
-margin-bottom:10px;
-border:none;
+.rank{
+background:#e0f2f1;
+color:#009688;
+padding:4px 8px;
 border-radius:10px;
-background:linear-gradient(135deg,#6c39ff,#4b2dd8);
-color:white;
-font-weight:600;
-cursor:pointer;
-transition:0.3s;
-}
-
-.btn:hover{
-transform:translateY(-2px);
-box-shadow:0 6px 15px rgba(0,0,0,0.2);
-}
-
-/* TABLE */
-.tableBox{
-overflow:auto;
-border-radius:10px;
-box-shadow:0 4px 12px rgba(0,0,0,0.1);
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-background:white;
 font-size:12px;
-min-width:600px;
 }
 
-th,td{
-padding:6px;
-border:1px solid #ddd;
-text-align:left;
-}
-
-th{
-background:#4b2dd8;
-color:white;
-position:sticky;
-top:0;
-}
-
-/* LOADER */
-#loader{
-display:none;
+#popup{
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(255,255,255,0.9);
+top:0;left:0;width:100%;height:100%;
+background:rgba(0,0,0,0.5);
+display:none;
 justify-content:center;
 align-items:center;
-z-index:9999;
+z-index:999;
 }
 
-.spinner{
-width:40px;
-height:40px;
-border:5px solid #ddd;
-border-top:5px solid #4b2dd8;
-border-radius:50%;
-animation:spin 1s linear infinite;
+.popup-box{
+background:white;
+border-radius:20px;
+padding:20px;
+width:90%;
+max-width:400px;
+max-height:85%;
+overflow:auto;
 }
 
-@keyframes spin{
-0%{transform:rotate(0deg);}
-100%{transform:rotate(360deg);}
+.details{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+font-size:13px;
 }
 
+.details div{
+background:#f4f6fb;
+padding:8px;
+border-radius:10px;
+}
+
+.close{
+margin-top:15px;
+background:#009688;
+color:white;
+border:none;
+padding:10px;
+width:100%;
+border-radius:20px;
+}
+
+#loader{display:none;padding:15px;}
+.skeleton{
+height:60px;
+border-radius:12px;
+margin-bottom:10px;
+background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
+animation:shimmer 1.2s infinite;
+}
+
+@keyframes shimmer{
+0%{background-position:-400px 0;}
+100%{background-position:400px 0;}
+}
 </style>
 </head>
 
 <body>
 
 <div class="top">
-<h3>🧠 Master Employee Report</h3>
+<h2>⚙️ Mech.Gr-2 Seniority</h2>
 </div>
 
-<div class="content">
-
-<button class="btn" onclick="loadData()">📊 View Full Data</button>
-<button class="btn" onclick="downloadFullCSV()">⬇ Download Full CSV</button>
-
-<div id="tableArea" class="tableBox"></div>
-
+<div class="year-box">
+<select onchange="changeYear(this.value)">
+<option value="2026">Year 2026</option>
+<option value="2027">Year 2027</option>
+</select>
 </div>
 
-<!-- LOADER -->
+<div class="search">
+<input type="text" placeholder="Search employee..." oninput="filterList(this.value)">
+</div>
+
 <div id="loader">
-<div class="spinner"></div>
+<div class="skeleton"></div>
+<div class="skeleton"></div>
+</div>
+
+<div class="list" id="list"></div>
+
+<div id="popup">
+<div class="popup-box" id="popupContent"></div>
+</div>
+
+<!-- NO DATA POPUP -->
+<div id="noDataPopup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);justify-content:center;align-items:center;">
+<div style="background:white;padding:20px;border-radius:20px;text-align:center;width:80%;max-width:300px;">
+<h3>📭 No Data Found</h3>
+<p style="font-size:13px;color:#666;">No records available</p>
+<button onclick="closeNoData()" style="margin-top:10px;background:#009688;color:white;border:none;padding:10px 20px;border-radius:20px;">OK</button>
+</div>
 </div>
 
 <script>
 
-/* LOAD CSV */
+const API_URL = "PASTE_YOUR_WEBAPP_URL";
 
-async function loadCSV(){
+let data = [];
+let currentYear = "2026";
 
-let r = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
-let t = await r.text();
-
-// convert into 2D array
-return t.trim().split("\n").map(row => row.split(","));
-
+/* DATE FORMAT */
+function formatDate(val){
+if(!val) return "-";
+let d = new Date(val);
+if(isNaN(d)) return val;
+let day = String(d.getDate()).padStart(2,'0');
+let month = String(d.getMonth()+1).padStart(2,'0');
+let year = d.getFullYear();
+return `${day}/${month}/${year}`;
 }
 
-/* SHOW FULL TABLE */
+/* LOAD */
+function loadData(){
 
-async function loadData(){
+document.getElementById("loader").style.display="block";
+document.getElementById("list").innerHTML="";
 
-loader.style.display="flex";
+fetch(API_URL + "?year=" + currentYear)
 
-let data = await loadCSV();
+.then(res=>res.json())
 
-let html = "<table>";
+.then(json=>{
 
-// HEADER
-html += "<tr>";
-data[0].forEach(col=>{
-html += `<th>${col}</th>`;
+document.getElementById("loader").style.display="none";
+
+if(!json || json.length===0 || json.status==="error"){
+showNoData();
+return;
+}
+
+data = json.map(d=>({
+no: d["Seniority_No."] || "",
+name: d["Name"] || "",
+place: d["Working_place"] || "",
+category: d["Category"] || "",
+dob: d["Date_of_Birth"] || "",
+entry: d["Date_of_entry"] || "",
+promo: d["Promotion_order_of_present_cadre"] || "",
+report: d["Reporting_date_of_present_cadre"] || "",
+circle: d["Date_of_report_to_circle_in_present_cadre"] || "",
+qualification: d["Qualification"] || "",
+remarks: d["Remarks"] || ""
+}));
+
+renderList(data);
+
+})
+
+.catch(()=>{
+document.getElementById("loader").style.display="none";
+showNoData();
 });
-html += "</tr>";
 
-// ROWS
-for(let i=1;i<data.length;i++){
+}
 
-html += "<tr>";
+/* LIST */
+function renderList(list){
 
-data[i].forEach(cell=>{
-html += `<td>${cell}</td>`;
+let html="";
+
+list.forEach((d,i)=>{
+html+=`
+<div class="item" onclick="showPopup(${i})">
+<div class="avatar">${d.name.charAt(0)}</div>
+
+<div class="info">
+<div class="name">${d.name}</div>
+<div class="place">${d.place}</div>
+</div>
+
+<div class="rank">#${d.no}</div>
+</div>
+`;
 });
 
-html += "</tr>";
-
+document.getElementById("list").innerHTML=html;
 }
 
-html += "</table>";
-
-tableArea.innerHTML = html;
-
-loader.style.display="none";
-
+/* SEARCH */
+function filterList(text){
+let f=data.filter(d=>d.name.toLowerCase().includes(text.toLowerCase()));
+renderList(f);
 }
 
-/* 🔥 FIXED CSV DOWNLOAD (ANDROID SUPPORT) */
-
-function downloadFullCSV(){
-
-// direct file URL (important for WebView)
-window.location.href = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
-
+function changeYear(y){
+currentYear=y;
+loadData();
 }
+
+/* POPUP */
+function showPopup(i){
+
+let d=data[i];
+
+document.getElementById("popup").style.display="flex";
+
+document.getElementById("popupContent").innerHTML=`
+<div style="text-align:center">
+<h3>${d.name}</h3>
+<p>${d.place}</p>
+</div>
+
+<div class="details">
+<div><b>No:</b> ${d.no}</div>
+<div><b>Category:</b> ${d.category}</div>
+
+<div><b>DOB:</b> ${formatDate(d.dob)}</div>
+<div><b>Entry:</b> ${formatDate(d.entry)}</div>
+
+<div><b>Promotion Order:</b> ${d.promo}</div>
+<div><b>Reporting Date:</b> ${formatDate(d.report)}</div>
+
+<div><b>Circle Report:</b> ${formatDate(d.circle)}</div>
+<div><b>Qualification:</b> ${d.qualification}</div>
+</div>
+
+<div style="margin-top:10px;font-size:13px;">
+<b>Remarks:</b><br>${d.remarks}
+</div>
+
+<button class="close" onclick="closePopup()">Close</button>
+`;
+}
+
+function closePopup(){
+document.getElementById("popup").style.display="none";
+}
+
+function showNoData(){
+document.getElementById("noDataPopup").style.display="flex";
+}
+
+function closeNoData(){
+document.getElementById("noDataPopup").style.display="none";
+}
+
+loadData();
 
 </script>
 
