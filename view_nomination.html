@@ -151,7 +151,11 @@ loadData();
 /* SHOW EDIT FORM */
 function showEdit(data){
 
-let html = `<div class="card">`;
+let empName = data.length > 0 ? data[0].emp_name : "";
+
+let html = `<div class="card">
+<input id="editEmpName" value="${empName}" placeholder="Employee Name">
+`;
 
 data.forEach(n=>{
 
@@ -172,7 +176,7 @@ html+=`
 <option ${n.relation=="Other"?"selected":""}>Other</option>
 </select>
 
-<input type="date" value="${n.dob || ''}" class="dob">
+<input type="text" value="${formatDate(n.dob)}" placeholder="DD/MM/YYYY" class="dob">
 
 <input placeholder="Mobile" value="${n.mobile || ''}" class="mobile">
 
@@ -207,7 +211,7 @@ checkEditShare();
 
 /* UPDATE DATA */
 function updateData(){
-
+let empName = document.getElementById("editEmpName").value;
 let shares = document.querySelectorAll(".share");
 let total = 0;
 
@@ -248,7 +252,7 @@ console.log("Delete:", delRes);
 // STEP 2: INSERT NEW
 return fetch(API_URL,{
 method:"POST",
-body:JSON.stringify({user,nominees})
+body:JSON.stringify({user, emp_name: empName, nominees})
 });
 
 })
@@ -298,6 +302,21 @@ status.style.color = "green";
 else{
 status.style.color = "red";
 }
+}
+
+  function formatDate(dateStr){
+
+if(!dateStr) return "";
+
+let d = new Date(dateStr);
+
+if(isNaN(d)) return dateStr;
+
+let day = String(d.getDate()).padStart(2,'0');
+let month = String(d.getMonth()+1).padStart(2,'0');
+let year = d.getFullYear();
+
+return `${day}/${month}/${year}`;
 }
 </script>
 
