@@ -724,12 +724,18 @@ location.reload(true);
 },800);
 }
 
+setTimeout(function(){
+
 let user = localStorage.getItem("currentUser");
-let role = localStorage.getItem("role");
 
 if(!user){
 window.location.replace("login.html");
 }
+
+}, 200);
+
+// keep role if needed
+let role = localStorage.getItem("role");
 
 
 function showLoader(url){
