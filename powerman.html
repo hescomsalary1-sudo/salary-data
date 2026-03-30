@@ -214,17 +214,37 @@ animation:shimmer 1.2s infinite;
 <div class="popup-box" id="popupContent"></div>
 </div>
 
+  <!-- NO DATA POPUP -->
+<div id="noDataPopup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);justify-content:center;align-items:center;z-index:999;">
+<div style="background:white;padding:20px;border-radius:20px;text-align:center;width:80%;max-width:300px;">
+<h3>📭 No Data Found</h3>
+<p style="font-size:13px;color:#666;">
+No records available for selected year
+</p>
+<button onclick="closeNoData()" style="margin-top:10px;background:#3b1eff;color:white;border:none;padding:10px 20px;border-radius:20px;">
+OK
+</button>
+</div>
+</div>
+
 <script>
 
 const API_URL = "https://script.google.com/macros/s/AKfycbznn--Oe4nvKeeuKzrvsb52sJf_rdg1LyP0wDIDcE_LtQuHOhPNdl4HUANbyHjaUwSb/exec";
 
 let data = [];
 let currentYear = "2026";
+function showNoData(){
+document.getElementById("noDataPopup").style.display="flex";
+}
 
+function closeNoData(){
+document.getElementById("noDataPopup").style.display="none";
+}
 /* LOAD DATA */
 function loadData(){
 
 document.getElementById("loader").style.display="block";
+document.getElementById("list").innerHTML="";
 
 fetch(API_URL + "?year=" + currentYear)
 .then(res=>res.json())
@@ -232,6 +252,13 @@ fetch(API_URL + "?year=" + currentYear)
 
 document.getElementById("loader").style.display="none";
 
+// ❗ NO DATA / SHEET ERROR
+if(!json || json.length === 0 || json.status === "error"){
+showNoData();
+return;
+}
+
+// ✅ NORMAL DATA
 data = json.map(d=>({
 no: d["Seniority_No."] || "",
 name: d["Name"] || "",
@@ -252,7 +279,7 @@ renderList(data);
 })
 .catch(()=>{
 document.getElementById("loader").style.display="none";
-document.getElementById("list").innerHTML="Error loading data";
+showNoData();
 });
 
 }
