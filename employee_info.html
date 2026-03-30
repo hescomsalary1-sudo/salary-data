@@ -21,11 +21,8 @@ text-align:center;
 /* TAB NAVBAR */
 .tabs{
 display:flex;
-background:white;
-margin:10px;
-border-radius:15px;
-overflow:hidden;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
+gap:10px;
+margin:15px;
 }
 
 .tab{
@@ -36,13 +33,72 @@ font-size:13px;
 font-weight:600;
 cursor:pointer;
 color:#555;
+border-radius:25px;
+background:white;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
 transition:0.3s;
 }
 
-/* ACTIVE TAB */
 .tab.active{
-background:#2400b7;
+background:linear-gradient(135deg,#2400b7,#3b1eff);
 color:white;
+box-shadow:0 6px 15px rgba(59,30,255,0.3);
+}
+
+/* DASHBOARD */
+.dashboard{
+padding:15px;
+}
+
+/* WELCOME CARD */
+.welcome-card{
+background:linear-gradient(135deg,#3b1eff,#6a5cff);
+color:white;
+padding:20px;
+border-radius:18px;
+box-shadow:0 10px 25px rgba(59,30,255,0.25);
+margin-bottom:15px;
+}
+
+.title{
+font-size:18px;
+font-weight:600;
+}
+
+.subtitle{
+font-size:13px;
+opacity:0.9;
+margin-top:5px;
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+/* BOX */
+.box{
+background:white;
+border-radius:16px;
+padding:18px;
+text-align:center;
+font-weight:600;
+color:#333;
+box-shadow:0 6px 15px rgba(0,0,0,0.08);
+transition:0.3s;
+cursor:pointer;
+}
+
+.box:hover{
+transform:translateY(-3px);
+box-shadow:0 10px 20px rgba(0,0,0,0.12);
+}
+
+.icon{
+font-size:28px;
+margin-bottom:8px;
 }
 
 /* LOADER */
@@ -95,6 +151,35 @@ Official
 
 <div class="tab" onclick="openPage(2,'enquiries.html')">
 Enquiries
+</div>
+
+</div>
+
+<!-- DASHBOARD (NEW UI) -->
+<div class="dashboard">
+
+<div class="welcome-card">
+<div class="title">Welcome 👋</div>
+<div class="subtitle">Manage your employee details easily</div>
+</div>
+
+<div class="grid">
+
+<div class="box" onclick="openPage(0,'nomination_form.html')">
+<div class="icon">👨‍👩‍👧</div>
+<div>Nomination</div>
+</div>
+
+<div class="box" onclick="openPage(1,'official_details.html')">
+<div class="icon">📄</div>
+<div>Official</div>
+</div>
+
+<div class="box" onclick="openPage(2,'enquiries.html')">
+<div class="icon">❓</div>
+<div>Enquiries</div>
+</div>
+
 </div>
 
 </div>
