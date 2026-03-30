@@ -8,153 +8,223 @@ body{
 margin:0;
 font-family:'Segoe UI';
 background:#f4f6fb;
-text-align:center;
 }
 
-/* HEADER */
 .top{
 background:linear-gradient(135deg,#2400b7,#3b1eff);
 color:white;
 padding:20px;
-}
-
-/* TREE */
-.tree ul{
-padding-top:20px;
-position:relative;
-}
-
-.tree li{
-display:inline-block;
 text-align:center;
-list-style:none;
-position:relative;
-padding:20px 5px 0 5px;
 }
 
-/* lines */
-.tree li::before, .tree li::after{
-content:'';
-position:absolute;
-top:0;
-right:50%;
-border-top:2px solid #ccc;
-width:50%;
-height:20px;
+.search{
+padding:15px;
 }
 
-.tree li::after{
-right:auto;
-left:50%;
-border-left:2px solid #ccc;
+.search input{
+width:100%;
+padding:10px;
+border-radius:10px;
+border:1px solid #ddd;
 }
 
-.tree li:only-child::after, .tree li:only-child::before{
-display:none;
+.list{
+padding:15px;
 }
 
-.tree li:only-child{ padding-top:0;}
-
-.tree li:first-child::before, .tree li:last-child::after{
-border:none;
-}
-
-.tree ul ul::before{
-content:'';
-position:absolute;
-top:0;
-left:50%;
-border-left:2px solid #ccc;
-width:0;
-height:20px;
-}
-
-/* NODE BOX */
-.node{
+.item{
 background:white;
-padding:10px 15px;
+border-radius:15px;
+padding:12px;
+margin-bottom:10px;
+box-shadow:0 4px 12px rgba(0,0,0,0.06);
+cursor:pointer;
+}
+
+.rank{
+background:#3b1eff;
+color:white;
+padding:5px 10px;
 border-radius:12px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
+font-size:12px;
 display:inline-block;
-min-width:120px;
-font-size:13px;
+margin-bottom:5px;
+}
+
+.name{
+font-size:14px;
 font-weight:600;
 }
 
-/* COLORS */
-.main{background:#3b1eff;color:white;}
-.sub{background:#2575fc;color:white;}
-.sec{background:#e6f0ff;color:#333;}
+.place{
+font-size:12px;
+color:#777;
+}
+
+/* POPUP */
+#popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+display:none;
+justify-content:center;
+align-items:center;
+}
+
+.popup-box{
+background:white;
+border-radius:15px;
+padding:20px;
+width:90%;
+max-width:350px;
+max-height:80%;
+overflow:auto;
+}
+
+.close{
+background:#3b1eff;
+color:white;
+padding:10px;
+border:none;
+border-radius:20px;
+margin-top:10px;
+width:100%;
+}
+
+/* LOADER */
+#loader{
+display:none;
+padding:15px;
+}
+
+.skeleton{
+height:50px;
+border-radius:10px;
+margin-bottom:10px;
+background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
+animation:shimmer 1.2s infinite;
+}
+
+@keyframes shimmer{
+0%{background-position:-400px 0;}
+100%{background-position:400px 0;}
+}
 </style>
 </head>
 
 <body>
 
 <div class="top">
-<h2>🏢 Organization Chart</h2>
+<h2>⚡ Powerman Seniority</h2>
 </div>
 
-<div class="tree">
-
-<ul>
-<li>
-<div class="node main">O & M Division<br>HESCOM, Sirsi</div>
-
-<ul>
-
-<!-- Sirsi -->
-<li>
-<div class="node sub">Sirsi Subdivision</div>
-<ul>
-<li><div class="node sec">R-1 Section</div></li>
-<li><div class="node sec">R-2 Section</div></li>
-<li><div class="node sec">Hulekal</div></li>
-<li><div class="node sec">Banavasi</div></li>
-</ul>
-</li>
-
-<!-- Siddapur -->
-<li>
-<div class="node sub">Siddapur Subdivision</div>
-<ul>
-<li><div class="node sec">Town Section</div></li>
-<li><div class="node sec">Rural Section</div></li>
-<li><div class="node sec">Herur</div></li>
-<li><div class="node sec">Bilagi</div></li>
-</ul>
-</li>
-
-<!-- Yellapur -->
-<li>
-<div class="node sub">Yellapur Subdivision</div>
-<ul>
-<li><div class="node sec">Town Section</div></li>
-<li><div class="node sec">Rural Section</div></li>
-<li><div class="node sec">Manchikeri</div></li>
-<li><div class="node sec">Kiravatti</div></li>
-</ul>
-</li>
-
-<!-- Mundgod -->
-<li>
-<div class="node sub">Mundgod Subdivision</div>
-<ul>
-<li><div class="node sec">Mundgod Section</div></li>
-<li><div class="node sec">Malgi Section</div></li>
-</ul>
-</li>
-
-<!-- Accounting -->
-<li>
-<div class="node sub">Sirsi Accounting Section</div>
-</li>
-
-</ul>
-
-</li>
-</ul>
-
+<div class="search">
+<input type="text" placeholder="Search..." oninput="filterList(this.value)">
 </div>
+
+<div id="loader">
+<div class="skeleton"></div>
+<div class="skeleton"></div>
+</div>
+
+<div class="list" id="list"></div>
+
+<div id="popup">
+<div class="popup-box" id="popupContent"></div>
+</div>
+
+<script>
+
+const API_URL = "YOUR_SCRIPT_URL";
+let data = [];
+
+/* LOAD DATA */
+function loadData(){
+
+document.getElementById("loader").style.display="block";
+
+fetch(API_URL + "?type=Powerman&year=2026")
+.then(res=>res.json())
+.then(json=>{
+
+document.getElementById("loader").style.display="none";
+
+data = json.map(d=>({
+no: d["Seniority_No."] || "",
+name: d["Name"] || "",
+place: d["Working_place"] || "",
+type: d["Recruitment_type"] || "",
+dob: d["Date_of_Birth"] || "",
+entry: d["Date_of_entry"] || "",
+qualification: d["Qualification"] || "",
+remarks: d["Remarks"] || ""
+}));
+
+renderList(data);
+
+})
+.catch(()=>{
+document.getElementById("loader").style.display="none";
+document.getElementById("list").innerHTML="Failed to load";
+});
+
+}
+
+/* RENDER */
+function renderList(list){
+
+let html="";
+
+list.forEach((d,i)=>{
+html+=`
+<div class="item" onclick="showPopup(${i})">
+<div class="rank">#${d.no}</div>
+<div class="name">${d.name}</div>
+<div class="place">${d.place}</div>
+</div>
+`;
+});
+
+document.getElementById("list").innerHTML =
+html || "No data";
+
+}
+
+/* SEARCH */
+function filterList(t){
+let f = data.filter(d=>d.name.toLowerCase().includes(t.toLowerCase()));
+renderList(f);
+}
+
+/* POPUP */
+function showPopup(i){
+
+let d = data[i];
+
+document.getElementById("popup").style.display="flex";
+
+document.getElementById("popupContent").innerHTML = `
+<h3>${d.name}</h3>
+<p>No: ${d.no}</p>
+<p>Place: ${d.place}</p>
+<p>DOB: ${d.dob}</p>
+<p>Entry: ${d.entry}</p>
+<p>Qualification: ${d.qualification}</p>
+<p>Remarks: ${d.remarks}</p>
+<button class="close" onclick="closePopup()">Close</button>
+`;
+}
+
+function closePopup(){
+document.getElementById("popup").style.display="none";
+}
+
+loadData();
+
+</script>
 
 </body>
 </html>
