@@ -10,12 +10,43 @@ font-family:'Segoe UI';
 background:#f4f6fb;
 }
 
-/* HEADER */
 .top{
 background:linear-gradient(135deg,#2400b7,#3b1eff);
 color:white;
 padding:20px;
 text-align:center;
+}
+
+/* BUTTONS */
+.tabs{
+display:flex;
+gap:10px;
+padding:10px;
+overflow:auto;
+}
+
+.tab{
+padding:10px 15px;
+border-radius:20px;
+background:white;
+font-size:12px;
+font-weight:600;
+cursor:pointer;
+white-space:nowrap;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+.tab.active{
+background:#3b1eff;
+color:white;
+}
+
+/* YEAR */
+.year{
+text-align:center;
+font-weight:600;
+margin-top:5px;
+color:#555;
 }
 
 /* SEARCH */
@@ -57,7 +88,6 @@ margin-bottom:5px;
 .name{
 font-size:14px;
 font-weight:600;
-color:#333;
 }
 
 .place{
@@ -89,10 +119,6 @@ max-height:80%;
 overflow:auto;
 }
 
-.popup-box h3{
-margin-top:0;
-}
-
 .close{
 background:#3b1eff;
 color:white;
@@ -114,7 +140,6 @@ height:50px;
 border-radius:10px;
 margin-bottom:10px;
 background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
-background-size:400px 100%;
 animation:shimmer 1.2s infinite;
 }
 
@@ -128,15 +153,25 @@ animation:shimmer 1.2s infinite;
 <body>
 
 <div class="top">
-<h2>⚡ Powerman Seniority</h2>
+<h2>📊 Seniority</h2>
 </div>
+
+<!-- BUTTONS -->
+<div class="tabs">
+<div class="tab active" onclick="changeType('Mech.Gr-2', this)">Mech.Gr-2</div>
+<div class="tab" onclick="changeType('Powerman', this)">Powerman</div>
+<div class="tab" onclick="changeType('Assistant Powerman', this)">Assistant Powerman</div>
+<div class="tab" onclick="changeType('Junior Powerman', this)">Junior Powerman</div>
+</div>
+
+<!-- YEAR -->
+<div class="year" id="yearText">Year: 2026</div>
 
 <div class="search">
 <input type="text" placeholder="Search employee..." oninput="filterList(this.value)">
 </div>
 
 <div id="loader">
-<div class="skeleton"></div>
 <div class="skeleton"></div>
 <div class="skeleton"></div>
 </div>
@@ -150,48 +185,55 @@ animation:shimmer 1.2s infinite;
 
 <script>
 
-const API_URL = "https://script.google.com/macros/s/AKfycbyx8TBOlaXDRe65rKOsNb8QPwjr8-t-ZiI-p2_7E5uB91fM_auA8ahQE1joP5BDTWOV/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbxhZ8-_dAPWY9SdF5-XkcweYqQeDVeVMST9hJ1G_oxhHgL2bU9vfA3FGpFJAXgeKy22/exec";
 
+let currentType = "Mech.Gr-2";
+let currentYear = "2026";
 let data = [];
 
-/* LOAD CSV WITH UTF-8 FIX */
+/* CHANGE TYPE */
+function changeType(type, el){
+
+currentType = type;
+
+document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+el.classList.add("active");
+
+loadData();
+}
+
+/* LOAD DATA */
 function loadData(){
 
 document.getElementById("loader").style.display="block";
 
-fetch(API_URL)
+fetch(API_URL + "?type=" + encodeURIComponent(currentType) + "&year=" + currentYear)
 .then(res => res.json())
 .then(json => {
 
 document.getElementById("loader").style.display="none";
 
 data = json.map(d => ({
-no: d["Seniority_No."] || "",
-name: d["Name"] || "",
-type: d["Recruitment_type"] || "",
-place: d["Working_place"] || "",
-category: d["SC_ST_GM"] || "",
-dob: d["Date_of_Birth"] || "",
-entry: d["Date_of_entry"] || "",
-jm: d["Recruitment_date_of_Juniorman_powerman"] || "",
-apm: d["Date_of_recruitment_promotion_as_APM"] || "",
-pm: d["Date_of_recruitment_promotion_as_Powerman"] || "",
-qualification: d["Qualification"] || "",
-remarks: d["Remarks"] || ""
+no: d["Seniority_No."],
+name: d["Name"],
+type: d["Recruitment_type"],
+place: d["Working_place"],
+category: d["SC_ST_GM"],
+dob: d["Date_of_Birth"],
+entry: d["Date_of_entry"],
+jm: d["Recruitment_date_of_Juniorman_powerman"],
+apm: d["Date_of_recruitment_promotion_as_APM"],
+pm: d["Date_of_recruitment_promotion_as_Powerman"],
+qualification: d["Qualification"],
+remarks: d["Remarks"]
 }));
 
 renderList(data);
 
-})
-.catch(()=>{
-document.getElementById("loader").style.display="none";
-document.getElementById("list").innerHTML =
-"<div style='text-align:center'>Failed to load data</div>";
 });
-
 }
 
-/* RENDER LIST */
+/* RENDER */
 function renderList(list){
 
 let html="";
@@ -206,8 +248,7 @@ html+=`
 `;
 });
 
-document.getElementById("list").innerHTML =
-html || "<div style='text-align:center'>No data</div>";
+document.getElementById("list").innerHTML = html;
 }
 
 /* SEARCH */
@@ -218,28 +259,22 @@ d.name.toLowerCase().includes(text.toLowerCase())
 );
 
 renderList(filtered);
-
 }
 
 /* POPUP */
-function showPopup(index){
+function showPopup(i){
 
-let d = data[index];
+let d = data[i];
 
 document.getElementById("popup").style.display="flex";
 
 document.getElementById("popupContent").innerHTML = `
 <h3>${d.name}</h3>
-
-<p><b>Seniority No:</b> ${d.no}</p>
-<p><b>Working Place:</b> ${d.place}</p>
-<p><b>Recruitment Type:</b> ${d.type}</p>
-<p><b>Category:</b> ${d.category}</p>
+<p><b>No:</b> ${d.no}</p>
+<p><b>Place:</b> ${d.place}</p>
+<p><b>Type:</b> ${d.type}</p>
 <p><b>DOB:</b> ${d.dob}</p>
-<p><b>Date of Entry:</b> ${d.entry}</p>
-<p><b>Junior Powerman:</b> ${d.jm}</p>
-<p><b>APM:</b> ${d.apm}</p>
-<p><b>Powerman:</b> ${d.pm}</p>
+<p><b>Entry:</b> ${d.entry}</p>
 <p><b>Qualification:</b> ${d.qualification}</p>
 <p><b>Remarks:</b> ${d.remarks}</p>
 
