@@ -150,7 +150,7 @@ animation:shimmer 1.2s infinite;
 
 <script>
 
-const CSV_URL = "https://hescomsalary1-sudo.github.io/salary-data/seniority.csv"; // 🔥 replace this
+const CSV_URL = "https://hescomsalary1-sudo.github.io/salary-data/seniority.csv";
 
 let data = [];
 
@@ -165,28 +165,36 @@ fetch(CSV_URL)
 
 document.getElementById("loader").style.display="none";
 
-const rows = text.split("\n").slice(1);
+// ✅ REMOVE EMPTY ROWS
+const rows = text.split("\n").slice(1).filter(r => r.trim() !== "");
 
 data = rows.map(r=>{
 let cols = r.split(",");
+
+// ✅ SAFE DATA
 return {
-no: cols[0],
-name: cols[1],
-type: cols[2],
-place: cols[3],
-category: cols[4],
-dob: cols[5],
-entry: cols[6],
-jm: cols[7],
-apm: cols[8],
-pm: cols[9],
-qualification: cols[10],
-remarks: cols[11]
+no: cols[0]?.trim() || "",
+name: cols[1]?.trim() || "",
+type: cols[2]?.trim() || "",
+place: cols[3]?.trim() || "",
+category: cols[4]?.trim() || "",
+dob: cols[5]?.trim() || "",
+entry: cols[6]?.trim() || "",
+jm: cols[7]?.trim() || "",
+apm: cols[8]?.trim() || "",
+pm: cols[9]?.trim() || "",
+qualification: cols[10]?.trim() || "",
+remarks: cols[11]?.trim() || ""
 };
 });
 
 renderList(data);
 
+})
+.catch(()=>{
+document.getElementById("loader").style.display="none";
+document.getElementById("list").innerHTML =
+"<div style='text-align:center'>Failed to load data</div>";
 });
 
 }
@@ -196,9 +204,9 @@ function renderList(list){
 
 let html="";
 
-list.forEach(d=>{
+list.forEach((d,i)=>{
 html+=`
-<div class="item" onclick='showPopup(${JSON.stringify(d)})'>
+<div class="item" onclick="showPopup(${i})">
 <div class="rank">#${d.no}</div>
 <div class="name">${d.name}</div>
 <div class="place">${d.place}</div>
@@ -221,8 +229,10 @@ renderList(filtered);
 
 }
 
-/* POPUP */
-function showPopup(d){
+/* POPUP (SAFE INDEX) */
+function showPopup(index){
+
+let d = data[index];
 
 document.getElementById("popup").style.display="flex";
 
@@ -250,7 +260,6 @@ document.getElementById("popup").style.display="none";
 }
 
 loadData();
-
 </script>
 
 </body>
