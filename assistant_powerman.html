@@ -223,9 +223,11 @@ function loadData(){
 document.getElementById("loader").style.display="block";
 document.getElementById("list").innerHTML="";
 
-fetch(API_URL + "?type=APM&year=" + currentYear)
-.then(res=>res.json())
-.then(json=>{
+fetch(API_URL + "?year=" + currentYear)
+
+.then(res => res.json())
+
+.then(json => {
 
 document.getElementById("loader").style.display="none";
 
@@ -233,11 +235,7 @@ if(!json || json.length === 0 || json.status === "error"){
 showNoData();
 return;
 }
-.catch(()=>{
-document.getElementById("loader").style.display="none";
-showNoData();
-});
-  
+
 data = json.map(d=>({
 no: d["Seniority_No."] || "",
 name: d["Name"] || "",
@@ -254,7 +252,17 @@ remarks: d["Remarks"] || ""
 
 renderList(data);
 
+})
+
+.catch(()=>{
+
+// ✅ CORRECT PLACE
+
+document.getElementById("loader").style.display="none";
+showNoData();
+
 });
+
 }
 
 /* LIST */
