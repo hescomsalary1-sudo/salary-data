@@ -366,14 +366,19 @@ data = {status:"fail"};
 }
 
 // hide loader
-document.getElementById("loader").style.display="none";
+
 
 if(data.status === "success"){
 
 localStorage.setItem("currentUser", user);
 localStorage.setItem("role", data.role);
 
-window.location="home.html";
+// keep loader ON → smooth transition
+setTimeout(function(){
+window.location = "home.html";
+}, 600);
+
+}
 
 }else{
 document.getElementById("error").innerText="Invalid Username or Password";
