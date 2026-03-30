@@ -150,23 +150,110 @@ border-radius:50%;
 </div>
 `;
 data.forEach(n=>{
+
 html+=`
-<div class="card">
-<b>${n.name}</b><br>
-Relation: ${n.relation}<br>
-DOB: ${n.dob || '-'}<br>
-Mobile: ${n.mobile || '-'}<br>
-Address: ${n.address || '-'}<br>
-Share: ${n.share}%<br>
-Aadhar: ${n.aadhar || '-'}<br>
-Guardian: ${n.guardian || '-'}
+
+<!-- 📦 NOMINEE CARD -->
+<div style="
+background:white;
+border-radius:18px;
+padding:16px;
+margin-bottom:12px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+position:relative;
+transition:0.3s;
+">
+
+<!-- 🔵 SHARE BADGE -->
+<div style="
+position:absolute;
+top:12px;
+right:12px;
+background:linear-gradient(135deg,#3b1eff,#6a5cff);
+color:white;
+padding:6px 12px;
+border-radius:20px;
+font-size:12px;
+font-weight:600;
+box-shadow:0 4px 10px rgba(59,30,255,0.3);
+">
+${n.share || 0}%
 </div>
+
+<!-- 👤 NAME -->
+<div style="font-size:17px;font-weight:600;margin-bottom:3px;">
+${n.name || "-"}
+</div>
+
+<!-- RELATION -->
+<div style="font-size:13px;color:#777;margin-bottom:12px;">
+${n.relation || "-"}
+</div>
+
+<!-- GRID DETAILS -->
+<div style="
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+font-size:13px;
+color:#444;
+">
+
+<div>
+<span style="color:#999;font-size:11px;">DOB</span><br>
+${n.dob || "-"}
+</div>
+
+<div>
+<span style="color:#999;font-size:11px;">Mobile</span><br>
+${n.mobile || "-"}
+</div>
+
+<div>
+<span style="color:#999;font-size:11px;">Aadhar</span><br>
+${n.aadhar || "-"}
+</div>
+
+<div>
+<span style="color:#999;font-size:11px;">Guardian</span><br>
+${n.guardian || "-"}
+</div>
+
+</div>
+
+<!-- ADDRESS -->
+<div style="
+margin-top:10px;
+padding-top:8px;
+border-top:1px solid #eee;
+font-size:13px;
+color:#555;
+">
+<span style="color:#999;font-size:11px;">Address</span><br>
+${n.address || "-"}
+</div>
+
+</div>
+
 `;
+
 });
 
 // EDIT BUTTON
-html+=`<button class="edit-btn" onclick='showEdit(${JSON.stringify(data)})'>✏ Edit</button>`;
-
+html+=`
+<button onclick='showEdit(${JSON.stringify(data)})' style="
+background:linear-gradient(135deg,#ff9800,#ffb74d);
+border:none;
+padding:14px;
+border-radius:30px;
+color:white;
+font-weight:600;
+box-shadow:0 6px 15px rgba(255,152,0,0.3);
+letter-spacing:0.5px;
+">
+✏ Edit Nomination
+</button>
+`;
 document.getElementById("viewBox").innerHTML=html;
 
 });
