@@ -154,24 +154,26 @@ const CSV_URL = "https://hescomsalary1-sudo.github.io/salary-data/seniority.csv"
 
 let data = [];
 
-/* LOAD CSV */
+/* LOAD CSV WITH UTF-8 FIX */
 function loadData(){
 
 document.getElementById("loader").style.display="block";
 
 fetch(CSV_URL)
-.then(res=>res.text())
-.then(text=>{
+.then(res => res.arrayBuffer())
+.then(buffer => {
+
+let decoder = new TextDecoder("utf-8");
+let text = decoder.decode(buffer);
 
 document.getElementById("loader").style.display="none";
 
-// ✅ REMOVE EMPTY ROWS
+// remove empty rows
 const rows = text.split("\n").slice(1).filter(r => r.trim() !== "");
 
 data = rows.map(r=>{
 let cols = r.split(",");
 
-// ✅ SAFE DATA
 return {
 no: cols[0]?.trim() || "",
 name: cols[1]?.trim() || "",
@@ -229,7 +231,7 @@ renderList(filtered);
 
 }
 
-/* POPUP (SAFE INDEX) */
+/* POPUP */
 function showPopup(index){
 
 let d = data[index];
@@ -260,6 +262,7 @@ document.getElementById("popup").style.display="none";
 }
 
 loadData();
+
 </script>
 
 </body>
