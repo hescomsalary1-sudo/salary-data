@@ -319,11 +319,11 @@ window.location = "nomination_form.html";
 }
 
 function checkNominationStatus(){
-
+document.getElementById("loader").style.display = "flex";
 fetch(API_URL + "?user=" + user)
 .then(res=>res.json())
 .then(data=>{
-
+document.getElementById("loader").style.display = "none";
 if(data && data.length > 0){
 
 // 🔢 CALCULATE EXISTING SHARE
