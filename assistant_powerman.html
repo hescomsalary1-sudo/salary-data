@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Details</title>
+
+<style>
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:#f4f6fb;
+}
+
+/* HEADER */
+.top{
+background:linear-gradient(135deg,#2400b7,#3b1eff);
+color:white;
+padding:20px;
+text-align:center;
+font-size:18px;
+font-weight:600;
+}
+
+/* CONTENT */
+.container{
+padding:15px;
+}
+
+.card{
+background:white;
+padding:15px;
+border-radius:15px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+line-height:1.6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="top" id="title">Details</div>
+
+<div class="container">
+<div class="card" id="content"></div>
+</div>
+
+<script>
+
+// get type
+let params = new URLSearchParams(window.location.search);
+let type = params.get("type");
+
+let title = document.getElementById("title");
+let content = document.getElementById("content");
+
+// DATA SWITCH
+if(type==="ask"){
+title.innerText="Ask Questions";
+content.innerHTML=`
+You can raise queries related to salary, deductions, and technical issues.
+Please provide clear details for faster resolution.
+`;
+}
+
+else if(type==="contact"){
+title.innerText="Contact Us";
+content.innerHTML=`
+Email: support@yourapp.com <br>
+Phone: +91 9876543210 <br>
+Working Hours: 9 AM - 6 PM
+`;
+}
+
+else if(type==="help"){
+title.innerText="Help";
+content.innerHTML=`
+• Check salary in Salary page<br>
+• Download payslip from details page<br>
+• Contact admin if issue persists
+`;
+}
+
+else if(type==="privacy"){
+title.innerText="Privacy Policy";
+content.innerHTML=`
+We respect your privacy. Your salary data is secure and not shared with third parties.
+`;
+}
+
+else if(type==="terms"){
+title.innerText="Terms & Conditions";
+content.innerHTML=`
+By using this app, you agree to company policies.
+Unauthorized access is prohibited.
+`;
+}
+
+else if(type==="copyright"){
+title.innerText="Copyright Policy";
+content.innerHTML=`
+All content belongs to the organization. Unauthorized copying is prohibited.
+`;
+}
+
+else if(type==="org"){
+title.innerText="Organization Chart";
+content.innerHTML=`
+CEO → Manager → Team Lead → Employee
+`;
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Resources</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+margin:0;
+font-family:sans-serif;
+background:#f3f4fa;
+padding-bottom:80px;
+}
+
+/* HEADER */
+
+.top{
+padding:20px;
+background:#4b2dd8;
+color:white;
+text-align:center;
+font-size:20px;
+font-weight:bold;
+border-bottom-left-radius:30px;
+border-bottom-right-radius:30px;
+}
+
+/* GRID */
+
+.container{
+padding:20px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:18px;
+text-align:center;
+box-shadow:0 6px 15px rgba(0,0,0,0.08);
+cursor:pointer;
+}
+
+.icon{
+font-size:28px;
+margin-bottom:8px;
+color:#4b2dd8;
+}
+
+.card p{
+margin:0;
+font-size:13px;
+font-weight:bold;
+}
+
+/* NAVBAR */
+
+.navbar{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+height:60px;
+background:white;
+display:flex;
+justify-content:space-around;
+align-items:center;
+box-shadow:0 -4px 15px rgba(0,0,0,0.12);
+}
+
+.nav-item{
+flex:1;
+text-align:center;
+font-size:11px;
+}
+
+.nav-item i{
+font-size:20px;
+color:#777;
+}
+
+.nav-item span{
+display:block;
+color:#777;
+}
+
+.nav-item.active i,
+.nav-item.active span{
+color:#4b2dd8;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="top">Resources</div>
+
+<div class="container">
+
+<div class="card">
+<div class="icon">📄</div>
+<p>Salary Slips</p>
+</div>
+
+<div class="card">
+<div class="icon">📊</div>
+<p>Reports</p>
+</div>
+
+<div class="card">
+<div class="icon">📅</div>
+<p>Holiday List</p>
+</div>
+
+<div class="card">
+<div class="icon">📞</div>
+<p>Contact Admin</p>
+</div>
+
+</div>
+
+<div class="navbar">
+
+<div class="nav-item" onclick="location='home.html'">
+<i>🏠</i>
+<span>Home</span>
+</div>
+
+<div class="nav-item" onclick="location='forum.html'">
+<i>💬</i>
+<span>Forum</span>
+</div>
+
+<div class="nav-item" onclick="location='employee_info.html'">
+<i>👤</i>
+<span>Employee</span>
+</div>
+
+<div class="nav-item active">
+<i>📂</i>
+<span>Resources</span>
+</div>
+
+</div>
+
+</body>
+</html>

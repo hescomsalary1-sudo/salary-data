@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Master Reports</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+font-family:sans-serif;
+margin:0;
+background:#f4f4f9;
+padding-bottom:90px;
+}
+
+/* HEADER */
+.top{
+padding:18px;
+background:#4b2dd8;
+color:white;
+display:flex;
+align-items:center;
+gap:10px;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+}
+
+/* CONTENT */
+.content{
+padding:15px;
+}
+
+/* BUTTON */
+.btn{
+width:100%;
+padding:12px;
+margin-bottom:10px;
+border:none;
+border-radius:10px;
+background:linear-gradient(135deg,#6c39ff,#4b2dd8);
+color:white;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+}
+
+.btn:hover{
+transform:translateY(-2px);
+box-shadow:0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* TABLE */
+.tableBox{
+overflow:auto;
+border-radius:10px;
+box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+font-size:12px;
+min-width:600px;
+}
+
+th,td{
+padding:6px;
+border:1px solid #ddd;
+text-align:left;
+}
+
+th{
+background:#4b2dd8;
+color:white;
+position:sticky;
+top:0;
+}
+
+/* LOADER */
+#loader{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(255,255,255,0.9);
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+.spinner{
+width:40px;
+height:40px;
+border:5px solid #ddd;
+border-top:5px solid #4b2dd8;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="top">
+<h3>🧠 Master Employee Report</h3>
+</div>
+
+<div class="content">
+
+<button class="btn" onclick="loadData()">📊 View Full Data</button>
+<button class="btn" onclick="downloadFullCSV()">⬇ Download Full CSV</button>
+
+<div id="tableArea" class="tableBox"></div>
+
+</div>
+
+<!-- LOADER -->
+<div id="loader">
+<div class="spinner"></div>
+</div>
+
+<script>
+
+/* LOAD CSV */
+
+async function loadCSV(){
+
+let r = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
+let t = await r.text();
+
+// convert into 2D array
+return t.trim().split("\n").map(row => row.split(","));
+
+}
+
+/* SHOW FULL TABLE */
+
+async function loadData(){
+
+loader.style.display="flex";
+
+let data = await loadCSV();
+
+let html = "<table>";
+
+// HEADER
+html += "<tr>";
+data[0].forEach(col=>{
+html += `<th>${col}</th>`;
+});
+html += "</tr>";
+
+// ROWS
+for(let i=1;i<data.length;i++){
+
+html += "<tr>";
+
+data[i].forEach(cell=>{
+html += `<td>${cell}</td>`;
+});
+
+html += "</tr>";
+
+}
+
+html += "</table>";
+
+tableArea.innerHTML = html;
+
+loader.style.display="none";
+
+}
+
+/* 🔥 FIXED CSV DOWNLOAD (ANDROID SUPPORT) */
+
+function downloadFullCSV(){
+
+// direct file URL (important for WebView)
+window.location.href = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
+
+}
+
+</script>
+
+</body>
+</html>
