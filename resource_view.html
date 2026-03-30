@@ -8,7 +8,6 @@ body{
 margin:0;
 font-family:'Segoe UI';
 background:#f4f6fb;
-text-align:center;
 }
 
 /* HEADER */
@@ -16,145 +15,262 @@ text-align:center;
 background:linear-gradient(135deg,#2400b7,#3b1eff);
 color:white;
 padding:20px;
-}
-
-/* TREE */
-.tree ul{
-padding-top:20px;
-position:relative;
-}
-
-.tree li{
-display:inline-block;
 text-align:center;
-list-style:none;
-position:relative;
-padding:20px 5px 0 5px;
 }
 
-/* lines */
-.tree li::before, .tree li::after{
-content:'';
-position:absolute;
-top:0;
-right:50%;
-border-top:2px solid #ccc;
-width:50%;
-height:20px;
-}
-
-.tree li::after{
-right:auto;
-left:50%;
-border-left:2px solid #ccc;
-}
-
-.tree li:only-child::after, .tree li:only-child::before{
-display:none;
-}
-
-.tree li:only-child{ padding-top:0;}
-
-.tree li:first-child::before, .tree li:last-child::after{
-border:none;
-}
-
-.tree ul ul::before{
-content:'';
-position:absolute;
-top:0;
-left:50%;
-border-left:2px solid #ccc;
-width:0;
-height:20px;
-}
-
-/* NODE BOX */
-.node{
+/* TOGGLE */
+.toggle{
+display:flex;
+margin:15px;
 background:white;
-padding:10px 15px;
-border-radius:12px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-display:inline-block;
-min-width:120px;
-font-size:13px;
+border-radius:25px;
+padding:5px;
+box-shadow:0 6px 15px rgba(0,0,0,0.08);
+}
+
+.toggle div{
+flex:1;
+text-align:center;
+padding:10px;
+border-radius:20px;
 font-weight:600;
+cursor:pointer;
+}
+
+.active{
+background:#3b1eff;
+color:white;
+}
+
+/* SUMMARY CARDS */
+.summary{
+display:flex;
+gap:10px;
+padding:0 15px;
+}
+
+.card{
+flex:1;
+background:white;
+border-radius:15px;
+padding:15px;
+text-align:center;
+box-shadow:0 6px 15px rgba(0,0,0,0.08);
+}
+
+.card h3{
+margin:0;
+color:#3b1eff;
+}
+
+.card p{
+margin:5px 0 0;
+font-size:12px;
+color:#777;
+}
+
+/* MONTH */
+.month{
+margin:15px;
+}
+
+.month select{
+width:100%;
+padding:10px;
+border-radius:10px;
+border:1px solid #ddd;
+}
+
+/* LIST */
+.list{
+padding:15px;
+}
+
+.item{
+background:white;
+border-radius:15px;
+padding:12px;
+margin-bottom:10px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 4px 12px rgba(0,0,0,0.06);
+}
+
+.item .left{
+font-size:14px;
+color:#333;
+}
+
+.item .right{
+font-size:12px;
+padding:5px 10px;
+border-radius:15px;
 }
 
 /* COLORS */
-.main{background:#3b1eff;color:white;}
-.sub{background:#2575fc;color:white;}
-.sec{background:#e6f0ff;color:#333;}
+.present{background:#e6f7ee;color:#28a745;}
+.absent{background:#fdecea;color:#dc3545;}
+.leave{background:#fff4e5;color:#ff9800;}
+
+/* EMPTY */
+.empty{
+text-align:center;
+color:#777;
+margin-top:30px;
+}
+
+/* LOADER */
+#loader{
+display:none;
+padding:15px;
+}
+
+.skeleton{
+height:50px;
+border-radius:10px;
+margin-bottom:10px;
+background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
+background-size:400px 100%;
+animation:shimmer 1.2s infinite;
+}
+
+@keyframes shimmer{
+0%{background-position:-400px 0;}
+100%{background-position:400px 0;}
+}
 </style>
 </head>
 
 <body>
 
 <div class="top">
-<h2>🏢 Organization Chart</h2>
+<h2>📊 Records</h2>
 </div>
 
-<div class="tree">
-
-<ul>
-<li>
-<div class="node main">O & M Division<br>HESCOM, Sirsi</div>
-
-<ul>
-
-<!-- Sirsi -->
-<li>
-<div class="node sub">Sirsi Subdivision</div>
-<ul>
-<li><div class="node sec">R-1 Section</div></li>
-<li><div class="node sec">R-2 Section</div></li>
-<li><div class="node sec">Hulekal</div></li>
-<li><div class="node sec">Banavasi</div></li>
-</ul>
-</li>
-
-<!-- Siddapur -->
-<li>
-<div class="node sub">Siddapur Subdivision</div>
-<ul>
-<li><div class="node sec">Town Section</div></li>
-<li><div class="node sec">Rural Section</div></li>
-<li><div class="node sec">Herur</div></li>
-<li><div class="node sec">Bilagi</div></li>
-</ul>
-</li>
-
-<!-- Yellapur -->
-<li>
-<div class="node sub">Yellapur Subdivision</div>
-<ul>
-<li><div class="node sec">Town Section</div></li>
-<li><div class="node sec">Rural Section</div></li>
-<li><div class="node sec">Manchikeri</div></li>
-<li><div class="node sec">Kiravatti</div></li>
-</ul>
-</li>
-
-<!-- Mundgod -->
-<li>
-<div class="node sub">Mundgod Subdivision</div>
-<ul>
-<li><div class="node sec">Mundgod Section</div></li>
-<li><div class="node sec">Malgi Section</div></li>
-</ul>
-</li>
-
-<!-- Accounting -->
-<li>
-<div class="node sub">Sirsi Accounting Section</div>
-</li>
-
-</ul>
-
-</li>
-</ul>
-
+<!-- TOGGLE -->
+<div class="toggle">
+<div id="attTab" class="active" onclick="switchTab('attendance')">Attendance</div>
+<div id="leaveTab" onclick="switchTab('leave')">Leaves</div>
 </div>
+
+<!-- SUMMARY -->
+<div class="summary">
+<div class="card">
+<h3 id="total">0</h3>
+<p>Total Days</p>
+</div>
+<div class="card">
+<h3 id="present">0</h3>
+<p>Present</p>
+</div>
+<div class="card">
+<h3 id="absent">0</h3>
+<p>Absent</p>
+</div>
+</div>
+
+<!-- MONTH -->
+<div class="month">
+<select id="month" onchange="loadData()">
+<option>January</option>
+<option>February</option>
+<option>March</option>
+<option>April</option>
+<option>May</option>
+<option>June</option>
+<option>July</option>
+<option>August</option>
+<option>September</option>
+<option>October</option>
+<option>November</option>
+<option>December</option>
+</select>
+</div>
+
+<!-- LOADER -->
+<div id="loader">
+<div class="skeleton"></div>
+<div class="skeleton"></div>
+<div class="skeleton"></div>
+</div>
+
+<!-- LIST -->
+<div class="list" id="list"></div>
+
+<script>
+
+let currentType = "attendance";
+
+/* SWITCH TAB */
+function switchTab(type){
+
+currentType = type;
+
+document.getElementById("attTab").classList.remove("active");
+document.getElementById("leaveTab").classList.remove("active");
+
+if(type === "attendance"){
+document.getElementById("attTab").classList.add("active");
+}else{
+document.getElementById("leaveTab").classList.add("active");
+}
+
+loadData();
+}
+
+/* LOAD DATA (DEMO DATA NOW) */
+function loadData(){
+
+document.getElementById("loader").style.display="block";
+document.getElementById("list").innerHTML="";
+
+setTimeout(()=>{
+
+document.getElementById("loader").style.display="none";
+
+let html="";
+let total=30, present=22, absent=8;
+
+// SAMPLE DATA
+if(currentType==="attendance"){
+
+for(let i=1;i<=10;i++){
+html+=`
+<div class="item">
+<div class="left">Day ${i}</div>
+<div class="right ${i%2==0?'present':'absent'}">
+${i%2==0?'Present':'Absent'}
+</div>
+</div>`;
+}
+
+}else{
+
+for(let i=1;i<=5;i++){
+html+=`
+<div class="item">
+<div class="left">Leave Day ${i}</div>
+<div class="right leave">Leave</div>
+</div>`;
+}
+
+}
+
+// summary
+document.getElementById("total").innerText = total;
+document.getElementById("present").innerText = present;
+document.getElementById("absent").innerText = absent;
+
+document.getElementById("list").innerHTML = html || `<div class="empty">No data available</div>`;
+
+},800);
+
+}
+
+loadData();
+
+</script>
 
 </body>
 </html>
