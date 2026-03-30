@@ -216,8 +216,8 @@ total += Number(s.value || 0);
 });
 
 // ❌ BLOCK IF NOT 100
-if(total !== 100){
-alert("Total share must be exactly 100%");
+if(total > 100){
+alert("Total share cannot exceed 100%");
 return;
 }
 
@@ -284,17 +284,17 @@ let status = document.getElementById("editShareStatus");
 
 status.innerText = "Total Share: " + total + "%";
 
-// ✅ LESS THAN 100
+// ✅ BELOW 100 (allowed)
 if(total < 100){
 status.style.color = "orange";
 }
 
-// ✅ EXACT 100
+// ✅ EXACT 100 (perfect)
 else if(total === 100){
 status.style.color = "green";
 }
 
-// ❌ MORE THAN 100
+// ❌ ABOVE 100 (not allowed)
 else{
 status.style.color = "red";
 }
