@@ -18,87 +18,49 @@ padding:20px;
 text-align:center;
 }
 
-/* TAB NAVBAR */
+/* MODERN TABS */
 .tabs{
 display:flex;
-gap:10px;
-margin:15px;
+gap:12px;
+padding:15px;
 }
 
 .tab{
 flex:1;
-text-align:center;
-padding:12px;
-font-size:13px;
-font-weight:600;
-cursor:pointer;
-color:#555;
-border-radius:25px;
 background:white;
-box-shadow:0 4px 10px rgba(0,0,0,0.08);
+border-radius:18px;
+padding:15px 10px;
+text-align:center;
+cursor:pointer;
 transition:0.3s;
+box-shadow:0 6px 15px rgba(0,0,0,0.08);
+position:relative;
 }
 
+/* ICON */
+.tab span{
+display:block;
+font-size:22px;
+margin-bottom:5px;
+}
+
+/* TEXT */
+.tab p{
+margin:0;
+font-size:13px;
+font-weight:600;
+color:#555;
+}
+
+/* ACTIVE TAB */
 .tab.active{
 background:linear-gradient(135deg,#2400b7,#3b1eff);
 color:white;
-box-shadow:0 6px 15px rgba(59,30,255,0.3);
+box-shadow:0 8px 20px rgba(59,30,255,0.3);
 }
 
-/* DASHBOARD */
-.dashboard{
-padding:15px;
-}
-
-/* WELCOME CARD */
-.welcome-card{
-background:linear-gradient(135deg,#3b1eff,#6a5cff);
+.tab.active p{
 color:white;
-padding:20px;
-border-radius:18px;
-box-shadow:0 10px 25px rgba(59,30,255,0.25);
-margin-bottom:15px;
-}
-
-.title{
-font-size:18px;
-font-weight:600;
-}
-
-.subtitle{
-font-size:13px;
-opacity:0.9;
-margin-top:5px;
-}
-
-/* GRID */
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-}
-
-/* BOX */
-.box{
-background:white;
-border-radius:16px;
-padding:18px;
-text-align:center;
-font-weight:600;
-color:#333;
-box-shadow:0 6px 15px rgba(0,0,0,0.08);
-transition:0.3s;
-cursor:pointer;
-}
-
-.box:hover{
-transform:translateY(-3px);
-box-shadow:0 10px 20px rgba(0,0,0,0.12);
-}
-
-.icon{
-font-size:28px;
-margin-bottom:8px;
 }
 
 /* LOADER */
@@ -138,48 +100,22 @@ animation:shimmer 1.2s infinite;
 <h2>👤 Employee Info</h2>
 </div>
 
-<!-- NAV TABS -->
+<!-- MODERN NAV TABS -->
 <div class="tabs">
 
 <div class="tab active" onclick="openPage(0,'nomination_form.html')">
-Nomination
+<span>👨‍👩‍👧</span>
+<p>Nomination</p>
 </div>
 
 <div class="tab" onclick="openPage(1,'official_details.html')">
-Official
+<span>📄</span>
+<p>Official</p>
 </div>
 
 <div class="tab" onclick="openPage(2,'enquiries.html')">
-Enquiries
-</div>
-
-</div>
-
-<!-- DASHBOARD (NEW UI) -->
-<div class="dashboard">
-
-<div class="welcome-card">
-<div class="title">Welcome 👋</div>
-<div class="subtitle">Manage your employee details easily</div>
-</div>
-
-<div class="grid">
-
-<div class="box" onclick="openPage(0,'nomination_form.html')">
-<div class="icon">👨‍👩‍👧</div>
-<div>Nomination</div>
-</div>
-
-<div class="box" onclick="openPage(1,'official_details.html')">
-<div class="icon">📄</div>
-<div>Official</div>
-</div>
-
-<div class="box" onclick="openPage(2,'enquiries.html')">
-<div class="icon">❓</div>
-<div>Enquiries</div>
-</div>
-
+<span>❓</span>
+<p>Enquiries</p>
 </div>
 
 </div>
