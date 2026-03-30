@@ -1,151 +1,317 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Resources</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-
 body{
 margin:0;
-font-family:sans-serif;
-background:#f3f4fa;
-padding-bottom:80px;
+font-family:'Segoe UI';
+background:#f4f6fb;
 }
-
-/* HEADER */
 
 .top{
-padding:20px;
-background:#4b2dd8;
+background:linear-gradient(135deg,#ff7a00,#ffb347);
 color:white;
-text-align:center;
-font-size:20px;
-font-weight:bold;
-border-bottom-left-radius:30px;
-border-bottom-right-radius:30px;
-}
-
-/* GRID */
-
-.container{
 padding:20px;
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:15px;
+text-align:center;
+border-bottom-left-radius:20px;
+border-bottom-right-radius:20px;
 }
 
-.card{
+.year-box,.search{padding:10px 15px;}
+
+select,input{
+width:100%;
+padding:12px;
+border-radius:12px;
+border:none;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+.list{padding:10px 15px;}
+
+.item{
+display:flex;
+align-items:center;
+gap:12px;
 background:white;
-padding:20px;
-border-radius:18px;
-text-align:center;
-box-shadow:0 6px 15px rgba(0,0,0,0.08);
+border-radius:15px;
+padding:12px;
+margin-bottom:10px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
 cursor:pointer;
 }
 
-.icon{
-font-size:28px;
-margin-bottom:8px;
-color:#4b2dd8;
-}
-
-.card p{
-margin:0;
-font-size:13px;
+.avatar{
+width:45px;
+height:45px;
+border-radius:50%;
+background:#ff7a00;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
 font-weight:bold;
 }
 
-/* NAVBAR */
+.info{flex:1;}
+.name{font-weight:600;}
+.place{font-size:12px;color:#777;}
 
-.navbar{
+.rank{
+background:#fff0e6;
+color:#ff7a00;
+padding:4px 8px;
+border-radius:10px;
+font-size:12px;
+}
+
+#popup{
 position:fixed;
-bottom:0;
-left:0;
-width:100%;
-height:60px;
-background:white;
-display:flex;
-justify-content:space-around;
+top:0;left:0;width:100%;height:100%;
+background:rgba(0,0,0,0.5);
+display:none;
+justify-content:center;
 align-items:center;
-box-shadow:0 -4px 15px rgba(0,0,0,0.12);
+z-index:999;
 }
 
-.nav-item{
-flex:1;
-text-align:center;
-font-size:11px;
+.popup-box{
+background:white;
+border-radius:20px;
+padding:20px;
+width:90%;
+max-width:400px;
+max-height:85%;
+overflow:auto;
 }
 
-.nav-item i{
-font-size:20px;
-color:#777;
+.details{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+font-size:13px;
 }
 
-.nav-item span{
-display:block;
-color:#777;
+.details div{
+background:#f4f6fb;
+padding:8px;
+border-radius:10px;
 }
 
-.nav-item.active i,
-.nav-item.active span{
-color:#4b2dd8;
+.close{
+margin-top:15px;
+background:#ff7a00;
+color:white;
+border:none;
+padding:10px;
+width:100%;
+border-radius:20px;
 }
 
+#loader{display:none;padding:15px;}
+.skeleton{
+height:60px;
+border-radius:12px;
+margin-bottom:10px;
+background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
+animation:shimmer 1.2s infinite;
+}
+
+@keyframes shimmer{
+0%{background-position:-400px 0;}
+100%{background-position:400px 0;}
+}
 </style>
 </head>
 
 <body>
 
-<div class="top">Resources</div>
-
-<div class="container">
-
-<div class="card">
-<div class="icon">📄</div>
-<p>Salary Slips</p>
+<div class="top">
+<h2>⚡ Junior Powerman Seniority</h2>
 </div>
 
-<div class="card">
-<div class="icon">📊</div>
-<p>Reports</p>
+<div class="year-box">
+<select onchange="changeYear(this.value)">
+<option value="2026">Year 2026</option>
+<option value="2027">Year 2027</option>
+</select>
 </div>
 
-<div class="card">
-<div class="icon">📅</div>
-<p>Holiday List</p>
+<div class="search">
+<input type="text" placeholder="Search employee..." oninput="filterList(this.value)">
 </div>
 
-<div class="card">
-<div class="icon">📞</div>
-<p>Contact Admin</p>
+<div id="loader">
+<div class="skeleton"></div>
+<div class="skeleton"></div>
 </div>
 
+<div class="list" id="list"></div>
+
+<div id="popup">
+<div class="popup-box" id="popupContent"></div>
 </div>
 
-<div class="navbar">
-
-<div class="nav-item" onclick="location='home.html'">
-<i>🏠</i>
-<span>Home</span>
+<!-- NO DATA POPUP -->
+<div id="noDataPopup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);justify-content:center;align-items:center;">
+<div style="background:white;padding:20px;border-radius:20px;text-align:center;width:80%;max-width:300px;">
+<h3>📭 No Data Found</h3>
+<p style="font-size:13px;color:#666;">No records available</p>
+<button onclick="closeNoData()" style="margin-top:10px;background:#ff7a00;color:white;border:none;padding:10px 20px;border-radius:20px;">OK</button>
+</div>
 </div>
 
-<div class="nav-item" onclick="location='forum.html'">
-<i>💬</i>
-<span>Forum</span>
+<script>
+
+const API_URL = "https://script.google.com/macros/s/AKfycbzA9kOuA9YOxAHyO2cee3W76DPpmWB6y5BG3PJBQJhaXcIWcWPTlLiphhJLHf37s0o/exec";
+
+let data = [];
+let currentYear = "2026";
+
+/* DATE FORMAT */
+function formatDate(val){
+if(!val) return "-";
+let d = new Date(val);
+if(isNaN(d)) return val;
+let day = String(d.getDate()).padStart(2,'0');
+let month = String(d.getMonth()+1).padStart(2,'0');
+let year = d.getFullYear();
+return `${day}/${month}/${year}`;
+}
+
+/* LOAD */
+function loadData(){
+
+document.getElementById("loader").style.display="block";
+document.getElementById("list").innerHTML="";
+
+fetch(API_URL + "?year=" + currentYear)
+
+.then(res=>res.json())
+
+.then(json=>{
+
+document.getElementById("loader").style.display="none";
+
+if(!json || json.length===0 || json.status==="error"){
+showNoData();
+return;
+}
+
+data = json.map(d=>({
+no: d["Seniority_No."] || "",
+name: d["Name"] || "",
+rankList: d["Ranking_in_selection_list"] || "",
+year: d["Selection_year"] || "",
+type: d["Recruitment_type"] || "",
+place: d["Working_place"] || "",
+category: d["Category"] || "",
+dob: d["Date_of_Birth"] || "",
+entry: d["Date_of_entry"] || "",
+jm: d["Recruitment_date_of_Junior_powerman"] || "",
+qualification: d["Qualification"] || "",
+remarks: d["Remarks"] || ""
+}));
+
+renderList(data);
+
+})
+
+.catch(()=>{
+document.getElementById("loader").style.display="none";
+showNoData();
+});
+
+}
+
+/* LIST */
+function renderList(list){
+
+let html="";
+
+list.forEach((d,i)=>{
+html+=`
+<div class="item" onclick="showPopup(${i})">
+<div class="avatar">${d.name.charAt(0)}</div>
+
+<div class="info">
+<div class="name">${d.name}</div>
+<div class="place">${d.place}</div>
 </div>
 
-<div class="nav-item" onclick="location='employee_info.html'">
-<i>👤</i>
-<span>Employee</span>
+<div class="rank">#${d.no}</div>
+</div>
+`;
+});
+
+document.getElementById("list").innerHTML=html;
+}
+
+/* SEARCH */
+function filterList(text){
+let f=data.filter(d=>d.name.toLowerCase().includes(text.toLowerCase()));
+renderList(f);
+}
+
+function changeYear(y){
+currentYear=y;
+loadData();
+}
+
+/* POPUP */
+function showPopup(i){
+
+let d=data[i];
+
+document.getElementById("popup").style.display="flex";
+
+document.getElementById("popupContent").innerHTML=`
+<div style="text-align:center">
+<h3>${d.name}</h3>
+<p>${d.place}</p>
 </div>
 
-<div class="nav-item active">
-<i>📂</i>
-<span>Resources</span>
+<div class="details">
+<div><b>No:</b> ${d.no}</div>
+<div><b>Recruitment:</b> ${d.type}</div>
+
+<div><b>Rank List:</b> ${d.rankList}</div>
+<div><b>Selection Year:</b> ${d.year}</div>
+
+<div><b>Category:</b> ${d.category}</div>
+<div><b>DOB:</b> ${formatDate(d.dob)}</div>
+
+<div><b>Entry:</b> ${formatDate(d.entry)}</div>
+<div><b>Junior PM:</b> ${formatDate(d.jm)}</div>
+
+<div><b>Qualification:</b> ${d.qualification}</div>
 </div>
 
+<div style="margin-top:10px;font-size:13px;">
+<b>Remarks:</b><br>${d.remarks}
 </div>
+
+<button class="close" onclick="closePopup()">Close</button>
+`;
+}
+
+function closePopup(){
+document.getElementById("popup").style.display="none";
+}
+
+function showNoData(){
+document.getElementById("noDataPopup").style.display="flex";
+}
+
+function closeNoData(){
+document.getElementById("noDataPopup").style.display="none";
+}
+
+loadData();
+
+</script>
 
 </body>
 </html>
