@@ -328,12 +328,45 @@ fetch(API_URL + "?user=" + user)
 
 if(data && data.length > 0){
 
-// ✅ show message
-document.getElementById("infoText").innerText =
-"Nomination filed. If you want to edit, please click View Nomination and update.";
+// 🔢 CALCULATE TOTAL SHARE
+let total = 0;
+data.forEach(n=>{
+total += Number(n.share || 0);
+});
 
-// ✅ HIDE FORM
+// ✅ CASE 1: FULL 100%
+if(total === 100){
+
+document.getElementById("infoText").innerText =
+"✅ Nomination completed successfully.";
+
+document.getElementById("infoText").style.color = "green";
+
+// hide form
 document.querySelector(".container").style.display = "none";
+
+}
+
+// ⚠️ CASE 2: LESS THAN 100%
+else if(total < 100){
+
+let remaining = 100 - total;
+
+// show warning
+document.getElementById("infoText").innerHTML =
+`⚠ Please complete your nomination. Remaining Share: <b>${remaining}%</b>`;
+
+// highlight
+document.getElementById("infoText").style.color = "red";
+document.getElementById("infoText").style.fontSize = "16px";
+
+// show form
+document.querySelector(".container").style.display = "block";
+
+// OPTIONAL: prefill employee name
+document.getElementById("empName").value = data[0].emp_name || "";
+
+}
 
 }
 
@@ -341,6 +374,7 @@ document.querySelector(".container").style.display = "none";
 .catch(err=>{
 console.log("Error:", err);
 });
+
 }
   checkNominationStatus();
 </script>
