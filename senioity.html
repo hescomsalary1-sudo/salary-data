@@ -18,33 +18,9 @@ padding:20px;
 text-align:center;
 }
 
-/* TABS */
-.tabs{
-display:flex;
-gap:10px;
-padding:15px;
-overflow:auto;
-}
-
-.tab{
-padding:10px 15px;
-border-radius:20px;
-background:white;
-font-size:12px;
-font-weight:600;
-cursor:pointer;
-white-space:nowrap;
-box-shadow:0 4px 10px rgba(0,0,0,0.08);
-}
-
-.tab.active{
-background:#3b1eff;
-color:white;
-}
-
 /* SEARCH */
 .search{
-padding:0 15px;
+padding:15px;
 }
 
 .search input{
@@ -60,49 +36,71 @@ padding:15px;
 }
 
 .item{
-display:flex;
-align-items:center;
-justify-content:space-between;
 background:white;
 border-radius:15px;
 padding:12px;
 margin-bottom:10px;
 box-shadow:0 4px 12px rgba(0,0,0,0.06);
+cursor:pointer;
 }
 
-/* LEFT */
-.left{
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-/* RANK */
 .rank{
 background:#3b1eff;
 color:white;
-padding:6px 10px;
+padding:5px 10px;
 border-radius:12px;
 font-size:12px;
+display:inline-block;
+margin-bottom:5px;
 }
 
-/* NAME */
 .name{
 font-size:14px;
+font-weight:600;
 color:#333;
 }
 
-/* RIGHT */
-.right{
+.place{
 font-size:12px;
 color:#777;
 }
 
-/* EMPTY */
-.empty{
-text-align:center;
-color:#777;
-margin-top:30px;
+/* POPUP */
+#popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.popup-box{
+background:white;
+border-radius:15px;
+padding:20px;
+width:90%;
+max-width:350px;
+max-height:80%;
+overflow:auto;
+}
+
+.popup-box h3{
+margin-top:0;
+}
+
+.close{
+background:#3b1eff;
+color:white;
+padding:10px;
+border:none;
+border-radius:20px;
+margin-top:10px;
+width:100%;
 }
 
 /* LOADER */
@@ -130,94 +128,86 @@ animation:shimmer 1.2s infinite;
 <body>
 
 <div class="top">
-<h2>📊 Seniority</h2>
+<h2>⚡ Powerman Seniority</h2>
 </div>
 
-<!-- TABS -->
-<div class="tabs">
-<div class="tab active" onclick="switchTab('mech')">Mech.Gr-2</div>
-<div class="tab" onclick="switchTab('power')">Powerman</div>
-<div class="tab" onclick="switchTab('junior')">Junior Powerman</div>
-</div>
-
-<!-- SEARCH -->
 <div class="search">
 <input type="text" placeholder="Search employee..." oninput="filterList(this.value)">
 </div>
 
-<!-- LOADER -->
 <div id="loader">
 <div class="skeleton"></div>
 <div class="skeleton"></div>
 <div class="skeleton"></div>
 </div>
 
-<!-- LIST -->
 <div class="list" id="list"></div>
+
+<!-- POPUP -->
+<div id="popup">
+<div class="popup-box" id="popupContent"></div>
+</div>
 
 <script>
 
-let currentType = "mech";
+const CSV_URL = "YOUR_CSV_LINK_HERE"; // 🔥 replace this
+
 let data = [];
 
-/* SWITCH TAB */
-function switchTab(type){
-
-currentType = type;
-
-// active UI
-document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-event.target.classList.add("active");
-
-loadData();
-}
-
-/* LOAD DATA (DEMO NOW) */
+/* LOAD CSV */
 function loadData(){
 
 document.getElementById("loader").style.display="block";
-document.getElementById("list").innerHTML="";
 
-setTimeout(()=>{
+fetch(CSV_URL)
+.then(res=>res.text())
+.then(text=>{
 
 document.getElementById("loader").style.display="none";
 
-// SAMPLE DATA
-data = [];
+const rows = text.split("\n").slice(1);
 
-for(let i=1;i<=15;i++){
-data.push({
-rank:i,
-name:`Employee ${i}`,
-dept: currentType.toUpperCase()
+data = rows.map(r=>{
+let cols = r.split(",");
+return {
+no: cols[0],
+name: cols[1],
+type: cols[2],
+place: cols[3],
+category: cols[4],
+dob: cols[5],
+entry: cols[6],
+jm: cols[7],
+apm: cols[8],
+pm: cols[9],
+qualification: cols[10],
+remarks: cols[11]
+};
 });
-}
 
 renderList(data);
 
-},800);
+});
 
 }
 
-/* RENDER */
+/* RENDER LIST */
 function renderList(list){
 
 let html="";
 
 list.forEach(d=>{
 html+=`
-<div class="item">
-<div class="left">
-<div class="rank">#${d.rank}</div>
+<div class="item" onclick='showPopup(${JSON.stringify(d)})'>
+<div class="rank">#${d.no}</div>
 <div class="name">${d.name}</div>
-</div>
-<div class="right">${d.dept}</div>
+<div class="place">${d.place}</div>
 </div>
 `;
 });
 
 document.getElementById("list").innerHTML =
-html || `<div class="empty">No data found</div>`;
+html || "<div style='text-align:center'>No data</div>";
 }
 
 /* SEARCH */
@@ -229,6 +219,34 @@ d.name.toLowerCase().includes(text.toLowerCase())
 
 renderList(filtered);
 
+}
+
+/* POPUP */
+function showPopup(d){
+
+document.getElementById("popup").style.display="flex";
+
+document.getElementById("popupContent").innerHTML = `
+<h3>${d.name}</h3>
+
+<p><b>Seniority No:</b> ${d.no}</p>
+<p><b>Working Place:</b> ${d.place}</p>
+<p><b>Recruitment Type:</b> ${d.type}</p>
+<p><b>Category:</b> ${d.category}</p>
+<p><b>DOB:</b> ${d.dob}</p>
+<p><b>Date of Entry:</b> ${d.entry}</p>
+<p><b>Junior Powerman:</b> ${d.jm}</p>
+<p><b>APM:</b> ${d.apm}</p>
+<p><b>Powerman:</b> ${d.pm}</p>
+<p><b>Qualification:</b> ${d.qualification}</p>
+<p><b>Remarks:</b> ${d.remarks}</p>
+
+<button class="close" onclick="closePopup()">Close</button>
+`;
+}
+
+function closePopup(){
+document.getElementById("popup").style.display="none";
 }
 
 loadData();
