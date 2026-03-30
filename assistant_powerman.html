@@ -173,7 +173,43 @@ animation:shimmer 1.2s infinite;
 <div id="popup">
 <div class="popup-box" id="popupContent"></div>
 </div>
-
+<!-- NO DATA POPUP -->
+<div id="noDataPopup" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+justify-content:center;
+align-items:center;
+z-index:999;
+">
+<div style="
+background:white;
+padding:20px;
+border-radius:20px;
+text-align:center;
+width:80%;
+max-width:300px;
+">
+<h3>📭 No Data Found</h3>
+<p style="font-size:13px;color:#666;">
+No records available for selected year
+</p>
+<button onclick="closeNoData()" style="
+margin-top:10px;
+background:#0a7cff;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:20px;
+">
+OK
+</button>
+</div>
+</div>
 <script>
 
 const API_URL = "https://script.google.com/macros/s/AKfycbyECa1IzvqqDJecDdFQi-vh27AucfEL2rxowvhcDQQjEcHlkvmPptkznLa5YAgEBec_PA/exec";
@@ -193,11 +229,15 @@ fetch(API_URL + "?type=APM&year=" + currentYear)
 
 document.getElementById("loader").style.display="none";
 
-if(!json || json.length===0){
-document.getElementById("list").innerHTML="<center>No Data</center>";
+if(!json || json.length === 0 || json.status === "error"){
+showNoData();
 return;
 }
-
+.catch(()=>{
+document.getElementById("loader").style.display="none";
+showNoData();
+});
+  
 data = json.map(d=>({
 no: d["Seniority_No."] || "",
 name: d["Name"] || "",
@@ -288,6 +328,14 @@ document.getElementById("popup").style.display="none";
 }
 
 loadData();
+
+  function showNoData(){
+document.getElementById("noDataPopup").style.display="flex";
+}
+
+function closeNoData(){
+document.getElementById("noDataPopup").style.display="none";
+}
 
 </script>
 
