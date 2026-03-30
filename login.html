@@ -373,17 +373,17 @@ if(data.status === "success"){
 localStorage.setItem("currentUser", user);
 localStorage.setItem("role", data.role);
 
-// keep loader ON → smooth transition
+// smooth redirect
 setTimeout(function(){
 window.location = "home.html";
 }, 600);
 
-}
-
 }else{
-document.getElementById("error").innerText="Invalid Username or Password";
-}
 
+document.getElementById("loader").style.display="none"; // hide loader on error
+document.getElementById("error").innerText="Invalid Username or Password";
+
+}
 })
 .catch(err => {
 document.getElementById("loader").style.display="none";
