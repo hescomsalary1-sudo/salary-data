@@ -146,7 +146,7 @@ animation:spin 1s linear infinite;
 <div id="loader"><div class="spinner"></div></div>
 
 <script>
-
+let existingShare = 0;
 const API_URL = "https://script.google.com/macros/s/AKfycbzYMFFE-KfL5JamBrzIUC6oOCqP5eynVS3ksV2kkF-dY6g4J1Y08qdAQKErGg64qNS1BQ/exec";
 const user = localStorage.getItem("currentUser");
 
@@ -200,49 +200,46 @@ shares.forEach(s=>{
 total += Number(s.value || 0);
 });
 
+let allowedTotal = 100 - existingShare;
+
 let status = document.getElementById("shareStatus");
 let addBtn = document.getElementById("addBtn");
 let submitBtn = document.getElementById("submitBtn");
 
-// show total
-status.innerText = "Total Share: " + total + "%";
+// show status
+status.innerText = `Allowed: ${allowedTotal}% | Entered: ${total}%`;
 
-// ✅ CASE 1: LESS THAN 100
-if(total < 100){
+// ✅ LESS THAN ALLOWED
+if(total < allowedTotal){
 
 status.style.color = "orange";
 
-// allow adding more nominees
 addBtn.disabled = false;
 addBtn.style.opacity = "1";
 
-// block submit
 submitBtn.disabled = true;
 submitBtn.style.opacity = "0.5";
 
 }
 
-// ✅ CASE 2: EXACTLY 100
-else if(total === 100){
+// ✅ EXACT MATCH
+else if(total === allowedTotal){
 
 status.style.color = "green";
 
-// stop adding
 addBtn.disabled = true;
 addBtn.style.opacity = "0.5";
 
-// allow submit
 submitBtn.disabled = false;
 submitBtn.style.opacity = "1";
 
 }
 
-// ❌ CASE 3: MORE THAN 100
+// ❌ EXCEEDS
 else{
 
 status.style.color = "red";
 
-// block submit
 submitBtn.disabled = true;
 submitBtn.style.opacity = "0.5";
 
@@ -259,8 +256,10 @@ shares.forEach(s=>{
 total += Number(s.value || 0);
 });
 
-if(total !== 100){
-alert("Total share must be exactly 100%");
+let allowedTotal = 100 - existingShare;
+
+if(total !== allowedTotal){
+alert("You must fill exactly remaining " + allowedTotal + "%");
 return false;
 }
 
@@ -328,11 +327,13 @@ fetch(API_URL + "?user=" + user)
 
 if(data && data.length > 0){
 
-// 🔢 CALCULATE TOTAL SHARE
+// 🔢 CALCULATE EXISTING SHARE
 let total = 0;
 data.forEach(n=>{
 total += Number(n.share || 0);
 });
+
+existingShare = total; // ✅ store
 
 // ✅ CASE 1: FULL 100%
 if(total === 100){
@@ -352,18 +353,16 @@ else if(total < 100){
 
 let remaining = 100 - total;
 
-// show warning
 document.getElementById("infoText").innerHTML =
 `⚠ Please complete your nomination. Remaining Share: <b>${remaining}%</b>`;
 
-// highlight
 document.getElementById("infoText").style.color = "red";
 document.getElementById("infoText").style.fontSize = "16px";
 
 // show form
 document.querySelector(".container").style.display = "block";
 
-// OPTIONAL: prefill employee name
+// prefill name
 document.getElementById("empName").value = data[0].emp_name || "";
 
 }
