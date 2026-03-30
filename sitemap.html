@@ -2,159 +2,162 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>App Sitemap</title>
 
 <style>
 body{
 margin:0;
-font-family:'Segoe UI';
+font-family:'Segoe UI',sans-serif;
 background:#f4f6fb;
-text-align:center;
 }
 
 /* HEADER */
-.top{
+.header{
 background:linear-gradient(135deg,#2400b7,#3b1eff);
 color:white;
 padding:20px;
-}
-
-/* TREE */
-.tree ul{
-padding-top:20px;
-position:relative;
-}
-
-.tree li{
-display:inline-block;
 text-align:center;
-list-style:none;
-position:relative;
-padding:20px 5px 0 5px;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
 }
 
-/* lines */
-.tree li::before, .tree li::after{
-content:'';
-position:absolute;
-top:0;
-right:50%;
-border-top:2px solid #ccc;
-width:50%;
-height:20px;
+/* CONTAINER */
+.container{
+padding:15px;
 }
 
-.tree li::after{
-right:auto;
-left:50%;
-border-left:2px solid #ccc;
-}
-
-.tree li:only-child::after, .tree li:only-child::before{
-display:none;
-}
-
-.tree li:only-child{ padding-top:0;}
-
-.tree li:first-child::before, .tree li:last-child::after{
-border:none;
-}
-
-.tree ul ul::before{
-content:'';
-position:absolute;
-top:0;
-left:50%;
-border-left:2px solid #ccc;
-width:0;
-height:20px;
-}
-
-/* NODE BOX */
-.node{
+/* SECTION */
+.section{
 background:white;
-padding:10px 15px;
-border-radius:12px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-display:inline-block;
-min-width:120px;
-font-size:13px;
-font-weight:600;
+border-radius:20px;
+padding:15px;
+margin-bottom:15px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+.section h3{
+margin:0 0 10px;
+font-size:15px;
+}
+
+/* ITEM */
+.item{
+padding:10px;
+border-radius:10px;
+margin-bottom:8px;
+background:#f4f6fb;
+cursor:pointer;
+transition:0.2s;
+}
+
+.item:hover{
+background:#e8e7ff;
+}
+
+/* SUB ITEMS */
+.sub{
+margin-left:15px;
+border-left:2px dashed #ccc;
+padding-left:10px;
+margin-top:5px;
 }
 
 /* COLORS */
-.main{background:#3b1eff;color:white;}
-.sub{background:#2575fc;color:white;}
-.sec{background:#e6f0ff;color:#333;}
+.salary{border-left:4px solid #4caf50;}
+.payslip{border-left:4px solid #2196f3;}
+.income{border-left:4px solid #ff9800;}
+.reports{border-left:4px solid #9c27b0;}
+.holidays{border-left:4px solid #00bcd4;}
+.leaves{border-left:4px solid #e91e63;}
+.els{border-left:4px solid #795548;}
+.forms{border-left:4px solid #607d8b;}
+.seniority{border-left:4px solid #3b1eff;}
+.account{border-left:4px solid #009688;}
+
+.footer{
+text-align:center;
+padding:15px;
+font-size:12px;
+color:#777;
+}
 </style>
 </head>
 
 <body>
 
-<div class="top">
-<h2>🏢 Organization Chart</h2>
+<div class="header">
+<h2>📍 App Sitemap</h2>
+<p>Complete Navigation Structure</p>
 </div>
 
-<div class="tree">
+<div class="container">
 
-<ul>
-<li>
-<div class="node main">O & M Division<br>HESCOM, Sirsi</div>
+<!-- DASHBOARD -->
+<div class="section">
+<h3>🏠 Dashboard</h3>
 
-<ul>
-
-<!-- Sirsi -->
-<li>
-<div class="node sub">Sirsi Subdivision</div>
-<ul>
-<li><div class="node sec">R-1 Section</div></li>
-<li><div class="node sec">R-2 Section</div></li>
-<li><div class="node sec">Hulekal</div></li>
-<li><div class="node sec">Banavasi</div></li>
-</ul>
-</li>
-
-<!-- Siddapur -->
-<li>
-<div class="node sub">Siddapur Subdivision</div>
-<ul>
-<li><div class="node sec">Town Section</div></li>
-<li><div class="node sec">Rural Section</div></li>
-<li><div class="node sec">Herur</div></li>
-<li><div class="node sec">Bilagi</div></li>
-</ul>
-</li>
-
-<!-- Yellapur -->
-<li>
-<div class="node sub">Yellapur Subdivision</div>
-<ul>
-<li><div class="node sec">Town Section</div></li>
-<li><div class="node sec">Rural Section</div></li>
-<li><div class="node sec">Manchikeri</div></li>
-<li><div class="node sec">Kiravatti</div></li>
-</ul>
-</li>
-
-<!-- Mundgod -->
-<li>
-<div class="node sub">Mundgod Subdivision</div>
-<ul>
-<li><div class="node sec">Mundgod Section</div></li>
-<li><div class="node sec">Malgi Section</div></li>
-</ul>
-</li>
-
-<!-- Accounting -->
-<li>
-<div class="node sub">Sirsi Accounting Section</div>
-</li>
-
-</ul>
-
-</li>
-</ul>
+<div class="item salary" onclick="go('salary.html')">💰 Salary</div>
+<div class="item payslip" onclick="go('payslip.html')">📄 Pay Slip</div>
+<div class="item income" onclick="go('other_income.html')">📊 Other Income</div>
+<div class="item reports" onclick="go('reports.html')">📈 Reports</div>
+<div class="item holidays" onclick="go('holidays.html')">🎉 Holidays</div>
+<div class="item leaves" onclick="go('leaves.html')">📝 Leaves</div>
+<div class="item els" onclick="go('els.html')">📅 EL Surrender</div>
+<div class="item forms" onclick="go('forms.html')">📂 Forms & Formats</div>
 
 </div>
+
+<!-- SENIORITY -->
+<div class="section">
+<h3>⚡ Seniority Module</h3>
+
+<div class="item seniority" onclick="go('seniority.html')">
+⚡ Seniority Home
+</div>
+
+<div class="sub">
+
+<div class="item" onclick="go('junior_powerman.html')">
+→ Junior Powerman
+</div>
+
+<div class="item" onclick="go('assistant_powerman.html')">
+→ Assistant Powerman
+</div>
+
+<div class="item" onclick="go('powerman.html')">
+→ Powerman
+</div>
+
+<div class="item" onclick="go('mech_gr2.html')">
+→ Mech.Gr-2
+</div>
+
+</div>
+
+</div>
+
+<!-- ACCOUNT -->
+<div class="section">
+<h3>👤 Account</h3>
+
+<div class="item account" onclick="go('account.html')">
+👤 My Account
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+© Employee Management App
+</div>
+
+<script>
+function go(page){
+window.location.href = page;
+}
+</script>
 
 </body>
 </html>
