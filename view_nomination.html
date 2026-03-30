@@ -117,22 +117,22 @@ document.getElementById("loader").style.display="none";
 let empName = data.length > 0 ? data[0].emp_name : "";
 
 let html = `
-<div class="card">
-<b>Employee Name:</b> ${empName}
-</div>
-`;
 
-data.forEach(n=>{
-html+=`
-<div class="card">
-<b>${n.name}</b><br>
-Relation: ${n.relation}<br>
-DOB: ${n.dob || '-'}<br>
-Mobile: ${n.mobile || '-'}<br>
-Address: ${n.address || '-'}<br>
-Share: ${n.share}%<br>
-Aadhar: ${n.aadhar || '-'}<br>
-Guardian: ${n.guardian || '-'}
+<!-- EMPLOYEE CARD -->
+<div style="
+background:linear-gradient(135deg,#3b1eff,#6a5cff);
+color:white;
+padding:20px;
+border-radius:18px;
+margin-bottom:15px;
+box-shadow:0 8px 20px rgba(59,30,255,0.25);
+">
+
+<div style="font-size:13px;opacity:0.8;">Employee</div>
+<div style="font-size:20px;font-weight:600;margin-top:5px;">
+${empName || "Not Available"}
+</div>
+
 </div>
 `;
 });
