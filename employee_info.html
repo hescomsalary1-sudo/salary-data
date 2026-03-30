@@ -34,17 +34,14 @@ text-align:center;
 cursor:pointer;
 transition:0.3s;
 box-shadow:0 6px 15px rgba(0,0,0,0.08);
-position:relative;
 }
 
-/* ICON */
 .tab span{
 display:block;
 font-size:22px;
 margin-bottom:5px;
 }
 
-/* TEXT */
 .tab p{
 margin:0;
 font-size:13px;
@@ -52,7 +49,6 @@ font-weight:600;
 color:#555;
 }
 
-/* ACTIVE TAB */
 .tab.active{
 background:linear-gradient(135deg,#2400b7,#3b1eff);
 color:white;
@@ -61,6 +57,37 @@ box-shadow:0 8px 20px rgba(59,30,255,0.3);
 
 .tab.active p{
 color:white;
+}
+
+/* ILLUSTRATION SECTION */
+.hero{
+margin:15px;
+background:white;
+border-radius:20px;
+padding:20px;
+text-align:center;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* IMAGE */
+.hero img{
+width:100%;
+max-width:220px;
+margin-bottom:15px;
+}
+
+/* TITLE */
+.hero h3{
+margin:0;
+font-size:18px;
+color:#333;
+}
+
+/* TEXT */
+.hero p{
+font-size:13px;
+color:#666;
+margin-top:5px;
 }
 
 /* LOADER */
@@ -100,7 +127,7 @@ animation:shimmer 1.2s infinite;
 <h2>👤 Employee Info</h2>
 </div>
 
-<!-- MODERN NAV TABS -->
+<!-- MODERN NAV -->
 <div class="tabs">
 
 <div class="tab active" onclick="openPage(0,'nomination_form.html')">
@@ -117,6 +144,20 @@ animation:shimmer 1.2s infinite;
 <span>❓</span>
 <p>Enquiries</p>
 </div>
+
+</div>
+
+<!-- NEW BEAUTIFUL SECTION -->
+<div class="hero">
+
+<img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+
+<h3>Manage Your Employee Details</h3>
+
+<p>
+Easily update your nomination, official details and enquiries.<br>
+Keep your profile up to date.
+</p>
 
 </div>
 
