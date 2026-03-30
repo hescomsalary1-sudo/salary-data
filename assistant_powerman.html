@@ -2,112 +2,292 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Details</title>
 
 <style>
 body{
 margin:0;
-font-family:'Segoe UI',sans-serif;
+font-family:'Segoe UI';
 background:#f4f6fb;
 }
 
 /* HEADER */
 .top{
-background:linear-gradient(135deg,#2400b7,#3b1eff);
+background:linear-gradient(135deg,#0a7cff,#00c6ff);
 color:white;
 padding:20px;
 text-align:center;
-font-size:18px;
-font-weight:600;
+border-bottom-left-radius:20px;
+border-bottom-right-radius:20px;
 }
 
-/* CONTENT */
-.container{
-padding:15px;
+/* YEAR */
+.year-box{padding:10px 15px;}
+.year-box select{
+width:100%;
+padding:10px;
+border-radius:10px;
+border:none;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }
 
-.card{
+/* SEARCH */
+.search{padding:10px 15px;}
+.search input{
+width:100%;
+padding:12px;
+border-radius:12px;
+border:none;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* LIST */
+.list{padding:10px 15px;}
+
+.item{
+display:flex;
+align-items:center;
+gap:12px;
 background:white;
-padding:15px;
 border-radius:15px;
+padding:12px;
+margin-bottom:10px;
 box-shadow:0 4px 12px rgba(0,0,0,0.08);
-line-height:1.6;
+cursor:pointer;
+}
+
+/* AVATAR */
+.avatar{
+width:45px;
+height:45px;
+border-radius:50%;
+background:#0a7cff;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+}
+
+.info{flex:1;}
+.name{font-size:14px;font-weight:600;}
+.place{font-size:12px;color:#777;}
+
+.rank{
+background:#e6f2ff;
+color:#0a7cff;
+padding:4px 8px;
+border-radius:10px;
+font-size:12px;
+}
+
+/* POPUP */
+#popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.popup-box{
+background:white;
+border-radius:20px;
+padding:20px;
+width:90%;
+max-width:400px;
+max-height:85%;
+overflow:auto;
+}
+
+.popup-header{text-align:center;margin-bottom:10px;}
+
+.details{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+font-size:13px;
+}
+
+.details div{
+background:#f4f6fb;
+padding:8px;
+border-radius:10px;
+}
+
+.close{
+margin-top:15px;
+background:#0a7cff;
+color:white;
+border:none;
+padding:10px;
+width:100%;
+border-radius:20px;
+}
+
+/* LOADER */
+#loader{display:none;padding:15px;}
+.skeleton{
+height:60px;
+border-radius:12px;
+margin-bottom:10px;
+background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
+animation:shimmer 1.2s infinite;
+}
+
+@keyframes shimmer{
+0%{background-position:-400px 0;}
+100%{background-position:400px 0;}
 }
 </style>
 </head>
 
 <body>
 
-<div class="top" id="title">Details</div>
+<div class="top">
+<h2>⚡ Assistant Powerman Seniority</h2>
+</div>
 
-<div class="container">
-<div class="card" id="content"></div>
+<div class="year-box">
+<select onchange="changeYear(this.value)">
+<option value="2026">Year 2026</option>
+<option value="2027">Year 2027</option>
+</select>
+</div>
+
+<div class="search">
+<input type="text" placeholder="Search employee..." oninput="filterList(this.value)">
+</div>
+
+<div id="loader">
+<div class="skeleton"></div>
+<div class="skeleton"></div>
+</div>
+
+<div class="list" id="list"></div>
+
+<div id="popup">
+<div class="popup-box" id="popupContent"></div>
 </div>
 
 <script>
 
-// get type
-let params = new URLSearchParams(window.location.search);
-let type = params.get("type");
+const API_URL = "PASTE_YOUR_WEBAPP_URL_HERE";
 
-let title = document.getElementById("title");
-let content = document.getElementById("content");
+let data = [];
+let currentYear = "2026";
 
-// DATA SWITCH
-if(type==="ask"){
-title.innerText="Ask Questions";
-content.innerHTML=`
-You can raise queries related to salary, deductions, and technical issues.
-Please provide clear details for faster resolution.
+/* LOAD */
+function loadData(){
+
+document.getElementById("loader").style.display="block";
+document.getElementById("list").innerHTML="";
+
+fetch(API_URL + "?type=APM&year=" + currentYear)
+.then(res=>res.json())
+.then(json=>{
+
+document.getElementById("loader").style.display="none";
+
+if(!json || json.length===0){
+document.getElementById("list").innerHTML="<center>No Data</center>";
+return;
+}
+
+data = json.map(d=>({
+no: d["Seniority_No."] || "",
+name: d["Name"] || "",
+place: d["Working_place"] || "",
+type: d["Recruitment_type"] || "",
+category: d["Category"] || "",
+dob: d["Date_of_Birth"] || "",
+entry: d["Date_of_entry"] || "",
+jm: d["Recruitment_date_of_Junior_powerman"] || "",
+apm: d["Date_of_recruitment_promotion_as_APM"] || "",
+qualification: d["Qualification"] || "",
+remarks: d["Remarks"] || ""
+}));
+
+renderList(data);
+
+});
+}
+
+/* LIST */
+function renderList(list){
+
+let html="";
+
+list.forEach((d,i)=>{
+html+=`
+<div class="item" onclick="showPopup(${i})">
+<div class="avatar">${d.name.charAt(0)}</div>
+
+<div class="info">
+<div class="name">${d.name}</div>
+<div class="place">${d.place}</div>
+</div>
+
+<div class="rank">#${d.no}</div>
+</div>
+`;
+});
+
+document.getElementById("list").innerHTML=html;
+}
+
+/* SEARCH */
+function filterList(text){
+let f=data.filter(d=>d.name.toLowerCase().includes(text.toLowerCase()));
+renderList(f);
+}
+
+/* YEAR */
+function changeYear(y){
+currentYear=y;
+loadData();
+}
+
+/* POPUP */
+function showPopup(i){
+
+let d=data[i];
+
+document.getElementById("popup").style.display="flex";
+
+document.getElementById("popupContent").innerHTML=`
+<div class="popup-header">
+<h3>${d.name}</h3>
+<p>${d.place}</p>
+</div>
+
+<div class="details">
+<div><b>No:</b> ${d.no}</div>
+<div><b>Category:</b> ${d.category}</div>
+<div><b>DOB:</b> ${d.dob}</div>
+<div><b>Entry:</b> ${d.entry}</div>
+<div><b>Junior PM:</b> ${d.jm}</div>
+<div><b>APM:</b> ${d.apm}</div>
+<div><b>Qualification:</b> ${d.qualification}</div>
+</div>
+
+<div style="margin-top:10px;font-size:13px;">
+<b>Remarks:</b><br>${d.remarks}
+</div>
+
+<button class="close" onclick="closePopup()">Close</button>
 `;
 }
 
-else if(type==="contact"){
-title.innerText="Contact Us";
-content.innerHTML=`
-Email: support@yourapp.com <br>
-Phone: +91 9876543210 <br>
-Working Hours: 9 AM - 6 PM
-`;
+function closePopup(){
+document.getElementById("popup").style.display="none";
 }
 
-else if(type==="help"){
-title.innerText="Help";
-content.innerHTML=`
-• Check salary in Salary page<br>
-• Download payslip from details page<br>
-• Contact admin if issue persists
-`;
-}
-
-else if(type==="privacy"){
-title.innerText="Privacy Policy";
-content.innerHTML=`
-We respect your privacy. Your salary data is secure and not shared with third parties.
-`;
-}
-
-else if(type==="terms"){
-title.innerText="Terms & Conditions";
-content.innerHTML=`
-By using this app, you agree to company policies.
-Unauthorized access is prohibited.
-`;
-}
-
-else if(type==="copyright"){
-title.innerText="Copyright Policy";
-content.innerHTML=`
-All content belongs to the organization. Unauthorized copying is prohibited.
-`;
-}
-
-else if(type==="org"){
-title.innerText="Organization Chart";
-content.innerHTML=`
-CEO → Manager → Team Lead → Employee
-`;
-}
+loadData();
 
 </script>
 
