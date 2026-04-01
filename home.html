@@ -882,28 +882,42 @@ let innerLoaded = false;
 
 function loadInnerPage(){
 
+if(innerLoaded) return;   // 🔥 prevent duplicate load
+
 fetch("home_inner.html")
 .then(res => res.text())
 .then(data => {
 
 document.getElementById("mainContent").innerHTML = data;
 
-// show home
+// show only home
+document.querySelectorAll(".page").forEach(el=>{
+  el.style.display = "none";
+});
+
 let home = document.getElementById("home");
 if(home){
   home.style.display = "block";
 }
 
-// ✅ NOW call functions
+// set navbar default
+let items = document.querySelectorAll(".nav-item");
+items.forEach(item => item.classList.remove("active"));
+items[0].classList.add("active");
+
+document.getElementById("navbar").className = "navbar pos0";
+
+// call functions
 loadNews();
 loadUserProfile();
 loadCurrentMonthSalary();
 loadAttendance();
 trackUsers();
 
+innerLoaded = true;   // 🔥 mark loaded
+
 });
 }
-
 /* UNIQUE USER TRACKING */
 
 function trackUsers(){
