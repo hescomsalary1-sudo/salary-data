@@ -964,10 +964,6 @@ loadCurrentMonthSalary();
 
 function goTab(index, page){
 
-// show loader (optional)
-document.getElementById("loader").style.display = "flex";
-document.body.style.overflow = "hidden";
-
 // active tab UI
 let navbar = document.getElementById("navbar");
 navbar.className = "navbar pos" + index;
@@ -976,9 +972,7 @@ let items = document.querySelectorAll(".nav-item");
 items.forEach(item => item.classList.remove("active"));
 items[index].classList.add("active");
 
-// switch page (NO navigation)
-setTimeout(function(){
-
+// switch page (instant, no blink)
 document.querySelectorAll(".page").forEach(el=>{
 el.style.display="none";
 });
@@ -988,12 +982,6 @@ let selected = document.getElementById(page);
 if(selected){
 selected.style.display="block";
 }
-
-// hide loader
-document.getElementById("loader").style.display = "none";
-document.body.style.overflow = "auto";
-
-},150);
 
 }
 
