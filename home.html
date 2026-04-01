@@ -583,7 +583,7 @@ color:#777;
 
 </div>
 
-<div class="content">
+<div class="content" id="mainContent">
 
 <!-- SALARY CARD -->
 
@@ -983,8 +983,12 @@ window.location = url;
 }
 
 window.onload = function(){
+
+loadInnerPage(); // 🔥 ADD THIS
+
 document.getElementById("loader").style.display="none";
 document.body.style.overflow="auto";
+
 };
 
 
@@ -1156,7 +1160,20 @@ console.log("Error:", e);
 
 loadAttendance();
 
+function loadInnerPage(){
 
+fetch("home_inner.html")
+.then(res => res.text())
+.then(data => {
+
+document.getElementById("mainContent").innerHTML = data;
+
+// show default page
+document.getElementById("home").style.display = "block";
+
+});
+
+}
 </script>
 
 
