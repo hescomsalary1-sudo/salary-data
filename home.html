@@ -985,15 +985,25 @@ selected.style.display="block";
 
 }
 
-window.onload = function(){
+let innerLoaded = false;
 
-loadInnerPage(); // 🔥 ADD THIS
+function loadInnerPage(){
 
-document.getElementById("loader").style.display="none";
-document.body.style.overflow="auto";
+if(innerLoaded) return;   // 🔥 prevents reload
 
-};
+fetch("home_inner.html")
+.then(res => res.text())
+.then(data => {
 
+document.getElementById("mainContent").innerHTML = data;
+
+document.getElementById("home").style.display = "block";
+
+innerLoaded = true;  // mark loaded
+
+});
+
+}
 
 /* UNIQUE USER TRACKING */
 
