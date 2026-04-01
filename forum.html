@@ -359,5 +359,27 @@ window.location = "others_forum.html?type=" + type;
 </div>
 
 </div>
+  <script>
+function goTab(index, url){
+
+// show loader (optional)
+let loader = document.getElementById("loader");
+if(loader){
+  loader.style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
+
+// update active UI
+let items = document.querySelectorAll(".nav-item");
+items.forEach(item => item.classList.remove("active"));
+items[index].classList.add("active");
+
+// delay navigation
+setTimeout(function(){
+  window.location = url;
+}, 500);
+
+}
+</script>
 </body>
 </html>
