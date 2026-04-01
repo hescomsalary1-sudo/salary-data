@@ -892,7 +892,7 @@ let innerLoaded = false;
 
 function loadInnerPage(){
 
-if(innerLoaded) return;   // 🔥 prevent duplicate load
+if(innerLoaded) return;   // 🔥 prevent double loading
 
 fetch("home_inner.html")
 .then(res => res.text())
@@ -900,33 +900,38 @@ fetch("home_inner.html")
 
 document.getElementById("mainContent").innerHTML = data;
 
-// show only home
+// 🔥 hide all pages first
 document.querySelectorAll(".page").forEach(el=>{
   el.style.display = "none";
 });
 
+// 🔥 show only home page
 let home = document.getElementById("home");
 if(home){
   home.style.display = "block";
 }
 
-// set navbar default
+// 🔥 set navbar default (Home active)
 let items = document.querySelectorAll(".nav-item");
 items.forEach(item => item.classList.remove("active"));
 items[0].classList.add("active");
 
 document.getElementById("navbar").className = "navbar pos0";
 
-// call functions
+// 🔥 NOW run all functions AFTER load
 loadNews();
 loadUserProfile();
 loadCurrentMonthSalary();
 loadAttendance();
 trackUsers();
 
-innerLoaded = true;   // 🔥 mark loaded
+innerLoaded = true;   // mark as loaded
 
+})
+.catch(err=>{
+console.log("Error loading inner page:", err);
 });
+
 }
 /* UNIQUE USER TRACKING */
 
