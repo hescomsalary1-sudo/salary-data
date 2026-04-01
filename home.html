@@ -1069,20 +1069,9 @@ console.log("Error:", e);
 
 loadAttendance();
 
-function loadInnerPage(){
-
-fetch("home_inner.html")
-.then(res => res.text())
-.then(data => {
-
-document.getElementById("mainContent").innerHTML = data;
-
-// show default page
-document.getElementById("home").style.display = "block";
-
-});
-
-}
+window.onload = function(){
+  loadInnerPage();
+};
 </script>
 
 
