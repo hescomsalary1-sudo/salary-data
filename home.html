@@ -857,17 +857,8 @@ document.getElementById("netSalary").innerText="--";
 
 function goTab(index, page){
 
-let container = document.getElementById("mainContent");
-
-// hide all pages
-let pages = container.querySelectorAll(".page");
-pages.forEach(el => el.style.display = "none");
-
-// show selected
-let selected = container.querySelector("#" + page);
-if(selected){
-  selected.style.display = "block";
-}
+// show page
+showPage(page);
 
 // navbar UI
 let navbar = document.getElementById("navbar");
@@ -884,18 +875,21 @@ fetch("home_inner.html")
 .then(res => res.text())
 .then(data => {
 
-// load content ONCE
-document.getElementById("mainContent").innerHTML = data;
+let container = document.getElementById("mainContent");
 
-// use navigation system
-goTab(0, "home");
+// load ONCE
+container.innerHTML = data;
 
-// reset navbar
-let items = document.querySelectorAll(".nav-item");
-items.forEach(item => item.classList.remove("active"));
-items[0].classList.add("active");
+// cache pages (IMPORTANT)
+window.pages = {
+  home: container.querySelector("#home"),
+  forum: container.querySelector("#forum"),
+  employee: container.querySelector("#employee_info"),
+  resources: container.querySelector("#resources")
+};
 
-document.getElementById("navbar").className = "navbar pos0";
+// show default
+showPage("home");
 
 // load data AFTER DOM ready
 loadNews();
@@ -906,7 +900,7 @@ trackUsers();
 
 })
 .catch(err=>{
-console.log("Error loading inner page:", err);
+console.log(err);
 });
 
 }
@@ -1078,6 +1072,20 @@ console.log("Error:", e);
 window.onload = function(){
   loadInnerPage();
 };
+
+
+  function showPage(page){
+
+// hide all
+Object.values(window.pages).forEach(p=>{
+  if(p) p.style.display = "none";
+});
+
+// show selected
+if(window.pages[page]){
+  window.pages[page].style.display = "block";
+}
+}
 </script>
 
 
