@@ -857,21 +857,19 @@ document.getElementById("netSalary").innerText="--";
 
 function goTab(index, page){
 
-// 🔥 ONLY search inside mainContent (IMPORTANT)
 let container = document.getElementById("mainContent");
 
 // hide all pages
 let pages = container.querySelectorAll(".page");
 pages.forEach(el => el.style.display = "none");
 
-// show selected page
+// show selected
 let selected = container.querySelector("#" + page);
-
 if(selected){
   selected.style.display = "block";
 }
 
-// update navbar
+// navbar UI
 let navbar = document.getElementById("navbar");
 navbar.className = "navbar pos" + index;
 
@@ -886,18 +884,20 @@ fetch("home_inner.html")
 .then(res => res.text())
 .then(data => {
 
+// load content ONCE
+document.getElementById("mainContent").innerHTML = data;
 
-// 🔥 use navigation system
+// use navigation system
 goTab(0, "home");
 
-// 🔥 reset navbar
+// reset navbar
 let items = document.querySelectorAll(".nav-item");
 items.forEach(item => item.classList.remove("active"));
 items[0].classList.add("active");
 
 document.getElementById("navbar").className = "navbar pos0";
 
-// 🔥 load data
+// load data AFTER DOM ready
 loadNews();
 loadUserProfile();
 loadCurrentMonthSalary();
