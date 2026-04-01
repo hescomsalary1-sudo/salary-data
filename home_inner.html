@@ -1,0 +1,145 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+<title>Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+font-family:sans-serif;
+margin:0;
+background: linear-gradient(135deg, #f7f8fc, #edf5ff);
+padding-bottom:75px;
+}
+
+/* MODERN SOLID NAVBAR */
+
+.navbar{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+height:68px;
+
+background:#ffffff;
+display:flex;
+justify-content:space-around;
+align-items:center;
+
+border-top:1px solid #e5e7eb;
+box-shadow:0 -3px 12px rgba(0,0,0,0.06);
+
+z-index:1000;
+}
+
+/* NAV ITEM */
+.nav-item{
+flex:1;
+text-align:center;
+cursor:pointer;
+position:relative;
+padding-top:6px;
+transition:0.25s;
+}
+
+/* ICON */
+.nav-icon{
+font-size:22px;
+color:#9ca3af;
+transition:0.3s;
+}
+
+/* TEXT */
+.nav-item span{
+display:block;
+font-size:11px;
+margin-top:3px;
+color:#9ca3af;
+transition:0.3s;
+}
+
+/* ACTIVE STYLE */
+.nav-item.active .nav-icon{
+color:#2400b7;
+transform:scale(1.15);
+}
+
+.nav-item.active span{
+color:#2400b7;
+font-weight:600;
+}
+
+/* TOP INDICATOR BAR */
+.nav-item.active::before{
+content:"";
+position:absolute;
+top:0;
+left:20%;
+width:60%;
+height:4px;
+border-radius:10px;
+background:linear-gradient(135deg,#2400b7,#3b1eff);
+}
+
+/* CLICK EFFECT */
+.nav-item:active{
+transform:scale(0.92);
+}
+
+/* POSITIONS */
+
+.navbar.pos0 .slider{ left:3%; }
+
+.navbar.pos1 .slider{ left:28%; }
+
+.navbar.pos2 .slider{ left:53%; }
+
+.navbar.pos3 .slider{ left:78%; }
+
+/* optional hover */
+.gallery-btn:hover{
+background:#f3f0ff;
+}
+
+
+.visitor-row{
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:15px;
+}
+</style>
+</head>
+
+<body>
+
+
+
+
+<div class="navbar pos0" id="navbar">
+
+
+
+<div class="nav-item active" onclick="goTab(0,'home.html')">
+<div class="nav-icon">🏠</div>
+<span>Home</span>
+</div>
+
+<div class="nav-item" onclick="goTab(1,'forum.html')">
+<div class="nav-icon">💬</div>
+<span>Forum</span>
+</div>
+
+<div class="nav-item" onclick="goTab(2,'employee_info.html')">
+<div class="nav-icon">👤</div>
+<span>Employee</span>
+</div>
+
+<div class="nav-item" onclick="goTab(3,'resources.html')">
+<div class="nav-icon">📂</div>
+<span>Resources</span>
+</div>
+
+</div>
