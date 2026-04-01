@@ -857,27 +857,28 @@ document.getElementById("netSalary").innerText="--";
 
 function goTab(index, page){
 
-// 🔥 update navbar UI
+// 🔥 always get fresh pages AFTER load
+let pages = document.querySelectorAll("#mainContent .page");
+
+// hide all pages
+pages.forEach(el=>{
+  el.style.display = "none";
+});
+
+// show selected page
+let selected = document.querySelector("#mainContent #" + page);
+
+if(selected){
+  selected.style.display = "block";
+}
+
+// update navbar UI
 let navbar = document.getElementById("navbar");
 navbar.className = "navbar pos" + index;
 
 let items = document.querySelectorAll(".nav-item");
 items.forEach(item => item.classList.remove("active"));
 items[index].classList.add("active");
-
-// 🔥 hide all pages
-document.querySelectorAll(".page").forEach(el=>{
-  el.style.display = "none";
-});
-
-// 🔥 show selected page
-let selected = document.getElementById(page);
-
-if(selected){
-  selected.style.display = "block";
-}else{
-  console.log("Page not found:", page);
-}
 
 }
 function loadInnerPage(){
@@ -896,11 +897,7 @@ pages.forEach(el=>{
 });
 
 // 🔥 show only home
-let home = document.getElementById("home");
-if(home){
-  home.style.display = "block";
-}
-
+goTab(0, 'home');
 // 🔥 reset navbar to home
 let items = document.querySelectorAll(".nav-item");
 items.forEach(item => item.classList.remove("active"));
