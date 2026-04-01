@@ -214,21 +214,20 @@ margin-bottom:4px;
 /* LOADER (FULL SCREEN SKELETON) */
 
 #loader{
-position:absolute;
+position:fixed;
 top:0;
 left:0;
-width:100%;
-height:100%;
+width:100vw;
+height:100vh;
 background:#f3f4fa;
 display:none;
 flex-direction:column;
 padding:20px;
 gap:15px;
-z-index:500;
+z-index:99999; /* 🔥 very important */
+overflow:hidden;
 }
-  #mainContent{
-position:relative;
-}
+
 /* shimmer */
 @keyframes shimmer{
 0%{background-position:-400px 0;}
@@ -584,29 +583,132 @@ color:#777;
 
 </div>
 
-<div class="content" id="mainContent"></div>
+<div class="content">
+
+<!-- SALARY CARD -->
+
+<div class="salary-card">
+
+<div class="salary-info">
+<h3>Last Month Salary</h3>
+<div class="salary-amount">₹<span id="netSalary">--</span></div>
+<div style="font-size:14px;opacity:0.9;">Net Pay</div>
+
+<!-- QUICK INFO BUTTON -->
+<div class="quick-info-btn" onclick="openLastSalary()">
+  Quick Info ➜
+</div>
+</div>
+
+<img src="https://cdn-icons-png.flaticon.com/512/3135/3135679.png">
+
+</div
+  <!-- VISITOR COUNT -->
+
+<div class="visitor-row">
+
+  <!-- USER COUNT -->
+  <div class="visitor-box">
+    Users: <span id="visitorCount">1</span>
+  </div>
+
+
+  <!-- GALLERY BUTTON -->
+  <div class="gallery-arrow" onclick="openGallery()">
+    Visit to Photo Gallery
+  </div>
+
+</div>
+<div class="att-header">
+  <div class="att-title">📊 Attendance Report</div>
+  <div class="att-date">This Month</div>
+</div>
+<div class="chart-box">
+
+  <!-- LEFT DONUT -->
+  <div class="donut" id="donutChart">
+    <div class="center">
+      <span id="percentText">0%</span>
+    </div>
+  </div>
+
+  <!-- RIGHT DETAILS -->
+  <div class="legend">
+    <div><span><span class="dot green"></span> Present</span> <b id="presentVal">0%</b></div>
+    <div><span><span class="dot green"></span> Late</span> <b id="lateVal">0%</b></div>
+    <div><span><span class="dot yellow"></span> Leave</span> <b id="leaveVal">0%</b></div>
+    <div><span><span class="dot red"></span> Absent</span> <b id="absentVal">0%</b></div>
+  </div>
+
+</div>
+
+<!-- MAIN BUTTONS -->
+
+<div class="grid-main">
+
+<div class="card" onclick="showLoader('accounts.html')">
+<div class="circle">👤</div>
+<p>My Accounts</p>
+</div>
+
+<div class="card" onclick="showLoader('menu.html')">
+<div class="circle">💰</div>
+<p>Salary</p>
+</div>
+
+<div class="card" onclick="showLoader('page3.html')">
+<div class="circle">📅</div>
+<p>Non-salary Income</p>
+</div>
+
+<div class="card" onclick="showLoader('page4.html')">
+<div class="circle">📝</div>
+<p>Forms & Formats</p>
+</div>
+</div>
+
+<!-- SMALL BUTTONS -->
+
+<div class="grid-small">
+
+<div class="small-card settings" onclick="showLoader('page5.html')">
+⚙ Settings
+</div>
+
+<div class="small-card about" onclick="showLoader('page2.html')">
+ℹ About us
+</div>
+
+</div>
+
+<div class="news-box">
+<h3>📢 What's New?</h3>
+<div id="newsData">Loading updates...</div>
+</div>
+
+</div>
 
 
 <div class="navbar pos0" id="navbar">
 
 
 
-<div class="nav-item active" onclick="goTab(0,'home')">
+<div class="nav-item active" onclick="goTab(0,'home.html')">
 <div class="nav-icon">🏠</div>
 <span>Home</span>
 </div>
 
-<div class="nav-item" onclick="goTab(1,'forum')">
+<div class="nav-item" onclick="goTab(1,'forum.html')">
 <div class="nav-icon">💬</div>
 <span>Forum</span>
 </div>
 
-<div class="nav-item" onclick="goTab(2,'employee_info')">
+<div class="nav-item" onclick="goTab(2,'employee_info.html')">
 <div class="nav-icon">👤</div>
 <span>Employee</span>
 </div>
 
-<div class="nav-item" onclick="goTab(3,'resources')">
+<div class="nav-item" onclick="goTab(3,'resources.html')">
 <div class="nav-icon">📂</div>
 <span>Resources</span>
 </div>
@@ -699,6 +801,7 @@ document.getElementById("newsData").innerHTML="Unable to load updates.";
 
 }
 
+loadNews();
 
 if(localStorage.getItem("darkMode")==="true"){
 document.body.classList.add("dark-mode");
@@ -744,6 +847,8 @@ document.getElementById("empName").innerText=loginUser;
 }
 
 }
+
+loadUserProfile();
 
 function logout(){
 
@@ -854,13 +959,15 @@ document.getElementById("netSalary").innerText="--";
 
 }
 
+loadCurrentMonthSalary();
 
-function goTab(index, page){
+function goTab(index, url){
 
-// show page
-showPage(page);
+// show loader
+document.getElementById("loader").style.display = "flex";
+document.body.style.overflow = "hidden";
 
-// navbar UI
+// update active UI
 let navbar = document.getElementById("navbar");
 navbar.className = "navbar pos" + index;
 
@@ -868,42 +975,19 @@ let items = document.querySelectorAll(".nav-item");
 items.forEach(item => item.classList.remove("active"));
 items[index].classList.add("active");
 
+// delay navigation (smooth feel)
+setTimeout(function(){
+window.location = url;
+}, 800);  // you can change 800 → 500 or 1000
+
 }
-function loadInnerPage(){
 
-fetch("home_inner.html")
-.then(res => res.text())
-.then(data => {
-
-let container = document.getElementById("mainContent");
-
-// load ONCE
-container.innerHTML = data;
-
-// cache pages (IMPORTANT)
-window.pages = {
-  home: container.querySelector("#home"),
-  forum: container.querySelector("#forum"),
-  employee: container.querySelector("#employee_info"),
-  resources: container.querySelector("#resources")
+window.onload = function(){
+document.getElementById("loader").style.display="none";
+document.body.style.overflow="auto";
 };
 
-// show default
-showPage("home");
 
-// load data AFTER DOM ready
-loadNews();
-loadUserProfile();
-loadCurrentMonthSalary();
-loadAttendance();
-trackUsers();
-
-})
-.catch(err=>{
-console.log(err);
-});
-
-}
 /* UNIQUE USER TRACKING */
 
 function trackUsers(){
@@ -928,6 +1012,8 @@ document.getElementById("visitorCount").innerText = totalUsers || 1;
 }
 
 }
+
+trackUsers();
 
   function openGallery(){
 
@@ -1068,24 +1154,9 @@ console.log("Error:", e);
 
 }
 
-
-window.onload = function(){
-  loadInnerPage();
-};
+loadAttendance();
 
 
-  function showPage(page){
-
-// hide all
-Object.values(window.pages).forEach(p=>{
-  if(p) p.style.display = "none";
-});
-
-// show selected
-if(window.pages[page]){
-  window.pages[page].style.display = "block";
-}
-}
 </script>
 
 
