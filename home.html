@@ -886,27 +886,20 @@ fetch("home_inner.html")
 .then(res => res.text())
 .then(data => {
 
-// 🔥 always replace fresh content
+// 🔥 load once only
 document.getElementById("mainContent").innerHTML = data;
 
-// 🔥 hide all pages
-let pages = document.querySelectorAll(".page");
-pages.forEach(el=>{
-  el.style.display = "none";
-});
-
-document.getElementById("mainContent").innerHTML = data;
-
-// 🔥 IMPORTANT: use goTab instead of manual show
+// 🔥 use navigation system
 goTab(0, "home");
-// 🔥 reset navbar to home
+
+// 🔥 reset navbar
 let items = document.querySelectorAll(".nav-item");
 items.forEach(item => item.classList.remove("active"));
 items[0].classList.add("active");
 
 document.getElementById("navbar").className = "navbar pos0";
 
-// 🔥 call functions AFTER DOM ready
+// 🔥 load data
 loadNews();
 loadUserProfile();
 loadCurrentMonthSalary();
