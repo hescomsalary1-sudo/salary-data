@@ -584,110 +584,7 @@ color:#777;
 
 </div>
 
-<div class="content" id="mainContent">
-
-<!-- SALARY CARD -->
-
-<div class="salary-card">
-
-<div class="salary-info">
-<h3>Last Month Salary</h3>
-<div class="salary-amount">₹<span id="netSalary">--</span></div>
-<div style="font-size:14px;opacity:0.9;">Net Pay</div>
-
-<!-- QUICK INFO BUTTON -->
-<div class="quick-info-btn" onclick="openLastSalary()">
-  Quick Info ➜
-</div>
-</div>
-
-<img src="https://cdn-icons-png.flaticon.com/512/3135/3135679.png">
-
-</div
-  <!-- VISITOR COUNT -->
-
-<div class="visitor-row">
-
-  <!-- USER COUNT -->
-  <div class="visitor-box">
-    Users: <span id="visitorCount">1</span>
-  </div>
-
-
-  <!-- GALLERY BUTTON -->
-  <div class="gallery-arrow" onclick="openGallery()">
-    Visit to Photo Gallery
-  </div>
-
-</div>
-<div class="att-header">
-  <div class="att-title">📊 Attendance Report</div>
-  <div class="att-date">This Month</div>
-</div>
-<div class="chart-box">
-
-  <!-- LEFT DONUT -->
-  <div class="donut" id="donutChart">
-    <div class="center">
-      <span id="percentText">0%</span>
-    </div>
-  </div>
-
-  <!-- RIGHT DETAILS -->
-  <div class="legend">
-    <div><span><span class="dot green"></span> Present</span> <b id="presentVal">0%</b></div>
-    <div><span><span class="dot green"></span> Late</span> <b id="lateVal">0%</b></div>
-    <div><span><span class="dot yellow"></span> Leave</span> <b id="leaveVal">0%</b></div>
-    <div><span><span class="dot red"></span> Absent</span> <b id="absentVal">0%</b></div>
-  </div>
-
-</div>
-
-<!-- MAIN BUTTONS -->
-
-<div class="grid-main">
-
-<div class="card" onclick="showLoader('accounts.html')">
-<div class="circle">👤</div>
-<p>My Accounts</p>
-</div>
-
-<div class="card" onclick="showLoader('menu.html')">
-<div class="circle">💰</div>
-<p>Salary</p>
-</div>
-
-<div class="card" onclick="showLoader('page3.html')">
-<div class="circle">📅</div>
-<p>Non-salary Income</p>
-</div>
-
-<div class="card" onclick="showLoader('page4.html')">
-<div class="circle">📝</div>
-<p>Forms & Formats</p>
-</div>
-</div>
-
-<!-- SMALL BUTTONS -->
-
-<div class="grid-small">
-
-<div class="small-card settings" onclick="showLoader('page5.html')">
-⚙ Settings
-</div>
-
-<div class="small-card about" onclick="showLoader('page2.html')">
-ℹ About us
-</div>
-
-</div>
-
-<div class="news-box">
-<h3>📢 What's New?</h3>
-<div id="newsData">Loading updates...</div>
-</div>
-
-</div>
+<div class="content" id="mainContent"></div>
 
 
 <div class="navbar pos0" id="navbar">
@@ -989,7 +886,7 @@ let innerLoaded = false;
 
 function loadInnerPage(){
 
-if(innerLoaded) return;   // 🔥 prevents reload
+if(innerLoaded) return;
 
 fetch("home_inner.html")
 .then(res => res.text())
@@ -999,10 +896,9 @@ document.getElementById("mainContent").innerHTML = data;
 
 document.getElementById("home").style.display = "block";
 
-innerLoaded = true;  // mark loaded
+innerLoaded = true;
 
 });
-
 }
 
 /* UNIQUE USER TRACKING */
