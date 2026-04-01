@@ -886,8 +886,6 @@ fetch("home_inner.html")
 .then(res => res.text())
 .then(data => {
 
-// 🔥 load once only
-document.getElementById("mainContent").innerHTML = data;
 
 // 🔥 use navigation system
 goTab(0, "home");
