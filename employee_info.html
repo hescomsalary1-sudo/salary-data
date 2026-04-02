@@ -232,25 +232,22 @@ window.location = url;
 
 
 // function for active tab
-function setActiveTab(){
+window.onload = function(){
 
   let page = location.pathname.split("/").pop();
 
   let items = document.querySelectorAll(".nav-item");
 
   items.forEach(item => {
-
     let onclick = item.getAttribute("onclick");
 
     if(onclick && onclick.includes(page)){
       item.classList.add("active");
-    }else{
-      item.classList.remove("active");
     }
-
   });
 
 }
+
 </script>
   <div class="navbar pos0" id="navbar">
 
