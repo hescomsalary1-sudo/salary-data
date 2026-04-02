@@ -49,11 +49,8 @@ font-size:22px;
 /* CONTENT */
 
 .content{
-padding:20px;
-margin-top:-90px;
-padding-bottom:120px;
+padding-bottom:90px;
 }
-
 
 
 /* SALARY CARD IMAGE */
@@ -217,14 +214,14 @@ margin-bottom:4px;
 position:fixed;
 top:0;
 left:0;
-width:100vw;
-height:100vh;
+width:100%;
+height:calc(100vh - 68px); /* 🔥 leave space for navbar */
 background:#f3f4fa;
 display:none;
 flex-direction:column;
 padding:20px;
 gap:15px;
-z-index:99999; /* 🔥 very important */
+z-index:999;
 overflow:hidden;
 }
 
@@ -689,31 +686,7 @@ color:#777;
 </div>
 
 
-<div class="navbar pos0" id="navbar">
 
-
-
-<div class="nav-item active" onclick="goTab(0,'home.html')">
-<div class="nav-icon">🏠</div>
-<span>Home</span>
-</div>
-
-<div class="nav-item" onclick="goTab(1,'forum.html')">
-<div class="nav-icon">💬</div>
-<span>Forum</span>
-</div>
-
-<div class="nav-item" onclick="goTab(2,'employee_info.html')">
-<div class="nav-icon">👤</div>
-<span>Employee</span>
-</div>
-
-<div class="nav-item" onclick="goTab(3,'resources.html')">
-<div class="nav-icon">📂</div>
-<span>Resources</span>
-</div>
-
-</div>
 
 <script>
 
@@ -1158,7 +1131,13 @@ loadAttendance();
 
 
 </script>
-
-
+<script>
+fetch("navbar.html")
+.then(res => res.text())
+.then(data => {
+  document.getElementById("navbar-container").innerHTML = data;
+});
+</script>
+<div id="navbar-container"></div>
 </body>
 </html>
