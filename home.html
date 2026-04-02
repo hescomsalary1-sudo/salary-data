@@ -218,13 +218,13 @@ position:fixed;
 top:0;
 left:0;
 width:100%;
-height:calc(100vh - 68px); /* 🔥 leave space for navbar */
+height:calc(100vh - 68px);
 background:#f3f4fa;
 display:none;
 flex-direction:column;
 padding:20px;
 gap:15px;
-z-index:999;
+z-index:500; /* 🔥 BELOW navbar */
 overflow:hidden;
 }
 
@@ -448,7 +448,7 @@ color:#777;
 </head>
 
 <body>
-
+<div id="navbar-container"></div>
 <div class="top">
 
 <div class="user-box">
@@ -859,18 +859,19 @@ document.getElementById("netSalary").innerText="--";
 loadCurrentMonthSalary();
 
 
+
 function goTab(index, url){
 
-// small delay for smooth feel
+// wait a bit so navbar stays visible
 setTimeout(()=>{
   document.getElementById("loader").style.display = "flex";
   document.body.style.overflow = "hidden";
 },150);
 
-// delay navigation
-setTimeout(function(){
-window.location = url;
-}, 700);
+// navigate
+setTimeout(()=>{
+  window.location = url;
+},700);
 
 }
 
@@ -1051,13 +1052,21 @@ loadAttendance();
 
 
 </script>
-<div id="navbar-container"></div>
 
 <script>
-fetch("navbar.html")
-.then(res => res.text())
-.then(data => {
-  document.getElementById("navbar-container").innerHTML = data;
+document.addEventListener("DOMContentLoaded", function(){
+
+  fetch("navbar.html")  // or ../navbar.html
+  .then(res => res.text())
+  .then(data => {
+
+    document.getElementById("navbar-container").innerHTML = data;
+
+    // set active after load
+    setActiveTab();
+
+  });
+
 });
 </script>
 </body>
