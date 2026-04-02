@@ -198,17 +198,7 @@ window.location = url;
 }
  </script>   
 <script>
-fetch("navbar.html") // or ../navbar.html (if needed)
-.then(res => res.text())
-.then(data => {
 
-  // load navbar
-  document.getElementById("navbar-container").innerHTML = data;
-
-  // set active tab AFTER navbar loads
-  setActiveTab();
-
-});
 
 // function for active tab
 function setActiveTab(){
@@ -231,6 +221,6 @@ function setActiveTab(){
 
 }
 </script>
-  <div id="navbar-container"></div>
+
 </body>
 </html>
