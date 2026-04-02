@@ -122,6 +122,7 @@ left:0;
 width:100%;
 height:calc(100vh - 68px);
 z-index:500;
+display:none; /* 🔥 ADD THIS */
 }
 
 .skeleton{
@@ -288,28 +289,7 @@ window.location = "others_forum.html?type=" + type;
 }
 </script>
 
-  <script>
-function goTab(index, url){
 
-// show loader (optional)
-let loader = document.getElementById("loader");
-if(loader){
-  loader.style.display = "flex";
-  document.body.style.overflow = "hidden";
-}
-
-// update active UI
-let items = document.querySelectorAll(".nav-item");
-items.forEach(item => item.classList.remove("active"));
-items[index].classList.add("active");
-
-// delay navigation
-setTimeout(function(){
-  window.location = url;
-}, 500);
-
-}
-</script>
 <script>
 function goTab(index, url){
 
@@ -327,8 +307,16 @@ window.location = url;
 
 // function for active tab
 
+
 window.onload = function(){
 
+  // hide loader after page load
+  let loader = document.getElementById("loader");
+  if(loader){
+    loader.style.display = "none";
+  }
+
+  // active tab
   let page = location.pathname.split("/").pop();
 
   let items = document.querySelectorAll(".nav-item");
@@ -342,6 +330,7 @@ window.onload = function(){
   });
 
 }
+
 
 </script>
 <div class="navbar pos0" id="navbar">
