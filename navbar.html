@@ -37,4 +37,67 @@ border-top:1px solid #e5e7eb;
 box-shadow:0 -3px 12px rgba(0,0,0,0.06);
 z-index:1000;
 }
+  /* NAV ITEM */
+.nav-item{
+flex:1;
+text-align:center;
+cursor:pointer;
+position:relative;
+padding-top:6px;
+transition:0.25s;
+}
+
+/* ICON */
+.nav-icon{
+font-size:22px;
+color:#9ca3af;
+transition:0.3s;
+}
+
+/* TEXT */
+.nav-item span{
+display:block;
+font-size:11px;
+margin-top:3px;
+color:#9ca3af;
+transition:0.3s;
+}
+
+/* ACTIVE STYLE */
+.nav-item.active .nav-icon{
+color:#2400b7;
+transform:scale(1.15);
+}
+
+.nav-item.active span{
+color:#2400b7;
+font-weight:600;
+}
+
+/* TOP INDICATOR BAR */
+.nav-item.active::before{
+content:"";
+position:absolute;
+top:0;
+left:20%;
+width:60%;
+height:4px;
+border-radius:10px;
+background:linear-gradient(135deg,#2400b7,#3b1eff);
+}
+
+/* CLICK EFFECT */
+.nav-item:active{
+transform:scale(0.92);
+}
+
+/* POSITIONS */
+
+.navbar.pos0 .slider{ left:3%; }
+
+.navbar.pos1 .slider{ left:28%; }
+
+.navbar.pos2 .slider{ left:53%; }
+
+.navbar.pos3 .slider{ left:78%; }
 </style>
