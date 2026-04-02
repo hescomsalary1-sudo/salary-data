@@ -104,6 +104,37 @@ background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
 background-size:400px 100%;
 animation:shimmer 1.2s infinite;
 }
+
+  .navbar{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+height:68px;
+background:#ffffff;
+display:flex;
+justify-content:space-around;
+align-items:center;
+border-top:1px solid #e5e7eb;
+box-shadow:0 -3px 12px rgba(0,0,0,0.06);
+z-index:1000;
+}
+
+.nav-item{
+flex:1;
+text-align:center;
+cursor:pointer;
+padding-top:6px;
+}
+
+.nav-icon{
+font-size:22px;
+color:#9ca3af;
+}
+
+.nav-item.active .nav-icon{
+color:#2400b7;
+}
 </style>
 </head>
 
