@@ -1055,6 +1055,8 @@ loadAttendance();
 
 
 </script>
+<div id="navbar-container"></div>
+
 <script>
 fetch("navbar.html")
 .then(res => res.text())
@@ -1062,6 +1064,5 @@ fetch("navbar.html")
   document.getElementById("navbar-container").innerHTML = data;
 });
 </script>
-<div id="navbar-container"></div>
 </body>
 </html>
