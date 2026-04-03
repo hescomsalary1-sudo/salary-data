@@ -21,7 +21,7 @@ body {
   font-weight: bold;
 }
 
-/* CARD STYLE */
+/* CARD */
 .card {
   background: rgba(255,255,255,0.08);
   margin: 15px;
@@ -31,25 +31,17 @@ body {
   box-shadow: 0 8px 25px rgba(0,0,0,0.3);
 }
 
-/* TIP + NOTICE */
+/* INFO */
 .info-box {
   font-size: 14px;
   line-height: 1.6;
 }
 
-/* POINTS SECTION */
-.points {
-  font-size: 26px;
-  font-weight: bold;
-}
+/* POINTS */
+.points { font-size: 26px; font-weight: bold; }
+.level { margin-top: 5px; font-size: 16px; color: #ffd700; }
 
-.level {
-  margin-top: 5px;
-  font-size: 16px;
-  color: #ffd700;
-}
-
-/* PROGRESS BAR */
+/* PROGRESS */
 .progress-bar {
   height: 8px;
   background: rgba(255,255,255,0.2);
@@ -57,36 +49,63 @@ body {
   margin-top: 10px;
   overflow: hidden;
 }
-
 .progress {
   height: 100%;
   background: #00ffcc;
   width: 0%;
 }
 
-/* GRID BUTTONS */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+/* INPUT */
+.input {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  border: none;
+  border-radius: 10px;
+}
+
+/* BUTTON */
+.btn-gen {
+  width: 100%;
+  padding: 10px;
   margin-top: 10px;
-}
-
-.btn {
-  padding: 12px;
-  border-radius: 12px;
-  text-align: center;
-  background: rgba(255,255,255,0.12);
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg,#0f9d58,#34a853);
+  color: white;
+  font-weight: bold;
   cursor: pointer;
-  transition: 0.3s;
 }
 
-.btn:hover {
-  background: rgba(255,255,255,0.25);
-  transform: scale(1.05);
+/* ID CARD */
+.id-box {
+  background: white;
+  color: #000;
+  padding: 15px;
+  border-radius: 15px;
+  width: 220px;
+  margin: auto;
+  text-align: center;
 }
 
-/* SMALL TEXT */
+/* PHOTO */
+.id-photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #0f9d58;
+}
+
+/* SIGN */
+.sign-img {
+  width: 110px;
+  height: 40px;
+  object-fit: contain;
+  border-bottom: 1px solid #000;
+}
+
+/* SMALL */
 .small {
   font-size: 13px;
   opacity: 0.8;
@@ -118,64 +137,116 @@ body {
   <div class="small" id="summary"></div>
 </div>
 
-<!-- QUICK ACTIONS -->
+<!-- ID CARD FORM -->
 <div class="card">
-  <div class="grid">
-    <div class="btn" onclick="go('salary.html')">💰 Salary</div>
-    <div class="btn" onclick="go('attendance.html')">📅 Attendance</div>
-    <div class="btn" onclick="go('seniority.html')">📊 Seniority</div>
-    <div class="btn" onclick="go('forum.html')">💬 Forum</div>
-  </div>
+
+<h3>🪪 Create ID Card</h3>
+
+<input type="text" id="name" placeholder="Enter Name" class="input">
+<input type="text" id="empId" placeholder="Employee ID" class="input">
+<input type="text" id="desg" placeholder="Designation" class="input">
+
+<label class="small">Upload Photo</label>
+<input type="file" id="photo" accept="image/*" class="input">
+
+<label class="small">Upload Signature</label>
+<input type="file" id="sign" accept="image/*" class="input">
+
+<button onclick="submitID()" class="btn-gen">Submit for Approval</button>
+
+<div id="status" class="small">⚠️ Not Submitted</div>
+
+</div>
+
+<!-- ID CARD PREVIEW -->
+<div class="card" id="idCard" style="display:none;">
+
+<div class="id-box">
+
+<h3>Company ID</h3>
+
+<img id="previewPhoto" class="id-photo"><br><br>
+
+<h3 id="cardName"></h3>
+<p id="cardId"></p>
+<p id="cardDesg"></p>
+
+<br>
+<img id="previewSign" class="sign-img">
+<div class="small">Authorized Signature</div>
+
+</div>
+
 </div>
 
 <script>
 
-/* SAMPLE DATA (Replace later with real data from CSV) */
-let present = 18;
-let leave = 2;
-let absent = 1;
+/* REWARD LOGIC */
+let present = 18, leave = 2, absent = 1;
 
-/* POINT CALCULATION */
-let points =
-  (present * 10) +
-  (leave * 5) +
-  (absent * 0);
+let points = (present*10)+(leave*5);
 
-/* BONUS */
-if(absent === 0) points += 50; // monthly bonus
-if(absent <= 1) points += 20; // weekly consistency
+if(absent === 0) points += 50;
+if(absent <= 1) points += 20;
 
-/* LEVEL SYSTEM */
-let level = "Bronze";
-let progress = 0;
+let level = "🥉 Bronze";
+let progress = points/2;
 
-if(points >= 1000){
-  level = "💎 Platinum";
-  progress = 100;
-}else if(points >= 500){
-  level = "🥇 Gold";
-  progress = (points - 500) / 5;
-}else if(points >= 200){
-  level = "🥈 Silver";
-  progress = (points - 200) / 3;
-}else{
-  level = "🥉 Bronze";
-  progress = points / 2;
-}
+if(points >= 200){ level="🥈 Silver"; progress=(points-200)/3; }
+if(points >= 500){ level="🥇 Gold"; progress=(points-500)/5; }
+if(points >= 1000){ level="💎 Platinum"; progress=100; }
 
-/* UPDATE UI */
-document.getElementById("points").innerText = points + " Points";
+document.getElementById("points").innerText = points+" Points";
 document.getElementById("level").innerText = level;
-document.getElementById("progress").style.width = progress + "%";
+document.getElementById("progress").style.width = progress+"%";
 
 document.getElementById("summary").innerText =
-  "Present: " + present +
-  " | Leave: " + leave +
-  " | Absent: " + absent;
+"Present: "+present+" | Leave: "+leave+" | Absent: "+absent;
 
-/* NAVIGATION */
-function go(page){
-  window.location.href = page;
+/* SUBMIT ID */
+async function submitID(){
+
+let name = document.getElementById("name").value;
+let empId = document.getElementById("empId").value;
+let desg = document.getElementById("desg").value;
+
+let photo = document.getElementById("photo").files[0];
+let sign = document.getElementById("sign").files[0];
+
+if(!photo || !sign){
+  alert("Upload photo & signature");
+  return;
+}
+
+let photo64 = await toBase64(photo);
+let sign64 = await toBase64(sign);
+
+let user = localStorage.getItem("currentUser");
+
+/* SEND TO GOOGLE SHEET */
+await fetch("YOUR_WEB_APP_URL", {
+  method:"POST",
+  body: JSON.stringify({
+    username:user,
+    name:name,
+    empId:empId,
+    designation:desg,
+    photo:photo64,
+    signature:sign64
+  })
+});
+
+document.getElementById("status").innerText = "⏳ Pending Approval";
+
+}
+
+/* BASE64 */
+function toBase64(file){
+  return new Promise(res=>{
+    let r=new FileReader();
+    r.onload=()=>res(r.result);
+    r.readAsDataURL(file);
+  });
 }
 
 </script>
