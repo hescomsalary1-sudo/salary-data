@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ID Card</title>
+<title>Info Center</title>
 
 <style>
 body {
@@ -13,267 +13,170 @@ body {
   color: #fff;
 }
 
-
-/* STATUS */
-.status{
-  text-align:center;
-  padding:15px;
-  color:#fff;
+/* HEADER */
+.header {
+  text-align: center;
+  padding: 20px;
+  font-size: 20px;
+  font-weight: bold;
 }
 
-/* WRAPPER */
-.card-wrapper{
-  display:flex;
-  justify-content:center;
-  gap:20px;
-  flex-wrap:wrap;
+/* CARD STYLE */
+.card {
+  background: rgba(255,255,255,0.08);
+  margin: 15px;
+  padding: 15px;
+  border-radius: 18px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
 }
 
-/* CARD */
-.id-card{
-  width:260px;
-  height:420px;
-  background:#fff;
-  border-radius:20px;
-  overflow:hidden;
-  position:relative;
-  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+/* TIP + NOTICE */
+.info-box {
+  font-size: 14px;
+  line-height: 1.6;
 }
 
-/* TOP CURVE */
-.top-bg{
-  position:absolute;
-  width:100%;
-  height:140px;
-  background:#0a1f44;
-  border-bottom-left-radius:80px;
-  border-bottom-right-radius:80px;
+/* POINTS SECTION */
+.points {
+  font-size: 26px;
+  font-weight: bold;
 }
 
-/* PROFILE */
-.profile{
-  position:absolute;
-  top:80px;
-  left:50%;
-  transform:translateX(-50%);
+.level {
+  margin-top: 5px;
+  font-size: 16px;
+  color: #ffd700;
 }
 
-.profile img{
-  width:90px;
-  height:90px;
-  border-radius:50%;
-  border:4px solid #2bbbad;
-  object-fit:cover;
+/* PROGRESS BAR */
+.progress-bar {
+  height: 8px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  margin-top: 10px;
+  overflow: hidden;
 }
 
-/* INFO */
-.info{
-  position:absolute;
-  top:180px;
-  width:100%;
-  text-align:center;
+.progress {
+  height: 100%;
+  background: #00ffcc;
+  width: 0%;
 }
 
-.info h2{
-  margin:5px 0;
+/* GRID BUTTONS */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 10px;
 }
 
-.role{
-  color:#2bbbad;
-  font-weight:bold;
-  margin-bottom:10px;
+.btn {
+  padding: 12px;
+  border-radius: 12px;
+  text-align: center;
+  background: rgba(255,255,255,0.12);
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-.details{
-  font-size:12px;
-  text-align:left;
-  padding:0 20px;
+.btn:hover {
+  background: rgba(255,255,255,0.25);
+  transform: scale(1.05);
 }
 
-/* BARCODE */
-.barcode{
-  position:absolute;
-  bottom:15px;
-  left:20px;
-  right:20px;
-  height:40px;
-  background:repeating-linear-gradient(
-    to right,
-    #000 0px,
-    #000 2px,
-    #fff 2px,
-    #fff 4px
-  );
-}
-
-/* BACK */
-.back-content{
-  position:absolute;
-  top:150px;
-  padding:20px;
-  font-size:12px;
-}
-
-.back-content h3{
-  color:#2bbbad;
-}
-
-.sign{
-  margin-top:20px;
-  border-top:1px solid #000;
-  width:120px;
-  text-align:center;
-  padding-top:5px;
+/* SMALL TEXT */
+.small {
+  font-size: 13px;
+  opacity: 0.8;
 }
 </style>
 </head>
 
 <body>
 
-<div id="status" class="status">⏳ Loading...</div>
+<div class="header">⚡ Info Center</div>
 
-<div class="card-wrapper" id="card" style="display:none;">
-
-<!-- FRONT -->
-<div class="id-card">
-
-  <div class="top-bg"></div>
-
-  <div class="profile">
-    <img id="photo" src="https://via.placeholder.com/90">
+<!-- FUN + INFO -->
+<div class="card">
+  <div class="info-box">
+    💡 Tip: Maintain full attendance to earn bonus points!<br>
+    📢 Notice: Salary will be credited on 5th
   </div>
-
-  <div class="info">
-    <h2 id="name"></h2>
-    <div class="role" id="designation"></div>
-
-    <div class="details">
-      <p><b>ID No:</b> <span id="username"></span></p>
-      <p><b>DOB:</b> <span id="dob"></span></p>
-      <p><b>Phone:</b> <span id="mobile"></span></p>
-      <p><b>Email:</b> <span id="email"></span></p>
-    </div>
-  </div>
-
-  <div class="barcode"></div>
-
 </div>
 
-<!-- BACK -->
-<div class="id-card">
+<!-- REWARDS -->
+<div class="card">
+  <div class="points" id="points">0 Points</div>
+  <div class="level" id="level">Bronze</div>
 
-  <div class="top-bg"></div>
-
-  <div class="back-content">
-    <h3>Terms & Conditions</h3>
-
-    <ul>
-      <li>Carry ID card always</li>
-      <li>Do not misuse</li>
-      <li>Return if found</li>
-    </ul>
-
-    <p><b>Joining:</b> <span id="joining"></span></p>
-    <p><b>District:</b> <span id="district"></span></p>
-
-    <div class="sign">Authorized Sign</div>
+  <div class="progress-bar">
+    <div class="progress" id="progress"></div>
   </div>
 
+  <div class="small" id="summary"></div>
 </div>
 
+<!-- QUICK ACTIONS -->
+<div class="card">
+  <div class="grid">
+    <div class="btn" onclick="go('salary.html')">💰 Salary</div>
+    <div class="btn" onclick="go('attendance.html')">📅 Attendance</div>
+    <div class="btn" onclick="go('seniority.html')">📊 Seniority</div>
+    <div class="btn" onclick="go('forum.html')">💬 Forum</div>
+  </div>
 </div>
 
 <script>
 
-/* CSV PARSER */
-function parseCSV(text){
-  let rows = [];
-  let lines = text.trim().split("\n");
+/* SAMPLE DATA (Replace later with real data from CSV) */
+let present = 18;
+let leave = 2;
+let absent = 1;
 
-  for(let line of lines){
-    let row = [];
-    let current = "";
-    let insideQuotes = false;
+/* POINT CALCULATION */
+let points =
+  (present * 10) +
+  (leave * 5) +
+  (absent * 0);
 
-    for(let i=0;i<line.length;i++){
-      let char = line[i];
+/* BONUS */
+if(absent === 0) points += 50; // monthly bonus
+if(absent <= 1) points += 20; // weekly consistency
 
-      if(char === '"'){
-        insideQuotes = !insideQuotes;
-      }
-      else if(char === ',' && !insideQuotes){
-        row.push(current);
-        current = "";
-      }
-      else{
-        current += char;
-      }
-    }
+/* LEVEL SYSTEM */
+let level = "Bronze";
+let progress = 0;
 
-    row.push(current);
-    rows.push(row);
-  }
-
-  return rows;
+if(points >= 1000){
+  level = "💎 Platinum";
+  progress = 100;
+}else if(points >= 500){
+  level = "🥇 Gold";
+  progress = (points - 500) / 5;
+}else if(points >= 200){
+  level = "🥈 Silver";
+  progress = (points - 200) / 3;
+}else{
+  level = "🥉 Bronze";
+  progress = points / 2;
 }
 
-/* LOAD DATA */
-async function loadData(){
+/* UPDATE UI */
+document.getElementById("points").innerText = points + " Points";
+document.getElementById("level").innerText = level;
+document.getElementById("progress").style.width = progress + "%";
 
-let user = localStorage.getItem("currentUser");
+document.getElementById("summary").innerText =
+  "Present: " + present +
+  " | Leave: " + leave +
+  " | Absent: " + absent;
 
-if(!user){
-  document.getElementById("status").innerText="❌ Login required";
-  return;
+/* NAVIGATION */
+function go(page){
+  window.location.replace(page);
 }
-
-try{
-
-let url = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
-
-let res = await fetch(url + "?v=" + Date.now());
-let text = await res.text();
-
-let rows = parseCSV(text);
-
-for(let i=1;i<rows.length;i++){
-
-let cols = rows[i];
-let username = (cols[0] || "").trim();
-
-if(username === user.trim()){
-
-document.getElementById("status").innerText="";
-document.getElementById("card").style.display="flex";
-
-/* FILL DATA */
-document.getElementById("username").innerText = cols[0] || "";
-document.getElementById("name").innerText = cols[1] || "";
-document.getElementById("designation").innerText = cols[2] || "";
-document.getElementById("mobile").innerText = cols[4] || "";
-document.getElementById("dob").innerText = cols[5] || "";
-document.getElementById("email").innerText = cols[8] || "";
-document.getElementById("district").innerText = cols[16] || "";
-document.getElementById("joining").innerText = cols[19] || "";
-
-/* PHOTO (if available) */
-document.getElementById("photo").src =
-  cols[6] || "https://via.placeholder.com/90";
-
-return;
-}
-}
-
-document.getElementById("status").innerText="⚠️ User not found";
-
-}catch(e){
-document.getElementById("status").innerText="❌ Error loading data";
-console.log(e);
-}
-
-}
-
-loadData();
 
 </script>
 
