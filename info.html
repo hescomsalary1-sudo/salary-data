@@ -107,7 +107,7 @@ body {
 <div class="header">⚡ Info Center</div>
 
 <!-- INFO -->
-<div class="card">
+<div class="card" id="formCard">
   <div class="info-box">
     💡 Tip: Maintain full attendance to earn bonus points!<br>
     📢 Notice: Salary will be credited on 5th
@@ -115,7 +115,7 @@ body {
 </div>
 
 <!-- REWARDS -->
-<div class="card">
+<div class="card" id="formCard">  
   <div class="points" id="points">0 Points</div>
   <div class="level" id="level">Bronze</div>
 
@@ -163,7 +163,11 @@ body {
 
 </div>
 </div>
-
+<div style="text-align:center; margin-top:10px;">
+  <button onclick="editCard()" class="btn-gen" id="editBtn" style="display:none;">
+    ✏️ Edit ID Card
+  </button>
+</div>
 <script>
 
 /* REWARD */
@@ -233,7 +237,11 @@ let row=rows[i].trim();
 if(row.toLowerCase().includes(user.toLowerCase())){
 
 if(row.toLowerCase().includes("approved")){
+// ✅ hide form
+document.getElementById("formCard").style.display = "none";
 
+// ✅ show edit button
+document.getElementById("editBtn").style.display = "block";
 status.innerText="✅ Approved";
 
 /* BASIC INFO */
@@ -258,6 +266,12 @@ idCard.style.display="block";
 
 }else{
 status.innerText="⏳ Pending Approval";
+  document.getElementById("formCard").style.display = "block";
+document.getElementById("editBtn").style.display = "none";
+  // reset UI
+document.getElementById("idCard").style.display = "none";
+document.getElementById("editBtn").style.display = "none";
+document.getElementById("formCard").style.display = "block";
 }
 
 return;
@@ -276,6 +290,22 @@ console.log(e);
 checkApproval();
 
 </script>
+<script>
+function editCard(){
 
+// show form again
+document.getElementById("formCard").style.display = "block";
+
+// hide card
+document.getElementById("idCard").style.display = "none";
+
+// hide edit button
+document.getElementById("editBtn").style.display = "none";
+
+// update status
+document.getElementById("status").innerText = "✏️ Edit and resubmit";
+
+}
+</script>
 </body>
 </html>
