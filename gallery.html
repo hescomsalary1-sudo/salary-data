@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-
 body{
 margin:0;
 font-family:sans-serif;
@@ -14,10 +13,10 @@ background:#f3f4fa;
 
 /* HEADER */
 .header{
-padding:20px;
+padding:18px;
 background:linear-gradient(135deg,#4B2DD8,#6A42E8);
 color:white;
-font-size:20px;
+font-size:18px;
 font-weight:bold;
 border-bottom-left-radius:25px;
 border-bottom-right-radius:25px;
@@ -25,36 +24,45 @@ border-bottom-right-radius:25px;
 
 /* GALLERY GRID */
 .gallery{
-padding:15px;
+padding:12px;
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:12px;
+gap:10px;
 }
 
-/* IMAGE CARD */
+/* CARD */
 .card{
 position:relative;
-border-radius:15px;
+border-radius:14px;
 overflow:hidden;
-box-shadow:0 6px 15px rgba(0,0,0,0.15);
-cursor:pointer;
+box-shadow:0 5px 12px rgba(0,0,0,0.12);
 }
 
+/* IMAGE */
 .card img{
 width:100%;
 height:140px;
 object-fit:cover;
+filter:blur(8px);
+transform:scale(1.05);
+transition:0.4s;
 }
 
-/* OVERLAY TEXT */
+/* IMAGE LOADED */
+.card img.loaded{
+filter:blur(0);
+transform:scale(1);
+}
+
+/* OVERLAY */
 .overlay{
 position:absolute;
 bottom:0;
 width:100%;
-padding:8px;
-background:linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+padding:6px;
+background:linear-gradient(to top, rgba(0,0,0,0.7), transparent);
 color:white;
-font-size:13px;
+font-size:12px;
 }
 
 /* POPUP */
@@ -64,7 +72,7 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.9);
+background:rgba(0,0,0,0.95);
 display:none;
 justify-content:center;
 align-items:center;
@@ -72,21 +80,31 @@ z-index:999;
 }
 
 .popup img{
-width:90%;
-border-radius:10px;
+width:92%;
+max-height:90%;
+border-radius:12px;
 }
 
-/* SKELETON LOADER */
+/* CLOSE BUTTON */
+.close{
+position:absolute;
+top:20px;
+right:20px;
+color:white;
+font-size:22px;
+}
+
+/* SKELETON */
 #loader{
-display:flex;
-flex-direction:column;
-gap:12px;
-padding:15px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+padding:12px;
 }
 
 .skeleton{
 height:140px;
-border-radius:15px;
+border-radius:14px;
 background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
 background-size:400px 100%;
 animation:shimmer 1.2s infinite;
@@ -96,7 +114,6 @@ animation:shimmer 1.2s infinite;
 0%{background-position:-400px 0;}
 100%{background-position:400px 0;}
 }
-
 </style>
 </head>
 
@@ -116,61 +133,72 @@ animation:shimmer 1.2s infinite;
 <div class="gallery" id="gallery" style="display:none;"></div>
 
 <!-- POPUP -->
-<div class="popup" id="popup" onclick="closeImage()">
+<div class="popup" id="popup">
+<span class="close" onclick="closeImage()">✕</span>
 <img id="popupImg">
 </div>
 
 <script>
 
-/* SAMPLE IMAGES (you can change later) */
-
+/* ⚡ COMPRESSED IMAGES (VERY IMPORTANT) */
 let images = [
 {
-url:"https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
+url:"https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400&q=60",
 title:"Team Meeting"
 },
 {
-url:"https://images.unsplash.com/photo-1529333166437-7750a6dd5a70",
+url:"https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=400&q=60",
 title:"Office Celebration"
 },
 {
-url:"https://images.unsplash.com/photo-1504384308090-c894fdcc538d",
+url:"https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&q=60",
 title:"Work Session"
 },
 {
-url:"https://images.unsplash.com/photo-1492724441997-5dc865305da7",
+url:"https://images.unsplash.com/photo-1492724441997-5dc865305da7?w=400&q=60",
 title:"Office Event"
 },
 {
-url:"https://images.unsplash.com/photo-1515169067865-5387ec356754",
-title:"Birthday Celebration"
+url:"https://images.unsplash.com/photo-1515169067865-5387ec356754?w=400&q=60",
+title:"Birthday"
 },
 {
-url:"https://images.unsplash.com/photo-1503428593586-e225b39bddfe",
+url:"https://images.unsplash.com/photo-1503428593586-e225b39bddfe?w=400&q=60",
 title:"Group Photo"
 }
 ];
 
-/* LOAD GALLERY */
-
+/* LOAD */
 function loadGallery(){
 
 let gallery = document.getElementById("gallery");
 
-let html = "";
-
 images.forEach(img => {
 
-html += `
-<div class="card" onclick="openImage('${img.url}')">
-<img src="${img.url}" loading="lazy">
-<div class="overlay">${img.title}</div>
-</div>
-`;
+let div = document.createElement("div");
+div.className = "card";
+
+let image = document.createElement("img");
+image.src = img.url;
+image.loading = "lazy";
+
+/* smooth load */
+image.onload = () => {
+  image.classList.add("loaded");
+};
+
+div.onclick = () => openImage(img.url);
+
+let overlay = document.createElement("div");
+overlay.className = "overlay";
+overlay.innerText = img.title;
+
+div.appendChild(image);
+div.appendChild(overlay);
+
+gallery.appendChild(div);
 
 });
-
-gallery.innerHTML = html;
 
 /* hide loader */
 document.getElementById("loader").style.display="none";
@@ -178,8 +206,7 @@ gallery.style.display="grid";
 
 }
 
-/* IMAGE POPUP */
-
+/* POPUP */
 function openImage(src){
 document.getElementById("popupImg").src = src;
 document.getElementById("popup").style.display="flex";
@@ -189,8 +216,8 @@ function closeImage(){
 document.getElementById("popup").style.display="none";
 }
 
-/* DELAY (simulate loading) */
-setTimeout(loadGallery,800);
+/* 🚀 NO FAKE DELAY */
+loadGallery();
 
 </script>
 
