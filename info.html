@@ -181,25 +181,6 @@ body {
 
 <div class="header">⚡ Info Center</div>
 
-<div class="card">
-  <div class="info-box">
-    💡 Tip: Maintain full attendance to earn bonus points!<br>
-    📢 Notice: Salary will be credited on 5th
-  </div>
-</div>
-
-<!-- REWARDS -->
-<div class="card">
-  <div class="points" id="points">0 Points</div>
-  <div class="level" id="level">Bronze</div>
-
-  <div class="progress-bar">
-    <div class="progress" id="progress"></div>
-  </div>
-
-  <div class="small" id="summary"></div>
-</div>
-
 <!-- FORM -->
 <div class="card" id="formCard">
   <h3>🪪 Create ID Card</h3>
@@ -264,21 +245,6 @@ body {
 <script>
 
 /* REWARD */
-let present=18, leave=2, absent=1;
-let points=(present*10)+(leave*5);
-if(absent===0) points+=50;
-if(absent<=1) points+=20;
-
-let level="🥉 Bronze", progress=points/2;
-if(points>=200){level="🥈 Silver";progress=(points-200)/3;}
-if(points>=500){level="🥇 Gold";progress=(points-500)/5;}
-if(points>=1000){level="💎 Platinum";progress=100;}
-
-document.getElementById("points").innerText=points+" Points";
-document.getElementById("level").innerText=level;
-document.getElementById("progress").style.width=progress+"%";
-document.getElementById("summary").innerText=
-"Present: "+present+" | Leave: "+leave+" | Absent: "+absent;
 
 /* SUBMIT */
 async function submitID(){
