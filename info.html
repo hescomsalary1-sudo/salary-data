@@ -258,7 +258,7 @@ let p64=await toBase64(photo);
 let s64=await toBase64(sign);
 
 let user=localStorage.getItem("currentUser");
-
+document.getElementById("cancelBtn").style.display = "none";
 await fetch("https://script.google.com/macros/s/AKfycbwF3t1DXO_jyRDN-NoBZhRc-zbKOD4sjqs3ftiedS_hzbdm_KR1JL_UCBNyoeBrZsELFw/exec",{
 method:"POST",
 body:JSON.stringify({username:user,name,empId,designation:desg,photo:p64,signature:s64})
@@ -352,7 +352,7 @@ checkApproval();
 <script>
 function editCard(){
 
-// show form again
+// show form
 document.getElementById("formCard").style.display = "block";
 
 // hide card
@@ -361,8 +361,29 @@ document.getElementById("idCard").style.display = "none";
 // hide edit button
 document.getElementById("editBtn").style.display = "none";
 
+// ✅ show cancel button
+document.getElementById("cancelBtn").style.display = "block";
+
 // update status
-document.getElementById("status").innerText = "✏️ Edit and resubmit";
+document.getElementById("status").innerText = "✏️ Editing mode";
+
+}
+  function cancelEdit(){
+
+// hide form
+document.getElementById("formCard").style.display = "none";
+
+// show ID card again
+document.getElementById("idCard").style.display = "block";
+
+// show edit button
+document.getElementById("editBtn").style.display = "block";
+
+// hide cancel button
+document.getElementById("cancelBtn").style.display = "none";
+
+// restore status
+document.getElementById("status").innerText = "✅ Approved";
 
 }
 </script>
