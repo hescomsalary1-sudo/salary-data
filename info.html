@@ -3,298 +3,185 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Info Center</title>
+<title>Employee Info</title>
 
 <style>
-/* ✅ SAME DESIGN — NO CHANGE */
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: #fff;
-}
-
-.header {
-  text-align: center;
-  padding: 20px;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.card {
-  background: rgba(255,255,255,0.08);
-  margin: 15px;
-  padding: 15px;
-  border-radius: 18px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-}
-
-.input {
-  width: 100%;
-  padding: 10px;
-  margin: 6px 0;
-  border: none;
-  border-radius: 10px;
-}
-
-.btn-gen {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 10px;
-  background: linear-gradient(135deg,#0f9d58,#34a853);
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.small { font-size: 13px; opacity: 0.8; }
-
-/* ID CARD DESIGN */
-.id-container{
-  background:#fff;
-  color:#000;
-  border-radius:15px;
-  overflow:hidden;
-  max-width:260px;
-  margin:auto;
-  box-shadow:0 10px 25px rgba(0,0,0,0.3);
-}
-
-.id-header{
-  background:linear-gradient(135deg,#0f9d58,#34a853);
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(135deg,#141e30,#243b55);
   color:#fff;
-  text-align:center;
-  padding:10px;
-  font-weight:bold;
-  font-size:14px;
 }
 
-.id-body{
+/* HEADER */
+.header{
   text-align:center;
   padding:15px;
+  font-size:20px;
+  font-weight:bold;
 }
 
-.id-photo{
+/* CARD */
+.id-card{
+  max-width:320px;
+  margin:20px auto;
+  background:#fff;
+  color:#000;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* TOP */
+.top{
+  background:linear-gradient(135deg,#0f9d58,#34a853);
+  color:#fff;
+  padding:15px;
+  text-align:center;
+}
+
+.top h2{
+  margin:0;
+  font-size:18px;
+}
+
+/* BODY */
+.body{
+  padding:15px;
+  text-align:center;
+}
+
+.photo{
   width:90px;
   height:90px;
   border-radius:50%;
-  object-fit:cover;
-  border:3px solid #0f9d58;
+  background:#ddd;
+  margin:auto;
   margin-bottom:10px;
 }
 
-.id-footer{
-  padding:10px;
-  text-align:center;
-  border-top:1px solid #ddd;
+/* DETAILS */
+.details{
+  font-size:13px;
+  text-align:left;
+  margin-top:10px;
 }
 
-.sign-img{
-  width:120px;
-  height:50px;
-  object-fit:contain;
+.details p{
+  margin:4px 0;
+}
+
+/* FOOTER */
+.footer{
+  background:#f5f5f5;
+  padding:10px;
+  font-size:12px;
+  text-align:center;
+}
+
+/* STATUS */
+.status{
+  text-align:center;
+  margin-top:10px;
+  font-size:14px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">⚡ Info Center</div>
+<div class="header">⚡ Employee Info</div>
 
-<!-- FORM -->
-<div class="card" id="formCard">
-  <h3>🪪 Create ID Card</h3>
+<div id="status" class="status">⏳ Loading...</div>
 
-<input type="text" id="name" placeholder="Enter Name" class="input">
-<input type="text" id="empId" placeholder="Employee ID" class="input">
-<input type="text" id="desg" placeholder="Designation" class="input">
+<div class="id-card" id="card" style="display:none;">
 
-<label class="small">Upload Photo</label>
-<input type="file" id="photo" accept="image/*" class="input">
-
-<label class="small">Upload Signature</label>
-<input type="file" id="sign" accept="image/*" class="input">
-
-<button onclick="submitID()" class="btn-gen">Submit for Approval</button>
-<button onclick="cancelEdit()" class="btn-gen" id="cancelBtn"
-style="display:none; background:#d9534f;">
-❌ Cancel
-</button>
-
-<div id="status" class="small">⚠️ Checking...</div>
+<div class="top">
+  <h2 id="name"></h2>
+  <div id="designation"></div>
 </div>
 
-<!-- ID CARD -->
-<div class="card" id="idCard" style="display:none;">
+<div class="body">
 
-<div class="id-container">
+<div class="photo"></div>
 
-<div class="id-header">
-  ⚡ EMPLOYEE ID CARD
-</div>
-
-<div class="id-body">
-<img id="previewPhoto" class="id-photo">
-<h3 id="cardName"></h3>
-<p id="cardDesg"></p>
-<p class="empid" id="cardId"></p>
-</div>
-
-<div class="id-footer">
-  <img id="previewSign" class="sign-img">
-  <div class="small">Authorized Sign</div>
+<div class="details">
+  <p><b>Username:</b> <span id="username"></span></p>
+  <p><b>Mobile:</b> <span id="mobile"></span></p>
+  <p><b>Email:</b> <span id="email"></span></p>
+  <p><b>Place:</b> <span id="place"></span></p>
+  <p><b>DOB:</b> <span id="dob"></span></p>
+  <p><b>Joining:</b> <span id="joining"></span></p>
+  <p><b>Current Role:</b> <span id="current"></span></p>
+  <p><b>Category:</b> <span id="category"></span></p>
+  <p><b>District:</b> <span id="district"></span></p>
 </div>
 
 </div>
 
-<div style="text-align:center; margin-top:10px;">
-  <button onclick="editCard()" class="btn-gen" id="editBtn" style="display:none;">
-    ✏️ Edit ID Card
-  </button>
+<div class="footer">
+  Employee Information System
 </div>
 
 </div>
 
 <script>
 
-/* BASE64 */
-function toBase64(f){
-return new Promise(r=>{
-let rd=new FileReader();
-rd.onload=()=>r(rd.result);
-rd.readAsDataURL(f);
-});
-}
+async function loadData(){
 
-/* SUBMIT */
-async function submitID(){
+let user = localStorage.getItem("currentUser");
 
-let name = document.getElementById("name").value;
-let empId = document.getElementById("empId").value;
-let desg = document.getElementById("desg").value;
-
-let photo = document.getElementById("photo").files[0];
-let sign = document.getElementById("sign").files[0];
-
-if(!photo || !sign){
-  alert("Upload photo & signature");
+if(!user){
+  document.getElementById("status").innerText="❌ Not logged in";
   return;
 }
 
-let p64 = await toBase64(photo);
-let s64 = await toBase64(sign);
-
-let user = localStorage.getItem("currentUser");
-localStorage.setItem("empId", empId);
-
-await fetch("https://script.google.com/macros/s/AKfycbz2eXyUhEPcsbSk1kTGqB4U55nI_4qbq3aZD31QhlECGqaC5JT-l_1Qgz_zqudl_2mKJA/exec",{
-method:"POST",
-body: JSON.stringify({
-  action:"update",   // ✅ FIXED
-  username:user,
-  name:name,
-  empId:empId,
-  designation:desg,
-  photo:p64,
-  signature:s64
-})
-});
-
-document.getElementById("status").innerText = "⏳ Pending Approval";
-document.getElementById("idCard").style.display = "none";
-document.getElementById("editBtn").style.display = "none";
-document.getElementById("formCard").style.display = "block";
-document.getElementById("cancelBtn").style.display = "none";
-}
-
-/* CHECK APPROVAL */
-async function checkApproval(){
-
-let empId = localStorage.getItem("empId");
-if(!empId) return;
-
 try{
 
-let res = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vT1-Gy_Ia2JDR0MSPQ18bwGVv3vCtt-Bf7YhxCTDghZtAOiaE-LMuNoVxLHrvSpM37nxHvYEljfGqgw/pub?output=csv&v="+Date.now());
+let res = await fetch("YOUR_CSV_URL&v="+Date.now());
 let text = await res.text();
 
 let rows = text.split("\n");
 
 for(let i=1;i<rows.length;i++){
 
-let row = rows[i];
-let cols = row.split(",");
+let cols = rows[i].split(",");
 
-let empIdCol = cols[2];
+let username = cols[0];
 
-if(empIdCol && empIdCol.trim() === empId.trim()){
+if(username && username.trim() === user.trim()){
 
-let statusMatch = row.match(/,(Approved|Pending)\s*$/i);
-let statusCol = statusMatch ? statusMatch[1] : "";
+document.getElementById("status").innerText="";
 
-if(statusCol && statusCol.trim().toLowerCase() === "approved"){
+/* FILL DATA */
+document.getElementById("card").style.display="block";
 
-document.getElementById("status").innerText = "✅ Approved";
-
-document.getElementById("formCard").style.display = "none";
-document.getElementById("idCard").style.display = "block";
-document.getElementById("editBtn").style.display = "block";
-
-document.getElementById("cardName").innerText = cols[1] || "";
-document.getElementById("cardId").innerText = "ID: " + (cols[2] || "");
-document.getElementById("cardDesg").innerText = cols[3] || "";
-
-let imgs = row.match(/data:image\/[a-zA-Z]+;base64,[A-Za-z0-9+/=]+/g);
-
-if(imgs){
-  document.getElementById("previewPhoto").src = imgs[0];
-  document.getElementById("previewSign").src = imgs[1];
-}
-
-}else{
-
-document.getElementById("status").innerText = "⏳ Pending Approval";
-document.getElementById("formCard").style.display = "block";
-document.getElementById("idCard").style.display = "none";
-document.getElementById("editBtn").style.display = "none";
-}
+document.getElementById("username").innerText = cols[0] || "";
+document.getElementById("name").innerText = cols[1] || "";
+document.getElementById("designation").innerText = cols[2] || "";
+document.getElementById("place").innerText = cols[3] || "";
+document.getElementById("mobile").innerText = cols[4] || "";
+document.getElementById("dob").innerText = cols[5] || "";
+document.getElementById("email").innerText = cols[8] || "";
+document.getElementById("category").innerText = cols[14] || "";
+document.getElementById("district").innerText = cols[16] || "";
+document.getElementById("joining").innerText = cols[19] || "";
+document.getElementById("current").innerText = cols[23] || "";
 
 return;
 }
 }
 
-document.getElementById("status").innerText = "⚠️ Not Found";
+document.getElementById("status").innerText="⚠️ Employee not found";
 
 }catch(e){
-document.getElementById("status").innerText = "Error loading";
+document.getElementById("status").innerText="Error loading data";
 console.log(e);
 }
+
 }
 
-/* AUTO REFRESH */
-checkApproval();
-setInterval(checkApproval, 5000);
-
-/* EDIT */
-function editCard(){
-document.getElementById("formCard").style.display = "block";
-document.getElementById("idCard").style.display = "none";
-document.getElementById("editBtn").style.display = "none";
-document.getElementById("cancelBtn").style.display = "block";
-document.getElementById("status").innerText = "✏️ Editing mode";
-}
-
-/* CANCEL */
-function cancelEdit(){
-document.getElementById("formCard").style.display = "none";
-document.getElementById("idCard").style.display = "block";
-document.getElementById("editBtn").style.display = "block";
-document.getElementById("cancelBtn").style.display = "none";
-document.getElementById("status").innerText = "✅ Approved";
-}
+loadData();
 
 </script>
 
