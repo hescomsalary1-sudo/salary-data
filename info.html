@@ -196,7 +196,10 @@ body {
 <input type="file" id="sign" accept="image/*" class="input">
 
 <button onclick="submitID()" class="btn-gen">Submit for Approval</button>
-
+<button onclick="cancelEdit()" class="btn-gen" id="cancelBtn"
+style="display:none; background:#d9534f;">
+❌ Cancel
+</button>
 <div id="status" class="small">⚠️ Checking...</div>
 </div>
 
@@ -237,11 +240,6 @@ body {
 </div>
 
 </div>
-<div style="text-align:center; margin-top:10px;">
-  <button onclick="editCard()" class="btn-gen" id="editBtn" style="display:none;">
-    ✏️ Edit ID Card
-  </button>
-</div>
 <script>
 
 /* REWARD */
@@ -249,8 +247,12 @@ body {
 /* SUBMIT */
 async function submitID(){
 
-let name=nameEl.value, empId=empIdEl.value, desg=desgEl.value;
-let photo=photoEl.files[0], sign=signEl.files[0];
+let name = document.getElementById("name").value;
+let empId = document.getElementById("empId").value;
+let desg = document.getElementById("desg").value;
+
+let photo = document.getElementById("photo").files[0];
+let sign = document.getElementById("sign").files[0];
 
 if(!photo||!sign){alert("Upload photo & signature");return;}
 
