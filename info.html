@@ -251,6 +251,7 @@ function toBase64(file){
 
 
 
+<script>
 async function checkApproval(){
 
 let user = localStorage.getItem("currentUser");
@@ -265,27 +266,34 @@ let rows = text.split("\n");
 
 for(let i=1;i<rows.length;i++){
 
-let cols = rows[i].split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/);
-  console.log("CURRENT USER:", localStorage.getItem("currentUser"));
-console.log("ROW:", cols);
-let username = cols[0];
-let status = cols[6];
+let row = rows[i].trim();
 
-if(username && username.trim().toLowerCase() === user.trim().toLowerCase()){
+// ✅ match username (start of row)
+if(row.toLowerCase().startsWith(user.toLowerCase())){
 
-// 🔥 FIXED CONDITION
-if(status && status.trim().toLowerCase() === "approved"){
+// ✅ check approval anywhere
+if(row.toLowerCase().includes("approved")){
 
 document.getElementById("status").innerText = "✅ Approved";
 
+// ✅ split only first 4 safe columns
+let parts = row.split(",");
+
+document.getElementById("cardName").innerText = parts[1] || "";
+document.getElementById("cardId").innerText = "ID: " + (parts[2] || "");
+document.getElementById("cardDesg").innerText = parts[3] || "";
+
+// ✅ extract images safely
+let images = row.match(/data:image[^,]+,[^,]+/g);
+
+if(images && images.length > 0){
+  document.getElementById("previewPhoto").src = images[0];
+}
+if(images && images.length > 1){
+  document.getElementById("previewSign").src = images[1];
+}
+
 document.getElementById("idCard").style.display = "block";
-
-document.getElementById("cardName").innerText = cols[1];
-document.getElementById("cardId").innerText = "ID: " + cols[2];
-document.getElementById("cardDesg").innerText = cols[3];
-
-document.getElementById("previewPhoto").src = cols[4];
-document.getElementById("previewSign").src = cols[5];
 
 }else{
 document.getElementById("status").innerText = "⏳ Pending Approval";
@@ -305,6 +313,8 @@ console.log(e);
 
 }
 
+checkApproval();
+</script>
 checkApproval();
 
 function showCard(data){
