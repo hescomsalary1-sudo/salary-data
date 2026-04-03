@@ -82,14 +82,16 @@ position:fixed;
 top:0;
 left:0;
 width:100%;
-height:100%;
-background:#f4f6fb;
+height:calc(100vh - 68px);
+background:#f3f4fa;
 display:none;
 flex-direction:column;
-gap:15px;
 padding:20px;
-z-index:9999;
+gap:15px;
+z-index:500; /* 🔥 BELOW navbar */
+overflow:hidden;
 }
+
 
 /* SKELETON */
 @keyframes shimmer{
