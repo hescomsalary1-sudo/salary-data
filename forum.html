@@ -254,18 +254,41 @@ align-items:center;
 }
 
 /* Animated button */
+/* CENTER WRAPPER */
+.center-wrapper{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  transform:translateY(-18px);
+}
+
+/* NEW PREMIUM BUTTON */
 .center-btn{
-width:55px;
-height:55px;
-border-radius:50%;
-background:linear-gradient(135deg,#2400b7,#3b1eff);
-color:#fff;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:24px;
-box-shadow:0 5px 15px rgba(0,0,0,0.3);
-animation:pulse 1.5s infinite;
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ff7a18,#ff3d3d);
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:26px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.3);
+  animation:float 2s ease-in-out infinite;
+}
+
+/* FLOAT EFFECT */
+@keyframes float{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-6px); }
+}
+
+/* TEXT BELOW BUTTON */
+.center-text{
+  font-size:11px;
+  margin-top:4px;
+  color:#ff3d3d;
+  font-weight:600;
 }
 
 /* 🔥 Animation like GIF */
