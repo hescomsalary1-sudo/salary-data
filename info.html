@@ -254,19 +254,38 @@ let desg = document.getElementById("desg").value;
 let photo = document.getElementById("photo").files[0];
 let sign = document.getElementById("sign").files[0];
 
-if(!photo||!sign){alert("Upload photo & signature");return;}
+if(!photo || !sign){
+  alert("Upload photo & signature");
+  return;
+}
 
-let p64=await toBase64(photo);
-let s64=await toBase64(sign);
+let p64 = await toBase64(photo);
+let s64 = await toBase64(sign);
 
-let user=localStorage.getItem("currentUser");
-document.getElementById("cancelBtn").style.display = "none";
-await fetch("https://script.google.com/macros/s/AKfycbyZQFdpFsMfnJtS2_35nPIP3TKD_LeYBaIg0p9YChWWfo_5T0TiPbnvpG_YPWen_UmVRw/exec",{
+let user = localStorage.getItem("currentUser");
+
+/* store empId locally */
+localStorage.setItem("empId", empId);
+
+await fetch("YOUR_APPSCRIPT_URL",{
 method:"POST",
-body:JSON.stringify({username:user,name,empId,designation:desg,photo:p64,signature:s64})
+body: JSON.stringify({
+  username:user,
+  name:name,
+  empId:empId,
+  designation:desg,
+  photo:p64,
+  signature:s64
+})
 });
 
-status.innerText="⏳ Pending Approval";
+/* FORCE RESET UI */
+document.getElementById("status").innerText = "⏳ Pending Approval";
+document.getElementById("idCard").style.display = "none";
+document.getElementById("editBtn").style.display = "none";
+document.getElementById("formCard").style.display = "block";
+document.getElementById("cancelBtn").style.display = "none";
+
 }
 
 /* BASE64 */
@@ -281,68 +300,64 @@ rd.readAsDataURL(f);
 /* CHECK APPROVAL */
 async function checkApproval(){
 
-let user=localStorage.getItem("currentUser");
-if(!user) return;
+let empId = localStorage.getItem("empId");
+if(!empId) return;
 
 try{
 
-let res=await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vT1-Gy_Ia2JDR0MSPQ18bwGVv3vCtt-Bf7YhxCTDghZtAOiaE-LMuNoVxLHrvSpM37nxHvYEljfGqgw/pub?output=csv&v="+Date.now());
-let text=await res.text();
+let res = await fetch("YOUR_CSV_URL&v="+Date.now());
+let text = await res.text();
 
-let rows=text.split("\n");
+let rows = text.split("\n");
 
 for(let i=1;i<rows.length;i++){
 
-let row=rows[i].trim();
+let row = rows[i].trim();
+let parts = row.split(",");
 
-if(row.toLowerCase().includes(user.toLowerCase())){
+/* match empId */
+if(parts[2] && parts[2].trim() === empId.trim()){
 
-if(row.toLowerCase().includes("approved")){
-// ✅ hide form
+let statusCol = parts[6];
+
+/* 🔥 STRICT CHECK */
+if(statusCol && statusCol.trim().toLowerCase() === "approved"){
+
+document.getElementById("status").innerText = "✅ Approved";
+
 document.getElementById("formCard").style.display = "none";
-
-// ✅ show edit button
+document.getElementById("idCard").style.display = "block";
 document.getElementById("editBtn").style.display = "block";
-status.innerText="✅ Approved";
 
-/* BASIC INFO */
-let parts=row.split(",");
-cardName.innerText=parts[1]||"";
-cardId.innerText="ID: "+(parts[2]||"");
-cardDesg.innerText=parts[3]||"";
+/* fill data */
+document.getElementById("cardName").innerText = parts[1] || "";
+document.getElementById("cardId").innerText = "ID: " + (parts[2] || "");
+document.getElementById("cardDesg").innerText = parts[3] || "";
 
-/* IMAGES */
-// 🔥 extract full base64 safely
-let matches = row.match(/data:image\/[a-zA-Z]+;base64,[A-Za-z0-9+/=]+/g);
+/* images */
+let imgs = row.match(/data:image\/[a-zA-Z]+;base64,[A-Za-z0-9+/=]+/g);
 
-if(matches && matches.length > 0){
-  document.getElementById("previewPhoto").src = matches[0];
+if(imgs){
+  document.getElementById("previewPhoto").src = imgs[0];
+  document.getElementById("previewSign").src = imgs[1];
 }
-
-if(matches && matches.length > 1){
-  document.getElementById("previewSign").src = matches[1];
-}
-
-idCard.style.display="block";
 
 }else{
-status.innerText="⏳ Pending Approval";
-  document.getElementById("formCard").style.display = "block";
-document.getElementById("editBtn").style.display = "none";
-  // reset UI
+
+document.getElementById("status").innerText = "⏳ Pending Approval";
+document.getElementById("formCard").style.display = "block";
 document.getElementById("idCard").style.display = "none";
 document.getElementById("editBtn").style.display = "none";
-document.getElementById("formCard").style.display = "block";
 }
 
 return;
 }
 }
 
-status.innerText="⚠️ Not Found";
+document.getElementById("status").innerText = "⚠️ Not Found";
 
 }catch(e){
-status.innerText="Error loading";
+document.getElementById("status").innerText = "Error loading";
 console.log(e);
 }
 }
@@ -354,39 +369,21 @@ checkApproval();
 <script>
 function editCard(){
 
-// show form
 document.getElementById("formCard").style.display = "block";
-
-// hide card
 document.getElementById("idCard").style.display = "none";
-
-// hide edit button
 document.getElementById("editBtn").style.display = "none";
-
-// ✅ show cancel button
 document.getElementById("cancelBtn").style.display = "block";
 
-// update status
 document.getElementById("status").innerText = "✏️ Editing mode";
-
 }
-  function cancelEdit(){
+function cancelEdit(){
 
-// hide form
 document.getElementById("formCard").style.display = "none";
-
-// show ID card again
 document.getElementById("idCard").style.display = "block";
-
-// show edit button
 document.getElementById("editBtn").style.display = "block";
-
-// hide cancel button
 document.getElementById("cancelBtn").style.display = "none";
 
-// restore status
 document.getElementById("status").innerText = "✅ Approved";
-
 }
 </script>
 </body>
