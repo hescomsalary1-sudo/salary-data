@@ -251,6 +251,7 @@ function toBase64(file){
 
 
 
+<script>
 async function checkApproval(){
 
 let user = localStorage.getItem("currentUser");
@@ -267,40 +268,45 @@ for(let i=1;i<rows.length;i++){
 
 let cols = rows[i].split(",");
 
-let username = cols[0]?.trim();
+let username = cols[0];
+let status = cols[6];
 
-if(username === user){
+if(username && username.trim().toLowerCase() === user.trim().toLowerCase()){
 
-let status = cols[6]?.trim();
-
-if(status === "Approved"){
+// 🔥 FIXED CONDITION
+if(status && status.trim().toLowerCase() === "approved"){
 
 document.getElementById("status").innerText = "✅ Approved";
 
-/* SHOW ID */
-showCard(cols);
+document.getElementById("idCard").style.display = "block";
+
+document.getElementById("cardName").innerText = cols[1];
+document.getElementById("cardId").innerText = "ID: " + cols[2];
+document.getElementById("cardDesg").innerText = cols[3];
+
+document.getElementById("previewPhoto").src = cols[4];
+document.getElementById("previewSign").src = cols[5];
 
 }else{
-
 document.getElementById("status").innerText = "⏳ Pending Approval";
-
 }
 
 return;
-
 }
 
 }
 
-/* if not found */
-document.getElementById("status").innerText = "⚠️ Not Submitted";
+document.getElementById("status").innerText = "⚠️ Not Found";
 
 }catch(e){
 document.getElementById("status").innerText = "Error loading";
+console.log(e);
 }
 
 }
 
+checkApproval();
+</script>
 
 function showCard(data){
 
