@@ -261,7 +261,7 @@ let s64=await toBase64(sign);
 
 let user=localStorage.getItem("currentUser");
 document.getElementById("cancelBtn").style.display = "none";
-await fetch("https://script.google.com/macros/s/AKfycbwF3t1DXO_jyRDN-NoBZhRc-zbKOD4sjqs3ftiedS_hzbdm_KR1JL_UCBNyoeBrZsELFw/exec",{
+await fetch("https://script.google.com/macros/s/AKfycbyZQFdpFsMfnJtS2_35nPIP3TKD_LeYBaIg0p9YChWWfo_5T0TiPbnvpG_YPWen_UmVRw/exec",{
 method:"POST",
 body:JSON.stringify({username:user,name,empId,designation:desg,photo:p64,signature:s64})
 });
