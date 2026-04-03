@@ -313,12 +313,17 @@ let rows = text.split("\n");
 for(let i=1;i<rows.length;i++){
 
 let row = rows[i].trim();
-let parts = row.split(",");
+// match empId safely (first few columns only)
+let basic = row.split(",", 4); // only first 4 safe values
 
-/* match empId */
-if(parts[2] && parts[2].trim() === empId.trim()){
+if(basic[2] && basic[2].trim() === empId.trim()){
 
-let statusCol = parts[6];
+// 🔥 extract status safely (last column)
+let statusMatch = row.match(/,(Approved|Pending)\s*$/i);
+let statusCol = statusMatch ? statusMatch[1] : "";
+
+// 🔥 strict check
+if(statusCol.toLowerCase() === "approved"){
 
 /* 🔥 STRICT CHECK */
 if(statusCol && statusCol.trim().toLowerCase() === "approved"){
@@ -330,9 +335,9 @@ document.getElementById("idCard").style.display = "block";
 document.getElementById("editBtn").style.display = "block";
 
 /* fill data */
-document.getElementById("cardName").innerText = parts[1] || "";
-document.getElementById("cardId").innerText = "ID: " + (parts[2] || "");
-document.getElementById("cardDesg").innerText = parts[3] || "";
+document.getElementById("cardName").innerText = basic[1] || "";
+document.getElementById("cardId").innerText = "ID: " + (basic[2] || "");
+document.getElementById("cardDesg").innerText = basic[3] || "";
 
 /* images */
 let imgs = row.match(/data:image\/[a-zA-Z]+;base64,[A-Za-z0-9+/=]+/g);
