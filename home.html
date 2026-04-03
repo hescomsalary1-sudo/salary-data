@@ -610,54 +610,6 @@ color:#2400b7;
 font-size:11px;
 color:#777;
 }
-
-
-  .exit-popup{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.4);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:2000;
-}
-
-.exit-box{
-  background:#fff;
-  padding:20px;
-  border-radius:16px;
-  width:260px;
-  text-align:center;
-  animation:popup 0.25s ease;
-}
-
-@keyframes popup{
-  from{transform:scale(0.8); opacity:0;}
-  to{transform:scale(1); opacity:1;}
-}
-
-.exit-actions{
-  margin-top:15px;
-  display:flex;
-  justify-content:space-between;
-}
-
-.exit-actions button{
-  flex:1;
-  margin:0 5px;
-  padding:10px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-}
-
-.exit-btn{
-  background:#e53935;
-  color:#fff;
-}
 </style>
 </head>
 
@@ -1179,7 +1131,14 @@ window.location = "last_salary.html";
 
 
 
+(function () {
+    // Clear history effect
+    history.pushState(null, "", location.href);
 
+    window.onpopstate = function () {
+        history.go(1); // Force forward (no back)
+    };
+})();
 
 
 // SAMPLE DATA (you can later connect CSV)
@@ -1324,62 +1283,5 @@ window.addEventListener("load", function(){
 
 });
 </script>
-
-<script>
-
-/* 🔥 STRONG BACK CONTROL */
-let backPressed = false;
-
-// push multiple states (important)
-history.pushState({}, "");
-history.pushState({}, "");
-
-window.addEventListener("popstate", function () {
-
-  if(!backPressed){
-    backPressed = true;
-
-    // show popup
-    document.getElementById("exitPopup").style.display = "flex";
-
-    // push again so back doesn't exit
-    history.pushState({}, "");
-
-    // reset flag after short time
-    setTimeout(()=>{
-      backPressed = false;
-    }, 500);
-
-  }
-
-});
-
-/* BUTTONS */
-function stayApp(){
-  document.getElementById("exitPopup").style.display = "none";
-}
-
-function exitApp(){
-  window.close();
-
-  // fallback (important for browser)
-  setTimeout(()=>{
-    window.location.href = "about:blank";
-  }, 200);
-}
-
-</script>
-
-  <div id="exitPopup" class="exit-popup">
-  <div class="exit-box">
-    <h3>Exit App</h3>
-    <p>Are you sure you want to quit?</p>
-
-    <div class="exit-actions">
-      <button onclick="stayApp()">Cancel</button>
-      <button class="exit-btn" onclick="exitApp()">Exit</button>
-    </div>
-  </div>
-</div>
 </body>
 </html>
