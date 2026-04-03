@@ -13,7 +13,6 @@ body {
   color: #fff;
 }
 
-/* HEADER */
 .header {
   text-align: center;
   padding: 20px;
@@ -21,7 +20,6 @@ body {
   font-weight: bold;
 }
 
-/* CARD */
 .card {
   background: rgba(255,255,255,0.08);
   margin: 15px;
@@ -31,17 +29,11 @@ body {
   box-shadow: 0 8px 25px rgba(0,0,0,0.3);
 }
 
-/* INFO */
-.info-box {
-  font-size: 14px;
-  line-height: 1.6;
-}
+.info-box { font-size: 14px; line-height: 1.6; }
 
-/* POINTS */
 .points { font-size: 26px; font-weight: bold; }
 .level { margin-top: 5px; font-size: 16px; color: #ffd700; }
 
-/* PROGRESS */
 .progress-bar {
   height: 8px;
   background: rgba(255,255,255,0.2);
@@ -49,13 +41,13 @@ body {
   margin-top: 10px;
   overflow: hidden;
 }
+
 .progress {
   height: 100%;
   background: #00ffcc;
   width: 0%;
 }
 
-/* INPUT */
 .input {
   width: 100%;
   padding: 10px;
@@ -64,7 +56,6 @@ body {
   border-radius: 10px;
 }
 
-/* BUTTON */
 .btn-gen {
   width: 100%;
   padding: 10px;
@@ -77,7 +68,6 @@ body {
   cursor: pointer;
 }
 
-/* ID CARD */
 .id-box {
   background: white;
   color: #000;
@@ -88,7 +78,6 @@ body {
   text-align: center;
 }
 
-/* PHOTO */
 .id-photo {
   width: 80px;
   height: 80px;
@@ -97,7 +86,6 @@ body {
   border: 2px solid #0f9d58;
 }
 
-/* SIGN */
 .sign-img {
   width: 110px;
   height: 40px;
@@ -105,7 +93,6 @@ body {
   border-bottom: 1px solid #000;
 }
 
-/* SMALL */
 .small {
   font-size: 13px;
   opacity: 0.8;
@@ -117,7 +104,7 @@ body {
 
 <div class="header">⚡ Info Center</div>
 
-<!-- FUN + INFO -->
+<!-- INFO -->
 <div class="card">
   <div class="info-box">
     💡 Tip: Maintain full attendance to earn bonus points!<br>
@@ -137,9 +124,8 @@ body {
   <div class="small" id="summary"></div>
 </div>
 
-<!-- ID CARD FORM -->
+<!-- FORM -->
 <div class="card">
-
 <h3>🪪 Create ID Card</h3>
 
 <input type="text" id="name" placeholder="Enter Name" class="input">
@@ -154,13 +140,11 @@ body {
 
 <button onclick="submitID()" class="btn-gen">Submit for Approval</button>
 
-<div id="status" class="small">⚠️ Not Submitted</div>
-
+<div id="status" class="small">⚠️ Checking...</div>
 </div>
 
-<!-- ID CARD PREVIEW -->
+<!-- ID CARD -->
 <div class="card" id="idCard" style="display:none;">
-
 <div class="id-box">
 
 <h3>Company ID</h3>
@@ -176,162 +160,112 @@ body {
 <div class="small">Authorized Signature</div>
 
 </div>
-
 </div>
 
 <script>
 
-/* REWARD LOGIC */
-let present = 18, leave = 2, absent = 1;
+/* REWARD */
+let present=18, leave=2, absent=1;
+let points=(present*10)+(leave*5);
+if(absent===0) points+=50;
+if(absent<=1) points+=20;
 
-let points = (present*10)+(leave*5);
+let level="🥉 Bronze", progress=points/2;
+if(points>=200){level="🥈 Silver";progress=(points-200)/3;}
+if(points>=500){level="🥇 Gold";progress=(points-500)/5;}
+if(points>=1000){level="💎 Platinum";progress=100;}
 
-if(absent === 0) points += 50;
-if(absent <= 1) points += 20;
-
-let level = "🥉 Bronze";
-let progress = points/2;
-
-if(points >= 200){ level="🥈 Silver"; progress=(points-200)/3; }
-if(points >= 500){ level="🥇 Gold"; progress=(points-500)/5; }
-if(points >= 1000){ level="💎 Platinum"; progress=100; }
-
-document.getElementById("points").innerText = points+" Points";
-document.getElementById("level").innerText = level;
-document.getElementById("progress").style.width = progress+"%";
-
-document.getElementById("summary").innerText =
+document.getElementById("points").innerText=points+" Points";
+document.getElementById("level").innerText=level;
+document.getElementById("progress").style.width=progress+"%";
+document.getElementById("summary").innerText=
 "Present: "+present+" | Leave: "+leave+" | Absent: "+absent;
 
-/* SUBMIT ID */
+/* SUBMIT */
 async function submitID(){
 
-let name = document.getElementById("name").value;
-let empId = document.getElementById("empId").value;
-let desg = document.getElementById("desg").value;
+let name=nameEl.value, empId=empIdEl.value, desg=desgEl.value;
+let photo=photoEl.files[0], sign=signEl.files[0];
 
-let photo = document.getElementById("photo").files[0];
-let sign = document.getElementById("sign").files[0];
+if(!photo||!sign){alert("Upload photo & signature");return;}
 
-if(!photo || !sign){
-  alert("Upload photo & signature");
-  return;
-}
+let p64=await toBase64(photo);
+let s64=await toBase64(sign);
 
-let photo64 = await toBase64(photo);
-let sign64 = await toBase64(sign);
+let user=localStorage.getItem("currentUser");
 
-let user = localStorage.getItem("currentUser");
-
-/* SEND TO GOOGLE SHEET */
-await fetch("https://script.google.com/macros/s/AKfycbwF3t1DXO_jyRDN-NoBZhRc-zbKOD4sjqs3ftiedS_hzbdm_KR1JL_UCBNyoeBrZsELFw/exec", {
-  method:"POST",
-  body: JSON.stringify({
-    username:user,
-    name:name,
-    empId:empId,
-    designation:desg,
-    photo:photo64,
-    signature:sign64
-  })
+await fetch("https://script.google.com/macros/s/AKfycbwF3t1DXO_jyRDN-NoBZhRc-zbKOD4sjqs3ftiedS_hzbdm_KR1JL_UCBNyoeBrZsELFw/exec",{
+method:"POST",
+body:JSON.stringify({username:user,name,empId,designation:desg,photo:p64,signature:s64})
 });
 
-document.getElementById("status").innerText = "⏳ Pending Approval";
-
+status.innerText="⏳ Pending Approval";
 }
 
 /* BASE64 */
-function toBase64(file){
-  return new Promise(res=>{
-    let r=new FileReader();
-    r.onload=()=>res(r.result);
-    r.readAsDataURL(file);
-  });
+function toBase64(f){
+return new Promise(r=>{
+let rd=new FileReader();
+rd.onload=()=>r(rd.result);
+rd.readAsDataURL(f);
+});
 }
 
-
-
-<script>
+/* CHECK APPROVAL */
 async function checkApproval(){
 
-let user = localStorage.getItem("currentUser");
+let user=localStorage.getItem("currentUser");
 if(!user) return;
 
 try{
 
-let res = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vT1-Gy_Ia2JDR0MSPQ18bwGVv3vCtt-Bf7YhxCTDghZtAOiaE-LMuNoVxLHrvSpM37nxHvYEljfGqgw/pub?output=csv?v=" + new Date().getTime());
-let text = await res.text();
+let res=await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vT1-Gy_Ia2JDR0MSPQ18bwGVv3vCtt-Bf7YhxCTDghZtAOiaE-LMuNoVxLHrvSpM37nxHvYEljfGqgw/pub?output=csv&v="+Date.now());
+let text=await res.text();
 
-let rows = text.split("\n");
+let rows=text.split("\n");
 
 for(let i=1;i<rows.length;i++){
 
-let row = rows[i].trim();
+let row=rows[i].trim();
 
-// ✅ match username (start of row)
-if(row.toLowerCase().startsWith(user.toLowerCase())){
+if(row.toLowerCase().includes(user.toLowerCase())){
 
-// ✅ check approval anywhere
 if(row.toLowerCase().includes("approved")){
 
-document.getElementById("status").innerText = "✅ Approved";
+status.innerText="✅ Approved";
 
-// ✅ split only first 4 safe columns
-let parts = row.split(",");
+/* BASIC INFO */
+let parts=row.split(",");
+cardName.innerText=parts[1]||"";
+cardId.innerText="ID: "+(parts[2]||"");
+cardDesg.innerText=parts[3]||"";
 
-document.getElementById("cardName").innerText = parts[1] || "";
-document.getElementById("cardId").innerText = "ID: " + (parts[2] || "");
-document.getElementById("cardDesg").innerText = parts[3] || "";
+/* IMAGES */
+let imgs=row.match(/data:image[^,]+,[^,]+/g);
+if(imgs){ previewPhoto.src=imgs[0]; previewSign.src=imgs[1]; }
 
-// ✅ extract images safely
-let images = row.match(/data:image[^,]+,[^,]+/g);
-
-if(images && images.length > 0){
-  document.getElementById("previewPhoto").src = images[0];
-}
-if(images && images.length > 1){
-  document.getElementById("previewSign").src = images[1];
-}
-
-document.getElementById("idCard").style.display = "block";
+idCard.style.display="block";
 
 }else{
-document.getElementById("status").innerText = "⏳ Pending Approval";
+status.innerText="⏳ Pending Approval";
 }
 
 return;
 }
-
 }
 
-document.getElementById("status").innerText = "⚠️ Not Found";
+status.innerText="⚠️ Not Found";
 
 }catch(e){
-document.getElementById("status").innerText = "Error loading";
+status.innerText="Error loading";
 console.log(e);
 }
-
 }
 
+/* RUN */
 checkApproval();
-</script>
-<script>
-function showCard(data){
-
-document.getElementById("idCard").style.display = "block";
-
-document.getElementById("cardName").innerText = data[1];
-document.getElementById("cardId").innerText = "ID: " + data[2];
-document.getElementById("cardDesg").innerText = data[3];
-
-document.getElementById("previewPhoto").src = data[4];
-document.getElementById("previewSign").src = data[5];
-
-}
 
 </script>
-<script>
-checkApproval();
-</script>
+
 </body>
 </html>
