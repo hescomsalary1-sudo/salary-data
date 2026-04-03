@@ -3,125 +3,180 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Employee ID Card</title>
+<title>ID Card</title>
 
 <style>
 body{
   margin:0;
   font-family:'Segoe UI',sans-serif;
-  background:linear-gradient(135deg,#1f2937,#111827);
-  color:#fff;
-}
-
-.header{
-  text-align:center;
-  padding:15px;
-  font-size:20px;
-  font-weight:bold;
-}
-
-/* ID CARD */
-.card{
-  width:260px;
-  margin:20px auto;
-  background:#fff;
+  background:#2f8f8f;
   color:#000;
-  border-radius:16px;
-  overflow:hidden;
-  box-shadow:0 10px 25px rgba(0,0,0,0.5);
-}
-
-/* HEADER */
-.top{
-  background:linear-gradient(135deg,#0f9d58,#34a853);
-  color:#fff;
-  text-align:center;
-  padding:12px;
-}
-
-.top::before{
-  content:"EMPLOYEE ID CARD";
-  display:block;
-  font-size:11px;
-}
-
-.top h2{
-  margin:5px 0 0;
-  font-size:16px;
-}
-
-.top span{
-  font-size:12px;
-}
-
-/* BODY */
-.body{
-  padding:12px;
-  text-align:center;
-}
-
-/* PHOTO */
-.photo{
-  width:80px;
-  height:80px;
-  border-radius:50%;
-  background:#ccc;
-  margin:-40px auto 10px auto;
-  border:3px solid #fff;
-}
-
-/* DETAILS */
-.details{
-  font-size:12px;
-  text-align:left;
-  margin-top:10px;
-}
-
-.details p{
-  margin:5px 0;
-  border-bottom:1px solid #eee;
-  padding-bottom:4px;
 }
 
 /* STATUS */
 .status{
   text-align:center;
+  padding:15px;
+  color:#fff;
+}
+
+/* WRAPPER */
+.card-wrapper{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+/* CARD */
+.id-card{
+  width:260px;
+  height:420px;
+  background:#fff;
+  border-radius:20px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+
+/* TOP CURVE */
+.top-bg{
+  position:absolute;
+  width:100%;
+  height:140px;
+  background:#0a1f44;
+  border-bottom-left-radius:80px;
+  border-bottom-right-radius:80px;
+}
+
+/* PROFILE */
+.profile{
+  position:absolute;
+  top:80px;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+.profile img{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  border:4px solid #2bbbad;
+  object-fit:cover;
+}
+
+/* INFO */
+.info{
+  position:absolute;
+  top:180px;
+  width:100%;
+  text-align:center;
+}
+
+.info h2{
+  margin:5px 0;
+}
+
+.role{
+  color:#2bbbad;
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+.details{
+  font-size:12px;
+  text-align:left;
+  padding:0 20px;
+}
+
+/* BARCODE */
+.barcode{
+  position:absolute;
+  bottom:15px;
+  left:20px;
+  right:20px;
+  height:40px;
+  background:repeating-linear-gradient(
+    to right,
+    #000 0px,
+    #000 2px,
+    #fff 2px,
+    #fff 4px
+  );
+}
+
+/* BACK */
+.back-content{
+  position:absolute;
+  top:150px;
+  padding:20px;
+  font-size:12px;
+}
+
+.back-content h3{
+  color:#2bbbad;
+}
+
+.sign{
   margin-top:20px;
-  font-size:14px;
+  border-top:1px solid #000;
+  width:120px;
+  text-align:center;
+  padding-top:5px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">⚡ Employee Info</div>
-
 <div id="status" class="status">⏳ Loading...</div>
 
-<div class="card" id="card" style="display:none;">
+<div class="card-wrapper" id="card" style="display:none;">
 
-<div class="top">
-  <h2 id="name"></h2>
-  <span id="designation"></span>
+<!-- FRONT -->
+<div class="id-card">
+
+  <div class="top-bg"></div>
+
+  <div class="profile">
+    <img id="photo" src="https://via.placeholder.com/90">
+  </div>
+
+  <div class="info">
+    <h2 id="name"></h2>
+    <div class="role" id="designation"></div>
+
+    <div class="details">
+      <p><b>ID No:</b> <span id="username"></span></p>
+      <p><b>DOB:</b> <span id="dob"></span></p>
+      <p><b>Phone:</b> <span id="mobile"></span></p>
+      <p><b>Email:</b> <span id="email"></span></p>
+    </div>
+  </div>
+
+  <div class="barcode"></div>
+
 </div>
 
-<div class="body">
+<!-- BACK -->
+<div class="id-card">
 
-<div class="photo"></div>
+  <div class="top-bg"></div>
 
-<div style="font-size:12px; color:#666;">Govt Employee</div>
+  <div class="back-content">
+    <h3>Terms & Conditions</h3>
 
-<div class="details">
-  <p><b>ID:</b> <span id="username"></span></p>
-  <p><b>Mobile:</b> <span id="mobile"></span></p>
-  <p><b>Email:</b> <span id="email"></span></p>
-  <p><b>Place:</b> <span id="place"></span></p>
-  <p><b>DOB:</b> <span id="dob"></span></p>
-  <p><b>District:</b> <span id="district"></span></p>
-  <p><b>Category:</b> <span id="category"></span></p>
-  <p><b>Joining:</b> <span id="joining"></span></p>
-  <p><b>Current:</b> <span id="current"></span></p>
-</div>
+    <ul>
+      <li>Carry ID card always</li>
+      <li>Do not misuse</li>
+      <li>Return if found</li>
+    </ul>
+
+    <p><b>Joining:</b> <span id="joining"></span></p>
+    <p><b>District:</b> <span id="district"></span></p>
+
+    <div class="sign">Authorized Sign</div>
+  </div>
 
 </div>
 
@@ -188,20 +243,21 @@ let username = (cols[0] || "").trim();
 if(username === user.trim()){
 
 document.getElementById("status").innerText="";
-document.getElementById("card").style.display="block";
+document.getElementById("card").style.display="flex";
 
 /* FILL DATA */
 document.getElementById("username").innerText = cols[0] || "";
 document.getElementById("name").innerText = cols[1] || "";
 document.getElementById("designation").innerText = cols[2] || "";
-document.getElementById("place").innerText = cols[3] || "";
 document.getElementById("mobile").innerText = cols[4] || "";
 document.getElementById("dob").innerText = cols[5] || "";
 document.getElementById("email").innerText = cols[8] || "";
-document.getElementById("category").innerText = cols[14] || "";
 document.getElementById("district").innerText = cols[16] || "";
 document.getElementById("joining").innerText = cols[19] || "";
-document.getElementById("current").innerText = cols[23] || "";
+
+/* PHOTO (if available) */
+document.getElementById("photo").src =
+  cols[6] || "https://via.placeholder.com/90";
 
 return;
 }
