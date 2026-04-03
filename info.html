@@ -99,6 +99,81 @@ body {
   font-size: 13px;
   opacity: 0.8;
 }
+  /* ID CARD NEW DESIGN */
+.id-container{
+  background:#fff;
+  color:#000;
+  border-radius:15px;
+  overflow:hidden;
+  max-width:260px;
+  margin:auto;
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* HEADER */
+.id-header{
+  background:linear-gradient(135deg,#0f9d58,#34a853);
+  color:#fff;
+  text-align:center;
+  padding:10px;
+  font-weight:bold;
+  font-size:14px;
+}
+
+/* BODY */
+.id-body{
+  text-align:center;
+  padding:15px;
+}
+
+.id-photo{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid #0f9d58;
+  margin-bottom:10px;
+}
+
+.id-body h3{
+  margin:5px 0;
+  font-size:18px;
+}
+
+.id-body p{
+  margin:3px 0;
+}
+
+.empid{
+  font-size:13px;
+  color:#555;
+}
+
+/* FOOTER */
+.id-footer{
+  padding:10px;
+  text-align:center;
+  border-top:1px solid #ddd;
+}
+
+.sign-box{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.sign-img{
+  width:120px;
+  height:50px;
+  object-fit:contain;
+}
+
+/* MOBILE RESPONSIVE */
+@media(max-width:400px){
+  .id-container{
+    max-width:220px;
+  }
+}
 </style>
 </head>
 
@@ -147,21 +222,40 @@ body {
 
 <!-- ID CARD -->
 <div class="card" id="idCard" style="display:none;">
-<div class="id-box">
 
-<h3>Company ID</h3>
+<div class="id-container">
 
-<img id="previewPhoto" class="id-photo"><br><br>
+<div class="id-header">
+  ⚡ EMPLOYEE ID CARD
+</div>
+
+<div class="id-body">
+
+<img id="previewPhoto" class="id-photo">
 
 <h3 id="cardName"></h3>
-<p id="cardId"></p>
 <p id="cardDesg"></p>
-
-<br>
-<img id="previewSign" class="sign-img">
-<div class="small">Authorized Signature</div>
+<p class="empid" id="cardId"></p>
 
 </div>
+
+<div class="id-footer">
+
+<div class="sign-box">
+  <img id="previewSign" class="sign-img">
+  <div class="small">Authorized Sign</div>
+</div>
+
+</div>
+
+</div>
+
+<div style="text-align:center; margin-top:10px;">
+  <button onclick="editCard()" class="btn-gen" id="editBtn" style="display:none;">
+    ✏️ Edit ID Card
+  </button>
+</div>
+
 </div>
 <div style="text-align:center; margin-top:10px;">
   <button onclick="editCard()" class="btn-gen" id="editBtn" style="display:none;">
