@@ -249,7 +249,75 @@ function toBase64(file){
   });
 }
 
-</script>
 
+
+async function checkApproval(){
+
+let user = localStorage.getItem("currentUser");
+if(!user) return;
+
+try{
+
+let res = await fetch("YOUR_CSV_URL?v=" + new Date().getTime());
+let text = await res.text();
+
+let rows = text.split("\n");
+
+for(let i=1;i<rows.length;i++){
+
+let cols = rows[i].split(",");
+
+let username = cols[0]?.trim();
+
+if(username === user){
+
+let status = cols[6]?.trim();
+
+if(status === "Approved"){
+
+document.getElementById("status").innerText = "✅ Approved";
+
+/* SHOW ID */
+showCard(cols);
+
+}else{
+
+document.getElementById("status").innerText = "⏳ Pending Approval";
+
+}
+
+return;
+
+}
+
+}
+
+/* if not found */
+document.getElementById("status").innerText = "⚠️ Not Submitted";
+
+}catch(e){
+document.getElementById("status").innerText = "Error loading";
+}
+
+}
+
+
+function showCard(data){
+
+document.getElementById("idCard").style.display = "block";
+
+document.getElementById("cardName").innerText = data[1];
+document.getElementById("cardId").innerText = "ID: " + data[2];
+document.getElementById("cardDesg").innerText = data[3];
+
+document.getElementById("previewPhoto").src = data[4];
+document.getElementById("previewSign").src = data[5];
+
+}
+
+</script>
+<script>
+checkApproval();
+</script>
 </body>
 </html>
