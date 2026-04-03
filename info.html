@@ -267,7 +267,7 @@ let user = localStorage.getItem("currentUser");
 /* store empId locally */
 localStorage.setItem("empId", empId);
 
-await fetch("YOUR_APPSCRIPT_URL",{
+await fetch("https://script.google.com/macros/s/AKfycbzC5QQsxkZgu6qgCd5Wpla-T4XYfoOLBVjewiwWdbHYH_qR1iTBhko0ZWmdGoffQVXhPw/exec",{
 method:"POST",
 body: JSON.stringify({
   username:user,
@@ -305,7 +305,7 @@ if(!empId) return;
 
 try{
 
-let res = await fetch("YOUR_CSV_URL&v="+Date.now());
+let res = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vT1-Gy_Ia2JDR0MSPQ18bwGVv3vCtt-Bf7YhxCTDghZtAOiaE-LMuNoVxLHrvSpM37nxHvYEljfGqgw/pub?output=csv&v="+Date.now());
 let text = await res.text();
 
 let rows = text.split("\n");
