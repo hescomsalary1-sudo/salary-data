@@ -258,7 +258,7 @@ if(!user) return;
 
 try{
 
-let res = await fetch("YOUR_CSV_URL?v=" + new Date().getTime());
+let res = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vT1-Gy_Ia2JDR0MSPQ18bwGVv3vCtt-Bf7YhxCTDghZtAOiaE-LMuNoVxLHrvSpM37nxHvYEljfGqgw/pub?output=csv?v=" + new Date().getTime());
 let text = await res.text();
 
 let rows = text.split("\n");
