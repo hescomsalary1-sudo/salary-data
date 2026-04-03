@@ -289,6 +289,13 @@ window.onload = function(){
 }
 </script>
 </script>
+  <script>
+history.pushState(null, null, location.href);
+
+window.onpopstate = function () {
+  window.location.replace("home.html");
+};
+</script>
 <div class="navbar pos0" id="navbar">
 
 <div class="nav-item" onclick="goTab(0,'home.html')">
