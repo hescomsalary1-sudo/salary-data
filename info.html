@@ -142,7 +142,7 @@ let s64=await toBase64(sign);
 
 let user=localStorage.getItem("currentUser");
 
-await fetch("YOUR_APPSCRIPT_URL",{
+await fetch("https://script.google.com/macros/s/AKfycbyAaCzUtvx9fNxL-RfnaS532KA_8Ann4-STncgBRfN1ZZnDi9jrio9nuWP9nrUgkvZt/exec",{
 method:"POST",
 body:JSON.stringify({
 username:user,
