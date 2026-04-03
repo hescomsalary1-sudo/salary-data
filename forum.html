@@ -209,6 +209,35 @@ background:linear-gradient(135deg,#2400b7,#3b1eff);
 .nav-item:active{
 transform:scale(0.92);
 }
+
+  /* CENTER FLOAT BUTTON */
+.nav-center{
+position:absolute;
+top:-22px;
+left:50%;
+transform:translateX(-50%);
+width:60px;
+height:60px;
+background:linear-gradient(135deg,#2400b7,#3b1eff);
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+box-shadow:0 6px 15px rgba(0,0,0,0.25);
+cursor:pointer;
+z-index:1001;
+transition:0.3s;
+}
+
+.nav-center:active{
+transform:translateX(-50%) scale(0.9);
+}
+
+.center-icon{
+color:white;
+font-size:26px;
+font-weight:bold;
+}
 </style>
 </head>
 
