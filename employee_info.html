@@ -397,7 +397,7 @@ window.onpopstate = function () {
   window.location.replace("home.html");
 };
 </script>
-  <div class="navbar pos0" id="navbar">
+<div class="navbar" id="navbar">
 
 <div class="nav-item" onclick="goTab(0,'home.html')">
 <div class="nav-icon">🏠</div>
@@ -407,6 +407,20 @@ window.onpopstate = function () {
 <div class="nav-item" onclick="goTab(1,'forum.html')">
 <div class="nav-icon">💬</div>
 <span>Forum</span>
+</div>
+
+<div class="nav-item center-item" onclick="goTab(99,'info.html')">
+  
+  <div class="center-wrapper">
+    
+    <div class="center-btn">
+      ⚡
+    </div>
+
+    <div class="center-text">Info</div>
+
+  </div>
+
 </div>
 
 <div class="nav-item" onclick="goTab(2,'employee_info.html')">
