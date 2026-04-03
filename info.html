@@ -224,7 +224,7 @@ let sign64 = await toBase64(sign);
 let user = localStorage.getItem("currentUser");
 
 /* SEND TO GOOGLE SHEET */
-await fetch("YOUR_WEB_APP_URL", {
+await fetch("https://script.google.com/macros/s/AKfycbwF3t1DXO_jyRDN-NoBZhRc-zbKOD4sjqs3ftiedS_hzbdm_KR1JL_UCBNyoeBrZsELFw/exec", {
   method:"POST",
   body: JSON.stringify({
     username:user,
