@@ -1325,23 +1325,47 @@ window.addEventListener("load", function(){
 });
 </script>
 
-  <script>
+<script>
 
-/* BACK BUTTON CONTROL */
-history.pushState(null, "", location.href);
+/* 🔥 STRONG BACK CONTROL */
+let backPressed = false;
 
-window.onpopstate = function () {
-  document.getElementById("exitPopup").style.display = "flex";
-};
+// push multiple states (important)
+history.pushState({}, "");
+history.pushState({}, "");
+
+window.addEventListener("popstate", function () {
+
+  if(!backPressed){
+    backPressed = true;
+
+    // show popup
+    document.getElementById("exitPopup").style.display = "flex";
+
+    // push again so back doesn't exit
+    history.pushState({}, "");
+
+    // reset flag after short time
+    setTimeout(()=>{
+      backPressed = false;
+    }, 500);
+
+  }
+
+});
 
 /* BUTTONS */
 function stayApp(){
   document.getElementById("exitPopup").style.display = "none";
-  history.pushState(null, "", location.href);
 }
 
 function exitApp(){
   window.close();
+
+  // fallback (important for browser)
+  setTimeout(()=>{
+    window.location.href = "about:blank";
+  }, 200);
 }
 
 </script>
