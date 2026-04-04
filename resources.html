@@ -300,10 +300,6 @@ window.location = url;
 }
  </script>   
 <script>
-
-
-// function for active tab
-
 window.onload = function(){
 
   let page = location.pathname.split("/").pop();
@@ -311,16 +307,22 @@ window.onload = function(){
   let items = document.querySelectorAll(".nav-item");
 
   items.forEach(item => {
-    let onclick = item.getAttribute("onclick");
 
-    if(onclick && onclick.includes(page)){
+    let onclick = item.getAttribute("onclick");
+    if(!onclick) return;
+
+    // extract file name from onclick
+    let match = onclick.match(/'(.+?)'/);
+
+    if(match && match[1] === page){
       item.classList.add("active");
     }
+
   });
 
 }
 </script>
-</script>
+
   <script>
 history.pushState(null, null, location.href);
 
@@ -340,26 +342,19 @@ window.onpopstate = function () {
 <span>Forum</span>
 </div>
 
-<div class="nav-item center-item" onclick="goTab(99,'info.html')">
-  
+<div class="nav-item center-item" onclick="goTab(2,'info.html')">
   <div class="center-wrapper">
-    
-    <div class="center-btn">
-      ⚡
-    </div>
-
+    <div class="center-btn">⚡</div>
     <div class="center-text">Info</div>
-
   </div>
-
 </div>
 
-<div class="nav-item" onclick="goTab(2,'employee_info.html')">
+<div class="nav-item" onclick="goTab(3,'employee_info.html')">
 <div class="nav-icon">👤</div>
 <span>Employee</span>
 </div>
 
-<div class="nav-item" onclick="goTab(3,'resources.html')">
+<div class="nav-item" onclick="goTab(4,'resources.html')">
 <div class="nav-icon">📂</div>
 <span>Resources</span>
 </div>
