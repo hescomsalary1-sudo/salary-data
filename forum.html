@@ -417,16 +417,16 @@ document.body.style.overflow="hidden";
 setTimeout(()=>{
 
 if(type === "ask"){
-window.location = "forum_details.html?type=ask";
+window.location.replace("forum_details.html?type=ask");
 }
 else if(type === "contact"){
-window.location = "contact_us.html";
+window.location.replace("contact_us.html");
 }
 else if(type === "help"){
-window.location = "forum_details.html?type=help";
+window.location.replace("forum_details.html?type=help");
 }
 else{
-window.location = "others_forum.html?type=" + type;
+window.location.replace("others_forum.html?type=" + type);
 }
 
 },500);
