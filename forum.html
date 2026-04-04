@@ -453,28 +453,32 @@ window.location.replace(url); // 🔥 IMPORTANT CHANGE
 // function for active tab
 
 
+
 window.onload = function(){
 
-  // hide loader after page load
   let loader = document.getElementById("loader");
   if(loader){
     loader.style.display = "none";
   }
 
-  // active tab
   let page = location.pathname.split("/").pop();
 
-  let items = document.querySelectorAll(".nav-item");
+  document.querySelectorAll(".nav-item").forEach(item => {
 
-  items.forEach(item => {
-    let onclick = item.getAttribute("onclick");
+    let match = item.getAttribute("onclick");
 
-    if(onclick && onclick.includes(page)){
-      item.classList.add("active");
+    if(match){
+      let urlMatch = match.match(/'(.*?)'/); // extract URL inside quotes
+
+      if(urlMatch && urlMatch[1] === page){
+        item.classList.add("active");
+      }
     }
+
   });
 
 }
+
 
 
 </script>
