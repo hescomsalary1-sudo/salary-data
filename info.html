@@ -179,6 +179,31 @@ function go(page){
 }
 
 </script>
+<script>
+(function () {
 
+  const currentPage = location.pathname.split("/").pop();
+
+  // Only apply for navbar pages
+  const navPages = [
+    "home.html",
+    "forum.html",
+    "info.html",
+    "employee_info.html",
+    "resources.html"
+  ];
+
+  if (navPages.includes(currentPage)) {
+
+    history.pushState(null, "", location.href);
+
+    window.onpopstate = function () {
+      window.location.replace("home.html");
+    };
+
+  }
+
+})();
+</script>
 </body>
 </html>
