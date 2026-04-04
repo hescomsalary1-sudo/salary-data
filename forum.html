@@ -442,7 +442,7 @@ document.getElementById("loader").style.display = "flex";
 document.body.style.overflow = "hidden";
 
 setTimeout(function(){
-window.location = url;
+window.location.replace(url); // 🔥 IMPORTANT CHANGE
 }, 800);
 
 }
