@@ -438,12 +438,15 @@ window.location.replace("others_forum.html?type=" + type);
 <script>
 function goTab(index, url){
 
-document.getElementById("loader").style.display = "flex";
-document.body.style.overflow = "hidden";
+  // ✅ mark navigation as NAV click
+  sessionStorage.setItem("navClick", "true");
 
-setTimeout(function(){
-window.location.replace(url); // 🔥 IMPORTANT CHANGE
-}, 800);
+  document.getElementById("loader").style.display = "flex";
+  document.body.style.overflow = "hidden";
+
+  setTimeout(function(){
+    window.location.replace(url); // already good
+  }, 700);
 
 }
 </script>
