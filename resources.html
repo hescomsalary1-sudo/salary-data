@@ -380,5 +380,38 @@ window.onpopstate = function () {
 <div class="nav-icon">📂</div>
 <span>Resources</span>
 </div>
+  <script>
+/* your other scripts */
+</script>
+
+<!-- ✅ PASTE HERE -->
+<script>
+(function () {
+
+  const currentPage = location.pathname.split("/").pop();
+
+  const navPages = [
+    "home.html",
+    "forum.html",
+    "info.html",
+    "employee_info.html",
+    "resources.html"
+  ];
+
+  if (navPages.includes(currentPage)) {
+
+    history.pushState(null, "", location.href);
+
+    window.onpopstate = function () {
+      window.location.replace("home.html");
+    };
+
+  }
+
+})();
+</script>
+
+</body>
+</html>
 </body>
 </html>
