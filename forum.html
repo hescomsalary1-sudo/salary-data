@@ -570,5 +570,13 @@ window.onload = function(){
 
 })();
 </script>
+  <script>
+history.pushState(null, null, location.href);
+
+window.onpopstate = function () {
+  // 2nd back → go to Home
+  window.location.replace("home.html");
+};
+</script>
 </body>
 </html>
