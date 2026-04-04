@@ -464,5 +464,25 @@ window.onpopstate = function () {
 
 })();
 </script>
+  <script>
+(function () {
+
+  let isNavClick = sessionStorage.getItem("navClick");
+
+  if(isNavClick === "true"){
+
+    // 🔥 CLEAR HISTORY EFFECT
+    history.pushState(null, "", location.href);
+
+    window.onpopstate = function () {
+      window.location.replace("home.html");
+    };
+
+    // remove flag
+    sessionStorage.removeItem("navClick");
+  }
+
+})();
+</script>
 </body>
 </html>
