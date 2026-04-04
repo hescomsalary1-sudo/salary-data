@@ -305,6 +305,12 @@ document.getElementById("message").value="";
 }
 
 </script>
+<script>
+history.pushState(null, null, location.href);
 
+window.onpopstate = function () {
+  window.location.replace("home.html");
+};
+</script>
 </body>
 </html>
