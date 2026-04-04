@@ -206,6 +206,28 @@ transform:scale(1);
 .center-btn:active{
 transform:scale(0.9);
 }
+
+  /* ACTIVE STYLE */
+.nav-item.active .nav-icon{
+  color:#2400b7;
+  transform:scale(1.15);
+}
+
+.nav-item.active span{
+  color:#2400b7;
+  font-weight:600;
+}
+
+.nav-item.active::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:20%;
+  width:60%;
+  height:4px;
+  border-radius:10px;
+  background:linear-gradient(135deg,#2400b7,#3b1eff);
+}
 </style>
 </head>
 
@@ -300,27 +322,21 @@ window.location = url;
 }
  </script>   
 <script>
-window.onload = function(){
+window.addEventListener("load", function(){
 
   let page = location.pathname.split("/").pop();
 
   let items = document.querySelectorAll(".nav-item");
 
   items.forEach(item => {
+    let target = item.getAttribute("data-page");
 
-    let onclick = item.getAttribute("onclick");
-    if(!onclick) return;
-
-    // extract file name from onclick
-    let match = onclick.match(/'(.+?)'/);
-
-    if(match && match[1] === page){
+    if(target === page){
       item.classList.add("active");
     }
-
   });
 
-}
+});
 </script>
 
   <script>
@@ -332,33 +348,31 @@ window.onpopstate = function () {
 </script>
 <div class="navbar" id="navbar">
 
-<div class="nav-item" onclick="goTab(0,'home.html')">
+<div class="nav-item" data-page="home.html" onclick="goTab(0,'home.html')">
 <div class="nav-icon">🏠</div>
 <span>Home</span>
 </div>
 
-<div class="nav-item" onclick="goTab(1,'forum.html')">
+<div class="nav-item" data-page="forum.html" onclick="goTab(1,'forum.html')">
 <div class="nav-icon">💬</div>
 <span>Forum</span>
 </div>
 
-<div class="nav-item center-item" onclick="goTab(2,'info.html')">
+<div class="nav-item center-item" data-page="info.html" onclick="goTab(2,'info.html')">
   <div class="center-wrapper">
     <div class="center-btn">⚡</div>
     <div class="center-text">Info</div>
   </div>
 </div>
 
-<div class="nav-item" onclick="goTab(3,'employee_info.html')">
+<div class="nav-item" data-page="employee_info.html" onclick="goTab(3,'employee_info.html')">
 <div class="nav-icon">👤</div>
 <span>Employee</span>
 </div>
 
-<div class="nav-item" onclick="goTab(4,'resources.html')">
+<div class="nav-item" data-page="resources.html" onclick="goTab(4,'resources.html')">
 <div class="nav-icon">📂</div>
 <span>Resources</span>
-</div>
-
 </div>
 </body>
 </html>
