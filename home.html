@@ -1066,13 +1066,16 @@ setTimeout(()=>{
 
 // navigate
 setTimeout(()=>{
-  window.location.replace(url);
+  window.location = url;
 },700);
 
 }
 
 
-
+window.onload = function(){
+document.getElementById("loader").style.display="none";
+document.body.style.overflow="auto";
+};
 
 
 /* UNIQUE USER TRACKING */
@@ -1263,17 +1266,14 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 </script>
 
-<script>
+  <script>
 window.addEventListener("load", function(){
 
-  // hide loader
-  document.getElementById("loader").style.display="none";
-  document.body.style.overflow="auto";
-
-  // set active tab
   let page = location.pathname.split("/").pop();
 
-  document.querySelectorAll(".nav-item").forEach(item => {
+  let items = document.querySelectorAll(".nav-item");
+
+  items.forEach(item => {
     let target = item.getAttribute("data-page");
 
     if(target === page){
