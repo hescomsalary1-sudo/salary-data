@@ -324,106 +324,16 @@ background:linear-gradient(135deg,#2400b7,#3b1eff);
 transform:scale(0.92);
 }
 
-  /* CENTER FLOAT BUTTON */
-.navbar{
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-height:70px;
-background:#ffffff;
-display:flex;
-justify-content:space-between;
-align-items:center;
-border-top:1px solid #e5e7eb;
-box-shadow:0 -3px 12px rgba(0,0,0,0.06);
-z-index:1000;
-padding:0 5px;
-}
+/* POSITIONS */
 
-/* Equal spacing */
-.nav-item{
-flex:1;
-text-align:center;
-cursor:pointer;
-}
+.navbar.pos0 .slider{ left:3%; }
 
-/* Normal icons */
-.nav-icon{
-font-size:22px;
-color:#9ca3af;
-}
+.navbar.pos1 .slider{ left:28%; }
 
-.nav-item span{
-display:block;
-font-size:11px;
-color:#9ca3af;
-}
+.navbar.pos2 .slider{ left:53%; }
 
-/* ⭐ CENTER SPECIAL BUTTON */
-.center-item{
-display:flex;
-justify-content:center;
-align-items:center;
-}
+.navbar.pos3 .slider{ left:78%; }
 
-/* Animated button */
-/* CENTER WRAPPER */
-.center-wrapper{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  transform:translateY(-18px);
-}
-
-/* NEW PREMIUM BUTTON */
-.center-btn{
-  width:60px;
-  height:60px;
-  border-radius:50%;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color:#fff;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:26px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.3);
-  animation:float 2s ease-in-out infinite;
-}
-
-/* FLOAT EFFECT */
-@keyframes float{
-  0%,100%{ transform:translateY(0); }
-  50%{ transform:translateY(-6px); }
-}
-
-/* TEXT BELOW BUTTON */
-.center-text{
-  font-size:11px;
-  margin-top:4px;
-  color:#ff3d3d;
-  font-weight:600;
-}
-
-/* 🔥 Animation like GIF */
-@keyframes pulse{
-0%{
-transform:scale(1);
-box-shadow:0 0 0 0 rgba(59,30,255,0.5);
-}
-70%{
-transform:scale(1.1);
-box-shadow:0 0 0 12px rgba(59,30,255,0);
-}
-100%{
-transform:scale(1);
-}
-}
-
-/* Click effect */
-.center-btn:active{
-transform:scale(0.9);
-}
 
 
 
@@ -776,35 +686,26 @@ color:#777;
 
 
 
-<div class="navbar">
-
-<div class="nav-item" data-page="home.html" onclick="goTab(0,'home.html')">
-  <div class="nav-icon">🏠</div>
-  <span>Home</span>
+<div class="navbar pos0" id="navbar">
+<div class="nav-item active" onclick="goTab(0,'home.html')">
+<div class="nav-icon">🏠</div>
+<span>Home</span>
 </div>
 
-<div class="nav-item" data-page="forum.html" onclick="goTab(1,'forum.html')">
-  <div class="nav-icon">💬</div>
-  <span>Forum</span>
+<div class="nav-item" onclick="goTab(1,'forum.html')">
+<div class="nav-icon">💬</div>
+<span>Forum</span>
 </div>
 
-<div class="nav-item center-item" data-page="info.html" onclick="goTab(99,'info.html')">
-  <div class="center-wrapper">
-    <div class="center-btn">⚡</div>
-    <div class="center-text">Info</div>
-  </div>
+<div class="nav-item" onclick="goTab(2,'employee_info.html')">
+<div class="nav-icon">👤</div>
+<span>Employee</span>
 </div>
 
-<div class="nav-item" data-page="employee_info.html" onclick="goTab(2,'employee_info.html')">
-  <div class="nav-icon">👤</div>
-  <span>Employee</span>
+<div class="nav-item" onclick="goTab(3,'resources.html')">
+<div class="nav-icon">📂</div>
+<span>Resources</span>
 </div>
-
-<div class="nav-item" data-page="resources.html" onclick="goTab(3,'resources.html')">
-  <div class="nav-icon">📂</div>
-  <span>Resources</span>
-</div>
-
 </div>
 
 
@@ -1261,24 +1162,6 @@ document.addEventListener("DOMContentLoaded", function(){
     // set active after load
     setActiveTab();
 
-  });
-
-});
-</script>
-
-  <script>
-window.addEventListener("load", function(){
-
-  let page = location.pathname.split("/").pop();
-
-  let items = document.querySelectorAll(".nav-item");
-
-  items.forEach(item => {
-    let target = item.getAttribute("data-page");
-
-    if(target === page){
-      item.classList.add("active");
-    }
   });
 
 });
