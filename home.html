@@ -48,12 +48,12 @@ font-size:22px;
 
 /* CONTENT */
 
-
 .content{
 padding:20px;
 margin-top:-90px;
-padding-bottom:90px;
+padding-bottom:120px;
 }
+
 
 
 /* SALARY CARD IMAGE */
@@ -217,14 +217,14 @@ margin-bottom:4px;
 position:fixed;
 top:0;
 left:0;
-width:100%;
-height:calc(100vh - 68px);
+width:100vw;
+height:100vh;
 background:#f3f4fa;
 display:none;
 flex-direction:column;
 padding:20px;
 gap:15px;
-z-index:500; /* 🔥 BELOW navbar */
+z-index:99999; /* 🔥 very important */
 overflow:hidden;
 }
 
@@ -256,21 +256,26 @@ border-radius:50%;
 /* MODERN SOLID FOOTER */
 
 /* MODERN SOLID NAVBAR */
+
 .navbar{
 position:fixed;
 bottom:0;
 left:0;
 width:100%;
 height:68px;
+
 background:#ffffff;
 display:flex;
 justify-content:space-around;
 align-items:center;
+
 border-top:1px solid #e5e7eb;
 box-shadow:0 -3px 12px rgba(0,0,0,0.06);
+
 z-index:1000;
 }
-  /* NAV ITEM */
+
+/* NAV ITEM */
 .nav-item{
 flex:1;
 text-align:center;
@@ -333,8 +338,6 @@ transform:scale(0.92);
 .navbar.pos2 .slider{ left:53%; }
 
 .navbar.pos3 .slider{ left:78%; }
-
-
 
 
 
@@ -524,6 +527,7 @@ color:#777;
 </head>
 
 <body>
+
 <div class="top">
 
 <div class="user-box">
@@ -685,8 +689,10 @@ color:#777;
 </div>
 
 
-
 <div class="navbar pos0" id="navbar">
+
+
+
 <div class="nav-item active" onclick="goTab(0,'home.html')">
 <div class="nav-icon">🏠</div>
 <span>Home</span>
@@ -706,8 +712,8 @@ color:#777;
 <div class="nav-icon">📂</div>
 <span>Resources</span>
 </div>
-</div>
 
+</div>
 
 <script>
 
@@ -955,23 +961,26 @@ document.getElementById("netSalary").innerText="--";
 
 loadCurrentMonthSalary();
 
-
-
 function goTab(index, url){
 
-// wait a bit so navbar stays visible
-setTimeout(()=>{
-  document.getElementById("loader").style.display = "flex";
-  document.body.style.overflow = "hidden";
-},150);
+// show loader
+document.getElementById("loader").style.display = "flex";
+document.body.style.overflow = "hidden";
 
-// navigate
-setTimeout(()=>{
-  window.location = url;
-},700);
+// update active UI
+let navbar = document.getElementById("navbar");
+navbar.className = "navbar pos" + index;
+
+let items = document.querySelectorAll(".nav-item");
+items.forEach(item => item.classList.remove("active"));
+items[index].classList.add("active");
+
+// delay navigation (smooth feel)
+setTimeout(function(){
+window.location = url;
+}, 800);  // you can change 800 → 500 or 1000
 
 }
-
 
 window.onload = function(){
 document.getElementById("loader").style.display="none";
@@ -1150,21 +1159,6 @@ loadAttendance();
 
 </script>
 
-<script>
-document.addEventListener("DOMContentLoaded", function(){
 
-  fetch("navbar.html")  // or ../navbar.html
-  .then(res => res.text())
-  .then(data => {
-
-    document.getElementById("navbar-container").innerHTML = data;
-
-    // set active after load
-    setActiveTab();
-
-  });
-
-});
-</script>
 </body>
 </html>
