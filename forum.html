@@ -526,5 +526,35 @@ window.onload = function(){
 </div>
 
 </div>
+  <script>
+(function () {
+
+  // List of main navbar pages
+  const mainPages = [
+    "home.html",
+    "forum.html",
+    "employee_info.html",
+    "resources.html"
+  ];
+
+  let currentPage = location.pathname.split("/").pop();
+
+  // Push state to control back
+  history.pushState(null, null, location.href);
+
+  window.onpopstate = function () {
+
+    // If NOT home → go home
+    if (currentPage !== "home.html") {
+      window.location.replace("home.html");
+    } else {
+      // If already home → allow exit or normal behavior
+      history.go(-1);
+    }
+
+  };
+
+})();
+</script>
 </body>
 </html>
