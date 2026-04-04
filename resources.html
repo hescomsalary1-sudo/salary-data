@@ -124,12 +124,16 @@ padding:0 5px;
 }
 
 /* Equal spacing */
+
 .nav-item{
-  flex:1;
-  text-align:center;
-  cursor:pointer;
-  position:relative; /* ✅ IMPORTANT */
+flex:1;
+text-align:center;
+cursor:pointer;
+position:relative;
+padding-top:6px;
+transition:0.25s;
 }
+
 
 /* Normal icons */
 .nav-icon{
@@ -221,15 +225,14 @@ transform:scale(0.9);
 
 /* FIXED INDICATOR */
 .nav-item.active::before{
-  content:"";
-  position:absolute;
-  top:4px;
-  left:50%;
-  transform:translateX(-50%);
-  width:24px;     /* ✅ match icon size */
-  height:3px;
-  border-radius:10px;
-  background:linear-gradient(135deg,#2400b7,#3b1eff);
+content:"";
+position:absolute;
+top:0;
+left:20%;
+width:60%;
+height:4px;
+border-radius:10px;
+background:linear-gradient(135deg,#2400b7,#3b1eff);
 }
 </style>
 </head>
