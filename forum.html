@@ -478,7 +478,17 @@ window.onload = function(){
 
 
 </script>
+<script>
+(function () {
+  // Clear old history stack
+  history.replaceState(null, null, location.href);
 
+  // Force back button → always go home
+  window.onpopstate = function () {
+    window.location.replace("home.html");
+  };
+})();
+</script>
 <div class="navbar" id="navbar">
 
 <div class="nav-item" onclick="goTab(0,'home.html')">
