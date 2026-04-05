@@ -364,6 +364,12 @@ let year = d.getFullYear();
 return `${day}/${month}/${year}`;
 }
 </script>
+<script>
+history.pushState(null, null, location.href);
 
+window.onpopstate = function () {
+  window.location.replace("seniority.html");
+};
+</script>
 </body>
 </html>
