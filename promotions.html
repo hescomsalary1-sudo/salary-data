@@ -155,6 +155,12 @@ font-weight:600;
 </ul>
 
 </div>
+<script>
+history.pushState(null, null, location.href);
 
+window.onpopstate = function () {
+  window.location.replace("resources.html");
+};
+</script>
 </body>
 </html>
