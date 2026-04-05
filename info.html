@@ -82,7 +82,7 @@ if(!state.step){state.step='year';return 'Enter year';}
 if(state.step==='year'){state.data.year=q;state.step='month';return 'Enter month number';}
 if(state.step==='month'){
 state.data.month=q.padStart(2,'0');state.step=null;
-let res=await fetch('https://hescomsalary1-sudo.github.io/salary-data/salary.csv');
+let res=await fetch('https://hescomsalary1-sudo.github.io/salary-data/salary .csv');
 let txt=await res.text();
 let rows=txt.split('\n');
 for(let r of rows){let c=r.split(',');
