@@ -258,7 +258,11 @@ return `Present ${p} Absent ${a} Leave ${l}`;
 
 function COMMON_CHAT(q){
 
-if(q.includes("hi")) return "Hello 👋";
+const greetings = ["hi","hello","hey","hai","hii","hiii","helo","hlw"];
+
+if(greetings.some(word => q.includes(word))){
+  return "Hello 👋 How can I help you?";
+}
 if(q.includes("help")) return "Ask salary, attendance, name, news";
 
 return "Ask something related to your app";
