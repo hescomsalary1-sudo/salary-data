@@ -361,6 +361,12 @@ document.getElementById("popup").style.display="none";
 loadData();
 
 </script>
+<script>
+history.pushState(null, null, location.href);
 
+window.onpopstate = function () {
+  window.location.replace("powerman.html");
+};
+</script>
 </body>
 </html>
