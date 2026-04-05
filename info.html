@@ -246,6 +246,13 @@ return "Ask something related to your app";
 addMessage("Hello 👋 I am your Secure AI Assistant.","ai");
 scrollBottom();
 </script>
+  <script>
+history.pushState(null, null, location.href);
 
+window.onpopstate = function () {
+  // 2nd back → go to Home
+  window.location.replace("home.html");
+};
+</script>
 </body>
 </html>
