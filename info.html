@@ -1,144 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>AI Chat</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
 <style>
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
-    background-color: #f4f7f6;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+body{
+font-family:-apple-system,Segoe UI;
+background:#f4f7f6;
+margin:0;
+display:flex;
+flex-direction:column;
+min-height:100vh;
 }
 
-/* 🔥 HEADER (NEW) */
-#header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 55px;
-    background: #2400b7;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 16px;
-    z-index: 1000;
+/* HEADER */
+#header{
+position:fixed;
+top:0;
+width:100%;
+height:55px;
+background:#2400b7;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+z-index:1000;
 }
 
 /* CHAT */
-#chat-container {
-    flex: 1;
-    padding: 20px;
-    margin-top: 55px; /* 🔥 space for header */
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    padding-bottom: 80px;
+#chat-container{
+flex:1;
+padding:20px;
+margin-top:55px;
+display:flex;
+flex-direction:column;
+gap:15px;
+padding-bottom:80px;
 }
 
-.message {
-    max-width: 80%;
-    padding: 12px 16px;
-    border-radius: 15px;
-    font-size: 15px;
+.message{
+max-width:80%;
+padding:12px 16px;
+border-radius:15px;
+font-size:15px;
 }
 
-.user {
-    align-self: flex-end;
-    background-color: #2400b7;
-    color: white;
+.user{
+align-self:flex-end;
+background:#2400b7;
+color:white;
 }
 
-.ai {
-    align-self: flex-start;
-    background-color: white;
-    color: #333;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+.ai{
+align-self:flex-start;
+background:white;
+color:#333;
+box-shadow:0 2px 5px rgba(0,0,0,0.05);
 }
 
 /* INPUT */
-#input-area {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background: white;
-    padding: 15px;
-    display: flex;
-    box-sizing: border-box;
-    border-top: 1px solid #ddd;
+#input-area{
+position:fixed;
+bottom:0;
+width:100%;
+background:white;
+padding:15px;
+display:flex;
+border-top:1px solid #ddd;
 }
 
-input {
-    flex: 1;
-    padding: 12px;
-    border-radius: 25px;
-    border: 1px solid #ddd;
+input{
+flex:1;
+padding:12px;
+border-radius:25px;
+border:1px solid #ddd;
 }
 
-button {
-    background: #2400b7;
-    color: white;
-    border: none;
-    padding: 0 20px;
-    margin-left: 10px;
-    border-radius: 25px;
+button{
+background:#2400b7;
+color:white;
+border:none;
+padding:0 20px;
+margin-left:10px;
+border-radius:25px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🔥 HEADER -->
 <div id="header">💬 Chat with Secure AI</div>
 
 <div id="chat-container"></div>
 
 <form id="input-area" onsubmit="sendMessage(event)">
-<input type="text" id="msgInput" placeholder="Ask anything..." autocomplete="off">
-<button type="submit">Send</button>
+<input id="msgInput" placeholder="Ask anything..." autocomplete="off">
+<button>Send</button>
 </form>
 
 <script>
-const container = document.getElementById('chat-container');
+const container=document.getElementById("chat-container");
 
-let state = { module:null, step:null, data:{} };
+let state={module:null,step:null,data:{}};
 
 /* UI */
-function addMessage(text, type){
-    const div = document.createElement('div');
-    div.className = 'message ' + type;
-    div.innerText = text;
-    container.appendChild(div);
-}
-
-function scrollBottom(){
-    window.scrollTo(0, document.body.scrollHeight);
+function addMessage(t,type){
+let d=document.createElement("div");
+d.className="message "+type;
+d.innerText=t;
+container.appendChild(d);
+window.scrollTo(0,document.body.scrollHeight);
 }
 
 /* SEND */
 async function sendMessage(e){
-    e.preventDefault();
+e.preventDefault();
 
-    const input = document.getElementById('msgInput');
-    const text = input.value.trim();
-    if(!text) return;
+let input=document.getElementById("msgInput");
+let text=input.value.trim();
+if(!text) return;
 
-    addMessage(text,'user');
-    input.value="";
-    scrollBottom();
+addMessage(text,"user");
+input.value="";
 
-    let reply = await AI_ENGINE(text.toLowerCase());
+let reply=await AI_ENGINE(text.toLowerCase());
 
-    setTimeout(()=>{
-        addMessage(reply,'ai');
-        scrollBottom();
-    },400);
+setTimeout(()=>{
+addMessage(reply,"ai");
+},300);
 }
 
 /* ================= AI ENGINE ================= */
@@ -146,113 +136,137 @@ async function sendMessage(e){
 async function AI_ENGINE(q){
 
 if(!state.module){
-    if(q.includes("salary")) state.module="salary";
-    else if(q.includes("attendance")) state.module="attendance";
-    else if(q.includes("leave")) state.module="leave";
-    else if(q.includes("profile")||q.includes("name")) state.module="profile";
-    else if(q.includes("income")) state.module="income";
-    else if(q.includes("nomination")) state.module="nomination";
+if(q.includes("salary")||q.includes("attendance")||q.includes("name")||q.includes("news")||q.includes("user")){
+state.module="home";
+}
 }
 
+if(state.module==="home") return await HOME_MODULE(q);
 if(state.module==="salary") return await SALARY_MODULE(q);
 if(state.module==="attendance") return await ATTENDANCE_MODULE(q);
-if(state.module==="leave") return LEAVE_MODULE(q);
-if(state.module==="profile") return PROFILE_MODULE(q);
-if(state.module==="income") return INCOME_MODULE(q);
-if(state.module==="nomination") return NOMINATION_MODULE(q);
 
 return COMMON_CHAT(q);
 }
 
-/* ===== MODULES ===== */
+/* ================= HOME MODULE ================= */
+
+async function HOME_MODULE(q){
+
+if(q.includes("name")){
+let name=document.getElementById("empName")?.innerText;
+return name? "Your name is "+name:"Name not available";
+}
+
+if(q.includes("designation")){
+let d=document.getElementById("empDesg")?.innerText;
+return d? "Your designation is "+d:"Not found";
+}
+
+if(q.includes("salary")){
+let s=document.getElementById("netSalary")?.innerText;
+return s? "Your last salary is ₹"+s:"Salary not loaded";
+}
+
+if(q.includes("attendance")){
+let p=document.getElementById("presentVal")?.innerText;
+let l=document.getElementById("leaveVal")?.innerText;
+let a=document.getElementById("absentVal")?.innerText;
+
+return `Attendance:
+Present ${p}
+Leave ${l}
+Absent ${a}`;
+}
+
+if(q.includes("users")){
+let c=document.getElementById("visitorCount")?.innerText;
+return "Total users: "+c;
+}
+
+if(q.includes("news")){
+let n=document.getElementById("newsData")?.innerText;
+return n? n:"No news";
+}
+
+state.module=null;
+return "Ask about name, salary, attendance, users or news";
+}
+
+/* ================= SALARY MODULE ================= */
 
 async function SALARY_MODULE(q){
-if(!state.step){ state.step="year"; return "Enter year (e.g., 2026)"; }
-if(state.step==="year"){ state.data.year=q; state.step="month"; return "Enter month (1-12)"; }
+
+if(!state.step){state.step="year";return "Enter year";}
+if(state.step==="year"){state.data.year=q;state.step="month";return "Enter month";}
 
 if(state.step==="month"){
-    state.data.month=q.padStart(2,"0");
-    state.module=null; state.step=null;
+state.data.month=q.padStart(2,"0");
+state.module=null;state.step=null;
 
-    let user=localStorage.getItem("currentUser");
+let user=localStorage.getItem("currentUser");
 
-    let res=await fetch("https://hescomsalary1-sudo.github.io/salary-data/salary.csv");
-    let txt=await res.text();
-    let rows=txt.split("\n");
+let res=await fetch("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
+let txt=await res.text();
+let rows=txt.split("\n");
 
-    for(let r of rows){
-        let c=r.split(",");
-        if(c[0]===user && c[1]===state.data.year && c[2]===state.data.month){
-            let earn=0, ded=0;
-            for(let i=3;i<=19;i++) earn+=+c[i];
-            for(let i=20;i<=35;i++) ded+=+c[i];
-
-            return `Salary ${state.data.month}-${state.data.year}
-Earnings ₹${earn}
-Deductions ₹${ded}
-Net ₹${earn-ded}`;
-        }
-    }
-    return "No salary data found";
+for(let r of rows){
+let c=r.split(",");
+if(c[0]===user&&c[1]===state.data.year&&c[2]===state.data.month){
+let earn=0,ded=0;
+for(let i=3;i<=19;i++) earn+=+c[i];
+for(let i=20;i<=35;i++) ded+=+c[i];
+return `Net Salary ₹${earn-ded}`;
 }
 }
+return "No data";
+}
+}
+
+/* ================= ATTENDANCE MODULE ================= */
 
 async function ATTENDANCE_MODULE(q){
-if(!state.step){ state.step="year"; return "Enter year"; }
-if(state.step==="year"){ state.data.year=q; state.step="month"; return "Enter month (Jan)"; }
+
+if(!state.step){state.step="year";return "Enter year";}
+if(state.step==="year"){state.data.year=q;state.step="month";return "Enter month (Jan)";}
 
 if(state.step==="month"){
-    let user=localStorage.getItem("currentUser");
+let user=localStorage.getItem("currentUser");
 
-    let res=await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
-    let txt=await res.text();
-    let rows=txt.split("\n");
+let res=await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
+let txt=await res.text();
+let rows=txt.split("\n");
 
-    let p=0,a=0,l=0;
+let p=0,a=0,l=0;
 
-    for(let r of rows){
-        let c=r.split(",");
-        if(c[0]===user && c[1]===state.data.year && c[2].toLowerCase()===q){
-            for(let i=3;i<34;i++){
-                if(c[i]==="P") p++;
-                else if(c[i]==="A") a++;
-                else if(c[i]) l++;
-            }
-        }
-    }
-
-    state.module=null; state.step=null;
-    return `Attendance
-Present: ${p}
-Absent: ${a}
-Leave: ${l}`;
+for(let r of rows){
+let c=r.split(",");
+if(c[0]===user&&c[1]===state.data.year&&c[2].toLowerCase()===q){
+for(let i=3;i<34;i++){
+if(c[i]==="P") p++;
+else if(c[i]==="A") a++;
+else if(c[i]) l++;
+}
 }
 }
 
-function LEAVE_MODULE(){ state.module=null; return "Leave dashboard shows balances and history."; }
-function PROFILE_MODULE(){ state.module=null; return "Profile shows personal and service details."; }
-function INCOME_MODULE(){ state.module=null; return "Other income shows arrears and bills."; }
-function NOMINATION_MODULE(){ state.module=null; return "Nomination shows nominee details."; }
+state.module=null;state.step=null;
+return `Present ${p} Absent ${a} Leave ${l}`;
+}
+}
 
-/* COMMON */
+/* ================= COMMON ================= */
+
 function COMMON_CHAT(q){
-if(q.includes("hi")||q.includes("hello")) return "Hello 👋";
-if(q.includes("help")) return "Ask salary, attendance, leave, profile";
-if(q.includes("thank")) return "You're welcome 👍";
+
+if(q.includes("hi")) return "Hello 👋";
+if(q.includes("help")) return "Ask salary, attendance, name, news";
+
 return "Ask something related to your app";
 }
 
 /* START */
-addMessage("Hello 👋 I am your Secure AI Assistant.","ai");
-scrollBottom();
+addMessage("Hello 👋 Ask me about your app","ai");
 </script>
-  <script>
-history.pushState(null, null, location.href);
 
-window.onpopstate = function () {
-  // 2nd back → go to Home
-  window.location.replace("home.html");
-};
-</script>
 </body>
 </html>
