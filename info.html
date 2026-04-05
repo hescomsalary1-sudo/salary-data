@@ -1,142 +1,142 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI Chat Test</title>
+    <style>
+        /* CRITICAL: Let the body handle the scroll so Android can detect it */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-<style>
-html, body {
-  margin: 0;
-  height: 100%;
-  overflow: hidden; /* 🚫 no page scroll */
-  font-family: Segoe UI;
-  background: #0f172a;
-  color: white;
-}
+        #chat-container {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding-bottom: 80px; /* Space for input */
+        }
 
-/* HEADER */
-.header {
-  height: 50px;
-  background: #1e293b;
-  text-align: center;
-  line-height: 50px;
-}
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 15px;
+            font-size: 15px;
+            line-height: 1.4;
+        }
 
-/* 🔥 SCROLL BOX */
-.chat-box {
-  position: absolute;
-  top: 50px;
-  bottom: 60px;
-  left: 0;
-  right: 0;
+        .user {
+            align-self: flex-end;
+            background-color: #2400b7;
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
 
-  overflow-y: scroll; /* 🔥 FORCE SCROLL */
-  -webkit-overflow-scrolling: touch;
+        .ai {
+            align-self: flex-start;
+            background-color: white;
+            color: #333;
+            border-bottom-left-radius: 2px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
 
-  padding: 10px;
-}
+        #input-area {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            padding: 15px;
+            display: flex;
+            box-sizing: border-box;
+            border-top: 1px solid #ddd;
+        }
 
-/* MESSAGE */
-.msg {
-  padding: 10px;
-  margin: 6px 0;
-  border-radius: 10px;
-  max-width: 80%;
-}
+        input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            font-size: 16px;
+        }
 
-.user {
-  background: #3b82f6;
-  margin-left: auto;
-}
-
-.bot {
-  background: #334155;
-}
-
-/* INPUT */
-.inputBar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  display: flex;
-  padding: 10px;
-  background: #1e293b;
-}
-
-input {
-  flex: 1;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-}
-
-button {
-  margin-left: 6px;
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  background: #22c55e;
-  color: white;
-}
-</style>
+        button {
+            background: #2400b7;
+            color: white;
+            border: none;
+            padding: 0 20px;
+            margin-left: 10px;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+        
+        .debug-hint {
+            text-align: center;
+            color: #888;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="header">🤖 AI Assistant</div>
+    <div id="chat-container">
+        <div class="debug-hint">Scroll down to see the fix!</div>
+        
+        <script>
+            const container = document.getElementById('chat-container');
+            for (let i = 1; i <= 25; i++) {
+                container.innerHTML += `
+                    <div class="message ai">Hello! This is message #${i} from the AI. Scroll down to check if refresh is disabled.</div>
+                    <div class="message user">User response to message #${i}.</div>
+                `;
+            }
+        </script>
+    </div>
 
-<div id="chat" class="chat-box"></div>
+    <form id="input-area" onsubmit="sendMessage(event)">
+        <input type="text" id="msgInput" placeholder="Type a message..." autocomplete="off">
+        <button type="submit">Send</button>
+    </form>
 
-<div class="inputBar">
-  <input id="input">
-  <button onclick="send()">Send</button>
-</div>
+    <script>
+        function sendMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('msgInput');
+            const container = document.getElementById('chat-container');
+            
+            if (input.value.trim() !== "") {
+                // Add User Message
+                const userDiv = document.createElement('div');
+                userDiv.className = 'message user';
+                userDiv.innerText = input.value;
+                container.appendChild(userDiv);
 
-<script>
-let chat = document.getElementById("chat");
+                // Clear Input
+                const val = input.value;
+                input.value = "";
 
-/* ADD MESSAGE */
-function add(text, type) {
-  let d = document.createElement("div");
-  d.className = "msg " + type;
-  d.innerText = text;
-  chat.appendChild(d);
-}
+                // Scroll to bottom after sending
+                window.scrollTo(0, document.body.scrollHeight);
 
-/* SEND */
-function send() {
-  let input = document.getElementById("input");
-  let text = input.value.trim();
-  if (!text) return;
-
-  add(text, "user");
-  input.value = "";
-
-  add("Reply...", "bot");
-}
-
-/* 🔥 ADD TEST MESSAGES */
-for (let i = 1; i <= 120; i++) {
-  add("Old message " + i, "bot");
-}
-
-/* 🔥 HARD BLOCK PULL-TO-REFRESH */
-let startY = 0;
-
-document.addEventListener("touchstart", function(e){
-  startY = e.touches[0].clientY;
-}, { passive:false });
-
-document.addEventListener("touchmove", function(e){
-  let currentY = e.touches[0].clientY;
-
-  // if trying to pull down from top → block it
-  if (currentY > startY && chat.scrollTop === 0) {
-    e.preventDefault();
-  }
-}, { passive:false });
-</script>
-
+                // Simulate AI Response
+                setTimeout(() => {
+                    const aiDiv = document.createElement('div');
+                    aiDiv.className = 'message ai';
+                    aiDiv.innerText = "You said: " + val + ". I am a simple AI test.";
+                    container.appendChild(aiDiv);
+                    window.scrollTo(0, document.body.scrollHeight);
+                }, 1000);
+            }
+        }
+    </script>
 </body>
 </html>
