@@ -258,15 +258,96 @@ return `Present ${p} Absent ${a} Leave ${l}`;
 
 function COMMON_CHAT(q){
 
-const greetings = ["hi","hello","hey","hai","hii","hiii","helo","hlw"];
 
-if(greetings.some(word => q.includes(word))){
-  return "Hello 👋 How can I help you?";
-}
-if(q.includes("help")) return "Ask salary, attendance, name, news";
 
-return "Ask something related to your app";
+/* ===== GREETINGS ===== */
+const greetings = ["hi","hello","hey","hai","hii","hlw"];
+if(greetings.some(w => q.includes(w))){
+  return "Hello 👋 How can I assist you today?";
 }
+
+/* ===== HOW ARE YOU ===== */
+if(q.includes("how are you")){
+  return "I'm doing great 😊 Ready to help you anytime!";
+}
+
+/* ===== WHO ARE YOU ===== */
+if(q.includes("who are you")){
+  return "I am your Secure AI assistant 🤖, designed to help you with your employee app.";
+}
+
+/* ===== SELF EXPLANATION ===== */
+if(q.includes("explain yourself") || q.includes("about yourself")){
+  return "I am an intelligent assistant integrated into your app. I can provide salary details, attendance reports, profile info, and guide you through different features.";
+}
+
+/* ===== WHAT CAN YOU DO ===== */
+if(q.includes("what can you do") || q.includes("help me with")){
+  return `I can help you with:
+• Salary details 💰
+• Attendance reports 📊
+• Profile information 👤
+• Leave details 📅
+• Other income 💵
+• Navigation inside app 🚀`;
+}
+
+/* ===== CAPABILITIES EXTENDED ===== */
+if(q.includes("what else") || q.includes("more help")){
+  return "I can also guide you to pages, answer questions, and make your app usage easier 👍";
+}
+
+/* ===== THANK YOU ===== */
+if(q.includes("thank") || q.includes("thanks")){
+  return "You're welcome 😊 Happy to help!";
+}
+
+/* ===== BYE ===== */
+if(q.includes("bye") || q.includes("good night")){
+  return "Goodbye 👋 Have a great day!";
+}
+
+/* ===== POLITE ===== */
+if(q.includes("please")){
+  return "Sure 👍 Tell me what you need.";
+}
+
+/* ===== CONFUSED USER ===== */
+if(q.includes("i don't understand") || q.includes("not understand")){
+  return "No worries 🙂 Try asking like: 'my salary', 'attendance', or 'profile'.";
+}
+
+/* ===== APP INFO ===== */
+if(q.includes("which app") || q.includes("what app")){
+  return "This is your employee management and salary tracking app.";
+}
+
+/* ===== DEVELOPER ===== */
+if(q.includes("developer") || q.includes("who made you")){
+  return "I am developed to support your secure app system.";
+}
+
+/* ===== FUN ===== */
+if(q.includes("joke")){
+  return "Why do programmers hate nature? Too many bugs 😂";
+}
+
+/* ===== TIME & DATE ===== */
+if(q.includes("time")){
+  return "Current time: " + new Date().toLocaleTimeString();
+}
+
+if(q.includes("date")){
+  return "Today is " + new Date().toLocaleDateString();
+}
+
+/* ===== MOTIVATION ===== */
+if(q.includes("motivate") || q.includes("motivation")){
+  return "Keep going 💪 Every small step leads to success!";
+}
+
+/* ===== FALLBACK ===== */
+return "I'm here to help with your app 😊 Try asking about salary, attendance, profile, or say 'help'.";
 
 /* START */
 addMessage("Hello 👋 Ask me about your app","ai");
