@@ -34,12 +34,14 @@ let state={mode:null,data:{}};
 
 function add(t,type){let d=document.createElement('div');d.className='msg '+type;d.innerText=t;chat.appendChild(d);chat.scrollTop=chat.scrollHeight}
 
-function send(){
+async function send(){
 let text=input.value.trim();
 if(!text) return;
 add(text,'user');
 input.value='';
-setTimeout(()=>add(process(text.toLowerCase()),'bot'),500);
+
+let response = await process(text.toLowerCase());
+add(response,'bot');
 }
 
 input.addEventListener('keypress',e=>{if(e.key==='Enter') send()});
