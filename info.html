@@ -353,6 +353,14 @@ return "I'm here to help with your app 😊 Try asking about salary, attendance,
 /* START */
 addMessage("Hello 👋 Ask me about your app","ai");
 </script>
+</script>
+  <script>
+history.pushState(null, null, location.href);
 
+window.onpopstate = function () {
+  // 2nd back → go to Home
+  window.location.replace("home.html");
+};
+</script>
 </body>
 </html>
