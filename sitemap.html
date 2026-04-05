@@ -158,6 +158,12 @@ function go(page){
 window.location.href = page;
 }
 </script>
+<script>
+history.pushState(null, null, location.href);
 
+window.onpopstate = function () {
+  window.location.replace("resources.html");
+};
+</script>
 </body>
 </html>
