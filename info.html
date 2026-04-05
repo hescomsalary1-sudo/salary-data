@@ -24,8 +24,7 @@ header{padding:12px;text-align:center;font-weight:bold;background:rgba(255,255,2
   display:flex;
   flex-direction:column;
   gap:4px;
-  min-height:0; /* 🔥 IMPORTANT FIX */
-}
+  min-he
 .msg{max-width:80%;padding:10px;border-radius:14px;margin:6px 0;line-height:1.4}
 .user{background:#3b82f6;align-self:flex-end}
 .bot{background:rgba(255,255,255,.1)}
@@ -34,7 +33,7 @@ header{padding:12px;text-align:center;font-weight:bold;background:rgba(255,255,2
 button{margin-left:6px;padding:10px;border:none;border-radius:10px;background:#22c55e;color:white}
 </style>
 </head>
-<body>
+<body ontouchmove="event.stopPropagation()">
 
 <header>🤖 Smart App AI</header>
 <div id="chat"></div>
@@ -60,7 +59,12 @@ let res=await process(text.toLowerCase());
 add(res,'bot');
 }
 
-input.addEventListener('keypress',e=>{if(e.key==='Enter') send()});
+input.addEventListener('keypress',function(e){
+  if(e.key==='Enter'){
+    e.preventDefault();
+    send();
+  }
+});
 
 // ================= MAIN AI =================
 async function process(q){
