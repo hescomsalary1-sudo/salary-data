@@ -6,7 +6,16 @@
 <title>Ultimate AI Assistant</title>
 
 <style>
-body{margin:0;font-family:Segoe UI;background:linear-gradient(135deg,#0f172a,#1e293b);color:white;height:100vh;display:flex;flex-direction:column}
+body{
+  margin:0;
+  font-family:Segoe UI;
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  color:white;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden; /* prevent body scroll */
+}
 header{padding:12px;text-align:center;font-weight:bold;background:rgba(255,255,255,.05)}
 #chat{
   flex:1;
@@ -14,7 +23,8 @@ header{padding:12px;text-align:center;font-weight:bold;background:rgba(255,255,2
   padding:12px;
   display:flex;
   flex-direction:column;
-  scroll-behavior:smooth;
+  gap:4px;
+  min-height:0; /* 🔥 IMPORTANT FIX */
 }
 .msg{max-width:80%;padding:10px;border-radius:14px;margin:6px 0;line-height:1.4}
 .user{background:#3b82f6;align-self:flex-end}
@@ -73,7 +83,7 @@ if(state.step==='month'){
 state.data.month=q.padStart(2,'0');state.step=null;state.module=null;
 
 let user=localStorage.getItem('currentUser');
-let res=await fetch('https://hescomsalary1-sudo.github.io/salary-data/salary .csv');
+let res=await fetch('https://hescomsalary1-sudo.github.io/salary-data/salary.csv');
 let txt=await res.text();
 let rows=txt.split('\n');
 
