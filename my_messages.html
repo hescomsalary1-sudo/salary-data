@@ -226,5 +226,12 @@ window.onpopstate = function () {
   window.location.replace("forum.html");
 };
 </script>
+  <script>
+history.pushState(null, null, location.href);
+
+window.onpopstate = function () {
+  window.location.replace("contact_us.html");
+};
+</script>
 </body>
 </html>
