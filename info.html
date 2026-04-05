@@ -20,6 +20,7 @@ html, body{
   display:flex;
   flex-direction:column;
   height:100vh;
+  min-height:0; /* critical */
 }
 
 header{
@@ -30,12 +31,14 @@ header{
 }
 
 #chat{
-  flex:1;
-  overflow-y:auto; /* ✅ only chat scroll */
+  flex:1 1 auto;
+  overflow-y:auto;
   padding:12px;
   display:flex;
   flex-direction:column;
   gap:6px;
+  min-height:0; /* critical fix */
+  max-height:100%;
   -webkit-overflow-scrolling:touch;
 }
 
