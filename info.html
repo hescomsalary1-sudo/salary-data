@@ -7,32 +7,34 @@
 html, body {
   margin: 0;
   height: 100%;
-  overflow: hidden; /* no page scroll */
+  overflow: hidden; /* 🚫 no page scroll */
   font-family: Segoe UI;
   background: #0f172a;
   color: white;
 }
 
-/* MAIN LAYOUT */
+/* MAIN APP */
 .app {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  height: 100%;
 }
 
 /* HEADER */
 .header {
   height: 50px;
+  flex-shrink: 0;
   background: #1e293b;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* CHAT AREA */
-.chat {
+/* 🔥 SCROLL CONTAINER */
+.chat-container {
   flex: 1;
-  overflow-y: auto; /* ✅ scroll here */
+  min-height: 0; /* 🔥 IMPORTANT */
+  overflow-y: auto; /* ✅ ONLY THIS SCROLLS */
   padding: 10px;
 }
 
@@ -43,16 +45,19 @@ html, body {
   border-radius: 10px;
   max-width: 80%;
 }
+
 .user {
   background: #3b82f6;
   margin-left: auto;
 }
+
 .bot {
   background: #334155;
 }
 
-/* INPUT BAR */
+/* INPUT */
 .inputBar {
+  flex-shrink: 0;
   display: flex;
   padding: 10px;
   background: #1e293b;
@@ -82,7 +87,8 @@ button {
 
   <div class="header">🤖 AI Assistant</div>
 
-  <div id="chat" class="chat"></div>
+  <!-- 🔥 ONLY THIS SCROLLS -->
+  <div id="chat" class="chat-container"></div>
 
   <div class="inputBar">
     <input id="input" placeholder="Type message">
@@ -102,7 +108,8 @@ function add(text, type) {
   d.innerText = text;
   chat.appendChild(d);
 
-  chat.scrollTop = chat.scrollHeight; // auto scroll
+  // auto scroll only inside container
+  chat.scrollTop = chat.scrollHeight;
 }
 
 /* SEND */
@@ -116,19 +123,19 @@ function send() {
   add("Reply...", "bot");
 }
 
-/* TEST DATA */
+/* TEST DATA (to confirm scroll works) */
 for (let i = 1; i <= 100; i++) {
   add("Old message " + i, "bot");
 }
 
-/* 🔥 FIX: prevent pull refresh */
+/* 🔥 BLOCK PULL-TO-REFRESH */
 let startY = 0;
 
-chat.addEventListener("touchstart", function (e) {
+chat.addEventListener("touchstart", function(e){
   startY = e.touches[0].clientY;
 }, { passive: false });
 
-chat.addEventListener("touchmove", function (e) {
+chat.addEventListener("touchmove", function(e){
   let currentY = e.touches[0].clientY;
 
   if (chat.scrollTop === 0 && currentY > startY) {
