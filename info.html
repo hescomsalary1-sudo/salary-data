@@ -13,29 +13,39 @@ html, body {
   color: white;
 }
 
-/* MAIN APP */
-.app {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
 /* HEADER */
-.header {
+#header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 50px;
-  flex-shrink: 0;
   background: #1e293b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  text-align: center;
+  line-height: 50px;
 }
 
-/* 🔥 SCROLL CONTAINER */
-.chat-container {
-  flex: 1;
-  min-height: 0; /* 🔥 IMPORTANT */
-  overflow-y: auto; /* ✅ ONLY THIS SCROLLS */
+/* 🔥 SCROLL AREA */
+#chat {
+  position: absolute;
+  top: 50px;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+  overflow-y: scroll;   /* 🔥 FORCE SCROLL */
   padding: 10px;
+}
+
+/* INPUT */
+#inputBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  padding: 10px;
+  background: #1e293b;
 }
 
 /* MESSAGE */
@@ -53,14 +63,6 @@ html, body {
 
 .bot {
   background: #334155;
-}
-
-/* INPUT */
-.inputBar {
-  flex-shrink: 0;
-  display: flex;
-  padding: 10px;
-  background: #1e293b;
 }
 
 input {
@@ -83,18 +85,13 @@ button {
 
 <body>
 
-<div class="app">
+<div id="header">🤖 AI Assistant</div>
 
-  <div class="header">🤖 AI Assistant</div>
+<div id="chat"></div>
 
-  <!-- 🔥 ONLY THIS SCROLLS -->
-  <div id="chat" class="chat-container"></div>
-
-  <div class="inputBar">
-    <input id="input" placeholder="Type message">
-    <button onclick="send()">Send</button>
-  </div>
-
+<div id="inputBar">
+  <input id="input" placeholder="Type message">
+  <button onclick="send()">Send</button>
 </div>
 
 <script>
@@ -107,9 +104,6 @@ function add(text, type) {
   d.className = "msg " + type;
   d.innerText = text;
   chat.appendChild(d);
-
-  // auto scroll only inside container
-  chat.scrollTop = chat.scrollHeight;
 }
 
 /* SEND */
@@ -123,12 +117,12 @@ function send() {
   add("Reply...", "bot");
 }
 
-/* TEST DATA (to confirm scroll works) */
+/* 🔥 ADD MANY MESSAGES TO TEST SCROLL */
 for (let i = 1; i <= 100; i++) {
   add("Old message " + i, "bot");
 }
 
-/* 🔥 BLOCK PULL-TO-REFRESH */
+/* 🔥 BLOCK REFRESH */
 let startY = 0;
 
 chat.addEventListener("touchstart", function(e){
