@@ -219,6 +219,12 @@ document.getElementById("list").innerHTML =
 });
 
 </script>
+<script>
+history.pushState(null, null, location.href);
 
+window.onpopstate = function () {
+  window.location.replace("forum.html");
+};
+</script>
 </body>
 </html>
