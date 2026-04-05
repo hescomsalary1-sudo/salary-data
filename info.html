@@ -8,7 +8,14 @@
 <style>
 body{margin:0;font-family:Segoe UI;background:linear-gradient(135deg,#0f172a,#1e293b);color:white;height:100vh;display:flex;flex-direction:column}
 header{padding:12px;text-align:center;font-weight:bold;background:rgba(255,255,255,.05)}
-#chat{flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column}
+#chat{
+  flex:1;
+  overflow-y:auto;
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  scroll-behavior:smooth;
+}
 .msg{max-width:80%;padding:10px;border-radius:14px;margin:6px 0;line-height:1.4}
 .user{background:#3b82f6;align-self:flex-end}
 .bot{background:rgba(255,255,255,.1)}
@@ -66,7 +73,7 @@ if(state.step==='month'){
 state.data.month=q.padStart(2,'0');state.step=null;state.module=null;
 
 let user=localStorage.getItem('currentUser');
-let res=await fetch('https://hescomsalary1-sudo.github.io/salary-data/salary .csv');
+let res=await fetch('https://hescomsalary1-sudo.github.io/salary-data/salary.csv');
 let txt=await res.text();
 let rows=txt.split('\n');
 
