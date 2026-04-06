@@ -1,53 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Secure AI - HESCOM</title>
 <style>
-body{
-font-family:-apple-system, Segoe UI, sans-serif;
-background:#f4f7f6;
-margin:0;
-display:flex;
-flex-direction:column;
-min-height:100vh;
+body {
+    font-family: -apple-system, Segoe UI, sans-serif;
+    background: #f4f7f6;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Fixed height for the viewport */
+    overflow: hidden; /* Prevent body scroll, use container scroll */
 }
 
 /* HEADER */
-#header{
-position:fixed;
-top:0;
-width:100%;
-height:55px;
-background:#2400b7;
-color:white;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:bold;
-z-index:1000;
-box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+#header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 55px;
+    background: #2400b7;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
-/* CHAT */
-#chat-container{
-flex:1;
-padding:20px;
-margin-top:55px;
-display:flex;
-flex-direction:column;
-gap:15px;
-padding-bottom:80px;
-overflow-y: auto;
+/* CHAT CONTAINER - THE SCROLLING HEART */
+#chat-container {
+    flex: 1;
+    padding: 20px;
+    margin-top: 55px;
+    margin-bottom: 75px; /* Space for input area */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto; /* Enable vertical scrolling */
+    -webkit-overflow-scrolling: touch; /* Smooth scroll for iOS */
+    scroll-behavior: smooth;
 }
 
-.message{
-max-width:80%;
-padding:12px 16px;
-border-radius:15px;
-font-size:15px;
-line-height: 1.4;
-animation: fadeIn 0.3s ease;
+.message {
+    max-width: 80%;
+    padding: 12px 16px;
+    border-radius: 18px;
+    font-size: 15px;
+    line-height: 1.4;
+    word-wrap: break-word;
+    animation: fadeIn 0.3s ease-out;
 }
 
 @keyframes fadeIn {
@@ -55,19 +59,19 @@ animation: fadeIn 0.3s ease;
     to { opacity: 1; transform: translateY(0); }
 }
 
-.user{
-align-self:flex-end;
-background:#2400b7;
-color:white;
-border-bottom-right-radius: 2px;
+.user {
+    align-self: flex-end;
+    background: #2400b7;
+    color: white;
+    border-bottom-right-radius: 2px;
 }
 
-.ai{
-align-self:flex-start;
-background:white;
-color:#333;
-box-shadow:0 2px 5px rgba(0,0,0,0.05);
-border-bottom-left-radius: 2px;
+.ai {
+    align-self: flex-start;
+    background: white;
+    color: #333;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    border-bottom-left-radius: 2px;
 }
 
 /* INPUT AREA */
@@ -76,41 +80,50 @@ border-bottom-left-radius: 2px;
     bottom: 0;
     width: 100%;
     background: white;
-    padding: 15px;
+    padding: 12px 15px;
     display: flex;
     box-sizing: border-box;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #eee;
+    z-index: 1000;
 }
 
 input {
     flex: 1;
-    padding: 12px;
+    padding: 12px 18px;
     border-radius: 25px;
     border: 1px solid #ddd;
     outline: none;
+    font-size: 15px;
 }
 
 button {
     background: #2400b7;
     color: white;
     border: none;
-    padding: 0 20px;
+    padding: 0 22px;
     margin-left: 10px;
     border-radius: 25px;
     font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:active {
+    transform: scale(0.95);
+    opacity: 0.8;
 }
 </style>
 </head>
 
 <body>
 
-<div id="header">🤖 Secure AI Assistant</div>
+<div id="header">💬 Secure AI Assistant</div>
 
 <div id="chat-container"></div>
 
 <form id="input-area" onsubmit="sendMessage(event)">
-<input id="msgInput" placeholder="Ask about salary, leaves, or nominees..." autocomplete="off">
-<button>Send</button>
+    <input id="msgInput" placeholder="Ask about salary, leaves, etc..." autocomplete="off">
+    <button type="submit">Send</button>
 </form>
 
 <script>
@@ -120,16 +133,26 @@ const nominationAPI = "https://script.google.com/macros/s/AKfycbzYMFFE-KfL5JamBr
 
 let state = { module: null, step: null, data: {} };
 
-/* UI HELPER */
+/* UI - ADD MESSAGE & AUTO-SCROLL */
 function addMessage(t, type) {
     let d = document.createElement("div");
     d.className = "message " + type;
     d.innerHTML = t;
     container.appendChild(d);
+    
+    // THE FIX: Standardize scrolling to the bottom
     container.scrollTop = container.scrollHeight;
+    
+    // Secondary scroll for mobile/browser inconsistencies
+    setTimeout(() => {
+        container.scrollTo({
+            top: container.scrollHeight,
+            behavior: 'smooth'
+        });
+    }, 50);
 }
 
-/* SEND LOGIC */
+/* SEND MESSAGE FUNCTION */
 async function sendMessage(e) {
     e.preventDefault();
     let input = document.getElementById("msgInput");
@@ -139,25 +162,26 @@ async function sendMessage(e) {
     addMessage(text, "user");
     input.value = "";
 
-    // Thinking state
+    // Process through the AI Engine
     let reply = await AI_ENGINE(text.toLowerCase());
     
+    // Simulate AI thinking delay
     setTimeout(() => {
         addMessage(reply, "ai");
-    }, 400);
+    }, 450);
 }
 
 /* ================= MASTER AI ENGINE ================= */
 async function AI_ENGINE(q) {
     const user = localStorage.getItem("currentUser");
 
-    // Module Router
+    // Routing Logic
     if (!state.module) {
         if (q.includes("salary") || q.includes("pay") || q.includes("earn")) state.module = "salary";
         else if (q.includes("attendance") || q.includes("present") || q.includes("absent")) state.module = "attendance";
-        else if (q.includes("leave") || q.includes("balance") || q.includes("cl") || q.includes("el")) state.module = "leave";
+        else if (q.includes("leave") || q.includes("balance") || q.includes("credit")) state.module = "leave";
         else if (q.includes("nominee") || q.includes("family") || q.includes("nomination")) state.module = "nominee";
-        else if (q.includes("profile") || q.includes("designation") || q.includes("joined") || q.includes("retire")) state.module = "profile";
+        else if (q.includes("profile") || q.includes("designation") || q.includes("joined")) state.module = "profile";
     }
 
     if (state.module === "salary") return await SALARY_MODULE(q, user);
@@ -172,28 +196,28 @@ async function AI_ENGINE(q) {
 /* ================= MODULES ================= */
 
 async function SALARY_MODULE(q, user) {
-    if (!state.step) { state.step = "year"; return "Which year's salary? (e.g., 2026)"; }
-    if (state.step === "year") { state.data.year = q; state.step = "month"; return "Which month? (01-12)"; }
+    if (!state.step) { state.step = "year"; return "Which year's salary? (e.g. 2026)"; }
+    if (state.step === "year") { state.data.year = q; state.step = "month"; return "Enter month number (01-12):"; }
 
     if (state.step === "month") {
         state.data.month = q.padStart(2, "0");
         let res = await fetch(baseURL + "salary .csv");
         let rows = (await res.text()).split("\n");
-        state.module = null; state.step = null;
+        state.module = null; state.step = null; // Reset
 
         for (let r of rows) {
             let c = r.split(",");
             if (c[0] === user && c[1] === state.data.year && c[2] === state.data.month) {
-                return `💰 **Salary Found:**<br>Basic: ₹${c[3]}<br>Gross: ₹${c[19]}<br>Net: ₹${+c[19] - (+c[35] || 0)}`;
+                return `💰 **Salary Record Found:**<br>Basic: ₹${c[3]}<br>Total Earnings: ₹${c[19]}<br>Total Deductions: ₹${c[36] || 'N/A'}`;
             }
         }
-        return "❌ No salary record found for that period.";
+        return "❌ I couldn't find a salary record for that period.";
     }
 }
 
 async function ATTENDANCE_MODULE(q, user) {
-    if (!state.step) { state.step = "year"; return "Enter the year for attendance (e.g., 2026)"; }
-    if (state.step === "year") { state.data.year = q; state.step = "month"; return "Enter the month (e.g., Jan, Feb)"; }
+    if (!state.step) { state.step = "year"; return "Which year? (e.g. 2026)"; }
+    if (state.step === "year") { state.data.year = q; state.step = "month"; return "Which month? (e.g. Jan, Feb)"; }
 
     if (state.step === "month") {
         let res = await fetch(baseURL + "attendance.csv");
@@ -207,24 +231,24 @@ async function ATTENDANCE_MODULE(q, user) {
                 for (let i=3; i<34; i++) {
                     if (c[i] === "P") p++; else if (c[i] === "A") a++; else if (c[i] && c[i] !== "") l++;
                 }
-                return `📊 **Attendance for ${q} ${state.data.year}:**<br>Present: ${p}<br>Absent: ${a}<br>Leaves: ${l}`;
+                return `📊 **Attendance Summary (${q}):**<br>Present Days: ${p}<br>Absent Days: ${a}<br>Leaves/Holidays: ${l}`;
             }
         }
-        return "❌ Attendance data not found.";
+        return "❌ No attendance data found for that month.";
     }
 }
 
 async function LEAVE_MODULE(q, user) {
+    state.module = null;
     let res = await fetch(baseURL + "leaves.csv");
     let rows = (await res.text()).split("\n");
-    state.module = null;
     for (let r of rows) {
         let c = r.split(",");
-        if (c[0] === user) {
-            return `📅 **Leave Balance:**<br>Earned Leave (EL): ${c[3]}<br>Full Pay Leave (FPL): ${c[4]}<br>Casual Leave (CL): ${c[5]}<br><small>Updated: ${c[6]}</small>`;
+        if (c[0].trim() === user) {
+            return `📅 **Current Leave Credits:**<br>EL: ${c[3]}<br>FPL: ${c[4]}<br>CL: ${c[5]}<br><small>Updated on: ${c[6]}</small>`;
         }
     }
-    return "❌ Leave data not available.";
+    return "❌ Leave record not available.";
 }
 
 async function NOMINEE_MODULE(q, user) {
@@ -234,40 +258,41 @@ async function NOMINEE_MODULE(q, user) {
         let data = await res.json();
         if (data.length > 0) {
             let list = data.map(n => `• ${n.name} (${n.relation}) - ${n.share}%`).join("<br>");
-            return `👥 **Your Nominees:**<br>${list}`;
+            return `👥 **Nominee Information:**<br>${list}`;
         }
-    } catch(e) { return "❌ Error fetching nomination records."; }
-    return "❌ No nomination found.";
+    } catch(e) { return "❌ Error fetching nomination data."; }
+    return "❌ No nomination details found.";
 }
 
 async function PROFILE_MODULE(q, user) {
+    state.module = null;
     let res = await fetch(baseURL + "employee.csv");
     let rows = (await res.text()).split("\n");
-    state.module = null;
     for (let r of rows) {
         let c = r.split(",");
-        if (c[0] === user) {
-            return `👤 **Profile Details:**<br>Name: ${c[1]}<br>Designation: ${c[2]}<br>Joined: ${c[18]}<br>Retirement: ${c[6]}`;
+        if (c[0].trim() === user) {
+            return `👤 **Profile:**<br>Name: ${c[1]}<br>Designation: ${c[2]}<br>Place: ${c[3]}<br>Retirement: ${c[6]}`;
         }
     }
-    return "❌ Profile not found.";
+    return "❌ Employee profile not found.";
 }
 
 /* ================= COMMON CHAT ================= */
 function COMMON_CHAT(q) {
-    if (q.includes("hi") || q.includes("hello")) return "Hello 👋 I am your Secure AI. How can I help you today?";
-    if (q.includes("help") || q.includes("what can you do")) return "I can show you your **Salary**, **Attendance**, **Leave Balance**, **Nominee details**, and **Profile**. What would you like to see?";
-    if (q.includes("thank")) return "You're very welcome! 😊";
-    if (q.includes("joke")) return "Why was the computer cold? It left its Windows open! 😂";
-    if (q.includes("time")) return "It is currently " + new Date().toLocaleTimeString();
+    if (q.includes("hi") || q.includes("hello") || q.includes("hey")) return "Hello 👋 I am your Secure AI. How can I help you today?";
+    if (q.includes("help")) return "You can ask me about:<br>• My Salary<br>• Attendance Status<br>• Leave Balance<br>• Nominee Details<br>• My Profile";
+    if (q.includes("thank")) return "You're welcome! Happy to assist. 😊";
+    if (q.includes("time")) return "Current time: " + new Date().toLocaleTimeString();
     
-    return "I'm here to help with your employee data. Ask about your salary, attendance, or leaves! 😊";
+    return "I'm here to help with your app data! 😊 Try asking 'What's my salary?' or 'Check my leave balance'.";
 }
 
-/* INITIALIZE */
-addMessage("Hello 👋 I am your Secure AI assistant. Ask me about your salary, attendance, or leave balances.", "ai");
+/* STARTUP */
+window.onload = () => {
+    addMessage("Hello 👋 I am your Secure AI assistant. Ask me anything about your salary, attendance, or leave balances.", "ai");
+};
 
-// BACK NAVIGATION LOGIC
+/* BACK NAVIGATION */
 history.pushState(null, null, location.href);
 window.onpopstate = function () {
     window.location.replace("home.html");
