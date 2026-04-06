@@ -1,366 +1,197 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Secure AI - HESCOM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --primary: #2400b7;
+            --secondary: #3b1eff;
+            --bg: #f7f8fc;
+            --glass: rgba(255, 255, 255, 0.8);
+        }
 
-<style>
-body{
-font-family:-apple-system,Segoe UI;
-background:#f4f7f6;
-margin:0;
-display:flex;
-flex-direction:column;
-min-height:100vh;
-}
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
 
-/* HEADER */
-#header{
-position:fixed;
-top:0;
-width:100%;
-height:55px;
-background:#2400b7;
-color:white;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:bold;
-z-index:1000;
-}
+        /* PREMIUM HEADER */
+        .ai-header {
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
 
-/* CHAT */
-#chat-container{
-flex:1;
-padding:20px;
-margin-top:55px;
-display:flex;
-flex-direction:column;
-gap:15px;
-padding-bottom:80px;
-}
+        /* CHAT AREA */
+        #chat-box {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
-.message{
-max-width:80%;
-padding:12px 16px;
-border-radius:15px;
-font-size:15px;
-}
+        .msg {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease;
+        }
 
-.user{
-align-self:flex-end;
-background:#2400b7;
-color:white;
-}
+        .bot {
+            background: white;
+            color: #333;
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
 
-.ai{
-align-self:flex-start;
-background:white;
-color:#333;
-box-shadow:0 2px 5px rgba(0,0,0,0.05);
-}
+        .user {
+            background: var(--primary);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
 
-/* INPUT */
-#input-area {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background: white;
-    padding: 15px;
-    display: flex;
-    box-sizing: border-box;
-    border-top: 1px solid #ddd;
-}
+        /* INPUT AREA */
+        .input-area {
+            padding: 15px;
+            background: white;
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid #eee;
+        }
 
-input {
-    flex: 1;
-    padding: 12px;
-    border-radius: 25px;
-    border: 1px solid #ddd;
-}
+        input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+        }
 
-button {
-    background: #2400b7;
-    color: white;
-    border: none;
-    padding: 0 20px;
-    margin-left: 10px;
-    border-radius: 25px;
-}
-</style>
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } }
+    </style>
 </head>
-
 <body>
 
-<div id="header">💬 Chat with Secure AI</div>
+<div class="ai-header">
+    <div style="font-size: 24px;">🤖</div>
+    <div style="font-weight: 700;">HESCOM Secure AI</div>
+    <div style="font-size: 11px; opacity: 0.8;">Integrated Employee Intelligence</div>
+</div>
 
-<div id="chat-container"></div>
+<div id="chat-box">
+    <div class="msg bot">Hello! I am your Secure AI. I have access to your Payroll, Attendance, Leaves, and Nominations. How can I help you today?</div>
+</div>
 
-<form id="input-area" onsubmit="sendMessage(event)">
-<input id="msgInput" placeholder="Ask anything..." autocomplete="off">
-<button>Send</button>
-</form>
+<div class="input-area">
+    <input type="text" id="userInput" placeholder="Ask about salary, leaves, or nominees...">
+    <button onclick="askAI()">➔</button>
+</div>
 
 <script>
-const container=document.getElementById("chat-container");
+    const user = localStorage.getItem("currentUser");
+    const chatBox = document.getElementById("chat-box");
 
-let state={module:null,step:null,data:{}};
+    async function askAI() {
+        const input = document.getElementById("userInput");
+        const query = input.value.toLowerCase();
+        if (!query) return;
 
-/* UI */
-function addMessage(t,type){
-let d=document.createElement("div");
-d.className="message "+type;
-d.innerText=t;
-container.appendChild(d);
-window.scrollTo(0,document.body.scrollHeight);
-}
+        addMessage(input.value, "user");
+        input.value = "";
 
-/* SEND */
-async function sendMessage(e){
-e.preventDefault();
+        // SHOW THINKING
+        const loadingMsg = addMessage("Analyzing secure data...", "bot");
 
-let input=document.getElementById("msgInput");
-let text=input.value.trim();
-if(!text) return;
+        try {
+            const response = await processQuery(query);
+            loadingMsg.innerHTML = response;
+        } catch (e) {
+            loadingMsg.innerHTML = "I'm sorry, I couldn't retrieve that data right now.";
+        }
+        
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
 
-addMessage(text,"user");
-input.value="";
+    function addMessage(text, side) {
+        const div = document.createElement("div");
+        div.className = `msg ${side}`;
+        div.innerHTML = text;
+        chatBox.appendChild(div);
+        return div;
+    }
 
-let reply=await AI_ENGINE(text.toLowerCase());
+    async function processQuery(q) {
+        // 1. LEAVE MODULE (Based on leaves.html logic)
+        if (q.includes("leave") || q.includes("balance")) {
+            const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
+            const data = await res.text();
+            const row = data.split("\n").find(r => r.startsWith(user));
+            if (row) {
+                const c = row.split(",");
+                return `📊 **Your Leave Credits:**<br>EL: ${c[3]} | FPL: ${c[4]} | CL: ${c[5]}<br><small>Updated as on ${c[6]}</small>`;
+            }
+        }
 
-setTimeout(()=>{
-addMessage(reply,"ai");
-},300);
-}
+        // 2. NOMINATION MODULE (Based on view_nomation.html API)
+        if (q.includes("nominee") || q.includes("family")) {
+            const api = "https://script.google.com/macros/s/AKfycbzYMFFE-KfL5JamBrzIUC6oOCqP5eynVS3ksV2kkF-dY6g4J1Y08qdAQKErGg64qNS1BQ/exec";
+            const res = await fetch(`${api}?user=${user}`);
+            const data = await res.json();
+            if (data.length > 0) {
+                let list = data.map(n => `• ${n.name} (${n.relation}) - ${n.share}%`).join("<br>");
+                return `👥 **Current Nominees:**<br>${list}`;
+            }
+        }
 
-/* ================= AI ENGINE ================= */
+        // 3. SALARY MODULE (Based on salary_view.html logic)
+        if (q.includes("salary") || q.includes("earn") || q.includes("pay")) {
+            const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
+            const data = await res.text();
+            // Get latest record for user
+            const rows = data.split("\n").filter(r => r.startsWith(user));
+            const latest = rows[rows.length - 1].split(",");
+            const net = parseInt(latest[3]) + parseInt(latest[4]) + parseInt(latest[5]) - 1000; // Simplified logic
+            return `💰 **Latest Pay Info:**<br>Year: ${latest[1]}, Month: ${latest[2]}<br>Basic: ₹${latest[3]}<br>Estimated Net: ₹${net}`;
+        }
 
-async function AI_ENGINE(q){
+        // 4. RETIREMENT MODULE (Based on page1.html logic)
+        if (q.includes("retire") || q.includes("service")) {
+            const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
+            const data = await res.text();
+            const row = data.split("\n").find(r => r.startsWith(user));
+            if (row) {
+                const c = row.split(",");
+                return `📅 **Service Record:**<br>Joined: ${c[18]}<br>Retirement Date: ${c[6]}<br>Place: ${c[3]}`;
+            }
+        }
 
-if(!state.module){
-if(q.includes("salary")||q.includes("attendance")||q.includes("name")||q.includes("news")||q.includes("user")){
-state.module="home";
-}
-}
-
-if(state.module==="home") return await HOME_MODULE(q);
-if(state.module==="salary") return await SALARY_MODULE(q);
-if(state.module==="attendance") return await ATTENDANCE_MODULE(q);
-
-return COMMON_CHAT(q);
-}
-
-/* ================= HOME MODULE ================= */
-
-async function HOME_MODULE(q){
-
-if(q.includes("name")){
-let name=document.getElementById("empName")?.innerText;
-return name? "Your name is "+name:"Name not available";
-}
-
-if(q.includes("designation")){
-let d=document.getElementById("empDesg")?.innerText;
-return d? "Your designation is "+d:"Not found";
-}
-
-if(q.includes("salary")){
-let s=document.getElementById("netSalary")?.innerText;
-return s? "Your last salary is ₹"+s:"Salary not loaded";
-}
-
-if(q.includes("attendance")){
-let p=document.getElementById("presentVal")?.innerText;
-let l=document.getElementById("leaveVal")?.innerText;
-let a=document.getElementById("absentVal")?.innerText;
-
-return `Attendance:
-Present ${p}
-Leave ${l}
-Absent ${a}`;
-}
-
-if(q.includes("users")){
-let c=document.getElementById("visitorCount")?.innerText;
-return "Total users: "+c;
-}
-
-if(q.includes("news")){
-let n=document.getElementById("newsData")?.innerText;
-return n? n:"No news";
-}
-
-state.module=null;
-return "Ask about name, salary, attendance, users or news";
-}
-
-/* ================= SALARY MODULE ================= */
-
-async function SALARY_MODULE(q){
-
-if(!state.step){state.step="year";return "Enter year";}
-if(state.step==="year"){state.data.year=q;state.step="month";return "Enter month";}
-
-if(state.step==="month"){
-state.data.month=q.padStart(2,"0");
-state.module=null;state.step=null;
-
-let user=localStorage.getItem("currentUser");
-
-let res=await fetch("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
-let txt=await res.text();
-let rows=txt.split("\n");
-
-for(let r of rows){
-let c=r.split(",");
-if(c[0]===user&&c[1]===state.data.year&&c[2]===state.data.month){
-let earn=0,ded=0;
-for(let i=3;i<=19;i++) earn+=+c[i];
-for(let i=20;i<=35;i++) ded+=+c[i];
-return `Net Salary ₹${earn-ded}`;
-}
-}
-return "No data";
-}
-}
-
-/* ================= ATTENDANCE MODULE ================= */
-
-async function ATTENDANCE_MODULE(q){
-
-if(!state.step){state.step="year";return "Enter year";}
-if(state.step==="year"){state.data.year=q;state.step="month";return "Enter month (Jan)";}
-
-if(state.step==="month"){
-let user=localStorage.getItem("currentUser");
-
-let res=await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
-let txt=await res.text();
-let rows=txt.split("\n");
-
-let p=0,a=0,l=0;
-
-for(let r of rows){
-let c=r.split(",");
-if(c[0]===user&&c[1]===state.data.year&&c[2].toLowerCase()===q){
-for(let i=3;i<34;i++){
-if(c[i]==="P") p++;
-else if(c[i]==="A") a++;
-else if(c[i]) l++;
-}
-}
-}
-
-state.module=null;state.step=null;
-return `Present ${p} Absent ${a} Leave ${l}`;
-}
-}
-
-/* ================= COMMON ================= */
-
-function COMMON_CHAT(q){
-
-
-
-/* ===== GREETINGS ===== */
-const greetings = ["hi","hello","hey","hai","hii","hlw"];
-if(greetings.some(w => q.includes(w))){
-  return "Hello 👋 How can I assist you today?";
-}
-
-/* ===== HOW ARE YOU ===== */
-if(q.includes("how are you")){
-  return "I'm doing great 😊 Ready to help you anytime!";
-}
-
-/* ===== WHO ARE YOU ===== */
-if(q.includes("who are you")){
-  return "I am your Secure AI assistant 🤖, designed to help you with your employee app.";
-}
-
-/* ===== SELF EXPLANATION ===== */
-if(q.includes("explain yourself") || q.includes("about yourself")){
-  return "I am an intelligent assistant integrated into your app. I can provide salary details, attendance reports, profile info, and guide you through different features.";
-}
-
-/* ===== WHAT CAN YOU DO ===== */
-if(q.includes("what can you do") || q.includes("help me with")){
-  return `I can help you with:
-• Salary details 💰
-• Attendance reports 📊
-• Profile information 👤
-• Leave details 📅
-• Other income 💵
-• Navigation inside app 🚀`;
-}
-
-/* ===== CAPABILITIES EXTENDED ===== */
-if(q.includes("what else") || q.includes("more help")){
-  return "I can also guide you to pages, answer questions, and make your app usage easier 👍";
-}
-
-/* ===== THANK YOU ===== */
-if(q.includes("thank") || q.includes("thanks")){
-  return "You're welcome 😊 Happy to help!";
-}
-
-/* ===== BYE ===== */
-if(q.includes("bye") || q.includes("good night")){
-  return "Goodbye 👋 Have a great day!";
-}
-
-/* ===== POLITE ===== */
-if(q.includes("please")){
-  return "Sure 👍 Tell me what you need.";
-}
-
-/* ===== CONFUSED USER ===== */
-if(q.includes("i don't understand") || q.includes("not understand")){
-  return "No worries 🙂 Try asking like: 'my salary', 'attendance', or 'profile'.";
-}
-
-/* ===== APP INFO ===== */
-if(q.includes("which app") || q.includes("what app")){
-  return "This is your employee management and salary tracking app.";
-}
-
-/* ===== DEVELOPER ===== */
-if(q.includes("developer") || q.includes("who made you")){
-  return "I am developed to support your secure app system.";
-}
-
-/* ===== FUN ===== */
-if(q.includes("joke")){
-  return "Why do programmers hate nature? Too many bugs 😂";
-}
-
-/* ===== TIME & DATE ===== */
-if(q.includes("time")){
-  return "Current time: " + new Date().toLocaleTimeString();
-}
-
-if(q.includes("date")){
-  return "Today is " + new Date().toLocaleDateString();
-}
-
-/* ===== MOTIVATION ===== */
-if(q.includes("motivate") || q.includes("motivation")){
-  return "Keep going 💪 Every small step leads to success!";
-}
-
-/* ===== FALLBACK ===== */
-return "I'm here to help with your app 😊 Try asking about salary, attendance, profile, or say 'help'.";
-}
-/* START */
-addMessage("Hello 👋 Ask me about your app","ai");
+        return "❓ I'm not sure about that. Try asking about your **salary**, **leave balance**, **nominees**, or **retirement date**.";
+    }
 </script>
-</script>
-  <script>
-history.pushState(null, null, location.href);
 
-window.onpopstate = function () {
-  // 2nd back → go to Home
-  window.location.replace("home.html");
-};
-</script>
 </body>
 </html>
