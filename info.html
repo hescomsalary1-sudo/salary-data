@@ -159,7 +159,76 @@ async function PROFILE_MODULE(q, user) {
 }
 
 // (Salary, Attendance, Nominee logic remains the same)
-async function SALARY_MODULE(q,u){if(!state.step){state.step="y";return "Which year?"}if(state.step=="y"){state.data.y=q;state.step="m";return "Which month?"}state.module=null;state.step=null;return "Searching salary for "+q+"/"+state.data.y+"...";}
+/* ================= UPDATED SALARY MODULE ================= */
+async function SALARY_MODULE(q, user) {
+    // Step 1: Ask for Year
+    if (!state.step) {
+        state.step = "year";
+        return "Which year's salary would you like to check? (e.g., 2026)";
+    }
+
+    // Step 2: Ask for Month
+    if (state.step === "year") {
+        state.data.year = q.trim();
+        state.step = "month";
+        return "Got it. Now enter the month number (1-12) or name (e.g., Jan):";
+    }
+
+    // Step 3: Fetch and Calculate (Matching salary_view.html logic)
+    if (state.step === "month") {
+        // Convert month name to number if needed
+        let monthMap = {"jan": "01", "feb": "02", "mar": "03", "apr": "04", "may": "05", "jun": "06", "jul": "07", "aug": "08", "sep": "09", "oct": "10", "nov": "11", "dec": "12"};
+        let monthNum = monthMap[q.substring(0,3).toLowerCase()] || q.padStart(2, "0");
+        
+        state.data.month = monthNum;
+        const year = state.data.year;
+
+        try {
+            let res = await fetch(baseURL + "salary .csv");
+            let csvText = await res.text();
+            let rows = csvText.trim().split("\n");
+            
+            state.module = null; // Reset for next time
+            state.step = null;
+
+            for (let i = 1; i < rows.length; i++) {
+                let c = rows[i].split(",");
+                // Match User, Year, and Month
+                if (c[0] === user && c[1] === year && c[2] === monthNum) {
+                    
+                    // Column Mapping from your salary_view.html
+                    let earnings = 0;
+                    for(let j=3; j<=19; j++) earnings += (+c[j] || 0);
+                    
+                    let deductions = 0;
+                    for(let j=20; j<=35; j++) deductions += (+c[j] || 0);
+                    
+                    let net = earnings - deductions;
+
+                    // Return a mini payslip layout
+                    return `
+                    <div style="background:#fff; color:#333; padding:10px; border-radius:10px; border-left:5px solid #2400b7;">
+                        <b style="color:#2400b7;">📊 PAYSLIP: ${monthNum}/${year}</b><br><hr>
+                        <small>Basic Pay: ₹${c[3]}</small><br>
+                        <small>HRA: ₹${c[5]}</small><br>
+                        <small>Other Earn: ₹${c[19]}</small><br>
+                        <div style="margin:5px 0; font-weight:bold; color:green;">Total Earnings: ₹${earnings.toFixed(2)}</div>
+                        <div style="margin:5px 0; font-weight:bold; color:red;">Total Deductions: ₹${deductions.toFixed(2)}</div>
+                        <hr>
+                        <div style="font-size:16px; font-weight:bold; color:#2400b7;">Net Salary: ₹${net.toFixed(2)}</div>
+                        <p style="font-size:11px; color:#666;">For full details and PDF, please visit the 'Monthly Salary' page.</p>
+                    </div>`;
+                }
+            }
+            return `❌ No salary record found for **${monthNum}/${year}**. Please check the year and month again.`;
+            
+        } catch (error) {
+            console.error(error);
+            state.module = null; state.step = null;
+            return "⚠️ Error: Unable to access the salary database right now.";
+        }
+    }
+}
 async function ATTENDANCE_MODULE(q,u){if(!state.step){state.step="y";return "Year?"}if(state.step=="y"){state.data.y=q;state.step="m";return "Month?"}state.module=null;state.step=null;return "Fetching attendance...";}
 async function NOMINEE_MODULE(q,u){state.module=null;return "Loading nominee details from secure API...";}
 
