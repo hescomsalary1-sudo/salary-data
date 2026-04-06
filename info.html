@@ -229,6 +229,70 @@ async function SALARY_MODULE(q, user) {
         }
     }
 }
+
+    /* ================= NEW: COLUMN RECOGNITION ENGINE ================= */
+// This maps every column in your CSV to keywords for the AI
+const salaryDetailMap = {
+    "basic": 3, "dearness": 4, "hra": 5, "house rent": 5, "city compensation": 6, "cca": 6, 
+    "personal pay": 7, "special personal": 8, "conveyance": 9, "washing": 10, 
+    "sfta": 11, "locality": 12, "mwa": 13, "hill": 14, "charge": 15,
+    "pension": 16, "lwf company": 17, "cash duty": 18, "other earning": 19, 
+    "lic": 20, "income tax": 21, "tax": 21, "professional tax": 22, "prof tax": 22,
+    "society": 23, "kptcl society": 23, "pli": 24, "union fund": 25, 
+    "sc st fund": 26, "rent": 27, "urban bank": 28, "family benefit": 29, 
+    "festival advance": 30, "pc 10": 31, "pc 14": 32, "lwf": 33, 
+    "recovery": 34, "other deduction": 35
+};
+
+/* ================= NEW: SPECIFIC DATA HANDLER ================= */
+// Call this function inside your Salary Module to handle detailed questions
+async function getSpecificSalaryDetail(q, userData, month, year) {
+    let targetCol = null;
+    let label = "";
+
+    // Find which specific column the user is asking about
+    for (let key in salaryDetailMap) {
+        if (q.includes(key)) {
+            targetCol = salaryDetailMap[key];
+            label = key.toUpperCase();
+            break;
+        }
+    }
+
+    if (targetCol !== null) {
+        try {
+            let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
+            let txt = await res.text();
+            let rows = txt.trim().split("\n");
+
+            for (let i = 1; i < rows.length; i++) {
+                let c = rows[i].split(",");
+                // Match Username, Year, Month
+                if (c[0] === userData && c[1] === year && c[2] === month) {
+                    let value = c[targetCol] || "0";
+                    return `🔍 For **${month}/${year}**, your **${label}** is:<br><b style="font-size:18px; color:#2400b7;">₹ ${value}</b>`;
+                }
+            }
+            return `❌ No record found for ${label} in ${month}/${year}.`;
+        } catch (e) {
+            return "⚠️ Connection error while fetching details.";
+        }
+    }
+    return null; // Return null if no specific keyword was found
+}
+
+/* ================= UPDATED SEARCH LOGIC ================= */
+// Update your existing SALARY_MODULE Step 3 with this logic:
+/*
+   // Inside your Step 3 (Month processing):
+   let specificInfo = await getSpecificSalaryDetail(originalQuery, user, monthNum, year);
+   if(specificInfo) {
+       state.module = null; state.step = null;
+       return specificInfo;
+   } else {
+       // ... existing code to show the full Mini Payslip card ...
+   }
+*/
 async function ATTENDANCE_MODULE(q,u){if(!state.step){state.step="y";return "Year?"}if(state.step=="y"){state.data.y=q;state.step="m";return "Month?"}state.module=null;state.step=null;return "Fetching attendance...";}
 async function NOMINEE_MODULE(q,u){state.module=null;return "Loading nominee details from secure API...";}
 
