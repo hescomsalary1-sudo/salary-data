@@ -158,9 +158,13 @@ async function PROFILE_MODULE(q, user) {
     return "Profile not found.";
 }
 
-// (Salary, Attendance, Nominee logic remains the same)
 /* ================= UPDATED SALARY MODULE ================= */
 async function SALARY_MODULE(q, user) {
+    // Save the original question to check for specific keywords (like "income tax") later
+    if (!state.data.originalQuery) {
+        state.data.originalQuery = q;
+    }
+
     // Step 1: Ask for Year
     if (!state.step) {
         state.step = "year";
@@ -174,29 +178,38 @@ async function SALARY_MODULE(q, user) {
         return "Got it. Now enter the month number (1-12) or name (e.g., Jan):";
     }
 
-    // Step 3: Fetch and Calculate (Matching salary_view.html logic)
+    // Step 3: Fetch and Calculate
     if (state.step === "month") {
-        // Convert month name to number if needed
         let monthMap = {"jan": "01", "feb": "02", "mar": "03", "apr": "04", "may": "05", "jun": "06", "jul": "07", "aug": "08", "sep": "09", "oct": "10", "nov": "11", "dec": "12"};
         let monthNum = monthMap[q.substring(0,3).toLowerCase()] || q.padStart(2, "0");
         
-        state.data.month = monthNum;
         const year = state.data.year;
+        const originalQuery = state.data.originalQuery;
 
+        // NEW FEATURE: Check for specific column requests (Income Tax, LIC, etc.)
+        let specificInfo = await getSpecificSalaryDetail(originalQuery, user, monthNum, year);
+        
+        if (specificInfo) {
+            state.module = null; 
+            state.step = null;
+            state.data = {}; // Clear memory
+            return specificInfo;
+        }
+
+        // DEFAULT: If no specific item was asked, show the summary card
         try {
             let res = await fetch(baseURL + "salary .csv");
             let csvText = await res.text();
             let rows = csvText.trim().split("\n");
             
-            state.module = null; // Reset for next time
+            state.module = null; 
             state.step = null;
+            state.data = {};
 
             for (let i = 1; i < rows.length; i++) {
                 let c = rows[i].split(",");
-                // Match User, Year, and Month
                 if (c[0] === user && c[1] === year && c[2] === monthNum) {
                     
-                    // Column Mapping from your salary_view.html
                     let earnings = 0;
                     for(let j=3; j<=19; j++) earnings += (+c[j] || 0);
                     
@@ -205,33 +218,30 @@ async function SALARY_MODULE(q, user) {
                     
                     let net = earnings - deductions;
 
-                    // Return a mini payslip layout
                     return `
-                    <div style="background:#fff; color:#333; padding:10px; border-radius:10px; border-left:5px solid #2400b7;">
-                        <b style="color:#2400b7;">📊 PAYSLIP: ${monthNum}/${year}</b><br><hr>
+                    <div style="background:#fff; color:#333; padding:10px; border-radius:10px; border-left:5px solid #2400b7; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                        <b style="color:#2400b7;">📊 PAYSLIP: ${monthNum}/${year}</b><br><hr style="border:0; border-top:1px solid #eee;">
                         <small>Basic Pay: ₹${c[3]}</small><br>
                         <small>HRA: ₹${c[5]}</small><br>
                         <small>Other Earn: ₹${c[19]}</small><br>
                         <div style="margin:5px 0; font-weight:bold; color:green;">Total Earnings: ₹${earnings.toFixed(2)}</div>
                         <div style="margin:5px 0; font-weight:bold; color:red;">Total Deductions: ₹${deductions.toFixed(2)}</div>
-                        <hr>
+                        <hr style="border:0; border-top:1px solid #eee;">
                         <div style="font-size:16px; font-weight:bold; color:#2400b7;">Net Salary: ₹${net.toFixed(2)}</div>
-                        <p style="font-size:11px; color:#666;">For full details and PDF, please visit the 'Monthly Salary' page.</p>
+                        <p style="font-size:11px; color:#666; margin-top:5px;">For full details and PDF, please visit the 'Monthly Salary' page.</p>
                     </div>`;
                 }
             }
-            return `❌ No salary record found for **${monthNum}/${year}**. Please check the year and month again.`;
+            return `❌ No salary record found for **${monthNum}/${year}**.`;
             
         } catch (error) {
-            console.error(error);
             state.module = null; state.step = null;
-            return "⚠️ Error: Unable to access the salary database right now.";
+            return "⚠️ Error: Unable to access the salary database.";
         }
     }
 }
 
-    /* ================= NEW: COLUMN RECOGNITION ENGINE ================= */
-// This maps every column in your CSV to keywords for the AI
+/* ================= COLUMN RECOGNITION ENGINE ================= */
 const salaryDetailMap = {
     "basic": 3, "dearness": 4, "hra": 5, "house rent": 5, "city compensation": 6, "cca": 6, 
     "personal pay": 7, "special personal": 8, "conveyance": 9, "washing": 10, 
@@ -244,15 +254,13 @@ const salaryDetailMap = {
     "recovery": 34, "other deduction": 35
 };
 
-/* ================= NEW: SPECIFIC DATA HANDLER ================= */
-// Call this function inside your Salary Module to handle detailed questions
+/* ================= SPECIFIC DATA HANDLER ================= */
 async function getSpecificSalaryDetail(q, userData, month, year) {
     let targetCol = null;
     let label = "";
 
-    // Find which specific column the user is asking about
     for (let key in salaryDetailMap) {
-        if (q.includes(key)) {
+        if (q.toLowerCase().includes(key)) {
             targetCol = salaryDetailMap[key];
             label = key.toUpperCase();
             break;
@@ -267,7 +275,6 @@ async function getSpecificSalaryDetail(q, userData, month, year) {
 
             for (let i = 1; i < rows.length; i++) {
                 let c = rows[i].split(",");
-                // Match Username, Year, Month
                 if (c[0] === userData && c[1] === year && c[2] === month) {
                     let value = c[targetCol] || "0";
                     return `🔍 For **${month}/${year}**, your **${label}** is:<br><b style="font-size:18px; color:#2400b7;">₹ ${value}</b>`;
@@ -278,21 +285,8 @@ async function getSpecificSalaryDetail(q, userData, month, year) {
             return "⚠️ Connection error while fetching details.";
         }
     }
-    return null; // Return null if no specific keyword was found
+    return null; 
 }
-
-/* ================= UPDATED SEARCH LOGIC ================= */
-// Update your existing SALARY_MODULE Step 3 with this logic:
-/*
-   // Inside your Step 3 (Month processing):
-   let specificInfo = await getSpecificSalaryDetail(originalQuery, user, monthNum, year);
-   if(specificInfo) {
-       state.module = null; state.step = null;
-       return specificInfo;
-   } else {
-       // ... existing code to show the full Mini Payslip card ...
-   }
-*/
 async function ATTENDANCE_MODULE(q,u){if(!state.step){state.step="y";return "Year?"}if(state.step=="y"){state.data.y=q;state.step="m";return "Month?"}state.module=null;state.step=null;return "Fetching attendance...";}
 async function NOMINEE_MODULE(q,u){state.module=null;return "Loading nominee details from secure API...";}
 
