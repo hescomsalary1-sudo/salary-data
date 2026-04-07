@@ -610,6 +610,64 @@ color:#2400b7;
 font-size:11px;
 color:#777;
 }
+
+
+  /* SLIDER STYLES */
+.slider-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 15px;
+  padding: 10px 0;
+  scrollbar-width: none; /* Hide scrollbar for Chrome/Safari below */
+}
+
+.slider-container::-webkit-scrollbar {
+  display: none;
+}
+
+.slider-item {
+  flex: 0 0 85%; /* Shows 85% of the card, hinting at the next one */
+  scroll-snap-align: center;
+  position: relative;
+  height: 150px;
+  border-radius: 15px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.slider-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7); /* Makes text more readable */
+  transition: transform 0.3s;
+}
+
+.slider-item:active img {
+  transform: scale(1.05);
+}
+
+.slider-text {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  color: white;
+  z-index: 2;
+}
+
+.slider-text h4 {
+  margin: 0;
+  font-size: 16px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.slider-text p {
+  margin: 2px 0 0;
+  font-size: 12px;
+  opacity: 0.9;
+}
 </style>
 </head>
 
@@ -768,8 +826,39 @@ color:#777;
 </div>
 
 <div class="news-box">
-<h3>📢 What's New?</h3>
-<div id="newsData">Loading updates...</div>
+  <h3>📢 What's New?</h3>
+  
+  <div class="slider-container">
+    
+    <div class="slider-item" onclick="showLoader('salary_details.html')">
+      <img src="https://images.unsplash.com/photo-1554224155-1696413575b9?auto=format&fit=crop&w=500&q=80" alt="Salary">
+      <div class="slider-text">
+        <h4>Salary Insights</h4>
+        <p>View detailed breakdown ➜</p>
+      </div>
+    </div>
+
+    <div class="slider-item" onclick="showLoader('finance_planner.html')">
+      <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=500&q=80" alt="Finance">
+      <div class="slider-text">
+        <h4>Tax & Savings</h4>
+        <p>Plan your investments ➜</p>
+      </div>
+    </div>
+
+    <div class="slider-item" onclick="showLoader('loan_info.html')">
+      <img src="https://images.unsplash.com/photo-1565514020179-026b92b84bb6?auto=format&fit=crop&w=500&q=80" alt="PF">
+      <div class="slider-text">
+        <h4>PF & Loans</h4>
+        <p>Check eligibility ➜</p>
+      </div>
+    </div>
+
+  </div>
+
+  <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+
+  <div id="newsData">Loading updates...</div>
 </div>
 
 </div>
