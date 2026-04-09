@@ -31,6 +31,24 @@ box-shadow:0 10px 25px rgba(0,0,0,0.08);
 text-align:center;
 }
 
+/* 🔥 BIG MODERN SLIDER */
+input[type=range]{
+width:100%;
+height:6px;
+border-radius:5px;
+background:#ddd;
+margin-top:10px;
+}
+
+input[type=range]::-webkit-slider-thumb{
+-webkit-appearance:none;
+width:18px;
+height:18px;
+border-radius:50%;
+background:#4b2dd8;
+cursor:pointer;
+}
+
 .summary{
 background:linear-gradient(135deg,#6c39ff,#4b2dd8);
 color:#fff;
@@ -67,24 +85,39 @@ cursor:pointer;
 font-weight:600;
 }
 
-/* POPUP */
+/* 🔥 PREMIUM POPUP */
 #popup{
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
-background:rgba(0,0,0,0.6);
-display:none;
+background:rgba(0,0,0,0.4);
+backdrop-filter: blur(6px);
+display:flex;
 justify-content:center;
-align-items:center;
+align-items:flex-end;
+opacity:0;
+pointer-events:none;
+transition:0.3s ease;
 z-index:9999;
+}
+
+#popup.active{
+opacity:1;
+pointer-events:auto;
 }
 
 .popup-box{
 background:white;
 padding:15px;
-border-radius:15px;
-width:95%;
-max-width:450px;
+border-radius:20px 20px 0 0;
+width:100%;
+max-width:500px;
+transform:translateY(100%);
+transition:0.3s ease;
+}
+
+#popup.active .popup-box{
+transform:translateY(0);
 }
 
 /* TABLE */
@@ -264,18 +297,26 @@ list.innerHTML=output;
 
 }
 
-/* POPUP */
+/* 🔥 IMPROVED POPUP */
 function showPopup(){
 
-let content="";
+let year=slider.value;
+let compare=document.getElementById("compareYear").value || "-";
+
+let content=`
+<div style="text-align:center;margin-bottom:10px;">
+<b>${year}</b> vs <b>${compare}</b>
+</div>
+`;
+
 let hasData=false;
 
 content+=`
 <table class="table">
 <tr>
 <th>Month</th>
-<th>Current</th>
-<th>Compare</th>
+<th>${year}</th>
+<th>${compare}</th>
 </tr>
 `;
 
@@ -309,12 +350,12 @@ content=`
 }
 
 document.getElementById("popupContent").innerHTML=content;
-document.getElementById("popup").style.display="flex";
+document.getElementById("popup").classList.add("active");
 
 }
 
 function closePopup(){
-document.getElementById("popup").style.display="none";
+document.getElementById("popup").classList.remove("active");
 }
 
 /* INITIAL */
