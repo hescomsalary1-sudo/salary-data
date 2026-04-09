@@ -1,281 +1,123 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Reports</title>
+<title>Advanced Reports Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-
-body{
-font-family:'Segoe UI',sans-serif;
-margin:0;
-background: linear-gradient(135deg, #f7f8fc, #edf5ff);
-}
-
-.top{
-padding:22px;
-color:#2400b7;
-text-align:center;
-font-size:20px;
-font-weight:600;
-}
-
-/* FILTER */
-.filter-box{
-background:white;
-border-radius:18px;
-padding:15px;
-margin:15px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-text-align:center;
-}
-
-.year-text{
-font-size:18px;
-font-weight:600;
-color:#4b2dd8;
-margin-bottom:10px;
-}
-
-/* SUMMARY */
-.summary{
-background: linear-gradient(135deg,#6c39ff,#4b2dd8);
-color:white;
-border-radius:15px;
-padding:15px;
-margin:15px;
-}
-
-/* MONTH CARD */
-.month-card{
-background: rgba(255,255,255,0.9);
-border-radius:18px;
-padding:15px;
-margin:15px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-}
-
-.month-title{
-font-weight:700;
-color:#4b2dd8;
-margin-bottom:10px;
-}
-
-.row{
-display:flex;
-justify-content:space-between;
-margin-bottom:8px;
-}
-
-/* LOADER */
-#loader{
-position:fixed;
-width:100%;
-height:100%;
-background:white;
-display:none;
-justify-content:center;
-align-items:center;
-z-index:9999;
-}
-
-.spinner{
-width:40px;
-height:40px;
-border:5px solid #ddd;
-border-top:5px solid #4b2dd8;
-border-radius:50%;
-animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-100%{transform:rotate(360deg);}
-}
-
-canvas{
-background:white;
-border-radius:15px;
-margin:15px;
-padding:10px;
-}
-
+body{font-family:'Segoe UI';margin:0;background:linear-gradient(135deg,#eef2ff,#f8fafc)}
+.top{padding:20px;text-align:center;font-weight:700;color:#4b2dd8}
+.filter{background:white;margin:15px;padding:15px;border-radius:15px;box-shadow:0 10px 25px rgba(0,0,0,0.08)}
+.summary{background:linear-gradient(135deg,#6c39ff,#4b2dd8);color:#fff;margin:15px;padding:15px;border-radius:15px}
+canvas{background:white;margin:15px;border-radius:15px;padding:10px}
+.month{background:white;margin:15px;padding:15px;border-radius:15px;box-shadow:0 10px 25px rgba(0,0,0,0.08)}
+.btn{margin-top:10px;padding:8px 12px;border:none;border-radius:8px;background:#4b2dd8;color:white;cursor:pointer}
 </style>
 </head>
 
 <body>
 
-<div class="top" id="title">Report</div>
+<div class="top" id="title">Advanced Reports</div>
 
-<!-- FILTER -->
-<div class="filter-box">
-<div class="year-text">Year: <span id="yearValue">2025</span></div>
-<input type="range" min="2025" max="2030" value="2025" id="yearSlider">
+<div class="filter">
+Year: <span id="y">2025</span>
+<input type="range" min="2025" max="2030" value="2025" id="slider">
+
+<br><br>
+Compare With:
+<select id="compareYear">
+<option value="">None</option>
+<option>2025</option>
+<option>2026</option>
+<option>2027</option>
+<option>2028</option>
+<option>2029</option>
+<option>2030</option>
+</select>
+
+<button class="btn" onclick="downloadChart()">Download Chart</button>
 </div>
 
-<!-- SUMMARY -->
-<div id="summaryBox"></div>
+<div id="summary"></div>
 
-<!-- GRAPH -->
-<canvas id="chart"></canvas>
+<canvas id="barChart"></canvas>
+<canvas id="pieChart"></canvas>
 
-<div id="loader"><div class="spinner"></div></div>
-
-<div id="resultBox"></div>
+<div id="list"></div>
 
 <script>
+const csvUrl="https://hescomsalary1-sudo.github.io/salary-data/salary .csv";
+let user=localStorage.getItem("currentUser");
+let type=localStorage.getItem("reportType");
 
-const csvUrl = "https://hescomsalary1-sudo.github.io/salary-data/salary .csv";
+const map={LIC:"LIC",income_tax:"income_tax",society:"KPTCL_employes_society",PLI:"PLI",festival_advance:"festival_advance",house_rent:"house_rent"};
 
-let user = localStorage.getItem("currentUser");
-let type = localStorage.getItem("reportType");
+const months=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
-if(!user){
-window.location.replace("login.html");
-}
+let barChart,pieChart;
 
-/* MAP */
-const map={
-LIC:"LIC",
-income_tax:"income_tax",
-society:"KPTCL_employes_society",
-PLI:"PLI",
-festival_advance:"festival_advance",
-house_rent:"house_rent"
-};
+slider.oninput=()=>{y.innerText=slider.value;load();}
+compareYear.onchange=load;
 
-const titles={
-LIC:"LIC Reports",
-income_tax:"Income Tax Reports",
-society:"Society Reports",
-PLI:"PLI Reports",
-festival_advance:"Festival Advance",
-house_rent:"House Rent"
-};
+async function load(){
+let year=slider.value;
+let compare=compareYear.value;
 
-title.innerText = titles[type] || "Report";
+let res=await fetch(csvUrl);
+let text=await res.text();
+let rows=text.trim().split("\n");
+let headers=rows[0].split(",");
+let idx=headers.indexOf(map[type]);
 
-/* MONTH NAMES */
-const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+let data=Array(12).fill(0);
+let data2=Array(12).fill(0);
 
-let chartInstance=null;
-
-/* SLIDER */
-const slider = document.getElementById("yearSlider");
-const yearValue = document.getElementById("yearValue");
-
-slider.oninput = ()=>{
-yearValue.innerText = slider.value;
-loadData(); // AUTO LOAD
-};
-
-/* LOAD */
-async function loadData(){
-
-let yearSelected = slider.value;
-
-loader.style.display="flex";
-
-let res = await fetch(csvUrl);
-let text = await res.text();
-
-let rows = text.trim().split("\n");
-let headers = rows[0].split(",");
-let index = headers.indexOf(map[type]);
-
-let monthTotals = Array(12).fill(0);
-let found=false;
-
-/* LOOP */
 for(let i=1;i<rows.length;i++){
+let c=rows[i].split(",");
+let u=c[0],y=c[1],m=parseInt(c[2])-1,v=Number(c[idx]);
 
-let c = rows[i].split(",");
-
-let username = c[0];
-let year = c[1];
-let month = parseInt(c[2])-1;
-let value = Number(c[index]);
-
-if(username.trim()===user.trim() && year==yearSelected && value>0){
-
-monthTotals[month]+=value;
-found=true;
+if(u===user && v>0){
+if(y==year) data[m]+=v;
+if(compare && y==compare) data2[m]+=v;
 }
 }
 
-/* NO DATA */
-if(!found){
-showNoData();
-return;
-}
+let total=data.reduce((a,b)=>a+b,0);
+summary.innerHTML=`<div class='summary'>Total: ₹${total}</div>`;
 
-/* SUMMARY */
-let total = monthTotals.reduce((a,b)=>a+b,0);
-let activeMonths = monthTotals.filter(v=>v>0).length;
-
-summaryBox.innerHTML = `
-<div class="summary">
-<b>Total Amount:</b> ₹${total}<br>
-<b>Active Months:</b> ${activeMonths}
-</div>
-`;
-
-/* GRAPH */
-if(chartInstance){
-chartInstance.destroy();
-}
-
-chartInstance = new Chart(document.getElementById("chart"),{
-type:"bar",
-data:{
-labels:months,
-datasets:[{
-label:"Amount",
-data:monthTotals
-}]
-}
+if(barChart) barChart.destroy();
+barChart=new Chart(barChartCanvas(),{
+type:'bar',
+data:{labels:months,datasets:[{label:year,data:data},{label:compare,data:data2}]}
 });
 
-/* MONTH LIST */
-let output="";
-
-monthTotals.forEach((val,i)=>{
-if(val>0){
-output+=`
-<div class="month-card">
-<div class="month-title">${months[i]}</div>
-<div class="row">
-<span>Total</span>
-<span>₹${val}</span>
-</div>
-</div>
-`;
-}
+if(pieChart) pieChart.destroy();
+pieChart=new Chart(pieChartCanvas(),{
+type:'pie',
+data:{labels:months,datasets:[{data:data}]}
 });
 
-resultBox.innerHTML=output;
-loader.style.display="none";
-
+let out="";
+data.forEach((v,i)=>{
+if(v>0){
+out+=`<div class='month'>${months[i]} : ₹${v}</div>`;
+}
+});
+list.innerHTML=out;
 }
 
-/* NO DATA */
-function showNoData(){
+function barChartCanvas(){return document.getElementById("barChart");}
+function pieChartCanvas(){return document.getElementById("pieChart");}
 
-loader.style.display="none";
-
-summaryBox.innerHTML="";
-resultBox.innerHTML=`
-<div style="text-align:center;margin-top:60px;background:white;padding:25px;border-radius:20px;">
-<div style="font-size:60px;">📭</div>
-<h2 style="color:#4b2dd8;">No Records Found</h2>
-</div>
-`;
+function downloadChart(){
+let url=barChart.toBase64Image();
+let a=document.createElement('a');
+a.href=url;a.download='chart.png';a.click();
 }
 
-/* INITIAL LOAD */
-loadData();
-
+load();
 </script>
 
 </body>
