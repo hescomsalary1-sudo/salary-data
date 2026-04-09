@@ -4,52 +4,23 @@
 <title>Advanced Reports Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <style>
 body{font-family:'Segoe UI';margin:0;background:linear-gradient(135deg,#eef2ff,#f8fafc)}
 .top{padding:20px;text-align:center;font-weight:700;color:#4b2dd8}
 .filter{background:white;margin:15px;padding:15px;border-radius:15px;box-shadow:0 10px 25px rgba(0,0,0,0.08)}
 .summary{background:linear-gradient(135deg,#6c39ff,#4b2dd8);color:#fff;margin:15px;padding:15px;border-radius:15px}
-canvas{background:white;margin:15px;border-radius:15px;padding:10px}
-.month{background:white;margin:15px;padding:15px;border-radius:15px;box-shadow:0 10px 25px rgba(0,0,0,0.08)}
+.month{background:white;margin:10px 15px;padding:12px;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,0.06)}
+.row{display:flex;justify-content:space-between}
 .btn{margin-top:10px;padding:10px 14px;border:none;border-radius:10px;background:#4b2dd8;color:white;cursor:pointer;font-weight:600}
 
 /* POPUP */
-#popup{
-position:fixed;
-top:0;left:0;width:100%;height:100%;
-background:rgba(0,0,0,0.6);
-display:none;
-align-items:center;
-justify-content:center;
-z-index:9999;
-}
+#popup{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:9999}
+.popup-box{background:white;padding:15px;border-radius:15px;width:90%;max-width:420px;animation:fadeIn 0.3s ease}
+.close-btn{background:#ff4d4d;margin-top:10px}
+.no-data{text-align:center;padding:30px}
+.no-data img{width:120px;opacity:0.7}
 
-.popup-box{
-background:white;
-padding:15px;
-border-radius:15px;
-width:90%;
-max-width:400px;
-text-align:center;
-animation:fadeIn 0.3s ease;
-}
-
-.popup-box img{
-width:100%;
-border-radius:10px;
-}
-
-.close-btn{
-margin-top:10px;
-background:#ff4d4d;
-}
-
-@keyframes fadeIn{
-from{transform:scale(0.8);opacity:0}
-to{transform:scale(1);opacity:1}
-}
+@keyframes fadeIn{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
 </style>
 </head>
 
@@ -60,7 +31,6 @@ to{transform:scale(1);opacity:1}
 <div class="filter">
 Year: <span id="y">2025</span>
 <input type="range" min="2025" max="2030" value="2025" id="slider">
-
 <br><br>
 Compare With:
 <select id="compareYear">
@@ -73,21 +43,17 @@ Compare With:
 <option>2030</option>
 </select>
 
-<button class="btn" onclick="showChartPopup()">View Chart</button>
+<button class="btn" onclick="showPopup()">View Summary</button>
 </div>
 
 <div id="summary"></div>
-
-<canvas id="barChart"></canvas>
-<canvas id="pieChart"></canvas>
-
 <div id="list"></div>
 
 <!-- POPUP -->
 <div id="popup">
 <div class="popup-box">
-<h3>📊 Chart Preview</h3>
-<img id="popupImg">
+<h3 style="text-align:center">Monthly Comparison</h3>
+<div id="popupContent"></div>
 <button class="btn close-btn" onclick="closePopup()">Close</button>
 </div>
 </div>
@@ -101,7 +67,7 @@ const map={LIC:"LIC",income_tax:"income_tax",society:"KPTCL_employes_society",PL
 
 const months=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
-let barChart,pieChart;
+let currentData=[],compareData=[];
 
 slider.oninput=()=>{y.innerText=slider.value;load();}
 compareYear.onchange=load;
@@ -116,36 +82,24 @@ let rows=text.trim().split("\n");
 let headers=rows[0].split(",");
 let idx=headers.indexOf(map[type]);
 
-let data=Array(12).fill(0);
-let data2=Array(12).fill(0);
+currentData=Array(12).fill(0);
+compareData=Array(12).fill(0);
 
 for(let i=1;i<rows.length;i++){
 let c=rows[i].split(",");
 let u=c[0],y=c[1],m=parseInt(c[2])-1,v=Number(c[idx]);
 
 if(u===user && v>0){
-if(y==year) data[m]+=v;
-if(compare && y==compare) data2[m]+=v;
+if(y==year) currentData[m]+=v;
+if(compare && y==compare) compareData[m]+=v;
 }
 }
 
-let total=data.reduce((a,b)=>a+b,0);
+let total=currentData.reduce((a,b)=>a+b,0);
 summary.innerHTML=`<div class='summary'>Total: ₹${total}</div>`;
 
-if(barChart) barChart.destroy();
-barChart=new Chart(document.getElementById("barChart"),{
-type:'bar',
-data:{labels:months,datasets:[{label:year,data:data},{label:compare,data:data2}]}
-});
-
-if(pieChart) pieChart.destroy();
-pieChart=new Chart(document.getElementById("pieChart"),{
-type:'pie',
-data:{labels:months,datasets:[{data:data}]}
-});
-
 let out="";
-data.forEach((v,i)=>{
+currentData.forEach((v,i)=>{
 if(v>0){
 out+=`<div class='month'>${months[i]} : ₹${v}</div>`;
 }
@@ -153,9 +107,33 @@ out+=`<div class='month'>${months[i]} : ₹${v}</div>`;
 list.innerHTML=out;
 }
 
-function showChartPopup(){
-let img=barChart.toBase64Image();
-document.getElementById("popupImg").src=img;
+function showPopup(){
+let content="";
+let hasData=false;
+
+for(let i=0;i<12;i++){
+if(currentData[i]>0 || compareData[i]>0){
+hasData=true;
+content+=`
+<div class='month'>
+<div class='row'><b>${months[i]}</b></div>
+<div class='row'>
+<span>Current: ₹${currentData[i]||0}</span>
+<span>Compare: ₹${compareData[i]||0}</span>
+</div>
+</div>`;
+}
+}
+
+if(!hasData){
+content=`
+<div class='no-data'>
+<img src='https://cdn-icons-png.flaticon.com/512/7486/7486740.png'>
+<p>No Data Found</p>
+</div>`;
+}
+
+document.getElementById("popupContent").innerHTML=content;
 document.getElementById("popup").style.display="flex";
 }
 
