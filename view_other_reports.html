@@ -112,9 +112,22 @@ function barChartCanvas(){return document.getElementById("barChart");}
 function pieChartCanvas(){return document.getElementById("pieChart");}
 
 function downloadChart(){
-let url=barChart.toBase64Image();
-let a=document.createElement('a');
-a.href=url;a.download='chart.png';a.click();
+    try{
+        let url = barChart.toBase64Image();
+
+        // create hidden link
+        let a = document.createElement('a');
+        a.href = url;
+        a.download = 'report_chart.png';
+        a.style.display = 'none';
+
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+    }catch(e){
+        alert('Download failed. Please try again.');
+    }
 }
 
 load();
