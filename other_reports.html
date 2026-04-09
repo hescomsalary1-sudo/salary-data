@@ -1,36 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Other Reports</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-body{font-family:Arial;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);margin:0;color:#fff}
-.container{padding:20px}
-h1{text-align:center;margin-bottom:20px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px}
-.btn{padding:20px;border:none;border-radius:15px;background:#ffffff10;color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(10px);transition:0.3s}
-.btn:hover{transform:scale(1.05);background:#ffffff25}
+body{
+font-family:'Segoe UI',sans-serif;
+margin:0;
+background: linear-gradient(135deg, #f7f8fc, #edf5ff);
+padding-bottom:90px;
+}
+
+.top{
+padding:22px;
+color:#2400b7;
+text-align:center;
+font-size:20px;
+font-weight:600;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+padding:20px;
+}
+
+.card-btn{
+background:white;
+border-radius:18px;
+padding:20px;
+text-align:center;
+font-weight:600;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+cursor:pointer;
+transition:0.3s;
+}
+
+.card-btn:hover{
+transform:scale(1.05);
+}
+
 </style>
 </head>
+
 <body>
-<div class="container">
-<h1>Other Reports</h1>
+
+<div class="top">Other Reports</div>
+
 <div class="grid">
-<button class="btn" onclick="openReport('LIC')">LIC Reports</button>
-<button class="btn" onclick="openReport('income_tax')">Income Tax</button>
-<button class="btn" onclick="openReport('society')">Society Deduction</button>
-<button class="btn" onclick="openReport('PLI')">PLI Reports</button>
-<button class="btn" onclick="openReport('festival_advance')">Festival Advance</button>
-<button class="btn" onclick="openReport('house_rent')">House Rent</button>
-</div>
+<div class="card-btn" onclick="openReport('LIC')">LIC Reports</div>
+<div class="card-btn" onclick="openReport('income_tax')">Income Tax</div>
+<div class="card-btn" onclick="openReport('society')">Society Deduction</div>
+<div class="card-btn" onclick="openReport('PLI')">PLI Reports</div>
+<div class="card-btn" onclick="openReport('festival_advance')">Festival Advance</div>
+<div class="card-btn" onclick="openReport('house_rent')">House Rent</div>
 </div>
 
 <script>
 function openReport(type){
-    localStorage.setItem("reportType", type);
-    window.location.href = "view_other_reports.html";
+localStorage.setItem("reportType", type);
+window.location.href="view_other_reports.html";
 }
 </script>
+
 </body>
 </html>
