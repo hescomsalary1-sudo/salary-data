@@ -1,37 +1,134 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Advanced Reports Dashboard</title>
+<title>Reports Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
-body{font-family:'Segoe UI';margin:0;background:linear-gradient(135deg,#eef2ff,#f8fafc)}
-.top{padding:20px;text-align:center;font-weight:700;color:#4b2dd8}
-.filter{background:white;margin:15px;padding:15px;border-radius:15px;box-shadow:0 10px 25px rgba(0,0,0,0.08)}
-.summary{background:linear-gradient(135deg,#6c39ff,#4b2dd8);color:#fff;margin:15px;padding:15px;border-radius:15px}
-.month{background:white;margin:10px 15px;padding:12px;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,0.06)}
-.row{display:flex;justify-content:space-between}
-.btn{margin-top:10px;padding:10px 14px;border:none;border-radius:10px;background:#4b2dd8;color:white;cursor:pointer;font-weight:600}
+
+body{
+font-family:'Segoe UI',sans-serif;
+margin:0;
+background: linear-gradient(135deg,#eef2ff,#f8fafc);
+}
+
+.top{
+padding:20px;
+text-align:center;
+font-weight:700;
+color:#4b2dd8;
+}
+
+/* FILTER */
+.filter{
+background:white;
+margin:15px;
+padding:15px;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+text-align:center;
+}
+
+.summary{
+background:linear-gradient(135deg,#6c39ff,#4b2dd8);
+color:#fff;
+margin:15px;
+padding:15px;
+border-radius:15px;
+}
+
+canvas{
+background:white;
+margin:15px;
+border-radius:15px;
+padding:10px;
+}
+
+/* MONTH LIST */
+.month{
+background:white;
+margin:10px 15px;
+padding:12px;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.06);
+}
+
+/* BUTTON */
+.btn{
+margin-top:10px;
+padding:10px;
+border:none;
+border-radius:10px;
+background:#4b2dd8;
+color:white;
+cursor:pointer;
+font-weight:600;
+}
 
 /* POPUP */
-#popup{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:9999}
-.popup-box{background:white;padding:15px;border-radius:15px;width:90%;max-width:420px;animation:fadeIn 0.3s ease}
-.close-btn{background:#ff4d4d;margin-top:10px}
-.no-data{text-align:center;padding:30px}
-.no-data img{width:120px;opacity:0.7}
+#popup{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,0.6);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
 
-@keyframes fadeIn{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
+.popup-box{
+background:white;
+padding:15px;
+border-radius:15px;
+width:95%;
+max-width:450px;
+}
+
+/* TABLE */
+.table{
+width:100%;
+border-collapse:collapse;
+}
+
+.table th{
+background:#4b2dd8;
+color:white;
+padding:10px;
+}
+
+.table td{
+padding:10px;
+text-align:center;
+border-bottom:1px solid #eee;
+}
+
+/* NO DATA */
+.no-data{
+text-align:center;
+padding:30px;
+}
+
+.no-data img{
+width:120px;
+opacity:0.7;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="top">Advanced Reports</div>
+<div class="top">📊 Reports Dashboard</div>
 
 <div class="filter">
-Year: <span id="y">2025</span>
-<input type="range" min="2025" max="2030" value="2025" id="slider">
+Year: <span id="yearText">2025</span>
+<input type="range" min="2025" max="2030" value="2025" id="yearSlider">
+
 <br><br>
+
 Compare With:
 <select id="compareYear">
 <option value="">None</option>
@@ -47,37 +144,60 @@ Compare With:
 </div>
 
 <div id="summary"></div>
+
+<canvas id="barChart"></canvas>
+<canvas id="pieChart"></canvas>
+
 <div id="list"></div>
 
 <!-- POPUP -->
 <div id="popup">
 <div class="popup-box">
-<h3 style="text-align:center">Monthly Comparison</h3>
+<h3 style="text-align:center;">Monthly Comparison</h3>
 <div id="popupContent"></div>
-<button class="btn close-btn" onclick="closePopup()">Close</button>
+<button class="btn" onclick="closePopup()">Close</button>
 </div>
 </div>
 
 <script>
+
 const csvUrl="https://hescomsalary1-sudo.github.io/salary-data/salary .csv";
+
 let user=localStorage.getItem("currentUser");
 let type=localStorage.getItem("reportType");
 
-const map={LIC:"LIC",income_tax:"income_tax",society:"KPTCL_employes_society",PLI:"PLI",festival_advance:"festival_advance",house_rent:"house_rent"};
+const map={
+LIC:"LIC",
+income_tax:"income_tax",
+society:"KPTCL_employes_society",
+PLI:"PLI",
+festival_advance:"festival_advance",
+house_rent:"house_rent"
+};
 
 const months=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
+let barChart,pieChart;
 let currentData=[],compareData=[];
 
-slider.oninput=()=>{y.innerText=slider.value;load();}
-compareYear.onchange=load;
+const slider=document.getElementById("yearSlider");
+const yearText=document.getElementById("yearText");
 
-async function load(){
+slider.oninput=()=>{
+yearText.innerText=slider.value;
+loadData();
+};
+
+document.getElementById("compareYear").onchange=loadData;
+
+async function loadData(){
+
 let year=slider.value;
-let compare=compareYear.value;
+let compare=document.getElementById("compareYear").value;
 
 let res=await fetch(csvUrl);
 let text=await res.text();
+
 let rows=text.trim().split("\n");
 let headers=rows[0].split(",");
 let idx=headers.indexOf(map[type]);
@@ -86,8 +206,12 @@ currentData=Array(12).fill(0);
 compareData=Array(12).fill(0);
 
 for(let i=1;i<rows.length;i++){
+
 let c=rows[i].split(",");
-let u=c[0],y=c[1],m=parseInt(c[2])-1,v=Number(c[idx]);
+let u=c[0];
+let y=c[1];
+let m=parseInt(c[2])-1;
+let v=Number(c[idx]);
 
 if(u===user && v>0){
 if(y==year) currentData[m]+=v;
@@ -95,53 +219,107 @@ if(compare && y==compare) compareData[m]+=v;
 }
 }
 
+/* SUMMARY */
 let total=currentData.reduce((a,b)=>a+b,0);
-summary.innerHTML=`<div class='summary'>Total: ₹${total}</div>`;
 
-let out="";
-currentData.forEach((v,i)=>{
-if(v>0){
-out+=`<div class='month'>${months[i]} : ₹${v}</div>`;
+summary.innerHTML=`
+<div class="summary">
+Total Amount: ₹${total}
+</div>
+`;
+
+/* BAR CHART */
+if(barChart) barChart.destroy();
+
+barChart=new Chart(document.getElementById("barChart"),{
+type:"bar",
+data:{
+labels:months,
+datasets:[
+{label:year,data:currentData},
+{label:compare,data:compareData}
+]
 }
 });
-list.innerHTML=out;
+
+/* PIE */
+if(pieChart) pieChart.destroy();
+
+pieChart=new Chart(document.getElementById("pieChart"),{
+type:"pie",
+data:{
+labels:months,
+datasets:[{data:currentData}]
+}
+});
+
+/* LIST */
+let output="";
+currentData.forEach((v,i)=>{
+if(v>0){
+output+=`<div class="month">${months[i]} : ₹${v}</div>`;
+}
+});
+list.innerHTML=output;
+
 }
 
+/* POPUP */
 function showPopup(){
+
 let content="";
 let hasData=false;
 
-for(let i=0;i<12;i++){
-if(currentData[i]>0 || compareData[i]>0){
-hasData=true;
 content+=`
-<div class='month'>
-<div class='row'><b>${months[i]}</b></div>
-<div class='row'>
-<span>Current: ₹${currentData[i]||0}</span>
-<span>Compare: ₹${compareData[i]||0}</span>
-</div>
-</div>`;
+<table class="table">
+<tr>
+<th>Month</th>
+<th>Current</th>
+<th>Compare</th>
+</tr>
+`;
+
+for(let i=0;i<12;i++){
+
+let cur=currentData[i]||0;
+let cmp=compareData[i]||0;
+
+if(cur>0 || cmp>0){
+hasData=true;
+
+content+=`
+<tr>
+<td>${months[i]}</td>
+<td>₹${cur}</td>
+<td>₹${cmp}</td>
+</tr>
+`;
 }
 }
 
+content+=`</table>`;
+
 if(!hasData){
 content=`
-<div class='no-data'>
-<img src='https://cdn-icons-png.flaticon.com/512/7486/7486740.png'>
+<div class="no-data">
+<img src="https://cdn-icons-png.flaticon.com/512/7486/7486740.png">
 <p>No Data Found</p>
-</div>`;
+</div>
+`;
 }
 
 document.getElementById("popupContent").innerHTML=content;
 document.getElementById("popup").style.display="flex";
+
 }
 
 function closePopup(){
 document.getElementById("popup").style.display="none";
 }
 
-load();
+/* INITIAL */
+loadData();
+
 </script>
 
 </body>
