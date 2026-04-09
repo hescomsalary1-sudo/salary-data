@@ -117,12 +117,29 @@ async function AI_ENGINE(q) {
 
     // 1. DATA MODULE ROUTER
     if (!state.module) {
-        if (q.includes("salary") || q.includes("pay") || q.includes("earn")) state.module = "salary";
-        else if (q.includes("attendance") || q.includes("present") || q.includes("absent")) state.module = "attendance";
-        else if (q.includes("leave") || q.includes("balance")) state.module = "leave";
-        else if (q.includes("nominee") || q.includes("family")) state.module = "nominee";
-        else if (q.includes("profile") || q.includes("designation")) state.module = "profile";
+
+    if (
+        q.includes("salary") || 
+        q.includes("pay") || 
+        q.includes("earn") ||
+
+        /* 🔥 NEW ADD */
+        q.includes("tax") ||
+        q.includes("lic") ||
+        q.includes("deduction") ||
+        q.includes("income") ||
+        q.includes("hra") ||
+        q.includes("basic")
+    ){
+        state.module = "salary";
     }
+
+    else if (q.includes("attendance") || q.includes("present") || q.includes("absent")) state.module = "attendance";
+    else if (q.includes("leave") || q.includes("balance")) state.module = "leave";
+    else if (q.includes("nominee") || q.includes("family")) state.module = "nominee";
+    else if (q.includes("profile") || q.includes("designation")) state.module = "profile";
+}
+    
 
     if (state.module === "salary") return await SALARY_MODULE(q, user);
     if (state.module === "attendance") return await ATTENDANCE_MODULE(q, user);
