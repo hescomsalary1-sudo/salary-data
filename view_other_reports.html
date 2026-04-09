@@ -25,19 +25,58 @@ font-weight:600;
 padding:20px;
 }
 
-.card{
-background: rgba(255,255,255,0.85);
-backdrop-filter: blur(10px);
+/* YEAR FILTER BOX */
+.filter-box{
+background:white;
 border-radius:18px;
-padding:18px;
-margin-bottom:14px;
+padding:15px;
+margin:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+text-align:center;
+}
+
+.year-text{
+font-size:18px;
+font-weight:600;
+color:#4b2dd8;
+margin-bottom:10px;
+}
+
+input[type=range]{
+width:100%;
+}
+
+.search-btn{
+margin-top:12px;
+padding:10px;
+background:#4b2dd8;
+color:white;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* MONTH CARD */
+.month-card{
+background: rgba(255,255,255,0.9);
+border-radius:18px;
+padding:15px;
+margin-bottom:15px;
 box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
+.month-title{
+font-weight:700;
+color:#4b2dd8;
+margin-bottom:10px;
+}
+
+/* ROW */
 .row{
 display:flex;
 justify-content:space-between;
-margin-bottom:10px;
+margin-bottom:8px;
 }
 
 .label{
@@ -48,12 +87,6 @@ font-size:13px;
 .value{
 font-weight:600;
 color:#333;
-}
-
-.amount{
-font-size:20px;
-font-weight:700;
-color:#4b2dd8;
 }
 
 /* LOADER */
@@ -88,13 +121,20 @@ animation:spin 1s linear infinite;
 
 <div class="top" id="title">Report</div>
 
+<!-- FILTER -->
+<div class="filter-box">
+<div class="year-text">Year: <span id="yearValue">2024</span></div>
+<input type="range" min="2020" max="2030" value="2024" id="yearSlider">
+<button class="search-btn" onclick="loadData()">Search</button>
+</div>
+
 <div id="loader"><div class="spinner"></div></div>
 
-<div class="content" id="resultBox">Loading...</div>
+<div class="content" id="resultBox"></div>
 
 <script>
 
-const csvUrl = "https://hescomsalary1-sudo.github.io/salary-data/salary .csv"; // ⚠️ change this
+const csvUrl = "https://hescomsalary1-sudo.github.io/salary-data/salary.csv";
 
 let user = localStorage.getItem("currentUser");
 let type = localStorage.getItem("reportType");
@@ -103,7 +143,7 @@ if(!user){
 window.location.replace("login.html");
 }
 
-/* COLUMN MAP */
+/* MAP */
 const map={
 LIC:"LIC",
 income_tax:"income_tax",
@@ -124,9 +164,18 @@ house_rent:"House Rent"
 
 title.innerText = titles[type] || "Report";
 
-window.onload = loadData;
+/* SLIDER */
+const slider = document.getElementById("yearSlider");
+const yearValue = document.getElementById("yearValue");
 
+slider.oninput = () => {
+yearValue.innerText = slider.value;
+};
+
+/* MAIN */
 async function loadData(){
+
+let selectedYear = slider.value;
 
 loader.style.display="flex";
 
@@ -136,9 +185,7 @@ let text = await res.text();
 text = text.replace(/^\uFEFF/, '');
 
 let rows = text.trim().split("\n");
-
 let headers = rows[0].split(",");
-
 let index = headers.indexOf(map[type]);
 
 if(index===-1){
@@ -146,7 +193,8 @@ showNoData();
 return;
 }
 
-let output="";
+/* MONTH GROUP */
+let monthData = {};
 let found=false;
 
 for(let i=1;i<rows.length;i++){
@@ -158,36 +206,44 @@ let year = c[1];
 let month = c[2];
 let value = c[index];
 
-if(username.trim()===user.trim() && value && value!=="0"){
+if(username.trim()===user.trim() && year==selectedYear && value && value!=="0"){
 
-output += `
-<div class="card">
+if(!monthData[month]){
+monthData[month]=[];
+}
 
-<div class="row">
-<span class="label">Amount</span>
-<span class="amount">₹${value}</span>
-</div>
-
-<div class="row">
-<span class="label">Year</span>
-<span class="value">${year}</span>
-</div>
-
-<div class="row">
-<span class="label">Month</span>
-<span class="value">${month}</span>
-</div>
-
-</div>
-`;
+monthData[month].push({
+amount:value,
+year:year
+});
 
 found=true;
 }
 }
 
+/* NO DATA */
 if(!found){
 showNoData();
 return;
+}
+
+/* BUILD UI */
+let output="";
+
+for(let m in monthData){
+
+output += `<div class="month-card">
+<div class="month-title">📅 ${m}</div>`;
+
+monthData[m].forEach(item=>{
+output += `
+<div class="row">
+<span class="label">Amount</span>
+<span class="value">₹${item.amount}</span>
+</div>`;
+});
+
+output += `</div>`;
 }
 
 resultBox.innerHTML=output;
