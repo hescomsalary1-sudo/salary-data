@@ -197,7 +197,7 @@ async function SALARY_MODULE(q, user) {
         }
 
         try {
-            let res = await fetch(baseURL + "salary.csv");
+            let res = await fetch(baseURL + "salary .csv");
             let rows = (await res.text()).trim().split("\n");
 
             state.module = null;
