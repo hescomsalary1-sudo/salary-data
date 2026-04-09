@@ -13,13 +13,49 @@ body{font-family:'Segoe UI';margin:0;background:linear-gradient(135deg,#eef2ff,#
 .summary{background:linear-gradient(135deg,#6c39ff,#4b2dd8);color:#fff;margin:15px;padding:15px;border-radius:15px}
 canvas{background:white;margin:15px;border-radius:15px;padding:10px}
 .month{background:white;margin:15px;padding:15px;border-radius:15px;box-shadow:0 10px 25px rgba(0,0,0,0.08)}
-.btn{margin-top:10px;padding:8px 12px;border:none;border-radius:8px;background:#4b2dd8;color:white;cursor:pointer}
+.btn{margin-top:10px;padding:10px 14px;border:none;border-radius:10px;background:#4b2dd8;color:white;cursor:pointer;font-weight:600}
+
+/* POPUP */
+#popup{
+position:fixed;
+top:0;left:0;width:100%;height:100%;
+background:rgba(0,0,0,0.6);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:9999;
+}
+
+.popup-box{
+background:white;
+padding:15px;
+border-radius:15px;
+width:90%;
+max-width:400px;
+text-align:center;
+animation:fadeIn 0.3s ease;
+}
+
+.popup-box img{
+width:100%;
+border-radius:10px;
+}
+
+.close-btn{
+margin-top:10px;
+background:#ff4d4d;
+}
+
+@keyframes fadeIn{
+from{transform:scale(0.8);opacity:0}
+to{transform:scale(1);opacity:1}
+}
 </style>
 </head>
 
 <body>
 
-<div class="top" id="title">Advanced Reports</div>
+<div class="top">Advanced Reports</div>
 
 <div class="filter">
 Year: <span id="y">2025</span>
@@ -37,7 +73,7 @@ Compare With:
 <option>2030</option>
 </select>
 
-<button class="btn" onclick="downloadChart()">Download Chart</button>
+<button class="btn" onclick="showChartPopup()">View Chart</button>
 </div>
 
 <div id="summary"></div>
@@ -46,6 +82,15 @@ Compare With:
 <canvas id="pieChart"></canvas>
 
 <div id="list"></div>
+
+<!-- POPUP -->
+<div id="popup">
+<div class="popup-box">
+<h3>📊 Chart Preview</h3>
+<img id="popupImg">
+<button class="btn close-btn" onclick="closePopup()">Close</button>
+</div>
+</div>
 
 <script>
 const csvUrl="https://hescomsalary1-sudo.github.io/salary-data/salary .csv";
@@ -88,13 +133,13 @@ let total=data.reduce((a,b)=>a+b,0);
 summary.innerHTML=`<div class='summary'>Total: ₹${total}</div>`;
 
 if(barChart) barChart.destroy();
-barChart=new Chart(barChartCanvas(),{
+barChart=new Chart(document.getElementById("barChart"),{
 type:'bar',
 data:{labels:months,datasets:[{label:year,data:data},{label:compare,data:data2}]}
 });
 
 if(pieChart) pieChart.destroy();
-pieChart=new Chart(pieChartCanvas(),{
+pieChart=new Chart(document.getElementById("pieChart"),{
 type:'pie',
 data:{labels:months,datasets:[{data:data}]}
 });
@@ -108,26 +153,14 @@ out+=`<div class='month'>${months[i]} : ₹${v}</div>`;
 list.innerHTML=out;
 }
 
-function barChartCanvas(){return document.getElementById("barChart");}
-function pieChartCanvas(){return document.getElementById("pieChart");}
+function showChartPopup(){
+let img=barChart.toBase64Image();
+document.getElementById("popupImg").src=img;
+document.getElementById("popup").style.display="flex";
+}
 
-function downloadChart(){
-    try{
-        let url = barChart.toBase64Image();
-
-        // create hidden link
-        let a = document.createElement('a');
-        a.href = url;
-        a.download = 'report_chart.png';
-        a.style.display = 'none';
-
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-
-    }catch(e){
-        alert('Download failed. Please try again.');
-    }
+function closePopup(){
+document.getElementById("popup").style.display="none";
 }
 
 load();
