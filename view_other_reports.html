@@ -3,182 +3,64 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Info Center</title>
-
+<title>View Report</title>
 <style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: #fff;
-}
-
-/* HEADER */
-.header {
-  text-align: center;
-  padding: 20px;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-/* CARD STYLE */
-.card {
-  background: rgba(255,255,255,0.08);
-  margin: 15px;
-  padding: 15px;
-  border-radius: 18px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-}
-
-/* TIP + NOTICE */
-.info-box {
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-/* POINTS SECTION */
-.points {
-  font-size: 26px;
-  font-weight: bold;
-}
-
-.level {
-  margin-top: 5px;
-  font-size: 16px;
-  color: #ffd700;
-}
-
-/* PROGRESS BAR */
-.progress-bar {
-  height: 8px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 10px;
-  margin-top: 10px;
-  overflow: hidden;
-}
-
-.progress {
-  height: 100%;
-  background: #00ffcc;
-  width: 0%;
-}
-
-/* GRID BUTTONS */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-top: 10px;
-}
-
-.btn {
-  padding: 12px;
-  border-radius: 12px;
-  text-align: center;
-  background: rgba(255,255,255,0.12);
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.btn:hover {
-  background: rgba(255,255,255,0.25);
-  transform: scale(1.05);
-}
-
-/* SMALL TEXT */
-.small {
-  font-size: 13px;
-  opacity: 0.8;
-}
+body{font-family:Arial;background:#0f2027;color:#fff;margin:0}
+.container{padding:15px}
+h2{text-align:center}
+table{width:100%;border-collapse:collapse;margin-top:15px}
+th,td{padding:10px;border-bottom:1px solid #444;text-align:center}
+th{background:#203a43}
+tr:hover{background:#2c5364}
+.back{margin:10px;padding:10px 15px;border:none;border-radius:10px;background:#ff9800;color:#fff;cursor:pointer}
 </style>
 </head>
-
 <body>
-
-<div class="header">⚡ Info Center</div>
-
-<!-- FUN + INFO -->
-<div class="card">
-  <div class="info-box">
-    💡 Tip: Maintain full attendance to earn bonus points!<br>
-    📢 Notice: Salary will be credited on 5th
-  </div>
-</div>
-
-<!-- REWARDS -->
-<div class="card">
-  <div class="points" id="points">0 Points</div>
-  <div class="level" id="level">Bronze</div>
-
-  <div class="progress-bar">
-    <div class="progress" id="progress"></div>
-  </div>
-
-  <div class="small" id="summary"></div>
-</div>
-
-<!-- QUICK ACTIONS -->
-<div class="card">
-  <div class="grid">
-    <div class="btn" onclick="go('salary.html')">💰 Salary</div>
-    <div class="btn" onclick="go('attendance.html')">📅 Attendance</div>
-    <div class="btn" onclick="go('seniority.html')">📊 Seniority</div>
-    <div class="btn" onclick="go('forum.html')">💬 Forum</div>
-  </div>
+<div class="container">
+<button class="back" onclick="goBack()">Back</button>
+<h2 id="title">Report</h2>
+<table>
+<thead>
+<tr>
+<th>Username</th>
+<th>Year</th>
+<th>Month</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody id="data"></tbody>
+</table>
 </div>
 
 <script>
+const reportType = localStorage.getItem("reportType");
+const title = document.getElementById("title");
+const dataBody = document.getElementById("data");
 
-/* SAMPLE DATA (Replace later with real data from CSV) */
-let present = 18;
-let leave = 2;
-let absent = 1;
+const csvUrl = "salary.csv"; // replace with your GitHub CSV URL
 
-/* POINT CALCULATION */
-let points =
-  (present * 10) +
-  (leave * 5) +
-  (absent * 0);
+const columnMap = {
+    LIC: "LIC",
+    income_tax: "income_tax",
+    society: "KPTCL_employes_society",
+    PLI: "PLI",
+    festival_advance: "festival_advance",
+    house_rent: "house_rent"
+};
 
-/* BONUS */
-if(absent === 0) points += 50; // monthly bonus
-if(absent <= 1) points += 20; // weekly consistency
+const titles = {
+    LIC: "LIC Reports",
+    income_tax: "Income Tax Reports",
+    society: "Society Deduction Reports",
+    PLI: "PLI Reports",
+    festival_advance: "Festival Advance Reports",
+    house_rent: "House Rent Reports"
+};
 
-/* LEVEL SYSTEM */
-let level = "Bronze";
-let progress = 0;
+title.innerText = titles[reportType] || "Report";
 
-if(points >= 1000){
-  level = "💎 Platinum";
-  progress = 100;
-}else if(points >= 500){
-  level = "🥇 Gold";
-  progress = (points - 500) / 5;
-}else if(points >= 200){
-  level = "🥈 Silver";
-  progress = (points - 200) / 3;
-}else{
-  level = "🥉 Bronze";
-  progress = points / 2;
-}
-
-/* UPDATE UI */
-document.getElementById("points").innerText = points + " Points";
-document.getElementById("level").innerText = level;
-document.getElementById("progress").style.width = progress + "%";
-
-document.getElementById("summary").innerText =
-  "Present: " + present +
-  " | Leave: " + leave +
-  " | Absent: " + absent;
-
-/* NAVIGATION */
-function go(page){
-  window.location.replace(page);
-}
-
-</script>
-
-</body>
-</html>
+fetch(csvUrl)
+.then(res => res.text())
+.then(data => {
+    const rows = data.split("\n").slice(1);
+    rows.forEach(row => {
