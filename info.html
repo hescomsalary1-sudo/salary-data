@@ -160,83 +160,134 @@ async function PROFILE_MODULE(q, user) {
 
 /* ================= UPDATED SALARY MODULE ================= */
 async function SALARY_MODULE(q, user) {
-    // Save the original question to check for specific keywords (like "income tax") later
+
     if (!state.data.originalQuery) {
         state.data.originalQuery = q;
     }
 
-    // Step 1: Ask for Year
+    // STEP 1
     if (!state.step) {
         state.step = "year";
-        return "Which year's salary would you like to check? (e.g., 2026)";
+        return "📅 Enter year (e.g., 2026)";
     }
 
-    // Step 2: Ask for Month
+    // STEP 2
     if (state.step === "year") {
         state.data.year = q.trim();
         state.step = "month";
-        return "Got it. Now enter the month number (1-12) or name (e.g., Jan):";
+        return "📆 Enter month (1-12 or Jan)";
     }
 
-    // Step 3: Fetch and Calculate
+    // STEP 3
     if (state.step === "month") {
-        let monthMap = {"jan": "01", "feb": "02", "mar": "03", "apr": "04", "may": "05", "jun": "06", "jul": "07", "aug": "08", "sep": "09", "oct": "10", "nov": "11", "dec": "12"};
-        let monthNum = monthMap[q.substring(0,3).toLowerCase()] || q.padStart(2, "0");
-        
+
+        let monthMap = {"jan":"01","feb":"02","mar":"03","apr":"04","may":"05","jun":"06","jul":"07","aug":"08","sep":"09","oct":"10","nov":"11","dec":"12"};
+        let monthNum = monthMap[q.substring(0,3).toLowerCase()] || q.padStart(2,"0");
+
         const year = state.data.year;
         const originalQuery = state.data.originalQuery;
 
-        // NEW FEATURE: Check for specific column requests (Income Tax, LIC, etc.)
+        // 🔍 Specific field (LIC, tax etc.)
         let specificInfo = await getSpecificSalaryDetail(originalQuery, user, monthNum, year);
-        
         if (specificInfo) {
-            state.module = null; 
+            state.module = null;
             state.step = null;
-            state.data = {}; // Clear memory
+            state.data = {};
             return specificInfo;
         }
 
-        // DEFAULT: If no specific item was asked, show the summary card
         try {
-            let res = await fetch(baseURL + "salary .csv");
-            let csvText = await res.text();
-            let rows = csvText.trim().split("\n");
-            
-            state.module = null; 
+            let res = await fetch(baseURL + "salary.csv");
+            let rows = (await res.text()).trim().split("\n");
+
+            state.module = null;
             state.step = null;
             state.data = {};
 
             for (let i = 1; i < rows.length; i++) {
+
                 let c = rows[i].split(",");
+
                 if (c[0] === user && c[1] === year && c[2] === monthNum) {
-                    
-                    let earnings = 0;
-                    for(let j=3; j<=19; j++) earnings += (+c[j] || 0);
-                    
-                    let deductions = 0;
-                    for(let j=20; j<=35; j++) deductions += (+c[j] || 0);
-                    
+
+                    /* ===== EARNINGS ===== */
+                    let earningsList = [
+                        ["Basic", c[3]],
+                        ["DA", c[4]],
+                        ["HRA", c[5]],
+                        ["CCA", c[6]],
+                        ["Personal Pay", c[7]],
+                        ["Special Pay", c[8]],
+                        ["Conveyance", c[9]],
+                        ["Washing", c[10]],
+                        ["SFTA", c[11]],
+                        ["Locality", c[12]],
+                        ["MWA", c[13]],
+                        ["Hill Allow", c[14]],
+                        ["Charge Allow", c[15]],
+                        ["Cash Duty", c[18]],
+                        ["Other Earnings", c[19]]
+                    ];
+
+                    /* ===== DEDUCTIONS ===== */
+                    let deductionList = [
+                        ["LIC", c[20]],
+                        ["Income Tax", c[21]],
+                        ["Professional Tax", c[22]],
+                        ["Society", c[23]],
+                        ["PLI", c[24]],
+                        ["Union Fund", c[25]],
+                        ["SC/ST Fund", c[26]],
+                        ["House Rent", c[27]],
+                        ["Urban Bank", c[28]],
+                        ["Family Benefit", c[29]],
+                        ["Festival Advance", c[30]],
+                        ["PC 10%", c[31]],
+                        ["PC 14%", c[32]],
+                        ["LWF", c[33]],
+                        ["Recovery", c[34]],
+                        ["Other Deduction", c[35]]
+                    ];
+
+                    let earnings = earningsList.reduce((t,v)=>t+(+v[1]||0),0);
+                    let deductions = deductionList.reduce((t,v)=>t+(+v[1]||0),0);
                     let net = earnings - deductions;
 
+                    /* ===== UI RESPONSE ===== */
                     return `
-                    <div style="background:#fff; color:#333; padding:10px; border-radius:10px; border-left:5px solid #2400b7; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                        <b style="color:#2400b7;">📊 PAYSLIP: ${monthNum}/${year}</b><br><hr style="border:0; border-top:1px solid #eee;">
-                        <small>Basic Pay: ₹${c[3]}</small><br>
-                        <small>HRA: ₹${c[5]}</small><br>
-                        <small>Other Earn: ₹${c[19]}</small><br>
-                        <div style="margin:5px 0; font-weight:bold; color:green;">Total Earnings: ₹${earnings.toFixed(2)}</div>
-                        <div style="margin:5px 0; font-weight:bold; color:red;">Total Deductions: ₹${deductions.toFixed(2)}</div>
-                        <hr style="border:0; border-top:1px solid #eee;">
-                        <div style="font-size:16px; font-weight:bold; color:#2400b7;">Net Salary: ₹${net.toFixed(2)}</div>
-                        <p style="font-size:11px; color:#666; margin-top:5px;">For full details and PDF, please visit the 'Monthly Salary' page.</p>
-                    </div>`;
+<div style="background:#fff;padding:12px;border-radius:12px;border-left:5px solid #2400b7;box-shadow:0 3px 8px rgba(0,0,0,0.1);">
+
+<b style="color:#2400b7;">📊 PAYSLIP ${monthNum}/${year}</b>
+
+<hr>
+
+<b style="color:green;">💰 Earnings</b><br>
+${earningsList.map(e=>`<small>${e[0]}: ₹${e[1]||0}</small>`).join("<br>")}
+
+<br><br>
+
+<b style="color:red;">📉 Deductions</b><br>
+${deductionList.map(d=>`<small>${d[0]}: ₹${d[1]||0}</small>`).join("<br>")}
+
+<hr>
+
+<div style="font-weight:bold;color:green;">Total Earnings: ₹${earnings.toFixed(2)}</div>
+<div style="font-weight:bold;color:red;">Total Deductions: ₹${deductions.toFixed(2)}</div>
+
+<hr>
+
+<div style="font-size:18px;font-weight:bold;color:#2400b7;">
+Net Salary: ₹${net.toFixed(2)}
+</div>
+
+</div>`;
                 }
             }
-            return `❌ No salary record found for **${monthNum}/${year}**.`;
-            
-        } catch (error) {
-            state.module = null; state.step = null;
-            return "⚠️ Error: Unable to access the salary database.";
+
+            return `❌ No salary record found for ${monthNum}/${year}`;
+
+        } catch (e) {
+            return "⚠️ Error loading salary data";
         }
     }
 }
