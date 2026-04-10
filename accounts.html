@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,43 +17,14 @@ padding-bottom:90px;
 /* HEADER */
 
 .top{
-padding: 15px 20px; /* Increased padding for better tap targets */
+padding:10px;
 background: linear-gradient(135deg, #f7f8fc, #edf5ff);
 color:#2400b7;
 display:flex;
 align-items:center;
-gap:15px;
+gap:10px;
 border-bottom-left-radius:30px;
 border-bottom-right-radius:30px;
-}
-
-/* MODERN BACK BUTTON */
-.back-btn {
-    width: 40px;
-    height: 40px;
-    background: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    cursor: pointer;
-    text-decoration: none;
-    color: #2400b7;
-    font-size: 20px;
-    transition: 0.2s;
-    border: none;
-}
-
-.back-btn:active {
-    transform: scale(0.9);
-    background: #eee;
-}
-
-.top h2 {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 700;
 }
 
 .top .icon{
@@ -65,7 +37,6 @@ display:flex;
 align-items:center;
 justify-content:center;
 font-weight:bold;
-margin-left: auto; /* Pushes the profile icon to the right */
 }
 
 /* PROFILE SUMMARY CARD */
@@ -228,12 +199,16 @@ font-weight:600;
 
 <body>
 
+<!-- HEADER -->
+
+<!-- HEADER -->
 <div class="top">
-  <button class="back-btn" onclick="goBack()">&#10229;</button>
-  <h2>My Account</h2>
   <div class="icon">👤</div>
+  <h2>My Account</h2>
 </div>
 
+
+<!-- PROFILE SUMMARY -->
 
 <div class="profile-card">
 
@@ -247,6 +222,8 @@ M
 </div>
 
 </div>
+
+<!-- MENU -->
 
 <div class="menu">
 
@@ -284,16 +261,13 @@ M
 
 </div>
 
+<!-- LOADER -->
+
 <div class="loader" id="loader">
 <div class="spinner"></div>
 </div>
 
 <script>
-
-/* NAVIGATION LOGIC */
-function goBack() {
-    window.history.back();
-}
 
 /* LOGIN CHECK */
 
