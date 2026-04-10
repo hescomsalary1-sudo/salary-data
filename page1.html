@@ -27,47 +27,22 @@ border-bottom-left-radius:40px;
 border-bottom-right-radius:40px;
 }
 
-
-/* MODERN BACK BUTTON */
-.back-btn {
-    width: 40px;
-    height: 40px;
-    background: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    cursor: pointer;
-    text-decoration: none;
-    color: #2400b7;
-    font-size: 20px;
-    transition: 0.2s;
-    border: none;
-}
-
-.back-btn:active {
-    transform: scale(0.9);
-    background: #eee;
-}
-
-.top h2 {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 700;
-}
-
 .top .icon{
-width:35px;
-height:35px;
+width:48px;
+height:48px;
 background:white;
 color:#5e00a3;
 border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
+font-size:24px;
 font-weight:bold;
-margin-left: auto; /* Pushes the profile icon to the right */
+}
+
+.top h2{
+margin:0;
+font-size:22px;
 }
 
 /* CONTENT */
@@ -250,12 +225,11 @@ color:white;
 </head>
 
 <body>
-<div class="top">
-  <button class="back-btn" onclick="goBack()">&#10229;</button>
- <h2>Employee Profile</h2>
-  <div class="icon">👤</div>
-</div>
 
+<div class="top">
+<div class="icon">👤</div>
+<h2>Employee Profile</h2>
+</div>
 
 <div class="content">
 <div class="card">
