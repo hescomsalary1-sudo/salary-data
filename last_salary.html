@@ -5,8 +5,8 @@
 <title>Last Month Salary</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- PDF LIBRARY -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 
@@ -27,7 +27,18 @@ align-items:center;
 gap:12px;
 border-bottom-left-radius:30px;
 border-bottom-right-radius:30px;
-box-shadow:0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* BACK BUTTON */
+.back-btn-header{
+width:40px;
+height:40px;
+border-radius:50%;
+background:white;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
 }
 
 .top .icon{
@@ -40,7 +51,11 @@ display:flex;
 align-items:center;
 justify-content:center;
 font-weight:bold;
-font-size:18px;
+}
+
+/* CHART */
+.chart-box{
+padding:15px;
 }
 
 /* CONTENT */
@@ -50,92 +65,48 @@ padding:18px;
 
 /* CARD */
 .salary-card{
-background:rgba(255,255,255,0.85);
-backdrop-filter: blur(10px);
-padding:18px;
+background:white;
 border-radius:18px;
+padding:18px;
+margin-bottom:15px;
 box-shadow:0 10px 25px rgba(0,0,0,0.08);
-margin-bottom:16px;
-font-size:14px;
-transition:0.2s;
 }
 
-.salary-card:hover{
-transform:translateY(-3px);
-}
-
-/* TITLE */
 .salary-card h4{
 margin-top:0;
 color:#4b2dd8;
-border-bottom:1px solid #eee;
-padding-bottom:6px;
-font-size:15px;
 }
 
 /* TABLE */
 table{
 width:100%;
-border-collapse:collapse;
 }
 
 td{
-padding:8px 0;
-font-size:14px;
+padding:6px 0;
 }
 
-td:last-child{
-font-weight:600;
-color:#2d3748;
-}
-
-/* TOTAL ROW */
-tr:last-child{
-font-size:15px;
-}
-
-/* NET CARD */
+/* NET */
 .net-card{
-margin-top:18px;
-background:linear-gradient(135deg,#4b2dd8,#6c39ff);
+margin-top:15px;
+background:#4b2dd8;
 color:white;
 padding:18px;
 border-radius:18px;
 text-align:center;
 font-size:20px;
-font-weight:700;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
+font-weight:bold;
 }
 
 /* BUTTON */
 .action-btn{
 margin-top:15px;
-padding:13px;
-background:linear-gradient(135deg,#4b2dd8,#6c39ff);
+padding:12px;
+background:#4b2dd8;
 color:white;
 border:none;
-border-radius:14px;
-cursor:pointer;
-width:100%;
-font-size:15px;
-font-weight:600;
-box-shadow:0 6px 15px rgba(0,0,0,0.2);
-transition:0.25s;
-}
-
-.action-btn:hover{
-transform:translateY(-2px);
-}
-
-.action-btn:active{
-transform:scale(0.96);
-}
-
-/* BACK BUTTON */
-.back-btn{
-margin:15px 20px;
-background:#999;
 border-radius:12px;
+width:100%;
 }
 
 /* LOADER */
@@ -146,8 +117,7 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(255,255,255,0.9);
-backdrop-filter: blur(5px);
+background:white;
 align-items:center;
 justify-content:center;
 z-index:9999;
@@ -172,13 +142,21 @@ animation:spin 1s linear infinite;
 <body>
 
 <div class="top">
-<div class="icon">₹</div>
-<h2>Last Month Salary</h2>
+
+  <div class="back-btn-header" onclick="goBack()">
+    ←
+  </div>
+
+  <div class="icon">₹</div>
+  <h2>Last Month Salary</h2>
+
+</div>
+
+<div class="chart-box">
+  <canvas id="salaryChart"></canvas>
 </div>
 
 <div class="content" id="result"></div>
-
-<button class="action-btn back-btn" onclick="goBack()">⬅ Back</button>
 
 <div class="loader" id="loader">
 <div class="spinner"></div>
@@ -203,10 +181,7 @@ let month = String(prev.getMonth()+1).padStart(2,"0");
 
 try{
 
-let response = await fetch(
-"https://hescomsalary1-sudo.github.io/salary-data/salary .csv?v=" + new Date().getTime()
-);
-
+let response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
 let data = await response.text();
 let rows = data.trim().split("\n");
 
@@ -220,119 +195,39 @@ let basic = +c[3];
 let dearness_pay = +c[4];
 let hra = +c[5];
 let cca = +c[6];
-let personal_pay = +c[7];
-let special_personal_pay = +c[8];
-let conveyance = +c[9];
-let washing = +c[10];
-let sfta = +c[11];
-let locality = +c[12];
-let mwa = +c[13];
-let hill = +c[14];
-let charge = +c[15];
-let pension = +c[16];
-let lwf_company = +c[17];
-let cash_duty = +c[18];
-let other = +c[19];
 
-let LIC = +c[20];
-let income_tax = +c[21];
-let pt = +c[22];
-let society = +c[23];
-let PLI = +c[24];
-let union = +c[25];
-let scst = +c[26];
-let rent = +c[27];
-let bank = +c[28];
-let family = +c[29];
-let festival = +c[30];
-let pc10 = +c[31];
-let pc14 = +c[32];
-let lwf = +c[33];
-let recovery = +c[34];
-let other_ded = +c[35];
+let totalE = basic+dearness_pay+hra+cca;
 
-let totalE =
-basic+dearness_pay+hra+cca+personal_pay+special_personal_pay+
-conveyance+washing+sfta+locality+mwa+hill+charge+pension+
-lwf_company+cash_duty+other;
+// CHART
+let labels=["Basic","DA","HRA","CCA"];
+let dataArr=[basic,dearness_pay,hra,cca];
 
-let totalD =
-LIC+income_tax+pt+society+PLI+union+scst+rent+bank+
-family+festival+pc10+pc14+lwf+recovery+other_ded;
+new Chart(document.getElementById("salaryChart"),{
+type:"doughnut",
+data:{labels:labels,datasets:[{data:dataArr}]}
+});
 
-let net = totalE - totalD;
-
+// UI
 document.getElementById("loader").style.display="none";
 
 document.getElementById("result").innerHTML = `
-
 <h3>${month}/${year}</h3>
 
 <div class="salary-card">
 <h4>Earnings</h4>
-
 <table>
-${basic>0?`<tr><td>Basic</td><td style="text-align:right">₹ ${basic}</td></tr>`:''}
-${dearness_pay>0?`<tr><td>Dearness Pay</td><td style="text-align:right">₹ ${dearness_pay}</td></tr>`:''}
-${hra>0?`<tr><td>HRA</td><td style="text-align:right">₹ ${hra}</td></tr>`:''}
-${cca>0?`<tr><td>CCA</td><td style="text-align:right">₹ ${cca}</td></tr>`:''}
-${personal_pay>0?`<tr><td>Personal Pay</td><td style="text-align:right">₹ ${personal_pay}</td></tr>`:''}
-${special_personal_pay>0?`<tr><td>Special Pay</td><td style="text-align:right">₹ ${special_personal_pay}</td></tr>`:''}
-${conveyance>0?`<tr><td>Conveyance</td><td style="text-align:right">₹ ${conveyance}</td></tr>`:''}
-${washing>0?`<tr><td>Washing</td><td style="text-align:right">₹ ${washing}</td></tr>`:''}
-${sfta>0?`<tr><td>SFTA</td><td style="text-align:right">₹ ${sfta}</td></tr>`:''}
-${locality>0?`<tr><td>Locality</td><td style="text-align:right">₹ ${locality}</td></tr>`:''}
-${mwa>0?`<tr><td>MWA</td><td style="text-align:right">₹ ${mwa}</td></tr>`:''}
-${hill>0?`<tr><td>Hill</td><td style="text-align:right">₹ ${hill}</td></tr>`:''}
-${charge>0?`<tr><td>Charge</td><td style="text-align:right">₹ ${charge}</td></tr>`:''}
-${pension>0?`<tr><td>Pension</td><td style="text-align:right">₹ ${pension}</td></tr>`:''}
-${lwf_company>0?`<tr><td>LWF Company</td><td style="text-align:right">₹ ${lwf_company}</td></tr>`:''}
-${cash_duty>0?`<tr><td>Cash Duty</td><td style="text-align:right">₹ ${cash_duty}</td></tr>`:''}
-${other>0?`<tr><td>Other Earnings</td><td style="text-align:right">₹ ${other}</td></tr>`:''}
-
-<tr style="border-top:1px solid #ddd;font-weight:bold">
-<td>Total Earnings</td>
-<td style="text-align:right">₹ ${totalE}</td>
-</tr>
-
-</table>
-</div>
-
-<div class="salary-card">
-<h4>Deductions</h4>
-
-<table>
-${LIC>0?`<tr><td>LIC</td><td style="text-align:right">₹ ${LIC}</td></tr>`:''}
-${income_tax>0?`<tr><td>Income Tax</td><td style="text-align:right">₹ ${income_tax}</td></tr>`:''}
-${pt>0?`<tr><td>Professional Tax</td><td style="text-align:right">₹ ${pt}</td></tr>`:''}
-${society>0?`<tr><td>Society</td><td style="text-align:right">₹ ${society}</td></tr>`:''}
-${PLI>0?`<tr><td>PLI</td><td style="text-align:right">₹ ${PLI}</td></tr>`:''}
-${union>0?`<tr><td>Union</td><td style="text-align:right">₹ ${union}</td></tr>`:''}
-${scst>0?`<tr><td>SC/ST</td><td style="text-align:right">₹ ${scst}</td></tr>`:''}
-${rent>0?`<tr><td>House Rent</td><td style="text-align:right">₹ ${rent}</td></tr>`:''}
-${bank>0?`<tr><td>Bank</td><td style="text-align:right">₹ ${bank}</td></tr>`:''}
-${family>0?`<tr><td>Family</td><td style="text-align:right">₹ ${family}</td></tr>`:''}
-${festival>0?`<tr><td>Festival</td><td style="text-align:right">₹ ${festival}</td></tr>`:''}
-${pc10>0?`<tr><td>PC 10%</td><td style="text-align:right">₹ ${pc10}</td></tr>`:''}
-${pc14>0?`<tr><td>PC 14%</td><td style="text-align:right">₹ ${pc14}</td></tr>`:''}
-${lwf>0?`<tr><td>LWF</td><td style="text-align:right">₹ ${lwf}</td></tr>`:''}
-${recovery>0?`<tr><td>Recovery</td><td style="text-align:right">₹ ${recovery}</td></tr>`:''}
-${other_ded>0?`<tr><td>Other Deduction</td><td style="text-align:right">₹ ${other_ded}</td></tr>`:''}
-
-<tr style="border-top:1px solid #ddd;font-weight:bold">
-<td>Total Deduction</td>
-<td style="text-align:right">₹ ${totalD}</td>
-</tr>
-
+<tr><td>Basic</td><td>₹ ${basic}</td></tr>
+<tr><td>DA</td><td>₹ ${dearness_pay}</td></tr>
+<tr><td>HRA</td><td>₹ ${hra}</td></tr>
+<tr><td>CCA</td><td>₹ ${cca}</td></tr>
 </table>
 </div>
 
 <div class="net-card">
-Net Salary ₹ ${net}
+Net Salary ₹ ${totalE}
 </div>
 
-<button class="action-btn" onclick="downloadPDF()">📄 Download PDF</button>
-
+<button class="action-btn" onclick="downloadPDF()">Download PDF</button>
 `;
 
 return;
@@ -345,28 +240,14 @@ document.getElementById("loader").style.display="none";
 document.getElementById("result").innerHTML="No salary found";
 
 }catch(e){
-
 document.getElementById("loader").style.display="none";
 document.getElementById("result").innerHTML="Error loading salary";
-
 }
 
 }
 
 function downloadPDF(){
-
-let element = document.getElementById("result");
-
-let opt = {
-margin:0.5,
-filename:'Last_Salary.pdf',
-image:{ type:'jpeg', quality:0.98 },
-html2canvas:{ scale:2 },
-jsPDF:{ unit:'in', format:'a4', orientation:'portrait' }
-};
-
-html2pdf().set(opt).from(element).save();
-
+html2pdf().from(document.getElementById("result")).save();
 }
 
 loadLastSalary();
