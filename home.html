@@ -1544,16 +1544,16 @@ document.addEventListener("touchmove", function(e){
   let diffY = Math.abs(currentY - startY);
 
   // ignore vertical scroll
-  if(diffY > 40) return;
+  if(diffY > 30) return;
 
   // 👉 OPEN (more flexible edge detection)
-  if(startX < 200 && diffX > 60){
+  if(startX < 200 && diffX > 50){
     openSideNav();
     isSwiping = false;
   }
 
   // 👉 CLOSE (anywhere swipe left)
-  if(diffX < -60){
+  if(diffX < -50){
     closeSideNav();
     isSwiping = false;
   }
