@@ -741,21 +741,72 @@ font-size:14px;
 background:rgba(255,255,255,0.15);
 }
   /* PROFILE BUTTON WRAPPER */
+/* MODERN PROFILE BUTTON */
 .profile-btn{
 position:relative;
-width:55px;
-height:55px;
-border-radius:50%;
-overflow:hidden;
+width:58px;
+height:58px;
 cursor:pointer;
-box-shadow:0 6px 15px rgba(0,0,0,0.2);
-transition:0.2s;
 }
 
-.profile-btn img{
+/* GRADIENT RING */
+.profile-ring{
 width:100%;
 height:100%;
+border-radius:50%;
+padding:2px;
+background:linear-gradient(135deg,#2400b7,#6a5cff,#00c9a7);
+display:flex;
+align-items:center;
+justify-content:center;
+box-shadow:0 6px 18px rgba(0,0,0,0.2);
+transition:0.3s;
+}
+
+/* IMAGE */
+.profile-ring img{
+width:100%;
+height:100%;
+border-radius:50%;
 object-fit:cover;
+border:2px solid white;
+}
+
+/* HAMBURGER BADGE (MODERN) */
+.menu-badge{
+position:absolute;
+bottom:-3px;
+right:-3px;
+width:22px;
+height:22px;
+background:#111;
+border-radius:50%;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+gap:2px;
+border:2px solid white;
+box-shadow:0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* 3 LINES */
+.menu-badge span{
+width:10px;
+height:2px;
+background:white;
+border-radius:2px;
+display:block;
+}
+
+/* CLICK EFFECT */
+.profile-btn:active .profile-ring{
+transform:scale(0.92);
+}
+
+/* SUBTLE HOVER (WEB) */
+.profile-btn:hover .profile-ring{
+box-shadow:0 10px 25px rgba(36,0,183,0.35);
 }
 
 /* SMALL MENU ICON OVERLAY */
@@ -806,8 +857,14 @@ transform:scale(0.9);
 <div class="user-box">
 
 <div class="profile-btn" onclick="openSideNav()">
-  <img src="https://i.imgur.com/6VBx3io.png">
-  <span class="menu-icon">☰</span>
+  <div class="profile-ring">
+    <img src="https://i.imgur.com/6VBx3io.png">
+  </div>
+  <div class="menu-badge">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 </div>
 
 <div>
