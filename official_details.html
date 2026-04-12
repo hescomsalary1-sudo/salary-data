@@ -1,184 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Info Center</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Service Records</title>
+    <style>
+        :root {
+            --primary: #1e293b;
+            --accent: #2563eb;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --border: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+        }
 
-<style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: #fff;
-}
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            margin: 0;
+            background-color: var(--bg);
+            color: var(--text-main);
+            padding-bottom: 40px;
+        }
 
-/* HEADER */
-.header {
-  text-align: center;
-  padding: 20px;
-  font-size: 20px;
-  font-weight: bold;
-}
+        /* HEADER */
+        .header {
+            background: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-/* CARD STYLE */
-.card {
-  background: rgba(255,255,255,0.08);
-  margin: 15px;
-  padding: 15px;
-  border-radius: 18px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-}
+        .back-btn {
+            background: #f1f5f9;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
 
-/* TIP + NOTICE */
-.info-box {
-  font-size: 14px;
-  line-height: 1.6;
-}
+        .header h2 { font-size: 18px; margin: 0; font-weight: 700; }
 
-/* POINTS SECTION */
-.points {
-  font-size: 26px;
-  font-weight: bold;
-}
+        .container {
+            padding: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
 
-.level {
-  margin-top: 5px;
-  font-size: 16px;
-  color: #ffd700;
-}
+        /* SECTION STYLING */
+        .section-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 25px 0 12px 5px;
+            display: block;
+        }
 
-/* PROGRESS BAR */
-.progress-bar {
-  height: 8px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 10px;
-  margin-top: 10px;
-  overflow: hidden;
-}
+        .details-card {
+            background: var(--card);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
 
-.progress {
-  height: 100%;
-  background: #00ffcc;
-  width: 0%;
-}
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 20px;
+            border-bottom: 1px solid #f1f5f9;
+        }
 
-/* GRID BUTTONS */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-top: 10px;
-}
+        .detail-row:last-child { border-bottom: none; }
 
-.btn {
-  padding: 12px;
-  border-radius: 12px;
-  text-align: center;
-  background: rgba(255,255,255,0.12);
-  cursor: pointer;
-  transition: 0.3s;
-}
+        .label {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
 
-.btn:hover {
-  background: rgba(255,255,255,0.25);
-  transform: scale(1.05);
-}
+        .value {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+            text-align: right;
+            max-width: 60%;
+        }
 
-/* SMALL TEXT */
-.small {
-  font-size: 13px;
-  opacity: 0.8;
-}
-</style>
+        /* HIGHLIGHT FOR DATES */
+        .date-badge {
+            background: #eff6ff;
+            color: #1e40af;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-family: monospace;
+        }
+
+        /* LOADING OVERLAY */
+        #loading {
+            position: fixed;
+            inset: 0;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
 </head>
-
 <body>
 
-<div class="header">⚡ Info Center</div>
+    <div id="loading">
+        <div class="spinner"></div>
+        <p style="color:var(--text-muted); font-size:14px; margin-top:10px;">Loading Service Records...</p>
+    </div>
 
-<!-- FUN + INFO -->
-<div class="card">
-  <div class="info-box">
-    💡 Tip: Maintain full attendance to earn bonus points!<br>
-    📢 Notice: Salary will be credited on 5th
-  </div>
-</div>
+    <div class="header">
+        <button class="back-btn" onclick="history.back()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <h2>Official Details</h2>
+    </div>
 
-<!-- REWARDS -->
-<div class="card">
-  <div class="points" id="points">0 Points</div>
-  <div class="level" id="level">Bronze</div>
+    <div class="container" id="detailsContainer">
+        <span class="section-title">Personal Identity</span>
+        <div class="details-card">
+            <div class="detail-row"><span class="label">Employee ID</span><span class="value" id="val-0"></span></div>
+            <div class="detail-row"><span class="label">Full Name</span><span class="value" id="val-1"></span></div>
+            <div class="detail-row"><span class="label">PAN Number</span><span class="value" id="val-9"></span></div>
+            <div class="detail-row"><span class="label">Date of Birth</span><span class="value date-badge" id="val-5"></span></div>
+            <div class="detail-row"><span class="label">Retirement Date</span><span class="value date-badge" id="val-6"></span></div>
+        </div>
 
-  <div class="progress-bar">
-    <div class="progress" id="progress"></div>
-  </div>
+        <span class="section-title">Career & Appointment</span>
+        <div class="details-card">
+            <div class="detail-row"><span class="label">Current Designation</span><span class="value" id="val-2"></span></div>
+            <div class="detail-row"><span class="label">Place of Working</span><span class="value" id="val-3"></span></div>
+            <div class="detail-row"><span class="label">Joining Date</span><span class="value" id="val-18"></span></div>
+            <div class="detail-row"><span class="label">Appointment Type</span><span class="value" id="val-20"></span></div>
+            <div class="detail-row"><span class="label">Pension Type</span><span class="value" id="val-26"></span></div>
+            <div class="detail-row"><span class="label">NPS/DCPS No.</span><span class="value" id="val-27"></span></div>
+        </div>
 
-  <div class="small" id="summary"></div>
-</div>
+        <span class="section-title">Demographics</span>
+        <div class="details-card">
+            <div class="detail-row"><span class="label">Category / Caste</span><span class="value" id="val-14"></span></div>
+            <div class="detail-row"><span class="label">Qualification</span><span class="value" id="val-12"></span></div>
+            <div class="detail-row"><span class="label">Home Town</span><span class="value" id="val-17"></span></div>
+        </div>
+    </div>
 
-<!-- QUICK ACTIONS -->
-<div class="card">
-  <div class="grid">
-    <div class="btn" onclick="go('salary.html')">💰 Salary</div>
-    <div class="btn" onclick="go('attendance.html')">📅 Attendance</div>
-    <div class="btn" onclick="go('seniority.html')">📊 Seniority</div>
-    <div class="btn" onclick="go('forum.html')">💬 Forum</div>
-  </div>
-</div>
+    <script>
+        const currentUser = localStorage.getItem("currentUser");
+        if (!currentUser) window.location.href = "login.html";
 
-<script>
+        async function loadOfficialDetails() {
+            try {
+                const response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv?v=" + new Date().getTime());
+                const data = await response.text();
+                const rows = data.trim().split("\n");
 
-/* SAMPLE DATA (Replace later with real data from CSV) */
-let present = 18;
-let leave = 2;
-let absent = 1;
+                let userFound = false;
 
-/* POINT CALCULATION */
-let points =
-  (present * 10) +
-  (leave * 5) +
-  (absent * 0);
+                for (let i = 1; i < rows.length; i++) {
+                    const cols = rows[i].split(",");
+                    if (cols[0].trim() === currentUser.trim()) {
+                        userFound = true;
+                        
+                        // Map all columns to IDs dynamically
+                        // We use the index of the column as the ID (e.g., val-0, val-1)
+                        for (let j = 0; j < cols.length; j++) {
+                            const element = document.getElementById(`val-${j}`);
+                            if (element) {
+                                element.innerText = cols[j].trim() || "N/A";
+                            }
+                        }
+                        break;
+                    }
+                }
 
-/* BONUS */
-if(absent === 0) points += 50; // monthly bonus
-if(absent <= 1) points += 20; // weekly consistency
+                if (!userFound) {
+                    document.getElementById("detailsContainer").innerHTML = "<p style='text-align:center; padding:50px;'>Record not found.</p>";
+                }
 
-/* LEVEL SYSTEM */
-let level = "Bronze";
-let progress = 0;
+            } catch (error) {
+                console.error("Error loading CSV:", error);
+            } finally {
+                document.getElementById("loading").style.display = "none";
+            }
+        }
 
-if(points >= 1000){
-  level = "💎 Platinum";
-  progress = 100;
-}else if(points >= 500){
-  level = "🥇 Gold";
-  progress = (points - 500) / 5;
-}else if(points >= 200){
-  level = "🥈 Silver";
-  progress = (points - 200) / 3;
-}else{
-  level = "🥉 Bronze";
-  progress = points / 2;
-}
-
-/* UPDATE UI */
-document.getElementById("points").innerText = points + " Points";
-document.getElementById("level").innerText = level;
-document.getElementById("progress").style.width = progress + "%";
-
-document.getElementById("summary").innerText =
-  "Present: " + present +
-  " | Leave: " + leave +
-  " | Absent: " + absent;
-
-/* NAVIGATION */
-function go(page){
-  window.location.replace(page);
-}
-
-</script>
-
+        window.onload = loadOfficialDetails;
+    </script>
 </body>
 </html>
