@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Help & Enquiries</title>
+    <title>Departmental Enquiries</title>
     <style>
         :root {
-            --primary: #4338ca;
-            --primary-light: #6366f1;
-            --bg: #f1f5f9;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
+            --primary: #1e293b; /* Formal Dark Navy */
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+            --bg: #f8fafc;
         }
 
         body {
             font-family: 'Inter', -apple-system, sans-serif;
             margin: 0;
             background-color: var(--bg);
-            color: var(--text-main);
-            padding-bottom: 30px;
+            color: #1e293b;
+            padding-bottom: 40px;
         }
 
         /* HEADER */
@@ -51,122 +51,109 @@
 
         .content {
             padding: 16px;
-            max-width: 500px;
+            max-width: 600px;
             margin: 0 auto;
         }
 
-        /* FORM CARD */
+        /* ENQUIRY CARD */
         .card {
             background: white;
             padding: 20px;
             border-radius: 20px;
             border: 1px solid #e2e8f0;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
         }
 
-        .section-title {
-            font-size: 14px;
-            font-weight: 800;
-            color: var(--primary);
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 15px;
-            display: block;
+            margin-bottom: 10px;
         }
 
-        .form-group {
-            margin-bottom: 15px;
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-active { background: #fee2e2; color: #991b1b; }
+
+        .enquiry-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0 0 5px 0;
+            color: #0f172a;
         }
 
-        label {
-            display: block;
+        .enquiry-meta {
             font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin-bottom: 5px;
+            color: #64748b;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 15px;
         }
 
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
+        /* FORM SECTION */
+        .defense-box {
             background: #f8fafc;
-            font-size: 14px;
-            box-sizing: border-box;
-            font-family: inherit;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 15px;
         }
 
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary-light);
-            background: white;
+        .section-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #475569;
+            margin-bottom: 8px;
+            display: block;
+            text-transform: uppercase;
         }
 
         textarea {
+            width: 100%;
+            height: 120px;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            font-family: inherit;
+            font-size: 14px;
             resize: none;
-            height: 100px;
+            box-sizing: border-box;
         }
 
-        .submit-btn {
+        .action-btn {
             width: 100%;
             padding: 14px;
             background: var(--primary);
             color: white;
             border: none;
-            border-radius: 14px;
-            font-size: 15px;
+            border-radius: 12px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.2s;
             margin-top: 10px;
         }
 
-        .submit-btn:active {
-            transform: scale(0.97);
-        }
-
-        /* FAQ SECTION */
-        .faq-box {
-            margin-top: 25px;
-        }
-
-        .faq-item {
-            background: white;
+        /* NOTICE BOX */
+        .notice {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
             padding: 15px;
             border-radius: 15px;
-            margin-bottom: 10px;
-            border: 1px solid #e2e8f0;
+            display: flex;
+            gap: 10px;
         }
 
-        .faq-item h4 {
-            margin: 0 0 5px 0;
-            font-size: 14px;
-            color: var(--primary);
-        }
-
-        .faq-item p {
-            margin: 0;
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.4;
-        }
+        .notice-icon { font-size: 20px; }
+        .notice-text { font-size: 13px; color: #92400e; line-height: 1.4; }
 
         /* DARK MODE */
-        .dark-mode {
-            background: #0f172a;
-            color: white;
-        }
-        .dark-mode .top, .dark-mode .card, .dark-mode .faq-item {
-            background: #1e293b;
-            border-color: #334155;
-        }
-        .dark-mode input, .dark-mode select, .dark-mode textarea {
-            background: #0f172a;
-            color: white;
-            border-color: #334155;
-        }
-        .dark-mode h2 { color: white; }
+        .dark-mode { background: #0f172a; color: white; }
+        .dark-mode .top, .dark-mode .card { background: #1e293b; border-color: #334155; }
+        .dark-mode h2, .dark-mode .enquiry-title { color: white; }
+        .dark-mode .defense-box { background: #0f172a; }
+        .dark-mode textarea { background: #1e293b; color: white; border-color: #475569; }
     </style>
 </head>
 <body>
@@ -174,55 +161,45 @@
     <div class="top">
         <button class="back-btn" onclick="goBack()">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M15 18L9 12L15 6" stroke="#4338ca" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M15 18L9 12L15 6" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </button>
-        <h2>Enquiries</h2>
+        <h2>Dept. Enquiries</h2>
     </div>
 
     <div class="content">
+        
         <div class="card">
-            <span class="section-title">Submit a Request</span>
-            
-            <form id="enquiryForm" onsubmit="handleSubmit(event)">
-                <div class="form-group">
-                    <label>Enquiry Type</label>
-                    <select id="type" required>
-                        <option value="">Select Category</option>
-                        <option value="salary">Salary/Pay Issue</option>
-                        <option value="profile">Profile Correction</option>
-                        <option value="technical">Technical Support</option>
-                        <option value="other">General Enquiry</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Subject</label>
-                    <input type="text" id="subject" placeholder="Brief topic" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Message</label>
-                    <textarea id="message" placeholder="Describe your issue in detail..." required></textarea>
-                </div>
-
-                <button type="submit" class="submit-btn">Send Enquiry</button>
-            </form>
-        </div>
-
-        <div class="faq-box">
-            <span class="section-title">Quick FAQ</span>
-            
-            <div class="faq-item">
-                <h4>When is salary updated?</h4>
-                <p>Salary data is typically uploaded by the 5th of every month.</p>
+            <span class="status-badge status-active">Active Proceeding</span>
+            <h3 class="enquiry-title">Case Ref: DE/HESCOM/2026/084</h3>
+            <div class="enquiry-meta">
+                <span>Issued: 12-Mar-2026</span>
+                <span>Type: Rule 14-A</span>
             </div>
+            
+            <p style="font-size: 13px; color: #475569; line-height: 1.5;">
+                Explanation sought regarding alleged negligence in duty during technical maintenance on 05-Mar-2026.
+            </p>
 
-            <div class="faq-item">
-                <h4>Data is incorrect?</h4>
-                <p>If your profile or pay details are wrong, please contact your administrative department.</p>
+            <div class="defense-box">
+                <span class="section-label">Submit Statement of Defense</span>
+                <textarea id="defenseStatement" placeholder="Enter your detailed explanation here..."></textarea>
+                <button class="action-btn" onclick="submitDefense()">Submit Response</button>
             </div>
         </div>
+
+        <div class="notice">
+            <div class="notice-icon">⚖️</div>
+            <div class="notice-text">
+                <strong>Legal Note:</strong> As per service rules, the employee must submit their written statement within 15 days of the receipt of the charge sheet.
+            </div>
+        </div>
+
+        <div id="noData" style="display:none; text-align:center; padding:40px; color:#64748b;">
+            <div style="font-size:40px; margin-bottom:10px;">✅</div>
+            <p>No active departmental enquiries found for your profile.</p>
+        </div>
+
     </div>
 
     <script>
@@ -230,26 +207,23 @@
             window.history.back();
         }
 
-        function handleSubmit(event) {
-            event.preventDefault();
-            
-            const type = document.getElementById('type').value;
-            const subject = document.getElementById('subject').value;
-            const message = document.getElementById('message').value;
-            const user = localStorage.getItem("currentUser") || "Unknown User";
-
-            // Here you would typically send data to a server
-            // For now, we will just show an alert
-            alert(`Thank you ${user}! Your enquiry regarding "${subject}" has been submitted. We will contact you soon.`);
-            
-            // Reset form
-            document.getElementById('enquiryForm').reset();
+        function submitDefense() {
+            const statement = document.getElementById('defenseStatement').value;
+            if(!statement) {
+                alert("Please enter your statement before submitting.");
+                return;
+            }
+            alert("Statement submitted successfully to the Inquiry Officer.");
+            document.getElementById('defenseStatement').value = "";
         }
 
         // Apply Dark Mode if enabled
         if(localStorage.getItem("darkMode") === "true") {
             document.body.classList.add("dark-mode");
         }
+
+        // You can add logic here to hide the card and show 'noData' 
+        // if the employee has no records in your CSV.
     </script>
 </body>
 </html>
