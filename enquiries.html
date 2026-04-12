@@ -199,23 +199,60 @@
             event.currentTarget.classList.add('active');
         }
 
-        async function fetchLegalData() {
-            try {
-                // Fetching Enquiries
-                const resDept = await fetch("https://hescomsalary1-sudo.github.io/salary-data/enquiries.csv?v=" + new Date().getTime());
-                const deptText = await resDept.text();
-                renderData(deptText, "deptList", "dept");
+   async function fetchLegalData() {
+    try {
+        // Fetch the single combined CSV
+        const response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/legal_data.csv?v=" + new Date().getTime());
+        const csvText = await response.text();
+        
+        const rows = csvText.trim().split("\n");
+        let deptHtml = "";
+        let courtHtml = "";
+        let foundDept = 0;
+        let foundCourt = 0;
 
-                // Fetching Court Cases
-                const resCourt = await fetch("https://hescomsalary1-sudo.github.io/salary-data/court_cases.csv?v=" + new Date().getTime());
-                const courtText = await resCourt.text();
-                renderData(courtText, "courtList", "court");
+        for (let i = 1; i < rows.length; i++) {
+            const cols = rows[i].split(",");
+            const empId = cols[0]?.trim();
+            const category = cols[6]?.trim(); // "Dept" or "Court"
 
-            } catch (e) {
-                console.error("Data fetch error", e);
-                document.getElementById("noData").style.display = "block";
+            // 1. FILTER BY LOGGED IN USER
+            if (empId === currentUser.trim()) {
+                
+                // 2. FILTER BY CATEGORY
+                if (category === "Dept") {
+                    foundDept++;
+                    deptHtml += createCard(cols, "Notice Issued", "Action Taken");
+                } else if (category === "Court") {
+                    foundCourt++;
+                    courtHtml += createCard(cols, "Next Hearing", "Court Name");
+                }
             }
         }
+
+        document.getElementById("deptList").innerHTML = foundDept > 0 ? deptHtml : "<p class='no-rec'>No Dept. records.</p>";
+        document.getElementById("courtList").innerHTML = foundCourt > 0 ? courtHtml : "<p class='no-rec'>No Court records.</p>";
+
+    } catch (e) {
+        console.error("Fetch error:", e);
+    }
+}
+
+// Helper function to build the card UI
+function createCard(cols, label1, label2) {
+    return `
+    <div class="card">
+        <div class="card-header">
+            <h3 class="case-title">${cols[1]}</h3>
+            <span class="badge ${cols[2] === 'Active' ? 'bg-active' : 'bg-disposed'}">${cols[2]}</span>
+        </div>
+        <p class="case-details">${cols[3]}</p>
+        <div class="info-grid">
+            <div class="info-item"><label>${label1}</label><span>${cols[4]}</span></div>
+            <div class="info-item"><label>${label2}</label><span>${cols[5]}</span></div>
+        </div>
+    </div>`;
+}
 
         function renderData(csvText, elementId, type) {
             const rows = csvText.trim().split("\n");
