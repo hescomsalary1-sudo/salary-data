@@ -1,499 +1,307 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Salary Prompt - Login</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Salary Prompt - Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-<style>
-body{
-min-height:100vh;
-overflow:auto;
-}
+    <style>
+        :root {
+            --primary: #2400b7;
+            --secondary: #3b1eff;
+            --text-dark: #333;
+            --bg-light: #f8f9fc;
+        }
 
-/* FULL SCREEN LAYOUT */
-.top{
-height:100vh;   /* 🔥 full screen */
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-color:#2400b7;
-background:#ffffff;
-}
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-dark);
+        }
 
-.top h1 {
-margin: 0;
-font-size: 34px;
-letter-spacing: 2px;
-}
+        /* Container for everything */
+        .login-wrapper {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            text-align: center;
+        }
 
-.top p {
-margin-top: 8px;
-font-size: 14px;
-opacity: 0.85;
-}
+        /* Header Section */
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            color: var(--primary);
+            font-weight: 600;
+        }
 
+        .header p {
+            margin: 5px 0 20px 0;
+            font-size: 14px;
+            color: #666;
+        }
 
+        /* Illustration */
+        .illustration img {
+            width: 180px;
+            height: auto;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
+            transition: transform 0.3s ease;
+        }
 
-/* LOGIN */
-.bottom{
-position:relative;
-z-index:2;   /* 🔥 bring above blue */
-}
+        .illustration img:hover {
+            transform: translateY(-5px);
+        }
 
-.login-box{
-width:85%;
-max-width:320px;
-padding:0;          /* 🔥 remove extra height */
-box-shadow:none;    /* 🔥 no card */
-border-radius:0;
-background:none;
-}
+        /* Login Box Card */
+        .login-box {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
 
-.input-group {
-margin-bottom: 25px;
-position: relative;
-}
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+            text-align: left;
+        }
 
-input {
-width: 100%;
-padding: 10px 0;
-border: none;
-border-bottom: 2px solid #ccc;
-outline: none;
-font-size: 14px;
-}
+        input {
+            width: 100%;
+            padding: 12px 0;
+            border: none;
+            border-bottom: 2px solid #eee;
+            outline: none;
+            font-size: 15px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
 
-input:focus {
-border-bottom: 2px solid #5e00a3;
-}
+        input:focus {
+            border-bottom: 2px solid var(--secondary);
+        }
 
-.toggle-password {
-position: absolute;
-right: 0;
-top: 10px;
-cursor: pointer;
-font-size: 13px;
-color: #5e00a3;
-}
+        .toggle-password {
+            position: absolute;
+            right: 0;
+            top: 12px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--secondary);
+        }
 
-button {
-width: 100%;
-padding: 12px;
-border: none;
-background: linear-gradient(135deg, #2400b7, #3b1eff);
-color: white;
-font-size: 15px;
-border-radius: 25px;
-cursor: pointer;
-}
+        /* Buttons */
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: opacity 0.3s, transform 0.2s;
+            margin-bottom: 12px;
+        }
 
-#error {
-color: red;
-font-size: 13px;
-margin-bottom: 15px;
-text-align: center;
-}
+        button:active {
+            transform: scale(0.98);
+        }
 
-/* ✅ SKELETON LOADER */
+        .change-btn {
+            background: transparent;
+            color: var(--secondary);
+            border: 1px solid #e0e0e0;
+            font-size: 14px;
+        }
 
-#loader{
-position:fixed;
-top:0;
-left:0;
-width:100vw;
-height:100vh;
-background:#ffffff;
-display:none;
-flex-direction:column;
-padding:20px;
-gap:15px;
-z-index:99999;
-}
+        .change-btn:hover {
+            background: #f0f0ff;
+            border-color: var(--secondary);
+        }
 
-/* shimmer */
-@keyframes shimmer{
-0%{background-position:-400px 0;}
-100%{background-position:400px 0;}
-}
+        /* Popups & Modals */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
 
-.skeleton{
-height:20px;
-border-radius:6px;
-background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
-background-size:400px 100%;
-animation:shimmer 1.2s infinite;
-}
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+            animation: pop 0.3s ease-out;
+        }
 
-.skel-circle{width:60px;height:60px;border-radius:50%;}
-.skel-big{height:120px;border-radius:20px;}
-.skel-line{height:15px;}
+        @keyframes pop {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
 
-.illustration{
-margin-top: 20px;
-display:flex;
-justify-content:center;
-align-items:center;
-}
+        /* Skeleton Loader Improvements */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: white;
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            padding: 50px 20px;
+            gap: 20px;
+        }
 
-.illustration img{
-width:220px;
-max-width:100%;
-border-radius:12px;
-object-fit:contain;
-filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
-transition:0.3s;
-}
+        .skeleton {
+            background: #f0f0f0;
+            background-image: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+        }
 
-/* small animation */
-.illustration img:active{
-transform:scale(0.95);
-}
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
 
-  /* CHANGE PASSWORD LOADER */
-#cpLoader{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#ffffffcc;
-display:none;
-justify-content:center;
-align-items:center;
-z-index:99999;
-}
+        #error { color: #ff3b3b; font-size: 13px; margin-bottom: 15px; }
 
-.cp-spinner{
-width:50px;
-height:50px;
-border:5px solid #eee;
-border-top:5px solid #3b1eff;
-border-radius:50%;
-animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-0%{transform:rotate(0deg);}
-100%{transform:rotate(360deg);}
-}
-  @keyframes pop{
-from{transform:scale(0.8);opacity:0;}
-to{transform:scale(1);opacity:1;}
-}
-
-  button + button{
-margin-top: 12px;
-}
-
-  .change-btn{
-background: transparent;
-color: #3b1eff;
-border: 2px solid #3b1eff;
-border-radius: 25px;
-font-weight: 500;
-transition: 0.3s;
-}
-
-.change-btn:hover{
-background: #3b1eff;
-color: white;
-}
-
-
-/* WAVE */
-
-  .login-box{
-margin-bottom:40px;  /* 🔥 prevent cut */
-}
-
-  /* CENTER LOGIN */
-.bottom{
-display:flex;
-justify-content:center;
-align-items:center;
-}
-
-/* LOGIN CARD */
-.login-box{
-width:85%;
-max-width:320px;
-background:white;
-padding:20px;
-border-radius:18px;
-box-shadow:0 10px 30px rgba(0,0,0,0.1);
-}
-
-/* BLUE SECTION BELOW BUTTON */
-.blue-section{
-margin-top:30px;   /* 🔥 starts after button */
-width:100%;
-height:200px;
-background: linear-gradient(135deg, #2400b7, #3b1eff);
-}
-</style>
-  
+    </style>
 </head>
-
 <body>
 
-<!-- ✅ SKELETON LOADER -->
-<div id="loader">
-
-<div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
-<div class="skeleton skel-circle"></div>
-<div class="skeleton skel-line" style="width:60%;"></div>
-</div>
-
-<div class="skeleton skel-big"></div>
-
-<div class="skeleton skel-line"></div>
-<div class="skeleton skel-line" style="width:80%;"></div>
-<div class="skeleton skel-line"></div>
-<div class="skeleton skel-big"></div>
-
-<div class="skeleton skel-line"></div>
-<div class="skeleton skel-line" style="width:80%;"></div>
-<div class="skeleton skel-line"></div>
-  <div class="skeleton skel-big"></div>
-  <div class="skeleton skel-big"></div>
-</div>
-
-<!-- TOP -->
-<div class="top">
-<h1>Salary Prompt</h1>
-<p>Secure Employee Login</p>
-<div class="illustration">
-  <img src="https://media.tenor.com/lgyTXgehpA0AAAAe/blue-man-on-laptop-blue-man.png" alt="salary illustration">
-</div>
-
-
-</div>
-
-<!-- LOGIN -->
-<div class="bottom">
-<div class="login-box">
-
-<div id="error"></div>
-
-<div class="input-group">
-<input type="text" id="username" placeholder="Username">
-</div>
-
-<div class="input-group">
-<input type="password" id="password" placeholder="Password">
-<span class="toggle-password" onclick="togglePassword()">View</span>
-</div>
-
-<button onclick="login()">Login</button>
-  <button class="change-btn" onclick="openChangePassword()">
-🔐 Change Password
-</button>
-</div>
-</div>
-<script>
-
-// ✅ LOGIN FUNCTION
-function login(){
-
-let user = document.getElementById("username").value.trim();
-let pass = document.getElementById("password").value.trim();
-
-if(user === "" || pass === ""){
-document.getElementById("errorText").innerText="Invalid Username or Password";
-document.getElementById("errorPopup").style.display="flex";
-return;
-}
-
-// show loader
-document.getElementById("loader").style.display="flex";
-
-let url = "https://script.google.com/macros/s/AKfycbwpKkkmsAJiaq0-Be6s3sRrCjn1fRxyNpKYXYHzh7Wug30OaSmq-0mRXz_P3hWxdANv/exec?username=" + user + "&password=" + pass;
-
-fetch(url)
-.then(res => res.text())
-.then(text => {
-
-let data;
-
-try{
-data = JSON.parse(text);
-}catch(e){
-console.log("Server response:", text);
-data = {status:"fail"};
-}
-
-// hide loader
-
-
-if(data.status === "success"){
-
-localStorage.setItem("currentUser", user);
-localStorage.setItem("role", data.role);
-
-// smooth redirect
-setTimeout(function(){
-window.location = "home.html";
-}, 600);
-
-}else{
-
-document.getElementById("loader").style.display="none"; // hide loader on error
-document.getElementById("error").innerText="Invalid Username or Password";
-
-}
-})
-.catch(err => {
-document.getElementById("loader").style.display="none";
-document.getElementById("error").innerText="Server Error";
-});
-}
-
-
-// ✅ TOGGLE PASSWORD
-function togglePassword(){
-let passField=document.getElementById("password");
-passField.type = passField.type === "password" ? "text" : "password";
-}
-
-
-// ✅ OPEN CHANGE PASSWORD
-function openChangePassword(){
-document.getElementById("changeBox").style.display="flex";
-document.getElementById("cp_user").value = document.getElementById("username").value;
-}
-
-
-// ✅ CLOSE CHANGE PASSWORD
-function closeBox(){
-document.getElementById("changeBox").style.display="none";
-}
-
-
-// ✅ CHANGE PASSWORD FUNCTION
-function changePassword(){
-
-let user = document.getElementById("cp_user").value;
-let oldPass = document.getElementById("old_pass").value;
-let newPass = document.getElementById("new_pass").value;
-
-if(user=="" || oldPass=="" || newPass==""){
-alert("Please fill all fields");
-return;
-}
-
-// show loader
-document.getElementById("cpLoader").style.display="flex";
-
-let formData = new URLSearchParams();
-formData.append("username", user);
-formData.append("oldPassword", oldPass);
-formData.append("newPassword", newPass);
-
-fetch("https://script.google.com/macros/s/AKfycbwpKkkmsAJiaq0-Be6s3sRrCjn1fRxyNpKYXYHzh7Wug30OaSmq-0mRXz_P3hWxdANv/exec", {
-method:"POST",
-body: formData
-})
-.then(res => res.text())
-.then(text => {
-
-// hide loader
-document.getElementById("cpLoader").style.display="none";
-
-let data;
-
-try{
-data = JSON.parse(text);
-}catch(e){
-console.log("Server response:", text);
-data = {status:"fail"};
-}
-
-// ✅ SUCCESS
-if(data.status==="updated"){
-
-document.getElementById("successPopup").style.display="flex";
-
-}else{
-
-// show error nicely
-document.getElementById("errorText").innerText="Invalid Username or Old Password";
-document.getElementById("errorPopup").style.display="flex";
-
-}
-
-})
-.catch(err=>{
-document.getElementById("cpLoader").style.display="none";
-document.getElementById("error").innerText="Server Error";
-});
-}
-
-
-// ✅ CLOSE SUCCESS POPUP
-function closeSuccess(){
-document.getElementById("successPopup").style.display="none";
-closeBox();
-}
-
-
-// ✅ PAGE LOAD
-window.onload=function(){
-document.getElementById("loader").style.display="none";
-document.body.style.overflow="auto";
-};
-  function closeError(){
-document.getElementById("errorPopup").style.display="none";
-}
-
-</script>
-<!-- ✅ CHANGE PASSWORD BOX -->
-<div id="changeBox" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#00000080;justify-content:center;align-items:center;">
-
-<div style="background:white;padding:20px;border-radius:10px;width:300px;">
-<h3>Change Password</h3>
-
-<input id="cp_user" placeholder="Username"><br><br>
-<input id="old_pass" type="password" placeholder="Old Password"><br><br>
-<input id="new_pass" type="password" placeholder="New Password"><br><br>
-
-<button onclick="changePassword()">Update</button>
-<button onclick="closeBox()">Cancel</button>
-
-</div>
-</div>
-
-<!-- ✅ LOADER -->
-<div id="cpLoader">
-  <div class="cp-spinner"></div>
-</div>
-
-<!-- ✅ SUCCESS POPUP -->
-<div id="successPopup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#00000080;justify-content:center;align-items:center;z-index:99999;">
-
-<div style="background:white;padding:25px;border-radius:15px;width:280px;text-align:center;animation:pop 0.3s ease;">
-  
-  <div style="font-size:40px;color:green;">✔</div>
-  <h3 style="margin:10px 0;">Success</h3>
-  <p>Password Updated Successfully</p>
-
-  <button onclick="closeSuccess()" style="margin-top:10px;">OK</button>
-
-</div>
-</div>
-
- <div id="errorPopup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#00000080;justify-content:center;align-items:center;z-index:99999;">
-
-<div style="background:white;padding:25px;border-radius:15px;width:280px;text-align:center;animation:pop 0.3s ease;">
-  
-  <div style="font-size:40px;color:red;">✖</div>
-  <h3 style="margin:10px 0;color:red;">Error</h3>
-  <p id="errorText">Invalid Details</p>
-
-  <button onclick="closeError()" style="margin-top:10px;background:red;">OK</button>
-
-</div>
-</div> 
+    <div id="loader">
+        <div class="skeleton" style="height: 150px; border-radius: 20px;"></div>
+        <div class="skeleton" style="height: 30px; width: 60%;"></div>
+        <div class="skeleton" style="height: 50px;"></div>
+        <div class="skeleton" style="height: 50px;"></div>
+    </div>
+
+    <div class="login-wrapper">
+        <div class="header">
+            <h1>Salary Prompt</h1>
+            <p>Secure Employee Login</p>
+        </div>
+
+        <div class="illustration">
+            <img src="https://media.tenor.com/lgyTXgehpA0AAAAe/blue-man-on-laptop-blue-man.png" alt="illustration">
+        </div>
+
+        <div class="login-box">
+            <div id="error"></div>
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Username" autocomplete="username">
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" autocomplete="current-password">
+                <span class="toggle-password" onclick="togglePassword()">SHOW</span>
+            </div>
+            <button onclick="login()">Login to Dashboard</button>
+            <button class="change-btn" onclick="openChangePassword()">🔐 Change Password</button>
+        </div>
+    </div>
+
+    <div id="changeBox" class="modal-overlay">
+        <div class="modal-content">
+            <h3 style="margin-top:0">Change Password</h3>
+            <div class="input-group">
+                <input id="cp_user" placeholder="Username">
+            </div>
+            <div class="input-group">
+                <input id="old_pass" type="password" placeholder="Old Password">
+            </div>
+            <div class="input-group">
+                <input id="new_pass" type="password" placeholder="New Password">
+            </div>
+            <button onclick="changePassword()">Update Now</button>
+            <button class="change-btn" style="border:none" onclick="closeBox()">Cancel</button>
+        </div>
+    </div>
+
+    <div id="successPopup" class="modal-overlay">
+        <div class="modal-content">
+            <div style="font-size:50px; color:#4CAF50;">✔</div>
+            <h3>Updated!</h3>
+            <p>Your password has been changed.</p>
+            <button onclick="closeSuccess()">Perfect</button>
+        </div>
+    </div>
+
+    <div id="errorPopup" class="modal-overlay">
+        <div class="modal-content">
+            <div style="font-size:50px; color:#ff3b3b;">✖</div>
+            <h3 style="color:#ff3b3b;">Error</h3>
+            <p id="errorText">Invalid Credentials</p>
+            <button onclick="closeError()" style="background:#ff3b3b;">Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        // Use your existing JS logic here - I've kept the function names the same so it works immediately.
+        
+        function login() {
+            let user = document.getElementById("username").value.trim();
+            let pass = document.getElementById("password").value.trim();
+            if(!user || !pass) {
+                document.getElementById("error").innerText = "Fields cannot be empty";
+                return;
+            }
+            document.getElementById("loader").style.display = "flex";
+            
+            // Your Fetch Logic...
+            let url = "https://script.google.com/macros/s/AKfycbwpKkkmsAJiaq0-Be6s3sRrCjn1fRxyNpKYXYHzh7Wug30OaSmq-0mRXz_P3hWxdANv/exec?username=" + user + "&password=" + pass;
+            fetch(url).then(res => res.json()).then(data => {
+                if(data.status === "success"){
+                    localStorage.setItem("currentUser", user);
+                    window.location = "home.html";
+                } else {
+                    document.getElementById("loader").style.display = "none";
+                    document.getElementById("error").innerText = "Invalid Username or Password";
+                }
+            }).catch(() => {
+                document.getElementById("loader").style.display = "none";
+                alert("Server Error");
+            });
+        }
+
+        function togglePassword() {
+            let p = document.getElementById("password");
+            let t = document.querySelector(".toggle-password");
+            if (p.type === "password") {
+                p.type = "text";
+                t.innerText = "HIDE";
+            } else {
+                p.type = "password";
+                t.innerText = "SHOW";
+            }
+        }
+
+        function openChangePassword() { document.getElementById("changeBox").style.display = "flex"; }
+        function closeBox() { document.getElementById("changeBox").style.display = "none"; }
+        function closeSuccess() { document.getElementById("successPopup").style.display = "none"; closeBox(); }
+        function closeError() { document.getElementById("errorPopup").style.display = "none"; }
+        
+        window.onload = () => { document.getElementById("loader").style.display = "none"; };
+    </script>
 </body>
 </html>
