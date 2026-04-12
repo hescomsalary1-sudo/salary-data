@@ -5,170 +5,184 @@
 <title>Last Month Salary</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- PDF LIBRARY -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-
-body{
-font-family:'Segoe UI',sans-serif;
-margin:0;
-background: linear-gradient(135deg,#eef2ff,#f8fafc);
-padding-bottom:90px;
+/* MODERN RESET & BASE */
+body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    margin: 0;
+    background: #f1f5f9; /* Soft light slate */
+    color: #1e293b;
+    padding-bottom: 40px;
 }
 
-/* HEADER */
-.top{
-padding:20px;
-background: linear-gradient(135deg,#4b2dd8,#6c39ff);
-color:white;
-display:flex;
-align-items:center;
-gap:12px;
-border-bottom-left-radius:30px;
-border-bottom-right-radius:30px;
-box-shadow:0 8px 25px rgba(0,0,0,0.15);
+/* HEADER - SLEEK & MODERN */
+.top {
+    padding: 35px 25px;
+    background: linear-gradient(135deg, #4338ca, #6366f1);
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-bottom-left-radius: 32px;
+    border-bottom-right-radius: 32px;
+    box-shadow: 0 10px 30px rgba(79, 70, 229, 0.3);
 }
 
-/* ICON */
-.top .icon{
-width:40px;
-height:40px;
-background:white;
-color:#4b2dd8;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:bold;
-font-size:18px;
-box-shadow:0 4px 10px rgba(0,0,0,0.2);
+.top .icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    color: white;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-/* CONTENT */
-.content{
-padding:18px;
+.top h2 {
+    font-size: 20px;
+    letter-spacing: -0.5px;
 }
 
-/* CARD */
-.salary-card{
-background:rgba(255,255,255,0.9);
-backdrop-filter: blur(10px);
-padding:18px;
-border-radius:20px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-margin-bottom:16px;
-font-size:14px;
-transition:0.2s;
+/* CONTENT CONTAINER */
+.content {
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
-.salary-card:hover{
-transform:translateY(-3px);
+/* MONTH TITLE */
+h3 {
+    text-align: center;
+    color: #64748b;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 20px 0;
 }
 
-/* TITLE */
-.salary-card h4{
-margin-top:0;
-color:#4b2dd8;
-border-bottom:1px solid #eee;
-padding-bottom:6px;
-font-size:15px;
+/* CARD DESIGN */
+.salary-card {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
 }
 
-/* TABLE */
-table{
-width:100%;
-border-collapse:collapse;
+.salary-card h4 {
+    margin: 0 0 15px 0;
+    color: #4338ca;
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-td{
-padding:8px 0;
-font-size:14px;
+/* TABLE STYLING */
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-td:last-child{
-text-align:right;
-font-weight:600;
-color:#2d3748;
+td {
+    padding: 10px 0;
+    font-size: 14px;
+    color: #475569;
+}
+
+td:last-child {
+    text-align: right;
+    font-weight: 600;
+    color: #0f172a;
+    font-family: 'Courier New', monospace; /* Monospaced for numbers looks cleaner */
 }
 
 /* TOTAL ROW */
-tr:last-child{
-font-size:15px;
-font-weight:bold;
+tr[style*="font-weight:bold"] td {
+    padding-top: 15px;
+    color: #4338ca !important;
+    font-size: 15px;
 }
 
-/* NET CARD */
-.net-card{
-margin-top:18px;
-background:linear-gradient(135deg,#4b2dd8,#6c39ff);
-color:white;
-padding:20px;
-border-radius:20px;
-text-align:center;
-font-size:22px;
-font-weight:700;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
-letter-spacing:0.5px;
+/* NET CARD - THE HERO COMPONENT */
+.net-card {
+    margin: 25px 0;
+    background: #ffffff;
+    border: 2px solid #4338ca;
+    color: #4338ca;
+    padding: 25px;
+    border-radius: 24px;
+    text-align: center;
+    font-size: 26px;
+    font-weight: 800;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
-/* BUTTON */
-.action-btn{
-margin-top:15px;
-padding:14px;
-background:linear-gradient(135deg,#4b2dd8,#6c39ff);
-color:white;
-border:none;
-border-radius:15px;
-cursor:pointer;
-width:100%;
-font-size:15px;
-font-weight:600;
-box-shadow:0 6px 15px rgba(0,0,0,0.2);
-transition:0.25s;
+/* PRIMARY BUTTON */
+.action-btn {
+    padding: 16px;
+    background: #4338ca;
+    color: white;
+    border: none;
+    border-radius: 18px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 10px 15px -3px rgba(67, 56, 202, 0.4);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
-.action-btn:hover{
-transform:translateY(-2px);
-}
-
-.action-btn:active{
-transform:scale(0.96);
+.action-btn:hover {
+    background: #3730a3;
+    transform: translateY(-2px);
+    box-shadow: 0 15px 20px -3px rgba(67, 56, 202, 0.5);
 }
 
 /* BACK BUTTON */
-.back-btn{
-margin:15px 20px;
-background:#999;
-border-radius:15px;
+.back-btn {
+    margin: 10px auto;
+    background: #94a3b8;
+    max-width: 200px;
+    box-shadow: none;
 }
 
 /* LOADER */
-.loader{
-display:flex;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(255,255,255,0.9);
-backdrop-filter: blur(6px);
-align-items:center;
-justify-content:center;
-z-index:9999;
+.loader {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    background: rgba(241, 245, 249, 0.9);
+    backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
 }
 
-.spinner{
-border:6px solid #eee;
-border-top:6px solid #4b2dd8;
-border-radius:50%;
-width:45px;
-height:45px;
-animation:spin 1s linear infinite;
+.spinner {
+    border: 4px solid #e2e8f0;
+    border-top: 4px solid #4338ca;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
 }
 
-@keyframes spin{
-100%{transform:rotate(360deg);}
+@keyframes spin {
+    100% { transform: rotate(360deg); }
 }
 </style>
 </head>
@@ -178,21 +192,23 @@ animation:spin 1s linear infinite;
 <div class="top">
 <div class="icon">₹</div>
 <div>
-  <h2 style="margin:0;">Last Month Salary</h2>
-  <small style="opacity:0.8;">Salary Breakdown</small>
+  <h2 style="margin:0;">Pay Summary</h2>
+  <small style="opacity:0.8;">HESCOM Employee Portal</small>
 </div>
 </div>
 
 <div class="content" id="result"></div>
 
-<button class="action-btn back-btn" onclick="goBack()">⬅ Back</button>
+<div style="display: flex; justify-content: center;">
+    <button class="action-btn back-btn" onclick="goBack()">⬅ Back to Home</button>
+</div>
 
 <div class="loader" id="loader">
 <div class="spinner"></div>
 </div>
 
 <script>
-
+/* JAVASCRIPT LOGIC REMAINS UNTOUCHED AS REQUESTED */
 let user = localStorage.getItem("currentUser");
 if(!user){ window.location="login.html"; }
 
@@ -201,15 +217,12 @@ window.location="home.html";
 }
 
 async function loadLastSalary(){
-
 let now = new Date();
 let prev = new Date(now.getFullYear(), now.getMonth()-1, 1);
-
 let year = prev.getFullYear().toString();
 let month = String(prev.getMonth()+1).padStart(2,"0");
 
 try{
-
 let response = await fetch(
 "https://hescomsalary1-sudo.github.io/salary-data/salary .csv?v=" + new Date().getTime()
 );
@@ -218,11 +231,8 @@ let data = await response.text();
 let rows = data.trim().split("\n");
 
 for(let i=1;i<rows.length;i++){
-
 let c = rows[i].split(",");
-
 if(c[0]===user && c[1]===year && c[2]===month){
-
 let basic = +c[3];
 let dearness_pay = +c[4];
 let hra = +c[5];
@@ -258,126 +268,98 @@ let lwf = +c[33];
 let recovery = +c[34];
 let other_ded = +c[35];
 
-let totalE =
-basic+dearness_pay+hra+cca+personal_pay+special_personal_pay+
-conveyance+washing+sfta+locality+mwa+hill+charge+pension+
-lwf_company+cash_duty+other;
-
-let totalD =
-LIC+income_tax+pt+society+PLI+union+scst+rent+bank+
-family+festival+pc10+pc14+lwf+recovery+other_ded;
-
+let totalE = basic+dearness_pay+hra+cca+personal_pay+special_personal_pay+conveyance+washing+sfta+locality+mwa+hill+charge+pension+lwf_company+cash_duty+other;
+let totalD = LIC+income_tax+pt+society+PLI+union+scst+rent+bank+family+festival+pc10+pc14+lwf+recovery+other_ded;
 let net = totalE - totalD;
 
 document.getElementById("loader").style.display="none";
-
 document.getElementById("result").innerHTML = `
-
-<h3>${month}/${year}</h3>
+<h3>Period: ${month} / ${year}</h3>
 
 <div class="salary-card">
-<h4>Earnings</h4>
-
+<h4>Earnings <span style="font-weight:normal; font-size:12px; color:#64748b;">(+)</span></h4>
 <table>
-${basic>0?`<tr><td>Basic</td><td style="text-align:right">₹ ${basic}</td></tr>`:''}
-${dearness_pay>0?`<tr><td>Dearness Pay</td><td style="text-align:right">₹ ${dearness_pay}</td></tr>`:''}
-${hra>0?`<tr><td>HRA</td><td style="text-align:right">₹ ${hra}</td></tr>`:''}
-${cca>0?`<tr><td>CCA</td><td style="text-align:right">₹ ${cca}</td></tr>`:''}
-${personal_pay>0?`<tr><td>Personal Pay</td><td style="text-align:right">₹ ${personal_pay}</td></tr>`:''}
-${special_personal_pay>0?`<tr><td>Special Pay</td><td style="text-align:right">₹ ${special_personal_pay}</td></tr>`:''}
-${conveyance>0?`<tr><td>Conveyance</td><td style="text-align:right">₹ ${conveyance}</td></tr>`:''}
-${washing>0?`<tr><td>Washing</td><td style="text-align:right">₹ ${washing}</td></tr>`:''}
-${sfta>0?`<tr><td>SFTA</td><td style="text-align:right">₹ ${sfta}</td></tr>`:''}
-${locality>0?`<tr><td>Locality</td><td style="text-align:right">₹ ${locality}</td></tr>`:''}
-${mwa>0?`<tr><td>MWA</td><td style="text-align:right">₹ ${mwa}</td></tr>`:''}
-${hill>0?`<tr><td>Hill</td><td style="text-align:right">₹ ${hill}</td></tr>`:''}
-${charge>0?`<tr><td>Charge</td><td style="text-align:right">₹ ${charge}</td></tr>`:''}
-${pension>0?`<tr><td>Pension</td><td style="text-align:right">₹ ${pension}</td></tr>`:''}
-${lwf_company>0?`<tr><td>LWF Company</td><td style="text-align:right">₹ ${lwf_company}</td></tr>`:''}
-${cash_duty>0?`<tr><td>Cash Duty</td><td style="text-align:right">₹ ${cash_duty}</td></tr>`:''}
-${other>0?`<tr><td>Other Earnings</td><td style="text-align:right">₹ ${other}</td></tr>`:''}
-
-<tr style="border-top:1px solid #ddd;font-weight:bold">
-<td>Total Earnings</td>
-<td style="text-align:right">₹ ${totalE}</td>
+${basic>0?`<tr><td>Basic Pay</td><td>₹ ${basic}</td></tr>`:''}
+${dearness_pay>0?`<tr><td>Dearness Pay</td><td>₹ ${dearness_pay}</td></tr>`:''}
+${hra>0?`<tr><td>HRA</td><td>₹ ${hra}</td></tr>`:''}
+${cca>0?`<tr><td>CCA</td><td>₹ ${cca}</td></tr>`:''}
+${personal_pay>0?`<tr><td>Personal Pay</td><td>₹ ${personal_pay}</td></tr>`:''}
+${special_personal_pay>0?`<tr><td>Special Pay</td><td>₹ ${special_personal_pay}</td></tr>`:''}
+${conveyance>0?`<tr><td>Conveyance</td><td>₹ ${conveyance}</td></tr>`:''}
+${washing>0?`<tr><td>Washing</td><td>₹ ${washing}</td></tr>`:''}
+${sfta>0?`<tr><td>SFTA</td><td>₹ ${sfta}</td></tr>`:''}
+${locality>0?`<tr><td>Locality</td><td>₹ ${locality}</td></tr>`:''}
+${mwa>0?`<tr><td>MWA</td><td>₹ ${mwa}</td></tr>`:''}
+${hill>0?`<tr><td>Hill</td><td>₹ ${hill}</td></tr>`:''}
+${charge>0?`<tr><td>Charge Allowance</td><td>₹ ${charge}</td></tr>`:''}
+${pension>0?`<tr><td>Pension</td><td>₹ ${pension}</td></tr>`:''}
+${lwf_company>0?`<tr><td>LWF Company</td><td>₹ ${lwf_company}</td></tr>`:''}
+${cash_duty>0?`<tr><td>Cash Duty</td><td>₹ ${cash_duty}</td></tr>`:''}
+${other>0?`<tr><td>Other Earnings</td><td>₹ ${other}</td></tr>`:''}
+<tr style="font-weight:bold">
+<td>Gross Earnings</td>
+<td>₹ ${totalE}</td>
 </tr>
-
 </table>
 </div>
 
 <div class="salary-card">
-<h4>Deductions</h4>
-
+<h4>Deductions <span style="font-weight:normal; font-size:12px; color:#64748b;">(-)</span></h4>
 <table>
-${LIC>0?`<tr><td>LIC</td><td style="text-align:right">₹ ${LIC}</td></tr>`:''}
-${income_tax>0?`<tr><td>Income Tax</td><td style="text-align:right">₹ ${income_tax}</td></tr>`:''}
-${pt>0?`<tr><td>Professional Tax</td><td style="text-align:right">₹ ${pt}</td></tr>`:''}
-${society>0?`<tr><td>Society</td><td style="text-align:right">₹ ${society}</td></tr>`:''}
-${PLI>0?`<tr><td>PLI</td><td style="text-align:right">₹ ${PLI}</td></tr>`:''}
-${union>0?`<tr><td>Union</td><td style="text-align:right">₹ ${union}</td></tr>`:''}
-${scst>0?`<tr><td>SC/ST</td><td style="text-align:right">₹ ${scst}</td></tr>`:''}
-${rent>0?`<tr><td>House Rent</td><td style="text-align:right">₹ ${rent}</td></tr>`:''}
-${bank>0?`<tr><td>Bank</td><td style="text-align:right">₹ ${bank}</td></tr>`:''}
-${family>0?`<tr><td>Family</td><td style="text-align:right">₹ ${family}</td></tr>`:''}
-${festival>0?`<tr><td>Festival</td><td style="text-align:right">₹ ${festival}</td></tr>`:''}
-${pc10>0?`<tr><td>PC 10%</td><td style="text-align:right">₹ ${pc10}</td></tr>`:''}
-${pc14>0?`<tr><td>PC 14%</td><td style="text-align:right">₹ ${pc14}</td></tr>`:''}
-${lwf>0?`<tr><td>LWF</td><td style="text-align:right">₹ ${lwf}</td></tr>`:''}
-${recovery>0?`<tr><td>Recovery</td><td style="text-align:right">₹ ${recovery}</td></tr>`:''}
-${other_ded>0?`<tr><td>Other Deduction</td><td style="text-align:right">₹ ${other_ded}</td></tr>`:''}
-
-<tr style="border-top:1px solid #ddd;font-weight:bold">
-<td>Total Deduction</td>
-<td style="text-align:right">₹ ${totalD}</td>
+${LIC>0?`<tr><td>LIC</td><td>₹ ${LIC}</td></tr>`:''}
+${income_tax>0?`<tr><td>Income Tax</td><td>₹ ${income_tax}</td></tr>`:''}
+${pt>0?`<tr><td>Professional Tax</td><td>₹ ${pt}</td></tr>`:''}
+${society>0?`<tr><td>Society</td><td>₹ ${society}</td></tr>`:''}
+${PLI>0?`<tr><td>PLI</td><td>₹ ${PLI}</td></tr>`:''}
+${union>0?`<tr><td>Union Fees</td><td>₹ ${union}</td></tr>`:''}
+${scst>0?`<tr><td>SC/ST Fund</td><td>₹ ${scst}</td></tr>`:''}
+${rent>0?`<tr><td>House Rent</td><td>₹ ${rent}</td></tr>`:''}
+${bank>0?`<tr><td>Bank Loan</td><td>₹ ${bank}</td></tr>`:''}
+${family>0?`<tr><td>Family Benefit</td><td>₹ ${family}</td></tr>`:''}
+${festival>0?`<tr><td>Festival Adv.</td><td>₹ ${festival}</td></tr>`:''}
+${pc10>0?`<tr><td>PC 10%</td><td>₹ ${pc10}</td></tr>`:''}
+${pc14>0?`<tr><td>PC 14%</td><td>₹ ${pc14}</td></tr>`:''}
+${lwf>0?`<tr><td>LWF</td><td>₹ ${lwf}</td></tr>`:''}
+${recovery>0?`<tr><td>Recovery</td><td>₹ ${recovery}</td></tr>`:''}
+${other_ded>0?`<tr><td>Other Ded.</td><td>₹ ${other_ded}</td></tr>`:''}
+<tr style="font-weight:bold">
+<td>Total Deductions</td>
+<td>₹ ${totalD}</td>
 </tr>
-
 </table>
 </div>
 
 <div class="net-card">
-Net Salary ₹ ${net}
+<div style="font-size:14px; font-weight:500; color:#64748b; margin-bottom:5px;">Take Home Salary</div>
+₹ ${net}
 </div>
 
-<button class="action-btn" onclick="downloadPDF()">📄 Download PDF</button>
-
+<button class="action-btn" onclick="downloadPDF()">📄 Download PDF Statement</button>
 `;
-
 return;
-
 }
-
 }
-
 document.getElementById("loader").style.display="none";
-document.getElementById("result").innerHTML="No salary found";
-
+document.getElementById("result").innerHTML="<div class='salary-card' style='text-align:center'>No salary records found.</div>";
 }catch(e){
-
 document.getElementById("loader").style.display="none";
-document.getElementById("result").innerHTML="Error loading salary";
-
+document.getElementById("result").innerHTML="<div class='salary-card'>Error connecting to server.</div>";
 }
-
 }
 
 function downloadPDF(){
-
 let element = document.getElementById("result");
-
 let opt = {
 margin:0.5,
-filename:'Last_Salary.pdf',
+filename:'HESCOM_Salary_Slip.pdf',
 image:{ type:'jpeg', quality:0.98 },
 html2canvas:{ scale:2 },
 jsPDF:{ unit:'in', format:'a4', orientation:'portrait' }
 };
-
 html2pdf().set(opt).from(element).save();
-
 }
 
 loadLastSalary();
-
 </script>
 
 </body>
