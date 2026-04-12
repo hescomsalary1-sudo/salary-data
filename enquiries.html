@@ -1,184 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Info Center</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Enquiries</title>
+    <style>
+        :root {
+            --primary: #4338ca;
+            --primary-light: #6366f1;
+            --bg: #f1f5f9;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
 
-<style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: #fff;
-}
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            margin: 0;
+            background-color: var(--bg);
+            color: var(--text-main);
+            padding-bottom: 30px;
+        }
 
-/* HEADER */
-.header {
-  text-align: center;
-  padding: 20px;
-  font-size: 20px;
-  font-weight: bold;
-}
+        /* HEADER */
+        .top {
+            padding: 20px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
 
-/* CARD STYLE */
-.card {
-  background: rgba(255,255,255,0.08);
-  margin: 15px;
-  padding: 15px;
-  border-radius: 18px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-}
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+        }
 
-/* TIP + NOTICE */
-.info-box {
-  font-size: 14px;
-  line-height: 1.6;
-}
+        .top h2 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+        }
 
-/* POINTS SECTION */
-.points {
-  font-size: 26px;
-  font-weight: bold;
-}
+        .content {
+            padding: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
 
-.level {
-  margin-top: 5px;
-  font-size: 16px;
-  color: #ffd700;
-}
+        /* FORM CARD */
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
 
-/* PROGRESS BAR */
-.progress-bar {
-  height: 8px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 10px;
-  margin-top: 10px;
-  overflow: hidden;
-}
+        .section-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            display: block;
+        }
 
-.progress {
-  height: 100%;
-  background: #00ffcc;
-  width: 0%;
-}
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-/* GRID BUTTONS */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-top: 10px;
-}
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
 
-.btn {
-  padding: 12px;
-  border-radius: 12px;
-  text-align: center;
-  background: rgba(255,255,255,0.12);
-  cursor: pointer;
-  transition: 0.3s;
-}
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            font-size: 14px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
 
-.btn:hover {
-  background: rgba(255,255,255,0.25);
-  transform: scale(1.05);
-}
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            background: white;
+        }
 
-/* SMALL TEXT */
-.small {
-  font-size: 13px;
-  opacity: 0.8;
-}
-</style>
+        textarea {
+            resize: none;
+            height: 100px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* FAQ SECTION */
+        .faq-box {
+            margin-top: 25px;
+        }
+
+        .faq-item {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .faq-item h4 {
+            margin: 0 0 5px 0;
+            font-size: 14px;
+            color: var(--primary);
+        }
+
+        .faq-item p {
+            margin: 0;
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* DARK MODE */
+        .dark-mode {
+            background: #0f172a;
+            color: white;
+        }
+        .dark-mode .top, .dark-mode .card, .dark-mode .faq-item {
+            background: #1e293b;
+            border-color: #334155;
+        }
+        .dark-mode input, .dark-mode select, .dark-mode textarea {
+            background: #0f172a;
+            color: white;
+            border-color: #334155;
+        }
+        .dark-mode h2 { color: white; }
+    </style>
 </head>
-
 <body>
 
-<div class="header">⚡ Info Center</div>
+    <div class="top">
+        <button class="back-btn" onclick="goBack()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M15 18L9 12L15 6" stroke="#4338ca" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <h2>Enquiries</h2>
+    </div>
 
-<!-- FUN + INFO -->
-<div class="card">
-  <div class="info-box">
-    💡 Tip: Maintain full attendance to earn bonus points!<br>
-    📢 Notice: Salary will be credited on 5th
-  </div>
-</div>
+    <div class="content">
+        <div class="card">
+            <span class="section-title">Submit a Request</span>
+            
+            <form id="enquiryForm" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label>Enquiry Type</label>
+                    <select id="type" required>
+                        <option value="">Select Category</option>
+                        <option value="salary">Salary/Pay Issue</option>
+                        <option value="profile">Profile Correction</option>
+                        <option value="technical">Technical Support</option>
+                        <option value="other">General Enquiry</option>
+                    </select>
+                </div>
 
-<!-- REWARDS -->
-<div class="card">
-  <div class="points" id="points">0 Points</div>
-  <div class="level" id="level">Bronze</div>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input type="text" id="subject" placeholder="Brief topic" required>
+                </div>
 
-  <div class="progress-bar">
-    <div class="progress" id="progress"></div>
-  </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea id="message" placeholder="Describe your issue in detail..." required></textarea>
+                </div>
 
-  <div class="small" id="summary"></div>
-</div>
+                <button type="submit" class="submit-btn">Send Enquiry</button>
+            </form>
+        </div>
 
-<!-- QUICK ACTIONS -->
-<div class="card">
-  <div class="grid">
-    <div class="btn" onclick="go('salary.html')">💰 Salary</div>
-    <div class="btn" onclick="go('attendance.html')">📅 Attendance</div>
-    <div class="btn" onclick="go('seniority.html')">📊 Seniority</div>
-    <div class="btn" onclick="go('forum.html')">💬 Forum</div>
-  </div>
-</div>
+        <div class="faq-box">
+            <span class="section-title">Quick FAQ</span>
+            
+            <div class="faq-item">
+                <h4>When is salary updated?</h4>
+                <p>Salary data is typically uploaded by the 5th of every month.</p>
+            </div>
 
-<script>
+            <div class="faq-item">
+                <h4>Data is incorrect?</h4>
+                <p>If your profile or pay details are wrong, please contact your administrative department.</p>
+            </div>
+        </div>
+    </div>
 
-/* SAMPLE DATA (Replace later with real data from CSV) */
-let present = 18;
-let leave = 2;
-let absent = 1;
+    <script>
+        function goBack() {
+            window.history.back();
+        }
 
-/* POINT CALCULATION */
-let points =
-  (present * 10) +
-  (leave * 5) +
-  (absent * 0);
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const type = document.getElementById('type').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            const user = localStorage.getItem("currentUser") || "Unknown User";
 
-/* BONUS */
-if(absent === 0) points += 50; // monthly bonus
-if(absent <= 1) points += 20; // weekly consistency
+            // Here you would typically send data to a server
+            // For now, we will just show an alert
+            alert(`Thank you ${user}! Your enquiry regarding "${subject}" has been submitted. We will contact you soon.`);
+            
+            // Reset form
+            document.getElementById('enquiryForm').reset();
+        }
 
-/* LEVEL SYSTEM */
-let level = "Bronze";
-let progress = 0;
-
-if(points >= 1000){
-  level = "💎 Platinum";
-  progress = 100;
-}else if(points >= 500){
-  level = "🥇 Gold";
-  progress = (points - 500) / 5;
-}else if(points >= 200){
-  level = "🥈 Silver";
-  progress = (points - 200) / 3;
-}else{
-  level = "🥉 Bronze";
-  progress = points / 2;
-}
-
-/* UPDATE UI */
-document.getElementById("points").innerText = points + " Points";
-document.getElementById("level").innerText = level;
-document.getElementById("progress").style.width = progress + "%";
-
-document.getElementById("summary").innerText =
-  "Present: " + present +
-  " | Leave: " + leave +
-  " | Absent: " + absent;
-
-/* NAVIGATION */
-function go(page){
-  window.location.replace(page);
-}
-
-</script>
-
+        // Apply Dark Mode if enabled
+        if(localStorage.getItem("darkMode") === "true") {
+            document.body.classList.add("dark-mode");
+        }
+    </script>
 </body>
 </html>
