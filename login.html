@@ -36,12 +36,7 @@ font-size: 14px;
 opacity: 0.85;
 }
 
-.wave{
-position:absolute;
-bottom:-40px;   /* 🔥 push wave down */
-left:0;
-width:100%;
-}
+
 
 /* LOGIN */
 .bottom{
@@ -203,24 +198,40 @@ transition: 0.3s;
 background: #3b1eff;
 color: white;
 }
-.bottom-bg{
-position:absolute;
-top:65vh;   /* 🔥 move slightly down */
-left:0;
-width:100%;
-height:50vh;
-background: linear-gradient(135deg, #2400b7, #3b1eff);
-z-index:1;   /* below login, above background */
-}
+
 
 /* WAVE */
-.wave-bottom{
-top:-80px;   /* 🔥 adjust nicely */
-}
+
   .login-box{
 margin-bottom:40px;  /* 🔥 prevent cut */
 }
+
+  /* CENTER LOGIN */
+.bottom{
+display:flex;
+justify-content:center;
+margin-top:20px;
+}
+
+/* LOGIN CARD */
+.login-box{
+width:85%;
+max-width:320px;
+background:white;
+padding:20px;
+border-radius:18px;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* BLUE SECTION BELOW BUTTON */
+.blue-section{
+margin-top:30px;   /* 🔥 starts after button */
+width:100%;
+height:200px;
+background: linear-gradient(135deg, #2400b7, #3b1eff);
+}
 </style>
+  
 </head>
 
 <body>
@@ -257,16 +268,7 @@ margin-bottom:40px;  /* 🔥 prevent cut */
 
 
 </div>
-<div class="bottom-bg">
 
-  <!-- WAVE -->
-  <svg class="wave-bottom" viewBox="0 0 1440 320">
-    <path fill="#2400b7"
-    d="M0,160L80,170C160,180,320,200,480,186.7C640,173,800,127,960,112C1120,96,1280,112,1360,120L1440,128L1440,320L0,320Z">
-    </path>
-  </svg>
-
-</div>
 <!-- LOGIN -->
 <div class="bottom">
 <div class="login-box">
@@ -288,7 +290,7 @@ margin-bottom:40px;  /* 🔥 prevent cut */
 </button>
 </div>
 </div>
-
+<div class="blue-section"></div>
 <script>
 
 // ✅ LOGIN FUNCTION
