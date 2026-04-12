@@ -692,10 +692,9 @@ width:260px;
 height:100%;
 background:linear-gradient(135deg,#2400b7,#3b1eff);
 color:white;
-transition:0.35s ease;
+transition:transform 0.3s ease;
 z-index:2100;
-display:flex;
-flex-direction:column;
+transform:translateX(0);
 }
 
 /* OPEN STATE */
@@ -741,6 +740,41 @@ font-size:14px;
 .side-menu div:hover{
 background:rgba(255,255,255,0.15);
 }
+  /* PROFILE BUTTON WRAPPER */
+.profile-btn{
+position:relative;
+width:55px;
+height:55px;
+border-radius:50%;
+overflow:hidden;
+cursor:pointer;
+box-shadow:0 6px 15px rgba(0,0,0,0.2);
+transition:0.2s;
+}
+
+.profile-btn img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+/* SMALL MENU ICON OVERLAY */
+.menu-icon{
+position:absolute;
+bottom:-2px;
+right:-2px;
+background:#2400b7;
+color:white;
+font-size:14px;
+padding:5px;
+border-radius:50%;
+border:2px solid white;
+}
+
+/* CLICK EFFECT */
+.profile-btn:active{
+transform:scale(0.9);
+}
 </style>
 </head>
 
@@ -752,7 +786,10 @@ background:rgba(255,255,255,0.15);
 <div id="sideNav">
 
   <div class="side-header">
-    <img src="https://i.imgur.com/6VBx3io.png" class="side-profile">
+   <div class="profile-btn" onclick="openSideNav()">
+  <img src="https://i.imgur.com/6VBx3io.png">
+  <span class="menu-icon">☰</span>
+</div>
     <h3 id="sideName">User Name</h3>
     <p id="sideRole">Employee</p>
   </div>
@@ -1469,8 +1506,9 @@ window.addEventListener("load", function(){
 </script>
   <script>
 function openSideNav(){
-  document.getElementById("sideNav").classList.add("open");
+  document.getElementById("sideNav").style.transform = "translateX(260px)";
   document.getElementById("sideOverlay").classList.add("show");
+
 
   // set user name
   document.getElementById("sideName").innerText =
@@ -1481,9 +1519,33 @@ function openSideNav(){
 }
 
 function closeSideNav(){
-  document.getElementById("sideNav").classList.remove("open");
+  document.getElementById("sideNav").style.transform = "translateX(0)";
   document.getElementById("sideOverlay").classList.remove("show");
 }
+</script>
+  <script>
+let startX = 0;
+let currentX = 0;
+let isDragging = false;
+
+document.addEventListener("touchstart", function(e){
+  startX = e.touches[0].clientX;
+});
+
+document.addEventListener("touchmove", function(e){
+  currentX = e.touches[0].clientX;
+  let diff = currentX - startX;
+
+  // 👉 SWIPE RIGHT (OPEN)
+  if(startX < 50 && diff > 70){
+    openSideNav();
+  }
+
+  // 👉 SWIPE LEFT (CLOSE)
+  if(diff < -70){
+    closeSideNav();
+  }
+});
 </script>
 </body>
 </html>
