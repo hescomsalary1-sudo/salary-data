@@ -14,7 +14,7 @@ background: #ffffff;
 /* TOP */
 .top {
 position: relative;
-height: 45vh;
+height: 60vh;
 background: linear-gradient(135deg, #2400b7, #3b1eff);
 color: white;
 display: flex;
@@ -36,18 +36,19 @@ font-size: 14px;
 opacity: 0.85;
 }
 
-.wave {
-position: absolute;
-bottom: -1px;
-left: 0;
-width: 100%;
+.wave{
+position:absolute;
+bottom:-40px;   /* 🔥 push wave down */
+left:0;
+width:100%;
 }
 
 /* LOGIN */
-.bottom {
-padding-top: 60px;
-display: flex;
-justify-content: center;
+.bottom{
+margin-top:-80px;   /* 🔥 pull into wave */
+padding-top:0;
+display:flex;
+justify-content:center;
 }
 
 .login-box {
