@@ -3,22 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Departmental Enquiries</title>
+    <title>Legal & Disciplinary Dashboard</title>
     <style>
         :root {
-            --primary: #1e293b; /* Formal Dark Navy */
+            --primary: #1e293b;
+            --accent: #4338ca;
+            --bg: #f1f5f9;
+            --card: #ffffff;
             --danger: #ef4444;
             --warning: #f59e0b;
             --success: #10b981;
-            --bg: #f8fafc;
+            --text-muted: #64748b;
         }
 
         body {
             font-family: 'Inter', -apple-system, sans-serif;
             margin: 0;
             background-color: var(--bg);
-            color: #1e293b;
-            padding-bottom: 40px;
+            color: var(--primary);
+            padding-bottom: 50px;
         }
 
         /* HEADER */
@@ -29,6 +32,9 @@
             align-items: center;
             gap: 12px;
             border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .back-btn {
@@ -43,117 +49,121 @@
             border: none;
         }
 
-        .top h2 {
-            margin: 0;
-            font-size: 18px;
-            font-weight: 700;
+        .top h2 { margin: 0; font-size: 18px; font-weight: 700; }
+
+        /* TABS NAVIGATION */
+        .tabs {
+            display: flex;
+            background: #fff;
+            padding: 5px;
+            margin: 15px;
+            border-radius: 14px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        .content {
-            padding: 16px;
-            max-width: 600px;
-            margin: 0 auto;
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: none;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 10px;
+            transition: 0.3s;
         }
 
-        /* ENQUIRY CARD */
+        .tab-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .content-section {
+            padding: 0 15px;
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* DATA CARDS */
         .card {
-            background: white;
-            padding: 20px;
+            background: var(--card);
             border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 15px;
             border: 1px solid #e2e8f0;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            margin-bottom: 20px;
         }
 
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .badge {
+            font-size: 10px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 8px;
             text-transform: uppercase;
-            margin-bottom: 10px;
         }
 
-        .status-pending { background: #fef3c7; color: #92400e; }
-        .status-active { background: #fee2e2; color: #991b1b; }
+        .bg-active { background: #fee2e2; color: #991b1b; }
+        .bg-disposed { background: #dcfce7; color: #166534; }
+        .bg-notice { background: #fef3c7; color: #92400e; }
 
-        .enquiry-title {
-            font-size: 16px;
+        .case-title {
+            font-size: 15px;
             font-weight: 700;
-            margin: 0 0 5px 0;
+            margin: 0;
             color: #0f172a;
         }
 
-        .enquiry-meta {
-            font-size: 12px;
-            color: #64748b;
-            margin-bottom: 15px;
-            display: flex;
-            gap: 15px;
-        }
-
-        /* FORM SECTION */
-        .defense-box {
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 15px;
-        }
-
-        .section-label {
-            font-size: 12px;
-            font-weight: 700;
+        .case-details {
+            font-size: 13px;
             color: #475569;
-            margin-bottom: 8px;
+            line-height: 1.5;
+            margin: 10px 0;
+        }
+
+        /* INFO GRID */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed #e2e8f0;
+        }
+
+        .info-item label {
             display: block;
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 700;
             text-transform: uppercase;
         }
 
-        textarea {
-            width: 100%;
-            height: 120px;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid #cbd5e1;
-            font-family: inherit;
-            font-size: 14px;
-            resize: none;
-            box-sizing: border-box;
-        }
-
-        .action-btn {
-            width: 100%;
-            padding: 14px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 14px;
+        .info-item span {
+            font-size: 12px;
             font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
         }
 
-        /* NOTICE BOX */
-        .notice {
-            background: #fffbeb;
-            border: 1px solid #fde68a;
-            padding: 15px;
-            border-radius: 15px;
-            display: flex;
-            gap: 10px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        .notice-icon { font-size: 20px; }
-        .notice-text { font-size: 13px; color: #92400e; line-height: 1.4; }
 
         /* DARK MODE */
         .dark-mode { background: #0f172a; color: white; }
-        .dark-mode .top, .dark-mode .card { background: #1e293b; border-color: #334155; }
-        .dark-mode h2, .dark-mode .enquiry-title { color: white; }
-        .dark-mode .defense-box { background: #0f172a; }
-        .dark-mode textarea { background: #1e293b; color: white; border-color: #475569; }
+        .dark-mode .top, .dark-mode .card, .dark-mode .tabs { background: #1e293b; border-color: #334155; }
+        .dark-mode h2, .dark-mode .case-title, .dark-mode .info-item span { color: white; }
     </style>
 </head>
 <body>
@@ -161,43 +171,108 @@
     <div class="top">
         <button class="back-btn" onclick="goBack()">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M15 18L9 12L15 6" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M15 18L9 12L15 6" stroke="#4338ca" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </button>
-        <h2>Dept. Enquiries</h2>
+        <h2>Legal Matters</h2>
     </div>
 
-    <div class="content">
+    <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('dept')">Dept. Enquiries</button>
+        <button class="tab-btn" onclick="showTab('court')">Court Cases</button>
+    </div>
+
+    <div id="dept" class="content-section active">
         
         <div class="card">
-            <span class="status-badge status-active">Active Proceeding</span>
-            <h3 class="enquiry-title">Case Ref: DE/HESCOM/2026/084</h3>
-            <div class="enquiry-meta">
-                <span>Issued: 12-Mar-2026</span>
-                <span>Type: Rule 14-A</span>
+            <div class="card-header">
+                <h3 class="case-title">Inquiry regarding Duty Negligence</h3>
+                <span class="badge bg-active">Active</span>
             </div>
+            <p class="case-details">Proceedings initiated under Rule 14-A for unauthorized absence and technical delay.</p>
             
-            <p style="font-size: 13px; color: #475569; line-height: 1.5;">
-                Explanation sought regarding alleged negligence in duty during technical maintenance on 05-Mar-2026.
-            </p>
-
-            <div class="defense-box">
-                <span class="section-label">Submit Statement of Defense</span>
-                <textarea id="defenseStatement" placeholder="Enter your detailed explanation here..."></textarea>
-                <button class="action-btn" onclick="submitDefense()">Submit Response</button>
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>Notice Issued</label>
+                    <span>14-Feb-2026</span>
+                </div>
+                <div class="info-item">
+                    <label>Notice Ref</label>
+                    <span>HESCOM/ADM/772</span>
+                </div>
+                <div class="info-item">
+                    <label>Action Status</label>
+                    <span style="color:var(--warning)">Pending Review</span>
+                </div>
+                <div class="info-item">
+                    <label>Inquiry Officer</label>
+                    <span>Asst. Exec. Engineer</span>
+                </div>
             </div>
         </div>
 
-        <div class="notice">
-            <div class="notice-icon">⚖️</div>
-            <div class="notice-text">
-                <strong>Legal Note:</strong> As per service rules, the employee must submit their written statement within 15 days of the receipt of the charge sheet.
+        <div class="card">
+            <div class="card-header">
+                <h3 class="case-title">Safety Protocol Violation</h3>
+                <span class="badge bg-disposed">Disposed</span>
+            </div>
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>Action Taken</label>
+                    <span>Censure Issued</span>
+                </div>
+                <div class="info-item">
+                    <label>Closed On</label>
+                    <span>10-Jan-2025</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="court" class="content-section">
+        
+        <div class="card">
+            <div class="card-header">
+                <h3 class="case-title">WP No. 44521/2026</h3>
+                <span class="badge bg-active">Active</span>
+            </div>
+            <p class="case-details">Writ Petition filed before Hon'ble High Court regarding promotion seniority list.</p>
+            
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>Next Hearing</label>
+                    <span>25-May-2026</span>
+                </div>
+                <div class="info-item">
+                    <label>Court Name</label>
+                    <span>High Court (Dharwad)</span>
+                </div>
+                <div class="info-item">
+                    <label>Case Stage</label>
+                    <span>Counter Filed</span>
+                </div>
+                <div class="info-item">
+                    <label>Standing Counsel</label>
+                    <span>Adv. Raghavan</span>
+                </div>
             </div>
         </div>
 
-        <div id="noData" style="display:none; text-align:center; padding:40px; color:#64748b;">
-            <div style="font-size:40px; margin-bottom:10px;">✅</div>
-            <p>No active departmental enquiries found for your profile.</p>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="case-title">CC No. 102/2023</h3>
+                <span class="badge bg-disposed">Disposed</span>
+            </div>
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>Final Judgment</label>
+                    <span>Dismissed in Favor</span>
+                </div>
+                <div class="info-item">
+                    <label>Disposed Date</label>
+                    <span>15-Nov-2024</span>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -207,23 +282,20 @@
             window.history.back();
         }
 
-        function submitDefense() {
-            const statement = document.getElementById('defenseStatement').value;
-            if(!statement) {
-                alert("Please enter your statement before submitting.");
-                return;
-            }
-            alert("Statement submitted successfully to the Inquiry Officer.");
-            document.getElementById('defenseStatement').value = "";
+        function showTab(tabId) {
+            // Remove active classes
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            // Add active class to selected
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
         }
 
         // Apply Dark Mode if enabled
         if(localStorage.getItem("darkMode") === "true") {
             document.body.classList.add("dark-mode");
         }
-
-        // You can add logic here to hide the card and show 'noData' 
-        // if the employee has no records in your CSV.
     </script>
 </body>
 </html>
