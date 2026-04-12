@@ -1523,28 +1523,44 @@ function closeSideNav(){
   document.getElementById("sideOverlay").classList.remove("show");
 }
 </script>
-  <script>
+<script>
 let startX = 0;
-let currentX = 0;
-let isDragging = false;
+let startY = 0;
+let isSwiping = false;
 
 document.addEventListener("touchstart", function(e){
   startX = e.touches[0].clientX;
+  startY = e.touches[0].clientY;
+  isSwiping = true;
 });
 
 document.addEventListener("touchmove", function(e){
-  currentX = e.touches[0].clientX;
-  let diff = currentX - startX;
+  if(!isSwiping) return;
 
-  // 👉 SWIPE RIGHT (OPEN)
-  if(startX < 50 && diff > 70){
+  let currentX = e.touches[0].clientX;
+  let currentY = e.touches[0].clientY;
+
+  let diffX = currentX - startX;
+  let diffY = Math.abs(currentY - startY);
+
+  // ignore vertical scroll
+  if(diffY > 40) return;
+
+  // 👉 OPEN (more flexible edge detection)
+  if(startX < 120 && diffX > 60){
     openSideNav();
+    isSwiping = false;
   }
 
-  // 👉 SWIPE LEFT (CLOSE)
-  if(diff < -70){
+  // 👉 CLOSE (anywhere swipe left)
+  if(diffX < -60){
     closeSideNav();
+    isSwiping = false;
   }
+});
+
+document.addEventListener("touchend", function(){
+  isSwiping = false;
 });
 </script>
 </body>
