@@ -45,9 +45,8 @@ width:100%;
 
 /* LOGIN */
 .bottom{
-margin-top:20px;
-display:flex;
-justify-content:center;
+position:relative;
+z-index:2;   /* 🔥 bring above blue */
 }
 
 .login-box {
@@ -206,21 +205,20 @@ color: white;
 }
 .bottom-bg{
 position:absolute;
-top:60vh;   /* 🔥 starts AFTER top */
+top:65vh;   /* 🔥 move slightly down */
 left:0;
 width:100%;
-height:40vh;
+height:50vh;
 background: linear-gradient(135deg, #2400b7, #3b1eff);
-z-index:0;
+z-index:1;   /* below login, above background */
 }
 
 /* WAVE */
 .wave-bottom{
-position:absolute;
-top:-100px;
-left:0;
-width:100%;
-transform:rotate(180deg);
+top:-80px;   /* 🔥 adjust nicely */
+}
+  .login-box{
+margin-bottom:40px;  /* 🔥 prevent cut */
 }
 </style>
 </head>
