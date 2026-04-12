@@ -5,23 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-margin: 0;
-font-family: 'Segoe UI', sans-serif;
-background: #ffffff;
+body{
+margin:0;
+font-family:'Segoe UI', sans-serif;
+height:100vh;
+overflow:hidden;   /* 🔥 NO SCROLL */
 }
 
-/* TOP */
+/* FULL SCREEN LAYOUT */
 .top{
-background:#ffffff;
-height:55vh;
+height:100vh;   /* 🔥 full screen */
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
 color:#2400b7;
-
-display:flex;              /* 🔥 ADD */
-flex-direction:column;     /* 🔥 ADD */
-justify-content:center;    /* 🔥 ADD */
-align-items:center;        /* 🔥 ADD */
-text-align:center;         /* 🔥 ADD */
+background:#ffffff;
 }
 
 .top h1 {
@@ -44,9 +44,13 @@ position:relative;
 z-index:2;   /* 🔥 bring above blue */
 }
 
-.login-box {
-width: 85%;
-max-width: 320px;
+.login-box{
+width:85%;
+max-width:320px;
+padding:0;          /* 🔥 remove extra height */
+box-shadow:none;    /* 🔥 no card */
+border-radius:0;
+background:none;
 }
 
 .input-group {
@@ -210,7 +214,7 @@ margin-bottom:40px;  /* 🔥 prevent cut */
 .bottom{
 display:flex;
 justify-content:center;
-margin-top:20px;
+align-items:center;
 }
 
 /* LOGIN CARD */
@@ -290,7 +294,6 @@ background: linear-gradient(135deg, #2400b7, #3b1eff);
 </button>
 </div>
 </div>
-<div class="blue-section"></div>
 <script>
 
 // ✅ LOGIN FUNCTION
