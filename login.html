@@ -18,20 +18,21 @@ body {
 .top {
     position: relative;
     width: 100%;
-    height: 250px; /* Adjust height as needed */
+    height: 50vh; /* 50% of the screen height */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
     overflow: hidden;
+    margin: 0;
 }
 
 .top h1, .top p {
     position: relative;
     z-index: 2;
-    color: #ffffff; /* Change to white for visibility */
-    margin: 0;
+    color: white; /* White text looks better on the blue image */
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
 }
 
 .top h1 {
@@ -140,13 +141,13 @@ animation:shimmer 1.2s infinite;
     height: 100%;
     z-index: 1;
 }
+
 .illustration img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* This makes the image fill the width/height without stretching */
-    filter: brightness(0.7); /* Darkens image so white text is readable */
+    object-fit: cover; /* Ensures image fills the area without distorting */
+    border-radius: 0; /* Remove radius for a full-screen look */
 }
-
 /* small animation */
 .illustration img:active{
 transform:scale(0.95);
@@ -226,7 +227,12 @@ color: white;
     height: 60px;
 }
 
-
+.bottom {
+    display: flex;
+    justify-content: center;
+    padding: 30px 0; /* Space between half-screen image and inputs */
+    background: white;
+}
 
 </style>
 </head>
