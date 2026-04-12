@@ -166,26 +166,29 @@ transform:scale(0.95);
 }
 
   /* CHANGE PASSWORD LOADER */
-#cpLoader{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#ffffffcc;
-display:none;
-justify-content:center;
-align-items:center;
-z-index:99999;
+/* UPDATED CP LOADER */
+#cpLoader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Darker semi-transparent background to hide the form while loading */
+    background: rgba(0, 0, 0, 0.6); 
+    display: none;
+    justify-content: center;
+    align-items: center;
+    /* This must be higher than #changeBox's 100000 */
+    z-index: 200000; 
 }
 
-.cp-spinner{
-width:50px;
-height:50px;
-border:5px solid #eee;
-border-top:5px solid #3b1eff;
-border-radius:50%;
-animation:spin 1s linear infinite;
+.cp-spinner {
+    width: 60px;
+    height: 60px;
+    border: 6px solid rgba(255, 255, 255, 0.3);
+    border-top: 6px solid #ffffff; /* White spinner looks better on dark background */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
 }
 
 @keyframes spin{
