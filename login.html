@@ -14,7 +14,7 @@ body {
     flex-direction: column;
 }
 
-/* TOP AREA - Now Clean White */
+/* TOP AREA - Clean White */
 .top {
     padding: 40px 20px;
     background: #ffffff;
@@ -121,27 +121,39 @@ button {
     background: linear-gradient(135deg, #2400b7, #3b1eff);
     height: 100px;
     position: relative;
+    margin-top: auto;
 }
 
 .wave-upside {
     position: absolute;
-    top: -50px;
+    top: -49px;
     left: 0;
     width: 100%;
     transform: rotate(180deg);
 }
 
-/* LOADER & POPUPS */
-#loader {
+/* LOADERS & SPINNERS */
+#loader, #cpLoader {
     position: fixed;
     inset: 0;
     background: #ffffff;
     display: none;
     flex-direction: column;
-    padding: 20px;
-    gap: 15px;
+    justify-content: center;
+    align-items: center;
     z-index: 99999;
 }
+
+.cp-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #eee;
+    border-top: 5px solid #3b1eff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin { 0% {transform:rotate(0deg);} 100% {transform:rotate(360deg);} }
 
 @keyframes shimmer {
     0% { background-position: -400px 0; }
@@ -150,14 +162,12 @@ button {
 
 .skeleton {
     height: 20px;
+    margin-bottom: 10px;
     border-radius: 6px;
     background: linear-gradient(90deg, #eee 25%, #ddd 50%, #eee 75%);
     background-size: 400px 100%;
     animation: shimmer 1.2s infinite;
 }
-
-.skel-circle { width: 60px; height: 60px; border-radius: 50%; margin: 0 auto; }
-.skel-big { height: 120px; border-radius: 20px; }
 
 #error { color: red; font-size: 13px; margin-bottom: 15px; text-align: center; }
 
@@ -165,26 +175,31 @@ button {
     from { transform: scale(0.8); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
-
 </style>
 </head>
 
 <body>
 
 <div id="loader">
-    <div class="skeleton skel-circle"></div>
-    <div class="skeleton" style="width:60%; margin: 0 auto;"></div>
-    <div class="skeleton skel-big"></div>
-    <div class="skeleton"></div>
-    <div class="skeleton" style="width:80%;"></div>
-    <div class="skeleton skel-big"></div>
+    <div style="width: 80%;">
+        <div class="skeleton" style="height: 60px; width: 60px; border-radius: 50%; margin: 0 auto 20px;"></div>
+        <div class="skeleton" style="width: 70%; margin: 0 auto;"></div>
+        <div class="skeleton" style="height: 100px;"></div>
+        <div class="skeleton"></div>
+        <div class="skeleton" style="width: 50%;"></div>
+    </div>
+</div>
+
+<div id="cpLoader">
+    <div class="cp-spinner"></div>
+    <p style="margin-top:15px; color:#2400b7;">Updating Password...</p>
 </div>
 
 <div class="top">
     <h1>Salary Prompt</h1>
     <p>Secure Employee Login</p>
     <div class="illustration">
-        <img src="https://media.tenor.com/lgyTXgehpA0AAAAe/blue-man-on-laptop-blue-man.png" alt="salary illustration">
+        <img src="https://media.tenor.com/lgyTXgehpA0AAAAe/blue-man-on-laptop-blue-man.png" alt="illustration">
     </div>
 </div>
 
@@ -210,66 +225,98 @@ button {
 </div>
 
 <script>
-// Logic remains identical to your original code
-function login(){
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwpKkkmsAJiaq0-Be6s3sRrCjn1fRxyNpKYXYHzh7Wug30OaSmq-0mRXz_P3hWxdANv/exec";
+
+function login() {
     let user = document.getElementById("username").value.trim();
     let pass = document.getElementById("password").value.trim();
-    if(user === "" || pass === ""){
-        document.getElementById("errorText").innerText="Invalid Username or Password";
+
+    if(!user || !pass) {
+        document.getElementById("errorText").innerText="Please enter Username and Password";
         document.getElementById("errorPopup").style.display="flex";
         return;
     }
+
     document.getElementById("loader").style.display="flex";
-    let url = "https://script.google.com/macros/s/AKfycbwpKkkmsAJiaq0-Be6s3sRrCjn1fRxyNpKYXYHzh7Wug30OaSmq-0mRXz_P3hWxdANv/exec?username=" + user + "&password=" + pass;
-    fetch(url).then(res => res.text()).then(text => {
-        let data;
-        try{ data = JSON.parse(text); }catch(e){ data = {status:"fail"}; }
-        if(data.status === "success"){
+    fetch(`${SCRIPT_URL}?username=${user}&password=${pass}`)
+    .then(res => res.text())
+    .then(text => {
+        let data = JSON.parse(text);
+        if(data.status === "success") {
             localStorage.setItem("currentUser", user);
             localStorage.setItem("role", data.role);
-            setTimeout(() => { window.location = "home.html"; }, 600);
-        }else{
+            window.location = "home.html";
+        } else {
             document.getElementById("loader").style.display="none";
             document.getElementById("error").innerText="Invalid Username or Password";
         }
-    }).catch(err => {
+    })
+    .catch(() => {
         document.getElementById("loader").style.display="none";
-        document.getElementById("error").innerText="Server Error";
+        document.getElementById("error").innerText="Server Connection Error";
+    });
+}
+
+function changePassword() {
+    let user = document.getElementById("cp_user").value;
+    let oldPass = document.getElementById("old_pass").value;
+    let newPass = document.getElementById("new_pass").value;
+
+    if(!user || !oldPass || !newPass) {
+        alert("Please fill all fields");
+        return;
+    }
+
+    document.getElementById("cpLoader").style.display="flex";
+
+    let formData = new URLSearchParams();
+    formData.append("username", user);
+    formData.append("oldPassword", oldPass);
+    formData.append("newPassword", newPass);
+
+    fetch(SCRIPT_URL, { method: "POST", body: formData })
+    .then(res => res.text())
+    .then(text => {
+        document.getElementById("cpLoader").style.display="none";
+        let data = JSON.parse(text);
+        if(data.status === "updated") {
+            document.getElementById("successPopup").style.display="flex";
+        } else {
+            document.getElementById("errorText").innerText="Update Failed: Check Old Password";
+            document.getElementById("errorPopup").style.display="flex";
+        }
+    })
+    .catch(() => {
+        document.getElementById("cpLoader").style.display="none";
+        alert("Server Error during update");
     });
 }
 
 function togglePassword(){
-    let passField=document.getElementById("password");
-    passField.type = passField.type === "password" ? "text" : "password";
+    let p = document.getElementById("password");
+    p.type = p.type === "password" ? "text" : "password";
 }
 
-function openChangePassword(){
+function openChangePassword() {
     document.getElementById("changeBox").style.display="flex";
     document.getElementById("cp_user").value = document.getElementById("username").value;
 }
 
-function closeBox(){ document.getElementById("changeBox").style.display="none"; }
+function closeBox() { document.getElementById("changeBox").style.display="none"; }
+function closeSuccess() { document.getElementById("successPopup").style.display="none"; closeBox(); }
+function closeError() { document.getElementById("errorPopup").style.display="none"; }
 
-function closeSuccess(){
-    document.getElementById("successPopup").style.display="none";
-    closeBox();
-}
-
-window.onload=function(){
-    document.getElementById("loader").style.display="none";
-};
-
-function closeError(){ document.getElementById("errorPopup").style.display="none"; }
+window.onload = () => { document.getElementById("loader").style.display="none"; };
 </script>
 
 <div id="changeBox" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#00000080;justify-content:center;align-items:center;z-index:100000;">
-    <div style="background:white;padding:20px;border-radius:10px;width:300px;">
-        <h3>Change Password</h3>
-        <input id="cp_user" placeholder="Username"><br><br>
-        <input id="old_pass" type="password" placeholder="Old Password"><br><br>
-        <input id="new_pass" type="password" placeholder="New Password"><br><br>
-        <button onclick="changePassword()">Update</button>
-        <button onclick="closeBox()" style="background:#888; margin-top:8px;">Cancel</button>
+    <div style="background:white;padding:25px;border-radius:15px;width:300px;">
+        <h3 style="margin-top:0;">Change Password</h3>
+        <input id="cp_user" placeholder="Username" style="margin-bottom:15px;">
+        <input id="old_pass" type="password" placeholder="Old Password" style="margin-bottom:15px;">
+        <input id="new_pass" type="password" placeholder="New Password" style="margin-bottom:20px;">
+        <button onclick="changePassword()">Update Now</button>
+        <button onclick="closeBox()" style="background:#888; margin-top:8px; box-shadow:none;">Cancel</button>
     </div>
 </div>
 
