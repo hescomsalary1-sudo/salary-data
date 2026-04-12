@@ -134,60 +134,25 @@ animation:shimmer 1.2s infinite;
 .skel-big{height:120px;border-radius:20px;}
 .skel-line{height:15px;}
 
-.illustration {
+.illustration{
 margin-top: 20px;
-display: flex;
-justify-content: center;
-align-items: center;
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
-/* PERSON */
-.person {
-position: relative;
-width: 140px;
-height: 140px;
+.illustration img{
+width:220px;
+max-width:100%;
+border-radius:12px;
+object-fit:contain;
+filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+transition:0.3s;
 }
 
-/* HEAD */
-.head {
-width: 40px;
-height: 40px;
-background: #ffcc99;
-border-radius: 50%;
-position: absolute;
-top: 0;
-left: 50%;
-transform: translateX(-50%);
-}
-
-/* BODY */
-.body {
-width: 80px;
-height: 60px;
-background: #ffffff;
-border-radius: 15px;
-position: absolute;
-top: 40px;
-left: 50%;
-transform: translateX(-50%);
-box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-/* LAPTOP */
-.laptop {
-width: 90px;
-height: 10px;
-background: #333;
-position: absolute;
-bottom: 20px;
-left: 50%;
-transform: translateX(-50%);
-border-radius: 5px;
-}
-.illustration {
-margin-top: 20px;
-display: flex;
-justify-content: center;
+/* small animation */
+.illustration img:active{
+transform:scale(0.95);
 }
 
   /* CHANGE PASSWORD LOADER */
@@ -272,36 +237,7 @@ color: white;
 <h1>Salary Prompt</h1>
 <p>Secure Employee Login</p>
 <div class="illustration">
-<svg width="240" viewBox="0 0 500 400">
-
-<!-- CARD BACK -->
-<rect x="140" y="120" width="220" height="140" rx="20" fill="#ffffff" opacity="0.15"/>
-
-<!-- SALARY CARD -->
-<rect x="130" y="100" width="240" height="150" rx="20" fill="#ffffff"/>
-
-<!-- HEADER -->
-<rect x="130" y="100" width="240" height="40" rx="20" fill="#5e00a3"/>
-
-<!-- TEXT LINES -->
-<rect x="150" y="160" width="120" height="10" rx="5" fill="#ddd"/>
-<rect x="150" y="180" width="180" height="10" rx="5" fill="#eee"/>
-<rect x="150" y="200" width="100" height="10" rx="5" fill="#ddd"/>
-
-<!-- RUPEE ICON -->
-<circle cx="320" cy="180" r="30" fill="#2400b7"/>
-<text x="310" y="190" font-size="28" fill="#fff">₹</text>
-
-<!-- COINS -->
-<circle cx="360" cy="230" r="12" fill="#ffc107"/>
-<circle cx="380" cy="240" r="12" fill="#ffca28"/>
-<circle cx="340" cy="245" r="12" fill="#ffd54f"/>
-
-<!-- ARROW UP (GROWTH) -->
-<polyline points="170,260 210,230 250,250 300,200"
-fill="none" stroke="#00c9a7" stroke-width="6"/>
-
-</svg>
+  <img src="https://i.imgur.com/8Km9tLL.png" alt="salary illustration">
 </div>
 
 <svg class="wave" viewBox="0 0 1440 320">
