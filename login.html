@@ -458,63 +458,58 @@ document.getElementById("changeBox").style.display="none";
 
 
 // ✅ CHANGE PASSWORD FUNCTION
+// ✅ UPDATED CHANGE PASSWORD FUNCTION
 function changePassword(){
 
-let user = document.getElementById("cp_user").value;
-let oldPass = document.getElementById("old_pass").value;
-let newPass = document.getElementById("new_pass").value;
+    let user = document.getElementById("cp_user").value.trim();
+    let oldPass = document.getElementById("old_pass").value.trim();
+    let newPass = document.getElementById("new_pass").value.trim();
 
-if(user=="" || oldPass=="" || newPass==""){
-alert("Please fill all fields");
-return;
-}
+    // Check if any fields are empty
+    if(user == "" || oldPass == "" || newPass == ""){
+        // Set the error message
+        document.getElementById("errorText").innerText = "Please fill all fields before updating.";
+        // Show your custom error popup instead of alert
+        document.getElementById("errorPopup").style.display = "flex";
+        return;
+    }
 
-// show loader
-document.getElementById("cpLoader").style.display="flex";
+    // show loader if fields are filled
+    document.getElementById("cpLoader").style.display = "flex";
 
-let formData = new URLSearchParams();
-formData.append("username", user);
-formData.append("oldPassword", oldPass);
-formData.append("newPassword", newPass);
+    let formData = new URLSearchParams();
+    formData.append("username", user);
+    formData.append("oldPassword", oldPass);
+    formData.append("newPassword", newPass);
 
-fetch("https://script.google.com/macros/s/AKfycbwpKkkmsAJiaq0-Be6s3sRrCjn1fRxyNpKYXYHzh7Wug30OaSmq-0mRXz_P3hWxdANv/exec", {
-method:"POST",
-body: formData
-})
-.then(res => res.text())
-.then(text => {
+    fetch("https://script.google.com/macros/s/AKfycbwpKkkmsAJiaq0-Be6s3sRrCjn1fRxyNpKYXYHzh7Wug30OaSmq-0mRXz_P3hWxdANv/exec", {
+        method:"POST",
+        body: formData
+    })
+    .then(res => res.text())
+    .then(text => {
+        document.getElementById("cpLoader").style.display = "none";
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch(e) {
+            data = {status:"fail"};
+        }
 
-// hide loader
-document.getElementById("cpLoader").style.display="none";
-
-let data;
-
-try{
-data = JSON.parse(text);
-}catch(e){
-console.log("Server response:", text);
-data = {status:"fail"};
-}
-
-// ✅ SUCCESS
-// Inside your changePassword() function:
-if(data.status === "updated") {
-    // 1. Hide the change password box first
-    document.getElementById("changeBox").style.display = "none"; 
-    
-    // 2. Then show the success popup
-    document.getElementById("successPopup").style.display = "flex";
-} else {
-    // Show error nicely
-    document.getElementById("errorText").innerText = "Invalid Username or Old Password";
-    document.getElementById("errorPopup").style.display = "flex";
-}
-
-})
-.catch(err=>{
-document.getElementById("cpLoader").style.display="none";
-document.getElementById("error").innerText="Server Error";
-});
+        if(data.status === "updated"){
+            // Hide the change password box and show success
+            document.getElementById("changeBox").style.display = "none";
+            document.getElementById("successPopup").style.display = "flex";
+        } else {
+            document.getElementById("errorText").innerText = "Invalid Username or Old Password";
+            document.getElementById("errorPopup").style.display = "flex";
+        }
+    })
+    .catch(err => {
+        document.getElementById("cpLoader").style.display = "none";
+        document.getElementById("errorText").innerText = "Server Error. Please try again.";
+        document.getElementById("errorPopup").style.display = "flex";
+    });
 }
 
 
