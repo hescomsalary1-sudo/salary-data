@@ -1,260 +1,208 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <title>Profile</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* PREMIUM THEME VARIABLES */
-:root {
-    --primary: #4338ca;
-    --primary-light: #6366f1;
-    --accent: #f59e0b;
-    --bg-light: #f8fafc;
-    --card-bg: rgba(255, 255, 255, 0.8);
-    --text-main: #1e293b;
-    --text-muted: #64748b;
-    --glass-border: rgba(255, 255, 255, 0.3);
-}
-
+/* MODERN RESET */
 body {
-    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    font-family: 'Inter', -apple-system, sans-serif;
     margin: 0;
-    background: radial-gradient(circle at top right, #e0e7ff, #f8fafc);
-    color: var(--text-main);
+    background: #f1f5f9;
+    color: #1e293b;
     padding-bottom: 40px;
-    line-height: 1.5;
 }
 
-/* PREMIUM HEADER */
+/* PREMIUM TOP HEADER */
 .top {
-    padding: 30px 20px;
-    background: transparent;
+    padding: 20px;
+    background: #ffffff;
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
+    border-bottom: 1px solid #e2e8f0;
 }
 
 .top .icon {
-    width: 44px;
-    height: 44px;
-    background: white;
-    color: var(--primary);
+    width: 40px;
+    height: 40px;
+    background: #f1f5f9;
+    color: #4338ca;
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    font-size: 20px;
 }
 
 .top h2 {
     margin: 0;
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    color: var(--primary);
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
 }
 
-/* MAIN CONTENT */
+/* CONTENT CONTAINER */
 .content {
-    padding: 0 20px;
+    padding: 12px;
 }
 
+/* MAIN CARD CONTAINER */
 .card {
     background: transparent;
-    box-shadow: none; /* Removed old shadow for cleaner stack */
 }
 
-/* PROFILE HEADER - GLASS EFFECTS */
+/* PROFILE HEADER CARD */
 .profile-header {
     background: linear-gradient(135deg, #4338ca, #6366f1);
     color: white;
-    padding: 25px;
-    border-radius: 28px;
+    padding: 20px;
+    border-radius: 20px;
     display: flex;
     align-items: center;
-    gap: 20px;
-    margin-bottom: 25px;
-    box-shadow: 0 20px 25px -5px rgba(67, 56, 202, 0.25);
-    position: relative;
-    overflow: hidden;
-}
-
-.profile-header::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -20%;
-    width: 200px;
-    height: 200px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 50%;
+    gap: 15px;
+    margin-bottom: 12px;
+    box-shadow: 0 10px 15px -3px rgba(67, 56, 202, 0.2);
 }
 
 .avatar {
-    width: 70px;
-    height: 70px;
-    border-radius: 22px;
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 800;
 }
 
 .profile-name {
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: -0.3px;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
 }
 
 .profile-desg {
-    font-size: 14px;
-    opacity: 0.9;
-    font-weight: 500;
+    font-size: 13px;
+    opacity: 0.85;
 }
 
-/* STATS - COMPACT & BOLD */
+/* COMPACT STATS */
 .stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-bottom: 25px;
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
 .stat-card {
-    background: white;
-    color: var(--text-main);
-    padding: 16px;
-    border-radius: 20px;
+    background: #ffffff;
+    padding: 12px;
+    border-radius: 16px;
     border: 1px solid #e2e8f0;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
-.stat-card:first-child {
-    border-left: 4px solid var(--primary);
-}
-
-.stat-card:last-child {
-    border-left: 4px solid var(--accent);
-}
+.stat-card:first-child { border-left: 4px solid #6366f1; }
+.stat-card:last-child { border-left: 4px solid #f59e0b; }
 
 .stat-card label {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
-    color: var(--text-muted);
-    letter-spacing: 0.5px;
+    color: #64748b;
+    display: block;
+    margin-bottom: 4px;
 }
 
 .stat-card p {
-    margin: 8px 0 0 0;
-    font-weight: 800;
-    font-size: 14px;
-    color: #0f172a;
+    margin: 0;
+    font-weight: 700;
+    font-size: 12px;
+    color: #1e293b;
+    line-height: 1.3;
 }
 
 /* SECTIONS */
 .section {
-    background: var(--card-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    padding: 24px;
-    border-radius: 28px;
-    margin-top: 20px;
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04);
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 20px;
+    margin-top: 12px;
+    border: 1px solid #e2e8f0;
 }
 
 .section-title {
     font-weight: 800;
-    font-size: 16px;
-    margin-bottom: 20px;
-    color: var(--primary);
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    font-size: 14px;
+    margin-bottom: 12px;
+    color: #4338ca;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 6px;
 }
 
-.section-title::before {
-    content: '';
-    width: 4px;
-    height: 18px;
-    background: var(--accent);
-    border-radius: 10px;
-}
-
-/* GRID & ITEMS */
+/* COMPACT GRID */
 .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 8px; /* Decreased gap */
 }
 
+/* PROFILE ITEM */
 .profile-item {
-    background: rgba(248, 250, 252, 0.8);
-    padding: 14px;
-    border-radius: 16px;
-    border: 1px solid rgba(0,0,0,0.02);
+    background: #f8fafc;
+    padding: 8px 10px; /* Decreased padding */
+    border-radius: 10px;
 }
 
 .profile-item label {
     font-size: 10px;
-    font-weight: 700;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    margin-bottom: 4px;
+    color: #94a3b8;
+    font-weight: 600;
+    display: block;
 }
 
 .profile-item p {
-    margin: 0;
-    font-size: 13px;
+    margin: 2px 0 0 0;
+    font-size: 12px;
     font-weight: 700;
-    color: #1e293b;
+    color: #334155;
 }
 
-/* BACK BUTTON */
-.back-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 14px;
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    border: 1px solid #f1f5f9;
-}
-
-/* DARK MODE OVERRIDES */
+/* DARK MODE */
 .dark-mode {
     background: #0f172a;
     color: #f8fafc;
 }
 
-.dark-mode .section {
-    background: rgba(30, 41, 59, 0.7);
-    border-color: rgba(255,255,255,0.05);
-}
-
-.dark-mode .profile-item {
-    background: rgba(15, 23, 42, 0.5);
-}
-
-.dark-mode .stat-card {
+.dark-mode .top, .dark-mode .section, .dark-mode .stat-card {
     background: #1e293b;
     border-color: #334155;
-    color: white;
 }
 
-.dark-mode .stat-card p { color: white; }
-.dark-mode .top .icon, .dark-mode .back-btn { background: #1e293b; border-color: #334155; }
-.dark-mode .top h2 { color: white; }
+.dark-mode .top h2, .dark-mode .stat-card p { color: #f8fafc; }
+.dark-mode .profile-item { background: #0f172a; }
+.dark-mode .profile-item p { color: #e2e8f0; }
+
+/* BACK BUTTON */
+.back-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.back-btn:active { transform: scale(0.95); }
 
 </style>
 </head>
@@ -264,7 +212,7 @@ body {
 <div class="top">
   <div class="back-btn" onclick="goBack()">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-      <path d="M15 18L9 12L15 6" stroke="#4338ca" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M15 18L9 12L15 6" stroke="#4338ca" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </div>
   <div class="icon">👤</div>
@@ -272,133 +220,145 @@ body {
 </div>
 
 <div class="content">
-  <div class="card">
-    <div id="data"></div>
-  </div>
+<div class="card">
+<div id="data"></div>
+</div>
 </div>
 
 <script>
-/* ALL ORIGINAL JAVASCRIPT LOGIC REMAINS UNCHANGED */
 let user = localStorage.getItem("currentUser");
-if(!user){ window.location="login.html"; }
+
+if(!user){
+window.location="login.html";
+}
 
 function parseDate(dateStr){
-  if(!dateStr) return null;
-  let parts = dateStr.split("-");
-  if(parts.length === 3){
-    let day = parseInt(parts[0]);
-    let month = parseInt(parts[1]) - 1;
-    let year = parseInt(parts[2]);
-    return new Date(year, month, day);
-  }
-  return new Date(dateStr);
+if(!dateStr) return null;
+let parts = dateStr.split("-");
+if(parts.length === 3){
+let day = parseInt(parts[0]);
+let month = parseInt(parts[1]) - 1;
+let year = parseInt(parts[2]);
+return new Date(year, month, day);
+}
+return new Date(dateStr);
 }
 
 function calculateService(joinDate){
-  let start = parseDate(joinDate);
-  let today = new Date();
-  if(!start) return "";
-  let years = today.getFullYear() - start.getFullYear();
-  let months = today.getMonth() - start.getMonth();
-  let days = today.getDate() - start.getDate();
-  if(days < 0){
-    months--;
-    let prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
-    days += prevMonth.getDate();
-  }
-  if(months < 0){ years--; months += 12; }
-  return years+"y "+months+"m "+days+"d";
+let start = parseDate(joinDate);
+let today = new Date();
+if(!start) return "";
+let years = today.getFullYear() - start.getFullYear();
+let months = today.getMonth() - start.getMonth();
+let days = today.getDate() - start.getDate();
+if(days < 0){
+months--;
+let prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+days += prevMonth.getDate();
+}
+if(months < 0){
+years--;
+months += 12;
+}
+return years+"Y "+months+"M "+days+"D";
 }
 
 function retirementCountdown(retDate){
-  let retire = parseDate(retDate);
-  let today = new Date();
-  if(!retire) return "";
-  let years = retire.getFullYear() - today.getFullYear();
-  let months = retire.getMonth() - today.getMonth();
-  let days = retire.getDate() - today.getDate();
-  if(days < 0){
-    months--;
-    let prevMonth = new Date(retire.getFullYear(), retire.getMonth(), 0);
-    days += prevMonth.getDate();
-  }
-  if(months < 0){ years--; months += 12; }
-  return years+"y "+months+"m remaining";
+let retire = parseDate(retDate);
+let today = new Date();
+if(!retire) return "";
+let years = retire.getFullYear() - today.getFullYear();
+let months = retire.getMonth() - today.getMonth();
+let days = retire.getDate() - today.getDate();
+if(days < 0){
+months--;
+let prevMonth = new Date(retire.getFullYear(), retire.getMonth(), 0);
+days += prevMonth.getDate();
+}
+if(months < 0){
+years--;
+months += 12;
+}
+return years+"Y "+months+"M "+days+"D";
 }
 
 async function loadProfile(){
-  let response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
-  let text = await response.text();
-  let rows = text.trim().split("\n");
+let response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
+let text = await response.text();
+let rows = text.trim().split("\n");
 
-  for(let i=1;i<rows.length;i++){
-    let cols = rows[i].split(",");
-    if(cols[0].trim() === user.trim()){
-      let service = calculateService(cols[18]);
-      let retirement = retirementCountdown(cols[6]);
+for(let i=1;i<rows.length;i++){
+let cols = rows[i].split(",");
+if(cols[0].trim() === user.trim()){
+let service = calculateService(cols[18]);
+let retirement = retirementCountdown(cols[6]);
 
-      document.getElementById("data").innerHTML = `
-        <div class="profile-header">
-          <div class="avatar">${cols[1].charAt(0)}</div>
-          <div>
-            <div class="profile-name">${cols[1]}</div>
-            <div class="profile-desg">${cols[2]}</div>
-          </div>
-        </div>
+document.getElementById("data").innerHTML = `
+<div class="profile-header">
+<div class="avatar">${cols[1].charAt(0)}</div>
+<div>
+<div class="profile-name">${cols[1]}</div>
+<div class="profile-desg">${cols[2]}</div>
+</div>
+</div>
 
-        <div class="stats">
-          <div class="stat-card">
-            <label>Service Length</label>
-            <p>${service}</p>
-          </div>
-          <div class="stat-card">
-            <label>Retirement</label>
-            <p>${retirement}</p>
-          </div>
-        </div>
+<div class="stats">
+<div class="stat-card">
+<label>Service Length</label>
+<p>${service}</p>
+</div>
+<div class="stat-card">
+<label>Retirement In</label>
+<p>${retirement}</p>
+</div>
+</div>
 
-        <div class="section">
-          <div class="section-title">Basic Information</div>
-          <div class="grid">
-            <div class="profile-item"><label>Designation</label><p>${cols[23]}</p></div>
-            <div class="profile-item"><label>Working Place</label><p>${cols[3]}</p></div>
-            <div class="profile-item"><label>District</label><p>${cols[16]}</p></div>
-            <div class="profile-item"><label>Home Town</label><p>${cols[17]}</p></div>
-          </div>
-        </div>
+<div class="section">
+<div class="section-title">Basic Information</div>
+<div class="grid">
+<div class="profile-item"><label>Designation</label><p>${cols[23]}</p></div>
+<div class="profile-item"><label>Working Place</label><p>${cols[3]}</p></div>
+<div class="profile-item"><label>District</label><p>${cols[16]}</p></div>
+<div class="profile-item"><label>Home Town</label><p>${cols[17]}</p></div>
+</div>
+</div>
 
-        <div class="section">
-          <div class="section-title">Personal Details</div>
-          <div class="grid">
-            <div class="profile-item"><label>Mobile</label><p>${cols[4]}</p></div>
-            <div class="profile-item"><label>Email</label><p>${cols[8]}</p></div>
-            <div class="profile-item"><label>DOB</label><p>${cols[5]}</p></div>
-            <div class="profile-item"><label>Status</label><p>${cols[11]}</p></div>
-            <div class="profile-item"><label>Qualification</label><p>${cols[12]}</p></div>
-            <div class="profile-item"><label>Category</label><p>${cols[14]}</p></div>
-          </div>
-        </div>
+<div class="section">
+<div class="section-title">Personal Details</div>
+<div class="grid">
+<div class="profile-item"><label>Mobile</label><p>${cols[4]}</p></div>
+<div class="profile-item"><label>Email</label><p>${cols[8]}</p></div>
+<div class="profile-item"><label>Date of Birth</label><p>${cols[5]}</p></div>
+<div class="profile-item"><label>Marital Status</label><p>${cols[11]}</p></div>
+<div class="profile-item"><label>Qualification</label><p>${cols[12]}</p></div>
+<div class="profile-item"><label>Religion</label><p>${cols[13]}</p></div>
+<div class="profile-item"><label>Category</label><p>${cols[14]}</p></div>
+<div class="profile-item"><label>Caste Name</label><p>${cols[15]}</p></div>
+</div>
+</div>
 
-        <div class="section">
-          <div class="section-title">Service Details</div>
-          <div class="grid">
-            <div class="profile-item"><label>Joining Date</label><p>${cols[18]}</p></div>
-            <div class="profile-item"><label>Retirement Date</label><p>${cols[6]}</p></div>
-            <div class="profile-item"><label>Pension Type</label><p>${cols[26]}</p></div>
-            <div class="profile-item"><label>NDCPS No</label><p>${cols[27]}</p></div>
-          </div>
-        </div>
-      `;
-      return;
-    }
-  }
-  document.getElementById("data").innerHTML="User not found.";
+<div class="section">
+<div class="section-title">Service Details</div>
+<div class="grid">
+<div class="profile-item"><label>Joining Date</label><p>${cols[18]}</p></div>
+<div class="profile-item"><label>Joining Desg.</label><p>${cols[19]}</p></div>
+<div class="profile-item"><label>Retirement Date</label><p>${cols[6]}</p></div>
+<div class="profile-item"><label>Pension Type</label><p>${cols[26]}</p></div>
+<div class="profile-item"><label>NDCPS No</label><p>${cols[27]}</p></div>
+<div class="profile-item"><label>Working From</label><p>${cols[28]}</p></div>
+</div>
+</div>
+`;
+return;
+}
+}
+document.getElementById("data").innerHTML="User not found.";
 }
 
 loadProfile();
 
 if(localStorage.getItem("darkMode")==="true"){
-    document.body.classList.add("dark-mode");
+document.body.classList.add("dark-mode");
 }
 function goBack(){ window.history.back(); }
 </script>
