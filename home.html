@@ -1222,15 +1222,17 @@ document.getElementById("empName").innerText=loginUser;
 loadUserProfile();
 
 function logout(){
-
-let confirmLogout = confirm("Are you sure you want to logout?");
-
-if(confirmLogout){
-localStorage.removeItem("currentUser");
-localStorage.removeItem("role");
-window.location.href="login.html";
+  document.getElementById("logoutPopup").style.display = "flex";
 }
 
+function closeLogout(){
+  document.getElementById("logoutPopup").style.display = "none";
+}
+
+function confirmLogout(){
+  localStorage.removeItem("currentUser");
+  localStorage.removeItem("role");
+  window.location.href="login.html";
 }
 
 async function loadCurrentMonthSalary(){
@@ -1620,5 +1622,71 @@ document.addEventListener("touchend", function(){
   isSwiping = false;
 });
 </script>
+  <!-- LOGOUT POPUP -->
+<div id="logoutPopup" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:3000;
+">
+
+  <div style="
+  background:white;
+  padding:20px;
+  border-radius:20px;
+  width:85%;
+  max-width:320px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+  animation:scaleIn 0.25s ease;
+  ">
+
+    <h3 style="margin-top:0;color:#2400b7;">Logout</h3>
+    <p style="font-size:14px;color:#555;">
+      Are you sure you want to logout?
+    </p>
+
+    <div style="display:flex;gap:10px;margin-top:15px;">
+      
+      <button onclick="closeLogout()" style="
+      flex:1;
+      padding:10px;
+      border:none;
+      border-radius:10px;
+      background:#eee;
+      cursor:pointer;
+      ">
+      Cancel
+      </button>
+
+      <button onclick="confirmLogout()" style="
+      flex:1;
+      padding:10px;
+      border:none;
+      border-radius:10px;
+      background:#2400b7;
+      color:white;
+      cursor:pointer;
+      ">
+      Logout
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+<style>
+@keyframes scaleIn{
+  from{transform:scale(0.8);opacity:0;}
+  to{transform:scale(1);opacity:1;}
+}
+</style>
 </body>
 </html>
