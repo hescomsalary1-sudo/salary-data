@@ -1568,6 +1568,7 @@ let isHorizontal = false;
 document.addEventListener("touchstart", function(e){
   startX = e.touches[0].clientX;
   startY = e.touches[0].clientY;
+
   isSwiping = true;
   isHorizontal = false;
 }, {passive:true});
@@ -1584,35 +1585,34 @@ document.addEventListener("touchmove", function(e){
   let absX = Math.abs(diffX);
   let absY = Math.abs(diffY);
 
-  // 🔥 THE FIX: Prioritize Horizontal over Vertical
+  // 🔥 THE FIX: Prioritize Horizontal Ratio
   if(!isHorizontal){
-    // If horizontal movement is greater than vertical, lock to swipe
+    // If the movement is more horizontal than vertical, lock it to swipe mode
+    // This allows for a "diagonal" swipe without triggering a scroll
     if(absX > absY && absX > 10){
       isHorizontal = true;
     } 
-    // Only kill the swipe if vertical movement is dominant and significant
-    else if(absY > absX && absY > 25){
+    // Only kill the swipe if the movement is clearly and primarily vertical
+    else if(absY > absX && absY > 20){
       isSwiping = false;
       return;
     }
   }
 
   if(isHorizontal){
-    // Prevent the background from scrolling while swiping the menu
+    // Stop the browser from scrolling the page vertically while we swipe the menu
     if (e.cancelable) e.preventDefault(); 
 
-    // 👉 OPEN (RIGHT swipe from edge)
-    if(!document.getElementById("sideNav").classList.contains("open")){
-       if(startX < 60 && diffX > 50){
-         openSideNav();
-         isSwiping = false;
-       }
+    // 👉 OPEN (RIGHT swipe) - restricted to the left edge for better UX
+    if(startX < 80 && diffX > 60){
+      openSideNav();
+      isSwiping = false; // Action complete
     }
 
-    // 👉 CLOSE (LEFT swipe anywhere)
-    if(diffX < -50){
+    // 👉 CLOSE (LEFT swipe)
+    if(diffX < -60){
       closeSideNav();
-      isSwiping = false;
+      isSwiping = false; // Action complete
     }
   }
 
