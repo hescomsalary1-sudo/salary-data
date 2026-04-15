@@ -1568,7 +1568,7 @@ document.addEventListener("touchstart", function(e){
   startX = e.touches[0].clientX;
   startY = e.touches[0].clientY;
   isSwiping = true;
-});
+}, {passive:true});
 
 document.addEventListener("touchmove", function(e){
   if(!isSwiping) return;
@@ -1577,28 +1577,31 @@ document.addEventListener("touchmove", function(e){
   let currentY = e.touches[0].clientY;
 
   let diffX = currentX - startX;
-  let diffY = Math.abs(currentY - startY);
+  let diffY = currentY - startY;
 
-  // ignore vertical scroll
-  if(diffY > 30) return;
+  let absX = Math.abs(diffX);
+  let absY = Math.abs(diffY);
 
-  // 👉 OPEN (more flexible edge detection)
-  if(startX < 200 && diffX > 50){
+  // 🔥 NEW FLEXIBLE LOGIC (key fix)
+  let isSwipe = absX > 30 && absX > (absY * 0.3);
+
+  // 👉 OPEN (RIGHT swipe, allow diagonal down also)
+  if(startX < 300 && diffX > 40 && isSwipe){
     openSideNav();
     isSwiping = false;
   }
 
-  // 👉 CLOSE (anywhere swipe left)
-  if(diffX < -50){
+  // 👉 CLOSE (LEFT swipe)
+  if(diffX < -40 && isSwipe){
     closeSideNav();
     isSwiping = false;
   }
-});
+
+}, {passive:true});
 
 document.addEventListener("touchend", function(){
   isSwiping = false;
 });
-
   async function loadUserCount(){
 
   try{
