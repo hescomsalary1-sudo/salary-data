@@ -700,8 +700,8 @@ color:#777;
 
 /* OPEN STATE */
 /* These classes are toggled by the Script below */
-#sideNav.open { transform: translateX(0); }
-#sideOverlay.show { opacity: 1; visibility: visible; }
+
+
 
 /* HEADER */
 .side-header{
@@ -1554,98 +1554,64 @@ function closeSideNav(){
 }
 </script>
 <script>
-/* UPDATED MODERN SWIPE LOGIC */
-
-let sideNav = document.getElementById("sideNav");
-let sideOverlay = document.getElementById("sideOverlay");
+// 1. SELECT ELEMENTS (Do this only once!)
+const sideNav = document.getElementById("sideNav");
+const sideOverlay = document.getElementById("sideOverlay");
 let startX = 0;
 let currentX = 0;
 let isDragging = false;
 const navWidth = 280;
 
-// Get elements once
-const sideNav = document.getElementById("sideNav");
-const sideOverlay = document.getElementById("sideOverlay");
-
-// 1. OPEN FUNCTION
+// 2. OPEN/CLOSE FUNCTIONS
 function openSideNav() {
     sideNav.classList.add("open");
     sideOverlay.classList.add("show");
     
-    // Sync names from the main page to the sidebar
-    document.getElementById("sideName").innerText = document.getElementById("empName").innerText;
-    document.getElementById("sideRole").innerText = document.getElementById("empDesg").innerText;
+    // Sync names
+    const name = document.getElementById("empName").innerText;
+    const role = document.getElementById("empDesg").innerText;
+    document.getElementById("sideName").innerText = name;
+    document.getElementById("sideRole").innerText = role;
+    
+    document.body.style.overflow = "hidden"; // Prevent background scroll
 }
 
-// 2. CLOSE FUNCTION
 function closeSideNav() {
     sideNav.classList.remove("open");
     sideOverlay.classList.remove("show");
-    sideNav.style.transform = ""; // Reset any manual drag positions
+    sideNav.style.transform = ""; // Reset drag positions
+    document.body.style.overflow = "auto";
 }
 
-// 3. SWIPE TO CLOSE (Mobile Optimized)
-let startX = 0;
+// 3. MODERN SWIPE LOGIC
 document.addEventListener("touchstart", (e) => {
     startX = e.touches[0].clientX;
-}, {passive: true});
-
-document.addEventListener("touchmove", (e) => {
-    if (!sideNav.classList.contains("open")) return;
-    
-    let currentX = e.touches[0].clientX;
-    let diff = currentX - startX;
-
-    // Only allow dragging to the left (closing)
-    if (diff < 0) {
-        sideNav.style.transition = "none";
-        sideNav.style.transform = `translateX(${diff}px)`;
-    }
-}, {passive: true});
-
-document.addEventListener("touchend", (e) => {
-    let endX = e.changedTouches[0].clientX;
-    sideNav.style.transition = "transform 0.3s ease";
-    
-    // If swiped left more than 80px, close it
-    if (startX - endX > 80 && sideNav.classList.contains("open")) {
-        closeSideNav();
-    } else {
-        sideNav.style.transform = ""; // Snap back to open
-    }
-});
-
-// TOUCH EVENTS
-document.addEventListener("touchstart", (e) => {
-    startX = e.touches[0].clientX;
-    // Only allow swipe from left edge (0-40px) OR if nav is already open
-    if (startX < 40 || sideNav.classList.contains("open")) {
+    // Drag from left edge OR if menu is already open
+    if (startX < 50 || sideNav.classList.contains("open")) {
         isDragging = true;
-        sideNav.style.transition = "none"; // Disable transition while dragging
+        sideNav.style.transition = "none";
     }
 }, {passive: true});
 
 document.addEventListener("touchmove", (e) => {
     if (!isDragging) return;
-
     currentX = e.touches[0].clientX;
-    let diffX = currentX - startX;
+    let diff = currentX - startX;
 
-    // Logic for dragging open
-    if (!sideNav.classList.contains("open")) {
-        if (diffX > 0 && diffX <= navWidth) {
-            let translateX = -navWidth + diffX;
-            sideNav.style.transform = `translateX(${translateX}px)`;
-            // Fade overlay based on drag distance
-            sideOverlay.style.visibility = "visible";
-            sideOverlay.style.opacity = (diffX / navWidth) * 0.5;
+    // If closing (swiping left)
+    if (sideNav.classList.contains("open") && diff < 0) {
+        if (Math.abs(diff) <= navWidth) {
+            sideNav.style.transform = `translateX(${diff}px)`;
+            sideOverlay.style.opacity = 0.5 - (Math.abs(diff) / navWidth) * 0.5;
         }
     } 
-    // Logic for dragging closed
-    else {
-        if (diffX < 0 && Math.abs(diffX) <= navWidth) {
-            sideNav.style.transform = `translateX(${diffX}px)`;
-            sideOverlay.style.opacity = 0.5 - (Math.abs(diffX) / navWidth) * 0.5;
+    // If opening (swiping right from edge)
+    else if (!sideNav.classList.contains("open") && diff > 0) {
+        let move = -navWidth + diff;
+        if (move <= 0) {
+            sideNav.style.transform = `translateX(${move}px)`;
+            sideOverlay.style.visibility = "visible";
+            sideOverlay.style.opacity = (diff / navWidth) * 0.5;
         }
     }
 }, {passive: true});
@@ -1653,24 +1619,19 @@ document.addEventListener("touchmove", (e) => {
 document.addEventListener("touchend", (e) => {
     if (!isDragging) return;
     isDragging = false;
+    sideNav.style.transition = "transform 0.3s ease";
     
-    sideNav.style.transition = "transform 0.3s cubic-bezier(0.15, 0, 0.15, 1)";
-    let diffX = currentX - startX;
+    let endX = e.changedTouches[0].clientX;
+    let finalDiff = endX - startX;
 
-    if (!sideNav.classList.contains("open")) {
-        // If dragged more than 20%, snap open
-        if (diffX > 60) {
-            openSideNav();
-        } else {
-            closeSideNav();
-        }
+    if (sideNav.classList.contains("open")) {
+        // If swiped left more than 80px, close it
+        if (finalDiff < -80) closeSideNav();
+        else openSideNav();
     } else {
-        // If dragged left more than 60px, snap closed
-        if (diffX < -60) {
-            closeSideNav();
-        } else {
-            openSideNav();
-        }
+        // If swiped right more than 80px, open it
+        if (finalDiff > 80) openSideNav();
+        else closeSideNav();
     }
 });
 
