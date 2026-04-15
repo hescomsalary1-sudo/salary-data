@@ -1564,13 +1564,20 @@ let startX = 0;
 let startY = 0;
 let isSwiping = false;
 let isHorizontal = false;
+const navWidth = 280; 
+const sideNav = document.getElementById("sideNav");
+const sideOverlay = document.getElementById("sideOverlay");
 
 document.addEventListener("touchstart", function(e){
   startX = e.touches[0].clientX;
   startY = e.touches[0].clientY;
 
-  isSwiping = true;
-  isHorizontal = false;
+  // Only start swiping if near the edge (left 60px) OR if nav is already open
+  if (startX < 60 || sideNav.classList.contains("open")) {
+    isSwiping = true;
+    isHorizontal = false;
+    sideNav.style.transition = "none"; // Disable animation for instant tracking
+  }
 }, {passive:true});
 
 document.addEventListener("touchmove", function(e){
@@ -1585,40 +1592,53 @@ document.addEventListener("touchmove", function(e){
   let absX = Math.abs(diffX);
   let absY = Math.abs(diffY);
 
-  // 🔥 Decide direction early (KEY FIX)
+  // 🔥 DIAGONAL FIX: Only lock horizontal if X movement is clearly greater than Y
   if(!isHorizontal){
-
-    if(absX > 12){
-      isHorizontal = true;   // treat as swipe
-    }
-    else if(absY > 20){
-      isSwiping = false;     // treat as scroll
+    if(absX > absY && absX > 10){
+      isHorizontal = true;
+    } else if(absY > absX && absY > 10){
+      isSwiping = false; // It's a vertical scroll, abort swipe logic
       return;
     }
   }
 
   if(isHorizontal){
+    if (e.cancelable) e.preventDefault(); // Lock screen scroll
 
-    e.preventDefault(); // 🔥 stop scroll only for swipe
-
-    // 👉 OPEN (RIGHT swipe)
-    if(startX < 320 && diffX > 50){
-      openSideNav();
-      isSwiping = false;
-    }
-
-    // 👉 CLOSE (LEFT swipe)
-    if(diffX < -50){
-      closeSideNav();
-      isSwiping = false;
+    // 👉 TRACKING LOGIC (Menu follows finger)
+    if(sideNav.classList.contains("open")){
+        // Swiping to close (from open state)
+        let move = Math.min(0, Math.max(-navWidth, diffX));
+        sideNav.style.transform = `translateX(${move}px)`;
+        sideOverlay.style.opacity = 1 - (Math.abs(move) / navWidth);
+    } else {
+        // Swiping to open (from closed state)
+        let move = Math.min(0, -navWidth + diffX);
+        sideNav.style.transform = `translateX(${move}px)`;
+        sideOverlay.style.visibility = "visible";
+        sideOverlay.style.opacity = (diffX / navWidth);
     }
   }
-
 }, {passive:false});
 
-document.addEventListener("touchend", function(){
+document.addEventListener("touchend", function(e){
+  if(!isSwiping || !isHorizontal) return;
+
+  let endX = e.changedTouches[0].clientX;
+  let diffX = endX - startX;
+
   isSwiping = false;
   isHorizontal = false;
+  sideNav.style.transition = "transform 0.3s cubic-bezier(0.15, 0, 0.15, 1)";
+
+  // Final Decision: Should it snap open or shut?
+  if(sideNav.classList.contains("open")){
+    if(diffX < -80) closeSideNav(); // Swiped left enough to close
+    else openSideNav();             // Snap back to open
+  } else {
+    if(diffX > 80) openSideNav();   // Swiped right enough to open
+    else closeSideNav();            // Snap back to closed
+  }
 });
   async function loadUserCount(){
 
