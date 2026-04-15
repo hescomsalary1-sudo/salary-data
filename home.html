@@ -1568,7 +1568,7 @@ document.addEventListener("touchstart", function(e){
   startX = e.touches[0].clientX;
   startY = e.touches[0].clientY;
   isSwiping = true;
-});
+}, {passive:true});
 
 document.addEventListener("touchmove", function(e){
   if(!isSwiping) return;
@@ -1582,22 +1582,26 @@ document.addEventListener("touchmove", function(e){
   let absX = Math.abs(diffX);
   let absY = Math.abs(diffY);
 
-  // 🔥 allow diagonal up to 2x vertical movement
-  let isValidSwipe = absX > 30 && absX > (absY * 0.5);
+  // 🔥 VERY FLEXIBLE CONDITION
+  let isSwipe = absX > 30 && absX > (absY * 0.3);
 
-  // 👉 OPEN (right swipe)
-  if(startX < 300 && diffX > 40 && isValidSwipe){
+  // 👉 OPEN (RIGHT SWIPE)
+  if(startX < 320 && diffX > 40 && isSwipe){
+
+    e.preventDefault(); // 🔥 STOP SCROLL (important)
     openSideNav();
     isSwiping = false;
   }
 
-  // 👉 CLOSE (left swipe)
-  if(diffX < -40 && isValidSwipe){
+  // 👉 CLOSE (LEFT SWIPE)
+  if(diffX < -40 && isSwipe){
+
+    e.preventDefault(); // 🔥 STOP SCROLL
     closeSideNav();
     isSwiping = false;
   }
 
-});
+}, {passive:false}); // 🔥 important for preventDefault
 
 document.addEventListener("touchend", function(){
   isSwiping = false;
