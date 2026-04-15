@@ -392,11 +392,19 @@ document.getElementById("errorText").innerText="Invalid Username or Password";
 document.getElementById("errorPopup").style.display="flex";
 return;
 }
+let deviceId = localStorage.getItem("deviceId");
 
+if(!deviceId){
+  deviceId = "DEV-" + Date.now() + "-" + Math.floor(Math.random()*10000);
+  localStorage.setItem("deviceId", deviceId);
+}
 // show loader
 document.getElementById("loader").style.display="flex";
 
-let url = "https://script.google.com/macros/s/AKfycbzeO5RppL-lE_62OuL4VQ5FYZiehPMPFsH6NC9X2_i40YEIzXPPjW8-QUH1QpfS1Jg1/exec?username=" + user + "&password=" + pass;
+let url = "https://script.google.com/macros/s/AKfycbzeO5RppL-lE_62OuL4VQ5FYZiehPMPFsH6NC9X2_i40YEIzXPPjW8-QUH1QpfS1Jg1/exec"
+  + "?username=" + user
+  + "&password=" + pass
+  + "&deviceId=" + deviceId;
 
 fetch(url)
 .then(res => res.text())
