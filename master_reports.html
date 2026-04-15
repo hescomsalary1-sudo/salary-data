@@ -30,23 +30,41 @@ border-bottom-right-radius:25px;
 padding:15px;
 }
 
-/* BUTTON */
+/* BUTTON GRID SYSTEM */
+.report-grid {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 10px;
+margin-bottom: 20px;
+}
+
 .btn{
 width:100%;
 padding:12px;
-margin-bottom:10px;
 border:none;
 border-radius:10px;
 background:linear-gradient(135deg,#6c39ff,#4b2dd8);
 color:white;
 font-weight:600;
+font-size: 13px;
 cursor:pointer;
 transition:0.3s;
+display: flex;
+align-items: center;
+justify-content: center;
+text-align: center;
 }
 
-.btn:hover{
-transform:translateY(-2px);
-box-shadow:0 6px 15px rgba(0,0,0,0.2);
+/* Full width buttons for main actions */
+.full-btn {
+grid-column: span 2;
+background: linear-gradient(135deg, #2400b7, #111);
+margin-bottom: 5px;
+}
+
+.btn:active{
+transform:scale(0.95);
+box-shadow:0 2px 8px rgba(0,0,0,0.2);
 }
 
 /* TABLE */
@@ -54,6 +72,7 @@ box-shadow:0 6px 15px rgba(0,0,0,0.2);
 overflow:auto;
 border-radius:10px;
 box-shadow:0 4px 12px rgba(0,0,0,0.1);
+margin-top: 10px;
 }
 
 table{
@@ -61,13 +80,14 @@ width:100%;
 border-collapse:collapse;
 background:white;
 font-size:12px;
-min-width:600px;
+min-width:800px; /* Increased for more columns */
 }
 
 th,td{
-padding:6px;
+padding:8px;
 border:1px solid #ddd;
 text-align:left;
+white-space: nowrap;
 }
 
 th{
@@ -116,14 +136,23 @@ animation:spin 1s linear infinite;
 
 <div class="content">
 
-<button class="btn" onclick="loadData()">📊 View Full Data</button>
-<button class="btn" onclick="downloadFullCSV()">⬇ Download Full CSV</button>
+    <div class="report-grid">
+        <button class="btn full-btn" onclick="loadData('all')">📊 View Full Data</button>
+        
+        <button class="btn" onclick="loadData('Male')">👨 Male Report</button>
+        <button class="btn" onclick="loadData('Female')">👩 Female Report</button>
+        
+        <button class="btn" onclick="loadData('PH')">♿ Disabled (PH)</button>
+        <button class="btn" onclick="loadData('Leave')">📅 Leave Report</button>
+        
+        <button class="btn" onclick="loadData('Other')">📂 Other Reports</button>
+        <button class="btn" onclick="downloadFullCSV()">⬇ Download CSV</button>
+    </div>
 
-<div id="tableArea" class="tableBox"></div>
+    <div id="tableArea" class="tableBox"></div>
 
 </div>
 
-<!-- LOADER -->
 <div id="loader">
 <div class="spinner"></div>
 </div>
@@ -131,62 +160,73 @@ animation:spin 1s linear infinite;
 <script>
 
 /* LOAD CSV */
-
 async function loadCSV(){
-
-let r = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
-let t = await r.text();
-
-// convert into 2D array
-return t.trim().split("\n").map(row => row.split(","));
-
+    try {
+        let r = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv?v=" + new Date().getTime());
+        let t = await r.text();
+        return t.trim().split("\n").map(row => row.split(","));
+    } catch(e) {
+        alert("Error loading data");
+        return [];
+    }
 }
 
-/* SHOW FULL TABLE */
+/* SHOW FILTERED TABLE */
+async function loadData(filterType){
+    const loader = document.getElementById("loader");
+    const tableArea = document.getElementById("tableArea");
+    
+    loader.style.display="flex";
 
-async function loadData(){
+    let data = await loadCSV();
+    if(data.length === 0) return;
 
-loader.style.display="flex";
+    let html = "<table>";
 
-let data = await loadCSV();
+    // HEADER
+    html += "<tr>";
+    data[0].forEach(col=>{
+        html += `<th>${col}</th>`;
+    });
+    html += "</tr>";
 
-let html = "<table>";
+    // Get Column Indexes (Adjust these based on your actual CSV column order)
+    // Assuming: Gender is Column 4, PH status is Column 10 etc.
+    // Replace the numbers below with the correct index of your CSV columns
+    let genderIdx = 4;  
+    let phIdx = 10;     
+    let statusIdx = 5; 
 
-// HEADER
-html += "<tr>";
-data[0].forEach(col=>{
-html += `<th>${col}</th>`;
-});
-html += "</tr>";
+    // ROWS
+    for(let i=1; i<data.length; i++){
+        let row = data[i];
+        let showRow = false;
 
-// ROWS
-for(let i=1;i<data.length;i++){
+        if(filterType === 'all') showRow = true;
+        else if(filterType === 'Male' && row[genderIdx]?.trim() === 'Male') showRow = true;
+        else if(filterType === 'Female' && row[genderIdx]?.trim() === 'Female') showRow = true;
+        else if(filterType === 'PH' && (row[phIdx]?.trim() === 'Yes' || row[phIdx]?.trim() === 'PH')) showRow = true;
+        else if(filterType === 'Leave' && row[statusIdx]?.toLowerCase().includes('leave')) showRow = true;
+        else if(filterType === 'Other') showRow = true; // Placeholder for other logic
 
-html += "<tr>";
+        if(showRow){
+            html += "<tr>";
+            row.forEach(cell=>{
+                html += `<td>${cell}</td>`;
+            });
+            html += "</tr>";
+        }
+    }
 
-data[i].forEach(cell=>{
-html += `<td>${cell}</td>`;
-});
+    html += "</table>";
+    tableArea.innerHTML = html;
 
-html += "</tr>";
-
+    loader.style.display="none";
 }
 
-html += "</table>";
-
-tableArea.innerHTML = html;
-
-loader.style.display="none";
-
-}
-
-/* 🔥 FIXED CSV DOWNLOAD (ANDROID SUPPORT) */
-
+/* DOWNLOAD FULL CSV */
 function downloadFullCSV(){
-
-// direct file URL (important for WebView)
-window.location.href = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
-
+    window.location.href = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
 }
 
 </script>
