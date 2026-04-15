@@ -1602,7 +1602,7 @@ document.addEventListener("touchend", function(){
   async function loadUserCount(){
 
   try{
-    let res = await fetch("YOUR_SCRIPT_URL?type=count");
+    let res = await fetch("https://script.google.com/macros/s/AKfycbzeO5RppL-lE_62OuL4VQ5FYZiehPMPFsH6NC9X2_i40YEIzXPPjW8-QUH1QpfS1Jg1/exec?type=count");
     let count = await res.text();
 
     document.getElementById("visitorCount").innerText = count;
