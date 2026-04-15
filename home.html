@@ -1577,19 +1577,20 @@ document.addEventListener("touchmove", function(e){
   let currentY = e.touches[0].clientY;
 
   let diffX = currentX - startX;
-  let diffY = Math.abs(currentY - startY);
+  let diffY = currentY - startY;
 
-  // ignore vertical scroll
-  if(diffY > 30) return;
+  // 🔥 allow diagonal (less strict)
+  let absX = Math.abs(diffX);
+  let absY = Math.abs(diffY);
 
-  // 👉 OPEN (more flexible edge detection)
-  if(startX < 200 && diffX > 50){
+  // 👉 OPEN NAV (swipe right)
+  if(startX < 250 && absX > 40 && absX > absY){
     openSideNav();
     isSwiping = false;
   }
 
-  // 👉 CLOSE (anywhere swipe left)
-  if(diffX < -50){
+  // 👉 CLOSE NAV (swipe left)
+  if(absX > 40 && absX > absY && diffX < 0){
     closeSideNav();
     isSwiping = false;
   }
