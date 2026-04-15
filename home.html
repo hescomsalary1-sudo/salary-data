@@ -1565,11 +1565,10 @@ function closeSideNav(){
 const sideNav = document.getElementById("sideNav");
 const sideOverlay = document.getElementById("sideOverlay");
 let startX = 0;
-let currentX = 0;
 let isDragging = false;
 const navWidth = 280;
 
-// 2. CLEAN OPEN/CLOSE FUNCTIONS
+// 2. CONSOLIDATED OPEN/CLOSE FUNCTIONS
 function openSideNav() {
     sideNav.classList.add("open");
     sideOverlay.classList.add("show");
@@ -1587,13 +1586,14 @@ function openSideNav() {
 function closeSideNav() {
     sideNav.classList.remove("open");
     sideOverlay.classList.remove("show");
-    sideNav.style.transform = ""; // Clear any drag offsets
+    sideNav.style.transform = ""; // Reset any manual swipe positions
     document.body.style.overflow = "auto";
 }
 
-// 3. SWIPE LOGIC
+// 3. SWIPE LOGIC (Optimized)
 document.addEventListener("touchstart", (e) => {
     startX = e.touches[0].clientX;
+    // Only start dragging if near left edge (opening) or if already open
     if (startX < 50 || sideNav.classList.contains("open")) {
         isDragging = true;
         sideNav.style.transition = "none";
@@ -1602,21 +1602,23 @@ document.addEventListener("touchstart", (e) => {
 
 document.addEventListener("touchmove", (e) => {
     if (!isDragging) return;
-    currentX = e.touches[0].clientX;
+    let currentX = e.touches[0].clientX;
     let diff = currentX - startX;
 
+    // Swiping to close
     if (sideNav.classList.contains("open") && diff < 0) {
         if (Math.abs(diff) <= navWidth) {
             sideNav.style.transform = `translateX(${diff}px)`;
-            sideOverlay.style.opacity = 0.5 - (Math.abs(diff) / navWidth) * 0.5;
+            sideOverlay.style.opacity = 1 - (Math.abs(diff) / navWidth);
         }
     } 
+    // Swiping to open from edge
     else if (!sideNav.classList.contains("open") && diff > 0) {
         let move = -navWidth + diff;
         if (move <= 0) {
             sideNav.style.transform = `translateX(${move}px)`;
             sideOverlay.style.visibility = "visible";
-            sideOverlay.style.opacity = (diff / navWidth) * 0.5;
+            sideOverlay.style.opacity = (diff / navWidth);
         }
     }
 }, {passive: true});
@@ -1637,21 +1639,18 @@ document.addEventListener("touchend", (e) => {
         else closeSideNav();
     }
 });
-  async function loadUserCount(){
 
-  try{
-    let res = await fetch("https://script.google.com/macros/s/AKfycbzeO5RppL-lE_62OuL4VQ5FYZiehPMPFsH6NC9X2_i40YEIzXPPjW8-QUH1QpfS1Jg1/exec?type=count");
-    let count = await res.text();
-
-    document.getElementById("visitorCount").innerText = count;
-
-  }catch(e){
-    document.getElementById("visitorCount").innerText = "0";
-    console.log("User count error:", e);
-  }
-
+// 4. USER COUNT (Self-contained)
+async function loadUserCount(){
+    try {
+        let res = await fetch("https://script.google.com/macros/s/AKfycbzeO5RppL-lE_62OuL4VQ5FYZiehPMPFsH6NC9X2_i40YEIzXPPjW8-QUH1QpfS1Jg1/exec?type=count");
+        let count = await res.text();
+        document.getElementById("visitorCount").innerText = count;
+    } catch(e) {
+        document.getElementById("visitorCount").innerText = "0";
+    }
 }
-  loadUserCount();
+loadUserCount();
 </script>
   <!-- LOGOUT POPUP -->
 <div id="logoutPopup" style="
