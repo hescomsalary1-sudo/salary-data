@@ -693,14 +693,21 @@ color:#777;
     background: linear-gradient(135deg, #2400b7, #3b1eff);
     color: white;
     z-index: 2100;
-    transform: translateX(-100%); /* Start hidden to the left */
+    transform: translateX(-100%); /* Hidden by default */
     transition: transform 0.3s cubic-bezier(0.15, 0, 0.15, 1);
     box-shadow: 10px 0 25px rgba(0,0,0,0.1);
 }
 
 /* OPEN STATE */
 /* These classes are toggled by the Script below */
+#sideNav.open { 
+    transform: translateX(0) !important; 
+}
 
+#sideOverlay.show { 
+    opacity: 1; 
+    visibility: visible; 
+}
 
 
 /* HEADER */
@@ -1554,7 +1561,7 @@ function closeSideNav(){
 }
 </script>
 <script>
-// 1. SELECT ELEMENTS (Do this only once!)
+// 1. SELECT ELEMENTS
 const sideNav = document.getElementById("sideNav");
 const sideOverlay = document.getElementById("sideOverlay");
 let startX = 0;
@@ -1562,31 +1569,31 @@ let currentX = 0;
 let isDragging = false;
 const navWidth = 280;
 
-// 2. OPEN/CLOSE FUNCTIONS
+// 2. CLEAN OPEN/CLOSE FUNCTIONS
 function openSideNav() {
     sideNav.classList.add("open");
     sideOverlay.classList.add("show");
     
-    // Sync names
-    const name = document.getElementById("empName").innerText;
-    const role = document.getElementById("empDesg").innerText;
-    document.getElementById("sideName").innerText = name;
-    document.getElementById("sideRole").innerText = role;
+    // Sync names from main page to sidebar
+    const nameEl = document.getElementById("empName");
+    const roleEl = document.getElementById("empDesg");
     
-    document.body.style.overflow = "hidden"; // Prevent background scroll
+    if(nameEl) document.getElementById("sideName").innerText = nameEl.innerText;
+    if(roleEl) document.getElementById("sideRole").innerText = roleEl.innerText;
+    
+    document.body.style.overflow = "hidden"; 
 }
 
 function closeSideNav() {
     sideNav.classList.remove("open");
     sideOverlay.classList.remove("show");
-    sideNav.style.transform = ""; // Reset drag positions
+    sideNav.style.transform = ""; // Clear any drag offsets
     document.body.style.overflow = "auto";
 }
 
-// 3. MODERN SWIPE LOGIC
+// 3. SWIPE LOGIC
 document.addEventListener("touchstart", (e) => {
     startX = e.touches[0].clientX;
-    // Drag from left edge OR if menu is already open
     if (startX < 50 || sideNav.classList.contains("open")) {
         isDragging = true;
         sideNav.style.transition = "none";
@@ -1598,14 +1605,12 @@ document.addEventListener("touchmove", (e) => {
     currentX = e.touches[0].clientX;
     let diff = currentX - startX;
 
-    // If closing (swiping left)
     if (sideNav.classList.contains("open") && diff < 0) {
         if (Math.abs(diff) <= navWidth) {
             sideNav.style.transform = `translateX(${diff}px)`;
             sideOverlay.style.opacity = 0.5 - (Math.abs(diff) / navWidth) * 0.5;
         }
     } 
-    // If opening (swiping right from edge)
     else if (!sideNav.classList.contains("open") && diff > 0) {
         let move = -navWidth + diff;
         if (move <= 0) {
@@ -1625,16 +1630,13 @@ document.addEventListener("touchend", (e) => {
     let finalDiff = endX - startX;
 
     if (sideNav.classList.contains("open")) {
-        // If swiped left more than 80px, close it
         if (finalDiff < -80) closeSideNav();
         else openSideNav();
     } else {
-        // If swiped right more than 80px, open it
         if (finalDiff > 80) openSideNav();
         else closeSideNav();
     }
 });
-
   async function loadUserCount(){
 
   try{
