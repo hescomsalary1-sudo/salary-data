@@ -1579,21 +1579,24 @@ document.addEventListener("touchmove", function(e){
   let diffX = currentX - startX;
   let diffY = currentY - startY;
 
-  // 🔥 allow diagonal (less strict)
   let absX = Math.abs(diffX);
   let absY = Math.abs(diffY);
 
-  // 👉 OPEN NAV (swipe right)
-  if(startX < 250 && absX > 40 && absX > absY){
+  // 🔥 allow diagonal up to 2x vertical movement
+  let isValidSwipe = absX > 30 && absX > (absY * 0.5);
+
+  // 👉 OPEN (right swipe)
+  if(startX < 300 && diffX > 40 && isValidSwipe){
     openSideNav();
     isSwiping = false;
   }
 
-  // 👉 CLOSE NAV (swipe left)
-  if(absX > 40 && absX > absY && diffX < 0){
+  // 👉 CLOSE (left swipe)
+  if(diffX < -40 && isValidSwipe){
     closeSideNav();
     isSwiping = false;
   }
+
 });
 
 document.addEventListener("touchend", function(){
