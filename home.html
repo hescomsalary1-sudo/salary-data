@@ -670,41 +670,44 @@ color:#777;
 }
 
   /* OVERLAY */
-#sideOverlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.4);
-opacity:0;
-visibility:hidden;
-transition:0.3s;
-z-index:2000;
+#sideOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    z-index: 2000;
 }
 
 /* SIDENAV */
-#sideNav{
-position:fixed;
-top:0;
-left:-260px;
-width:260px;
-height:100%;
-background:linear-gradient(135deg,#2400b7,#3b1eff);
-color:white;
-transition:transform 0.3s ease;
-z-index:2100;
-transform:translateX(0);
+#sideNav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px; /* Slightly wider for modern look */
+    height: 100%;
+    background: linear-gradient(135deg, #2400b7, #3b1eff);
+    color: white;
+    z-index: 2100;
+    /* Move it off-screen using transform for hardware acceleration */
+    transform: translateX(-100%); 
+    transition: transform 0.3s cubic-bezier(0.15, 0, 0.15, 1);
+    box-shadow: 10px 0 25px rgba(0,0,0,0.1);
+    will-change: transform;
 }
 
 /* OPEN STATE */
-#sideNav.open{
-left:0;
+#sideNav.open {
+    transform: translateX(0);
 }
 
-#sideOverlay.show{
-opacity:1;
-visibility:visible;
+#sideOverlay.show {
+    opacity: 1;
+    visibility: visible;
 }
 
 /* HEADER */
@@ -728,13 +731,15 @@ padding:15px;
 flex:1;
 }
 
-.side-menu div{
-padding:12px 10px;
-margin-bottom:8px;
-border-radius:10px;
-cursor:pointer;
-transition:0.2s;
-font-size:14px;
+.side-menu div {
+    padding: 14px 18px;
+    margin: 4px 10px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+    transition: all 0.2s;
 }
 
 .side-menu div:hover{
@@ -1560,51 +1565,84 @@ function closeSideNav(){
 }
 </script>
 <script>
+/* UPDATED MODERN SWIPE LOGIC */
+
+let sideNav = document.getElementById("sideNav");
+let sideOverlay = document.getElementById("sideOverlay");
 let startX = 0;
-let startY = 0;
-let isSwiping = false;
+let currentX = 0;
+let isDragging = false;
+const navWidth = 280;
 
-document.addEventListener("touchstart", function(e){
-  startX = e.touches[0].clientX;
-  startY = e.touches[0].clientY;
-  isSwiping = true;
-}, {passive:true});
+function openSideNav() {
+    sideNav.classList.add("open");
+    sideNav.style.transform = "translateX(0)";
+    sideOverlay.classList.add("show");
+}
 
-document.addEventListener("touchmove", function(e){
-  if(!isSwiping) return;
+function closeSideNav() {
+    sideNav.classList.remove("open");
+    sideNav.style.transform = "translateX(-100%)";
+    sideOverlay.classList.remove("show");
+}
 
-  let currentX = e.touches[0].clientX;
-  let currentY = e.touches[0].clientY;
+// TOUCH EVENTS
+document.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+    // Only allow swipe from left edge (0-40px) OR if nav is already open
+    if (startX < 40 || sideNav.classList.contains("open")) {
+        isDragging = true;
+        sideNav.style.transition = "none"; // Disable transition while dragging
+    }
+}, {passive: true});
 
-  let diffX = currentX - startX;
-  let diffY = currentY - startY;
+document.addEventListener("touchmove", (e) => {
+    if (!isDragging) return;
 
-  let absX = Math.abs(diffX);
-  let absY = Math.abs(diffY);
+    currentX = e.touches[0].clientX;
+    let diffX = currentX - startX;
 
-  // 🔥 VERY FLEXIBLE CONDITION
-  let isSwipe = absX > 30 && absX > (absY * 0.3);
+    // Logic for dragging open
+    if (!sideNav.classList.contains("open")) {
+        if (diffX > 0 && diffX <= navWidth) {
+            let translateX = -navWidth + diffX;
+            sideNav.style.transform = `translateX(${translateX}px)`;
+            // Fade overlay based on drag distance
+            sideOverlay.style.visibility = "visible";
+            sideOverlay.style.opacity = (diffX / navWidth) * 0.5;
+        }
+    } 
+    // Logic for dragging closed
+    else {
+        if (diffX < 0 && Math.abs(diffX) <= navWidth) {
+            sideNav.style.transform = `translateX(${diffX}px)`;
+            sideOverlay.style.opacity = 0.5 - (Math.abs(diffX) / navWidth) * 0.5;
+        }
+    }
+}, {passive: true});
 
-  // 👉 OPEN (RIGHT SWIPE)
-  if(startX < 320 && diffX > 40 && isSwipe){
+document.addEventListener("touchend", (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+    
+    sideNav.style.transition = "transform 0.3s cubic-bezier(0.15, 0, 0.15, 1)";
+    let diffX = currentX - startX;
 
-    e.preventDefault(); // 🔥 STOP SCROLL (important)
-    openSideNav();
-    isSwiping = false;
-  }
-
-  // 👉 CLOSE (LEFT SWIPE)
-  if(diffX < -40 && isSwipe){
-
-    e.preventDefault(); // 🔥 STOP SCROLL
-    closeSideNav();
-    isSwiping = false;
-  }
-
-}, {passive:false}); // 🔥 important for preventDefault
-
-document.addEventListener("touchend", function(){
-  isSwiping = false;
+    if (!sideNav.classList.contains("open")) {
+        // If dragged more than 20%, snap open
+        if (diffX > 60) {
+            openSideNav();
+        } else {
+            closeSideNav();
+        }
+    } else {
+        // If dragged left more than 60px, snap closed
+        if (diffX < -60) {
+            closeSideNav();
+        } else {
+            openSideNav();
+        }
+    }
 });
 
   async function loadUserCount(){
