@@ -1562,18 +1562,19 @@ function closeSideNav(){
 <script>
 let startX = 0;
 let startY = 0;
-let isDragging = false;
+let isSwiping = false;
 let isHorizontal = false;
 
 document.addEventListener("touchstart", function(e){
   startX = e.touches[0].clientX;
   startY = e.touches[0].clientY;
-  isDragging = true;
+
+  isSwiping = true;
   isHorizontal = false;
 }, {passive:true});
 
 document.addEventListener("touchmove", function(e){
-  if(!isDragging) return;
+  if(!isSwiping) return;
 
   let currentX = e.touches[0].clientX;
   let currentY = e.touches[0].clientY;
@@ -1584,38 +1585,39 @@ document.addEventListener("touchmove", function(e){
   let absX = Math.abs(diffX);
   let absY = Math.abs(diffY);
 
-  // 🔥 Decide direction early (key fix)
+  // 🔥 Decide direction early (KEY FIX)
   if(!isHorizontal){
-    if(absX > 15){
-      isHorizontal = true; // treat as swipe
-    } else if(absY > 15){
-      isDragging = false; // treat as scroll → ignore
+
+    if(absX > 12){
+      isHorizontal = true;   // treat as swipe
+    }
+    else if(absY > 20){
+      isSwiping = false;     // treat as scroll
       return;
     }
   }
 
   if(isHorizontal){
 
-    e.preventDefault(); // 🔥 stop vertical scroll ONLY now
+    e.preventDefault(); // 🔥 stop scroll only for swipe
 
-    // 👉 OPEN
+    // 👉 OPEN (RIGHT swipe)
     if(startX < 320 && diffX > 50){
       openSideNav();
-      isDragging = false;
+      isSwiping = false;
     }
 
-    // 👉 CLOSE
+    // 👉 CLOSE (LEFT swipe)
     if(diffX < -50){
       closeSideNav();
-      isDragging = false;
+      isSwiping = false;
     }
-
   }
 
 }, {passive:false});
 
 document.addEventListener("touchend", function(){
-  isDragging = false;
+  isSwiping = false;
   isHorizontal = false;
 });
   async function loadUserCount(){
