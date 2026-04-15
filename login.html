@@ -396,7 +396,7 @@ return;
 // show loader
 document.getElementById("loader").style.display="flex";
 
-let url = "https://script.google.com/macros/s/AKfycbwpKkkmsAJiaq0-Be6s3sRrCjn1fRxyNpKYXYHzh7Wug30OaSmq-0mRXz_P3hWxdANv/exec?username=" + user + "&password=" + pass;
+let url = "https://script.google.com/macros/s/AKfycbymkdz72dj7xdWoUHBoiSNTpMwAr37M1wLsF4bJ4Mh76eb_QPykaR-WhB5HlMBydMGO/exec?username=" + user + "&password=" + pass;
 
 fetch(url)
 .then(res => res.text())
@@ -482,7 +482,7 @@ function changePassword(){
     formData.append("oldPassword", oldPass);
     formData.append("newPassword", newPass);
 
-    fetch("https://script.google.com/macros/s/AKfycbwpKkkmsAJiaq0-Be6s3sRrCjn1fRxyNpKYXYHzh7Wug30OaSmq-0mRXz_P3hWxdANv/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbymkdz72dj7xdWoUHBoiSNTpMwAr37M1wLsF4bJ4Mh76eb_QPykaR-WhB5HlMBydMGO/exec", {
         method:"POST",
         body: formData
     })
