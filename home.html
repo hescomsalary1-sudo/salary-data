@@ -687,14 +687,14 @@ z-index:2000;
 #sideNav{
 position:fixed;
 top:0;
-left:0;
+left:-260px;
 width:260px;
 height:100%;
 background:linear-gradient(135deg,#2400b7,#3b1eff);
 color:white;
-transform:translateX(-260px); /* 🔥 hidden properly */
-transition:transform 0.25s ease;
+transition:transform 0.3s ease;
 z-index:2100;
+transform:translateX(0);
 }
 
 /* OPEN STATE */
@@ -1542,13 +1542,11 @@ window.addEventListener("load", function(){
 </script>
   <script>
 function openSideNav(){
-  let nav = document.getElementById("sideNav");
-
-  nav.style.transition = "transform 0.25s ease";
-  nav.style.transform = "translateX(0)";
-
+  document.getElementById("sideNav").style.transform = "translateX(260px)";
   document.getElementById("sideOverlay").classList.add("show");
 
+
+  // set user name
   document.getElementById("sideName").innerText =
     document.getElementById("empName").innerText;
 
@@ -1557,73 +1555,48 @@ function openSideNav(){
 }
 
 function closeSideNav(){
-  let nav = document.getElementById("sideNav");
-
-  nav.style.transition = "transform 0.25s ease";
-  nav.style.transform = "translateX(-260px)";
-
+  document.getElementById("sideNav").style.transform = "translateX(0)";
   document.getElementById("sideOverlay").classList.remove("show");
 }
 </script>
 <script>
 let startX = 0;
-let currentX = 0;
-let isDragging = false;
-
-const nav = document.getElementById("sideNav");
-const overlay = document.getElementById("sideOverlay");
+let startY = 0;
+let isSwiping = false;
 
 document.addEventListener("touchstart", function(e){
   startX = e.touches[0].clientX;
-  isDragging = true;
-  nav.style.transition = "none"; // 🔥 disable animation while dragging
+  startY = e.touches[0].clientY;
+  isSwiping = true;
 });
 
 document.addEventListener("touchmove", function(e){
-  if(!isDragging) return;
+  if(!isSwiping) return;
 
-  currentX = e.touches[0].clientX;
-  let diff = currentX - startX;
+  let currentX = e.touches[0].clientX;
+  let currentY = e.touches[0].clientY;
 
-  let translate = Math.min(0, -260 + diff); // limit
+  let diffX = currentX - startX;
+  let diffY = Math.abs(currentY - startY);
 
-  // 👉 open drag from left side
-  if(startX < 320){
-    nav.style.transform = `translateX(${translate}px)`;
+  // ignore vertical scroll
+  if(diffY > 30) return;
 
-    // overlay fade effect
-    let opacity = (260 + translate) / 260;
-    overlay.style.opacity = opacity;
-    overlay.style.visibility = "visible";
+  // 👉 OPEN (more flexible edge detection)
+  if(startX < 200 && diffX > 50){
+    openSideNav();
+    isSwiping = false;
   }
 
-  // 👉 close drag
-  if(nav.style.transform === "translateX(0px)" || overlay.classList.contains("show")){
-    if(diff < 0){
-      nav.style.transform = `translateX(${diff}px)`;
-
-      let opacity = (260 + diff) / 260;
-      overlay.style.opacity = opacity;
-    }
+  // 👉 CLOSE (anywhere swipe left)
+  if(diffX < -50){
+    closeSideNav();
+    isSwiping = false;
   }
-
-}, {passive:false});
+});
 
 document.addEventListener("touchend", function(){
-  if(!isDragging) return;
-
-  isDragging = false;
-  nav.style.transition = "transform 0.25s ease";
-
-  let matrix = window.getComputedStyle(nav).transform;
-  let translateX = matrix !== "none" ? parseInt(matrix.split(",")[4]) : -260;
-
-  // 👉 snap logic
-  if(translateX > -130){
-    openSideNav();
-  } else {
-    closeSideNav();
-  }
+  isSwiping = false;
 });
 
   async function loadUserCount(){
