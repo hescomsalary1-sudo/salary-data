@@ -32,7 +32,7 @@ width:55px;
 height:55px;
 border-radius:50%;
 border:3px solid white;
-object-fit:c;
+object-fit:cover;
 }
 
 .user-box{
@@ -225,7 +225,7 @@ flex-direction:column;
 padding:20px;
 gap:15px;
 z-index:500; /* 🔥 BELOW navbar */
-flow:hidden;
+overflow:hidden;
 }
 
 /* shimmer */
@@ -670,45 +670,42 @@ color:#777;
 }
 
   /* OVERLAY */
-#sideOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease;
-    z-index: 2000;
+#sideOverlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+opacity:0;
+visibility:hidden;
+transition:0.3s;
+z-index:2000;
 }
 
 /* SIDENAV */
-#sideNav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 280px;
-    height: 100%;
-    background: linear-gradient(135deg, #2400b7, #3b1eff);
-    color: white;
-    z-index: 2100;
-    transform: translateX(-100%); /* Hidden by default */
-    transition: transform 0.3s cubic-bezier(0.15, 0, 0.15, 1);
-    box-shadow: 10px 0 25px rgba(0,0,0,0.1);
+#sideNav{
+position:fixed;
+top:0;
+left:-260px;
+width:260px;
+height:100%;
+background:linear-gradient(135deg,#2400b7,#3b1eff);
+color:white;
+transition:transform 0.3s ease;
+z-index:2100;
+transform:translateX(0);
 }
 
 /* OPEN STATE */
-/* These classes are toggled by the Script below */
-#sideNav.open { 
-    transform: translateX(0) !important; 
+#sideNav.open{
+left:0;
 }
 
-#sideOverlay.show { 
-    opacity: 1; 
-    visibility: visible; 
+#sideOverlay.show{
+opacity:1;
+visibility:visible;
 }
-
 
 /* HEADER */
 .side-header{
@@ -731,15 +728,13 @@ padding:15px;
 flex:1;
 }
 
-.side-menu div {
-    padding: 14px 18px;
-    margin: 4px 10px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-weight: 500;
-    transition: all 0.2s;
+.side-menu div{
+padding:12px 10px;
+margin-bottom:8px;
+border-radius:10px;
+cursor:pointer;
+transition:0.2s;
+font-size:14px;
 }
 
 .side-menu div:hover{
@@ -835,23 +830,27 @@ transform:scale(0.9);
 </head>
 
 <body>
-  
   <!-- SIDE NAV OVERLAY -->
 <div id="sideOverlay" onclick="closeSideNav()"></div>
 
+<!-- SIDE NAV -->
 <div id="sideNav">
-    <div class="side-header">
-        <img src="https://i.imgur.com/6VBx3io.png" class="side-profile">
-        <h3 id="sideName">User Name</h3>
-        <p id="sideRole">Employee</p>
-    </div>
-    <div class="side-menu">
-        <div onclick="showLoader('employee_info.html')">👤 My Profile</div>
-        <div onclick="showLoader('menu.html')">💰 Salary</div>
-        <div onclick="showLoader('page3.html')">📅 Income</div>
-        <div onclick="showLoader('page5.html')">⚙ Settings</div>
-        <div onclick="logout()">🚪 Logout</div>
-    </div>
+
+ <div class="side-header">
+    <img src="https://i.imgur.com/6VBx3io.png" class="side-profile">
+    <h3 id="sideName">User Name</h3>
+    <p id="sideRole">Employee</p>
+  </div>
+
+  <div class="side-menu">
+    <div onclick="showLoader('employee_info.html')">👤 My Profile</div>
+    <div onclick="showLoader('menu.html')">💰 Salary</div>
+    <div onclick="showLoader('page3.html')">📅 Income</div>
+    <div onclick="showLoader('resources.html')">📂 Resources</div>
+    <div onclick="showLoader('page5.html')">⚙ Settings</div>
+    <div onclick="logout()">🚪 Logout</div>
+  </div>
+
 </div>
 <div class="top">
 
@@ -1561,96 +1560,60 @@ function closeSideNav(){
 }
 </script>
 <script>
-// 1. SELECT ELEMENTS
-const sideNav = document.getElementById("sideNav");
-const sideOverlay = document.getElementById("sideOverlay");
 let startX = 0;
-let isDragging = false;
-const navWidth = 280;
+let startY = 0;
+let isSwiping = false;
 
-// 2. CONSOLIDATED OPEN/CLOSE FUNCTIONS
-function openSideNav() {
-    sideNav.classList.add("open");
-    sideOverlay.classList.add("show");
-    
-    // Sync names from main page to sidebar
-    const nameEl = document.getElementById("empName");
-    const roleEl = document.getElementById("empDesg");
-    
-    if(nameEl) document.getElementById("sideName").innerText = nameEl.innerText;
-    if(roleEl) document.getElementById("sideRole").innerText = roleEl.innerText;
-    
-    document.body.style.overflow = "hidden"; 
-}
-
-function closeSideNav() {
-    sideNav.classList.remove("open");
-    sideOverlay.classList.remove("show");
-    sideNav.style.transform = ""; // Reset any manual swipe positions
-    document.body.style.overflow = "auto";
-}
-
-// 3. SWIPE LOGIC (Optimized)
-document.addEventListener("touchstart", (e) => {
-    startX = e.touches[0].clientX;
-    // Only start dragging if near left edge (opening) or if already open
-    if (startX < 50 || sideNav.classList.contains("open")) {
-        isDragging = true;
-        sideNav.style.transition = "none";
-    }
-}, {passive: true});
-
-document.addEventListener("touchmove", (e) => {
-    if (!isDragging) return;
-    let currentX = e.touches[0].clientX;
-    let diff = currentX - startX;
-
-    // Swiping to close
-    if (sideNav.classList.contains("open") && diff < 0) {
-        if (Math.abs(diff) <= navWidth) {
-            sideNav.style.transform = `translateX(${diff}px)`;
-            sideOverlay.style.opacity = 1 - (Math.abs(diff) / navWidth);
-        }
-    } 
-    // Swiping to open from edge
-    else if (!sideNav.classList.contains("open") && diff > 0) {
-        let move = -navWidth + diff;
-        if (move <= 0) {
-            sideNav.style.transform = `translateX(${move}px)`;
-            sideOverlay.style.visibility = "visible";
-            sideOverlay.style.opacity = (diff / navWidth);
-        }
-    }
-}, {passive: true});
-
-document.addEventListener("touchend", (e) => {
-    if (!isDragging) return;
-    isDragging = false;
-    sideNav.style.transition = "transform 0.3s ease";
-    
-    let endX = e.changedTouches[0].clientX;
-    let finalDiff = endX - startX;
-
-    if (sideNav.classList.contains("open")) {
-        if (finalDiff < -80) closeSideNav();
-        else openSideNav();
-    } else {
-        if (finalDiff > 80) openSideNav();
-        else closeSideNav();
-    }
+document.addEventListener("touchstart", function(e){
+  startX = e.touches[0].clientX;
+  startY = e.touches[0].clientY;
+  isSwiping = true;
 });
 
-// 4. USER COUNT (Self-contained)
-async function loadUserCount(){
-    try {
-        let res = await fetch("https://script.google.com/macros/s/AKfycbzeO5RppL-lE_62OuL4VQ5FYZiehPMPFsH6NC9X2_i40YEIzXPPjW8-QUH1QpfS1Jg1/exec?type=count");
-        let count = await res.text();
-        document.getElementById("visitorCount").innerText = count;
-    } catch(e) {
-        document.getElementById("visitorCount").innerText = "0";
-    }
+document.addEventListener("touchmove", function(e){
+  if(!isSwiping) return;
+
+  let currentX = e.touches[0].clientX;
+  let currentY = e.touches[0].clientY;
+
+  let diffX = currentX - startX;
+  let diffY = Math.abs(currentY - startY);
+
+  // ignore vertical scroll
+  if(diffY > 30) return;
+
+  // 👉 OPEN (more flexible edge detection)
+  if(startX < 200 && diffX > 50){
+    openSideNav();
+    isSwiping = false;
+  }
+
+  // 👉 CLOSE (anywhere swipe left)
+  if(diffX < -50){
+    closeSideNav();
+    isSwiping = false;
+  }
+});
+
+document.addEventListener("touchend", function(){
+  isSwiping = false;
+});
+
+  async function loadUserCount(){
+
+  try{
+    let res = await fetch("https://script.google.com/macros/s/AKfycbzeO5RppL-lE_62OuL4VQ5FYZiehPMPFsH6NC9X2_i40YEIzXPPjW8-QUH1QpfS1Jg1/exec?type=count");
+    let count = await res.text();
+
+    document.getElementById("visitorCount").innerText = count;
+
+  }catch(e){
+    document.getElementById("visitorCount").innerText = "0";
+    console.log("User count error:", e);
+  }
+
 }
-loadUserCount();
+  loadUserCount();
 </script>
   <!-- LOGOUT POPUP -->
 <div id="logoutPopup" style="
