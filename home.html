@@ -1360,30 +1360,7 @@ document.body.style.overflow="auto";
 
 /* UNIQUE USER TRACKING */
 
-function trackUsers(){
 
-let totalUsers = localStorage.getItem("totalUsers");
-let userVisited = localStorage.getItem("visited");
-
-/* first time user */
-if(!userVisited){
-
-let newCount = totalUsers ? parseInt(totalUsers) + 1 : 1;
-
-localStorage.setItem("totalUsers", newCount);
-localStorage.setItem("visited", "yes");
-
-document.getElementById("visitorCount").innerText = newCount;
-
-}else{
-
-document.getElementById("visitorCount").innerText = totalUsers || 1;
-
-}
-
-}
-
-trackUsers();
 
   function openGallery(){
 
@@ -1621,6 +1598,22 @@ document.addEventListener("touchmove", function(e){
 document.addEventListener("touchend", function(){
   isSwiping = false;
 });
+
+  async function loadUserCount(){
+
+  try{
+    let res = await fetch("YOUR_SCRIPT_URL?type=count");
+    let count = await res.text();
+
+    document.getElementById("visitorCount").innerText = count;
+
+  }catch(e){
+    document.getElementById("visitorCount").innerText = "0";
+    console.log("User count error:", e);
+  }
+
+}
+  loadUserCount();
 </script>
   <!-- LOGOUT POPUP -->
 <div id="logoutPopup" style="
