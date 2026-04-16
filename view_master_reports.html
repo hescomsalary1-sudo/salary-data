@@ -26,6 +26,34 @@ font-size:20px;
 cursor:pointer;
 }
 
+/* 🔥 SUMMARY */
+.summary{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+padding:15px;
+}
+
+.card{
+background:white;
+border-radius:15px;
+padding:15px;
+text-align:center;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+.card h3{
+margin:0;
+font-size:20px;
+color:#4b2dd8;
+}
+
+.card p{
+margin:5px 0 0;
+font-size:12px;
+color:#666;
+}
+
 /* TABLE */
 .tableBox{
 overflow:auto;
@@ -92,6 +120,31 @@ animation:spin 1s linear infinite;
 <h3 id="title">Report</h3>
 </div>
 
+<!-- 🔥 SUMMARY -->
+<div class="summary">
+
+<div class="card">
+<h3 id="totalCount">0</h3>
+<p>Total</p>
+</div>
+
+<div class="card">
+<h3 id="maleCount">0</h3>
+<p>Male</p>
+</div>
+
+<div class="card">
+<h3 id="femaleCount">0</h3>
+<p>Female</p>
+</div>
+
+<div class="card">
+<h3 id="leaveCount">0</h3>
+<p>Leave</p>
+</div>
+
+</div>
+
 <div id="tableArea" class="tableBox"></div>
 
 <div id="loader">
@@ -100,7 +153,7 @@ animation:spin 1s linear infinite;
 
 <script>
 
-// GET TYPE FROM URL
+// GET TYPE
 const params = new URLSearchParams(window.location.search);
 const type = params.get("type") || "all";
 
@@ -120,6 +173,7 @@ return t.trim().split("\n").map(r=>r.split(","));
 
 // LOAD DATA
 async function loadData(){
+
 let data = await loadCSV();
 let html = "<table>";
 
@@ -133,10 +187,24 @@ let genderIdx = 4;
 let phIdx = 10;
 let statusIdx = 5;
 
+/* 🔥 SUMMARY VARIABLES */
+let total = 0;
+let male = 0;
+let female = 0;
+let leave = 0;
+
 for(let i=1;i<data.length;i++){
 let row = data[i];
 let show = false;
 
+/* SUMMARY COUNT */
+total++;
+
+if(row[genderIdx]?.trim() === 'Male') male++;
+if(row[genderIdx]?.trim() === 'Female') female++;
+if(row[statusIdx]?.toLowerCase().includes('leave')) leave++;
+
+/* FILTER LOGIC */
 if(type === 'all') show = true;
 else if(type === 'Male' && row[genderIdx]?.trim() === 'Male') show = true;
 else if(type === 'Female' && row[genderIdx]?.trim() === 'Female') show = true;
@@ -154,7 +222,15 @@ html += "</tr>";
 }
 
 html += "</table>";
+
 document.getElementById("tableArea").innerHTML = html;
+
+/* 🔥 UPDATE SUMMARY */
+document.getElementById("totalCount").innerText = total;
+document.getElementById("maleCount").innerText = male;
+document.getElementById("femaleCount").innerText = female;
+document.getElementById("leaveCount").innerText = leave;
+
 document.getElementById("loader").style.display="none";
 }
 
