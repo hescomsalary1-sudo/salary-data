@@ -56,35 +56,53 @@ color:#666;
 
 /* TABLE */
 /* 🔥 COMPACT TABLE FOR LEAVE REPORT */
+/* 🔥 CLEAN TABLE WITH PROPER LINES */
 .tableBox{
 margin:15px;
 border-radius:12px;
 box-shadow:0 4px 12px rgba(0,0,0,0.1);
-overflow:hidden; /* no scroll */
+overflow:hidden;
+background:white;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
-background:white;
 font-size:13px;
-min-width:unset; /* remove wide scroll */
 }
 
-th,td{
-padding:10px;
-border-bottom:1px solid #eee;
-text-align:center;
-}
-
+/* HEADER */
 th{
 background:#4b2dd8;
 color:white;
+padding:12px;
 font-size:13px;
+border:1px solid #ddd; /* lines visible */
 }
 
-tr:last-child td{
-border-bottom:none;
+/* CELLS */
+td{
+padding:10px;
+border:1px solid #eee; /* row + column lines */
+text-align:center;
+}
+
+/* NAME COLUMN LEFT ALIGN */
+td:nth-child(2){
+text-align:left;
+font-weight:600;
+color:#333;
+}
+
+/* USER COLUMN */
+td:nth-child(1){
+font-weight:600;
+color:#555;
+}
+
+/* HOVER EFFECT (optional nice touch) */
+tr:hover{
+background:#f5f7ff;
 }
 
 /* BETTER LOOK */
