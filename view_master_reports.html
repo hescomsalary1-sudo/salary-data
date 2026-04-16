@@ -175,6 +175,19 @@ return t.trim().split("\n").map(r=>r.split(","));
 async function loadData(){
 
 let data = await loadCSV();
+
+let genderIdx = 4;
+let phIdx = 10;
+let statusIdx = 5;
+
+/* 🔥 IF LEAVE REPORT */
+if(type === "Leave"){
+await loadLeaveReport();
+document.getElementById("loader").style.display="none";
+return;
+}
+
+/* NORMAL TABLE */
 let html = "<table>";
 
 html += "<tr>";
@@ -183,33 +196,22 @@ html += `<th>${col}</th>`;
 });
 html += "</tr>";
 
-let genderIdx = 4;
-let phIdx = 10;
-let statusIdx = 5;
-
-/* 🔥 SUMMARY VARIABLES */
-let total = 0;
-let male = 0;
-let female = 0;
-let leave = 0;
+let total=0, male=0, female=0, leave=0;
 
 for(let i=1;i<data.length;i++){
 let row = data[i];
 let show = false;
 
-/* SUMMARY COUNT */
 total++;
 
 if(row[genderIdx]?.trim() === 'Male') male++;
 if(row[genderIdx]?.trim() === 'Female') female++;
 if(row[statusIdx]?.toLowerCase().includes('leave')) leave++;
 
-/* FILTER LOGIC */
 if(type === 'all') show = true;
 else if(type === 'Male' && row[genderIdx]?.trim() === 'Male') show = true;
 else if(type === 'Female' && row[genderIdx]?.trim() === 'Female') show = true;
 else if(type === 'PH' && (row[phIdx]?.trim() === 'Yes' || row[phIdx]?.trim() === 'PH')) show = true;
-else if(type === 'Leave' && row[statusIdx]?.toLowerCase().includes('leave')) show = true;
 else if(type === 'Other') show = true;
 
 if(show){
@@ -225,7 +227,6 @@ html += "</table>";
 
 document.getElementById("tableArea").innerHTML = html;
 
-/* 🔥 UPDATE SUMMARY */
 document.getElementById("totalCount").innerText = total;
 document.getElementById("maleCount").innerText = male;
 document.getElementById("femaleCount").innerText = female;
@@ -235,7 +236,71 @@ document.getElementById("loader").style.display="none";
 }
 
 loadData();
+async function loadLeaveReport(){
 
+let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
+let text = await res.text();
+let rows = text.trim().split("\n");
+
+let html = "<table>";
+html += "<tr><th>User</th><th>EL Days</th><th>FPL Days</th></tr>";
+
+let total=0, male=0, female=0, leave=0;
+
+let userMap = {};
+
+/* COUNT EL + FPL */
+for(let i=1;i<rows.length;i++){
+
+let c = rows[i].split(",");
+
+let user = c[0].trim();
+
+let el=0, fpl=0;
+
+for(let d=3; d<34; d++){
+let val = c[d]?.trim();
+
+if(val==="EL") el++;
+if(val==="FPL") fpl++;
+}
+
+if(!userMap[user]){
+userMap[user] = {el:0, fpl:0};
+}
+
+userMap[user].el += el;
+userMap[user].fpl += fpl;
+}
+
+/* CREATE TABLE */
+for(let u in userMap){
+
+let el = userMap[u].el;
+let fpl = userMap[u].fpl;
+
+if(el===0 && fpl===0) continue;
+
+html += `<tr>
+<td>${u}</td>
+<td>${el}</td>
+<td>${fpl}</td>
+</tr>`;
+
+total++;
+leave += (el + fpl);
+}
+
+html += "</table>";
+
+document.getElementById("tableArea").innerHTML = html;
+
+/* SUMMARY */
+document.getElementById("totalCount").innerText = total;
+document.getElementById("maleCount").innerText = "-";
+document.getElementById("femaleCount").innerText = "-";
+document.getElementById("leaveCount").innerText = leave;
+}
 </script>
 
 </body>
