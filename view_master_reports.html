@@ -238,33 +238,54 @@ document.getElementById("loader").style.display="none";
 loadData();
 async function loadLeaveReport(){
 
-let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
-let text = await res.text();
-let rows = text.trim().split("\n");
+/* LOAD BOTH FILES */
+let leaveRes = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
+let leaveText = await leaveRes.text();
+let leaveRows = leaveText.trim().split("\n");
 
+let empRes = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
+let empText = await empRes.text();
+let empRows = empText.trim().split("\n");
+
+/* 🔥 CREATE USER → NAME MAP */
+let userMap = {};
+
+for(let i=1;i<empRows.length;i++){
+let c = empRows[i].split(",");
+
+let user = c[0]?.trim();   // adjust if index different
+let name = c[1]?.trim();   // adjust if name column different
+
+if(user){
+userMap[user] = name || "-";
+}
+}
+
+/* TABLE */
 let html = "<table>";
-html += "<tr><th>User</th><th>EL (Final)</th><th>FPL (Final)</th></tr>";
+html += "<tr><th>User</th><th>Name</th><th>EL</th><th>FPL</th></tr>";
 
 let totalUsers = 0;
 let totalEL = 0;
 let totalFPL = 0;
 
-/* CURRENT DATE LOGIC (same as your dashboard) */
+/* DATE RULE */
 let today = new Date();
 let year = today.getFullYear();
 
 let jan1 = new Date(year, 0, 1);
 let july1 = new Date(year, 6, 1);
 
-for(let i=1;i<rows.length;i++){
+/* LOOP */
+for(let i=1;i<leaveRows.length;i++){
 
-let c = rows[i].split(",");
+let c = leaveRows[i].split(",");
 
 let user = c[0].trim();
 let el = parseInt(c[3]) || 0;
 let fpl = parseInt(c[4]) || 0;
 
-/* APPLY CREDIT RULE (same as your leaves.html) */
+/* APPLY CREDIT RULE */
 if(today >= jan1 && today < july1){
 el += 15;
 fpl += 5;
@@ -275,9 +296,13 @@ el += 30;
 fpl += 10;
 }
 
+/* GET NAME */
+let name = userMap[user] || "-";
+
 /* ADD ROW */
 html += `<tr>
 <td>${user}</td>
+<td>${name}</td>
 <td>${el}</td>
 <td>${fpl}</td>
 </tr>`;
