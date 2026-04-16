@@ -1,113 +1,164 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title>View Reports</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Details</title>
 
 <style>
 body{
+font-family:sans-serif;
 margin:0;
-font-family:'Segoe UI',sans-serif;
-background:#f4f6fb;
+background:#f4f4f9;
 }
 
 /* HEADER */
 .top{
-background:linear-gradient(135deg,#2400b7,#3b1eff);
+padding:15px;
+background:#4b2dd8;
 color:white;
-padding:20px;
-text-align:center;
-font-size:18px;
-font-weight:600;
+display:flex;
+align-items:center;
+gap:10px;
 }
 
-/* CONTENT */
-.container{
-padding:15px;
+.back{
+font-size:20px;
+cursor:pointer;
 }
 
-.card{
+/* TABLE */
+.tableBox{
+overflow:auto;
+margin:15px;
+border-radius:10px;
+box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
 background:white;
-padding:15px;
-border-radius:15px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-line-height:1.6;
+font-size:12px;
+min-width:800px;
+}
+
+th,td{
+padding:8px;
+border:1px solid #ddd;
+white-space:nowrap;
+}
+
+th{
+background:#4b2dd8;
+color:white;
+position:sticky;
+top:0;
+}
+
+/* LOADER */
+#loader{
+display:flex;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:white;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+.spinner{
+width:40px;
+height:40px;
+border:5px solid #ddd;
+border-top:5px solid #4b2dd8;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
 }
 </style>
 </head>
 
 <body>
 
-<div class="top" id="title">Details</div>
+<div class="top">
+<div class="back" onclick="goBack()">⬅</div>
+<h3 id="title">Report</h3>
+</div>
 
-<div class="container">
-<div class="card" id="content"></div>
+<div id="tableArea" class="tableBox"></div>
+
+<div id="loader">
+<div class="spinner"></div>
 </div>
 
 <script>
 
-// get type
-let params = new URLSearchParams(window.location.search);
-let type = params.get("type");
+// GET TYPE FROM URL
+const params = new URLSearchParams(window.location.search);
+const type = params.get("type") || "all";
 
-let title = document.getElementById("title");
-let content = document.getElementById("content");
+document.getElementById("title").innerText = type + " Report";
 
-// DATA SWITCH
-if(type==="ask"){
-title.innerText="Ask Questions";
-content.innerHTML=`
-You can raise queries related to salary, deductions, and technical issues.
-Please provide clear details for faster resolution.
-`;
+// BACK
+function goBack(){
+window.history.back();
 }
 
-else if(type==="contact"){
-title.innerText="Contact Us";
-content.innerHTML=`
-Email: support@yourapp.com <br>
-Phone: +91 9876543210 <br>
-Working Hours: 9 AM - 6 PM
-`;
+// LOAD CSV
+async function loadCSV(){
+let r = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv?v=" + new Date().getTime());
+let t = await r.text();
+return t.trim().split("\n").map(r=>r.split(","));
 }
 
-else if(type==="help"){
-title.innerText="Help";
-content.innerHTML=`
-• Check salary in Salary page<br>
-• Download payslip from details page<br>
-• Contact admin if issue persists
-`;
+// LOAD DATA
+async function loadData(){
+let data = await loadCSV();
+let html = "<table>";
+
+html += "<tr>";
+data[0].forEach(col=>{
+html += `<th>${col}</th>`;
+});
+html += "</tr>";
+
+let genderIdx = 4;
+let phIdx = 10;
+let statusIdx = 5;
+
+for(let i=1;i<data.length;i++){
+let row = data[i];
+let show = false;
+
+if(type === 'all') show = true;
+else if(type === 'Male' && row[genderIdx]?.trim() === 'Male') show = true;
+else if(type === 'Female' && row[genderIdx]?.trim() === 'Female') show = true;
+else if(type === 'PH' && (row[phIdx]?.trim() === 'Yes' || row[phIdx]?.trim() === 'PH')) show = true;
+else if(type === 'Leave' && row[statusIdx]?.toLowerCase().includes('leave')) show = true;
+else if(type === 'Other') show = true;
+
+if(show){
+html += "<tr>";
+row.forEach(cell=>{
+html += `<td>${cell}</td>`;
+});
+html += "</tr>";
+}
 }
 
-else if(type==="privacy"){
-title.innerText="Privacy Policy";
-content.innerHTML=`
-We respect your privacy. Your salary data is secure and not shared with third parties.
-`;
+html += "</table>";
+document.getElementById("tableArea").innerHTML = html;
+document.getElementById("loader").style.display="none";
 }
 
-else if(type==="terms"){
-title.innerText="Terms & Conditions";
-content.innerHTML=`
-By using this app, you agree to company policies.
-Unauthorized access is prohibited.
-`;
-}
-
-else if(type==="copyright"){
-title.innerText="Copyright Policy";
-content.innerHTML=`
-All content belongs to the organization. Unauthorized copying is prohibited.
-`;
-}
-
-else if(type==="org"){
-title.innerText="Organization Chart";
-content.innerHTML=`
-CEO → Manager → Team Lead → Employee
-`;
-}
+loadData();
 
 </script>
 
