@@ -5,12 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
 body{
 font-family:sans-serif;
 margin:0;
 background:#f4f4f9;
 }
 
+/* HEADER */
 .top{
 padding:18px;
 background:#4b2dd8;
@@ -19,49 +21,82 @@ border-bottom-left-radius:25px;
 border-bottom-right-radius:25px;
 }
 
+/* CONTENT */
 .content{
 padding:15px;
 }
 
-/* SLIDER */
-.report-slider{
-display:flex;
-overflow-x:auto;
-gap:12px;
-padding:10px 5px;
-}
-
-.report-slider::-webkit-scrollbar{
-display:none;
-}
-
-.slide-btn{
-min-width:140px;
-padding:14px;
-border:none;
-border-radius:18px;
-background:linear-gradient(135deg,#6c39ff,#4b2dd8);
-color:white;
-font-weight:600;
-font-size:13px;
-cursor:pointer;
-flex-shrink:0;
+/* 🔥 LIST STYLE BUTTONS */
+.report-list{
 display:flex;
 flex-direction:column;
+gap:12px;
+}
+
+/* CARD BUTTON */
+.list-btn{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:16px;
+border-radius:15px;
+background:white;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+cursor:pointer;
+transition:0.25s;
+}
+
+.list-btn:active{
+transform:scale(0.97);
+box-shadow:0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* LEFT CONTENT */
+.left{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+/* ICON */
+.icon{
+width:40px;
+height:40px;
+border-radius:12px;
+display:flex;
 align-items:center;
 justify-content:center;
-gap:6px;
-box-shadow:0 6px 15px rgba(0,0,0,0.15);
-transition:0.3s;
-}
-
-.slide-btn span{
 font-size:20px;
+color:white;
 }
 
-.slide-btn:active{
-transform:scale(0.92);
+/* DIFFERENT COLORS */
+.bg1{background:linear-gradient(135deg,#6c39ff,#4b2dd8);}
+.bg2{background:linear-gradient(135deg,#00c6ff,#0072ff);}
+.bg3{background:linear-gradient(135deg,#ff7b00,#ff3d00);}
+.bg4{background:linear-gradient(135deg,#00c853,#009624);}
+.bg5{background:linear-gradient(135deg,#ff4081,#c51162);}
+.bg6{background:linear-gradient(135deg,#607d8b,#37474f);}
+.bg7{background:linear-gradient(135deg,#000,#333);}
+
+/* TEXT */
+.text h4{
+margin:0;
+font-size:14px;
 }
+
+.text p{
+margin:0;
+font-size:11px;
+color:#777;
+}
+
+/* RIGHT ARROW */
+.arrow{
+font-size:18px;
+color:#999;
+}
+
 </style>
 </head>
 
@@ -73,35 +108,91 @@ transform:scale(0.92);
 
 <div class="content">
 
-<div class="report-slider">
+<div class="report-list">
 
-<button class="slide-btn" onclick="openReport('all')">
-<span>📊</span> Full Data
-</button>
+<!-- FULL DATA -->
+<div class="list-btn" onclick="openReport('all')">
+<div class="left">
+<div class="icon bg1">📊</div>
+<div class="text">
+<h4>Full Employee Data</h4>
+<p>View complete employee records</p>
+</div>
+</div>
+<div class="arrow">›</div>
+</div>
 
-<button class="slide-btn" onclick="openReport('Male')">
-<span>👨</span> Male
-</button>
+<!-- MALE -->
+<div class="list-btn" onclick="openReport('Male')">
+<div class="left">
+<div class="icon bg2">👨</div>
+<div class="text">
+<h4>Male Employees</h4>
+<p>Filter all male staff</p>
+</div>
+</div>
+<div class="arrow">›</div>
+</div>
 
-<button class="slide-btn" onclick="openReport('Female')">
-<span>👩</span> Female
-</button>
+<!-- FEMALE -->
+<div class="list-btn" onclick="openReport('Female')">
+<div class="left">
+<div class="icon bg3">👩</div>
+<div class="text">
+<h4>Female Employees</h4>
+<p>Filter all female staff</p>
+</div>
+</div>
+<div class="arrow">›</div>
+</div>
 
-<button class="slide-btn" onclick="openReport('PH')">
-<span>♿</span> Disabled
-</button>
+<!-- PH -->
+<div class="list-btn" onclick="openReport('PH')">
+<div class="left">
+<div class="icon bg4">♿</div>
+<div class="text">
+<h4>Disabled Employees</h4>
+<p>PH category records</p>
+</div>
+</div>
+<div class="arrow">›</div>
+</div>
 
-<button class="slide-btn" onclick="openReport('Leave')">
-<span>📅</span> Leave
-</button>
+<!-- LEAVE -->
+<div class="list-btn" onclick="openReport('Leave')">
+<div class="left">
+<div class="icon bg5">📅</div>
+<div class="text">
+<h4>Leave Report</h4>
+<p>Employees on leave</p>
+</div>
+</div>
+<div class="arrow">›</div>
+</div>
 
-<button class="slide-btn" onclick="openReport('Other')">
-<span>📂</span> Other
-</button>
+<!-- OTHER -->
+<div class="list-btn" onclick="openReport('Other')">
+<div class="left">
+<div class="icon bg6">📂</div>
+<div class="text">
+<h4>Other Reports</h4>
+<p>Additional filters</p>
+</div>
+</div>
+<div class="arrow">›</div>
+</div>
 
-<button class="slide-btn" onclick="downloadCSV()">
-<span>⬇</span> Download
-</button>
+<!-- DOWNLOAD -->
+<div class="list-btn" onclick="downloadCSV()">
+<div class="left">
+<div class="icon bg7">⬇</div>
+<div class="text">
+<h4>Download CSV</h4>
+<p>Download full dataset</p>
+</div>
+</div>
+<div class="arrow">›</div>
+</div>
 
 </div>
 
