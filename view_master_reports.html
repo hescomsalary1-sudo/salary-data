@@ -238,57 +238,53 @@ document.getElementById("loader").style.display="none";
 loadData();
 async function loadLeaveReport(){
 
-let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
+let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
 let text = await res.text();
 let rows = text.trim().split("\n");
 
 let html = "<table>";
-html += "<tr><th>User</th><th>EL Days</th><th>FPL Days</th></tr>";
+html += "<tr><th>User</th><th>EL (Final)</th><th>FPL (Final)</th></tr>";
 
-let total=0, male=0, female=0, leave=0;
+let totalUsers = 0;
+let totalEL = 0;
+let totalFPL = 0;
 
-let userMap = {};
+/* CURRENT DATE LOGIC (same as your dashboard) */
+let today = new Date();
+let year = today.getFullYear();
 
-/* COUNT EL + FPL */
+let jan1 = new Date(year, 0, 1);
+let july1 = new Date(year, 6, 1);
+
 for(let i=1;i<rows.length;i++){
 
 let c = rows[i].split(",");
 
 let user = c[0].trim();
+let el = parseInt(c[3]) || 0;
+let fpl = parseInt(c[4]) || 0;
 
-let el=0, fpl=0;
-
-for(let d=3; d<34; d++){
-let val = c[d]?.trim();
-
-if(val==="EL") el++;
-if(val==="FPL") fpl++;
+/* APPLY CREDIT RULE (same as your leaves.html) */
+if(today >= jan1 && today < july1){
+el += 15;
+fpl += 5;
 }
 
-if(!userMap[user]){
-userMap[user] = {el:0, fpl:0};
+if(today >= july1){
+el += 30;
+fpl += 10;
 }
 
-userMap[user].el += el;
-userMap[user].fpl += fpl;
-}
-
-/* CREATE TABLE */
-for(let u in userMap){
-
-let el = userMap[u].el;
-let fpl = userMap[u].fpl;
-
-if(el===0 && fpl===0) continue;
-
+/* ADD ROW */
 html += `<tr>
-<td>${u}</td>
+<td>${user}</td>
 <td>${el}</td>
 <td>${fpl}</td>
 </tr>`;
 
-total++;
-leave += (el + fpl);
+totalUsers++;
+totalEL += el;
+totalFPL += fpl;
 }
 
 html += "</table>";
@@ -296,10 +292,10 @@ html += "</table>";
 document.getElementById("tableArea").innerHTML = html;
 
 /* SUMMARY */
-document.getElementById("totalCount").innerText = total;
-document.getElementById("maleCount").innerText = "-";
-document.getElementById("femaleCount").innerText = "-";
-document.getElementById("leaveCount").innerText = leave;
+document.getElementById("totalCount").innerText = totalUsers;
+document.getElementById("maleCount").innerText = totalEL;
+document.getElementById("femaleCount").innerText = totalFPL;
+document.getElementById("leaveCount").innerText = totalEL + totalFPL;
 }
 </script>
 
