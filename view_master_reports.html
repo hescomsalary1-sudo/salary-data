@@ -367,7 +367,14 @@ document.getElementById("loader").style.display="none";
   /* 🔥 DOWNLOAD CSV */
 function downloadCSVReport(){
 
-let rows = document.querySelectorAll("table tr");
+let table = document.querySelector("table");
+
+if(!table){
+alert("No data to download");
+return;
+}
+
+let rows = table.querySelectorAll("tr");
 let csv = [];
 
 rows.forEach(row=>{
@@ -375,47 +382,49 @@ let cols = row.querySelectorAll("th,td");
 let data = [];
 
 cols.forEach(col=>{
-data.push(col.innerText);
+let text = col.innerText.replace(/,/g, " "); // avoid comma issue
+data.push(text);
 });
 
 csv.push(data.join(","));
 });
 
 let blob = new Blob([csv.join("\n")], { type: "text/csv" });
-let link = document.createElement("a");
+let url = URL.createObjectURL(blob);
 
-link.href = URL.createObjectURL(blob);
-link.download = "leave_report.csv";
-link.click();
+let a = document.createElement("a");
+a.href = url;
+a.download = "leave_report.csv";
+
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
 }
 
 /* 🔥 DOWNLOAD PDF */
 function downloadPDF(){
 
-let content = document.getElementById("tableArea").innerHTML;
+let table = document.getElementById("tableArea");
 
-let win = window.open("", "", "width=900,height=700");
+if(!table || table.innerHTML.trim() === ""){
+alert("No data to download");
+return;
+}
 
-win.document.write(`
-<html>
-<head>
-<title>Leave Report</title>
-<style>
-body{font-family:sans-serif;padding:20px;}
-table{width:100%;border-collapse:collapse;}
-th,td{border:1px solid #000;padding:8px;text-align:center;}
-th{background:#4b2dd8;color:white;}
-</style>
-</head>
-<body>
-<h2>Leave Report</h2>
-${content}
-</body>
-</html>
-`);
+/* CREATE PRINT VIEW */
+let original = document.body.innerHTML;
 
-win.document.close();
-win.print();
+document.body.innerHTML = `
+<h2 style="text-align:center;">Leave Report</h2>
+${table.innerHTML}
+`;
+
+/* PRINT */
+window.print();
+
+/* RESTORE PAGE */
+document.body.innerHTML = original;
+location.reload();
 }
 </script>
 
