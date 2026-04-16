@@ -55,32 +55,42 @@ color:#666;
 }
 
 /* TABLE */
+/* 🔥 COMPACT TABLE FOR LEAVE REPORT */
 .tableBox{
-overflow:auto;
 margin:15px;
-border-radius:10px;
+border-radius:12px;
 box-shadow:0 4px 12px rgba(0,0,0,0.1);
+overflow:hidden; /* no scroll */
 }
 
 table{
 width:100%;
 border-collapse:collapse;
 background:white;
-font-size:12px;
-min-width:800px;
+font-size:13px;
+min-width:unset; /* remove wide scroll */
 }
 
 th,td{
-padding:8px;
-border:1px solid #ddd;
-white-space:nowrap;
+padding:10px;
+border-bottom:1px solid #eee;
+text-align:center;
 }
 
 th{
 background:#4b2dd8;
 color:white;
-position:sticky;
-top:0;
+font-size:13px;
+}
+
+tr:last-child td{
+border-bottom:none;
+}
+
+/* BETTER LOOK */
+td:first-child{
+font-weight:600;
+color:#333;
 }
 
 /* LOADER */
