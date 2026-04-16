@@ -30,41 +30,50 @@ border-bottom-right-radius:25px;
 padding:15px;
 }
 
-/* BUTTON GRID SYSTEM */
-.report-grid {
-display: grid;
-grid-template-columns: repeat(2, 1fr);
-gap: 10px;
-margin-bottom: 20px;
+/* 🔥 SLIDER BUTTON STYLE */
+.report-slider{
+display:flex;
+overflow-x:auto;
+gap:12px;
+padding:10px 5px;
+scroll-snap-type:x mandatory;
 }
 
-.btn{
-width:100%;
-padding:12px;
+.report-slider::-webkit-scrollbar{
+display:none;
+}
+
+.slide-btn{
+min-width:140px;
+padding:14px;
 border:none;
-border-radius:10px;
+border-radius:18px;
 background:linear-gradient(135deg,#6c39ff,#4b2dd8);
 color:white;
 font-weight:600;
-font-size: 13px;
+font-size:13px;
 cursor:pointer;
+flex-shrink:0;
+scroll-snap-align:start;
 transition:0.3s;
-display: flex;
-align-items: center;
-justify-content: center;
-text-align: center;
+box-shadow:0 6px 15px rgba(0,0,0,0.15);
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:6px;
 }
 
-/* Full width buttons for main actions */
-.full-btn {
-grid-column: span 2;
-background: linear-gradient(135deg, #2400b7, #111);
-margin-bottom: 5px;
+.slide-btn span{
+font-size:20px;
 }
 
-.btn:active{
-transform:scale(0.95);
-box-shadow:0 2px 8px rgba(0,0,0,0.2);
+.slide-btn:active{
+transform:scale(0.92);
+}
+
+.slide-btn.active{
+background:linear-gradient(135deg,#111,#2400b7);
 }
 
 /* TABLE */
@@ -80,7 +89,7 @@ width:100%;
 border-collapse:collapse;
 background:white;
 font-size:12px;
-min-width:800px; /* Increased for more columns */
+min-width:800px;
 }
 
 th,td{
@@ -136,20 +145,47 @@ animation:spin 1s linear infinite;
 
 <div class="content">
 
-    <div class="report-grid">
-        <button class="btn full-btn" onclick="loadData('all')">📊 View Full Data</button>
-        
-        <button class="btn" onclick="loadData('Male')">👨 Male Report</button>
-        <button class="btn" onclick="loadData('Female')">👩 Female Report</button>
-        
-        <button class="btn" onclick="loadData('PH')">♿ Disabled (PH)</button>
-        <button class="btn" onclick="loadData('Leave')">📅 Leave Report</button>
-        
-        <button class="btn" onclick="loadData('Other')">📂 Other Reports</button>
-        <button class="btn" onclick="downloadFullCSV()">⬇ Download CSV</button>
-    </div>
+<!-- 🔥 MODERN SLIDER BUTTONS -->
+<div class="report-slider">
 
-    <div id="tableArea" class="tableBox"></div>
+<button class="slide-btn active" onclick="setActive(this); loadData('all')">
+<span>📊</span>
+Full Data
+</button>
+
+<button class="slide-btn" onclick="setActive(this); loadData('Male')">
+<span>👨</span>
+Male
+</button>
+
+<button class="slide-btn" onclick="setActive(this); loadData('Female')">
+<span>👩</span>
+Female
+</button>
+
+<button class="slide-btn" onclick="setActive(this); loadData('PH')">
+<span>♿</span>
+Disabled
+</button>
+
+<button class="slide-btn" onclick="setActive(this); loadData('Leave')">
+<span>📅</span>
+Leave
+</button>
+
+<button class="slide-btn" onclick="setActive(this); loadData('Other')">
+<span>📂</span>
+Other
+</button>
+
+<button class="slide-btn" onclick="downloadFullCSV()">
+<span>⬇</span>
+Download
+</button>
+
+</div>
+
+<div id="tableArea" class="tableBox"></div>
 
 </div>
 
@@ -158,6 +194,12 @@ animation:spin 1s linear infinite;
 </div>
 
 <script>
+
+/* ACTIVE BUTTON */
+function setActive(btn){
+document.querySelectorAll(".slide-btn").forEach(b=>b.classList.remove("active"));
+btn.classList.add("active");
+}
 
 /* LOAD CSV */
 async function loadCSV(){
@@ -183,21 +225,16 @@ async function loadData(filterType){
 
     let html = "<table>";
 
-    // HEADER
     html += "<tr>";
     data[0].forEach(col=>{
         html += `<th>${col}</th>`;
     });
     html += "</tr>";
 
-    // Get Column Indexes (Adjust these based on your actual CSV column order)
-    // Assuming: Gender is Column 4, PH status is Column 10 etc.
-    // Replace the numbers below with the correct index of your CSV columns
     let genderIdx = 4;  
     let phIdx = 10;     
     let statusIdx = 5; 
 
-    // ROWS
     for(let i=1; i<data.length; i++){
         let row = data[i];
         let showRow = false;
@@ -207,7 +244,7 @@ async function loadData(filterType){
         else if(filterType === 'Female' && row[genderIdx]?.trim() === 'Female') showRow = true;
         else if(filterType === 'PH' && (row[phIdx]?.trim() === 'Yes' || row[phIdx]?.trim() === 'PH')) showRow = true;
         else if(filterType === 'Leave' && row[statusIdx]?.toLowerCase().includes('leave')) showRow = true;
-        else if(filterType === 'Other') showRow = true; // Placeholder for other logic
+        else if(filterType === 'Other') showRow = true;
 
         if(showRow){
             html += "<tr>";
