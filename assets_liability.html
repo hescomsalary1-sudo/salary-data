@@ -94,12 +94,37 @@ height:6px;
 background:#bbb;
 border-radius:10px;
 }
+/* LOADER */
+#loader{
+position:fixed;
+width:100%;
+height:100%;
+background:white;
+display:none;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
 
+.spinner{
+width:40px;
+height:40px;
+border:5px solid #ddd;
+border-top:5px solid #4b2dd8;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+100%{transform:rotate(360deg);}
+}
 </style>
 </head>
 
 <body>
-
+<div id="loader">
+  <div class="spinner"></div>
+</div>
 <div class="top">
 <h2>Assets & Liability</h2>
 </div>
@@ -160,6 +185,9 @@ alert("Select date range");
 return;
 }
 
+/* ✅ SHOW LOADER */
+loader.style.display = "flex";
+
 /* ================= SALARY ================= */
 
 let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
@@ -170,7 +198,6 @@ let rows = data.trim().split("\n");
 let filteredRows = [];
 let colUsed = new Array(headers.length).fill(false);
 
-/* FILTER */
 for(let i=1;i<rows.length;i++){
 
 let c = rows[i].split(",");
@@ -194,7 +221,7 @@ filteredRows.push(row);
 }
 }
 
-/* BUILD TABLE */
+/* TABLE */
 let tableHTML = "<table><tr>";
 
 headers.forEach((h,i)=>{
@@ -207,7 +234,6 @@ tableHTML += "</tr>";
 
 let totalE=0,totalD=0;
 
-/* ROWS */
 filteredRows.forEach(r=>{
 
 tableHTML += "<tr>";
@@ -220,7 +246,6 @@ tableHTML += `<td>${val}</td>`;
 
 tableHTML += "</tr>";
 
-/* TOTAL */
 for(let i=1;i<=17;i++) totalE += +r[i] || 0;
 for(let i=18;i<r.length;i++) totalD += +r[i] || 0;
 
@@ -230,19 +255,23 @@ tableHTML += "</table>";
 
 /* ================= OTHER INCOME ================= */
 
-let incomeFiles = [
-"supplementary.csv",
-"da_arrears.csv",
-"double_wages.csv",
-"medical_bills.csv",
-"ta_bills.csv",
-"els_bills.csv",
-"others.csv"
-];
+let incomeFiles = {
+"Supplementary Salary":"supplementary.csv",
+"DA Arrears":"da_arrears.csv",
+"Double Wages":"double_wages.csv",
+"Medical Bills":"medical_bills.csv",
+"TA Bills":"ta_bills.csv",
+"ELS Bills":"els_bills.csv",
+"Others":"others.csv"
+};
 
+let incomeBreakdown = {};
 let totalOtherIncome = 0;
 
-for(let file of incomeFiles){
+for(let type in incomeFiles){
+
+let file = incomeFiles[type];
+let typeTotal = 0;
 
 try{
 let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/" + file);
@@ -261,10 +290,16 @@ let year = c[1];
 let amount = +c[2] || 0;
 
 if(username === user && inYearRange(year,from,to)){
-totalOtherIncome += amount;
+typeTotal += amount;
 }
 
 }
+
+if(typeTotal > 0){
+incomeBreakdown[type] = typeTotal;
+totalOtherIncome += typeTotal;
+}
+
 }catch(e){
 console.log("Error loading",file);
 }
@@ -283,13 +318,28 @@ Net Amount: ₹ ${totalE - totalD}
 <br>
 
 <div class="summary" style="background:#1e88e5;">
-Other Income (Selected Period): ₹ ${totalOtherIncome}
+<b>Other Income Total:</b> ₹ ${totalOtherIncome}
 </div>
 `;
+
+/* ✅ BREAKDOWN TABLE */
+if(Object.keys(incomeBreakdown).length > 0){
+
+summaryHTML += `<br><div class="summary" style="background:#009688;">`;
+
+for(let type in incomeBreakdown){
+summaryHTML += `${type}: ₹ ${incomeBreakdown[type]} <br>`;
+}
+
+summaryHTML += `</div>`;
+}
 
 /* DISPLAY */
 document.getElementById("tableData").innerHTML = tableHTML;
 document.getElementById("summaryBox").innerHTML = summaryHTML;
+
+/* ✅ HIDE LOADER */
+loader.style.display = "none";
 
 }
 
