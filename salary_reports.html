@@ -50,50 +50,34 @@
             display: block;
         }
 
-        /* The new selection method: Chips */
         .year-chips {
             display: flex;
             gap: 10px;
             overflow-x: auto;
-            padding-bottom: 10px;
-            scrollbar-width: none; /* Hide scrollbar Firefox */
+            padding: 5px 2px 15px 2px;
+            scrollbar-width: none;
         }
-        .year-chips::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome/Safari */
+        .year-chips::-webkit-scrollbar { display: none; }
 
         .chip {
-            padding: 10px 20px;
+            padding: 12px 24px;
             background: #f0edff;
             color: var(--primary);
-            border-radius: 12px;
+            border-radius: 15px;
             font-weight: 600;
             cursor: pointer;
             white-space: nowrap;
             transition: all 0.3s ease;
             border: 2px solid transparent;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
         }
 
         .chip.active {
             background: var(--primary);
             color: white;
-            box-shadow: 0 4px 12px rgba(75, 45, 216, 0.3);
+            box-shadow: 0 8px 15px rgba(75, 45, 216, 0.3);
+            transform: translateY(-2px);
         }
-
-        button {
-            width: 100%;
-            padding: 15px;
-            margin-top: 15px;
-            background: var(--primary);
-            color: white;
-            font-weight: bold;
-            font-size: 16px;
-            border: none;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(75, 45, 216, 0.2);
-        }
-
-        button:active { transform: scale(0.98); }
 
         /* TABLE & RESULTS */
         .resultBox {
@@ -101,7 +85,7 @@
             padding: 20px;
             border-radius: 20px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.05);
-            margin-top: 20px;
+            margin-top: 10px;
             animation: slideUp 0.4s ease-out;
         }
 
@@ -113,20 +97,21 @@
         .table { width: 100%; border-collapse: collapse; }
 
         .table td {
-            padding: 14px 0;
+            padding: 16px 0;
             border-bottom: 1px solid #f1f2f6;
             font-size: 14px;
         }
 
         .amount { text-align: right; font-weight: 700; color: #2d3436; }
 
-        .total {
-            background: #f9faff;
+        .total-row {
             font-weight: bold;
             color: var(--primary);
         }
         
-        .total td { border-bottom: none; padding: 15px 10px; border-radius: 10px; }
+        .total-row td { border-bottom: none; padding: 18px 10px; border-radius: 12px; }
+
+        .tax-cell { color: #d63031; }
 
         /* LOADER */
         #loader {
@@ -134,12 +119,12 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(255,255,255,0.7);
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(4px);
             justify-content: center; align-items: center; z-index: 9999;
         }
 
         .spinner {
-            width: 45px; height: 45px;
+            width: 40px; height: 40px;
             border: 4px solid #f3f3f3;
             border-top: 4px solid var(--primary);
             border-radius: 50%;
@@ -159,12 +144,9 @@
 
 <div class="content">
     <div class="card">
-        <span class="label-text">Select Year</span>
+        <span class="label-text">Select Year to View Report</span>
         <div class="year-chips" id="yearContainer"></div>
-        
         <input type="hidden" id="year">
-
-        <button onclick="generateReport()">Generate Summary Report</button>
     </div>
 
     <div id="result"></div>
@@ -175,15 +157,15 @@
 <script>
 const baseURL = "https://hescomsalary1-sudo.github.io/salary-data/";
 
-/* LOAD CSV */
 async function loadCSV(file){
-    let res = await fetch(baseURL + file);
-    let text = await res.text();
-    text = text.replace(/^\uFEFF/, '');
-    return text.trim().split("\n").map(r => r.split(","));
+    try {
+        let res = await fetch(baseURL + file);
+        let text = await res.text();
+        text = text.replace(/^\uFEFF/, '');
+        return text.trim().split("\n").map(r => r.split(","));
+    } catch(e) { return []; }
 }
 
-/* INIT YEAR - UPDATED FOR CHIP DESIGN */
 async function init(){
     let user = localStorage.getItem("currentUser")?.trim();
     let role = localStorage.getItem("role");
@@ -201,40 +183,44 @@ async function init(){
     const hiddenInput = document.getElementById("year");
     container.innerHTML = "";
     
-    // Sort years descending (newest first)
     const sortedYears = Array.from(years).sort((a,b) => b - a);
 
     sortedYears.forEach((y, index) => {
         const chip = document.createElement("div");
-        chip.className = "chip" + (index === 0 ? " active" : "");
+        chip.className = "chip";
         chip.innerText = y;
         
-        // On click: update UI and hidden input
         chip.onclick = function() {
+            if(this.classList.contains('active')) return;
             document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
             this.classList.add('active');
             hiddenInput.value = y;
+            generateReport(); // Trigger automatically
         };
         
         container.appendChild(chip);
-        
-        // Auto-select the first year (usually the latest)
-        if(index === 0) hiddenInput.value = y;
+
+        // Auto-load the first year on startup
+        if(index === 0) {
+            chip.classList.add('active');
+            hiddenInput.value = y;
+            generateReport();
+        }
     });
 }
 init();
 
-/* REPORT - KEPT YOUR LOGIC UNCHANGED */
 async function generateReport(){
     const loader = document.getElementById("loader");
     const result = document.getElementById("result");
-    const year = document.getElementById("year");
+    const selectedYear = document.getElementById("year").value;
+
+    if(!selectedYear) return;
 
     loader.style.display="flex";
 
     let user = localStorage.getItem("currentUser")?.trim();
     let role = localStorage.getItem("role");
-    let selectedYear = year.value;
 
     let salary = await loadCSV("salary%20.csv");
 
@@ -285,9 +271,9 @@ async function generateReport(){
         <table class="table">
             <tr><td>Annual Salary</td><td class="amount">₹${totalSalary.toFixed(2)}</td></tr>
             ${billRows}
-            <tr class="total"><td>Other Earnings Total</td><td class="amount">₹${totalBills.toFixed(2)}</td></tr>
-            <tr class="total" style="background:#eef1ff"><td>Gross Income</td><td class="amount">₹${totalIncome.toFixed(2)}</td></tr>
-            <tr><td>Total Income Tax</td><td class="amount" style="color:#e74c3c">- ₹${totalTax.toFixed(2)}</td></tr>
+            <tr class="total-row"><td>Other Earnings Total</td><td class="amount">₹${totalBills.toFixed(2)}</td></tr>
+            <tr class="total-row" style="background:#eef1ff"><td>Gross Total Income</td><td class="amount">₹${totalIncome.toFixed(2)}</td></tr>
+            <tr><td>Income Tax Paid</td><td class="amount tax-cell">₹${totalTax.toFixed(2)}</td></tr>
         </table>
     </div>`;
 
