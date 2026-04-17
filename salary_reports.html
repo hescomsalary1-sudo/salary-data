@@ -1,287 +1,298 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Salary Reports</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Reports</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --primary: #4b2dd8;
+            --primary-light: #7a5cff;
+            --bg: #f8f9fd;
+            --text: #2d3436;
+        }
 
-<style>
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            -webkit-tap-highlight-color: transparent;
+        }
 
-body{
-font-family:sans-serif;
-margin:0;
-background:#f4f4f9;
-}
+        /* HEADER */
+        .top {
+            padding: 25px 20px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border-radius: 0 0 30px 30px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(75, 45, 216, 0.2);
+        }
 
-/* HEADER */
-.top{
-padding:18px;
-background:#4b2dd8;
-color:white;
-border-radius:0 0 25px 25px;
-text-align:center;
-}
+        .top h3 { margin: 0; font-weight: 600; letter-spacing: 0.5px; }
 
-/* CONTENT */
-.content{
-padding:15px;
-}
+        .content { padding: 20px; }
 
-/* CARD */
-.card{
-background:white;
-padding:15px;
-border-radius:15px;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
-margin-bottom:15px;
-}
+        /* MODERN YEAR SELECTOR (CHIPS) */
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(149, 157, 165, 0.1);
+            margin-bottom: 20px;
+        }
 
-/* INPUT */
-select,button{
-width:100%;
-padding:10px;
-margin-top:10px;
-border-radius:8px;
-border:1px solid #ccc;
-}
+        .label-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #636e72;
+            margin-bottom: 12px;
+            display: block;
+        }
 
-button{
-background:#4b2dd8;
-color:white;
-font-weight:bold;
-border:none;
-cursor:pointer;
-}
+        /* The new selection method: Chips */
+        .year-chips {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: none; /* Hide scrollbar Firefox */
+        }
+        .year-chips::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome/Safari */
 
-/* TABLE */
-.table{
-width:100%;
-border-collapse:collapse;
-margin-top:10px;
-}
+        .chip {
+            padding: 10px 20px;
+            background: #f0edff;
+            color: var(--primary);
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
 
-.table td{
-padding:8px;
-border-bottom:1px solid #eee;
-font-size:14px;
-}
+        .chip.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(75, 45, 216, 0.3);
+        }
 
-.amount{
-text-align:right;
-font-weight:600;
-}
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 15px;
+            background: var(--primary);
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(75, 45, 216, 0.2);
+        }
 
-/* RESULT BOX */
-.resultBox{
-background:white;
-padding:15px;
-border-radius:15px;
-box-shadow:0 6px 18px rgba(0,0,0,0.1);
-margin-top:15px;
-}
+        button:active { transform: scale(0.98); }
 
-/* TOTAL */
-.total{
-font-weight:bold;
-color:#4b2dd8;
-}
+        /* TABLE & RESULTS */
+        .resultBox {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+            margin-top: 20px;
+            animation: slideUp 0.4s ease-out;
+        }
 
-/* LOADER */
-#loader{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(255,255,255,0.8);
-justify-content:center;
-align-items:center;
-z-index:9999;
-}
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-.spinner{
-width:40px;
-height:40px;
-border:5px solid #ddd;
-border-top:5px solid #4b2dd8;
-border-radius:50%;
-animation:spin 1s linear infinite;
-}
+        .table { width: 100%; border-collapse: collapse; }
 
-@keyframes spin{
-0%{transform:rotate(0deg);}
-100%{transform:rotate(360deg);}
-}
+        .table td {
+            padding: 14px 0;
+            border-bottom: 1px solid #f1f2f6;
+            font-size: 14px;
+        }
 
-</style>
+        .amount { text-align: right; font-weight: 700; color: #2d3436; }
+
+        .total {
+            background: #f9faff;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .total td { border-bottom: none; padding: 15px 10px; border-radius: 10px; }
+
+        /* LOADER */
+        #loader {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(5px);
+            justify-content: center; align-items: center; z-index: 9999;
+        }
+
+        .spinner {
+            width: 45px; height: 45px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+    </style>
 </head>
 
 <body>
 
 <div class="top">
-<h3>💰 Salary Reports</h3>
+    <h3>💰 Salary Reports</h3>
 </div>
 
 <div class="content">
+    <div class="card">
+        <span class="label-text">Select Year</span>
+        <div class="year-chips" id="yearContainer"></div>
+        
+        <input type="hidden" id="year">
 
-<div class="card">
-<label>Select Year</label>
-<select id="year"></select>
+        <button onclick="generateReport()">Generate Summary Report</button>
+    </div>
 
-<button onclick="generateReport()">Generate Report</button>
+    <div id="result"></div>
 </div>
 
-<div id="result"></div>
-
-</div>
-
-<!-- LOADER -->
-<div id="loader">
-<div class="spinner"></div>
-</div>
+<div id="loader"><div class="spinner"></div></div>
 
 <script>
-
 const baseURL = "https://hescomsalary1-sudo.github.io/salary-data/";
 
 /* LOAD CSV */
 async function loadCSV(file){
-let res = await fetch(baseURL + file);
-let text = await res.text();
-text = text.replace(/^\uFEFF/, '');
-return text.trim().split("\n").map(r => r.split(","));
+    let res = await fetch(baseURL + file);
+    let text = await res.text();
+    text = text.replace(/^\uFEFF/, '');
+    return text.trim().split("\n").map(r => r.split(","));
 }
 
-/* INIT YEAR */
+/* INIT YEAR - UPDATED FOR CHIP DESIGN */
 async function init(){
+    let user = localStorage.getItem("currentUser")?.trim();
+    let role = localStorage.getItem("role");
+    let data = await loadCSV("salary%20.csv");
+    let years = new Set();
 
-let user = localStorage.getItem("currentUser")?.trim();
-let role = localStorage.getItem("role");
+    data.slice(1).forEach(r=>{
+        let u = r[0]?.trim();
+        let y = r[1]?.trim();
+        if(role !== "admin" && u !== user) return;
+        if(y) years.add(y);
+    });
 
-let data = await loadCSV("salary%20.csv");
+    const container = document.getElementById("yearContainer");
+    const hiddenInput = document.getElementById("year");
+    container.innerHTML = "";
+    
+    // Sort years descending (newest first)
+    const sortedYears = Array.from(years).sort((a,b) => b - a);
 
-let years = new Set();
-
-data.slice(1).forEach(r=>{
-let u = r[0]?.trim();
-let y = r[1]?.trim();
-
-if(role !== "admin" && u !== user) return;
-if(y) years.add(y);
-});
-
-year.innerHTML="";
-years.forEach(y=> year.innerHTML += `<option>${y}</option>`);
-
+    sortedYears.forEach((y, index) => {
+        const chip = document.createElement("div");
+        chip.className = "chip" + (index === 0 ? " active" : "");
+        chip.innerText = y;
+        
+        // On click: update UI and hidden input
+        chip.onclick = function() {
+            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+            this.classList.add('active');
+            hiddenInput.value = y;
+        };
+        
+        container.appendChild(chip);
+        
+        // Auto-select the first year (usually the latest)
+        if(index === 0) hiddenInput.value = y;
+    });
 }
 init();
 
-/* REPORT */
+/* REPORT - KEPT YOUR LOGIC UNCHANGED */
 async function generateReport(){
+    const loader = document.getElementById("loader");
+    const result = document.getElementById("result");
+    const year = document.getElementById("year");
 
-loader.style.display="flex";
+    loader.style.display="flex";
 
-let user = localStorage.getItem("currentUser")?.trim();
-let role = localStorage.getItem("role");
-let selectedYear = year.value;
+    let user = localStorage.getItem("currentUser")?.trim();
+    let role = localStorage.getItem("role");
+    let selectedYear = year.value;
 
-let salary = await loadCSV("salary%20.csv");
+    let salary = await loadCSV("salary%20.csv");
 
-let files = {
-"TA Bills":"ta_bills.csv",
-"Supplementary":"supplementary.csv",
-"Medical":"medical_bills.csv",
-"ELS":"els_bills.csv",
-"Double Wages":"double_wages.csv",
-"DA Arrears":"da_arrears.csv",
-"Others":"others.csv"
-};
+    let files = {
+        "TA Bills":"ta_bills.csv",
+        "Supplementary":"supplementary.csv",
+        "Medical":"medical_bills.csv",
+        "ELS":"els_bills.csv",
+        "Double Wages":"double_wages.csv",
+        "DA Arrears":"da_arrears.csv",
+        "Others":"others.csv"
+    };
 
-let totalSalary = 0;
-let totalTax = 0;
+    let totalSalary = 0;
+    let totalTax = 0;
 
-/* SALARY */
-salary.slice(1).forEach(r=>{
+    salary.slice(1).forEach(r=>{
+        let u = r[0]?.trim();
+        let y = r[1]?.trim();
+        if(role !== "admin" && u !== user) return;
+        if(y !== selectedYear) return;
+        for(let j=3; j<=19; j++){ totalSalary += Number(r[j] || 0); }
+        totalTax += Number(r[21] || 0);
+    });
 
-let u = r[0]?.trim();
-let y = r[1]?.trim();
+    let billRows = "";
+    let totalBills = 0;
 
-if(role !== "admin" && u !== user) return;
-if(y !== selectedYear) return;
+    for(let key in files){
+        let data = await loadCSV(files[key]);
+        let sum = 0;
+        data.slice(1).forEach(r=>{
+            let u = r[0]?.trim();
+            let y = r[1]?.trim();
+            let amount = Number(r[2] || 0);
+            if(role !== "admin" && u !== user) return;
+            if(y !== selectedYear) return;
+            sum += amount;
+        });
+        totalBills += sum;
+        billRows += `<tr><td>${key}</td><td class="amount">₹${sum.toFixed(2)}</td></tr>`;
+    }
 
-/* earnings */
-for(let j=3;j<=19;j++){
-totalSalary += Number(r[j] || 0);
+    let totalIncome = totalSalary + totalBills;
+
+    result.innerHTML = `
+    <div class="resultBox">
+        <table class="table">
+            <tr><td>Annual Salary</td><td class="amount">₹${totalSalary.toFixed(2)}</td></tr>
+            ${billRows}
+            <tr class="total"><td>Other Earnings Total</td><td class="amount">₹${totalBills.toFixed(2)}</td></tr>
+            <tr class="total" style="background:#eef1ff"><td>Gross Income</td><td class="amount">₹${totalIncome.toFixed(2)}</td></tr>
+            <tr><td>Total Income Tax</td><td class="amount" style="color:#e74c3c">- ₹${totalTax.toFixed(2)}</td></tr>
+        </table>
+    </div>`;
+
+    loader.style.display="none";
 }
-
-/* Income Tax (index 21) */
-totalTax += Number(r[21] || 0);
-
-});
-
-/* BILLS */
-let billRows = "";
-let totalBills = 0;
-
-for(let key in files){
-
-let data = await loadCSV(files[key]);
-
-let sum = 0;
-
-data.slice(1).forEach(r=>{
-
-let u = r[0]?.trim();
-let y = r[1]?.trim();
-let amount = Number(r[2] || 0);
-
-if(role !== "admin" && u !== user) return;
-if(y !== selectedYear) return;
-
-sum += amount;
-
-});
-
-totalBills += sum;
-
-billRows += `
-<tr>
-<td>${key}</td>
-<td class="amount">₹${sum.toFixed(2)}</td>
-</tr>`;
-}
-
-/* FINAL */
-let totalIncome = totalSalary + totalBills;
-
-/* DISPLAY */
-
-result.innerHTML = `
-
-<div class="resultBox">
-
-<table class="table">
-
-<tr><td>Salary Earnings</td><td class="amount">₹${totalSalary.toFixed(2)}</td></tr>
-
-${billRows}
-
-<tr class="total"><td>Total Other Earnings</td><td class="amount">₹${totalBills.toFixed(2)}</td></tr>
-
-<tr class="total"><td>Total Income</td><td class="amount">₹${totalIncome.toFixed(2)}</td></tr>
-
-<tr><td>Income Tax</td><td class="amount">₹${totalTax.toFixed(2)}</td></tr>
-
-</table>
-
-</div>
-
-`;
-
-loader.style.display="none";
-
-}
-
 </script>
 
 </body>
