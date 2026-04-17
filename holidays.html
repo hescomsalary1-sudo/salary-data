@@ -1,245 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Holiday Calendar 2026</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        :root {
-            --primary: #4b2dd8;
-            --primary-light: #7a5cff;
-            --bg: #f8f9fd;
-            --text: #2d3436;
-        }
+<title>Holiday Calendar 2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0;
-            background-color: var(--bg);
-            color: var(--text);
-            -webkit-tap-highlight-color: transparent;
-        }
+<style>
+:root{
+--primary:#4b2dd8;
+--light:#7a5cff;
+--bg:#f8f9fd;
+}
 
-        /* HEADER */
-        .top {
-            padding: 30px 20px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            border-bottom-left-radius: 30px;
-            border-bottom-right-radius: 30px;
-            box-shadow: 0 10px 20px rgba(75, 45, 216, 0.15);
-        }
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:var(--bg);
+}
 
-        .top .icon {
-            width: 45px; height: 45px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 24px;
-        }
+/* HEADER */
+.top{
+padding:25px 20px;
+background:linear-gradient(135deg,var(--primary),var(--light));
+color:white;
+display:flex;
+align-items:center;
+gap:12px;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+}
 
-        /* GRID */
-        .content { padding: 20px; }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-        }
+.top .icon{
+width:42px;height:42px;
+background:rgba(255,255,255,0.2);
+border-radius:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+}
 
-        /* CARD - FIXED IMAGE VIEW */
-        .holiday-btn {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            border: 1px solid rgba(0,0,0,0.03);
-        }
+/* GRID */
+.content{padding:18px;}
 
-        .holiday-btn:active { transform: scale(0.95); }
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+}
 
-        .holiday-img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover; /* This fixes the 'cut' or white space issue */
-            display: block;
-        }
+/* CARD */
+.holiday-btn{
+background:white;
+border-radius:18px;
+overflow:hidden;
+box-shadow:0 8px 20px rgba(0,0,0,0.06);
+cursor:pointer;
+transition:0.25s;
+}
 
-        .holiday-info {
-            padding: 12px;
-            text-align: center;
-        }
+.holiday-btn:active{
+transform:scale(0.96);
+}
 
-        .holiday-info b {
-            background: #f0edff;
-            color: var(--primary);
-            padding: 3px 8px;
-            border-radius: 8px;
-            font-size: 11px;
-            display: inline-block;
-            margin-bottom: 5px;
-        }
+/* 🔥 IMAGE FIX (NO CUT EVER) */
+.holiday-img{
+width:100%;
+aspect-ratio:16/9;
+object-fit:contain;
+background:#f3f5ff;
+padding:6px;
+}
 
-        .holiday-info span {
-            display: block;
-            font-weight: 600;
-            font-size: 14px;
-            color: #333;
-        }
+/* INFO */
+.holiday-info{
+padding:12px;
+text-align:center;
+}
 
-        /* POPUP - MODERN GLASS LOOK */
-        .popup {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            visibility: hidden;
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 9999;
-        }
+.holiday-info b{
+background:#eee9ff;
+color:var(--primary);
+padding:4px 10px;
+border-radius:8px;
+font-size:11px;
+}
 
-        .popup.show {
-            visibility: visible;
-            opacity: 1;
-        }
+.holiday-info span{
+display:block;
+margin-top:6px;
+font-weight:600;
+font-size:14px;
+color:#333;
+}
 
-        .popup-box {
-            background: white;
-            padding: 25px;
-            border-radius: 25px;
-            width: 85%;
-            max-width: 340px;
-            text-align: center;
-            transform: translateY(30px);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+/* POPUP */
+.popup{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,0.5);
+display:flex;
+justify-content:center;
+align-items:center;
+visibility:hidden;
+opacity:0;
+transition:0.3s;
+}
 
-        .popup.show .popup-box {
-            transform: translateY(0);
-        }
+.popup.show{
+visibility:visible;
+opacity:1;
+}
 
-        .popup-box img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 15px;
-            margin-bottom: 15px;
-        }
+.popup-box{
+background:white;
+padding:20px;
+border-radius:20px;
+width:85%;
+max-width:330px;
+text-align:center;
+animation:pop 0.3s ease;
+}
 
-        .popup-box h3 { color: var(--primary); margin: 10px 0; }
-        .popup-box p { font-size: 14px; color: #555; line-height: 1.5; }
+@keyframes pop{
+from{transform:scale(0.8);opacity:0;}
+to{transform:scale(1);opacity:1;}
+}
 
-        .close-btn {
-            margin-top: 20px;
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 12px;
-            background: var(--primary);
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-        }
+/* 🔥 POPUP IMAGE FIX */
+.popup-box img{
+width:100%;
+max-height:200px;
+object-fit:contain;
+background:#f3f5ff;
+border-radius:12px;
+margin-bottom:12px;
+}
 
-        @media(max-width: 350px) {
-            .grid { grid-template-columns: 1fr; }
-        }
-    </style>
+.popup-box h3{
+color:var(--primary);
+margin:5px 0;
+}
+
+.popup-box p{
+font-size:14px;
+color:#555;
+line-height:1.5;
+}
+
+.popup-box button{
+margin-top:12px;
+padding:10px 20px;
+border:none;
+border-radius:20px;
+background:var(--primary);
+color:white;
+font-weight:bold;
+}
+
+/* MOBILE */
+@media(max-width:350px){
+.grid{grid-template-columns:1fr;}
+}
+</style>
 </head>
+
 <body>
 
 <div class="top">
-    <div class="icon">🎊</div>
-    <h2>Holiday List</h2>
+<div class="icon">🎉</div>
+<h2>Holiday List</h2>
 </div>
 
 <div class="content">
-    <div class="grid" id="holidayList"></div>
+<div class="grid" id="holidayList"></div>
 </div>
 
-<div class="popup" id="popup" onclick="closePopup()">
-    <div class="popup-box" onclick="event.stopPropagation()">
-        <img id="popupImg" src="">
-        <h3 id="holidayName"></h3>
-        <p id="holidayReason"></p>
-        <hr style="border:0; border-top:1px solid #eee; margin:15px 0;">
-        <p><strong>Importance:</strong></p>
-        <p id="holidayImportance"></p>
-        <button class="close-btn" onclick="closePopup()">Close</button>
-    </div>
+<!-- POPUP -->
+<div class="popup" id="popup">
+<div class="popup-box">
+
+<img id="popupImg">
+<h3 id="holidayName"></h3>
+<p id="holidayReason"></p>
+<p><b>Importance:</b></p>
+<p id="holidayImportance"></p>
+
+<button onclick="closePopup()">Close</button>
+
+</div>
 </div>
 
 <script>
-    // Improved Image Mapping
-    function getImage(name) {
-        name = name.toLowerCase();
-        if(name.includes("makara")) return "https://images.unsplash.com/photo-1590013330462-094d38ba0d5c?auto=format&fit=crop&w=500";
-        if(name.includes("republic")) return "https://images.unsplash.com/photo-1532375810709-75b1da00537c?auto=format&fit=crop&w=500";
-        if(name.includes("yugadi")) return "https://images.unsplash.com/photo-1614705827065-65c3db4d86cb?auto=format&fit=crop&w=500";
-        if(name.includes("ramzan")) return "https://images.unsplash.com/photo-1564769662533-4f00a87b4056?auto=format&fit=crop&w=500";
-        if(name.includes("christmas")) return "https://images.unsplash.com/photo-1543589077-47d81606c1bf?auto=format&fit=crop&w=500";
-        if(name.includes("ganesha")) return "https://images.unsplash.com/photo-1621644788118-2490b790d981?auto=format&fit=crop&w=500";
-        if(name.includes("diwali")) return "https://images.unsplash.com/photo-1547949003-9792a18a2601?auto=format&fit=crop&w=500";
-        
-        return "https://images.unsplash.com/photo-1459749411177-042180ce673c?auto=format&fit=crop&w=500";
-    }
 
-    // Modern CSV Parser (handles quotes and commas)
-    function parseCSV(text) {
-        const regex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
-        return text.split('\n').map(line => line.split(regex).map(val => val.replace(/^"|"$/g, '').trim()));
-    }
+/* FIXED IMAGE LINKS (NO CROPPING FROM SERVER) */
+function getImage(name){
+name=name.toLowerCase();
 
-    fetch("https://hescomsalary1-sudo.github.io/salary-data/holidays.csv")
-    .then(res => res.text())
-    .then(data => {
-        const rows = parseCSV(data).slice(1);
-        let html = "";
+if(name.includes("makara")) return "https://images.unsplash.com/photo-1590013330462-094d38ba0d5c?auto=format&fit=max&w=500";
+if(name.includes("republic")) return "https://images.unsplash.com/photo-1532375810709-75b1da00537c?auto=format&fit=max&w=500";
+if(name.includes("yugadi")) return "https://images.unsplash.com/photo-1614705827065-65c3db4d86cb?auto=format&fit=max&w=500";
+if(name.includes("ramzan")) return "https://images.unsplash.com/photo-1564769662533-4f00a87b4056?auto=format&fit=max&w=500";
+if(name.includes("christmas")) return "https://images.unsplash.com/photo-1543589077-47d81606c1bf?auto=format&fit=max&w=500";
+if(name.includes("ganesha")) return "https://images.unsplash.com/photo-1621644788118-2490b790d981?auto=format&fit=max&w=500";
+if(name.includes("diwali")) return "https://images.unsplash.com/photo-1547949003-9792a18a2601?auto=format&fit=max&w=500";
 
-        rows.forEach(cols => {
-            if(cols.length >= 3) {
-                const date = cols[0];
-                const name = cols[1];
-                const reason = cols[2];
-                const importance = cols[3] || "N/A";
-                const img = getImage(name);
+return "https://images.unsplash.com/photo-1459749411177-042180ce673c?auto=format&fit=max&w=500";
+}
 
-                // We use base64 encoding or simple escaping to ensure data passes safely to the function
-                html += `
-                <div class="holiday-btn" onclick="openPopup('${name.replace(/'/g, "\\'")}', '${reason.replace(/'/g, "\\'")}', '${importance.replace(/'/g, "\\'")}', '${img}')">
-                    <img src="${img}" class="holiday-img">
-                    <div class="holiday-info">
-                        <b>${date}</b>
-                        <span>${name}</span>
-                    </div>
-                </div>`;
-            }
-        });
+/* CSV LOAD */
+fetch("https://hescomsalary1-sudo.github.io/salary-data/holidays.csv")
+.then(res=>res.text())
+.then(data=>{
 
-        document.getElementById("holidayList").innerHTML = html;
-    })
-    .catch(err => console.error("Error loading CSV:", err));
+let rows=data.split("\n").slice(1);
+let html="";
 
-    function openPopup(name, reason, importance, img) {
-        document.getElementById("holidayName").innerText = name;
-        document.getElementById("holidayReason").innerText = reason;
-        document.getElementById("holidayImportance").innerText = importance;
-        document.getElementById("popupImg").src = img;
-        document.getElementById("popup").classList.add("show");
-    }
+rows.forEach(row=>{
+let cols=row.split(",");
 
-    function closePopup() {
-        document.getElementById("popup").classList.remove("show");
-    }
+if(cols.length>3){
+
+let img=getImage(cols[1]);
+
+html+=`
+<div class="holiday-btn"
+data-name="${cols[1]}"
+data-reason="${cols[2]}"
+data-importance="${cols[3]}"
+data-img="${img}">
+
+<img src="${img}" class="holiday-img">
+
+<div class="holiday-info">
+<b>${cols[0]}</b>
+<span>${cols[1]}</span>
+</div>
+
+</div>
+`;
+}
+});
+
+document.getElementById("holidayList").innerHTML=html;
+
+document.querySelectorAll(".holiday-btn").forEach(btn=>{
+btn.addEventListener("click",function(){
+
+document.getElementById("holidayName").innerText=this.dataset.name;
+document.getElementById("holidayReason").innerText=this.dataset.reason;
+document.getElementById("holidayImportance").innerText=this.dataset.importance;
+document.getElementById("popupImg").src=this.dataset.img;
+
+document.getElementById("popup").classList.add("show");
+
+});
+});
+
+});
+
+function closePopup(){
+document.getElementById("popup").classList.remove("show");
+}
+
 </script>
 
 </body>
