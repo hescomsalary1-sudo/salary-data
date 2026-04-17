@@ -10,7 +10,7 @@ body{
 font-family:sans-serif;
 margin:0;
 background:#f5f7ff;
-overflow-x:hidden; /* prevent page scroll */
+overflow-x:hidden;
 }
 
 /* HEADER */
@@ -44,7 +44,7 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* 🔥 TABLE SCROLL FIX */
+/* TABLE SCROLL ONLY */
 .table-container{
 width:100%;
 overflow-x:auto;
@@ -53,13 +53,12 @@ margin-top:15px;
 }
 
 table{
-min-width:1000px; /* forces horizontal scroll */
+min-width:1000px;
 border-collapse:collapse;
 background:white;
 font-size:13px;
 }
 
-/* TABLE */
 th,td{
 border:1px solid #ddd;
 padding:8px;
@@ -73,13 +72,17 @@ position:sticky;
 top:0;
 }
 
-/* SUMMARY */
+/* SUMMARY FIXED */
+#summaryBox{
+margin-top:15px;
+}
+
+/* CARD STYLE */
 .summary{
-margin-top:20px;
 background:#4b2dd8;
 color:white;
 padding:15px;
-border-radius:10px;
+border-radius:12px;
 font-weight:bold;
 }
 
@@ -111,10 +114,13 @@ border-radius:10px;
 
 <button onclick="loadData()">Check</button>
 
-<!-- ✅ ONLY THIS SCROLLS -->
+<!-- ✅ ONLY TABLE SCROLL -->
 <div class="table-container">
-<div id="result"></div>
+<div id="tableData"></div>
 </div>
+
+<!-- ✅ FIXED SUMMARY -->
+<div id="summaryBox"></div>
 
 </div>
 
@@ -122,7 +128,7 @@ border-radius:10px;
 
 let user = localStorage.getItem("currentUser");
 
-/* CSV HEADERS */
+/* HEADERS */
 let headers = [
 "Month","Basic","Dearness","HRA","CCA","Personal","Special Pay",
 "Conveyance","Washing","SFTA","Locality","MWA","Hill","Charge",
@@ -155,7 +161,7 @@ let rows = data.trim().split("\n");
 let filteredRows = [];
 let colUsed = new Array(headers.length).fill(false);
 
-/* FILTER DATA */
+/* FILTER */
 for(let i=1;i<rows.length;i++){
 
 let c = rows[i].split(",");
@@ -180,41 +186,41 @@ filteredRows.push(row);
 }
 
 /* BUILD TABLE */
-let html = "<table><tr>";
+let tableHTML = "<table><tr>";
 
 headers.forEach((h,i)=>{
 if(i==0 || colUsed[i]){
-html += `<th>${h}</th>`;
+tableHTML += `<th>${h}</th>`;
 }
 });
 
-html += "</tr>";
+tableHTML += "</tr>";
 
 let totalE=0,totalD=0;
 
 /* ROWS */
 filteredRows.forEach(r=>{
 
-html += "<tr>";
+tableHTML += "<tr>";
 
 r.forEach((val,i)=>{
 if(i==0 || colUsed[i]){
-html += `<td>${val}</td>`;
+tableHTML += `<td>${val}</td>`;
 }
 });
 
-html += "</tr>";
+tableHTML += "</tr>";
 
-/* TOTAL CALC */
+/* TOTAL */
 for(let i=1;i<=17;i++) totalE += +r[i] || 0;
 for(let i=18;i<r.length;i++) totalD += +r[i] || 0;
 
 });
 
-html += "</table>";
+tableHTML += "</table>";
 
 /* SUMMARY */
-html += `
+let summaryHTML = `
 <div class="summary">
 Total Earnings: ₹ ${totalE} <br>
 Total Deduction: ₹ ${totalD} <br>
@@ -222,7 +228,9 @@ Net Amount: ₹ ${totalE - totalD}
 </div>
 `;
 
-document.getElementById("result").innerHTML = html;
+/* DISPLAY */
+document.getElementById("tableData").innerHTML = tableHTML;
+document.getElementById("summaryBox").innerHTML = summaryHTML;
 
 }
 
