@@ -12,7 +12,6 @@ margin:0;
 background:#f5f7ff;
 }
 
-/* HEADER */
 .top{
 padding:20px;
 background:#4b2dd8;
@@ -20,12 +19,10 @@ color:white;
 text-align:center;
 }
 
-/* CONTENT */
 .content{
 padding:20px;
 }
 
-/* INPUTS */
 input{
 padding:10px;
 margin:5px;
@@ -43,27 +40,27 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* TABLE */
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
+.card{
 background:white;
+padding:15px;
+margin-top:15px;
+border-radius:12px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
 
-th,td{
-padding:10px;
-border-bottom:1px solid #ddd;
-text-align:left;
+h4{
+color:#4b2dd8;
+margin-bottom:10px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+border-bottom:1px solid #eee;
+padding:6px 0;
 font-size:14px;
 }
 
-th{
-background:#eee9ff;
-color:#4b2dd8;
-}
-
-/* SUMMARY */
 .summary{
 margin-top:20px;
 background:#4b2dd8;
@@ -100,11 +97,23 @@ font-weight:bold;
 
 let user = localStorage.getItem("currentUser");
 
-/* FILTER FUNCTION */
 function inRange(year,month,from,to){
 let current = year + "-" + month.padStart(2,"0");
 return current >= from && current <= to;
 }
+
+/* FIELD NAMES */
+let earningNames = [
+"Basic","Dearness Pay","HRA","CCA","Personal Pay","Special Pay",
+"Conveyance","Washing","SFTA","Locality","MWA","Hill",
+"Charge","Pension","LWF Company","Cash Duty","Other Earnings"
+];
+
+let deductionNames = [
+"LIC","Income Tax","Professional Tax","Society","PLI","Union",
+"SC/ST Union","House Rent","Urban Bank","Family Fund",
+"Festival Advance","PC 10%","PC 14%","LWF","Recovery","Other Deduction"
+];
 
 async function loadData(){
 
@@ -121,19 +130,10 @@ let data = await res.text();
 
 let rows = data.trim().split("\n");
 
-let html = `
-<table>
-<tr>
-<th>Month</th>
-<th>Earnings</th>
-<th>Deduction</th>
-<th>Net</th>
-</tr>
-`;
+let html = "";
 
 let totalE = 0;
 let totalD = 0;
-let totalN = 0;
 
 for(let i=1;i<rows.length;i++){
 
@@ -144,45 +144,73 @@ let month = c[2];
 
 if(c[0] === user && inRange(year,month,from,to)){
 
+let earningsHTML = "";
+let deductionHTML = "";
+
 let earnings = 0;
 let deduction = 0;
 
-/* earnings cols */
+/* EARNINGS */
 for(let j=3;j<=19;j++){
-if(+c[j]>0) earnings += +c[j];
+let val = +c[j];
+if(val>0){
+earnings += val;
+earningsHTML += `
+<div class="row">
+<span>${earningNames[j-3]}</span>
+<span>₹ ${val}</span>
+</div>`;
+}
 }
 
-/* deduction cols */
+/* DEDUCTIONS */
 for(let j=20;j<=35;j++){
-if(+c[j]>0) deduction += +c[j];
+let val = +c[j];
+if(val>0){
+deduction += val;
+deductionHTML += `
+<div class="row">
+<span>${deductionNames[j-20]}</span>
+<span>₹ ${val}</span>
+</div>`;
+}
 }
 
 let net = earnings - deduction;
 
 totalE += earnings;
 totalD += deduction;
-totalN += net;
 
 html += `
-<tr>
-<td>${month}-${year}</td>
-<td>₹ ${earnings}</td>
-<td>₹ ${deduction}</td>
-<td>₹ ${net}</td>
-</tr>
+
+<div class="card">
+
+<h4>${month}-${year}</h4>
+
+<b>Earnings</b>
+${earningsHTML}
+
+<b>Deductions</b>
+${deductionHTML}
+
+<div class="row" style="font-weight:bold;">
+<span>Net</span>
+<span>₹ ${net}</span>
+</div>
+
+</div>
+
 `;
 
 }
 
 }
 
-html += `</table>`;
-
 html += `
 <div class="summary">
 Total Earnings: ₹ ${totalE} <br>
 Total Deduction: ₹ ${totalD} <br>
-Net Amount: ₹ ${totalN}
+Net Amount: ₹ ${totalE - totalD}
 </div>
 `;
 
