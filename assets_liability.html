@@ -1,8 +1,7 @@
-﻿
 <!DOCTYPE html>
 <html>
 <head>
-<title>Home</title>
+<title>Assets & Liability</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -10,148 +9,188 @@
 body{
 font-family:sans-serif;
 margin:0;
-background: linear-gradient(135deg, #f7f8fc, #edf5ff);
-padding-bottom:75px;
+background:#f5f7ff;
 }
 
-/* MODERN SOLID NAVBAR */
-
-.navbar{
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-height:68px;
-
-background:#ffffff;
-display:flex;
-justify-content:space-around;
-align-items:center;
-
-border-top:1px solid #e5e7eb;
-box-shadow:0 -3px 12px rgba(0,0,0,0.06);
-
-z-index:1000;
-}
-
-/* NAV ITEM */
-.nav-item{
-flex:1;
+/* HEADER */
+.top{
+padding:20px;
+background:#4b2dd8;
+color:white;
 text-align:center;
-cursor:pointer;
-position:relative;
-padding-top:6px;
-transition:0.25s;
 }
 
-/* ICON */
-.nav-icon{
-font-size:22px;
-color:#9ca3af;
-transition:0.3s;
+/* CONTENT */
+.content{
+padding:20px;
 }
 
-/* TEXT */
-.nav-item span{
-display:block;
-font-size:11px;
-margin-top:3px;
-color:#9ca3af;
-transition:0.3s;
+/* INPUTS */
+input{
+padding:10px;
+margin:5px;
+border-radius:8px;
+border:1px solid #ccc;
 }
 
-/* ACTIVE STYLE */
-.nav-item.active .nav-icon{
-color:#2400b7;
-transform:scale(1.15);
-}
-
-.nav-item.active span{
-color:#2400b7;
-font-weight:600;
-}
-
-/* TOP INDICATOR BAR */
-.nav-item.active::before{
-content:"";
-position:absolute;
-top:0;
-left:20%;
-width:60%;
-height:4px;
+button{
+padding:12px 20px;
+background:#4b2dd8;
+color:white;
+border:none;
 border-radius:10px;
-background:linear-gradient(135deg,#2400b7,#3b1eff);
+font-weight:bold;
+cursor:pointer;
 }
 
-/* CLICK EFFECT */
-.nav-item:active{
-transform:scale(0.92);
+/* TABLE */
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+background:white;
 }
 
-/* POSITIONS */
-
-.navbar.pos0 .slider{ left:3%; }
-
-.navbar.pos1 .slider{ left:28%; }
-
-.navbar.pos2 .slider{ left:53%; }
-
-.navbar.pos3 .slider{ left:78%; }
-
-/* optional hover */
-.gallery-btn:hover{
-background:#f3f0ff;
+th,td{
+padding:10px;
+border-bottom:1px solid #ddd;
+text-align:left;
+font-size:14px;
 }
 
-
-.visitor-row{
-display:flex;
-align-items:center;
-gap:10px;
-margin-bottom:15px;
+th{
+background:#eee9ff;
+color:#4b2dd8;
 }
+
+/* SUMMARY */
+.summary{
+margin-top:20px;
+background:#4b2dd8;
+color:white;
+padding:15px;
+border-radius:12px;
+font-weight:bold;
+}
+
 </style>
 </head>
 
 <body>
 
-
-
-
-<div class="navbar pos0" id="navbar">
-
-
-
-<div class="nav-item active" onclick="goTab(0,'home.html')">
-<div class="nav-icon">🏠</div>
-<span>Home</span>
+<div class="top">
+<h2>Assets & Liability</h2>
 </div>
 
-<div class="nav-item" onclick="goTab(1,'forum.html')">
-<div class="nav-icon">💬</div>
-<span>Forum</span>
-</div>
+<div class="content">
 
-<div class="nav-item" onclick="goTab(2,'employee_info.html')">
-<div class="nav-icon">👤</div>
-<span>Employee</span>
-</div>
+<label>From:</label>
+<input type="month" id="fromDate">
 
-<div class="nav-item" onclick="goTab(3,'resources.html')">
-<div class="nav-icon">📂</div>
-<span>Resources</span>
-</div>
+<label>To:</label>
+<input type="month" id="toDate">
+
+<button onclick="loadData()">Check</button>
+
+<div id="result"></div>
 
 </div>
 
+<script>
 
+let user = localStorage.getItem("currentUser");
 
+/* FILTER FUNCTION */
+function inRange(year,month,from,to){
+let current = year + "-" + month.padStart(2,"0");
+return current >= from && current <= to;
+}
 
+async function loadData(){
 
-  <script>
-history.pushState(null, null, location.href);
+let from = document.getElementById("fromDate").value;
+let to = document.getElementById("toDate").value;
 
-window.onpopstate = function () {
-  window.location.replace("home.html");
-};
+if(!from || !to){
+alert("Select date range");
+return;
+}
+
+let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
+let data = await res.text();
+
+let rows = data.trim().split("\n");
+
+let html = `
+<table>
+<tr>
+<th>Month</th>
+<th>Earnings</th>
+<th>Deduction</th>
+<th>Net</th>
+</tr>
+`;
+
+let totalE = 0;
+let totalD = 0;
+let totalN = 0;
+
+for(let i=1;i<rows.length;i++){
+
+let c = rows[i].split(",");
+
+let year = c[1];
+let month = c[2];
+
+if(c[0] === user && inRange(year,month,from,to)){
+
+let earnings = 0;
+let deduction = 0;
+
+/* earnings cols */
+for(let j=3;j<=19;j++){
+if(+c[j]>0) earnings += +c[j];
+}
+
+/* deduction cols */
+for(let j=20;j<=35;j++){
+if(+c[j]>0) deduction += +c[j];
+}
+
+let net = earnings - deduction;
+
+totalE += earnings;
+totalD += deduction;
+totalN += net;
+
+html += `
+<tr>
+<td>${month}-${year}</td>
+<td>₹ ${earnings}</td>
+<td>₹ ${deduction}</td>
+<td>₹ ${net}</td>
+</tr>
+`;
+
+}
+
+}
+
+html += `</table>`;
+
+html += `
+<div class="summary">
+Total Earnings: ₹ ${totalE} <br>
+Total Deduction: ₹ ${totalD} <br>
+Net Amount: ₹ ${totalN}
+</div>
+`;
+
+document.getElementById("result").innerHTML = html;
+
+}
+
 </script>
+
+</body>
+</html>
