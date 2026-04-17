@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Holiday Calendar 2026</title>
+<title>Holiday Calendar</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
 :root{
 --primary:#4b2dd8;
 --light:#7a5cff;
@@ -56,19 +57,29 @@ overflow:hidden;
 box-shadow:0 8px 20px rgba(0,0,0,0.06);
 cursor:pointer;
 transition:0.25s;
+display:flex;
+flex-direction:column;
 }
 
 .holiday-btn:active{
 transform:scale(0.96);
 }
 
-/* 🔥 IMAGE FIX (NO CUT EVER) */
-.holiday-img{
+/* ✅ IMAGE WRAPPER (KEY FIX) */
+.img-box{
 width:100%;
-aspect-ratio:16/9;
-object-fit:contain;
+height:120px;
+display:flex;
+align-items:center;
+justify-content:center;
 background:#f3f5ff;
-padding:6px;
+}
+
+/* ✅ IMAGE */
+.holiday-img{
+max-width:100%;
+max-height:100%;
+object-fit:contain;
 }
 
 /* INFO */
@@ -127,10 +138,10 @@ from{transform:scale(0.8);opacity:0;}
 to{transform:scale(1);opacity:1;}
 }
 
-/* 🔥 POPUP IMAGE FIX */
+/* POPUP IMAGE */
 .popup-box img{
-width:100%;
-max-height:200px;
+max-width:100%;
+max-height:180px;
 object-fit:contain;
 background:#f3f5ff;
 border-radius:12px;
@@ -162,6 +173,7 @@ font-weight:bold;
 @media(max-width:350px){
 .grid{grid-template-columns:1fr;}
 }
+
 </style>
 </head>
 
@@ -193,7 +205,7 @@ font-weight:bold;
 
 <script>
 
-/* FIXED IMAGE LINKS (NO CROPPING FROM SERVER) */
+/* IMAGE MAP */
 function getImage(name){
 name=name.toLowerCase();
 
@@ -208,7 +220,7 @@ if(name.includes("diwali")) return "https://images.unsplash.com/photo-1547949003
 return "https://images.unsplash.com/photo-1459749411177-042180ce673c?auto=format&fit=max&w=500";
 }
 
-/* CSV LOAD */
+/* LOAD CSV */
 fetch("https://hescomsalary1-sudo.github.io/salary-data/holidays.csv")
 .then(res=>res.text())
 .then(data=>{
@@ -230,7 +242,9 @@ data-reason="${cols[2]}"
 data-importance="${cols[3]}"
 data-img="${img}">
 
+<div class="img-box">
 <img src="${img}" class="holiday-img">
+</div>
 
 <div class="holiday-info">
 <b>${cols[0]}</b>
