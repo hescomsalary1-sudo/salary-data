@@ -10,8 +10,10 @@ body{
 font-family:sans-serif;
 margin:0;
 background:#f5f7ff;
+overflow-x:hidden; /* prevent page scroll */
 }
 
+/* HEADER */
 .top{
 padding:20px;
 background:#4b2dd8;
@@ -19,6 +21,7 @@ color:white;
 text-align:center;
 }
 
+/* CONTENT */
 .content{
 padding:20px;
 }
@@ -41,15 +44,22 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* TABLE */
-table{
+/* 🔥 TABLE SCROLL FIX */
+.table-container{
 width:100%;
+overflow-x:auto;
+-webkit-overflow-scrolling:touch;
+margin-top:15px;
+}
+
+table{
+min-width:1000px; /* forces horizontal scroll */
 border-collapse:collapse;
-margin-top:20px;
 background:white;
 font-size:13px;
 }
 
+/* TABLE */
 th,td{
 border:1px solid #ddd;
 padding:8px;
@@ -73,6 +83,15 @@ border-radius:10px;
 font-weight:bold;
 }
 
+/* SCROLLBAR */
+.table-container::-webkit-scrollbar{
+height:6px;
+}
+.table-container::-webkit-scrollbar-thumb{
+background:#bbb;
+border-radius:10px;
+}
+
 </style>
 </head>
 
@@ -92,7 +111,10 @@ font-weight:bold;
 
 <button onclick="loadData()">Check</button>
 
+<!-- ✅ ONLY THIS SCROLLS -->
+<div class="table-container">
 <div id="result"></div>
+</div>
 
 </div>
 
@@ -100,7 +122,7 @@ font-weight:bold;
 
 let user = localStorage.getItem("currentUser");
 
-/* COLUMN NAMES SAME AS CSV */
+/* CSV HEADERS */
 let headers = [
 "Month","Basic","Dearness","HRA","CCA","Personal","Special Pay",
 "Conveyance","Washing","SFTA","Locality","MWA","Hill","Charge",
@@ -130,11 +152,10 @@ let data = await res.text();
 
 let rows = data.trim().split("\n");
 
-/* store rows */
 let filteredRows = [];
 let colUsed = new Array(headers.length).fill(false);
 
-/* process */
+/* FILTER DATA */
 for(let i=1;i<rows.length;i++){
 
 let c = rows[i].split(",");
@@ -147,7 +168,6 @@ if(c[0] === user && inRange(year,month,from,to)){
 let row = [];
 row.push(month+"-"+year);
 
-/* earnings + deduction */
 for(let j=3;j<=35;j++){
 let val = +c[j];
 row.push(val>0 ? val : "");
@@ -172,7 +192,7 @@ html += "</tr>";
 
 let totalE=0,totalD=0;
 
-/* rows */
+/* ROWS */
 filteredRows.forEach(r=>{
 
 html += "<tr>";
@@ -185,7 +205,7 @@ html += `<td>${val}</td>`;
 
 html += "</tr>";
 
-/* totals */
+/* TOTAL CALC */
 for(let i=1;i<=17;i++) totalE += +r[i] || 0;
 for(let i=18;i<r.length;i++) totalD += +r[i] || 0;
 
@@ -193,6 +213,7 @@ for(let i=18;i<r.length;i++) totalD += +r[i] || 0;
 
 html += "</table>";
 
+/* SUMMARY */
 html += `
 <div class="summary">
 Total Earnings: ₹ ${totalE} <br>
