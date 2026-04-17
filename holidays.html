@@ -9,11 +9,10 @@
             --primary-light: #7a5cff;
             --bg: #f8f9fd;
             --text: #2d3436;
-            --shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             margin: 0;
             background-color: var(--bg);
             color: var(--text);
@@ -28,24 +27,19 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            border-bottom-left-radius: 40px;
-            border-bottom-right-radius: 40px;
-            box-shadow: 0 10px 20px rgba(75, 45, 216, 0.2);
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: 0 10px 20px rgba(75, 45, 216, 0.15);
         }
 
         .top .icon {
-            width: 45px;
-            height: 45px;
+            width: 45px; height: 45px;
             background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(5px);
             border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             font-size: 24px;
         }
-
-        .top h2 { margin: 0; font-weight: 600; letter-spacing: 0.5px; }
 
         /* GRID */
         .content { padding: 20px; }
@@ -55,126 +49,105 @@
             gap: 16px;
         }
 
-        /* CARD - Modernized */
+        /* CARD - FIXED IMAGE VIEW */
         .holiday-btn {
             background: white;
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: var(--shadow);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: transform 0.3s ease;
             border: 1px solid rgba(0,0,0,0.03);
-            display: flex;
-            flex-direction: column;
         }
 
-        .holiday-btn:active { transform: scale(0.96); }
+        .holiday-btn:active { transform: scale(0.95); }
 
-        /* IMAGE FIX: "cover" prevents cutting/white space */
         .holiday-img {
             width: 100%;
             height: 120px;
-            object-fit: cover; 
-            transition: 0.5s;
+            object-fit: cover; /* This fixes the 'cut' or white space issue */
+            display: block;
         }
 
         .holiday-info {
-            padding: 15px;
-            text-align: left;
+            padding: 12px;
+            text-align: center;
         }
 
         .holiday-info b {
             background: #f0edff;
             color: var(--primary);
-            padding: 4px 10px;
+            padding: 3px 8px;
             border-radius: 8px;
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 11px;
+            display: inline-block;
+            margin-bottom: 5px;
         }
 
         .holiday-info span {
             display: block;
-            margin-top: 8px;
-            font-weight: 700;
+            font-weight: 600;
             font-size: 14px;
-            color: #1a1a1a;
-            line-height: 1.2;
+            color: #333;
         }
 
-        /* POPUP - Glassmorphism style */
+        /* POPUP - MODERN GLASS LOOK */
         .popup {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(8px);
             display: flex;
             justify-content: center;
             align-items: center;
             visibility: hidden;
             opacity: 0;
-            transition: 0.3s ease;
-            z-index: 1000;
+            transition: all 0.3s ease;
+            z-index: 9999;
         }
 
-        .popup.show { visibility: visible; opacity: 1; }
+        .popup.show {
+            visibility: visible;
+            opacity: 1;
+        }
 
         .popup-box {
             background: white;
-            padding: 24px;
-            border-radius: 28px;
-            width: 90%;
-            max-width: 350px;
+            padding: 25px;
+            border-radius: 25px;
+            width: 85%;
+            max-width: 340px;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            transform: translateY(20px);
+            transform: translateY(30px);
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .popup.show .popup-box { transform: translateY(0); }
+        .popup.show .popup-box {
+            transform: translateY(0);
+        }
 
         .popup-box img {
             width: 100%;
             height: 180px;
             object-fit: cover;
-            border-radius: 20px;
+            border-radius: 15px;
             margin-bottom: 15px;
         }
 
-        .popup-box h3 {
-            color: var(--primary);
-            margin: 10px 0;
-            font-size: 22px;
-        }
-
-        .popup-box p {
-            font-size: 15px;
-            color: #555;
-            line-height: 1.6;
-            margin: 10px 0;
-        }
-
-        .importance-label {
-            display: inline-block;
-            margin-top: 10px;
-            font-weight: bold;
-            color: #1a1a1a;
-            font-size: 14px;
-        }
+        .popup-box h3 { color: var(--primary); margin: 10px 0; }
+        .popup-box p { font-size: 14px; color: #555; line-height: 1.5; }
 
         .close-btn {
             margin-top: 20px;
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             border: none;
-            border-radius: 15px;
+            border-radius: 12px;
             background: var(--primary);
             color: white;
             font-weight: bold;
-            font-size: 16px;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(75, 45, 216, 0.3);
         }
 
         @media(max-width: 350px) {
@@ -185,26 +158,28 @@
 <body>
 
 <div class="top">
-    <div class="icon">📅</div>
-    <h2>Holidays 2026</h2>
+    <div class="icon">🎊</div>
+    <h2>Holiday List</h2>
 </div>
 
 <div class="content">
     <div class="grid" id="holidayList"></div>
 </div>
 
-<div class="popup" id="popup" onclick="closePopupOuter(event)">
+<div class="popup" id="popup" onclick="closePopup()">
     <div class="popup-box" onclick="event.stopPropagation()">
-        <img id="popupImg" src="" alt="Holiday">
+        <img id="popupImg" src="">
         <h3 id="holidayName"></h3>
         <p id="holidayReason"></p>
-        <span class="importance-label">Why it's important:</span>
-        <p id="holidayImportance" style="font-style: italic; color: #666;"></p>
-        <button class="close-btn" onclick="closePopup()">Got it!</button>
+        <hr style="border:0; border-top:1px solid #eee; margin:15px 0;">
+        <p><strong>Importance:</strong></p>
+        <p id="holidayImportance"></p>
+        <button class="close-btn" onclick="closePopup()">Close</button>
     </div>
 </div>
 
 <script>
+    // Improved Image Mapping
     function getImage(name) {
         name = name.toLowerCase();
         if(name.includes("makara")) return "https://images.unsplash.com/photo-1590013330462-094d38ba0d5c?auto=format&fit=crop&w=500";
@@ -214,35 +189,45 @@
         if(name.includes("christmas")) return "https://images.unsplash.com/photo-1543589077-47d81606c1bf?auto=format&fit=crop&w=500";
         if(name.includes("ganesha")) return "https://images.unsplash.com/photo-1621644788118-2490b790d981?auto=format&fit=crop&w=500";
         if(name.includes("diwali")) return "https://images.unsplash.com/photo-1547949003-9792a18a2601?auto=format&fit=crop&w=500";
-        if(name.includes("independence")) return "https://images.unsplash.com/photo-1532375810709-75b1da00537c?auto=format&fit=crop&w=500";
         
         return "https://images.unsplash.com/photo-1459749411177-042180ce673c?auto=format&fit=crop&w=500";
+    }
+
+    // Modern CSV Parser (handles quotes and commas)
+    function parseCSV(text) {
+        const regex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
+        return text.split('\n').map(line => line.split(regex).map(val => val.replace(/^"|"$/g, '').trim()));
     }
 
     fetch("https://hescomsalary1-sudo.github.io/salary-data/holidays.csv")
     .then(res => res.text())
     .then(data => {
-        let rows = data.split("\n").slice(1);
+        const rows = parseCSV(data).slice(1);
         let html = "";
 
-        rows.forEach(row => {
-            let cols = row.split(",");
-            if(cols.length > 3) {
-                let img = getImage(cols[1]);
+        rows.forEach(cols => {
+            if(cols.length >= 3) {
+                const date = cols[0];
+                const name = cols[1];
+                const reason = cols[2];
+                const importance = cols[3] || "N/A";
+                const img = getImage(name);
+
+                // We use base64 encoding or simple escaping to ensure data passes safely to the function
                 html += `
-                <div class="holiday-btn" 
-                     onclick="openPopup('${cols[1]}', '${cols[2].replace(/'/g, "\\'")}', '${cols[3].replace(/'/g, "\\'")}', '${img}')">
+                <div class="holiday-btn" onclick="openPopup('${name.replace(/'/g, "\\'")}', '${reason.replace(/'/g, "\\'")}', '${importance.replace(/'/g, "\\'")}', '${img}')">
                     <img src="${img}" class="holiday-img">
                     <div class="holiday-info">
-                        <b>${cols[0]}</b>
-                        <span>${cols[1]}</span>
+                        <b>${date}</b>
+                        <span>${name}</span>
                     </div>
                 </div>`;
             }
         });
 
         document.getElementById("holidayList").innerHTML = html;
-    });
+    })
+    .catch(err => console.error("Error loading CSV:", err));
 
     function openPopup(name, reason, importance, img) {
         document.getElementById("holidayName").innerText = name;
@@ -254,10 +239,6 @@
 
     function closePopup() {
         document.getElementById("popup").classList.remove("show");
-    }
-
-    function closePopupOuter(event) {
-        if(event.target.id === "popup") closePopup();
     }
 </script>
 
