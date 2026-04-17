@@ -143,6 +143,13 @@ let current = year + "-" + month.padStart(2,"0");
 return current >= from && current <= to;
 }
 
+/* ✅ NEW: CHECK YEAR RANGE FOR OTHER INCOME */
+function inYearRange(year,from,to){
+let fromYear = from.split("-")[0];
+let toYear = to.split("-")[0];
+return year >= fromYear && year <= toYear;
+}
+
 async function loadData(){
 
 let from = document.getElementById("fromDate").value;
@@ -153,7 +160,9 @@ alert("Select date range");
 return;
 }
 
-let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
+/* ================= SALARY ================= */
+
+let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/salary.csv");
 let data = await res.text();
 
 let rows = data.trim().split("\n");
@@ -219,12 +228,62 @@ for(let i=18;i<r.length;i++) totalD += +r[i] || 0;
 
 tableHTML += "</table>";
 
-/* SUMMARY */
+/* ================= OTHER INCOME ================= */
+
+let incomeFiles = [
+"supplementary.csv",
+"da_arrears.csv",
+"double_wages.csv",
+"medical_bills.csv",
+"ta_bills.csv",
+"els_bills.csv",
+"others.csv"
+];
+
+let totalOtherIncome = 0;
+
+for(let file of incomeFiles){
+
+try{
+let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/" + file);
+let text = await res.text();
+
+if(!text.trim()) continue;
+
+let rows = text.trim().split("\n");
+
+for(let i=1;i<rows.length;i++){
+
+let c = rows[i].split(",");
+
+let username = c[0];
+let year = c[1];
+let amount = +c[2] || 0;
+
+if(username === user && inYearRange(year,from,to)){
+totalOtherIncome += amount;
+}
+
+}
+}catch(e){
+console.log("Error loading",file);
+}
+
+}
+
+/* ================= SUMMARY ================= */
+
 let summaryHTML = `
 <div class="summary">
 Total Earnings: ₹ ${totalE} <br>
 Total Deduction: ₹ ${totalD} <br>
 Net Amount: ₹ ${totalE - totalD}
+</div>
+
+<br>
+
+<div class="summary" style="background:#1e88e5;">
+Other Income (Selected Period): ₹ ${totalOtherIncome}
 </div>
 `;
 
