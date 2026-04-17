@@ -1,297 +1,264 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Holiday List</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holiday Calendar 2026</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --primary: #4b2dd8;
+            --primary-light: #7a5cff;
+            --bg: #f8f9fd;
+            --text: #2d3436;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
 
-<style>
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background-color: var(--bg);
+            color: var(--text);
+            -webkit-tap-highlight-color: transparent;
+        }
 
-body{
-font-family:'Segoe UI',sans-serif;
-margin:0;
-background:linear-gradient(135deg,#eef1ff,#f9faff);
-}
+        /* HEADER */
+        .top {
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            box-shadow: 0 10px 20px rgba(75, 45, 216, 0.2);
+        }
 
-/* HEADER */
+        .top .icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
 
-.top{
-padding:20px;
-background:linear-gradient(135deg,#4b2dd8,#7a5cff);
-color:white;
-display:flex;
-align-items:center;
-gap:12px;
-border-bottom-left-radius:30px;
-border-bottom-right-radius:30px;
-box-shadow:0 8px 25px rgba(0,0,0,0.2);
-}
+        .top h2 { margin: 0; font-weight: 600; letter-spacing: 0.5px; }
 
-.top .icon{
-width:42px;
-height:42px;
-background:white;
-color:#4b2dd8;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:20px;
-}
+        /* GRID */
+        .content { padding: 20px; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
 
-/* GRID */
+        /* CARD - Modernized */
+        .holiday-btn {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+        }
 
-.content{padding:16px;}
+        .holiday-btn:active { transform: scale(0.96); }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:14px;
-}
+        /* IMAGE FIX: "cover" prevents cutting/white space */
+        .holiday-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover; 
+            transition: 0.5s;
+        }
 
-/* CARD */
+        .holiday-info {
+            padding: 15px;
+            text-align: left;
+        }
 
-.holiday-btn{
-background:white;
-border-radius:18px;
-overflow:hidden;
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
-cursor:pointer;
-transition:0.25s;
-}
+        .holiday-info b {
+            background: #f0edff;
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-.holiday-btn:hover{
-transform:translateY(-4px);
-}
+        .holiday-info span {
+            display: block;
+            margin-top: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            color: #1a1a1a;
+            line-height: 1.2;
+        }
 
-/* IMAGE FIXED */
+        /* POPUP - Glassmorphism style */
+        .popup {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.3s ease;
+            z-index: 1000;
+        }
 
-.holiday-img{
-width:100%;
-height:110px;
-object-fit:contain;
-background:#ffffff;
-padding:8px;
-border-bottom:1px solid #eee;
-}
+        .popup.show { visibility: visible; opacity: 1; }
 
-/* INFO */
+        .popup-box {
+            background: white;
+            padding: 24px;
+            border-radius: 28px;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            transform: translateY(20px);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
 
-.holiday-info{
-padding:12px;
-text-align:center;
-}
+        .popup.show .popup-box { transform: translateY(0); }
 
-.holiday-info b{
-background:#4b2dd8;
-color:white;
-padding:4px 10px;
-border-radius:10px;
-font-size:11px;
-}
+        .popup-box img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 15px;
+        }
 
-.holiday-info span{
-display:block;
-margin-top:6px;
-color:#4b2dd8;
-font-weight:600;
-font-size:13px;
-}
+        .popup-box h3 {
+            color: var(--primary);
+            margin: 10px 0;
+            font-size: 22px;
+        }
 
-/* POPUP */
+        .popup-box p {
+            font-size: 15px;
+            color: #555;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
 
-.popup{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.5);
-display:flex;
-justify-content:center;
-align-items:center;
-visibility:hidden;
-opacity:0;
-transition:0.3s;
-}
+        .importance-label {
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #1a1a1a;
+            font-size: 14px;
+        }
 
-.popup.show{
-visibility:visible;
-opacity:1;
-}
+        .close-btn {
+            margin-top: 20px;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 15px;
+            background: var(--primary);
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(75, 45, 216, 0.3);
+        }
 
-.popup-box{
-background:white;
-padding:20px;
-border-radius:18px;
-width:85%;
-max-width:320px;
-text-align:center;
-box-shadow:0 12px 30px rgba(0,0,0,0.3);
-animation:fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn{
-from{transform:scale(0.8);opacity:0;}
-to{transform:scale(1);opacity:1;}
-}
-
-.popup-box img{
-width:100%;
-height:140px;
-object-fit:contain;
-background:#f3f5ff;
-padding:6px;
-border-radius:12px;
-margin-bottom:10px;
-}
-
-.popup-box h3{
-color:#4b2dd8;
-margin:5px 0;
-}
-
-.popup-box p{
-font-size:14px;
-color:#444;
-line-height:1.5;
-margin:6px 0;
-}
-
-.popup-box button{
-margin-top:12px;
-padding:10px 22px;
-border:none;
-border-radius:25px;
-background:#4b2dd8;
-color:white;
-font-weight:bold;
-cursor:pointer;
-}
-
-@media(max-width:350px){
-.grid{grid-template-columns:1fr;}
-}
-
-</style>
+        @media(max-width: 350px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="top">
-<div class="icon">🎉</div>
-<h2>Holiday List</h2>
+    <div class="icon">📅</div>
+    <h2>Holidays 2026</h2>
 </div>
 
 <div class="content">
-<div class="grid" id="holidayList"></div>
+    <div class="grid" id="holidayList"></div>
 </div>
 
-<!-- POPUP -->
-
-<div class="popup" id="popup">
-<div class="popup-box">
-
-<img id="popupImg">
-
-<h3 id="holidayName"></h3>
-
-<p id="holidayReason"></p>
-
-<p><b>Importance:</b></p>
-
-<p id="holidayImportance"></p>
-
-<button onclick="closePopup()">Close</button>
-
-</div>
+<div class="popup" id="popup" onclick="closePopupOuter(event)">
+    <div class="popup-box" onclick="event.stopPropagation()">
+        <img id="popupImg" src="" alt="Holiday">
+        <h3 id="holidayName"></h3>
+        <p id="holidayReason"></p>
+        <span class="importance-label">Why it's important:</span>
+        <p id="holidayImportance" style="font-style: italic; color: #666;"></p>
+        <button class="close-btn" onclick="closePopup()">Got it!</button>
+    </div>
 </div>
 
 <script>
+    function getImage(name) {
+        name = name.toLowerCase();
+        if(name.includes("makara")) return "https://images.unsplash.com/photo-1590013330462-094d38ba0d5c?auto=format&fit=crop&w=500";
+        if(name.includes("republic")) return "https://images.unsplash.com/photo-1532375810709-75b1da00537c?auto=format&fit=crop&w=500";
+        if(name.includes("yugadi")) return "https://images.unsplash.com/photo-1614705827065-65c3db4d86cb?auto=format&fit=crop&w=500";
+        if(name.includes("ramzan")) return "https://images.unsplash.com/photo-1564769662533-4f00a87b4056?auto=format&fit=crop&w=500";
+        if(name.includes("christmas")) return "https://images.unsplash.com/photo-1543589077-47d81606c1bf?auto=format&fit=crop&w=500";
+        if(name.includes("ganesha")) return "https://images.unsplash.com/photo-1621644788118-2490b790d981?auto=format&fit=crop&w=500";
+        if(name.includes("diwali")) return "https://images.unsplash.com/photo-1547949003-9792a18a2601?auto=format&fit=crop&w=500";
+        if(name.includes("independence")) return "https://images.unsplash.com/photo-1532375810709-75b1da00537c?auto=format&fit=crop&w=500";
+        
+        return "https://images.unsplash.com/photo-1459749411177-042180ce673c?auto=format&fit=crop&w=500";
+    }
 
-/* STABLE IMAGE MAP */
+    fetch("https://hescomsalary1-sudo.github.io/salary-data/holidays.csv")
+    .then(res => res.text())
+    .then(data => {
+        let rows = data.split("\n").slice(1);
+        let html = "";
 
-function getImage(name){
-name=name.toLowerCase();
+        rows.forEach(row => {
+            let cols = row.split(",");
+            if(cols.length > 3) {
+                let img = getImage(cols[1]);
+                html += `
+                <div class="holiday-btn" 
+                     onclick="openPopup('${cols[1]}', '${cols[2].replace(/'/g, "\\'")}', '${cols[3].replace(/'/g, "\\'")}', '${img}')">
+                    <img src="${img}" class="holiday-img">
+                    <div class="holiday-info">
+                        <b>${cols[0]}</b>
+                        <span>${cols[1]}</span>
+                    </div>
+                </div>`;
+            }
+        });
 
-if(name.includes("makara")) return "https://upload.wikimedia.org/wikipedia/commons/4/4d/Kite_festival.jpg";
-if(name.includes("republic")) return "https://upload.wikimedia.org/wikipedia/commons/0/0c/Republic_Day_Parade.jpg";
-if(name.includes("yugadi")) return "https://upload.wikimedia.org/wikipedia/commons/3/3f/Ugadi_food.jpg";
-if(name.includes("ramzan")) return "https://upload.wikimedia.org/wikipedia/commons/2/2b/Iftar.jpg";
-if(name.includes("christmas")) return "https://upload.wikimedia.org/wikipedia/commons/6/6f/Christmas_tree.jpg";
-if(name.includes("ganesha")) return "https://upload.wikimedia.org/wikipedia/commons/2/2d/Ganesh_Chaturthi.jpg";
-if(name.includes("diwali")) return "https://upload.wikimedia.org/wikipedia/commons/9/99/Diwali_lamps.jpg";
-if(name.includes("independence")) return "https://upload.wikimedia.org/wikipedia/commons/4/41/Indian_flag.jpg";
-if(name.includes("gandhi")) return "https://upload.wikimedia.org/wikipedia/commons/d/d1/Mahatma-Gandhi.jpg";
-if(name.includes("dussehra") || name.includes("vijaya")) return "https://upload.wikimedia.org/wikipedia/commons/5/5f/Dussehra.jpg";
+        document.getElementById("holidayList").innerHTML = html;
+    });
 
-return "https://upload.wikimedia.org/wikipedia/commons/3/3a/Festival_image.jpg";
-}
+    function openPopup(name, reason, importance, img) {
+        document.getElementById("holidayName").innerText = name;
+        document.getElementById("holidayReason").innerText = reason;
+        document.getElementById("holidayImportance").innerText = importance;
+        document.getElementById("popupImg").src = img;
+        document.getElementById("popup").classList.add("show");
+    }
 
-/* LOAD CSV */
+    function closePopup() {
+        document.getElementById("popup").classList.remove("show");
+    }
 
-fetch("https://hescomsalary1-sudo.github.io/salary-data/holidays.csv")
-.then(res => res.text())
-.then(data => {
-
-let rows = data.split("\n").slice(1);
-let html="";
-
-rows.forEach(row=>{
-
-let cols=row.split(",");
-
-if(cols.length>3){
-
-let img=getImage(cols[1]);
-
-html+=`
-
-<div class="holiday-btn"
-data-name="${cols[1]}"
-data-reason="${cols[2]}"
-data-importance="${cols[3]}"
-data-img="${img}">
-
-<img src="${img}" class="holiday-img">
-
-<div class="holiday-info">
-<b>${cols[0]}</b>
-<span>${cols[1]}</span>
-</div>
-
-</div>
-
-`;
-
-}
-
-});
-
-document.getElementById("holidayList").innerHTML=html;
-
-document.querySelectorAll(".holiday-btn").forEach(btn=>{
-
-btn.addEventListener("click", function(){
-
-document.getElementById("holidayName").innerText=this.dataset.name;
-document.getElementById("holidayReason").innerText=this.dataset.reason;
-document.getElementById("holidayImportance").innerText=this.dataset.importance;
-document.getElementById("popupImg").src=this.dataset.img;
-
-document.getElementById("popup").classList.add("show");
-
-});
-
-});
-
-});
-
-/* CLOSE */
-
-function closePopup(){
-document.getElementById("popup").classList.remove("show");
-}
-
+    function closePopupOuter(event) {
+        if(event.target.id === "popup") closePopup();
+    }
 </script>
 
 </body>
