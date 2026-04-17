@@ -63,13 +63,18 @@ transition:0.25s;
 transform:translateY(-4px);
 }
 
+/* IMAGE FIXED */
+
 .holiday-img{
 width:100%;
-height:100px;
+height:110px;
 object-fit:contain;
-background:#f3f5ff;
-padding:6px;
+background:#ffffff;
+padding:8px;
+border-bottom:1px solid #eee;
 }
+
+/* INFO */
 
 .holiday-info{
 padding:12px;
@@ -92,7 +97,7 @@ font-weight:600;
 font-size:13px;
 }
 
-/* POPUP (GLASS STYLE) */
+/* POPUP */
 
 .popup{
 position:fixed;
@@ -115,27 +120,28 @@ opacity:1;
 }
 
 .popup-box{
-backdrop-filter:blur(15px);
-background:rgba(255,255,255,0.85);
-padding:22px;
-border-radius:20px;
+background:white;
+padding:20px;
+border-radius:18px;
 width:85%;
 max-width:320px;
 text-align:center;
-box-shadow:0 10px 30px rgba(0,0,0,0.3);
+box-shadow:0 12px 30px rgba(0,0,0,0.3);
 animation:fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn{
-from{transform:translateY(40px);opacity:0;}
-to{transform:translateY(0);opacity:1;}
+from{transform:scale(0.8);opacity:0;}
+to{transform:scale(1);opacity:1;}
 }
 
 .popup-box img{
 width:100%;
-height:120px;
-object-fit:cover;
-border-radius:14px;
+height:140px;
+object-fit:contain;
+background:#f3f5ff;
+padding:6px;
+border-radius:12px;
 margin-bottom:10px;
 }
 
@@ -148,6 +154,7 @@ margin:5px 0;
 font-size:14px;
 color:#444;
 line-height:1.5;
+margin:6px 0;
 }
 
 .popup-box button{
@@ -160,8 +167,6 @@ color:white;
 font-weight:bold;
 cursor:pointer;
 }
-
-/* SMALL DEVICES */
 
 @media(max-width:350px){
 .grid{grid-template-columns:1fr;}
@@ -203,21 +208,23 @@ cursor:pointer;
 
 <script>
 
-/* IMAGE MAP */
+/* STABLE IMAGE MAP */
 
 function getImage(name){
 name=name.toLowerCase();
 
-if(name.includes("diwali")) return "https://source.unsplash.com/300x200/?diwali";
-if(name.includes("christmas")) return "https://source.unsplash.com/300x200/?christmas";
-if(name.includes("ramzan")||name.includes("eid")) return "https://source.unsplash.com/300x200/?eid";
-if(name.includes("independence")) return "https://source.unsplash.com/300x200/?india-flag";
-if(name.includes("ganesha")) return "https://source.unsplash.com/300x200/?ganesha";
-if(name.includes("gandhi")) return "https://source.unsplash.com/300x200/?gandhi";
-if(name.includes("republic")) return "https://source.unsplash.com/300x200/?india-parade";
-if(name.includes("dasara")||name.includes("vijaya")) return "https://source.unsplash.com/300x200/?dussehra";
+if(name.includes("makara")) return "https://upload.wikimedia.org/wikipedia/commons/4/4d/Kite_festival.jpg";
+if(name.includes("republic")) return "https://upload.wikimedia.org/wikipedia/commons/0/0c/Republic_Day_Parade.jpg";
+if(name.includes("yugadi")) return "https://upload.wikimedia.org/wikipedia/commons/3/3f/Ugadi_food.jpg";
+if(name.includes("ramzan")) return "https://upload.wikimedia.org/wikipedia/commons/2/2b/Iftar.jpg";
+if(name.includes("christmas")) return "https://upload.wikimedia.org/wikipedia/commons/6/6f/Christmas_tree.jpg";
+if(name.includes("ganesha")) return "https://upload.wikimedia.org/wikipedia/commons/2/2d/Ganesh_Chaturthi.jpg";
+if(name.includes("diwali")) return "https://upload.wikimedia.org/wikipedia/commons/9/99/Diwali_lamps.jpg";
+if(name.includes("independence")) return "https://upload.wikimedia.org/wikipedia/commons/4/41/Indian_flag.jpg";
+if(name.includes("gandhi")) return "https://upload.wikimedia.org/wikipedia/commons/d/d1/Mahatma-Gandhi.jpg";
+if(name.includes("dussehra") || name.includes("vijaya")) return "https://upload.wikimedia.org/wikipedia/commons/5/5f/Dussehra.jpg";
 
-return "https://source.unsplash.com/300x200/?festival";
+return "https://upload.wikimedia.org/wikipedia/commons/3/3a/Festival_image.jpg";
 }
 
 /* LOAD CSV */
@@ -240,7 +247,6 @@ let img=getImage(cols[1]);
 html+=`
 
 <div class="holiday-btn"
-
 data-name="${cols[1]}"
 data-reason="${cols[2]}"
 data-importance="${cols[3]}"
