@@ -1576,23 +1576,41 @@ window.addEventListener("load", function(){
 });
 </script>
   <script>
-function openSideNav(){
-  document.getElementById("sideNav").style.transform = "translateX(260px)";
-  document.getElementById("sideOverlay").classList.add("show");
+// 1. Listen for the swipe message from the navbar iframe
+window.addEventListener('message', (event) => {
+    if (event.data === 'closeMenu') history.back();
+});
 
+function openSideNav() {
+    // Show the side menu
+    document.getElementById("sideNav").style.transform = "translateX(260px)";
+    document.getElementById("sideOverlay").classList.add("show");
+    document.body.style.overflow = "hidden";
 
-  // set user name
-  document.getElementById("sideName").innerText =
-    document.getElementById("empName").innerText;
+    // Update info
+    document.getElementById("sideName").innerText = document.getElementById("empName").innerText;
+    document.getElementById("sideRole").innerText = document.getElementById("empDesg").innerText;
 
-  document.getElementById("sideRole").innerText =
-    document.getElementById("empDesg").innerText;
+    // 🔥 PUSH STATE: This stops the app from exiting when back is pressed
+    if (history.state?.step !== 'menu') {
+        history.pushState({ step: 'menu' }, "");
+    }
 }
 
-function closeSideNav(){
-  document.getElementById("sideNav").style.transform = "translateX(0)";
-  document.getElementById("sideOverlay").classList.remove("show");
+function closeSideNav() {
+    document.getElementById("sideNav").style.transform = "translateX(0)";
+    document.getElementById("sideOverlay").classList.remove("show");
+    document.body.style.overflow = "auto";
 }
+
+// 2. Handle the Hardware/Browser Back Button
+window.onpopstate = function(event) {
+    // If we go back and the menu is visible, just close it
+    closeSideNav();
+    
+    // If the menu was already closed, this will allow normal exit 
+    // (or your history.go(1) logic if you have it elsewhere)
+};
 </script>
 <script>
 let startX = 0;
