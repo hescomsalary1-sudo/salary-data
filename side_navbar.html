@@ -1,184 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #ffffff;
-            color: #333;
-            height: 100vh;
-            overflow: hidden; /* Prevent menu itself from scrolling page-wide */
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu</title>
 
-        /* HEADER */
-        .header {
-            padding: 45px 25px 30px;
-            background: linear-gradient(135deg, #2400b7, #3b1eff);
-            color: white;
-            border-bottom-right-radius: 40px;
-            position: relative;
-        }
+<style>
 
-        .close-btn {
-            font-size: 26px;
-            cursor: pointer;
-            margin-bottom: 20px;
-            display: inline-block;
-            transition: 0.2s;
-        }
+body{
+font-family:'Segoe UI', sans-serif;
+margin:0;
+background:#ffffff;
+height:100vh;
+overflow:hidden;
+}
 
-        .close-btn:active { transform: scale(0.8); }
+/* HEADER */
+.header{
+padding:45px 25px 30px;
+background:linear-gradient(135deg,#2400b7,#3b1eff);
+color:white;
+border-bottom-right-radius:40px;
+}
 
-        .profile {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+/* CLOSE ICON */
+.close-btn{
+font-size:26px;
+cursor:pointer;
+margin-bottom:20px;
+display:inline-block;
+}
 
-        .profile img {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 2px solid rgba(255,255,255,0.4);
-        }
+.close-btn:active{
+transform:scale(0.8);
+}
 
-        .profile h2 { margin: 0; font-size: 18px; }
-        .profile p { margin: 4px 0 0; font-size: 12px; opacity: 0.8; }
+/* PROFILE */
+.profile{
+display:flex;
+align-items:center;
+gap:15px;
+}
 
-        /* MENU ITEMS */
-        .menu-content {
-            padding: 20px 15px;
-        }
+.profile img{
+width:60px;
+height:60px;
+border-radius:50%;
+border:2px solid rgba(255,255,255,0.4);
+}
 
-        .nav-link {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            margin-bottom: 10px;
-            background: #f8f9ff;
-            border-radius: 15px;
-            text-decoration: none;
-            color: #444;
-            font-weight: 600;
-            transition: 0.2s;
-        }
+.profile h2{
+margin:0;
+font-size:18px;
+}
 
-        .nav-link:active {
-            background: #eef0ff;
-            transform: scale(0.97);
-        }
+.profile p{
+margin:4px 0 0;
+font-size:12px;
+opacity:0.8;
+}
 
-        .icon {
-            width: 35px;
-            height: 35px;
-            background: white;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-        }
+/* MENU */
+.menu-content{
+padding:20px 15px;
+}
 
-        /* LOGOUT AT BOTTOM */
-        .footer {
-            position: absolute;
-            bottom: 30px;
-            width: 100%;
-            padding: 0 20px;
-            box-sizing: border-box;
-        }
+.nav-link{
+display:flex;
+align-items:center;
+padding:15px;
+margin-bottom:10px;
+background:#f8f9ff;
+border-radius:15px;
+text-decoration:none;
+color:#444;
+font-weight:600;
+}
 
-        .logout-btn {
-            width: 100%;
-            padding: 14px;
-            background: #fff0f0;
-            color: #ff3d3d;
-            border: none;
-            border-radius: 15px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-    </style>
+.nav-link:active{
+background:#eef0ff;
+transform:scale(0.97);
+}
+
+.icon{
+width:35px;
+height:35px;
+background:white;
+border-radius:10px;
+display:flex;
+align-items:center;
+justify-content:center;
+margin-right:15px;
+}
+
+/* FOOTER BUTTON */
+.footer{
+position:absolute;
+bottom:30px;
+width:100%;
+padding:0 20px;
+box-sizing:border-box;
+}
+
+.close-full-btn{
+width:100%;
+padding:14px;
+background:#ff3d3d;
+color:white;
+border:none;
+border-radius:15px;
+font-weight:bold;
+font-size:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+box-shadow:0 6px 15px rgba(255,61,61,0.3);
+}
+
+.close-full-btn:active{
+transform:scale(0.96);
+background:#e63535;
+}
+
+</style>
 </head>
+
 <body>
 
-    <div class="header">
-        <div class="close-btn" onclick="triggerParentBack()">✕</div>
-        <div class="profile">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-            <div>
-                <h2 id="userName">HESCOM User</h2>
-                <p id="userRole">Employee Account</p>
-            </div>
-        </div>
-    </div>
+<div class="header">
 
-    <div class="menu-content">
-        <a href="home.html" class="nav-link" target="_parent">
-            <div class="icon">🏠</div> Home
-        </a>
-        <a href="resources.html" class="nav-link" target="_parent">
-            <div class="icon">📂</div> Resources
-        </a>
-        <a href="employee_info.html" class="nav-link" target="_parent">
-            <div class="icon">👤</div> My Profile
-        </a>
-        <a href="forum.html" class="nav-link" target="_parent">
-            <div class="icon">💬</div> Forum
-        </a>
-    </div>
+<div class="close-btn" onclick="goBack()">✕</div>
 
-    <div class="footer">
-        <button class="logout-btn" onclick="window.parent.logout()">
-            🔓 Logout
-        </button>
-    </div>
+<div class="profile">
+<img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+<div>
+<h2 id="userName">User</h2>
+<p id="userRole">Employee</p>
+</div>
+</div>
 
-    <script>
-        // Sync Data
-        document.addEventListener("DOMContentLoaded", () => {
-            const user = localStorage.getItem("currentUser");
-            if(user) document.getElementById("userName").innerText = user;
-        });
+</div>
 
-        // ACTION: CLOSE MENU
-        function triggerParentBack() {
-            // Tells the home page to go back in history, which triggers the close logic
-            window.parent.history.back();
-        }
+<div class="menu-content">
 
-        // SWIPE RIGHT-TO-LEFT TO CLOSE LOGIC
-        let startX = 0;
-        let startY = 0;
+<a href="home.html" class="nav-link">
+<div class="icon">🏠</div> Home
+</a>
 
-        document.addEventListener("touchstart", (e) => {
-            startX = e.touches[0].clientX;
-            startY = e.touches[0].clientY;
-        }, {passive: true});
+<a href="resources.html" class="nav-link">
+<div class="icon">📂</div> Resources
+</a>
 
-        document.addEventListener("touchend", (e) => {
-            let endX = e.changedTouches[0].clientX;
-            let endY = e.changedTouches[0].clientY;
-            
-            let diffX = endX - startX;
-            let diffY = Math.abs(endY - startY);
+<a href="employee_info.html" class="nav-link">
+<div class="icon">👤</div> My Profile
+</a>
 
-            // Logic: If moving finger LEFT (negative diffX)
-            // And it is more than 60 pixels horizontal
-            // And it isn't a vertical scroll (diffY < 50)
-            if (diffX < -60 && diffY < 50) {
-                triggerParentBack();
-            }
-        });
-    </script>
+<a href="forum.html" class="nav-link">
+<div class="icon">💬</div> Forum
+</a>
+
+</div>
+
+<div class="footer">
+<button class="close-full-btn" onclick="goBack()">
+⬅ Close Menu
+</button>
+</div>
+
+<script>
+
+/* LOAD USER NAME */
+document.addEventListener("DOMContentLoaded", ()=>{
+  let user = localStorage.getItem("currentUser");
+  if(user){
+    document.getElementById("userName").innerText = user;
+  }
+});
+
+/* BACK FUNCTION */
+function goBack(){
+  sessionStorage.setItem("navDirection","back");
+  window.history.back();
+}
+
+/* SWIPE LEFT TO CLOSE */
+let startX = 0;
+let startY = 0;
+
+document.addEventListener("touchstart", e=>{
+  startX = e.touches[0].clientX;
+  startY = e.touches[0].clientY;
+},{passive:true});
+
+document.addEventListener("touchend", e=>{
+  let endX = e.changedTouches[0].clientX;
+  let endY = e.changedTouches[0].clientY;
+
+  let diffX = endX - startX;
+  let diffY = Math.abs(endY - startY);
+
+  if(diffX < -60 && diffY < 50){
+    goBack();
+  }
+});
+
+</script>
+
 </body>
 </html>
