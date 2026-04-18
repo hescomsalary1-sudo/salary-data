@@ -289,6 +289,92 @@ transform:translateY(-2px);
 .check-btn:active{
 transform:scale(0.97);
 }
+
+  /* WRAPPER */
+.filter-wrap{
+margin-top:-30px;
+padding:20px 15px;
+border-radius:20px;
+background:rgba(255,255,255,0.7);
+backdrop-filter:blur(12px);
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* TITLE */
+.filter-title{
+text-align:center;
+font-size:16px;
+font-weight:600;
+color:#333;
+margin-bottom:18px;
+letter-spacing:0.3px;
+}
+
+/* ROW */
+.filter-row{
+display:flex;
+gap:12px;
+}
+
+/* FIELD (MODERN STYLE) */
+.field{
+flex:1;
+padding:10px 12px;
+border-radius:12px;
+background:white;
+border:1px solid rgba(0,0,0,0.08);
+transition:0.2s;
+}
+
+/* LABEL */
+.field span{
+display:block;
+font-size:11px;
+color:#888;
+margin-bottom:4px;
+}
+
+/* INPUT */
+.field input{
+width:100%;
+border:none;
+outline:none;
+font-size:14px;
+background:transparent;
+font-weight:500;
+color:#333;
+}
+
+/* FOCUS EFFECT */
+.field:focus-within{
+border-color:#6c39ff;
+box-shadow:0 0 0 2px rgba(108,57,255,0.08);
+}
+
+/* BUTTON (MODERN FLAT) */
+.check-btn{
+width:100%;
+margin-top:18px;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#4b2dd8;
+color:white;
+font-size:14px;
+font-weight:600;
+cursor:pointer;
+transition:0.2s;
+}
+
+/* HOVER */
+.check-btn:hover{
+background:#3d23b5;
+}
+
+/* ACTIVE */
+.check-btn:active{
+transform:scale(0.98);
+}
 </style>
 </head>
 
@@ -307,21 +393,25 @@ transform:scale(0.97);
 
 <div class="filter-card">
 
+<div class="filter-wrap">
+
   <div class="filter-title">Please Select Custom Period</div>
 
-  <div class="date-row">
-    <div class="input-box">
-      <label>From</label>
+  <div class="filter-row">
+
+    <div class="field">
+      <span>From</span>
       <input type="month" id="fromDate">
     </div>
 
-    <div class="input-box">
-      <label>To</label>
+    <div class="field">
+      <span>To</span>
       <input type="month" id="toDate">
     </div>
+
   </div>
 
-  <button class="check-btn" onclick="loadData()">Check Report</button>
+  <button class="check-btn" onclick="loadData()">Generate Report</button>
 
 </div>
 
