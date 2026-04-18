@@ -15,9 +15,9 @@ height:100vh;
 overflow:hidden;
 }
 
-/* 🔥 PAGE ANIMATION */
+/* 🔥 PAGE ANIMATION (FROM LEFT) */
 #appPage{
-transform:translateX(100%);
+transform:translateX(-100%);
 transition:transform 0.35s ease;
 height:100%;
 }
@@ -189,7 +189,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
   }
 });
 
-/* 🔥 PAGE ENTER ANIMATION */
+/* 🔥 OPEN FROM LEFT */
 window.onload = function(){
   let page = document.getElementById("appPage");
 
@@ -198,12 +198,12 @@ window.onload = function(){
   },10);
 };
 
-/* 🔥 BACK FUNCTION WITH ANIMATION */
+/* 🔥 CLOSE TO LEFT */
 function goBack(){
 
   let page = document.getElementById("appPage");
 
-  page.style.transform = "translateX(100%)";
+  page.style.transform = "translateX(-100%)";
 
   setTimeout(()=>{
     window.history.back();
@@ -226,6 +226,7 @@ document.addEventListener("touchend", e=>{
   let diffX = endX - startX;
   let diffY = Math.abs(endY - startY);
 
+  // swipe LEFT to close
   if(diffX < -60 && diffY < 50){
     goBack();
   }
