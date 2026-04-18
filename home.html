@@ -791,29 +791,29 @@ width:100%;
 height:100%;
 object-fit:cover;
 }
-/* SIDE NAVBAR OVERLAY CONTAINER */
+
+/* FULL SCREEN SIDE NAVBAR */
 #sideNavContainer {
     position: fixed;
     top: 0;
-    left: -100%; /* Hidden off-screen to the left */
-    width: 100%;
-    height: 100%;
-    background: white; /* Match your sidebar background */
-    z-index: 9999;
-    transition: transform 0.4s cubic-bezier(0.1, 0.7, 1.0, 0.1); /* Smooth drag feel */
-    box-shadow: 10px 0 25px rgba(0,0,0,0.2);
+    left: -100vw; /* Use vw for exact screen width */
+    width: 100vw;
+    height: 100vh;
+    background: white;
+    z-index: 10000; /* Highest priority */
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 5px 0 20px rgba(0,0,0,0.3);
 }
 
-/* When active, slide to 0 */
 #sideNavContainer.open {
-    transform: translateX(100%);
+    transform: translateX(100vw);
 }
 
-/* Ensure the iframe covers the whole area */
 #sideNavContainer iframe {
     width: 100%;
     height: 100%;
     border: none;
+    display: block;
 }
 </style>
  
@@ -1601,24 +1601,32 @@ z-index:3000;
 }
 </style>
   <script>
-// 1. Function to open the sidebar
+// 1. OPEN SIDEBAR + PUSH HISTORY (Fixes Mobile Back Button)
 function openSidePage() {
     const sideNav = document.getElementById("sideNavContainer");
     sideNav.classList.add("open");
-    
-    // Optional: Stop main page from scrolling while menu is open
     document.body.style.overflow = "hidden";
+
+    // Push a dummy state so the back button closes the menu instead of exiting
+    history.pushState({menuOpen: true}, "");
 }
 
-// 2. Function to close the sidebar (Call this from side_navbar.html)
-// You can call parent.closeSidePage() from your back button in side_navbar.html
+// 2. CLOSE SIDEBAR + SYNC HISTORY
 function closeSidePage() {
     const sideNav = document.getElementById("sideNavContainer");
-    sideNav.classList.remove("open");
-    document.body.style.overflow = "auto";
+    if (sideNav.classList.contains("open")) {
+        sideNav.classList.remove("open");
+        document.body.style.overflow = "auto";
+    }
 }
 
-// 3. Improved Touch/Drag Logic
+// 3. LISTEN FOR MOBILE BACK BUTTON
+window.onpopstate = function(event) {
+    // If the user clicks back and the menu is open, just close the menu
+    closeSidePage();
+};
+
+// 4. TOUCH LOGIC (Swipe Right to Open / Swipe Left to Close)
 let startX = 0;
 let startY = 0;
 
@@ -1630,13 +1638,20 @@ document.addEventListener("touchstart", e => {
 document.addEventListener("touchend", e => {
     let endX = e.changedTouches[0].clientX;
     let endY = e.changedTouches[0].clientY;
-
-    // Check if swipe is horizontal and from the left edge
     let diffX = endX - startX;
     let diffY = Math.abs(endY - startY);
 
+    // OPEN: Swipe Right from Left Edge
     if (startX < 60 && diffX > 80 && diffY < 50) {
         openSidePage();
+    }
+
+    // CLOSE: Swipe Left from anywhere while menu is open
+    if (document.getElementById("sideNavContainer").classList.contains("open")) {
+        if (diffX < -70 && diffY < 50) {
+            // When swiping left to close, we also need to clear the history state
+            history.back(); 
+        }
     }
 });
 </script>
