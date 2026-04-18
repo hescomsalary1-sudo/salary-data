@@ -806,7 +806,7 @@ height:100%;
 background:rgba(0,0,0,0.4);
 opacity:0;
 visibility:hidden;
-transition:0.3s;
+transition:opacity 0.25s ease;
 z-index:2000;
 }
 
@@ -819,7 +819,7 @@ width:100%;
 height:100%;
 background:#ffffff;
 transform:translateX(-100%);
-transition:transform 0.35s ease;
+transition:transform 0.28s cubic-bezier(.22,.61,.36,1);
   will-change: transform;
 z-index:2100;
 
@@ -1805,24 +1805,29 @@ function closeSideNav(){
 <script>
 let startX = 0;
 let currentX = 0;
+let startTime = 0;
+
 let isDragging = false;
-let menuWidth = window.innerWidth;
 let isOpen = false;
 
 const sideNav = document.getElementById("sideNav");
+const overlay = document.getElementById("sideOverlay");
 
-// START
+const menuWidth = window.innerWidth;
+
+// 👉 TOUCH START
 document.addEventListener("touchstart", (e)=>{
   startX = e.touches[0].clientX;
+  startTime = Date.now();
 
-  // allow drag from edge or when menu open
   if(startX < 40 || isOpen){
     isDragging = true;
-    sideNav.style.transition = "none"; // disable animation while dragging
+    sideNav.style.transition = "none";
+    overlay.style.transition = "none";
   }
 }, {passive:true});
 
-// MOVE
+// 👉 TOUCH MOVE
 document.addEventListener("touchmove", (e)=>{
   if(!isDragging) return;
 
@@ -1837,37 +1842,66 @@ document.addEventListener("touchmove", (e)=>{
     translateX = Math.min(0, -menuWidth + diff);
   }
 
+  // 🔥 RESISTANCE (edge feel)
+  if(translateX > 0){
+    translateX = translateX * 0.3;
+  }
+
+  // apply movement
   sideNav.style.transform = `translateX(${translateX}px)`;
+
+  // 🔥 OVERLAY FADE
+  let progress = 1 - Math.abs(translateX / menuWidth);
+  overlay.style.opacity = progress * 0.4;
 
 }, {passive:true});
 
-// END
+// 👉 TOUCH END
 document.addEventListener("touchend", ()=>{
   if(!isDragging) return;
 
   isDragging = false;
-  sideNav.style.transition = "transform 0.35s ease";
 
-  let moved = currentX - startX;
+  let diff = currentX - startX;
+  let time = Date.now() - startTime;
 
-  // decide open/close
-  if(!isOpen && moved > 80){
-    openSideNav();
-    isOpen = true;
-  }
-  else if(isOpen && moved < -80){
-    closeSideNav();
-    isOpen = false;
-  }
-  else{
-    // snap back
-    if(isOpen){
-      openSideNav();
+  let velocity = diff / time; // px per ms
+
+  // restore animation
+  sideNav.style.transition = "transform 0.28s cubic-bezier(.22,.61,.36,1)";
+  overlay.style.transition = "opacity 0.25s ease";
+
+  // 🔥 DECISION LOGIC (velocity + distance)
+  if(!isOpen){
+    if(diff > 80 || velocity > 0.5){
+      openMenu();
     }else{
-      closeSideNav();
+      closeMenu();
+    }
+  }else{
+    if(diff < -80 || velocity < -0.5){
+      closeMenu();
+    }else{
+      openMenu();
     }
   }
 });
+
+// 👉 OPEN
+function openMenu(){
+  sideNav.style.transform = "translateX(0)";
+  overlay.style.opacity = "0.4";
+  document.body.style.overflow = "hidden";
+  isOpen = true;
+}
+
+// 👉 CLOSE
+function closeMenu(){
+  sideNav.style.transform = "translateX(-100%)";
+  overlay.style.opacity = "0";
+  document.body.style.overflow = "auto";
+  isOpen = false;
+}
 </script>
 </body>
 </html>
