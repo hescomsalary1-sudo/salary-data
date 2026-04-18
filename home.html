@@ -865,134 +865,12 @@ object-fit:cover;
   #appPage{
 transition: transform 0.35s ease;
 }
-
-  /* OVERLAY */
-#sideOverlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.4);
-opacity:0;
-visibility:hidden;
-transition:0.3s;
-z-index:2000;
-}
-
-/* SIDENAV */
-#sideNav{
-position:fixed;
-top:0;
-left:0;
-width:260px;
-height:100%;
-background:linear-gradient(135deg,#2400b7,#3b1eff);
-color:white;
-transform:translateX(-100%); /* 🔥 hidden left */
-transition:transform 0.35s ease;
-z-index:2100;
-}
-
-/* OPEN */
-#sideNav.open{
-transform:translateX(0);
-}
-
-#sideOverlay.show{
-opacity:1;
-visibility:visible;
-}
-
-  /* FULL APP FRAME */
-#appFrame{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-border:none;
-z-index:1;
-}
-
-/* MENU BUTTON */
-.menu-btn{
-position:fixed;
-top:20px;
-left:15px;
-z-index:3000;
-background:#2400b7;
-color:white;
-padding:10px;
-border-radius:8px;
-cursor:pointer;
-}
-
-/* SIDEBAR CONTAINER */
-#menuContainer{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.4);
-transform:translateX(-100%);
-transition:0.35s ease;
-z-index:2000;
-}
-
-/* SHOW MENU */
-#menuContainer.open{
-transform:translateX(0);
-}
-
-/* SIDEBAR FRAME */
-#menuContainer iframe{
-width:260px;
-height:100%;
-border:none;
-background:white;
-}
 </style>
 </head>
 
 <body>
-  <body>
-
-<!-- MAIN APP (iframe) -->
-<iframe id="appFrame" src="main_home.html"></iframe>
-
-<!-- MENU BUTTON (fixed on top) -->
-<div class="menu-btn" onclick="openMenu()">☰</div>
-
-<!-- SIDEBAR (iframe overlay) -->
-<div id="menuContainer">
-  <iframe src="side_navbar.html"></iframe>
-</div>
-
-</body>
   <div id="appPage">
-  <!-- OVERLAY -->
-<div id="sideOverlay" onclick="closeSideNav()"></div>
-
-<!-- SIDENAV -->
-<div id="sideNav">
-
-  <div class="side-header">
-    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="side-profile">
-    <h3 id="sideName">User</h3>
-    <p id="sideRole">Role</p>
-  </div>
-
-  <div class="side-menu">
-    <div onclick="showLoader('home.html')">🏠 Home</div>
-    <div onclick="showLoader('employee_info.html')">👤 Profile</div>
-    <div onclick="showLoader('salary_details.html')">💰 Salary</div>
-    <div onclick="showLoader('attendance.html')">📊 Attendance</div>
-    <div onclick="showLoader('settings.html')">⚙ Settings</div>
-  </div>
-
-</div>
+  
 
 <div class="top">
 
@@ -1001,7 +879,7 @@ background:white;
 <div style="display:flex;align-items:center;gap:10px;">
 
   <!-- MENU BUTTON -->
-  <div class="menu-btn" onclick="openSideNav()">☰</div>
+  <div class="menu-btn" onclick="openMenuPage()">☰</div>
 
   <!-- PROFILE -->
 
@@ -1688,15 +1566,25 @@ window.addEventListener('message', (event) => {
 });
 
 function openSideNav() {
-  document.getElementById("sideNav").classList.add("open");
-  document.getElementById("sideOverlay").classList.add("show");
-  document.body.style.overflow = "hidden";
+    // Show the side menu
+    document.getElementById("sideNav").style.transform = "translateX(260px)";
+    document.getElementById("sideOverlay").classList.add("show");
+    document.body.style.overflow = "hidden";
+
+    // Update info
+    document.getElementById("sideName").innerText = document.getElementById("empName").innerText;
+    document.getElementById("sideRole").innerText = document.getElementById("empDesg").innerText;
+
+    // 🔥 PUSH STATE: This stops the app from exiting when back is pressed
+    if (history.state?.step !== 'menu') {
+        history.pushState({ step: 'menu' }, "");
+    }
 }
 
 function closeSideNav() {
-  document.getElementById("sideNav").classList.remove("open");
-  document.getElementById("sideOverlay").classList.remove("show");
-  document.body.style.overflow = "auto";
+    document.getElementById("sideNav").style.transform = "translateX(0)";
+    document.getElementById("sideOverlay").classList.remove("show");
+    document.body.style.overflow = "auto";
 }
 
 // 2. Handle the Hardware/Browser Back Button
@@ -1853,23 +1741,18 @@ z-index:3000;
   to{transform:scale(1);opacity:1;}
 }
 </style>
-<script>
-function openMenu(){
-  document.getElementById("menuContainer").classList.add("open");
-  document.body.style.overflow = "hidden";
-}
+  <script>
 
-function closeMenu(){
-  document.getElementById("menuContainer").classList.remove("open");
-  document.body.style.overflow = "auto";
-}
+function openMenuPage(){
+  let page = document.getElementById("appPage");
 
-// listen from iframe (important)
-window.addEventListener("message", function(e){
-  if(e.data === "closeMenu"){
-    closeMenu();
-  }
-});
+  // move current page to RIGHT (so menu comes from LEFT)
+  page.style.transform = "translateX(0%)";
+
+  setTimeout(()=>{
+    window.location.href = "side_navbar.html";
+  },300);
+}
 </script>
 </body>
 </html>
