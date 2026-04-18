@@ -1744,16 +1744,14 @@ z-index:3000;
   <script>
 
 function openMenuPage(){
-
   let page = document.getElementById("appPage");
 
-  // slide current page to right
+  // move current page to RIGHT (so menu comes from LEFT)
   page.style.transform = "translateX(100%)";
 
   setTimeout(()=>{
     window.location.href = "side_navbar.html";
   },300);
-
 }
 </script>
 </body>
