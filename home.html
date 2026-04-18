@@ -857,6 +857,95 @@ transition:0.2s;
 .side-menu div:hover{
 background:rgba(255,255,255,0.2);
 }
+
+  /* HEADER */
+.menu-header{
+padding:45px 20px 25px;
+background:linear-gradient(135deg,#2400b7,#3b1eff);
+color:white;
+border-bottom-right-radius:40px;
+}
+
+.close-btn{
+font-size:26px;
+cursor:pointer;
+margin-bottom:20px;
+}
+
+.profile-box{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.profile-box img{
+width:60px;
+height:60px;
+border-radius:50%;
+border:2px solid rgba(255,255,255,0.4);
+}
+
+.profile-box h2{
+margin:0;
+font-size:18px;
+}
+
+.profile-box p{
+margin:4px 0 0;
+font-size:12px;
+opacity:0.8;
+}
+
+/* MENU */
+.menu-content{
+padding:20px 15px;
+}
+
+.nav-link{
+display:flex;
+align-items:center;
+padding:15px;
+margin-bottom:10px;
+background:#f8f9ff;
+border-radius:15px;
+font-weight:600;
+cursor:pointer;
+transition:0.2s;
+}
+
+.nav-link:active{
+transform:scale(0.97);
+background:#eef0ff;
+}
+
+.icon{
+width:35px;
+height:35px;
+background:white;
+border-radius:10px;
+display:flex;
+align-items:center;
+justify-content:center;
+margin-right:15px;
+}
+
+/* FOOTER */
+.menu-footer{
+position:absolute;
+bottom:25px;
+width:100%;
+padding:0 20px;
+}
+
+.menu-footer button{
+width:100%;
+padding:14px;
+background:#ff3d3d;
+color:white;
+border:none;
+border-radius:15px;
+font-weight:bold;
+}
 </style>
 </head>
 
@@ -867,17 +956,45 @@ background:rgba(255,255,255,0.2);
 <!-- SIDENAV -->
 <div id="sideNav">
 
-  <div class="side-header">
-    <h3 id="sideName">User</h3>
-    <p id="sideRole">Employee</p>
+  <!-- HEADER -->
+  <div class="menu-header">
+
+    <div class="close-btn" onclick="closeSideNav()">✕</div>
+
+    <div class="profile-box">
+      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+      <div>
+        <h2 id="sideName">User</h2>
+        <p id="sideRole">Employee</p>
+      </div>
+    </div>
+
   </div>
 
-  <div class="side-menu">
-    <div onclick="showLoader('home.html')">🏠 Home</div>
-    <div onclick="showLoader('employee_info.html')">👤 Profile</div>
-    <div onclick="showLoader('salary_details.html')">💰 Salary</div>
-    <div onclick="showLoader('attendance.html')">📊 Attendance</div>
-    <div onclick="showLoader('settings.html')">⚙ Settings</div>
+  <!-- MENU -->
+  <div class="menu-content">
+
+    <div class="nav-link" onclick="showLoader('home.html')">
+      <div class="icon">🏠</div> Home
+    </div>
+
+    <div class="nav-link" onclick="showLoader('resources.html')">
+      <div class="icon">📂</div> Resources
+    </div>
+
+    <div class="nav-link" onclick="showLoader('employee_info.html')">
+      <div class="icon">👤</div> My Profile
+    </div>
+
+    <div class="nav-link" onclick="showLoader('forum.html')">
+      <div class="icon">💬</div> Forum
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="menu-footer">
+    <button onclick="closeSideNav()">⬅ Close Menu</button>
   </div>
 
 </div>
