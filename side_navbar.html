@@ -1,47 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
     <style>
-        body { margin: 0; font-family: sans-serif; height: 100vh; background: #fff; overflow: hidden; }
-        .menu-header { padding: 45px 20px 25px; background: linear-gradient(135deg, #2400b7, #3b1eff); color: #fff; border-bottom-right-radius: 40px; }
-        .nav-item { display: flex; align-items: center; padding: 15px; margin: 10px; background: #f8f9ff; border-radius: 12px; text-decoration: none; color: #333; font-weight: 600; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #ffffff;
+            color: #333;
+            height: 100vh;
+            overflow: hidden; /* Prevent menu itself from scrolling page-wide */
+        }
+
+        /* HEADER */
+        .header {
+            padding: 45px 25px 30px;
+            background: linear-gradient(135deg, #2400b7, #3b1eff);
+            color: white;
+            border-bottom-right-radius: 40px;
+            position: relative;
+        }
+
+        .close-btn {
+            font-size: 26px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: 0.2s;
+        }
+
+        .close-btn:active { transform: scale(0.8); }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .profile img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+
+        .profile h2 { margin: 0; font-size: 18px; }
+        .profile p { margin: 4px 0 0; font-size: 12px; opacity: 0.8; }
+
+        /* MENU ITEMS */
+        .menu-content {
+            padding: 20px 15px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #f8f9ff;
+            border-radius: 15px;
+            text-decoration: none;
+            color: #444;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .nav-link:active {
+            background: #eef0ff;
+            transform: scale(0.97);
+        }
+
+        .icon {
+            width: 35px;
+            height: 35px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        /* LOGOUT AT BOTTOM */
+        .footer {
+            position: absolute;
+            bottom: 30px;
+            width: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .logout-btn {
+            width: 100%;
+            padding: 14px;
+            background: #fff0f0;
+            color: #ff3d3d;
+            border: none;
+            border-radius: 15px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="menu-header">
-        <div style="font-size:24px; cursor:pointer;" onclick="requestClose()">✕</div>
-        <h3>Menu</h3>
+    <div class="header">
+        <div class="close-btn" onclick="triggerParentBack()">✕</div>
+        <div class="profile">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+            <div>
+                <h2 id="userName">HESCOM User</h2>
+                <p id="userRole">Employee Account</p>
+            </div>
+        </div>
     </div>
 
-    <div class="menu-links">
-        <a href="home.html" class="nav-item" target="_parent">🏠 Home</a>
-        <a href="resources.html" class="nav-item" target="_parent">📂 Resources</a>
+    <div class="menu-content">
+        <a href="home.html" class="nav-link" target="_parent">
+            <div class="icon">🏠</div> Home
+        </a>
+        <a href="resources.html" class="nav-link" target="_parent">
+            <div class="icon">📂</div> Resources
+        </a>
+        <a href="employee_info.html" class="nav-link" target="_parent">
+            <div class="icon">👤</div> My Profile
+        </a>
+        <a href="forum.html" class="nav-link" target="_parent">
+            <div class="icon">💬</div> Forum
+        </a>
+    </div>
+
+    <div class="footer">
+        <button class="logout-btn" onclick="window.parent.logout()">
+            🔓 Logout
+        </button>
     </div>
 
     <script>
-        function requestClose() {
-            // Tell the parent window to go back (which closes the menu)
-            window.parent.postMessage('closeSideMenu', '*');
+        // Sync Data
+        document.addEventListener("DOMContentLoaded", () => {
+            const user = localStorage.getItem("currentUser");
+            if(user) document.getElementById("userName").innerText = user;
+        });
+
+        // ACTION: CLOSE MENU
+        function triggerParentBack() {
+            // Tells the home page to go back in history, which triggers the close logic
+            window.parent.history.back();
         }
 
-        // SWIPE GESTURE LOGIC
+        // SWIPE RIGHT-TO-LEFT TO CLOSE LOGIC
         let startX = 0;
         let startY = 0;
 
-        document.addEventListener("touchstart", e => {
+        document.addEventListener("touchstart", (e) => {
             startX = e.touches[0].clientX;
             startY = e.touches[0].clientY;
         }, {passive: true});
 
-        document.addEventListener("touchend", e => {
-            let diffX = e.changedTouches[0].clientX - startX;
-            let diffY = Math.abs(e.changedTouches[0].clientY - startY);
+        document.addEventListener("touchend", (e) => {
+            let endX = e.changedTouches[0].clientX;
+            let endY = e.changedTouches[0].clientY;
+            
+            let diffX = endX - startX;
+            let diffY = Math.abs(endY - startY);
 
-            // If swiped Left (negative diffX) and horizontal
-            if (diffX < -50 && diffY < 50) {
-                requestClose();
+            // Logic: If moving finger LEFT (negative diffX)
+            // And it is more than 60 pixels horizontal
+            // And it isn't a vertical scroll (diffY < 50)
+            if (diffX < -60 && diffY < 50) {
+                triggerParentBack();
             }
         });
     </script>
