@@ -3,76 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Side Navigation</title>
+    <title>Menu</title>
     <style>
         body {
-            font-family: sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             margin: 0;
+            padding: 0;
             background: #ffffff;
             color: #333;
             height: 100vh;
+            overflow: hidden; /* Prevent menu itself from scrolling page-wide */
         }
 
         /* HEADER */
-        .menu-header {
-            padding: 40px 20px 20px;
+        .header {
+            padding: 45px 25px 30px;
             background: linear-gradient(135deg, #2400b7, #3b1eff);
             color: white;
             border-bottom-right-radius: 40px;
+            position: relative;
         }
 
         .close-btn {
-            font-size: 28px;
+            font-size: 26px;
             cursor: pointer;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             display: inline-block;
+            transition: 0.2s;
         }
 
-        .profile-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .close-btn:active { transform: scale(0.8); }
 
-        .profile-area img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 2px solid white;
-        }
-
-        /* LIST */
-        .menu-list {
-            padding: 20px 10px;
-        }
-
-        .menu-item {
+        .profile {
             display: flex;
             align-items: center;
             gap: 15px;
+        }
+
+        .profile img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+
+        .profile h2 { margin: 0; font-size: 18px; }
+        .profile p { margin: 4px 0 0; font-size: 12px; opacity: 0.8; }
+
+        /* MENU ITEMS */
+        .menu-content {
+            padding: 20px 15px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
             padding: 15px;
             margin-bottom: 10px;
-            border-radius: 12px;
+            background: #f8f9ff;
+            border-radius: 15px;
             text-decoration: none;
             color: #444;
-            background: #f8f9ff;
             font-weight: 600;
             transition: 0.2s;
         }
 
-        .menu-item:active {
+        .nav-link:active {
             background: #eef0ff;
-            transform: scale(0.96);
+            transform: scale(0.97);
         }
 
         .icon {
-            font-size: 20px;
-            width: 30px;
-            text-align: center;
+            width: 35px;
+            height: 35px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
         }
 
-        /* LOGOUT */
-        .logout-section {
+        /* LOGOUT AT BOTTOM */
+        .footer {
             position: absolute;
             bottom: 30px;
             width: 100%;
@@ -80,60 +94,91 @@
             box-sizing: border-box;
         }
 
-        .btn-logout {
+        .logout-btn {
             width: 100%;
-            padding: 12px;
-            border-radius: 12px;
-            border: none;
+            padding: 14px;
             background: #fff0f0;
             color: #ff3d3d;
+            border: none;
+            border-radius: 15px;
             font-weight: bold;
-            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
     </style>
 </head>
 <body>
 
-    <div class="menu-header">
-        <div class="close-btn" onclick="window.parent.closeSidePage()">✕</div>
-        <div class="profile-area">
+    <div class="header">
+        <div class="close-btn" onclick="triggerParentBack()">✕</div>
+        <div class="profile">
             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
             <div>
-                <div id="sideName" style="font-weight: bold;">Loading...</div>
-                <div style="font-size: 12px; opacity: 0.8;">HESCOM Employee</div>
+                <h2 id="userName">HESCOM User</h2>
+                <p id="userRole">Employee Account</p>
             </div>
         </div>
     </div>
 
-    <div class="menu-list">
-        <a href="home.html" class="menu-item" target="_parent">
-            <span class="icon">🏠</span> Home
+    <div class="menu-content">
+        <a href="home.html" class="nav-link" target="_parent">
+            <div class="icon">🏠</div> Home
         </a>
-        
-        <a href="resources.html" class="menu-item" target="_parent">
-            <span class="icon">📂</span> Resources
+        <a href="resources.html" class="nav-link" target="_parent">
+            <div class="icon">📂</div> Resources
         </a>
-
-        <a href="employee_info.html" class="menu-item" target="_parent">
-            <span class="icon">👤</span> My Profile
+        <a href="employee_info.html" class="nav-link" target="_parent">
+            <div class="icon">👤</div> My Profile
         </a>
-
-        <a href="forum.html" class="menu-item" target="_parent">
-            <span class="icon">💬</span> Forum
+        <a href="forum.html" class="nav-link" target="_parent">
+            <div class="icon">💬</div> Forum
         </a>
     </div>
 
-    <div class="logout-section">
-        <button class="btn-logout" onclick="window.parent.logout()">🔓 Logout</button>
+    <div class="footer">
+        <button class="logout-btn" onclick="window.parent.logout()">
+            🔓 Logout
+        </button>
     </div>
 
     <script>
-        // Sync the name from local storage
+        // Sync Data
         document.addEventListener("DOMContentLoaded", () => {
             const user = localStorage.getItem("currentUser");
-            if(user) document.getElementById("sideName").innerText = user;
+            if(user) document.getElementById("userName").innerText = user;
+        });
+
+        // ACTION: CLOSE MENU
+        function triggerParentBack() {
+            // Tells the home page to go back in history, which triggers the close logic
+            window.parent.history.back();
+        }
+
+        // SWIPE RIGHT-TO-LEFT TO CLOSE LOGIC
+        let startX = 0;
+        let startY = 0;
+
+        document.addEventListener("touchstart", (e) => {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        }, {passive: true});
+
+        document.addEventListener("touchend", (e) => {
+            let endX = e.changedTouches[0].clientX;
+            let endY = e.changedTouches[0].clientY;
+            
+            let diffX = endX - startX;
+            let diffY = Math.abs(endY - startY);
+
+            // Logic: If moving finger LEFT (negative diffX)
+            // And it is more than 60 pixels horizontal
+            // And it isn't a vertical scroll (diffY < 50)
+            if (diffX < -60 && diffY < 50) {
+                triggerParentBack();
+            }
         });
     </script>
-
 </body>
 </html>
