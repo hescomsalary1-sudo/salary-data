@@ -791,44 +791,38 @@ width:100%;
 height:100%;
 object-fit:cover;
 }
-  #pageSlider{
-position:fixed;
-top:0;
-left:-100%;
-width:100%;
-height:100%;
-background:linear-gradient(135deg,#2400b7,#3b1eff);
-z-index:5000;
-transition:0.35s ease;
+/* SIDE NAVBAR OVERLAY CONTAINER */
+#sideNavContainer {
+    position: fixed;
+    top: 0;
+    left: -100%; /* Hidden off-screen to the left */
+    width: 100%;
+    height: 100%;
+    background: white; /* Match your sidebar background */
+    z-index: 9999;
+    transition: transform 0.4s cubic-bezier(0.1, 0.7, 1.0, 0.1); /* Smooth drag feel */
+    box-shadow: 10px 0 25px rgba(0,0,0,0.2);
 }
 
-  #appPage{
-position:relative;
-width:100%;
-min-height:100vh;
-background:inherit;
-transition:transform 0.35s ease;
+/* When active, slide to 0 */
+#sideNavContainer.open {
+    transform: translateX(100%);
 }
 
-/* start from right (for new page) */
-.page-enter{
-transform:translateX(100%);
-}
-
-/* active position */
-.page-active{
-transform:translateX(0);
-}
-
-/* exit to right */
-.page-exit{
-transform:translateX(100%);
+/* Ensure the iframe covers the whole area */
+#sideNavContainer iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
 }
 </style>
  
 </head>
 
 <body>
+  <div id="sideNavContainer">
+    <iframe src="side_navbar.html" id="sideFrame"></iframe>
+</div>
    <div id="appPage">
 <div id="pageSlider"></div>
 
@@ -1607,35 +1601,43 @@ z-index:3000;
 }
 </style>
   <script>
-function openSidePage(){
-
-  let page = document.getElementById("appPage");
-
-  // animate current page to right
-  page.classList.add("page-exit");
-
-  // mark direction
-  sessionStorage.setItem("navDirection","forward");
-
-  setTimeout(()=>{
-    window.location.href = "side_navbar.html";
-  },300);
-
+// 1. Function to open the sidebar
+function openSidePage() {
+    const sideNav = document.getElementById("sideNavContainer");
+    sideNav.classList.add("open");
+    
+    // Optional: Stop main page from scrolling while menu is open
+    document.body.style.overflow = "hidden";
 }
-</script>
-<script>
+
+// 2. Function to close the sidebar (Call this from side_navbar.html)
+// You can call parent.closeSidePage() from your back button in side_navbar.html
+function closeSidePage() {
+    const sideNav = document.getElementById("sideNavContainer");
+    sideNav.classList.remove("open");
+    document.body.style.overflow = "auto";
+}
+
+// 3. Improved Touch/Drag Logic
 let startX = 0;
+let startY = 0;
 
-document.addEventListener("touchstart", e=>{
-  startX = e.touches[0].clientX;
-});
+document.addEventListener("touchstart", e => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+}, {passive: true});
 
-document.addEventListener("touchend", e=>{
-  let endX = e.changedTouches[0].clientX;
+document.addEventListener("touchend", e => {
+    let endX = e.changedTouches[0].clientX;
+    let endY = e.changedTouches[0].clientY;
 
-  if(startX < 80 && (endX - startX) > 70){
-    openSidePage();
-  }
+    // Check if swipe is horizontal and from the left edge
+    let diffX = endX - startX;
+    let diffY = Math.abs(endY - startY);
+
+    if (startX < 60 && diffX > 80 && diffY < 50) {
+        openSidePage();
+    }
 });
 </script>
   <script>
