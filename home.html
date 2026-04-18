@@ -795,10 +795,92 @@ object-fit:cover;
   #appPage{
 transition: transform 0.35s ease;
 }
+
+  /* OVERLAY */
+#sideOverlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+opacity:0;
+visibility:hidden;
+transition:0.3s;
+z-index:2000;
+}
+
+/* SIDENAV */
+#sideNav{
+position:fixed;
+top:0;
+left:0;
+width:260px;
+height:100%;
+background:linear-gradient(135deg,#2400b7,#3b1eff);
+color:white;
+transform:translateX(-100%);
+transition:transform 0.35s ease;
+z-index:2100;
+}
+
+/* OPEN */
+#sideNav.open{
+transform:translateX(0);
+}
+
+#sideOverlay.show{
+opacity:1;
+visibility:visible;
+}
+
+/* HEADER */
+.side-header{
+padding:25px;
+text-align:center;
+border-bottom:1px solid rgba(255,255,255,0.2);
+}
+
+/* MENU */
+.side-menu{
+padding:15px;
+}
+
+.side-menu div{
+padding:12px;
+margin-bottom:8px;
+border-radius:10px;
+cursor:pointer;
+transition:0.2s;
+}
+
+.side-menu div:hover{
+background:rgba(255,255,255,0.2);
+}
 </style>
 </head>
 
 <body>
+  <!-- OVERLAY -->
+<div id="sideOverlay" onclick="closeSideNav()"></div>
+
+<!-- SIDENAV -->
+<div id="sideNav">
+
+  <div class="side-header">
+    <h3 id="sideName">User</h3>
+    <p id="sideRole">Employee</p>
+  </div>
+
+  <div class="side-menu">
+    <div onclick="showLoader('home.html')">🏠 Home</div>
+    <div onclick="showLoader('employee_info.html')">👤 Profile</div>
+    <div onclick="showLoader('salary_details.html')">💰 Salary</div>
+    <div onclick="showLoader('attendance.html')">📊 Attendance</div>
+    <div onclick="showLoader('settings.html')">⚙ Settings</div>
+  </div>
+
+</div>
   <div id="appPage">
   
 
@@ -809,7 +891,7 @@ transition: transform 0.35s ease;
 <div style="display:flex;align-items:center;gap:10px;">
 
   <!-- MENU BUTTON -->
- <div class="menu-btn">☰</div>
+ <div class="menu-btn" onclick="openSideNav()">☰</div>
 
   <!-- PROFILE -->
 
@@ -1573,6 +1655,50 @@ z-index:3000;
   to{transform:scale(1);opacity:1;}
 }
 </style>
+<script>
+function openSideNav(){
+  document.getElementById("sideNav").classList.add("open");
+  document.getElementById("sideOverlay").classList.add("show");
+  document.body.style.overflow = "hidden";
 
+  // update name
+  document.getElementById("sideName").innerText =
+    document.getElementById("empName").innerText;
+
+  document.getElementById("sideRole").innerText =
+    document.getElementById("empDesg").innerText;
+}
+
+function closeSideNav(){
+  document.getElementById("sideNav").classList.remove("open");
+  document.getElementById("sideOverlay").classList.remove("show");
+  document.body.style.overflow = "auto";
+}
+</script>
+  <script>
+let startX = 0;
+let isOpen = false;
+
+document.addEventListener("touchstart", e=>{
+  startX = e.touches[0].clientX;
+});
+
+document.addEventListener("touchmove", e=>{
+  let moveX = e.touches[0].clientX;
+  let diff = moveX - startX;
+
+  // 👉 OPEN (swipe right from edge)
+  if(startX < 50 && diff > 80){
+    openSideNav();
+    isOpen = true;
+  }
+
+  // 👉 CLOSE (swipe left)
+  if(isOpen && diff < -80){
+    closeSideNav();
+    isOpen = false;
+  }
+});
+</script>
 </body>
 </html>
