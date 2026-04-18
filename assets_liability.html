@@ -15,14 +15,29 @@ overflow-x:hidden;
 
 /* HEADER */
 .top{
-padding:20px;
+padding:0;
 background:linear-gradient(135deg,#6c39ff,#4b2dd8);
-color:white;
+border-radius:0 0 30px 30px;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+.top-content{
+padding:25px 15px 35px;
 text-align:center;
-font-size:20px;
-font-weight:600;
-border-radius:0 0 25px 25px;
-box-shadow:0 10px 25px rgba(0,0,0,0.15);
+color:white;
+}
+
+.top h2{
+margin:0;
+font-size:22px;
+font-weight:700;
+letter-spacing:0.5px;
+}
+
+.top p{
+margin-top:6px;
+font-size:13px;
+opacity:0.85;
 }
 
 /* CONTENT */
@@ -190,6 +205,73 @@ padding-top:10px;
 margin-top:10px;
 font-size:16px;
 }
+
+  /* FILTER CARD */
+.filter-card{
+background:white;
+padding:18px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+margin-top:-25px;
+position:relative;
+z-index:5;
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+/* INPUT GROUP */
+.input-group{
+display:flex;
+flex-direction:column;
+font-size:13px;
+color:#555;
+}
+
+.input-group label{
+margin-bottom:5px;
+font-weight:600;
+}
+
+/* INPUT STYLE IMPROVED */
+.input-group input{
+padding:12px;
+border-radius:12px;
+border:1px solid #e0e0e0;
+background:#f9f9ff;
+font-size:14px;
+outline:none;
+transition:0.2s;
+}
+
+.input-group input:focus{
+border-color:#6c39ff;
+box-shadow:0 0 0 3px rgba(108,57,255,0.1);
+}
+
+/* BUTTON PREMIUM */
+.check-btn{
+margin-top:8px;
+padding:14px;
+border:none;
+border-radius:14px;
+background:linear-gradient(135deg,#6c39ff,#4b2dd8);
+color:white;
+font-size:15px;
+font-weight:600;
+cursor:pointer;
+box-shadow:0 8px 20px rgba(75,45,216,0.3);
+transition:0.25s;
+}
+
+.check-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 12px 25px rgba(75,45,216,0.4);
+}
+
+.check-btn:active{
+transform:scale(0.97);
+}
 </style>
 </head>
 
@@ -198,18 +280,31 @@ font-size:16px;
   <div class="spinner"></div>
 </div>
 <div class="top">
-<h2>Assets & Liability</h2>
+  <div class="top-content">
+    <h2>Assets & Liability</h2>
+    <p>View your financial summary</p>
+  </div>
 </div>
 
 <div class="content">
 
-<label>From:</label>
-<input type="month" id="fromDate">
+<div class="filter-card">
 
-<label>To:</label>
-<input type="month" id="toDate">
+  <div class="input-group">
+    <label>From</label>
+    <input type="month" id="fromDate">
+  </div>
 
-<button onclick="loadData()">Check</button>
+  <div class="input-group">
+    <label>To</label>
+    <input type="month" id="toDate">
+  </div>
+
+  <button class="check-btn" onclick="loadData()">
+    Check Report
+  </button>
+
+</div>
 
 <!-- ✅ ONLY TABLE SCROLL -->
 <div class="table-container">
