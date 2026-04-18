@@ -11,8 +11,9 @@ background: linear-gradient(135deg, #f7f8fc, #edf5ff);
 padding-bottom:75px;
 }
 
+/* PREMIUM HEADER SAME AS HOME */
 .top{
-padding:25px 20px 5px 20px;
+padding:25px 20px 110px 20px;
 background: linear-gradient(135deg, #f7f8fc, #edf5ff);
 color:#2400b7;
 display:flex;
@@ -21,11 +22,41 @@ align-items:center;
 border-bottom-left-radius:60px;
 border-bottom-right-radius:60px;
 }
+
+/* LEFT BOX */
+.user-box{
+display:flex;
+align-items:center;
+gap:12px;
+}
 /* CONTAINER */
 .container{
 padding:15px;
 }
+/* MENU BUTTON */
+.menu-btn{
+width:42px;
+height:42px;
+border-radius:10px;
+background:#2400b7;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:20px;
+cursor:pointer;
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
 
+.menu-btn:active{
+transform:scale(0.9);
+}
+
+/* RIGHT ICONS */
+.logout{
+cursor:pointer;
+font-size:22px;
+}
 /* CARD ITEM */
 .item{
 display:flex;
@@ -76,22 +107,21 @@ font-size:18px;
 color:#bbb;
 }
 
-/* LOADER */
+/* LOADER BELOW HEADER */
 #loader{
 position:fixed;
-top:0;
+top:95px; /* 🔥 important (below header) */
 left:0;
 width:100%;
-height:calc(100vh - 68px);
+height:calc(100vh - 160px);
 background:#f3f4fa;
 display:none;
 flex-direction:column;
 padding:20px;
 gap:15px;
-z-index:500; /* 🔥 BELOW navbar */
+z-index:500;
 overflow:hidden;
 }
-
 
 /* SKELETON */
 @keyframes shimmer{
@@ -239,8 +269,25 @@ background:linear-gradient(135deg,#2400b7,#3b1eff);
 
 <body>
 
+<!-- HEADER -->
 <div class="top">
-<h2>📚 Resources</h2>
+
+ <div class="user-box">
+
+  <div class="menu-btn" onclick="openSideNav()">☰</div>
+
+  <div>
+    <div style="font-size:13px;">Support Center</div>
+    <strong style="font-size:18px;">💬 Forum & Help</strong>
+  </div>
+
+</div>
+
+  <div>
+    <span style="font-size:22px;margin-right:10px;cursor:pointer;" onclick="refreshApp()">🔄</span>
+    <span class="logout" onclick="logout()">🔓</span>
+  </div>
+
 </div>
 
 <div class="container">
