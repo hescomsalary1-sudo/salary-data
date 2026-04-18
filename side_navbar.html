@@ -141,30 +141,27 @@
         const user = localStorage.getItem("currentUser");
         if(user) document.getElementById("sideUser").innerText = user;
 
-        // 2. Function to close the menu
-        function closeMenu() {
-            // This triggers the onpopstate in home.html to hide the sidebar
-            window.parent.history.back();
-        }
+      // Function to close the menu
+function closeMenu() {
+    // Instead of calling a function directly, we go "back" in history
+    // This triggers the 'onpopstate' in home.html which closes the menu safely
+    window.parent.history.back();
+}
 
-        // 3. SWIPE RIGHT-TO-LEFT TO CLOSE
-        let startX = 0;
-        let startY = 0;
+// SWIPE RIGHT-TO-LEFT TO CLOSE (Update your existing swipe logic)
+let startX = 0;
+document.addEventListener("touchstart", e => {
+    startX = e.touches[0].clientX;
+}, {passive: true});
 
-        document.addEventListener("touchstart", e => {
-            startX = e.touches[0].clientX;
-            startY = e.touches[0].clientY;
-        }, {passive: true});
+document.addEventListener("touchend", e => {
+    let diffX = e.changedTouches[0].clientX - startX;
+    let diffY = Math.abs(e.changedTouches[0].clientY - startY); // Ensure startY is defined
 
-        document.addEventListener("touchend", e => {
-            let diffX = e.changedTouches[0].clientX - startX;
-            let diffY = Math.abs(e.changedTouches[0].clientY - startY);
-
-            // If swiped left (negative X) and not scrolling vertically
-            if (diffX < -60 && diffY < 50) {
-                closeMenu();
-            }
-        });
+    if (diffX < -60 && diffY < 50) {
+        closeMenu(); // This now uses history.back()
+    }
+});
     </script>
 </body>
 </html>
