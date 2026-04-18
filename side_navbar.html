@@ -3,197 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu</title>
+    <title>Side Navigation</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: sans-serif;
             margin: 0;
-            padding: 0;
             background: #ffffff;
             color: #333;
-            overflow-x: hidden;
+            height: 100vh;
         }
 
-        /* HEADER SECTION */
+        /* HEADER */
         .menu-header {
-            padding: 40px 25px 30px;
+            padding: 40px 20px 20px;
             background: linear-gradient(135deg, #2400b7, #3b1eff);
             color: white;
             border-bottom-right-radius: 40px;
         }
 
-        .back-btn {
-            font-size: 24px;
+        .close-btn {
+            font-size: 28px;
             cursor: pointer;
+            margin-bottom: 15px;
             display: inline-block;
-            margin-bottom: 20px;
-            transition: 0.2s;
         }
 
-        .back-btn:active {
-            transform: scale(0.85);
-        }
-
-        .profile-section {
+        .profile-area {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
-        .profile-img {
-            width: 65px;
-            height: 65px;
+        .profile-area img {
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            border: 3px solid rgba(255,255,255,0.3);
-            object-fit: cover;
+            border: 2px solid white;
         }
 
-        .user-info h2 {
-            margin: 0;
-            font-size: 18px;
-            letter-spacing: 0.5px;
-        }
-
-        .user-info p {
-            margin: 5px 0 0;
-            font-size: 13px;
-            opacity: 0.8;
-        }
-
-        /* MENU LIST */
+        /* LIST */
         .menu-list {
-            padding: 25px 15px;
+            padding: 20px 10px;
         }
 
         .menu-item {
             display: flex;
             align-items: center;
-            padding: 16px 15px;
-            margin-bottom: 8px;
-            border-radius: 15px;
+            gap: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 12px;
             text-decoration: none;
             color: #444;
-            transition: 0.3s;
             background: #f8f9ff;
+            font-weight: 600;
+            transition: 0.2s;
         }
 
         .menu-item:active {
             background: #eef0ff;
-            transform: scale(0.98);
+            transform: scale(0.96);
         }
 
-        .menu-icon {
-            width: 35px;
-            height: 35px;
-            background: white;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            margin-right: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        .icon {
+            font-size: 20px;
+            width: 30px;
+            text-align: center;
         }
 
-        .menu-text {
-            flex: 1;
-            font-size: 15px;
-            font-weight: 600;
-        }
-
-        .arrow {
-            font-size: 12px;
-            color: #bbb;
-        }
-
-        /* FOOTER SECTION */
-        .menu-footer {
+        /* LOGOUT */
+        .logout-section {
             position: absolute;
             bottom: 30px;
             width: 100%;
-            text-align: center;
             padding: 0 20px;
             box-sizing: border-box;
         }
 
-        .logout-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 14px;
+        .btn-logout {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
             background: #fff0f0;
             color: #ff3d3d;
-            border-radius: 15px;
             font-weight: bold;
-            text-decoration: none;
-            border: 1px solid #ffebeb;
-        }
-
-        .version {
-            font-size: 11px;
-            color: #aaa;
-            margin-top: 15px;
-            display: block;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
     <div class="menu-header">
-        <div class="back-btn" onclick="window.parent.history.back()">✕</div>
-        
-        <div class="profile-section">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="profile-img" id="sideProfileImg">
-            <div class="user-info">
-                <h2 id="sideEmpName">User Name</h2>
-                <p id="sideEmpDesg">Employee Designation</p>
+        <div class="close-btn" onclick="window.parent.closeSidePage()">✕</div>
+        <div class="profile-area">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+            <div>
+                <div id="sideName" style="font-weight: bold;">Loading...</div>
+                <div style="font-size: 12px; opacity: 0.8;">HESCOM Employee</div>
             </div>
         </div>
     </div>
 
     <div class="menu-list">
-        <a href="official_details.html" class="menu-item" target="_parent">
-            <div class="menu-icon">🏢</div>
-            <div class="menu-text">Official Details</div>
-            <div class="arrow">▶</div>
+        <a href="home.html" class="menu-item" target="_parent">
+            <span class="icon">🏠</span> Home
+        </a>
+        
+        <a href="resources.html" class="menu-item" target="_parent">
+            <span class="icon">📂</span> Resources
         </a>
 
-        <a href="promotions.html" class="menu-item" target="_parent">
-            <div class="menu-icon">📈</div>
-            <div class="menu-text">Promotion Track</div>
-            <div class="arrow">▶</div>
+        <a href="employee_info.html" class="menu-item" target="_parent">
+            <span class="icon">👤</span> My Profile
         </a>
 
-        <a href="attendance_history.html" class="menu-item" target="_parent">
-            <div class="menu-icon">📅</div>
-            <div class="menu-text">Attendance History</div>
-            <div class="arrow">▶</div>
-        </a>
-
-        <a href="settings.html" class="menu-item" target="_parent">
-            <div class="menu-icon">⚙️</div>
-            <div class="menu-text">App Settings</div>
-            <div class="arrow">▶</div>
+        <a href="forum.html" class="menu-item" target="_parent">
+            <span class="icon">💬</span> Forum
         </a>
     </div>
 
-    <div class="menu-footer">
-        <a href="#" class="logout-btn" onclick="window.parent.logout()">
-            <span>🔓</span> Logout Account
-        </a>
-        <span class="version">Version 2.0.4 Premium</span>
+    <div class="logout-section">
+        <button class="btn-logout" onclick="window.parent.logout()">🔓 Logout</button>
     </div>
 
     <script>
-        // Sync user data from localStorage
+        // Sync the name from local storage
         document.addEventListener("DOMContentLoaded", () => {
-            const userName = localStorage.getItem("currentUser") || "Guest";
-            document.getElementById("sideEmpName").innerText = userName;
-            
-            // Note: You can add more fetch logic here to get the full name 
-            // and designation just like you did in home.html
+            const user = localStorage.getItem("currentUser");
+            if(user) document.getElementById("sideName").innerText = user;
         });
     </script>
+
 </body>
 </html>
