@@ -669,7 +669,78 @@ color:#777;
   opacity: 0.9;
 }
 
+  /* OVERLAY */
+#sideOverlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+opacity:0;
+visibility:hidden;
+transition:0.3s;
+z-index:2000;
+}
 
+/* SIDENAV */
+#sideNav{
+position:fixed;
+top:0;
+left:-260px;
+width:260px;
+height:100%;
+background:linear-gradient(135deg,#2400b7,#3b1eff);
+color:white;
+transition:transform 0.3s ease;
+z-index:2100;
+transform:translateX(0);
+}
+
+/* OPEN STATE */
+#sideNav.open{
+left:0;
+}
+
+#sideOverlay.show{
+opacity:1;
+visibility:visible;
+}
+
+/* HEADER */
+.side-header{
+text-align:center;
+padding:30px 15px;
+border-bottom:1px solid rgba(255,255,255,0.2);
+}
+
+.side-profile{
+width:70px;
+height:70px;
+border-radius:50%;
+border:3px solid white;
+margin-bottom:10px;
+}
+
+/* MENU */
+.side-menu{
+padding:15px;
+flex:1;
+}
+
+.side-menu div{
+padding:12px 10px;
+margin-bottom:8px;
+border-radius:10px;
+cursor:pointer;
+transition:0.2s;
+font-size:14px;
+}
+
+.side-menu div:hover{
+background:rgba(255,255,255,0.15);
+}
+  /* PROFILE BUTTON WRAPPER */
 /* MODERN PROFILE BUTTON */
 .profile-btn{
 position:relative;
@@ -791,43 +862,32 @@ width:100%;
 height:100%;
 object-fit:cover;
 }
-
-/* FULL SCREEN SIDE NAVBAR */
-#sideNavContainer {
-    position: fixed;
-    top: 0;
-    left: -100vw; /* Use vw for exact screen width */
-    width: 100vw;
-    height: 100vh;
-    background: white;
-    z-index: 10000; /* Highest priority */
-    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    box-shadow: 5px 0 20px rgba(0,0,0,0.3);
-}
-
-#sideNavContainer.open {
-    transform: translateX(100vw);
-}
-
-#sideNavContainer iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    display: block;
-}
 </style>
- 
 </head>
 
 <body>
-  <div id="sideNavContainer">
-    <iframe src="side_navbar.html" id="sideFrame"></iframe>
+  <!-- SIDE NAV OVERLAY -->
+<div id="sideOverlay" onclick="closeSideNav()"></div>
+
+<!-- SIDE NAV -->
+<div id="sideNav">
+
+ <div class="side-header">
+  <img src="https://i.imgur.com/6VBx3io.png" class="side-profile"> 
+    <h3 id="sideName">User Name</h3>
+    <p id="sideRole">Employee</p>
+  </div>
+
+  <div class="side-menu">
+    <div onclick="showLoader('employee_info.html')">👤 My Profile</div>
+    <div onclick="showLoader('menu.html')">💰 Salary</div>
+    <div onclick="showLoader('page3.html')">📅 Income</div>
+    <div onclick="showLoader('resources.html')">📂 Resources</div>
+    <div onclick="showLoader('page5.html')">⚙ Settings</div>
+    <div onclick="logout()">🚪 Logout</div>
+  </div>
+
 </div>
-   <div id="appPage">
-<div id="pageSlider"></div>
-
-
-
 <div class="top">
 
 <div class="user-box">
@@ -835,7 +895,7 @@ object-fit:cover;
 <div style="display:flex;align-items:center;gap:10px;">
 
   <!-- MENU BUTTON -->
- <div class="menu-btn" onclick="openSidePage()">☰</div>
+  <div class="menu-btn" onclick="openSideNav()">☰</div>
 
   <!-- PROFILE -->
 
@@ -1059,7 +1119,7 @@ object-fit:cover;
 </div>
 
 </div>
-</div>
+
 
 <script>
 
@@ -1515,9 +1575,88 @@ window.addEventListener("load", function(){
 
 });
 </script>
+  <script>
+function openSideNav(){
+  document.getElementById("sideNav").style.transform = "translateX(260px)";
+  document.getElementById("sideOverlay").classList.add("show");
 
+
+  // set user name
+  document.getElementById("sideName").innerText =
+    document.getElementById("empName").innerText;
+
+  document.getElementById("sideRole").innerText =
+    document.getElementById("empDesg").innerText;
+}
+
+function closeSideNav(){
+  document.getElementById("sideNav").style.transform = "translateX(0)";
+  document.getElementById("sideOverlay").classList.remove("show");
+}
+</script>
 <script>
+let startX = 0;
+let startY = 0;
+let isSwiping = false;
+let isHorizontal = false;
 
+document.addEventListener("touchstart", function(e){
+  startX = e.touches[0].clientX;
+  startY = e.touches[0].clientY;
+
+  isSwiping = true;
+  isHorizontal = false;
+}, {passive:true});
+
+document.addEventListener("touchmove", function(e){
+  if(!isSwiping) return;
+
+  let currentX = e.touches[0].clientX;
+  let currentY = e.touches[0].clientY;
+
+  let diffX = currentX - startX;
+  let diffY = currentY - startY;
+
+  let absX = Math.abs(diffX);
+  let absY = Math.abs(diffY);
+
+  // 🔥 THE FIX: Prioritize Horizontal Ratio
+  if(!isHorizontal){
+    // If the movement is more horizontal than vertical, lock it to swipe mode
+    // This allows for a "diagonal" swipe without triggering a scroll
+    if(absX > absY && absX > 10){
+      isHorizontal = true;
+    } 
+    // Only kill the swipe if the movement is clearly and primarily vertical
+    else if(absY > absX && absY > 20){
+      isSwiping = false;
+      return;
+    }
+  }
+
+  if(isHorizontal){
+    // Stop the browser from scrolling the page vertically while we swipe the menu
+    if (e.cancelable) e.preventDefault(); 
+
+    // 👉 OPEN (RIGHT swipe) - restricted to the left edge for better UX
+    if(startX < 80 && diffX > 60){
+      openSideNav();
+      isSwiping = false; // Action complete
+    }
+
+    // 👉 CLOSE (LEFT swipe)
+    if(diffX < -60){
+      closeSideNav();
+      isSwiping = false; // Action complete
+    }
+  }
+
+}, {passive:false});
+
+document.addEventListener("touchend", function(){
+  isSwiping = false;
+  isHorizontal = false;
+});
   async function loadUserCount(){
 
   try{
@@ -1600,77 +1739,5 @@ z-index:3000;
   to{transform:scale(1);opacity:1;}
 }
 </style>
-  <script>
-// UPDATE THESE FUNCTIONS IN YOUR HOME.HTML
-function openSidePage() {
-    const sideNav = document.getElementById("sideNavContainer");
-    sideNav.classList.add("open");
-    document.body.style.overflow = "hidden";
-
-    // 🔥 THE FIX: Push a state so the back button has a job to do
-    history.pushState({ menuOpen: true }, ""); 
-}
-
-function closeSidePage() {
-    const sideNav = document.getElementById("sideNavContainer");
-    if (sideNav.classList.contains("open")) {
-        sideNav.classList.remove("open");
-        document.body.style.overflow = "auto";
-    }
-}
-
-// 🔥 THE FIX: Handle the mobile back button tap
-window.onpopstate = function(event) {
-    // If the back button is pressed, just close the menu
-    closeSidePage();
-};
-
-// 4. TOUCH LOGIC (Swipe Right to Open / Swipe Left to Close)
-let startX = 0;
-let startY = 0;
-
-document.addEventListener("touchstart", e => {
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-}, {passive: true});
-
-document.addEventListener("touchend", e => {
-    let endX = e.changedTouches[0].clientX;
-    let endY = e.changedTouches[0].clientY;
-    let diffX = endX - startX;
-    let diffY = Math.abs(endY - startY);
-
-    // OPEN: Swipe Right from Left Edge
-    if (startX < 60 && diffX > 80 && diffY < 50) {
-        openSidePage();
-    }
-
-    // CLOSE: Swipe Left from anywhere while menu is open
-    if (document.getElementById("sideNavContainer").classList.contains("open")) {
-        if (diffX < -70 && diffY < 50) {
-            // When swiping left to close, we also need to clear the history state
-            history.back(); 
-        }
-    }
-});
-</script>
-  <script>
-window.onload = function(){
-
-  let page = document.getElementById("appPage");
-
-  let dir = sessionStorage.getItem("navDirection");
-
-  if(dir === "back"){
-    page.style.transform = "translateX(-100%)";
-
-    setTimeout(()=>{
-      page.style.transform = "translateX(0)";
-    },10);
-  }
-
-  sessionStorage.removeItem("navDirection");
-};
-</script>
 </body>
 </html>
