@@ -865,6 +865,44 @@ object-fit:cover;
   #appPage{
 transition: transform 0.35s ease;
 }
+
+  /* OVERLAY */
+#sideOverlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+opacity:0;
+visibility:hidden;
+transition:0.3s;
+z-index:2000;
+}
+
+/* SIDENAV */
+#sideNav{
+position:fixed;
+top:0;
+left:0;
+width:260px;
+height:100%;
+background:linear-gradient(135deg,#2400b7,#3b1eff);
+color:white;
+transform:translateX(-100%); /* 🔥 hidden left */
+transition:transform 0.35s ease;
+z-index:2100;
+}
+
+/* OPEN */
+#sideNav.open{
+transform:translateX(0);
+}
+
+#sideOverlay.show{
+opacity:1;
+visibility:visible;
+}
 </style>
 </head>
 
@@ -879,7 +917,7 @@ transition: transform 0.35s ease;
 <div style="display:flex;align-items:center;gap:10px;">
 
   <!-- MENU BUTTON -->
-  <div class="menu-btn" onclick="openMenuPage()">☰</div>
+  <div class="menu-btn" onclick="openSideNav()">☰</div>
 
   <!-- PROFILE -->
 
@@ -1566,25 +1604,15 @@ window.addEventListener('message', (event) => {
 });
 
 function openSideNav() {
-    // Show the side menu
-    document.getElementById("sideNav").style.transform = "translateX(260px)";
-    document.getElementById("sideOverlay").classList.add("show");
-    document.body.style.overflow = "hidden";
-
-    // Update info
-    document.getElementById("sideName").innerText = document.getElementById("empName").innerText;
-    document.getElementById("sideRole").innerText = document.getElementById("empDesg").innerText;
-
-    // 🔥 PUSH STATE: This stops the app from exiting when back is pressed
-    if (history.state?.step !== 'menu') {
-        history.pushState({ step: 'menu' }, "");
-    }
+  document.getElementById("sideNav").classList.add("open");
+  document.getElementById("sideOverlay").classList.add("show");
+  document.body.style.overflow = "hidden";
 }
 
 function closeSideNav() {
-    document.getElementById("sideNav").style.transform = "translateX(0)";
-    document.getElementById("sideOverlay").classList.remove("show");
-    document.body.style.overflow = "auto";
+  document.getElementById("sideNav").classList.remove("open");
+  document.getElementById("sideOverlay").classList.remove("show");
+  document.body.style.overflow = "auto";
 }
 
 // 2. Handle the Hardware/Browser Back Button
@@ -1595,6 +1623,7 @@ window.onpopstate = function(event) {
     // If the menu was already closed, this will allow normal exit 
     // (or your history.go(1) logic if you have it elsewhere)
 };
+    <div id="sideOverlay" onclick="closeSideNav()"></div>
 </script>
 <script>
 let startX = 0;
@@ -1741,18 +1770,6 @@ z-index:3000;
   to{transform:scale(1);opacity:1;}
 }
 </style>
-  <script>
 
-function openMenuPage(){
-  let page = document.getElementById("appPage");
-
-  // move current page to RIGHT (so menu comes from LEFT)
-  page.style.transform = "translateX(0%)";
-
-  setTimeout(()=>{
-    window.location.href = "side_navbar.html";
-  },300);
-}
-</script>
 </body>
 </html>
