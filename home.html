@@ -791,11 +791,21 @@ width:100%;
 height:100%;
 object-fit:cover;
 }
+  #pageSlider{
+position:fixed;
+top:0;
+left:-100%;
+width:100%;
+height:100%;
+background:linear-gradient(135deg,#2400b7,#3b1eff);
+z-index:5000;
+transition:0.35s ease;
+}
 </style>
 </head>
 
 <body>
-
+<div id="pageSlider"></div>
 
 
 
@@ -806,7 +816,7 @@ object-fit:cover;
 <div style="display:flex;align-items:center;gap:10px;">
 
   <!-- MENU BUTTON -->
-  <div class="menu-btn" onclick="openSidePage()">☰</div>
+ <div class="menu-btn" onclick="openSidePage()">☰</div>
 
   <!-- PROFILE -->
 
@@ -1573,36 +1583,33 @@ z-index:3000;
 </style>
   <script>
 function openSidePage(){
-  document.getElementById("loader").style.display = "flex";
-  document.body.style.overflow = "hidden";
 
-  setTimeout(function(){
+  let slider = document.getElementById("pageSlider");
+
+  // slide in
+  slider.style.left = "0";
+
+  // after animation, open page
+  setTimeout(()=>{
     window.location.href = "side_navbar.html";
-  }, 400);
+  }, 300);
+
 }
 </script>
-  <script>
+<script>
 let startX = 0;
-let startY = 0;
 
-document.addEventListener("touchstart", function(e){
+document.addEventListener("touchstart", e=>{
   startX = e.touches[0].clientX;
-  startY = e.touches[0].clientY;
-}, {passive:true});
+});
 
-document.addEventListener("touchend", function(e){
+document.addEventListener("touchend", e=>{
   let endX = e.changedTouches[0].clientX;
-  let endY = e.changedTouches[0].clientY;
 
-  let diffX = endX - startX;
-  let diffY = endY - startY;
-
-  // 👉 RIGHT SWIPE (open side page)
-  if(startX < 80 && diffX > 70 && Math.abs(diffY) < 80){
+  if(startX < 80 && (endX - startX) > 70){
     openSidePage();
   }
-
-}, {passive:true});
+});
 </script>
 </body>
 </html>
