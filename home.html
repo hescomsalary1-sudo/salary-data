@@ -801,7 +801,31 @@ background:linear-gradient(135deg,#2400b7,#3b1eff);
 z-index:5000;
 transition:0.35s ease;
 }
+
+  #appPage{
+position:relative;
+width:100%;
+min-height:100vh;
+background:inherit;
+transition:transform 0.35s ease;
+}
+
+/* start from right (for new page) */
+.page-enter{
+transform:translateX(100%);
+}
+
+/* active position */
+.page-active{
+transform:translateX(0);
+}
+
+/* exit to right */
+.page-exit{
+transform:translateX(100%);
+}
 </style>
+  <div id="appPage">
 </head>
 
 <body>
@@ -1040,7 +1064,7 @@ transition:0.35s ease;
 </div>
 
 </div>
-
+</div>
 
 <script>
 
@@ -1582,19 +1606,23 @@ z-index:3000;
 }
 </style>
   <script>
+<script>
 function openSidePage(){
 
-  let slider = document.getElementById("pageSlider");
+  let page = document.getElementById("appPage");
 
-  // slide in
-  slider.style.left = "0";
+  // animate current page to right
+  page.classList.add("page-exit");
 
-  // after animation, open page
+  // mark direction
+  sessionStorage.setItem("navDirection","forward");
+
   setTimeout(()=>{
     window.location.href = "side_navbar.html";
-  }, 300);
+  },300);
 
 }
+</script>
 </script>
 <script>
 let startX = 0;
