@@ -908,7 +908,27 @@ visibility:visible;
 
 <body>
   <div id="appPage">
-  
+  <!-- OVERLAY -->
+<div id="sideOverlay" onclick="closeSideNav()"></div>
+
+<!-- SIDENAV -->
+<div id="sideNav">
+
+  <div class="side-header">
+    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="side-profile">
+    <h3 id="sideName">User</h3>
+    <p id="sideRole">Role</p>
+  </div>
+
+  <div class="side-menu">
+    <div onclick="showLoader('home.html')">🏠 Home</div>
+    <div onclick="showLoader('employee_info.html')">👤 Profile</div>
+    <div onclick="showLoader('salary_details.html')">💰 Salary</div>
+    <div onclick="showLoader('attendance.html')">📊 Attendance</div>
+    <div onclick="showLoader('settings.html')">⚙ Settings</div>
+  </div>
+
+</div>
 
 <div class="top">
 
@@ -1623,7 +1643,6 @@ window.onpopstate = function(event) {
     // If the menu was already closed, this will allow normal exit 
     // (or your history.go(1) logic if you have it elsewhere)
 };
-    <div id="sideOverlay" onclick="closeSideNav()"></div>
 </script>
 <script>
 let startX = 0;
