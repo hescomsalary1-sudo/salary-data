@@ -23,7 +23,7 @@
     overflow-x: hidden;
   }
 
-  /* MODERN HEADER */
+  /* HEADER */
   .top {
     background: #ffffff;
     padding: 30px 15px;
@@ -121,10 +121,10 @@
 
   .check-btn:hover { transform: translateY(-2px); }
 
-  /* DATA TABLE - SCROLLING ENABLED */
+  /* DATA TABLE - SCROLLING RE-ENABLED */
   .table-container {
     width: 100%;
-    overflow-x: auto; /* Re-enabled scrolling */
+    overflow-x: auto;
     margin-top: 25px;
     border-radius: 15px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.05);
@@ -134,7 +134,7 @@
 
   table {
     width: 100%;
-    min-width: 1200px; /* Ensures all data fits and triggers scroll */
+    min-width: 1200px; /* Forces scroll for many columns */
     border-collapse: collapse;
     font-size: 13px;
   }
@@ -142,11 +142,11 @@
   th, td {
     padding: 12px 10px;
     text-align: center;
-    border: 1px solid #eee; /* Visible lines restored */
+    border: 1px solid #e6e6e6; /* Restored table lines */
   }
 
   th {
-    background: #f4f6ff;
+    background: #f0edff;
     color: var(--primary);
     font-weight: 700;
     position: sticky;
@@ -155,29 +155,31 @@
 
   tr:nth-child(even) { background: #fafbff; }
 
-  /* SUMMARY BOXES */
+  /* SUMMARY SECTION */
+  #summaryBox { margin-top: 20px; }
+
   .summary {
-    margin-top: 15px;
-    padding: 20px;
+    padding: 18px;
     border-radius: 18px;
+    margin-bottom: 12px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    font-weight: 600;
   }
 
   .summary.main { background: linear-gradient(135deg,#6c39ff,#4b2dd8); color: white; }
   .summary.income { background: linear-gradient(135deg,#1e88e5,#1565c0); color: white; }
-  .summary.breakdown { background: white; color: #333; border: 1px solid #eee; }
+  .summary.breakdown { background: linear-gradient(135deg,#009688,#00796b); color: white; }
 
   .row { display: flex; justify-content: space-between; margin: 8px 0; }
-  .row span:last-child { font-weight: 800; }
-  .total { border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px; font-size: 16px; }
+  .total { border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px; margin-top: 10px; font-size: 16px; }
 
-  /* SCROLLBAR STYLING */
+  /* SCROLLBAR */
   .table-container::-webkit-scrollbar { height: 8px; }
-  .table-container::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+  .table-container::-webkit-scrollbar-thumb { background: #bbb; border-radius: 10px; }
 
   /* LOADER */
   #loader { position: fixed; inset: 0; background: white; display: none; justify-content: center; align-items: center; z-index: 9999; }
-  .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+  .spinner { width: 45px; height: 45px; border: 5px solid #ddd; border-top: 5px solid #4b2dd8; border-radius: 50%; animation: spin 1s linear infinite; }
   @keyframes spin { 100% { transform: rotate(360deg); } }
 </style>
 </head>
@@ -186,13 +188,15 @@
 <div id="loader"><div class="spinner"></div></div>
 
 <div class="top">
-  <h2>Assets & Liability</h2>
-  <p>Financial Data Summary</p>
+  <div class="top-content">
+    <h2>Assets & Liability</h2>
+    <p>Financial Dashboard & Reporting</p>
+  </div>
 </div>
 
 <div class="content">
   <div class="filter-card">
-    <div class="filter-title">Custom Reporting Period</div>
+    <div class="filter-title">Select Custom Period</div>
     <div class="date-row">
       <div class="input-box">
         <label>From</label>
@@ -203,7 +207,7 @@
         <input type="month" id="toDate">
       </div>
     </div>
-    <button class="check-btn" onclick="loadData()">View Detailed Report</button>
+    <button class="check-btn" onclick="loadData()">Check Report</button>
   </div>
 
   <div class="table-container">
@@ -214,12 +218,16 @@
 </div>
 
 <script>
-// Keep your existing JavaScript here (loadData, inRange, etc.)
-// Make sure you don't change the user/CSV logic you already have.
-// The code below is a placeholder for your logic.
-
 let user = localStorage.getItem("currentUser");
-let headers = ["Month","Basic","Dearness","HRA","CCA","Personal","Special Pay","Conveyance","Washing","SFTA","Locality","MWA","Hill","Charge","Pension","LWF Company","Cash Duty","Other Earn","LIC","Income Tax","PT","Society","PLI","Union","SC/ST","House Rent","Urban Bank","Family Fund","Festival","PC10","PC14","LWF","Recovery","Other Ded"];
+
+let headers = [
+  "Month","Basic","Dearness","HRA","CCA","Personal","Special Pay",
+  "Conveyance","Washing","SFTA","Locality","MWA","Hill","Charge",
+  "Pension","LWF Company","Cash Duty","Other Earn",
+  "LIC","Income Tax","PT","Society","PLI","Union","SC/ST",
+  "House Rent","Urban Bank","Family Fund","Festival","PC10","PC14","LWF",
+  "Recovery","Other Ded"
+];
 
 function inRange(year,month,from,to){
   let current = year + "-" + month.padStart(2,"0");
@@ -235,10 +243,16 @@ function inYearRange(year,from,to){
 async function loadData(){
   let from = document.getElementById("fromDate").value;
   let to = document.getElementById("toDate").value;
-  if(!from || !to){ alert("Select date range"); return; }
+
+  if(!from || !to){
+    alert("Select date range");
+    return;
+  }
+
   document.getElementById("loader").style.display = "flex";
 
   try {
+    // 1. SALARY DATA
     let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
     let data = await res.text();
     let rows = data.trim().split("\n");
@@ -276,18 +290,65 @@ async function loadData(){
     });
     tableHTML += "</table>";
 
-    document.getElementById("tableData").innerHTML = tableHTML;
-    // (Rest of Summary logic remains the same as your original)
-    document.getElementById("summaryBox").innerHTML = `
+    // 2. OTHER INCOME DATA
+    let incomeFiles = {
+      "Supplementary Salary":"supplementary.csv",
+      "DA Arrears":"da_arrears.csv",
+      "Double Wages":"double_wages.csv",
+      "Medical Bills":"medical_bills.csv",
+      "TA Bills":"ta_bills.csv",
+      "ELS Bills":"els_bills.csv",
+      "Others":"others.csv"
+    };
+
+    let incomeBreakdown = {};
+    let totalOtherIncome = 0;
+
+    for(let type in incomeFiles){
+      try {
+        let resInc = await fetch("https://hescomsalary1-sudo.github.io/salary-data/" + incomeFiles[type]);
+        let text = await resInc.text();
+        if(!text.trim()) continue;
+        let incRows = text.trim().split("\n");
+        let typeTotal = 0;
+        for(let i=1;i<incRows.length;i++){
+          let c = incRows[i].split(",");
+          if(c[0] === user && inYearRange(c[1], from, to)){
+            typeTotal += (+c[2] || 0);
+          }
+        }
+        if(typeTotal > 0){
+          incomeBreakdown[type] = typeTotal;
+          totalOtherIncome += typeTotal;
+        }
+      } catch(e) { console.log("Missing file:", type); }
+    }
+
+    // 3. GENERATE SUMMARY HTML
+    let summaryHTML = `
       <div class="summary main">
         <div class="row"><span>Total Earnings</span><span>₹ ${totalE}</span></div>
         <div class="row"><span>Total Deduction</span><span>₹ ${totalD}</span></div>
         <div class="row total"><span>Net Amount</span><span>₹ ${totalE - totalD}</span></div>
-      </div>`;
+      </div>
+      <div class="summary income">
+        <div class="row total"><span>Other Income Total</span><span>₹ ${totalOtherIncome}</span></div>
+      </div>
+      <div class="summary breakdown">`;
     
-  } catch (e) {
-    console.error(e);
+    for(let type in incomeBreakdown){
+      summaryHTML += `<div class="row"><span>${type}</span><span>₹ ${incomeBreakdown[type]}</span></div>`;
+    }
+    summaryHTML += `</div>`;
+
+    document.getElementById("tableData").innerHTML = tableHTML;
+    document.getElementById("summaryBox").innerHTML = summaryHTML;
+
+  } catch (error) {
+    alert("Error loading data");
+    console.error(error);
   }
+
   document.getElementById("loader").style.display = "none";
 }
 </script>
