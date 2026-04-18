@@ -3,59 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu</title>
+    <title>Side Menu</title>
     <style>
         body {
-            font-family: 'Segoe UI', sans-serif;
+            font-family: sans-serif;
             margin: 0;
-            padding: 0;
             background: #ffffff;
             color: #333;
             height: 100vh;
-            overflow: hidden; /* Prevent menu itself from scrolling page-wide */
+            overflow: hidden;
         }
 
-        /* HEADER */
-        .header {
-            padding: 45px 25px 30px;
+        /* PREMIUM HEADER */
+        .menu-header {
+            padding: 45px 20px 25px;
             background: linear-gradient(135deg, #2400b7, #3b1eff);
             color: white;
             border-bottom-right-radius: 40px;
-            position: relative;
         }
 
-        .close-btn {
-            font-size: 26px;
+        .close-icon {
+            font-size: 28px;
             cursor: pointer;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: inline-block;
-            transition: 0.2s;
         }
 
-        .close-btn:active { transform: scale(0.8); }
-
-        .profile {
+        .profile-box {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
-        .profile img {
-            width: 60px;
-            height: 60px;
+        .profile-box img {
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
-            border: 2px solid rgba(255,255,255,0.4);
+            border: 2px solid rgba(255,255,255,0.5);
         }
 
-        .profile h2 { margin: 0; font-size: 18px; }
-        .profile p { margin: 4px 0 0; font-size: 12px; opacity: 0.8; }
-
-        /* MENU ITEMS */
-        .menu-content {
+        /* MENU LIST */
+        .menu-links {
             padding: 20px 15px;
         }
 
-        .nav-link {
+        .item {
             display: flex;
             align-items: center;
             padding: 15px;
@@ -68,12 +60,12 @@
             transition: 0.2s;
         }
 
-        .nav-link:active {
+        .item:active {
             background: #eef0ff;
-            transform: scale(0.97);
+            transform: scale(0.96);
         }
 
-        .icon {
+        .icon-sq {
             width: 35px;
             height: 35px;
             background: white;
@@ -81,12 +73,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 15px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            margin-right: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        /* LOGOUT AT BOTTOM */
-        .footer {
+        /* FOOTER */
+        .menu-footer {
             position: absolute;
             bottom: 30px;
             width: 100%;
@@ -97,86 +89,80 @@
         .logout-btn {
             width: 100%;
             padding: 14px;
+            border-radius: 15px;
+            border: none;
             background: #fff0f0;
             color: #ff3d3d;
-            border: none;
-            border-radius: 15px;
             font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="close-btn" onclick="triggerParentBack()">✕</div>
-        <div class="profile">
+    <div class="menu-header">
+        <div class="close-icon" onclick="closeMenu()">✕</div>
+        <div class="profile-box">
             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
             <div>
-                <h2 id="userName">HESCOM User</h2>
-                <p id="userRole">Employee Account</p>
+                <div id="sideUser" style="font-weight:bold; font-size:18px;">HESCOM User</div>
+                <div style="font-size:12px; opacity:0.8;">Employee Portal</div>
             </div>
         </div>
     </div>
 
-    <div class="menu-content">
-        <a href="home.html" class="nav-link" target="_parent">
-            <div class="icon">🏠</div> Home
+    <div class="menu-links">
+        <a href="home.html" class="item" target="_parent">
+            <div class="icon-sq">🏠</div> Home
         </a>
-        <a href="resources.html" class="nav-link" target="_parent">
-            <div class="icon">📂</div> Resources
+        
+        <a href="resources.html" class="item" target="_parent">
+            <div class="icon-sq">📂</div> Resources
         </a>
-        <a href="employee_info.html" class="nav-link" target="_parent">
-            <div class="icon">👤</div> My Profile
+
+        <a href="employee_info.html" class="item" target="_parent">
+            <div class="icon-sq">👤</div> Profile
         </a>
-        <a href="forum.html" class="nav-link" target="_parent">
-            <div class="icon">💬</div> Forum
+
+        <a href="forum.html" class="item" target="_parent">
+            <div class="icon-sq">💬</div> Forum
         </a>
     </div>
 
-    <div class="footer">
-        <button class="logout-btn" onclick="window.parent.logout()">
-            🔓 Logout
-        </button>
+    <div class="menu-footer">
+        <button class="logout-btn" onclick="window.parent.logout()">🔓 Logout Account</button>
     </div>
 
     <script>
-        // Sync Data
-        document.addEventListener("DOMContentLoaded", () => {
-            const user = localStorage.getItem("currentUser");
-            if(user) document.getElementById("userName").innerText = user;
-        });
+        // 1. Load User Name
+        const user = localStorage.getItem("currentUser");
+        if(user) document.getElementById("sideUser").innerText = user;
 
-        // ACTION: CLOSE MENU
-        function triggerParentBack() {
-            // Tells the home page to go back in history, which triggers the close logic
+        // 2. Function to close the menu
+        function closeMenu() {
+            // This triggers the onpopstate in home.html to hide the sidebar
             window.parent.history.back();
         }
 
-        // SWIPE RIGHT-TO-LEFT TO CLOSE LOGIC
+        // 3. SWIPE RIGHT-TO-LEFT TO CLOSE
         let startX = 0;
         let startY = 0;
 
-        document.addEventListener("touchstart", (e) => {
+        document.addEventListener("touchstart", e => {
             startX = e.touches[0].clientX;
             startY = e.touches[0].clientY;
         }, {passive: true});
 
-        document.addEventListener("touchend", (e) => {
-            let endX = e.changedTouches[0].clientX;
-            let endY = e.changedTouches[0].clientY;
-            
-            let diffX = endX - startX;
-            let diffY = Math.abs(endY - startY);
+        document.addEventListener("touchend", e => {
+            let diffX = e.changedTouches[0].clientX - startX;
+            let diffY = Math.abs(e.changedTouches[0].clientY - startY);
 
-            // Logic: If moving finger LEFT (negative diffX)
-            // And it is more than 60 pixels horizontal
-            // And it isn't a vertical scroll (diffY < 50)
+            // If swiped left (negative X) and not scrolling vertically
             if (diffX < -60 && diffY < 50) {
-                triggerParentBack();
+                closeMenu();
             }
         });
     </script>
