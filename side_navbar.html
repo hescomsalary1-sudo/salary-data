@@ -1,167 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Side Menu</title>
     <style>
-        body {
-            font-family: sans-serif;
-            margin: 0;
-            background: #ffffff;
-            color: #333;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        /* PREMIUM HEADER */
-        .menu-header {
-            padding: 45px 20px 25px;
-            background: linear-gradient(135deg, #2400b7, #3b1eff);
-            color: white;
-            border-bottom-right-radius: 40px;
-        }
-
-        .close-icon {
-            font-size: 28px;
-            cursor: pointer;
-            margin-bottom: 15px;
-            display: inline-block;
-        }
-
-        .profile-box {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .profile-box img {
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            border: 2px solid rgba(255,255,255,0.5);
-        }
-
-        /* MENU LIST */
-        .menu-links {
-            padding: 20px 15px;
-        }
-
-        .item {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            margin-bottom: 10px;
-            background: #f8f9ff;
-            border-radius: 15px;
-            text-decoration: none;
-            color: #444;
-            font-weight: 600;
-            transition: 0.2s;
-        }
-
-        .item:active {
-            background: #eef0ff;
-            transform: scale(0.96);
-        }
-
-        .icon-sq {
-            width: 35px;
-            height: 35px;
-            background: white;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-
-        /* FOOTER */
-        .menu-footer {
-            position: absolute;
-            bottom: 30px;
-            width: 100%;
-            padding: 0 20px;
-            box-sizing: border-box;
-        }
-
-        .logout-btn {
-            width: 100%;
-            padding: 14px;
-            border-radius: 15px;
-            border: none;
-            background: #fff0f0;
-            color: #ff3d3d;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
+        body { margin: 0; font-family: sans-serif; height: 100vh; background: #fff; overflow: hidden; }
+        .menu-header { padding: 45px 20px 25px; background: linear-gradient(135deg, #2400b7, #3b1eff); color: #fff; border-bottom-right-radius: 40px; }
+        .nav-item { display: flex; align-items: center; padding: 15px; margin: 10px; background: #f8f9ff; border-radius: 12px; text-decoration: none; color: #333; font-weight: 600; }
     </style>
 </head>
 <body>
 
     <div class="menu-header">
-        <div class="close-icon" onclick="closeMenu()">✕</div>
-        <div class="profile-box">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-            <div>
-                <div id="sideUser" style="font-weight:bold; font-size:18px;">HESCOM User</div>
-                <div style="font-size:12px; opacity:0.8;">Employee Portal</div>
-            </div>
-        </div>
+        <div style="font-size:24px; cursor:pointer;" onclick="requestClose()">✕</div>
+        <h3>Menu</h3>
     </div>
 
     <div class="menu-links">
-        <a href="home.html" class="item" target="_parent">
-            <div class="icon-sq">🏠</div> Home
-        </a>
-        
-        <a href="resources.html" class="item" target="_parent">
-            <div class="icon-sq">📂</div> Resources
-        </a>
-
-        <a href="employee_info.html" class="item" target="_parent">
-            <div class="icon-sq">👤</div> Profile
-        </a>
-
-        <a href="forum.html" class="item" target="_parent">
-            <div class="icon-sq">💬</div> Forum
-        </a>
-    </div>
-
-    <div class="menu-footer">
-        <button class="logout-btn" onclick="window.parent.logout()">🔓 Logout Account</button>
+        <a href="home.html" class="nav-item" target="_parent">🏠 Home</a>
+        <a href="resources.html" class="nav-item" target="_parent">📂 Resources</a>
     </div>
 
     <script>
-        // 1. Load User Name
-        const user = localStorage.getItem("currentUser");
-        if(user) document.getElementById("sideUser").innerText = user;
+        function requestClose() {
+            // Tell the parent window to go back (which closes the menu)
+            window.parent.postMessage('closeSideMenu', '*');
+        }
 
-      // Function to close the menu
-function closeMenu() {
-    // Instead of calling a function directly, we go "back" in history
-    // This triggers the 'onpopstate' in home.html which closes the menu safely
-    window.parent.history.back();
-}
+        // SWIPE GESTURE LOGIC
+        let startX = 0;
+        let startY = 0;
 
-// SWIPE RIGHT-TO-LEFT TO CLOSE (Update your existing swipe logic)
-let startX = 0;
-document.addEventListener("touchstart", e => {
-    startX = e.touches[0].clientX;
-}, {passive: true});
+        document.addEventListener("touchstart", e => {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        }, {passive: true});
 
-document.addEventListener("touchend", e => {
-    let diffX = e.changedTouches[0].clientX - startX;
-    let diffY = Math.abs(e.changedTouches[0].clientY - startY); // Ensure startY is defined
+        document.addEventListener("touchend", e => {
+            let diffX = e.changedTouches[0].clientX - startX;
+            let diffY = Math.abs(e.changedTouches[0].clientY - startY);
 
-    if (diffX < -60 && diffY < 50) {
-        closeMenu(); // This now uses history.back()
-    }
-});
+            // If swiped Left (negative diffX) and horizontal
+            if (diffX < -50 && diffY < 50) {
+                requestClose();
+            }
+        });
     </script>
 </body>
 </html>
