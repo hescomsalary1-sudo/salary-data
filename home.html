@@ -1601,17 +1601,16 @@ z-index:3000;
 }
 </style>
   <script>
-// 1. OPEN SIDEBAR + PUSH HISTORY (Fixes Mobile Back Button)
+// UPDATE THESE FUNCTIONS IN YOUR HOME.HTML
 function openSidePage() {
     const sideNav = document.getElementById("sideNavContainer");
     sideNav.classList.add("open");
     document.body.style.overflow = "hidden";
 
-    // Push a dummy state so the back button closes the menu instead of exiting
-    history.pushState({menuOpen: true}, "");
+    // 🔥 THE FIX: Push a state so the back button has a job to do
+    history.pushState({ menuOpen: true }, ""); 
 }
 
-// 2. CLOSE SIDEBAR + SYNC HISTORY
 function closeSidePage() {
     const sideNav = document.getElementById("sideNavContainer");
     if (sideNav.classList.contains("open")) {
@@ -1620,9 +1619,9 @@ function closeSidePage() {
     }
 }
 
-// 3. LISTEN FOR MOBILE BACK BUTTON
+// 🔥 THE FIX: Handle the mobile back button tap
 window.onpopstate = function(event) {
-    // If the user clicks back and the menu is open, just close the menu
+    // If the back button is pressed, just close the menu
     closeSidePage();
 };
 
