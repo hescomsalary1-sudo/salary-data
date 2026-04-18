@@ -806,7 +806,7 @@ object-fit:cover;
 <div style="display:flex;align-items:center;gap:10px;">
 
   <!-- MENU BUTTON -->
-  <div class="menu-btn" onclick="openSideNav()">☰</div>
+  <div class="menu-btn" onclick="openSidePage()">☰</div>
 
   <!-- PROFILE -->
 
@@ -1571,5 +1571,38 @@ z-index:3000;
   to{transform:scale(1);opacity:1;}
 }
 </style>
+  <script>
+function openSidePage(){
+  document.getElementById("loader").style.display = "flex";
+  document.body.style.overflow = "hidden";
+
+  setTimeout(function(){
+    window.location.href = "side_navbar.html";
+  }, 400);
+}
+</script>
+  <script>
+let startX = 0;
+let startY = 0;
+
+document.addEventListener("touchstart", function(e){
+  startX = e.touches[0].clientX;
+  startY = e.touches[0].clientY;
+}, {passive:true});
+
+document.addEventListener("touchend", function(e){
+  let endX = e.changedTouches[0].clientX;
+  let endY = e.changedTouches[0].clientY;
+
+  let diffX = endX - startX;
+  let diffY = endY - startY;
+
+  // 👉 RIGHT SWIPE (open side page)
+  if(startX < 80 && diffX > 70 && Math.abs(diffY) < 80){
+    openSidePage();
+  }
+
+}, {passive:true});
+</script>
 </body>
 </html>
