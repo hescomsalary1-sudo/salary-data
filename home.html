@@ -1639,5 +1639,23 @@ document.addEventListener("touchend", e=>{
   }
 });
 </script>
+  <script>
+window.onload = function(){
+
+  let page = document.getElementById("appPage");
+
+  let dir = sessionStorage.getItem("navDirection");
+
+  if(dir === "back"){
+    page.style.transform = "translateX(-100%)";
+
+    setTimeout(()=>{
+      page.style.transform = "translateX(0)";
+    },10);
+  }
+
+  sessionStorage.removeItem("navDirection");
+};
+</script>
 </body>
 </html>
