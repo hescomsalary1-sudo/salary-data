@@ -159,7 +159,7 @@ animation:skeleton 1.4s infinite;
 </head>
 
 <body>
-
+<div onclick="goBack()">⬅ Back</div>
 <!-- HEADER -->
 <div class="top">
 
@@ -256,6 +256,35 @@ window.location.href="view_other_reports.html";
 }
 
 </script>
+<script>
+window.onload = function(){
 
+  let page = document.getElementById("appPage");
+
+  let dir = sessionStorage.getItem("navDirection");
+
+  if(dir === "forward"){
+    page.classList.add("page-enter");
+
+    setTimeout(()=>{
+      page.classList.remove("page-enter");
+      page.classList.add("page-active");
+    },10);
+  }
+
+};
+</script>
+  <script>
+function goBack(){
+
+  let page = document.getElementById("appPage");
+
+  page.style.transform = "translateX(100%)";
+
+  setTimeout(()=>{
+    history.back();
+  },300);
+}
+</script>
 </body>
 </html>
