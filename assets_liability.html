@@ -309,9 +309,7 @@ async function loadData(){
         <div class="row"><span>Total Deduction</span><span>₹ ${totalD}</span></div>
         <div class="row total"><span>Net Amount</span><span>₹ ${totalE - totalD}</span></div>
       </div>
-      <div class="summary income">
-        <div class="row total"><span>Other Income Total</span><span>₹ ${totalOtherIncome}</span></div>
-      </div>
+      
       <div class="summary breakdown">`;
     for(let type in incomeBreakdown){ summaryHTML += `<div class="row"><span>${type}</span><span>₹ ${incomeBreakdown[type]}</span></div>`; }
     summaryHTML += `</div>`;
