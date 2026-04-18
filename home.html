@@ -820,6 +820,7 @@ height:100%;
 background:#ffffff;
 transform:translateX(-100%);
 transition:transform 0.35s ease;
+  will-change: transform;
 z-index:2100;
 
 display:flex;              /* 🔥 ADD */
@@ -1782,9 +1783,10 @@ z-index:3000;
 </style>
 <script>
 function openSideNav(){
-  document.getElementById("sideNav").classList.add("open");
-  document.getElementById("sideOverlay").classList.add("show");
+  sideNav.style.transform = "translateX(0)";
   document.body.style.overflow = "hidden";
+  isOpen = true;
+
 
   // update name
   document.getElementById("sideName").innerText =
@@ -1795,33 +1797,75 @@ function openSideNav(){
 }
 
 function closeSideNav(){
-  document.getElementById("sideNav").classList.remove("open");
-  document.getElementById("sideOverlay").classList.remove("show");
+  sideNav.style.transform = "translateX(-100%)";
   document.body.style.overflow = "auto";
+  isOpen = false;
 }
 </script>
-  <script>
+<script>
 let startX = 0;
+let currentX = 0;
+let isDragging = false;
+let menuWidth = window.innerWidth;
 let isOpen = false;
 
-document.addEventListener("touchstart", e=>{
+const sideNav = document.getElementById("sideNav");
+
+// START
+document.addEventListener("touchstart", (e)=>{
   startX = e.touches[0].clientX;
-});
 
-document.addEventListener("touchmove", e=>{
-  let moveX = e.touches[0].clientX;
-  let diff = moveX - startX;
+  // allow drag from edge or when menu open
+  if(startX < 40 || isOpen){
+    isDragging = true;
+    sideNav.style.transition = "none"; // disable animation while dragging
+  }
+}, {passive:true});
 
-  // 👉 OPEN (swipe right from edge)
-  if(startX < 50 && diff > 80){
+// MOVE
+document.addEventListener("touchmove", (e)=>{
+  if(!isDragging) return;
+
+  currentX = e.touches[0].clientX;
+  let diff = currentX - startX;
+
+  let translateX;
+
+  if(isOpen){
+    translateX = Math.min(0, diff);
+  }else{
+    translateX = Math.min(0, -menuWidth + diff);
+  }
+
+  sideNav.style.transform = `translateX(${translateX}px)`;
+
+}, {passive:true});
+
+// END
+document.addEventListener("touchend", ()=>{
+  if(!isDragging) return;
+
+  isDragging = false;
+  sideNav.style.transition = "transform 0.35s ease";
+
+  let moved = currentX - startX;
+
+  // decide open/close
+  if(!isOpen && moved > 80){
     openSideNav();
     isOpen = true;
   }
-
-  // 👉 CLOSE (swipe left)
-  if(isOpen && diff < -80){
+  else if(isOpen && moved < -80){
     closeSideNav();
     isOpen = false;
+  }
+  else{
+    // snap back
+    if(isOpen){
+      openSideNav();
+    }else{
+      closeSideNav();
+    }
   }
 });
 </script>
