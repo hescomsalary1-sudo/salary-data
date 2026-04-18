@@ -815,16 +815,16 @@ z-index:2000;
 position:fixed;
 top:0;
 left:0;
-width:100%;        /* 🔥 FULL SCREEN */
+width:100%;
 height:100%;
 background:#ffffff;
-color:#000;
 transform:translateX(-100%);
 transition:transform 0.35s ease;
 z-index:2100;
-overflow-y:auto;
+
+display:flex;              /* 🔥 ADD */
+flex-direction:column;     /* 🔥 ADD */
 }
-  
 
 /* OPEN */
 #sideNav.open{
@@ -858,6 +858,11 @@ transition:0.2s;
 
 .side-menu div:hover{
 background:rgba(255,255,255,0.2);
+}
+  .menu-content{
+padding:20px 15px;
+flex:1;                   /* 🔥 TAKE AVAILABLE SPACE */
+overflow-y:auto;          /* 🔥 SCROLL INSIDE */
 }
 
   /* HEADER */
@@ -933,8 +938,8 @@ margin-right:15px;
 
 /* FOOTER */
 .menu-footer{
-position:absolute;
-bottom:25px;
+padding:15px 20px;
+box-sizing:border-box;
 width:100%;
 padding:0 20px;
 }
