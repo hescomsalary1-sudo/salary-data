@@ -895,7 +895,7 @@ object-fit:cover;
 <div style="display:flex;align-items:center;gap:10px;">
 
   <!-- MENU BUTTON -->
-  <div class="menu-btn" onclick="openSideNav()">☰</div>
+  <div class="menu-btn" onclick="openMenuPage()">☰</div>
 
   <!-- PROFILE -->
 
@@ -1757,5 +1757,10 @@ z-index:3000;
   to{transform:scale(1);opacity:1;}
 }
 </style>
+  <script>
+function openMenuPage(){
+  window.location.href = "side_navbar.html";
+}
+</script>
 </body>
 </html>
