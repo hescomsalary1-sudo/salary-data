@@ -903,10 +903,74 @@ transform:translateX(0);
 opacity:1;
 visibility:visible;
 }
+
+  /* FULL APP FRAME */
+#appFrame{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+border:none;
+z-index:1;
+}
+
+/* MENU BUTTON */
+.menu-btn{
+position:fixed;
+top:20px;
+left:15px;
+z-index:3000;
+background:#2400b7;
+color:white;
+padding:10px;
+border-radius:8px;
+cursor:pointer;
+}
+
+/* SIDEBAR CONTAINER */
+#menuContainer{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+transform:translateX(-100%);
+transition:0.35s ease;
+z-index:2000;
+}
+
+/* SHOW MENU */
+#menuContainer.open{
+transform:translateX(0);
+}
+
+/* SIDEBAR FRAME */
+#menuContainer iframe{
+width:260px;
+height:100%;
+border:none;
+background:white;
+}
 </style>
 </head>
 
 <body>
+  <body>
+
+<!-- MAIN APP (iframe) -->
+<iframe id="appFrame" src="main_home.html"></iframe>
+
+<!-- MENU BUTTON (fixed on top) -->
+<div class="menu-btn" onclick="openMenu()">☰</div>
+
+<!-- SIDEBAR (iframe overlay) -->
+<div id="menuContainer">
+  <iframe src="side_navbar.html"></iframe>
+</div>
+
+</body>
   <div id="appPage">
   <!-- OVERLAY -->
 <div id="sideOverlay" onclick="closeSideNav()"></div>
@@ -1789,6 +1853,23 @@ z-index:3000;
   to{transform:scale(1);opacity:1;}
 }
 </style>
+<script>
+function openMenu(){
+  document.getElementById("menuContainer").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
 
+function closeMenu(){
+  document.getElementById("menuContainer").classList.remove("open");
+  document.body.style.overflow = "auto";
+}
+
+// listen from iframe (important)
+window.addEventListener("message", function(e){
+  if(e.data === "closeMenu"){
+    closeMenu();
+  }
+});
+</script>
 </body>
 </html>
