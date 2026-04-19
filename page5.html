@@ -1,248 +1,120 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Grievance Portal</title>
     <style>
-        body {
-            font-family: sans-serif;
-            margin: 0;
-            background: linear-gradient(135deg, #f7f8fc, #edf5ff);
-            padding-bottom: 90px;
-        }
-
-        /* HEADER */
-        .header-banner {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            color: white;
-            padding: 40px 20px;
-            border-bottom-left-radius: 40px;
-            border-bottom-right-radius: 40px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        }
-
-        /* CONTENT CONTAINER */
-        .content { padding: 20px; margin-top: -20px; }
-
+        body { font-family: sans-serif; background: #f4f7fe; margin: 0; padding-bottom: 50px; }
+        .header { background: #1a1a2e; color: white; padding: 30px 20px; text-align: center; border-radius: 0 0 30px 30px; }
+        .container { padding: 20px; }
+        
         /* TABS */
-        .tab-box {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .tab-btn {
-            flex: 1;
-            padding: 15px;
-            border-radius: 15px;
-            border: none;
-            background: white;
-            color: #2400b7;
-            font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            cursor: pointer;
-        }
-        .tab-btn.active {
-            background: #2400b7;
-            color: white;
-        }
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+        .tab { flex: 1; padding: 12px; border: none; border-radius: 12px; background: white; font-weight: bold; cursor: pointer; }
+        .tab.active { background: #2400b7; color: white; }
 
-        /* FORM CARD */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-        }
+        /* CARDS */
+        .card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 15px; }
+        
+        /* FORM */
+        input, textarea, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; }
+        .btn { width: 100%; padding: 15px; background: #2400b7; color: white; border: none; border-radius: 10px; font-weight: bold; margin-top: 10px; }
 
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #eee;
-            border-radius: 12px;
-            box-sizing: border-box;
-            font-family: inherit;
-        }
-        .form-control:focus { border-color: #2400b7; outline: none; }
-
-        .submit-btn {
-            width: 100%;
-            padding: 16px;
-            background: #2400b7;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 0 8px 20px rgba(36, 0, 183, 0.2);
-        }
-
-        /* TICKET ITEMS */
-        .ticket-card {
-            background: white;
-            padding: 15px;
-            border-radius: 15px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 5px solid #2400b7;
-        }
-        .status-badge {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: bold;
-            background: #eef2ff;
-            color: #2400b7;
-        }
-
-        /* LOADER */
-        #loader {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: white;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-        }
-        .shimmer { width: 80%; height: 20px; background: #eee; margin: 10px; border-radius: 10px; opacity: 0.6; }
+        /* FLOW TIMELINE */
+        .flow-container { margin-top: 15px; border-left: 2px dashed #2400b7; padding-left: 20px; position: relative; }
+        .flow-step { position: relative; margin-bottom: 20px; font-size: 13px; }
+        .flow-step::before { content: '●'; position: absolute; left: -27px; color: #2400b7; background: #f4f7fe; font-size: 18px; }
+        .officer-name { font-weight: bold; color: #2400b7; display: block; }
+        .officer-note { color: #555; font-style: italic; }
+        
+        .status-tag { float: right; padding: 4px 10px; border-radius: 10px; font-size: 11px; font-weight: bold; }
+        .open { background: #eef2ff; color: #2400b7; }
+        .resolved { background: #dcfce7; color: #15803d; }
     </style>
 </head>
 <body>
 
-<div id="loader">
-    <div class="shimmer" style="height:100px;"></div>
-    <div class="shimmer"></div>
-    <div class="shimmer" style="width:60%;"></div>
-    <p>Processing Securely...</p>
+<div class="header">
+    <h2>Grievance Tracking</h2>
+    <p>Official Workflow & Resolution</p>
 </div>
 
-<div class="header-banner">
-    <h2>Grievance Portal</h2>
-    <p>Confidential Help Desk for Employees</p>
-</div>
-
-<div class="content">
-    <div class="tab-box">
-        <button class="tab-btn active" id="tabNew" onclick="showTab('new')">File Grievance</button>
-        <button class="tab-btn" id="tabList" onclick="showTab('list')">Track Status</button>
+<div class="container">
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab('new')">New Issue</button>
+        <button class="tab" onclick="switchTab('track')">Track Flow</button>
     </div>
 
-    <div id="newSection" class="glass-card">
-        <form id="grievanceForm" onsubmit="submitToSheets(event)">
-            <div class="form-group">
-                <label>Category</label>
-                <select id="category" class="form-control" required>
-                    <option value="">Select Category</option>
-                    <option>Salary & Payments</option>
-                    <option>Workplace Conduct</option>
-                    <option>Facilities & Tools</option>
-                    <option>Policy Questions</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Subject</label>
-                <input type="text" id="subject" class="form-control" placeholder="Quick title" required>
-            </div>
-            <div class="form-group">
-                <label>Description</label>
-                <textarea id="description" class="form-control" rows="5" placeholder="Details of your concern..." required></textarea>
-            </div>
-            <button type="submit" class="submit-btn" id="subBtn">Submit Securely 🛡️</button>
+    <div id="newSection" class="card">
+        <form id="gForm" onsubmit="submitGrievance(event)">
+            <label>Category</label>
+            <select id="cat" required><option>Salary</option><option>Promotion</option><option>Facility</option></select>
+            <input type="text" id="sub" placeholder="Subject" required>
+            <textarea id="desc" rows="4" placeholder="Describe the problem..." required></textarea>
+            <button type="submit" class="btn">Submit to Section Officer</button>
         </form>
     </div>
 
-    <div id="listSection" style="display:none;">
-        <div id="historyContainer"></div>
+    <div id="trackSection" style="display:none;">
+        <div id="flowList"></div>
     </div>
 </div>
 
 <script>
-    const APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyUywibKFmgGBav445rUYMVwYv5C4nUwp7SzBm3U1rkHKeA2hgTOxJYkwNBzuv0eRNc/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFQ1edhnGzc2PZ7kyvem45a6LtCwXkjaNqLKD6b8awy98bJBv0zLtHtygaNbzAEXo/exec";
 
-    function showTab(view) {
-        document.getElementById('newSection').style.display = view === 'new' ? 'block' : 'none';
-        document.getElementById('listSection').style.display = view === 'list' ? 'block' : 'none';
-        document.getElementById('tabNew').classList.toggle('active', view === 'new');
-        document.getElementById('tabList').classList.toggle('active', view === 'list');
-        if(view === 'list') renderHistory();
+    function switchTab(t) {
+        document.getElementById('newSection').style.display = t === 'new' ? 'block' : 'none';
+        document.getElementById('trackSection').style.display = t === 'track' ? 'block' : 'none';
+        document.querySelectorAll('.tab').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        if(t === 'track') fetchFlow();
     }
 
-    async function submitToSheets(e) {
+    async function submitGrievance(e) {
         e.preventDefault();
-        const btn = document.getElementById('subBtn');
-        const loader = document.getElementById('loader');
-        
-        btn.disabled = true;
-        btn.innerText = "Sending...";
-        loader.style.display = "flex";
-
-        const user = localStorage.getItem("currentUser") || "Employee";
-        const ticketId = "GR-" + Math.floor(1000 + Math.random() * 9000);
-        
-        const payload = {
-            id: ticketId,
-            user: user,
-            category: document.getElementById('category').value,
-            subject: document.getElementById('subject').value,
-            desc: document.getElementById('description').value,
-            date: new Date().toLocaleDateString(),
-            status: "Open"
+        const data = {
+            action: "submit",
+            id: "GR-" + Math.floor(Math.random()*9000 + 1000),
+            user: localStorage.getItem("currentUser") || "User",
+            category: document.getElementById('cat').value,
+            subject: document.getElementById('sub').value,
+            desc: document.getElementById('desc').value,
+            date: new Date().toLocaleDateString()
         };
 
-        try {
-            // Push to Google Sheets
-            await fetch(APP_SCRIPT_URL, {
-                method: "POST",
-                mode: "no-cors",
-                body: JSON.stringify(payload)
-            });
-
-            // Save locally for instant history view
-            let history = JSON.parse(localStorage.getItem("grievanceData") || "[]");
-            history.unshift(payload);
-            localStorage.setItem("grievanceData", JSON.stringify(history));
-
-            alert("Grievance Filed! Ticket ID: " + ticketId);
-            document.getElementById('grievanceForm').reset();
-            showTab('list');
-        } catch (err) {
-            alert("Error connecting to server. Please try again.");
-        } finally {
-            btn.disabled = false;
-            btn.innerText = "Submit Securely 🛡️";
-            loader.style.display = "none";
-        }
+        await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
+        alert("Grievance Filed. Current Level: Section Officer");
+        document.getElementById('gForm').reset();
     }
 
-    function renderHistory() {
-        const container = document.getElementById('historyContainer');
-        const data = JSON.parse(localStorage.getItem("grievanceData") || "[]");
+    async function fetchFlow() {
+        const container = document.getElementById('flowList');
+        container.innerHTML = "Loading flow details...";
         
-        if(data.length === 0) {
-            container.innerHTML = `<p style="text-align:center; opacity:0.5; margin-top:40px;">No tickets found.</p>`;
-            return;
-        }
+        try {
+            const res = await fetch(SCRIPT_URL);
+            const data = await res.json();
+            const user = localStorage.getItem("currentUser");
 
-        container.innerHTML = data.map(item => `
-            <div class="ticket-card">
-                <div>
-                    <div style="font-weight:bold; color:#2400b7;">#${item.id}</div>
-                    <div style="font-size:14px; margin:4px 0;">${item.subject}</div>
-                    <div style="font-size:11px; color:#888;">${item.date} • ${item.category}</div>
+            container.innerHTML = data.map(item => `
+                <div class="card">
+                    <span class="status-tag ${item.status.toLowerCase()}">${item.status}</span>
+                    <strong style="color:#2400b7">#${item.id}</strong>
+                    <p style="font-size:12px; margin: 5px 0;">Currently with: <b>${item.handler}</b></p>
+                    
+                    <div class="flow-container">
+                        ${item.history.map(step => `
+                            <div class="flow-step">
+                                <span class="officer-name">${step.officer}</span>
+                                <span class="officer-note">"${step.note}"</span>
+                                <div style="font-size:10px; color:#999;">${step.date}</div>
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
-                <div class="status-badge">${item.status}</div>
-            </div>
-        `).join('');
+            `).join('');
+        } catch(e) { container.innerHTML = "No active grievances."; }
     }
 </script>
-
 </body>
 </html>
