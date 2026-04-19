@@ -67,29 +67,42 @@
         const res = await fetch(SCRIPT_URL);
         const data = await res.json();
 
-        container.innerHTML = data.reverse().map(item => {
-            const isHandler = item.handler === loggedOfficer.designation && item.status !== "Resolved";
-            return `
-                <div class="card">
-                    <span class="status-badge">${item.status}</span>
-                    <strong>#${item.id}</strong> | ${item.user}
-                    <p style="font-size:14px; margin:5px 0;">${item.sub}</p>
-                    <div style="font-size:12px; border-top:1px solid #eee; padding-top:10px;">
-                        ${item.history.map(h => `<div class="flow-item"><b>${h.officer}:</b> ${h.note}</div>`).join('')}
-                    </div>
-                    ${isHandler ? `
-                        <div class="officer-panel">
-                            <textarea id="op-${item.id}" placeholder="Your remarks..."></textarea>
-                            <select id="fw-${item.id}">
-                                <option>Assistant Engineer (AE)</option><option>Executive Engineer (EE)</option>
-                                <option>Division Manager</option><option value="Resolved">RESOLVE & CLOSE</option>
-                            </select>
-                            <button class="btn" style="background:#ffa000" onclick="updateTicket('${item.id}')">Submit & Forward</button>
-                        </div>
-                    ` : `<p style="font-size:11px; color:#999; text-align:center;">With: ${item.handler}</p>`}
+       container.innerHTML = data.reverse().map(item => {
+    const isHandler = item.handler === loggedOfficer.designation && item.status !== "Resolved";
+    return `
+        <div class="card">
+            <span class="status-badge">${item.status}</span>
+            <strong style="color:#2400b7">#${item.id}</strong>
+            <div style="font-size:11px; color:#999;">Submitted on: ${item.date}</div>
+
+            <div style="margin-top:10px; font-size:14px;"><b>From:</b> ${item.user} (${item.empDesig})</div>
+            <div style="font-size:14px;"><b>Workplace:</b> ${item.workPlace}</div>
+            <div style="font-size:14px; margin-bottom:8px;"><b>Subject:</b> ${item.sub}</div>
+            
+            <div style="background:#f0f2f5; padding:12px; border-radius:10px; font-size:13px; margin-bottom:15px;">
+                <b>Employee Description:</b><br>${item.desc}
+            </div>
+
+            <div style="font-size:12px; border-top:1px solid #eee; padding-top:10px;">
+                <b>Action History:</b>
+                ${item.history.map(h => `<div class="flow-item"><b>${h.officer}:</b> ${h.note}</div>`).join('')}
+            </div>
+
+            ${isHandler ? `
+                <div class="officer-panel">
+                    <textarea id="op-${item.id}" placeholder="Your remarks/opinion..."></textarea>
+                    <select id="fw-${item.id}">
+                        <option>Assistant Engineer (AE)</option>
+                        <option>Executive Engineer (EE)</option>
+                        <option>Division Manager</option>
+                        <option value="Resolved">RESOLVE & CLOSE</option>
+                    </select>
+                    <button class="btn" style="background:#ffa000" onclick="updateTicket('${item.id}')">Submit Action</button>
                 </div>
-            `;
-        }).join('');
+            ` : `<p style="font-size:11px; color:#999; text-align:center; margin-top:10px;">Currently with: ${item.handler}</p>`}
+        </div>
+    `;
+}).join('');
     }
 
     async function updateTicket(id) {
