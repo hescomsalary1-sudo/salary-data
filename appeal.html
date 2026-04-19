@@ -25,7 +25,6 @@
             padding-bottom: 40px;
         }
 
-        /* Nav Header */
         nav {
             position: fixed; top: 0; width: 100%; height: 65px;
             background: #1e1b4b; display: flex; align-items: center;
@@ -36,7 +35,6 @@
 
         .container { margin-top: 85px; padding: 0 20px; max-width: 500px; margin-left: auto; margin-right: auto; }
 
-        /* Step 1: Validation Card */
         .card {
             background: white; border-radius: 24px; padding: 25px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);
@@ -63,7 +61,6 @@
             align-items: center; justify-content: center; gap: 10px;
         }
 
-        /* Step 2: Appeal Form */
         #appealFormSection { display: none; animation: slideUp 0.5s ease; }
 
         .info-summary {
@@ -71,7 +68,7 @@
             margin-bottom: 20px; border-left: 4px solid var(--primary);
         }
         .info-summary div { font-size: 0.85rem; margin-bottom: 8px; line-height: 1.4; }
-        .info-summary strong { color: var(--text-dark); display: block; font-size: 10px; text-transform: uppercase; color: var(--text-muted); }
+        .info-summary strong { display: block; font-size: 10px; text-transform: uppercase; color: var(--text-muted); }
         .info-summary p { margin: 2px 0 0 0; font-weight: 600; }
 
         .btn-submit {
@@ -81,14 +78,38 @@
             box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
         }
 
-        /* Status States */
         .alert { padding: 15px; border-radius: 12px; font-size: 0.85rem; font-weight: 600; margin-bottom: 20px; display: none; }
         .alert-danger { background: #fef2f2; color: var(--danger); border: 1px solid #fee2e2; }
 
-        /* Loader */
+        /* PREMIUM POPUP MODAL */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(5px);
+            display: none; align-items: center; justify-content: center;
+            z-index: 2000; padding: 20px;
+        }
+        .success-modal {
+            background: white; width: 100%; max-width: 350px;
+            border-radius: 28px; padding: 35px 25px; text-align: center;
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .success-icon {
+            width: 70px; height: 70px; background: #ecfdf5; color: var(--success);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; margin: 0 auto 20px;
+        }
+        .success-modal h3 { margin: 0 0 10px; font-size: 1.4rem; font-weight: 800; }
+        .success-modal p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; margin-bottom: 25px; }
+        .modal-btn {
+            background: var(--primary); color: white; border: none; padding: 14px 25px;
+            border-radius: 12px; font-weight: 700; width: 100%; cursor: pointer;
+        }
+
         .loader { display: none; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid white; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes modalPop { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body>
@@ -101,49 +122,45 @@
     <div class="container">
         <div class="card" id="validationCard">
             <h2>Start Appeal</h2>
-            <p class="subtitle">You can only appeal against grievances that are marked as <b>Resolved</b> or <b>Closed</b>.</p>
+            <p class="subtitle">Enter your ID to check if you are eligible for an appeal escalation.</p>
             
             <div id="errorMsg" class="alert alert-danger"></div>
 
             <div class="input-group">
                 <label>Ticket ID</label>
-                <input type="text" id="ticketIdInput" placeholder="Enter Ticket ID (e.g. GR-1234)">
+                <input type="text" id="ticketIdInput" placeholder="GR-XXXX">
             </div>
             
             <button class="btn-verify" onclick="validateForAppeal()" id="verifyBtn">
-                <span id="btnText">Check Eligibility</span>
+                <span id="btnText">Verify Ticket</span>
                 <div class="loader" id="btnLoader"></div>
             </button>
         </div>
 
         <div id="appealFormSection">
             <div class="card">
-                <h2 style="color: var(--primary);">Appeal Submission</h2>
-                <p class="subtitle">Please explain why the previous resolution was unsatisfactory.</p>
-
-                <div class="info-summary" id="ticketSummary">
-                    </div>
+                <h2>Appeal Submission</h2>
+                <div class="info-summary" id="ticketSummary"></div>
 
                 <form id="appealForm" onsubmit="submitAppeal(event)">
                     <div class="input-group">
                         <label>Reason for Appeal</label>
                         <select id="appealReason" required>
-                            <option value="">Select a reason...</option>
+                            <option value="">Choose reason...</option>
                             <option>Incomplete Resolution</option>
                             <option>Factually Incorrect Findings</option>
                             <option>Delayed Response</option>
-                            <option>Bias in Decision</option>
                             <option>Other</option>
                         </select>
                     </div>
 
                     <div class="input-group">
-                        <label>Elaborate your dissatisfaction</label>
-                        <textarea id="appealNote" rows="5" placeholder="Provide specific details..." required></textarea>
+                        <label>Your Statement</label>
+                        <textarea id="appealNote" rows="4" placeholder="Briefly explain your dissatisfaction..." required></textarea>
                     </div>
 
                     <div class="input-group">
-                        <label>Appeal to Higher Authority</label>
+                        <label>Escalate To</label>
                         <select id="appealTo" required>
                             <option>Executive Engineer (EE)</option>
                             <option>Superintending Engineer (SE)</option>
@@ -152,9 +169,20 @@
                         </select>
                     </div>
 
-                    <button type="submit" class="btn-submit" id="submitBtn">Submit Final Appeal</button>
+                    <button type="submit" class="btn-submit" id="submitBtn">Submit Appeal</button>
                 </form>
             </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="successModal">
+        <div class="success-modal">
+            <div class="success-icon">
+                <i class="fa-solid fa-check-double"></i>
+            </div>
+            <h3>Success!</h3>
+            <p id="successMsg">Appeal Submitted Successfully! Your case has been escalated for higher review.</p>
+            <button class="modal-btn" onclick="window.location.href='status.html'">Track Progress</button>
         </div>
     </div>
 
@@ -169,7 +197,7 @@
             const btnText = document.getElementById('btnText');
             const errorMsg = document.getElementById('errorMsg');
 
-            if (!id) return alert("Enter Ticket ID");
+            if (!id) return;
 
             errorMsg.style.display = 'none';
             btn.disabled = true;
@@ -181,13 +209,11 @@
                 const data = await res.json();
                 const ticket = data.find(g => (g.id || "").toString().toLowerCase() === id.toLowerCase());
 
-                if (!ticket) {
-                    throw new Error("Ticket ID not found.");
-                }
+                if (!ticket) throw new Error("Ticket ID not found.");
 
                 const status = (ticket.status || "").toLowerCase();
                 if (status !== "resolved" && status !== "closed") {
-                    throw new Error(`This ticket is currently "${ticket.status}". Appeals are only for Resolved/Closed cases.`);
+                    throw new Error(`This ticket is currently "${ticket.status}". Only Resolved cases can be appealed.`);
                 }
 
                 currentTicketData = ticket;
@@ -205,30 +231,30 @@
         function showAppealForm() {
             document.getElementById('validationCard').style.display = 'none';
             document.getElementById('appealFormSection').style.display = 'block';
-            
-            // Added Description display in the summary
             document.getElementById('ticketSummary').innerHTML = `
                 <div><strong>Ticket ID</strong><p>#${currentTicketData.id}</p></div>
                 <div><strong>Subject</strong><p>${currentTicketData.sub}</p></div>
-                <div><strong>Initial Description</strong><p style="font-weight:400; color:#475569;">${currentTicketData.desc || 'No description available.'}</p></div>
-                <div><strong>Last Handled By</strong><p>${currentTicketData.handler}</p></div>
+                <div><strong>Original Description</strong><p style="font-weight:400; color:#475569;">${currentTicketData.desc || 'N/A'}</p></div>
+                <div><strong>Previous Handler</strong><p>${currentTicketData.handler}</p></div>
             `;
         }
 
         async function submitAppeal(e) {
             e.preventDefault();
             const submitBtn = document.getElementById('submitBtn');
+            const escalateTo = document.getElementById('appealTo').value;
+            
             submitBtn.disabled = true;
-            submitBtn.innerText = "Submitting Appeal...";
+            submitBtn.innerText = "Processing...";
 
             const payload = {
                 action: "update",
                 id: currentTicketData.id,
                 officerName: "System (Appeal)",
-                designation: "Automatic Escalation",
-                opinion: "APPEAL FILED: " + document.getElementById('appealReason').value + ". Details: " + document.getElementById('appealNote').value,
+                designation: "Auto-Escalation",
+                opinion: "APPEAL FILED: " + document.getElementById('appealReason').value + ". Note: " + document.getElementById('appealNote').value,
                 newStatus: "Appealed",
-                forwardTo: document.getElementById('appealTo').value
+                forwardTo: escalateTo
             };
 
             try {
@@ -238,12 +264,14 @@
                     body: JSON.stringify(payload)
                 });
 
-                alert("Appeal Submitted Successfully! Escalated to " + payload.forwardTo);
-               
+                // Show the beautiful popup
+                document.getElementById('successMsg').innerHTML = `Appeal Submitted Successfully!<br>Your case has been escalated to the <b>${escalateTo}</b>.`;
+                document.getElementById('successModal').style.display = 'flex';
+
             } catch (err) {
-                alert("Submission failed.");
+                alert("Submission failed. Check your network.");
                 submitBtn.disabled = false;
-                submitBtn.innerText = "Submit Final Appeal";
+                submitBtn.innerText = "Submit Appeal";
             }
         }
     </script>
