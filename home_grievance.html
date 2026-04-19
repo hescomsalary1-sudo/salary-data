@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Home | Grievance Portal</title>
+    <title>Grievance Hub | Home</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #0062ff;
             --bg-start: #ffffff;
-            --bg-end: #f0f4f8;
+            --bg-end: #f8fafc;
             --text-dark: #0f172a;
             --text-muted: #64748b;
-            --card-bg: rgba(255, 255, 255, 0.8);
-            --border: rgba(0, 0, 0, 0.05);
+            --header-bg: #0f172a;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -26,164 +26,160 @@
             display: flex; flex-direction: column;
         }
 
-        /* Header Section */
-        header {
-            padding: 30px 20px;
-            text-align: center;
-            animation: fadeInDown 0.8s ease;
+        /* Fixed Black Header Bar */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%;
+            height: 65px; background: var(--header-bg);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 20px; z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        header h1 { font-size: 1.8rem; margin: 0; font-weight: 800; letter-spacing: -1px; }
-        header p { color: var(--text-muted); font-size: 0.9rem; margin-top: 5px; }
+        nav .logo { color: #fff; font-weight: 800; font-size: 1.1rem; letter-spacing: -0.5px; }
+        nav .logo span { color: var(--primary); }
+        nav .user-icon { color: #fff; opacity: 0.8; font-size: 1.2rem; }
 
-        /* Main Menu Grid */
+        /* Main Content Spacing */
+        .content-area {
+            margin-top: 100px; /* Space for fixed header */
+            flex: 1; padding: 0 20px 40px 20px;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        .section-title { text-align: center; margin-bottom: 30px; animation: fadeIn 0.8s ease; }
+        .section-title h2 { font-size: 1.5rem; margin: 0; font-weight: 800; }
+        .section-title p { color: var(--text-muted); font-size: 0.85rem; margin-top: 5px; }
+
+        /* Medium Grid Layout */
         .menu-grid {
-            flex: 1;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            padding: 10px 20px 40px 20px;
-            max-width: 600px;
-            margin: 0 auto;
+            gap: 20px;
             width: 100%;
+            max-width: 450px; /* Keeps buttons medium on mobile */
+            animation: slideUp 0.6s ease;
         }
 
         @media (min-width: 768px) {
-            .menu-grid { grid-template-columns: repeat(3, 1fr); max-width: 900px; }
+            .menu-grid { grid-template-columns: repeat(3, 1fr); max-width: 700px; }
         }
 
-        /* Modern Button Cards */
+        /* Premium Medium Cards */
         .menu-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border);
-            padding: 25px 15px;
-            border-radius: 24px;
+            background: #ffffff;
+            border: 1px solid rgba(0,0,0,0.06);
+            padding: 22px 10px;
+            border-radius: 20px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
-            animation: fadeInUp 0.6s both;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            box-shadow: var(--card-shadow);
         }
 
         .menu-card:hover {
-            transform: translateY(-8px);
-            background: #ffffff;
-            box-shadow: 0 20px 40px rgba(0, 98, 255, 0.1);
+            transform: translateY(-5px);
             border-color: var(--primary);
+            box-shadow: 0 12px 25px rgba(0, 98, 255, 0.12);
         }
 
-        .menu-card i {
-            font-size: 28px;
-            color: var(--primary);
-            margin-bottom: 15px;
-            transition: 0.3s;
+        .menu-card:active { transform: scale(0.95); }
+
+        .icon-circle {
+            width: 50px; height: 50px;
+            background: #f1f5f9;
+            border-radius: 15px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 15px; transition: 0.3s;
         }
 
-        .menu-card span {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--text-dark);
-        }
+        .menu-card:hover .icon-circle { background: rgba(0, 98, 255, 0.1); }
+
+        .menu-card i { font-size: 22px; color: var(--primary); }
+        .menu-card span { font-size: 0.85rem; font-weight: 700; color: var(--text-dark); }
+
+        /* Authority Login Button */
+        .auth-card { background: var(--header-bg); border: none; }
+        .auth-card span { color: #fff; }
+        .auth-card i { color: #fff; }
+        .auth-card .icon-circle { background: rgba(255,255,255,0.1); }
+        .auth-card:hover { background: #000; }
 
         /* Loading Overlay */
         #loaderOverlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
             display: none; flex-direction: column;
-            align-items: center; justify-content: center;
-            z-index: 9999;
+            align-items: center; justify-content: center; z-index: 2000;
         }
 
         .spinner {
-            width: 50px; height: 50px;
-            border: 4px solid rgba(0, 98, 255, 0.1);
+            width: 45px; height: 45px;
+            border: 4px solid #f3f3f3;
             border-top: 4px solid var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
 
-        .loader-text {
-            margin-top: 15px;
-            font-weight: 700;
-            font-size: 14px;
-            color: var(--primary);
-            letter-spacing: 1px;
-        }
-
         /* Animations */
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { 
+            from { opacity: 0; transform: translateY(20px); } 
+            to { opacity: 1; transform: translateY(0); } 
         }
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Staggered Delay for Cards */
-        .menu-card:nth-child(1) { animation-delay: 0.1s; }
-        .menu-card:nth-child(2) { animation-delay: 0.2s; }
-        .menu-card:nth-child(3) { animation-delay: 0.3s; }
-        .menu-card:nth-child(4) { animation-delay: 0.4s; }
-        .menu-card:nth-child(5) { animation-delay: 0.5s; }
-        .menu-card:nth-child(6) { animation-delay: 0.6s; }
-
-        /* Authority Login Specific Style */
-        .auth-card { background: var(--text-dark); }
-        .auth-card span { color: #fff; }
-        .auth-card i { color: #fff; }
-        .auth-card:hover { background: #000; }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Grievance Hub</h1>
-        <p>Select a service to proceed</p>
-    </header>
+    <nav>
+        <div class="logo">GRIEVANCE<span>HUB</span></div>
+        <div class="user-icon"><i class="fa-solid fa-circle-user"></i></div>
+    </nav>
 
-    <div class="menu-grid">
-        <div class="menu-card" onclick="navigateTo('grievance.html', 'Preparing Form...')">
-            <i class="fa-solid fa-pen-to-square"></i>
-            <span>Lodge Grievance</span>
+    <div class="content-area">
+        <div class="section-title">
+            <h2>Welcome Back</h2>
+            <p>How can we assist you today?</p>
         </div>
 
-        <div class="menu-card" onclick="navigateTo('view_status.html', 'Fetching Status...')">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <span>View Status</span>
-        </div>
+        <div class="menu-grid">
+            <div class="menu-card" onclick="navigateTo('lodge_grievance.html', 'Preparing Form')">
+                <div class="icon-circle"><i class="fa-solid fa-plus"></i></div>
+                <span>Lodge Grievance</span>
+            </div>
 
-        <div class="menu-card" onclick="navigateTo('appeal.html', 'Opening Appeal...')">
-            <i class="fa-solid fa-scale-balanced"></i>
-            <span>Appeal</span>
-        </div>
+            <div class="menu-card" onclick="navigateTo('view_status.html', 'Fetching Data')">
+                <div class="icon-circle"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                <span>View Status</span>
+            </div>
 
-        <div class="menu-card" onclick="navigateTo('redress_process.html', 'Loading Workflow...')">
-            <i class="fa-solid fa-diagram-project"></i>
-            <span>Redress Process</span>
-        </div>
+            <div class="menu-card" onclick="navigateTo('appeal.html', 'Opening Appeal')">
+                <div class="icon-circle"><i class="fa-solid fa-gavel"></i></div>
+                <span>Appeal</span>
+            </div>
 
-        <div class="menu-card" onclick="navigateTo('about_us.html', 'Loading Info...')">
-            <i class="fa-solid fa-circle-info"></i>
-            <span>About Us</span>
-        </div>
+            <div class="menu-card" onclick="navigateTo('redress_process.html', 'Loading Process')">
+                <div class="icon-circle"><i class="fa-solid fa-arrows-spin"></i></div>
+                <span>Redress Process</span>
+            </div>
 
-        <div class="menu-card auth-card" onclick="navigateTo('authority_login.html', 'Securing Channel...')">
-            <i class="fa-solid fa-user-lock"></i>
-            <span>Authority Login</span>
+            <div class="menu-card" onclick="navigateTo('about_us.html', 'About Us')">
+                <div class="icon-circle"><i class="fa-solid fa-shield-heart"></i></div>
+                <span>About Us</span>
+            </div>
+
+            <div class="menu-card auth-card" onclick="navigateTo('authority_login.html', 'Connecting')">
+                <div class="icon-circle"><i class="fa-solid fa-lock"></i></div>
+                <span>Admin Login</span>
+            </div>
         </div>
     </div>
 
     <div id="loaderOverlay">
         <div class="spinner"></div>
-        <div class="loader-text" id="loaderText">LOADING...</div>
+        <p style="margin-top:15px; font-weight:700; color:var(--primary); font-size:12px; letter-spacing:1px;" id="loaderText">LOADING...</p>
     </div>
 
     <script>
@@ -191,17 +187,16 @@
             const loader = document.getElementById('loaderOverlay');
             const loaderText = document.getElementById('loaderText');
             
-            // Set message and show loader
-            loaderText.innerText = message.toUpperCase();
+            loaderText.innerText = message.toUpperCase() + "...";
             loader.style.display = 'flex';
 
-            // Simulate smooth loading transition
+            // Smooth transition to the next page
             setTimeout(() => {
                 window.location.href = page;
             }, 800);
         }
 
-        // Handle page visibility for smooth back-navigation transitions
+        // Hide loader when coming back via browser back button
         window.addEventListener('pageshow', function(event) {
             if (event.persisted) {
                 document.getElementById('loaderOverlay').style.display = 'none';
