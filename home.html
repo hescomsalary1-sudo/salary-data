@@ -955,6 +955,11 @@ border-radius:15px;
 font-weight:bold;
 display:block;
 }
+
+  @keyframes spin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
 </style>
 </head>
 
@@ -990,7 +995,7 @@ display:block;
   </div>
 
   <!-- EMPLOYEE GRIEVANCE PORTAL -->
-  <div class="nav-link" onclick="showLoader('page5.html')">
+  <div class="nav-link" onclick="openGrievancePopup()">
     <div class="icon">📢</div>
     Employee Grievance Portal
   </div>
@@ -1904,6 +1909,105 @@ function closeMenu(){
   document.body.style.overflow = "auto";
   isOpen = false;
 }
+
+  function openGrievancePopup(){
+  document.getElementById("grievancePopup").style.display = "flex";
+}
+
+function closeGrievancePopup(){
+  document.getElementById("grievancePopup").style.display = "none";
+}
+
+function continueToGrievance(){
+
+  // hide buttons
+  document.getElementById("grievanceBtns").style.display = "none";
+
+  // show spinner
+  document.getElementById("grievanceLoader").style.display = "block";
+
+  // redirect after delay
+  setTimeout(()=>{
+    window.location = "page.html"; // 👉 change if needed
+  },1500);
+}
 </script>
+
+  <!-- GRIEVANCE POPUP -->
+<div id="grievancePopup" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:4000;
+">
+
+  <div style="
+  background:white;
+  padding:20px;
+  border-radius:20px;
+  width:85%;
+  max-width:320px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+  ">
+
+    <h3 style="color:#2400b7;margin-top:0;">Leaving Portal</h3>
+
+    <p style="font-size:14px;color:#555;">
+      You are leaving Salary Portal and will be redirected to Grievance Portal.
+    </p>
+
+    <!-- BUTTONS -->
+    <div id="grievanceBtns" style="display:flex;gap:10px;margin-top:15px;">
+      
+      <button onclick="closeGrievancePopup()" style="
+      flex:1;
+      padding:10px;
+      border:none;
+      border-radius:10px;
+      background:#eee;
+      ">
+      Cancel
+      </button>
+
+      <button onclick="continueToGrievance()" style="
+      flex:1;
+      padding:10px;
+      border:none;
+      border-radius:10px;
+      background:#2400b7;
+      color:white;
+      ">
+      Continue
+      </button>
+
+    </div>
+
+    <!-- SPINNER -->
+    <div id="grievanceLoader" style="display:none;margin-top:20px;">
+      <div style="
+      width:40px;
+      height:40px;
+      border:4px solid #eee;
+      border-top:4px solid #2400b7;
+      border-radius:50%;
+      margin:auto;
+      animation:spin 1s linear infinite;
+      "></div>
+
+      <p style="margin-top:10px;font-size:13px;color:#555;">
+        Redirecting...
+      </p>
+    </div>
+
+  </div>
+
+</div>
 </body>
 </html>
