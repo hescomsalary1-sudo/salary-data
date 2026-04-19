@@ -1,184 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Info Center</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Track Status | Grievance Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0062ff;
+            --bg: #f8fafc;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
 
-<style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: #fff;
-}
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-/* HEADER */
-.header {
-  text-align: center;
-  padding: 20px;
-  font-size: 20px;
-  font-weight: bold;
-}
+        body {
+            margin: 0; padding: 0; min-height: 100vh;
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg); color: var(--text-dark);
+            padding-bottom: 40px;
+        }
 
-/* CARD STYLE */
-.card {
-  background: rgba(255,255,255,0.08);
-  margin: 15px;
-  padding: 15px;
-  border-radius: 18px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-}
+        /* Fixed Header */
+        nav {
+            position: fixed; top: 0; width: 100%; height: 65px;
+            background: #0f172a; display: flex; align-items: center;
+            padding: 0 20px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .back-btn { color: white; text-decoration: none; font-size: 1.2rem; margin-right: 15px; }
+        .nav-title { color: white; font-weight: 700; font-size: 1.1rem; }
 
-/* TIP + NOTICE */
-.info-box {
-  font-size: 14px;
-  line-height: 1.6;
-}
+        .container { margin-top: 85px; padding: 0 20px; max-width: 500px; margin-left: auto; margin-right: auto; }
 
-/* POINTS SECTION */
-.points {
-  font-size: 26px;
-  font-weight: bold;
-}
+        /* Search Section */
+        .search-card {
+            background: white; padding: 25px; border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03); margin-bottom: 25px;
+            text-align: center;
+        }
+        .search-card h3 { margin: 0 0 8px 0; font-size: 1.2rem; font-weight: 800; }
+        .search-card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; }
 
-.level {
-  margin-top: 5px;
-  font-size: 16px;
-  color: #ffd700;
-}
+        .input-group { position: relative; display: flex; gap: 8px; }
+        input {
+            flex: 1; padding: 15px 18px; border-radius: 14px;
+            border: 2px solid #f1f5f9; font-size: 1rem; font-weight: 600;
+            transition: 0.3s; background: #f8fafc;
+        }
+        input:focus { border-color: var(--primary); background: white; outline: none; }
+        
+        .search-trigger {
+            background: var(--primary); color: white; border: none;
+            width: 52px; border-radius: 14px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+        }
 
-/* PROGRESS BAR */
-.progress-bar {
-  height: 8px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 10px;
-  margin-top: 10px;
-  overflow: hidden;
-}
+        /* Result Area */
+        #resultArea { display: none; animation: slideUp 0.5s ease; }
 
-.progress {
-  height: 100%;
-  background: #00ffcc;
-  width: 0%;
-}
+        .main-status-card {
+            background: white; border-radius: 24px; padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03); margin-bottom: 20px;
+        }
 
-/* GRID BUTTONS */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-top: 10px;
-}
+        .badge-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .ticket-id { font-weight: 900; color: var(--primary); font-size: 0.9rem; background: #eef5ff; padding: 5px 12px; border-radius: 8px; }
+        .status-chip { padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+        .pending { background: #fff7ed; color: #f59e0b; }
+        .resolved { background: #ecfdf5; color: #10b981; }
 
-.btn {
-  padding: 12px;
-  border-radius: 12px;
-  text-align: center;
-  background: rgba(255,255,255,0.12);
-  cursor: pointer;
-  transition: 0.3s;
-}
+        .info-bit { margin-bottom: 15px; }
+        .info-bit label { display: block; font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 3px; }
+        .info-bit span { font-size: 0.95rem; font-weight: 600; display: block; }
 
-.btn:hover {
-  background: rgba(255,255,255,0.25);
-  transform: scale(1.05);
-}
+        /* Movement Timeline */
+        .timeline-box {
+            background: #ffffff; border-radius: 24px; padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+        }
+        .timeline-box h4 { margin: 0 0 20px 0; font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
 
-/* SMALL TEXT */
-.small {
-  font-size: 13px;
-  opacity: 0.8;
-}
-</style>
+        .timeline { position: relative; padding-left: 30px; border-left: 2px dashed #e2e8f0; margin-left: 10px; }
+        .timeline-item { position: relative; margin-bottom: 25px; }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -37px; top: 0;
+            width: 12px; height: 12px; border-radius: 50%;
+            background: white; border: 3px solid var(--primary);
+        }
+        .timeline-item.active::before { background: var(--primary); box-shadow: 0 0 10px rgba(0,98,255,0.4); }
+        
+        .tm-date { font-size: 10px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; display: block; }
+        .tm-officer { font-size: 0.9rem; font-weight: 800; display: block; margin-bottom: 2px; }
+        .tm-note { font-size: 0.85rem; color: #475569; line-height: 1.4; }
+
+        /* Loader */
+        .loader-wrap { display: none; text-align: center; padding: 40px; }
+        .spin { width: 30px; height: 30px; border: 3px solid #e2e8f0; border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
+        
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
-
 <body>
 
-<div class="header">⚡ Info Center</div>
+    <nav>
+        <a href="home_grievance.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+        <div class="nav-title">Track Grievance</div>
+    </nav>
 
-<!-- FUN + INFO -->
-<div class="card">
-  <div class="info-box">
-    💡 Tip: Maintain full attendance to earn bonus points!<br>
-    📢 Notice: Salary will be credited on 5th
-  </div>
-</div>
+    <div class="container">
+        <div class="search-card">
+            <h3>Track Ticket</h3>
+            <p>Enter your unique Ticket ID (e.g., GR-1234)</p>
+            <div class="input-group">
+                <input type="text" id="ticketInput" placeholder="Enter ID here..." autocomplete="off">
+                <button class="search-trigger" onclick="searchGrievance()">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+        </div>
 
-<!-- REWARDS -->
-<div class="card">
-  <div class="points" id="points">0 Points</div>
-  <div class="level" id="level">Bronze</div>
+        <div class="loader-wrap" id="loader">
+            <div class="spin"></div>
+            <p style="font-size: 12px; font-weight: 700; margin-top: 15px; color: var(--primary);">FETCHING HISTORY...</p>
+        </div>
 
-  <div class="progress-bar">
-    <div class="progress" id="progress"></div>
-  </div>
+        <div id="resultArea">
+            <div class="main-status-card">
+                <div class="badge-row">
+                    <div class="ticket-id" id="resID">#GR-0000</div>
+                    <div id="resStatus" class="status-chip pending">Pending</div>
+                </div>
 
-  <div class="small" id="summary"></div>
-</div>
+                <div class="info-bit">
+                    <label>Employee Name</label>
+                    <span id="resUser">--</span>
+                </div>
+                <div class="info-bit">
+                    <label>Subject</label>
+                    <span id="resSubject">--</span>
+                </div>
+                <div class="info-bit" style="margin-bottom: 0;">
+                    <label>Currently With</label>
+                    <span id="resPendingWith" style="color: var(--primary);">--</span>
+                </div>
+            </div>
 
-<!-- QUICK ACTIONS -->
-<div class="card">
-  <div class="grid">
-    <div class="btn" onclick="go('salary.html')">💰 Salary</div>
-    <div class="btn" onclick="go('attendance.html')">📅 Attendance</div>
-    <div class="btn" onclick="go('seniority.html')">📊 Seniority</div>
-    <div class="btn" onclick="go('forum.html')">💬 Forum</div>
-  </div>
-</div>
+            <div class="timeline-box">
+                <h4>Movement History</h4>
+                <div class="timeline" id="historyTimeline">
+                    </div>
+            </div>
+        </div>
+    </div>
 
-<script>
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzOqDDARIyXSnqaJth9fE2HSVGr7Vs1uYCEgYmX1gDIxxRcAoitVqed1HkqaLmK3SL2/exec";
 
-/* SAMPLE DATA (Replace later with real data from CSV) */
-let present = 18;
-let leave = 2;
-let absent = 1;
+        async function searchGrievance() {
+            const idInput = document.getElementById('ticketInput').value.trim();
+            const loader = document.getElementById('loader');
+            const resultArea = document.getElementById('resultArea');
 
-/* POINT CALCULATION */
-let points =
-  (present * 10) +
-  (leave * 5) +
-  (absent * 0);
+            if (!idInput) { alert("Please enter a Ticket ID"); return; }
 
-/* BONUS */
-if(absent === 0) points += 50; // monthly bonus
-if(absent <= 1) points += 20; // weekly consistency
+            // Reset & Show Loader
+            resultArea.style.display = 'none';
+            loader.style.display = 'block';
 
-/* LEVEL SYSTEM */
-let level = "Bronze";
-let progress = 0;
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                
+                // Find specific ticket
+                const grievance = data.find(item => item.id.toLowerCase() === idInput.toLowerCase());
 
-if(points >= 1000){
-  level = "💎 Platinum";
-  progress = 100;
-}else if(points >= 500){
-  level = "🥇 Gold";
-  progress = (points - 500) / 5;
-}else if(points >= 200){
-  level = "🥈 Silver";
-  progress = (points - 200) / 3;
-}else{
-  level = "🥉 Bronze";
-  progress = points / 2;
-}
+                if (grievance) {
+                    renderGrievance(grievance);
+                } else {
+                    alert("Ticket ID not found. Please check and try again.");
+                }
+            } catch (err) {
+                alert("Connection error. Could not fetch status.");
+            } finally {
+                loader.style.display = 'none';
+            }
+        }
 
-/* UPDATE UI */
-document.getElementById("points").innerText = points + " Points";
-document.getElementById("level").innerText = level;
-document.getElementById("progress").style.width = progress + "%";
+        function renderGrievance(item) {
+            document.getElementById('resID').innerText = `#${item.id}`;
+            document.getElementById('resUser').innerText = item.user;
+            document.getElementById('resSubject').innerText = item.sub;
+            document.getElementById('resPendingWith').innerText = item.sendTo || "Final Authority";
 
-document.getElementById("summary").innerText =
-  "Present: " + present +
-  " | Leave: " + leave +
-  " | Absent: " + absent;
+            // Status Badge Logic
+            const statusEl = document.getElementById('resStatus');
+            statusEl.innerText = item.status;
+            statusEl.className = `status-chip ${item.status.toLowerCase()}`;
 
-/* NAVIGATION */
-function go(page){
-  window.location.replace(page);
-}
+            // History Mapping
+            const timeline = document.getElementById('historyTimeline');
+            if (item.history && item.history.length > 0) {
+                timeline.innerHTML = item.history.map((h, index) => `
+                    <div class="timeline-item ${index === 0 ? 'active' : ''}">
+                        <span class="tm-date">${h.date}</span>
+                        <span class="tm-officer">${h.officer}</span>
+                        <div class="tm-note">${h.note}</div>
+                    </div>
+                `).join('');
+            } else {
+                timeline.innerHTML = `<div class="timeline-item active">
+                    <span class="tm-date">${item.date}</span>
+                    <span class="tm-officer">System Generated</span>
+                    <div class="tm-note">Grievance submitted and forwarded to ${item.sendTo}.</div>
+                </div>`;
+            }
 
-</script>
-
+            document.getElementById('resultArea').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
