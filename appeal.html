@@ -176,15 +176,16 @@
     </div>
 
     <div class="modal-overlay" id="successModal">
-        <div class="success-modal">
-            <div class="success-icon">
-                <i class="fa-solid fa-check-double"></i>
-            </div>
-            <h3>Success!</h3>
-            <p id="successMsg">Appeal Submitted Successfully! Your case has been escalated for higher review.</p>
-            <button class="modal-btn" onclick="window.location.href='status.html'">Track Progress</button>
+    <div class="success-modal">
+        <div class="success-icon">
+            <i class="fa-solid fa-check-double"></i>
         </div>
+        <h3>Success!</h3>
+        <p id="successMsg">Appeal Submitted Successfully! Your case has been escalated for higher review.</p>
+        
+        <button class="modal-btn" onclick="window.close(); setTimeout(() => { window.location.reload(); }, 500);">Close</button>
     </div>
+</div>
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzOqDDARIyXSnqaJth9fE2HSVGr7Vs1uYCEgYmX1gDIxxRcAoitVqed1HkqaLmK3SL2/exec";
