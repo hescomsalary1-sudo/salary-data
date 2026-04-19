@@ -63,15 +63,16 @@
             align-items: center; justify-content: center; gap: 10px;
         }
 
-        /* Step 2: Appeal Form (Hidden by default) */
+        /* Step 2: Appeal Form */
         #appealFormSection { display: none; animation: slideUp 0.5s ease; }
 
         .info-summary {
             background: #f1f5f9; padding: 15px; border-radius: 12px;
             margin-bottom: 20px; border-left: 4px solid var(--primary);
         }
-        .info-summary div { font-size: 0.85rem; margin-bottom: 5px; }
-        .info-summary strong { color: var(--text-dark); }
+        .info-summary div { font-size: 0.85rem; margin-bottom: 8px; line-height: 1.4; }
+        .info-summary strong { color: var(--text-dark); display: block; font-size: 10px; text-transform: uppercase; color: var(--text-muted); }
+        .info-summary p { margin: 2px 0 0 0; font-weight: 600; }
 
         .btn-submit {
             width: 100%; background: var(--primary); color: white;
@@ -170,7 +171,6 @@
 
             if (!id) return alert("Enter Ticket ID");
 
-            // UI State
             errorMsg.style.display = 'none';
             btn.disabled = true;
             btnText.style.display = 'none';
@@ -185,13 +185,11 @@
                     throw new Error("Ticket ID not found.");
                 }
 
-                // CHECK CONDITION: Only allow if Resolved/Closed
                 const status = (ticket.status || "").toLowerCase();
                 if (status !== "resolved" && status !== "closed") {
-                    throw new Error(`This ticket is currently "${ticket.status}". You can only appeal against Resolved or Closed grievances.`);
+                    throw new Error(`This ticket is currently "${ticket.status}". Appeals are only for Resolved/Closed cases.`);
                 }
 
-                // Success - Show Form
                 currentTicketData = ticket;
                 showAppealForm();
             } catch (err) {
@@ -208,10 +206,12 @@
             document.getElementById('validationCard').style.display = 'none';
             document.getElementById('appealFormSection').style.display = 'block';
             
+            // Added Description display in the summary
             document.getElementById('ticketSummary').innerHTML = `
-                <div><strong>Ticket:</strong> #${currentTicketData.id}</div>
-                <div><strong>Original Subject:</strong> ${currentTicketData.sub}</div>
-                <div><strong>Resolved By:</strong> ${currentTicketData.handler}</div>
+                <div><strong>Ticket ID</strong><p>#${currentTicketData.id}</p></div>
+                <div><strong>Subject</strong><p>${currentTicketData.sub}</p></div>
+                <div><strong>Initial Description</strong><p style="font-weight:400; color:#475569;">${currentTicketData.desc || 'No description available.'}</p></div>
+                <div><strong>Last Handled By</strong><p>${currentTicketData.handler}</p></div>
             `;
         }
 
@@ -222,27 +222,26 @@
             submitBtn.innerText = "Submitting Appeal...";
 
             const payload = {
-                action: "update", // Using your existing 'update' logic
+                action: "update",
                 id: currentTicketData.id,
                 officerName: "System (Appeal)",
-                designation: "Automatic Forwarding",
-                opinion: "APPEAL FILED: " + document.getElementById('appealReason').value + ". Note: " + document.getElementById('appealNote').value,
+                designation: "Automatic Escalation",
+                opinion: "APPEAL FILED: " + document.getElementById('appealReason').value + ". Details: " + document.getElementById('appealNote').value,
                 newStatus: "Appealed",
                 forwardTo: document.getElementById('appealTo').value
             };
 
             try {
-                // Sending to your existing doPost function
                 await fetch(SCRIPT_URL, {
                     method: "POST",
                     mode: "no-cors",
                     body: JSON.stringify(payload)
                 });
 
-                alert("Appeal Submitted Successfully! The case has been escalated to " + payload.forwardTo);
-                window.location.href = "status.html"; // Redirect back to track
+                alert("Appeal Submitted Successfully! Escalated to " + payload.forwardTo);
+                window.location.href = "status.html";
             } catch (err) {
-                alert("Submission failed. Check connection.");
+                alert("Submission failed.");
                 submitBtn.disabled = false;
                 submitBtn.innerText = "Submit Final Appeal";
             }
