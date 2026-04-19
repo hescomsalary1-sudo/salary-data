@@ -22,12 +22,14 @@ min-height:100vh;
 
 /* HEADER */
 .header{
-padding:18px 15px;
-background:#ffffff;
+background:#2400b7;
+color:white;
+padding:20px;
+font-size:20px;
+font-weight:600;
 display:flex;
 align-items:center;
 gap:15px;
-border-bottom:1px solid #eee;
 }
 
 .back{
@@ -35,20 +37,14 @@ font-size:22px;
 cursor:pointer;
 }
 
-/* TITLE */
-.title{
-font-size:18px;
-font-weight:600;
-}
-
 /* LIST */
 .list{
-padding:10px;
+padding:12px;
 }
 
 /* ITEM */
 .item{
-background:#fff;
+background:white;
 padding:16px;
 border-radius:14px;
 margin-bottom:10px;
@@ -56,7 +52,7 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 cursor:pointer;
-box-shadow:0 4px 12px rgba(0,0,0,0.05);
+box-shadow:0 4px 10px rgba(0,0,0,0.06);
 }
 
 .item:active{
@@ -80,7 +76,7 @@ align-items:center;
 justify-content:center;
 }
 
-/* EXPAND AREA */
+/* EXPAND */
 .expand{
 max-height:0;
 overflow:hidden;
@@ -89,7 +85,7 @@ padding:0 5px;
 }
 
 .expand.active{
-max-height:200px;
+max-height:250px;
 padding-top:10px;
 }
 
@@ -114,45 +110,6 @@ color:white;
 font-weight:bold;
 }
 
-/* SWITCH */
-.switch{
-position:relative;
-width:45px;
-height:24px;
-}
-
-.switch input{display:none;}
-
-.slider{
-position:absolute;
-top:0;
-left:0;
-right:0;
-bottom:0;
-background:#ccc;
-border-radius:20px;
-}
-
-.slider:before{
-content:"";
-position:absolute;
-height:18px;
-width:18px;
-left:3px;
-top:3px;
-background:white;
-border-radius:50%;
-transition:0.3s;
-}
-
-input:checked + .slider{
-background:#2400b7;
-}
-
-input:checked + .slider:before{
-transform:translateX(20px);
-}
-
 /* POPUP */
 .popup{
 position:fixed;
@@ -170,11 +127,10 @@ z-index:1000;
 .popup-box{
 background:white;
 padding:20px;
-border-radius:18px;
+border-radius:16px;
 width:85%;
-max-width:300px;
+max-width:320px;
 text-align:center;
-animation:scaleIn 0.25s ease;
 }
 
 .popup-btn{
@@ -188,7 +144,6 @@ flex:1;
 padding:10px;
 border:none;
 border-radius:10px;
-cursor:pointer;
 }
 
 .cancel{
@@ -198,21 +153,6 @@ background:#eee;
 .confirm{
 background:#2400b7;
 color:white;
-}
-
-/* ANIMATION */
-@keyframes scaleIn{
-from{transform:scale(0.8);opacity:0;}
-to{transform:scale(1);opacity:1;}
-}
-
-.dark{
-background:#121212;
-color:white;
-}
-
-.dark .item{
-background:#1e1e1e;
 }
 
 </style>
@@ -225,34 +165,10 @@ background:#1e1e1e;
 <!-- HEADER -->
 <div class="header">
 <div class="back" onclick="goBack()">←</div>
-<div class="title">Settings</div>
+Settings
 </div>
 
 <div class="list">
-
-<!-- DARK MODE -->
-<div class="item">
-<div class="left">
-<div class="icon">🌙</div> Dark Mode
-</div>
-
-<label class="switch">
-<input type="checkbox" id="darkToggle">
-<span class="slider"></span>
-</label>
-</div>
-
-<!-- NOTIFICATION -->
-<div class="item">
-<div class="left">
-<div class="icon">🔔</div> Notifications
-</div>
-
-<label class="switch">
-<input type="checkbox" id="notifyToggle">
-<span class="slider"></span>
-</label>
-</div>
 
 <!-- CHANGE PASSWORD -->
 <div class="item" onclick="toggleExpand('passBox')">
@@ -263,16 +179,44 @@ background:#1e1e1e;
 </div>
 
 <div class="expand" id="passBox">
-<input type="password" id="newPass" class="input" placeholder="New Password">
-<button class="btn" onclick="changePassword()">Update</button>
+<input type="password" id="newPass" class="input" placeholder="Enter new password">
+<button class="btn" onclick="changePassword()">Update Password</button>
+</div>
+
+<!-- UPDATE NAME -->
+<div class="item" onclick="toggleExpand('nameBox')">
+<div class="left">
+<div class="icon">👤</div> Update Name
+</div>
+<span>›</span>
+</div>
+
+<div class="expand" id="nameBox">
+<input type="text" id="newName" class="input" placeholder="Enter new name">
+<button class="btn" onclick="updateName()">Save Name</button>
 </div>
 
 <!-- CLEAR CACHE -->
 <div class="item" onclick="openPopup('cachePopup')">
 <div class="left">
-<div class="icon">🧹</div> Clear Cache
+<div class="icon">🧹</div> Clear App Data
 </div>
 <span>›</span>
+</div>
+
+<!-- DOWNLOAD DATA -->
+<div class="item" onclick="downloadData()">
+<div class="left">
+<div class="icon">⬇️</div> Download My Data
+</div>
+</div>
+
+<!-- APP VERSION -->
+<div class="item">
+<div class="left">
+<div class="icon">ℹ️</div> App Version
+</div>
+<span>v1.0</span>
 </div>
 
 <!-- LOGOUT -->
@@ -291,11 +235,11 @@ background:#1e1e1e;
 
 <div class="popup" id="cachePopup">
 <div class="popup-box">
-<h3>Clear Cache?</h3>
-<p>This will remove stored data</p>
+<h3>Clear App Data?</h3>
+<p>This will remove all stored data</p>
 <div class="popup-btn">
 <button class="cancel" onclick="closePopup()">Cancel</button>
-<button class="confirm" onclick="clearCache()">Clear</button>
+<button class="confirm" onclick="clearData()">Clear</button>
 </div>
 </div>
 </div>
@@ -303,7 +247,7 @@ background:#1e1e1e;
 <div class="popup" id="logoutPopup">
 <div class="popup-box">
 <h3>Logout?</h3>
-<p>Are you sure?</p>
+<p>Are you sure you want to logout?</p>
 <div class="popup-btn">
 <button class="cancel" onclick="closePopup()">Cancel</button>
 <button class="confirm" onclick="logout()">Logout</button>
@@ -318,12 +262,6 @@ window.onload = ()=>{
 setTimeout(()=>{
 document.getElementById("appPage").style.transform="translateX(0)";
 },10);
-
-/* LOAD SETTINGS */
-if(localStorage.getItem("darkMode")==="true"){
-document.body.classList.add("dark");
-document.getElementById("darkToggle").checked=true;
-}
 };
 
 /* BACK */
@@ -332,39 +270,48 @@ document.getElementById("appPage").style.transform="translateX(-100%)";
 setTimeout(()=>window.history.back(),300);
 }
 
-/* TOGGLE EXPAND */
+/* EXPAND */
 function toggleExpand(id){
-let box=document.getElementById(id);
-box.classList.toggle("active");
+let el = document.getElementById(id);
+el.classList.toggle("active");
 }
-
-/* DARK MODE */
-document.getElementById("darkToggle").addEventListener("change", function(){
-if(this.checked){
-document.body.classList.add("dark");
-localStorage.setItem("darkMode","true");
-}else{
-document.body.classList.remove("dark");
-localStorage.setItem("darkMode","false");
-}
-});
-
-/* NOTIFICATION */
-document.getElementById("notifyToggle").addEventListener("change", function(){
-localStorage.setItem("notify", this.checked);
-});
 
 /* PASSWORD */
 function changePassword(){
-let pass=document.getElementById("newPass").value;
+let pass = document.getElementById("newPass").value;
 
-if(pass.length<4){
+if(pass.length < 4){
 alert("Password too short");
 return;
 }
 
 localStorage.setItem("password", pass);
-alert("Updated successfully");
+alert("Password updated");
+}
+
+/* NAME */
+function updateName(){
+let name = document.getElementById("newName").value;
+
+if(name.length < 2){
+alert("Enter valid name");
+return;
+}
+
+localStorage.setItem("userName", name);
+alert("Name updated");
+}
+
+/* DOWNLOAD DATA */
+function downloadData(){
+let data = JSON.stringify(localStorage);
+let blob = new Blob([data], {type:"application/json"});
+let url = URL.createObjectURL(blob);
+
+let a = document.createElement("a");
+a.href = url;
+a.download = "my_data.json";
+a.click();
 }
 
 /* POPUP */
@@ -376,10 +323,10 @@ function closePopup(){
 document.querySelectorAll(".popup").forEach(p=>p.style.display="none");
 }
 
-/* CLEAR CACHE */
-function clearCache(){
+/* CLEAR DATA */
+function clearData(){
 localStorage.clear();
-alert("Cache cleared");
+alert("Data cleared");
 location.reload();
 }
 
