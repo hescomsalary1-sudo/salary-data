@@ -1915,21 +1915,27 @@ function closeMenu(){
 
 function openGrievancePopup(){
 
-  // 🔥 DISABLE SIDENAV OVERLAY CLICK
-  document.getElementById("sideOverlay").style.pointerEvents = "none";
+  isPopupOpen = true;
 
-  // 🔥 KEEP SIDENAV STATE
-  document.body.style.overflow = "hidden";
+  // 🔥 LOCK SIDENAV POSITION (very important)
+  sideNav.style.transition = "none";
+  sideNav.style.transform = "translateX(0)";
 
-  // show popup
+  // 🔥 DISABLE SWIPE + TOUCH
+  document.body.style.pointerEvents = "none";
+
+  // allow popup interaction only
+  document.getElementById("grievancePopup").style.pointerEvents = "all";
   document.getElementById("grievancePopup").style.display = "flex";
 }
 function closeGrievancePopup(){
 
+  isPopupOpen = false;
+
   document.getElementById("grievancePopup").style.display = "none";
 
-  // 🔥 ENABLE OVERLAY AGAIN
-  document.getElementById("sideOverlay").style.pointerEvents = "auto";
+  // 🔥 RESTORE INTERACTION
+  document.body.style.pointerEvents = "auto";
 
 }
 
