@@ -965,7 +965,7 @@ display:block;
 
 <body>
   <!-- OVERLAY -->
-<div id="sideOverlay" onclick="closeSideNav()"></div>
+<div id="sideOverlay"></div>
 
 <!-- SIDENAV -->
 <div id="sideNav">
@@ -1912,8 +1912,13 @@ function closeMenu(){
 
 function openGrievancePopup(){
 
-  // 🔥 hide home content
-  document.getElementById("appPage").style.visibility = "hidden";
+  // 🔥 KEEP SIDENAV OPEN (no close)
+
+  // 🔥 BLOCK BACKGROUND INTERACTION
+  document.body.style.overflow = "hidden";
+
+  // 🔥 DIM APP PAGE (not hide)
+  document.getElementById("appPage").style.opacity = "0.3";
 
   // show popup
   document.getElementById("grievancePopup").style.display = "flex";
@@ -1923,8 +1928,10 @@ function closeGrievancePopup(){
 
   document.getElementById("grievancePopup").style.display = "none";
 
-  // 🔥 show home again
-  document.getElementById("appPage").style.visibility = "visible";
+  // 🔥 RESTORE UI
+  document.body.style.overflow = "hidden"; // sidenav still open
+  document.getElementById("appPage").style.opacity = "1";
+
 }
 
 function continueToGrievance(){
