@@ -1,317 +1,265 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Settings</title>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>Grievance Portal</title>
 <style>
-body{
-  font-family:'Segoe UI',sans-serif;
-  margin:0;
-  background:#f4f4f9;
-  padding-bottom:90px;
-  transition:0.3s;
+/* --- SHARED BASE STYLES --- */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg, #f7f8fc, #edf5ff);
+    padding-bottom: 90px;
+    color: #333;
 }
 
-/* HEADER */
-.top{
-  padding:25px 20px 50px 20px;
-  background:#4b2dd8;
-  color:white;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border-bottom-left-radius:40px;
-  border-bottom-right-radius:40px;
+/* --- PREMIUM GRIEVANCE UI --- */
+.header-banner {
+    background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+    color: white;
+    padding: 40px 20px;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
-.profile{
-  width:50px;
-  height:50px;
-  border-radius:50%;
-  border:2px solid white;
-  object-fit:cover;
+.header-banner h2 { margin: 0; font-size: 24px; }
+.header-banner p { margin: 8px 0 0; opacity: 0.8; font-size: 13px; }
+
+.content-area { padding: 20px; margin-top: -20px; }
+
+/* Action Tabs */
+.tab-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
-.user-box{
-  display:flex;
-  align-items:center;
-  gap:10px;
+.tab-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 15px;
+    border: none;
+    background: white;
+    font-weight: bold;
+    color: #2400b7;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: 0.2s;
 }
 
-.logout{
-  font-size:22px;
-  cursor:pointer;
+.tab-btn.active {
+    background: #2400b7;
+    color: white;
 }
 
-/* CONTENT */
-.content{
-  padding:20px;
-  margin-top:-20px;
+/* Glass Card */
+.glass-card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 22px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: 1px solid rgba(255,255,255,0.3);
 }
 
-/* SECTION TITLE */
-.section-title{
-  font-size:14px;
-  font-weight:bold;
-  color:#5e00a3;
-  margin:25px 0 10px 5px;
-  letter-spacing:0.5px;
+/* Form Styling */
+.form-group { margin-bottom: 18px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #555; }
+.form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1.5px solid #eee;
+    box-sizing: border-box;
+    font-size: 14px;
+    transition: 0.2s;
+}
+.form-input:focus { border-color: #2400b7; outline: none; }
+
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background: #2400b7;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 16px;
+    box-shadow: 0 8px 15px rgba(36, 0, 183, 0.2);
 }
 
-/* SETTINGS CARD */
-.card{
-  background:white;
-  border-radius:18px;
-  padding:18px;
-  margin-bottom:12px;
-  box-shadow:0 6px 15px rgba(0,0,0,0.05);
-  transition:0.3s;
+/* Ticket List */
+.ticket-item {
+    padding: 15px;
+    background: white;
+    border-radius: 15px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 5px solid #2400b7;
 }
 
-.card:hover{
-  transform:translateY(-3px);
+.status-pill {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
 }
 
-.card h3{
-  margin:0 0 10px 0;
-  font-size:15px;
-  color:#333;
-}
+.status-open { background: #eef2ff; color: #2400b7; }
+.status-resolved { background: #dcfce7; color: #15803d; }
 
-/* INPUTS */
-input,select{
-  width:100%;
-  padding:9px;
-  border-radius:8px;
-  border:1px solid #ddd;
-  margin-top:8px;
+/* Loader Styles */
+#loader {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: white;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    z-index: 9999;
 }
-
-button{
-  width:100%;
-  padding:9px;
-  margin-top:10px;
-  border-radius:8px;
-  border:none;
-  background:linear-gradient(135deg,#5e00a3,#8e2de2);
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-/* DARK MODE */
-.dark-mode{
-  background:#121212;
-  color:white;
-}
-
-.dark-mode .card{
-  background:#1f1f1f;
-  color:white;
-}
-
-.dark-mode input,
-.dark-mode select{
-  background:#333;
-  color:white;
-  border:1px solid #555;
-}
-
-.dark-mode .footer{
-  background:#1a1a1a;
-}
-
-.dark-mode .footer a{
-  color:white;
-}
-
-/* FOOTER */
-.footer{
-  position:fixed;
-  bottom:0;
-  width:100%;
-  background:#fff;
-  display:flex;
-  justify-content:space-around;
-  padding:8px 0;
-  box-shadow:0 -2px 10px rgba(0,0,0,0.1);
-}
-
-.footer a{
-  text-decoration:none;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  color:#5e00a3;
-  font-size:20px;
-}
-
-.footer small{
-  font-size:12px;
-  margin-top:3px;
-  font-weight:600;
-}
+.shimmer { width: 80%; height: 20px; background: #eee; margin: 10px; border-radius: 10px; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
 </style>
 </head>
-
 <body>
 
-<!-- HEADER -->
-<div class="top">
-  <div class="user-box">
-    <div>
-      <div>Settings</div>
-      <strong id="user"></strong>
+<div id="loader">
+    <div class="shimmer" style="height: 100px; width: 90%;"></div>
+    <div class="shimmer"></div>
+    <div class="shimmer" style="width: 60%;"></div>
+</div>
+
+<div class="header-banner">
+    <h2>Grievance Redressal</h2>
+    <p>Secure & Confidential Employee Support</p>
+</div>
+
+<div class="content-area">
+    <div class="tab-container">
+        <button class="tab-btn active" id="btnNew" onclick="switchTab('new')">New Ticket</button>
+        <button class="tab-btn" id="btnHistory" onclick="switchTab('history')">My History</button>
     </div>
-    <img id="profileImg" src="https://i.imgur.com/6VBx3io.png" class="profile">
-  </div>
-  <span class="logout" onclick="logout()">🔓</span>
-</div>
 
-<div class="content">
+    <div id="newSection" class="glass-card">
+        <form onsubmit="handleGrievance(event)">
+            <div class="form-group">
+                <label>Nature of Grievance</label>
+                <select id="gType" class="form-select" required>
+                    <option value="">Choose Category</option>
+                    <option>Pay & Allowances</option>
+                    <option>Promotion/Seniority</option>
+                    <option>Workplace Facilities</option>
+                    <option>Transfer Related</option>
+                    <option>Personal Harassment</option>
+                    <option>Other Concerns</option>
+                </select>
+            </div>
 
-<div class="section-title">ACCOUNT</div>
+            <div class="form-group">
+                <label>Subject</label>
+                <input type="text" id="gSubject" class="form-input" placeholder="Enter brief title" required>
+            </div>
 
-<div class="card">
-  <h3>🔐 Change Password</h3>
-  <input type="password" id="newPass" placeholder="Enter New Password">
-  <button onclick="changePassword()">Update Password</button>
-</div>
+            <div class="form-group">
+                <label>Detailed Description</label>
+                <textarea id="gDesc" class="form-textarea" rows="5" placeholder="Please describe your issue clearly..." required></textarea>
+            </div>
 
-<div class="card">
-  <h3>👤 Profile Photo</h3>
-  <input type="file" accept="image/*" onchange="uploadPhoto(event)">
-</div>
+            <button type="submit" class="submit-btn">Submit Grievance 🛡️</button>
+        </form>
+    </div>
 
-<div class="section-title">APPEARANCE</div>
-
-<div class="card">
-  <h3>🌙 Dark Mode</h3>
-  <button onclick="toggleDark()">Toggle Dark Mode</button>
-</div>
-
-<div class="card">
-  <h3>🎨 Theme Color</h3>
-  <select onchange="changeTheme(this.value)">
-    <option value="purple">Purple</option>
-    <option value="blue">Blue</option>
-    <option value="green">Green</option>
-  </select>
-</div>
-
-<div class="section-title">PREFERENCES</div>
-
-<div class="card">
-  <h3>🌍 Language</h3>
-  <select onchange="changeLanguage(this.value)">
-    <option value="en">English</option>
-    <option value="kn">Kannada</option>
-  </select>
-</div>
-
-<div class="card">
-  <h3>🔔 Notifications</h3>
-  <button onclick="toggleNews()">Toggle What's New</button>
-</div>
-
-</div>
-
-<!-- FOOTER -->
-<div class="footer">
-  <a href="home.html"><div>🏠</div><small>Home</small></a>
-  <a href="page1.html"><div>👤</div><small>Profile</small></a>
-  <a href="salary.html"><div>💰</div><small>Salary</small></a>
-  <a href="page3.html"><div>📅</div><small>Other</small></a>
-  <a href="page5.html"><div>⚙</div><small>Settings</small></a>
+    <div id="historySection" style="display:none;">
+        <div id="ticketList">
+            </div>
+    </div>
 </div>
 
 <script>
+// --- TICKET MANAGEMENT LOGIC ---
 
-// LOAD USER
-let user = localStorage.getItem("currentUser");
-if(!user){
-  window.location.replace("login.html");
-}
-document.getElementById("user").innerText = user;
+function switchTab(type) {
+    const newSec = document.getElementById('newSection');
+    const histSec = document.getElementById('historySection');
+    const btnNew = document.getElementById('btnNew');
+    const btnHist = document.getElementById('btnHistory');
 
-// LOGOUT
-function logout(){
-  localStorage.removeItem("currentUser");
-  localStorage.removeItem("role");
-  window.location.replace("login.html");
-}
-
-// CHANGE PASSWORD
-function changePassword(){
-  let newPass=document.getElementById("newPass").value;
-  localStorage.setItem(user+"_password",newPass);
-  alert("Password Updated Successfully");
-}
-
-// DARK MODE
-function toggleDark(){
-  document.body.classList.toggle("dark-mode");
-  localStorage.setItem("darkMode",
-    document.body.classList.contains("dark-mode"));
+    if (type === 'new') {
+        newSec.style.display = 'block';
+        histSec.style.display = 'none';
+        btnNew.classList.add('active');
+        btnHist.classList.remove('active');
+    } else {
+        newSec.style.display = 'none';
+        histSec.style.display = 'block';
+        btnNew.classList.remove('active');
+        btnHist.classList.add('active');
+        loadHistory();
+    }
 }
 
-if(localStorage.getItem("darkMode")==="true"){
-  document.body.classList.add("dark-mode");
+async function handleGrievance(e) {
+    e.preventDefault();
+    
+    const user = localStorage.getItem("currentUser") || "Unknown";
+    const ticketId = "GR-" + Math.floor(1000 + Math.random() * 9000);
+    
+    const data = {
+        id: ticketId,
+        user: user,
+        category: document.getElementById('gType').value,
+        subject: document.getElementById('gSubject').value,
+        desc: document.getElementById('gDesc').value,
+        date: new Date().toLocaleDateString(),
+        status: "Open"
+    };
+
+    // Save to LocalStorage for persistence in this demo
+    let history = JSON.parse(localStorage.getItem("grievanceLogs") || "[]");
+    history.unshift(data);
+    localStorage.setItem("grievanceLogs", JSON.stringify(history));
+
+    alert("Ticket Submitted Successfully!\nYour Ticket ID is: " + ticketId);
+    
+    // Reset Form and Switch Tab
+    e.target.reset();
+    switchTab('history');
 }
 
-// PROFILE PHOTO
-function uploadPhoto(event){
-  let reader=new FileReader();
-  reader.onload=function(){
-    localStorage.setItem(user+"_photo",reader.result);
-    document.getElementById("profileImg").src=reader.result;
-    alert("Photo Updated");
-  }
-  reader.readAsDataURL(event.target.files[0]);
+function loadHistory() {
+    const list = document.getElementById('ticketList');
+    const logs = JSON.parse(localStorage.getItem("grievanceLogs") || "[]");
+
+    if (logs.length === 0) {
+        list.innerHTML = `<div style="text-align:center; padding:50px; opacity:0.5;">No records found.</div>`;
+        return;
+    }
+
+    list.innerHTML = logs.map(t => `
+        <div class="ticket-item">
+            <div>
+                <div style="font-weight:bold; color:#2400b7;">#${t.id}</div>
+                <div style="font-size:14px; margin:3px 0;">${t.subject}</div>
+                <div style="font-size:11px; color:#888;">${t.date} • ${t.category}</div>
+            </div>
+            <div class="status-pill ${t.status === 'Open' ? 'status-open' : 'status-resolved'}">
+                ${t.status}
+            </div>
+        </div>
+    `).join('');
 }
 
-if(localStorage.getItem(user+"_photo")){
-  document.getElementById("profileImg").src=
-    localStorage.getItem(user+"_photo");
-}
-
-// TOGGLE NEWS
-function toggleNews(){
-  let status=localStorage.getItem("showNews");
-  localStorage.setItem("showNews",
-    status==="false"?"true":"false");
-  alert("Updated");
-}
-
-// LANGUAGE SWITCH
-function changeLanguage(lang){
-  if(lang==="kn"){
-    alert("Language changed to Kannada");
-  }else{
-    alert("Language changed to English");
-  }
-}
-
-// THEME CHANGE
-function changeTheme(color){
-  let top=document.querySelector(".top");
-  if(color==="blue"){
-    top.style.background="linear-gradient(135deg,#003366,#0099ff)";
-  }
-  else if(color==="green"){
-    top.style.background="linear-gradient(135deg,#004d00,#00cc66)";
-  }
-  else{
-    top.style.background="linear-gradient(135deg,#1a002b,#5e00a3)";
-  }
-}
-
-// APPLY DARK MODE ON LOAD
-if(localStorage.getItem("darkMode")==="true"){
-  document.body.classList.add("dark-mode");
-}
-
+// Page Loader Control
+window.onload = function() {
+    setTimeout(() => {
+        document.getElementById("loader").style.display = "none";
+    }, 800);
+};
 </script>
 
 </body>
