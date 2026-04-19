@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Track Status | Grievance Hub</title>
+    <title>File Appeal | Grievance Portal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #0062ff;
+            --primary: #6366f1;
+            --secondary: #4f46e5;
             --bg: #f8fafc;
             --text-dark: #0f172a;
             --text-muted: #64748b;
+            --danger: #ef4444;
             --success: #10b981;
-            --warning: #f59e0b;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -24,85 +25,67 @@
             padding-bottom: 40px;
         }
 
-        /* Fixed App Bar */
+        /* Nav Header */
         nav {
             position: fixed; top: 0; width: 100%; height: 65px;
-            background: #0f172a; display: flex; align-items: center;
+            background: #1e1b4b; display: flex; align-items: center;
             padding: 0 20px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        .back-btn { color: white; text-decoration: none; font-size: 1.2rem; margin-right: 15px; display: flex; align-items: center; }
+        .back-btn { color: white; text-decoration: none; font-size: 1.2rem; margin-right: 15px; }
         .nav-title { color: white; font-weight: 700; font-size: 1.1rem; }
 
         .container { margin-top: 85px; padding: 0 20px; max-width: 500px; margin-left: auto; margin-right: auto; }
 
-        /* Search Interface */
-        .search-card {
-            background: white; padding: 25px; border-radius: 24px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.03); margin-bottom: 25px;
-            text-align: center; border: 1px solid rgba(0,0,0,0.05);
-        }
-        .search-card h3 { margin: 0 0 8px 0; font-size: 1.2rem; font-weight: 800; }
-        
-        .input-group { position: relative; display: flex; gap: 8px; margin-top: 15px; }
-        input {
-            flex: 1; padding: 15px 18px; border-radius: 14px;
-            border: 2px solid #f1f5f9; font-size: 1rem; font-weight: 600;
-            transition: 0.3s; background: #f8fafc;
-        }
-        input:focus { border-color: var(--primary); background: white; outline: none; }
-        
-        .search-trigger {
-            background: var(--primary); color: white; border: none;
-            width: 52px; border-radius: 14px; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
-        }
-
-        /* Result Area */
-        #resultArea { display: none; animation: slideUp 0.5s ease; }
-
-        .page-heading { margin-bottom: 20px; padding-left: 5px; }
-        .page-heading h2 { margin: 0; font-size: 1.4rem; font-weight: 800; color: var(--text-dark); }
-        .page-heading p { margin: 5px 0 0 0; font-size: 0.85rem; color: var(--text-muted); }
-
-        .main-status-card {
+        /* Step 1: Validation Card */
+        .card {
             background: white; border-radius: 24px; padding: 25px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.03); margin-bottom: 20px;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .badge-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .ticket-id-display { font-weight: 900; color: var(--primary); font-size: 0.9rem; background: #eef5ff; padding: 6px 14px; border-radius: 10px; }
-        .status-chip { padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
-        .pending-chip { background: #fff7ed; color: #f59e0b; }
-        .resolved-chip { background: #ecfdf5; color: #10b981; }
-
-        .info-bit { margin-bottom: 18px; }
-        .info-bit label { display: block; font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px; }
-        .info-bit span { font-size: 0.95rem; font-weight: 600; display: block; }
-        .desc-box { font-weight: 400 !important; color: #475569; background: #f8fafc; padding: 12px; border-radius: 12px; border-left: 3px solid #cbd5e1; line-height: 1.5; font-size: 0.9rem; }
-
-        /* Timeline */
-        .timeline-box {
-            background: #ffffff; border-radius: 24px; padding: 25px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);
+            margin-bottom: 20px;
         }
-        .timeline { position: relative; padding-left: 30px; border-left: 2px dashed #e2e8f0; margin-left: 10px; }
-        .timeline-item { position: relative; margin-bottom: 25px; }
-        .timeline-item::before {
-            content: ''; position: absolute; left: -37px; top: 0;
-            width: 12px; height: 12px; border-radius: 50%;
-            background: white; border: 3px solid var(--primary);
-        }
-        .timeline-item.latest::before { background: var(--primary); box-shadow: 0 0 10px rgba(0,98,255,0.4); }
         
-        .tm-date { font-size: 10px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; display: block; }
-        .tm-officer { font-size: 0.9rem; font-weight: 800; display: block; }
-        .tm-note { font-size: 0.85rem; color: #475569; margin-top: 4px; }
+        h2 { font-size: 1.3rem; font-weight: 800; margin: 0 0 10px 0; }
+        p.subtitle { font-size: 0.85rem; color: var(--text-muted); margin: 0 0 20px 0; line-height: 1.4; }
+
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
+        
+        input, textarea, select {
+            width: 100%; padding: 14px 16px; border-radius: 12px;
+            border: 2px solid #f1f5f9; font-size: 1rem; font-weight: 600;
+            transition: 0.3s; background: #f8fafc; font-family: inherit;
+        }
+        input:focus, textarea:focus { border-color: var(--primary); background: white; outline: none; }
+
+        .btn-verify {
+            width: 100%; background: var(--text-dark); color: white;
+            border: none; padding: 15px; border-radius: 12px;
+            font-weight: 700; cursor: pointer; display: flex;
+            align-items: center; justify-content: center; gap: 10px;
+        }
+
+        /* Step 2: Appeal Form (Hidden by default) */
+        #appealFormSection { display: none; animation: slideUp 0.5s ease; }
+
+        .info-summary {
+            background: #f1f5f9; padding: 15px; border-radius: 12px;
+            margin-bottom: 20px; border-left: 4px solid var(--primary);
+        }
+        .info-summary div { font-size: 0.85rem; margin-bottom: 5px; }
+        .info-summary strong { color: var(--text-dark); }
+
+        .btn-submit {
+            width: 100%; background: var(--primary); color: white;
+            border: none; padding: 16px; border-radius: 14px;
+            font-weight: 800; font-size: 1rem; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Status States */
+        .alert { padding: 15px; border-radius: 12px; font-size: 0.85rem; font-weight: 600; margin-bottom: 20px; display: none; }
+        .alert-danger { background: #fef2f2; color: var(--danger); border: 1px solid #fee2e2; }
 
         /* Loader */
-        .loader-wrap { display: none; text-align: center; padding: 40px; }
-        .spin { width: 32px; height: 32px; border: 3px solid #e2e8f0; border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
-        
+        .loader { display: none; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid white; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -110,144 +93,159 @@
 <body>
 
     <nav>
-        <a href="home_grievance.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
-        <div class="nav-title">Track Status</div>
+        <a href="status.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+        <div class="nav-title">Grievance Appeal</div>
     </nav>
 
     <div class="container">
-        <div class="search-card">
-            <h3>Ticket Tracking</h3>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Enter your ID to see live updates</p>
+        <div class="card" id="validationCard">
+            <h2>Start Appeal</h2>
+            <p class="subtitle">You can only appeal against grievances that are marked as <b>Resolved</b> or <b>Closed</b>.</p>
+            
+            <div id="errorMsg" class="alert alert-danger"></div>
+
             <div class="input-group">
-                <input type="text" id="ticketInput" placeholder="e.g. GR-1234">
-                <button class="search-trigger" onclick="searchGrievance()">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
+                <label>Ticket ID</label>
+                <input type="text" id="ticketIdInput" placeholder="Enter Ticket ID (e.g. GR-1234)">
             </div>
+            
+            <button class="btn-verify" onclick="validateForAppeal()" id="verifyBtn">
+                <span id="btnText">Check Eligibility</span>
+                <div class="loader" id="btnLoader"></div>
+            </button>
         </div>
 
-        <div class="loader-wrap" id="loader">
-            <div class="spin"></div>
-            <p style="font-size: 11px; font-weight: 800; margin-top: 15px; color: var(--primary); letter-spacing: 1px;">SYNCING WITH DATABASE...</p>
-        </div>
+        <div id="appealFormSection">
+            <div class="card">
+                <h2 style="color: var(--primary);">Appeal Submission</h2>
+                <p class="subtitle">Please explain why the previous resolution was unsatisfactory.</p>
 
-        <div id="resultArea">
-            <div class="page-heading">
-                <h2>Grievance Details</h2>
-                <p>Status and movement history</p>
-            </div>
+                <div class="info-summary" id="ticketSummary">
+                    </div>
 
-            <div class="main-status-card">
-                <div class="badge-row">
-                    <div class="ticket-id-display" id="resID">#GR-0000</div>
-                    <div id="resStatus" class="status-chip pending-chip">Pending</div>
-                </div>
+                <form id="appealForm" onsubmit="submitAppeal(event)">
+                    <div class="input-group">
+                        <label>Reason for Appeal</label>
+                        <select id="appealReason" required>
+                            <option value="">Select a reason...</option>
+                            <option>Incomplete Resolution</option>
+                            <option>Factually Incorrect Findings</option>
+                            <option>Delayed Response</option>
+                            <option>Bias in Decision</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
 
-                <div class="info-bit">
-                    <label>Employee Name</label>
-                    <span id="resUser">--</span>
-                </div>
-                
-                <div class="info-bit">
-                    <label>Subject</label>
-                    <span id="resSubject">--</span>
-                </div>
+                    <div class="input-group">
+                        <label>Elaborate your dissatisfaction</label>
+                        <textarea id="appealNote" rows="5" placeholder="Provide specific details..." required></textarea>
+                    </div>
 
-                <div class="info-bit">
-                    <label>Description</label>
-                    <div id="resDesc" class="desc-box">--</div>
-                </div>
+                    <div class="input-group">
+                        <label>Appeal to Higher Authority</label>
+                        <select id="appealTo" required>
+                            <option>Executive Engineer (EE)</option>
+                            <option>Superintending Engineer (SE)</option>
+                            <option>Chief Engineer (CE)</option>
+                            <option>Managing Director (MD)</option>
+                        </select>
+                    </div>
 
-                <div class="info-bit" style="margin-bottom: 0;">
-                    <label>Currently With</label>
-                    <span id="resHandler" style="color: var(--primary); font-weight: 800;">--</span>
-                </div>
-            </div>
-
-            <div class="timeline-box">
-                <h4 style="margin:0 0 20px 0; font-size:11px; text-transform:uppercase; color:var(--text-muted); letter-spacing: 1px;">Movement Timeline</h4>
-                <div class="timeline" id="historyTimeline"></div>
+                    <button type="submit" class="btn-submit" id="submitBtn">Submit Final Appeal</button>
+                </form>
             </div>
         </div>
     </div>
 
     <script>
-        // Ensure this URL is your LATEST web app deployment URL
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzOqDDARIyXSnqaJth9fE2HSVGr7Vs1uYCEgYmX1gDIxxRcAoitVqed1HkqaLmK3SL2/exec";
+        let currentTicketData = null;
 
-        async function searchGrievance() {
-            const ticketID = document.getElementById('ticketInput').value.trim();
-            const loader = document.getElementById('loader');
-            const resultArea = document.getElementById('resultArea');
+        async function validateForAppeal() {
+            const id = document.getElementById('ticketIdInput').value.trim();
+            const btn = document.getElementById('verifyBtn');
+            const loader = document.getElementById('btnLoader');
+            const btnText = document.getElementById('btnText');
+            const errorMsg = document.getElementById('errorMsg');
 
-            if (!ticketID) { alert("Please enter a Ticket ID"); return; }
+            if (!id) return alert("Enter Ticket ID");
 
-            resultArea.style.display = 'none';
+            // UI State
+            errorMsg.style.display = 'none';
+            btn.disabled = true;
+            btnText.style.display = 'none';
             loader.style.display = 'block';
 
             try {
-                const response = await fetch(SCRIPT_URL);
-                const data = await response.json();
-                
-                // Matches 'id' key from your Apps Script doGet()
-                const item = data.find(g => 
-                    (g.id || "").toString().toLowerCase() === ticketID.toLowerCase()
-                );
+                const res = await fetch(SCRIPT_URL);
+                const data = await res.json();
+                const ticket = data.find(g => (g.id || "").toString().toLowerCase() === id.toLowerCase());
 
-                if (item) {
-                    renderGrievance(item);
-                } else {
-                    alert("Ticket ID not found. Please verify the ID.");
+                if (!ticket) {
+                    throw new Error("Ticket ID not found.");
                 }
+
+                // CHECK CONDITION: Only allow if Resolved/Closed
+                const status = (ticket.status || "").toLowerCase();
+                if (status !== "resolved" && status !== "closed") {
+                    throw new Error(`This ticket is currently "${ticket.status}". You can only appeal against Resolved or Closed grievances.`);
+                }
+
+                // Success - Show Form
+                currentTicketData = ticket;
+                showAppealForm();
             } catch (err) {
-                console.error(err);
-                alert("Connection error. Check your internet or Apps Script deployment.");
+                errorMsg.innerText = err.message;
+                errorMsg.style.display = 'block';
             } finally {
+                btn.disabled = false;
+                btnText.style.display = 'block';
                 loader.style.display = 'none';
             }
         }
 
-        function renderGrievance(item) {
-            // Mapping from your Apps Script: id, user, sub, desc, status, handler, history
-            document.getElementById('resID').innerText = `#${item.id}`;
-            document.getElementById('resUser').innerText = item.user || "N/A";
-            document.getElementById('resSubject').innerText = item.sub || "No Subject";
-            document.getElementById('resDesc').innerText = item.desc || "No description provided.";
-            document.getElementById('resHandler').innerText = item.handler || "Not Assigned";
-
-            // Status Badge Logic
-            const statusText = (item.status || "Open").trim();
-            const statusEl = document.getElementById('resStatus');
-            statusEl.innerText = statusText;
+        function showAppealForm() {
+            document.getElementById('validationCard').style.display = 'none';
+            document.getElementById('appealFormSection').style.display = 'block';
             
-            if(statusText.toLowerCase() === 'resolved' || statusText.toLowerCase() === 'closed') {
-                statusEl.className = 'status-chip resolved-chip';
-            } else {
-                statusEl.className = 'status-chip pending-chip';
-            }
+            document.getElementById('ticketSummary').innerHTML = `
+                <div><strong>Ticket:</strong> #${currentTicketData.id}</div>
+                <div><strong>Original Subject:</strong> ${currentTicketData.sub}</div>
+                <div><strong>Resolved By:</strong> ${currentTicketData.handler}</div>
+            `;
+        }
 
-            // Timeline Generation
-            const timeline = document.getElementById('historyTimeline');
-            
-            if (item.history && Array.isArray(item.history) && item.history.length > 0) {
-                // reverse() shows newest updates at the top
-                timeline.innerHTML = [...item.history].reverse().map((h, index) => `
-                    <div class="timeline-item ${index === 0 ? 'latest' : ''}">
-                        <span class="tm-date">${h.date || item.date}</span>
-                        <span class="tm-officer">${h.officer || 'Processing'}</span>
-                        <div class="tm-note">${h.note || 'File Updated'}</div>
-                    </div>
-                `).join('');
-            } else {
-                timeline.innerHTML = `
-                    <div class="timeline-item latest">
-                        <span class="tm-date">${item.date}</span>
-                        <span class="tm-officer">Submission</span>
-                        <div class="tm-note">Grievance successfully registered in the system.</div>
-                    </div>`;
-            }
+        async function submitAppeal(e) {
+            e.preventDefault();
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Submitting Appeal...";
 
-            document.getElementById('resultArea').style.display = 'block';
+            const payload = {
+                action: "update", // Using your existing 'update' logic
+                id: currentTicketData.id,
+                officerName: "System (Appeal)",
+                designation: "Automatic Forwarding",
+                opinion: "APPEAL FILED: " + document.getElementById('appealReason').value + ". Note: " + document.getElementById('appealNote').value,
+                newStatus: "Appealed",
+                forwardTo: document.getElementById('appealTo').value
+            };
+
+            try {
+                // Sending to your existing doPost function
+                await fetch(SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    body: JSON.stringify(payload)
+                });
+
+                alert("Appeal Submitted Successfully! The case has been escalated to " + payload.forwardTo);
+                window.location.href = "status.html"; // Redirect back to track
+            } catch (err) {
+                alert("Submission failed. Check connection.");
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Submit Final Appeal";
+            }
         }
     </script>
 </body>
