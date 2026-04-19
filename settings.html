@@ -10,10 +10,10 @@
 body{
 font-family:'Segoe UI', sans-serif;
 margin:0;
-background:#f4f6ff;
+background:#f5f6fb;
 }
 
-/* PAGE */
+/* PAGE ANIMATION */
 #appPage{
 transform:translateX(-100%);
 transition:0.35s ease;
@@ -22,74 +22,96 @@ min-height:100vh;
 
 /* HEADER */
 .header{
-padding:45px 20px 30px;
-background:linear-gradient(135deg,#2400b7,#3b1eff);
-color:white;
-border-bottom-right-radius:40px;
-}
-
-.close-btn{
-font-size:26px;
-cursor:pointer;
-margin-bottom:15px;
-}
-
-/* PROFILE */
-.profile{
+padding:18px 15px;
+background:#ffffff;
 display:flex;
 align-items:center;
 gap:15px;
+border-bottom:1px solid #eee;
 }
 
-.profile img{
-width:60px;
-height:60px;
-border-radius:50%;
-border:2px solid rgba(255,255,255,0.4);
+.back{
+font-size:22px;
+cursor:pointer;
 }
 
-/* SECTION */
-.section{
-padding:15px;
+/* TITLE */
+.title{
+font-size:18px;
+font-weight:600;
 }
 
-/* CARD */
-.card{
-background:white;
-border-radius:18px;
-padding:15px;
-margin-bottom:15px;
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
+/* LIST */
+.list{
+padding:10px;
 }
 
 /* ITEM */
 .item{
+background:#fff;
+padding:16px;
+border-radius:14px;
+margin-bottom:10px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:12px 0;
-border-bottom:1px solid #eee;
+cursor:pointer;
+box-shadow:0 4px 12px rgba(0,0,0,0.05);
 }
 
-.item:last-child{
-border:none;
+.item:active{
+transform:scale(0.97);
 }
 
 .left{
 display:flex;
 align-items:center;
-gap:10px;
+gap:12px;
 font-weight:600;
 }
 
 .icon{
-width:35px;
-height:35px;
+width:36px;
+height:36px;
 border-radius:10px;
 background:#eef0ff;
 display:flex;
 align-items:center;
 justify-content:center;
+}
+
+/* EXPAND AREA */
+.expand{
+max-height:0;
+overflow:hidden;
+transition:0.3s ease;
+padding:0 5px;
+}
+
+.expand.active{
+max-height:200px;
+padding-top:10px;
+}
+
+/* INPUT */
+.input{
+width:100%;
+padding:10px;
+border-radius:10px;
+border:1px solid #ddd;
+margin-top:8px;
+}
+
+/* BUTTON */
+.btn{
+margin-top:10px;
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#2400b7;
+color:white;
+font-weight:bold;
 }
 
 /* SWITCH */
@@ -99,32 +121,28 @@ width:45px;
 height:24px;
 }
 
-.switch input{
-display:none;
-}
+.switch input{display:none;}
 
 .slider{
 position:absolute;
-cursor:pointer;
 top:0;
 left:0;
 right:0;
 bottom:0;
 background:#ccc;
 border-radius:20px;
-transition:.3s;
 }
 
 .slider:before{
-position:absolute;
 content:"";
+position:absolute;
 height:18px;
 width:18px;
 left:3px;
-bottom:3px;
+top:3px;
 background:white;
 border-radius:50%;
-transition:.3s;
+transition:0.3s;
 }
 
 input:checked + .slider{
@@ -135,30 +153,65 @@ input:checked + .slider:before{
 transform:translateX(20px);
 }
 
-/* BUTTON */
-.btn{
+/* POPUP */
+.popup{
+position:fixed;
+top:0;
+left:0;
 width:100%;
-padding:14px;
+height:100%;
+background:rgba(0,0,0,0.4);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:1000;
+}
+
+.popup-box{
+background:white;
+padding:20px;
+border-radius:18px;
+width:85%;
+max-width:300px;
+text-align:center;
+animation:scaleIn 0.25s ease;
+}
+
+.popup-btn{
+margin-top:15px;
+display:flex;
+gap:10px;
+}
+
+.popup-btn button{
+flex:1;
+padding:10px;
 border:none;
-border-radius:14px;
+border-radius:10px;
+cursor:pointer;
+}
+
+.cancel{
+background:#eee;
+}
+
+.confirm{
 background:#2400b7;
 color:white;
-font-weight:bold;
-margin-top:10px;
 }
 
-/* LOGOUT */
-.logout{
-background:#ff3d3d;
+/* ANIMATION */
+@keyframes scaleIn{
+from{transform:scale(0.8);opacity:0;}
+to{transform:scale(1);opacity:1;}
 }
 
-/* DARK MODE */
 .dark{
 background:#121212;
 color:white;
 }
 
-.dark .card{
+.dark .item{
 background:#1e1e1e;
 }
 
@@ -171,24 +224,13 @@ background:#1e1e1e;
 
 <!-- HEADER -->
 <div class="header">
-
-<div class="close-btn" onclick="goBack()">✕</div>
-
-<div class="profile">
-<img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-<div>
-<h2 id="userName">User</h2>
-<p id="userRole">Employee</p>
-</div>
+<div class="back" onclick="goBack()">←</div>
+<div class="title">Settings</div>
 </div>
 
-</div>
+<div class="list">
 
-<div class="section">
-
-<!-- 🔔 GENERAL -->
-<div class="card">
-
+<!-- DARK MODE -->
 <div class="item">
 <div class="left">
 <div class="icon">🌙</div> Dark Mode
@@ -200,85 +242,100 @@ background:#1e1e1e;
 </label>
 </div>
 
+<!-- NOTIFICATION -->
 <div class="item">
 <div class="left">
 <div class="icon">🔔</div> Notifications
 </div>
 
 <label class="switch">
-<input type="checkbox" id="notifyToggle" checked>
+<input type="checkbox" id="notifyToggle">
 <span class="slider"></span>
 </label>
 </div>
 
-</div>
-
-<!-- 🔐 SECURITY -->
-<div class="card">
-
-<div class="item">
+<!-- CHANGE PASSWORD -->
+<div class="item" onclick="toggleExpand('passBox')">
 <div class="left">
 <div class="icon">🔐</div> Change Password
 </div>
+<span>›</span>
 </div>
 
-<input type="password" placeholder="New Password" id="newPass" style="width:100%;padding:10px;border-radius:10px;border:1px solid #ccc;margin-top:10px;">
-
-<button class="btn" onclick="changePassword()">Update Password</button>
-
+<div class="expand" id="passBox">
+<input type="password" id="newPass" class="input" placeholder="New Password">
+<button class="btn" onclick="changePassword()">Update</button>
 </div>
 
-<!-- 🧹 APP CONTROL -->
-<div class="card">
-
-<div class="item" onclick="clearCache()">
+<!-- CLEAR CACHE -->
+<div class="item" onclick="openPopup('cachePopup')">
 <div class="left">
 <div class="icon">🧹</div> Clear Cache
 </div>
+<span>›</span>
 </div>
 
-<div class="item">
+<!-- LOGOUT -->
+<div class="item" onclick="openPopup('logoutPopup')">
 <div class="left">
-<div class="icon">📊</div> App Version
+<div class="icon">🚪</div> Logout
 </div>
-<span>v1.0</span>
+<span>›</span>
 </div>
-
-</div>
-
-<!-- 🚪 LOGOUT -->
-<button class="btn logout" onclick="logout()">Logout</button>
 
 </div>
 
+</div>
+
+<!-- POPUPS -->
+
+<div class="popup" id="cachePopup">
+<div class="popup-box">
+<h3>Clear Cache?</h3>
+<p>This will remove stored data</p>
+<div class="popup-btn">
+<button class="cancel" onclick="closePopup()">Cancel</button>
+<button class="confirm" onclick="clearCache()">Clear</button>
+</div>
+</div>
+</div>
+
+<div class="popup" id="logoutPopup">
+<div class="popup-box">
+<h3>Logout?</h3>
+<p>Are you sure?</p>
+<div class="popup-btn">
+<button class="cancel" onclick="closePopup()">Cancel</button>
+<button class="confirm" onclick="logout()">Logout</button>
+</div>
+</div>
 </div>
 
 <script>
-
-/* LOAD USER */
-document.addEventListener("DOMContentLoaded", ()=>{
-let user = localStorage.getItem("currentUser");
-document.getElementById("userName").innerText = user || "User";
-
-/* DARK MODE LOAD */
-if(localStorage.getItem("darkMode")==="true"){
-document.body.classList.add("dark");
-document.getElementById("darkToggle").checked = true;
-}
-});
 
 /* PAGE OPEN */
 window.onload = ()=>{
 setTimeout(()=>{
 document.getElementById("appPage").style.transform="translateX(0)";
 },10);
+
+/* LOAD SETTINGS */
+if(localStorage.getItem("darkMode")==="true"){
+document.body.classList.add("dark");
+document.getElementById("darkToggle").checked=true;
+}
 };
 
 /* BACK */
 function goBack(){
-let page = document.getElementById("appPage");
-page.style.transform="translateX(-100%)";
+document.getElementById("appPage").style.transform="translateX(-100%)";
 setTimeout(()=>window.history.back(),300);
+}
+
+/* TOGGLE EXPAND */
+function toggleExpand(id){
+let box=document.getElementById(id);
+box.classList.toggle("active");
 }
 
 /* DARK MODE */
@@ -294,33 +351,34 @@ localStorage.setItem("darkMode","false");
 
 /* NOTIFICATION */
 document.getElementById("notifyToggle").addEventListener("change", function(){
-localStorage.setItem("notifications", this.checked);
+localStorage.setItem("notify", this.checked);
 });
 
-/* CHANGE PASSWORD */
+/* PASSWORD */
 function changePassword(){
-let pass = document.getElementById("newPass").value;
+let pass=document.getElementById("newPass").value;
 
-if(pass.length < 4){
+if(pass.length<4){
 alert("Password too short");
 return;
 }
 
 localStorage.setItem("password", pass);
-alert("Password updated successfully");
+alert("Updated successfully");
+}
+
+/* POPUP */
+function openPopup(id){
+document.getElementById(id).style.display="flex";
+}
+
+function closePopup(){
+document.querySelectorAll(".popup").forEach(p=>p.style.display="none");
 }
 
 /* CLEAR CACHE */
 function clearCache(){
-
-if('caches' in window){
-caches.keys().then(names=>{
-for(let name of names) caches.delete(name);
-});
-}
-
 localStorage.clear();
-
 alert("Cache cleared");
 location.reload();
 }
@@ -328,10 +386,10 @@ location.reload();
 /* LOGOUT */
 function logout(){
 localStorage.removeItem("currentUser");
-window.location.href="login.html";
+window.location="login.html";
 }
 
-/* SWIPE CLOSE */
+/* SWIPE BACK */
 let startX=0;
 document.addEventListener("touchstart",e=>{
 startX=e.touches[0].clientX;
