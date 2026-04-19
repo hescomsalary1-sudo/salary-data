@@ -1,184 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Info Center</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome | Grievance Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2400b7;
+            --accent: #00d4ff;
+            --bg: #0f172a;
+            --text: #ffffff;
+        }
 
-<style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: #fff;
-}
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
 
-/* HEADER */
-.header {
-  text-align: center;
-  padding: 20px;
-  font-size: 20px;
-  font-weight: bold;
-}
+        /* Animated Background Particles */
+        .bg-circles {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .circle {
+            position: absolute;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: move 20s infinite alternate;
+        }
+        @keyframes move {
+            from { transform: translate(0, 0); }
+            to { transform: translate(100px, 100px); }
+        }
 
-/* CARD STYLE */
-.card {
-  background: rgba(255,255,255,0.08);
-  margin: 15px;
-  padding: 15px;
-  border-radius: 18px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-}
+        /* Running Message Bar */
+        .marquee {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(36, 0, 183, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 10px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .marquee span {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 25s linear infinite;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+        }
+        @keyframes marquee {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
 
-/* TIP + NOTICE */
-.info-box {
-  font-size: 14px;
-  line-height: 1.6;
-}
+        /* Main Hero Section */
+        .hero-container {
+            text-align: center;
+            z-index: 10;
+            max-width: 800px;
+            padding: 40px;
+            animation: fadeIn 1.5s ease-out;
+        }
 
-/* POINTS SECTION */
-.points {
-  font-size: 26px;
-  font-weight: bold;
-}
+        /* Illustration Wrapper */
+        .illustration {
+            width: 300px;
+            height: auto;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 20px var(--primary));
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
 
-.level {
-  margin-top: 5px;
-  font-size: 16px;
-  color: #ffd700;
-}
+        h1 {
+            font-size: 3rem;
+            margin: 10px 0;
+            background: linear-gradient(to right, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-/* PROGRESS BAR */
-.progress-bar {
-  height: 8px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 10px;
-  margin-top: 10px;
-  overflow: hidden;
-}
+        p {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-bottom: 40px;
+        }
 
-.progress {
-  height: 100%;
-  background: #00ffcc;
-  width: 0%;
-}
+        /* Premium Button */
+        .enter-btn {
+            position: relative;
+            background: var(--primary);
+            color: white;
+            padding: 18px 50px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: 0.4s;
+            box-shadow: 0 10px 30px rgba(36, 0, 183, 0.4);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .enter-btn:hover {
+            transform: scale(1.05);
+            background: #2e00e6;
+            box-shadow: 0 15px 40px rgba(36, 0, 183, 0.6);
+        }
+        .enter-btn i {
+            transition: 0.3s;
+        }
+        .enter-btn:hover i {
+            transform: translateX(5px);
+        }
 
-/* GRID BUTTONS */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-top: 10px;
-}
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-.btn {
-  padding: 12px;
-  border-radius: 12px;
-  text-align: center;
-  background: rgba(255,255,255,0.12);
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.btn:hover {
-  background: rgba(255,255,255,0.25);
-  transform: scale(1.05);
-}
-
-/* SMALL TEXT */
-.small {
-  font-size: 13px;
-  opacity: 0.8;
-}
-</style>
+        /* Custom Back Alert Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-card {
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            width: 320px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .modal-card h3 { margin-top: 0; }
+        .modal-btns {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .m-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-confirm { background: var(--error, #e63946); color: white; }
+        .btn-cancel { background: #475569; color: white; }
+    </style>
 </head>
-
 <body>
 
-<div class="header">⚡ Info Center</div>
+    <div class="bg-circles">
+        <div class="circle" style="width: 400px; height: 400px; top: -100px; left: -100px;"></div>
+        <div class="circle" style="width: 300px; height: 300px; bottom: -50px; right: -50px; animation-delay: 2s;"></div>
+    </div>
 
-<!-- FUN + INFO -->
-<div class="card">
-  <div class="info-box">
-    💡 Tip: Maintain full attendance to earn bonus points!<br>
-    📢 Notice: Salary will be credited on 5th
-  </div>
-</div>
+    <div class="marquee">
+        <span>Welcome to the Official Employee Grievance Redressal Portal • Submit your concerns securely • Transparency and Trust at every step • 24/7 Digital Support System • Status tracking available for all circles.</span>
+    </div>
 
-<!-- REWARDS -->
-<div class="card">
-  <div class="points" id="points">0 Points</div>
-  <div class="level" id="level">Bronze</div>
+    <div class="hero-container">
+        <img src="https://cdni.iconscout.com/illustration/premium/thumb/grievance-redressal-illustration-download-in-svg-png-gif-formats-8910408-7253509.png?f=webp" alt="Grievance Illustration" class="illustration">
+        
+        <h1>Redressal Portal</h1>
+        <p>Your voice matters. Experience a seamless and transparent way to resolve your workplace grievances with our AI-powered tracking system.</p>
 
-  <div class="progress-bar">
-    <div class="progress" id="progress"></div>
-  </div>
+        <a href="grievance.html" class="enter-btn">
+            ENTER PORTAL <i class="fa-solid fa-circle-arrow-right"></i>
+        </a>
+    </div>
 
-  <div class="small" id="summary"></div>
-</div>
+    <div id="backModal" class="modal-overlay">
+        <div class="modal-card">
+            <div style="font-size: 40px; margin-bottom: 15px;">⚠️</div>
+            <h3>Leaving Portal?</h3>
+            <p style="font-size: 14px; opacity: 0.7;">Are you sure you want to go back to the home page?</p>
+            <div class="modal-btns">
+                <button class="m-btn btn-confirm" onclick="exitPortal()">Yes, Exit</button>
+                <button class="m-btn btn-cancel" onclick="hideModal()">Stay Here</button>
+            </div>
+        </div>
+    </div>
 
-<!-- QUICK ACTIONS -->
-<div class="card">
-  <div class="grid">
-    <div class="btn" onclick="go('salary.html')">💰 Salary</div>
-    <div class="btn" onclick="go('attendance.html')">📅 Attendance</div>
-    <div class="btn" onclick="go('seniority.html')">📊 Seniority</div>
-    <div class="btn" onclick="go('forum.html')">💬 Forum</div>
-  </div>
-</div>
+    <script>
+        // Custom Back Logic
+        // Since browsers often block window.onbeforeunload customization, 
+        // we use the History API to intercept the back button.
+        
+        history.pushState(null, null, location.href);
 
-<script>
+        window.onpopstate = function () {
+            showModal();
+            // Re-push to keep the user on the page until they click 'Yes'
+            history.pushState(null, null, location.href);
+        };
 
-/* SAMPLE DATA (Replace later with real data from CSV) */
-let present = 18;
-let leave = 2;
-let absent = 1;
+        function showModal() {
+            document.getElementById('backModal').style.display = 'flex';
+        }
 
-/* POINT CALCULATION */
-let points =
-  (present * 10) +
-  (leave * 5) +
-  (absent * 0);
+        function hideModal() {
+            document.getElementById('backModal').style.display = 'none';
+        }
 
-/* BONUS */
-if(absent === 0) points += 50; // monthly bonus
-if(absent <= 1) points += 20; // weekly consistency
+        function exitPortal() {
+            window.location.href = 'home.html';
+        }
 
-/* LEVEL SYSTEM */
-let level = "Bronze";
-let progress = 0;
-
-if(points >= 1000){
-  level = "💎 Platinum";
-  progress = 100;
-}else if(points >= 500){
-  level = "🥇 Gold";
-  progress = (points - 500) / 5;
-}else if(points >= 200){
-  level = "🥈 Silver";
-  progress = (points - 200) / 3;
-}else{
-  level = "🥉 Bronze";
-  progress = points / 2;
-}
-
-/* UPDATE UI */
-document.getElementById("points").innerText = points + " Points";
-document.getElementById("level").innerText = level;
-document.getElementById("progress").style.width = progress + "%";
-
-document.getElementById("summary").innerText =
-  "Present: " + present +
-  " | Leave: " + leave +
-  " | Absent: " + absent;
-
-/* NAVIGATION */
-function go(page){
-  window.location.replace(page);
-}
-
-</script>
-
+        // Particle floating effect animation logic
+        const circles = document.querySelectorAll('.circle');
+        window.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            circles.forEach(circle => {
+                circle.style.transform = `translate(${x * 30}px, ${y * 30}px)`;
+            });
+        });
+    </script>
 </body>
 </html>
