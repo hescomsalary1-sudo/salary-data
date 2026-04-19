@@ -969,7 +969,7 @@ display:block;
   <!-- HEADER -->
   <div class="menu-header">
 
-    <div class="close-btn" onclick="closeSideNav()">✕</div>
+    <div class="close-btn" onclick="closeMenu()">✕</div>
 
     <div class="profile-box">
       <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
@@ -1018,7 +1018,7 @@ display:block;
 <div style="display:flex;align-items:center;gap:10px;">
 
   <!-- MENU BUTTON -->
- <div class="menu-btn" onclick="openSideNav()">☰</div>
+<div class="menu-btn" onclick="openMenu()">☰</div>
 
   <!-- PROFILE -->
 
@@ -1782,27 +1782,7 @@ z-index:3000;
   to{transform:scale(1);opacity:1;}
 }
 </style>
-<script>
-function openSideNav(){
-  sideNav.style.transform = "translateX(0)";
-  document.body.style.overflow = "hidden";
-  isOpen = true;
 
-
-  // update name
-  document.getElementById("sideName").innerText =
-    document.getElementById("empName").innerText;
-
-  document.getElementById("sideRole").innerText =
-    document.getElementById("empDesg").innerText;
-}
-
-function closeSideNav(){
-  sideNav.style.transform = "translateX(-100%)";
-  document.body.style.overflow = "auto";
-  isOpen = false;
-}
-</script>
 <script>
 let startX = 0;
 let currentX = 0;
