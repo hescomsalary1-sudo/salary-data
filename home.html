@@ -1787,45 +1787,105 @@ z-index:3000;
 
 <script>
 let startX = 0;
-let startY = 0;
+let currentX = 0;
+let isDragging = false;
+let isOpen = false;
+let startTime = 0;
 
-function openMenu() {
-    document.getElementById("sideNav").classList.add("open");
-    document.getElementById("sideOverlay").classList.add("show");
-    document.body.style.overflow = "hidden"; 
-}
+const sideNav = document.getElementById("sideNav");
+const overlay = document.getElementById("sideOverlay");
 
-function closeMenu() {
-    document.getElementById("sideNav").classList.remove("open");
-    document.getElementById("sideOverlay").classList.remove("show");
-    document.body.style.overflow = "auto";
-}
+const menuWidth = window.innerWidth;
 
-// Fixed Swiping Logic
-const sideNavEl = document.getElementById("sideNav");
+// 👉 TOUCH START
+document.addEventListener("touchstart", (e)=>{
+  startX = e.touches[0].clientX;
+  currentX = startX;
+  startTime = Date.now();
 
-sideNavEl.addEventListener('touchstart', function(e) {
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-}, {passive: true});
+  // allow open from edge OR drag when open
+  if(startX < 40 || isOpen){
+    isDragging = true;
+    sideNav.style.transition = "none";
+    overlay.style.transition = "none";
+  }
+}, {passive:true});
 
-sideNavEl.addEventListener('touchmove', function(e) {
-    let moveX = e.touches[0].clientX;
-    let moveY = e.touches[0].clientY;
-    
-    let diffX = startX - moveX;
-    let diffY = Math.abs(startY - moveY);
+// 👉 TOUCH MOVE
+document.addEventListener("touchmove", (e)=>{
+  if(!isDragging) return;
 
-    // DIAGONAL FIX: 
-    // If horizontal movement is greater than vertical, it's a menu swipe.
-    // If vertical is greater, the user is scrolling the menu, so don't close.
-    if (diffX > 10 && diffX > diffY) {
-        // Prevent accidental closing while scrolling vertically
-        if (diffX > 50) { 
-            closeMenu();
-        }
+  currentX = e.touches[0].clientX;
+  let diff = currentX - startX;
+
+  let translate;
+
+  if(isOpen){
+    translate = diff;
+  }else{
+    translate = -menuWidth + diff;
+  }
+
+  // 🔥 RUBBER BAND EFFECT (very important)
+  if(translate > 0){
+    translate = translate * 0.35;
+  }
+  if(translate < -menuWidth){
+    let extra = translate + menuWidth;
+    translate = -menuWidth + extra * 0.35;
+  }
+
+  sideNav.style.transform = `translateX(${translate}px)`;
+
+  // 🔥 PERFECT OVERLAY SYNC
+  let progress = 1 - Math.abs(translate / menuWidth);
+  overlay.style.opacity = progress * 0.45;
+  overlay.style.visibility = "visible";
+
+}, {passive:true});
+
+// 👉 TOUCH END
+ 
+document.addEventListener("touchend", ()=>{
+  if(!isDragging) return;
+
+  isDragging = false;
+
+  let diff = currentX - startX;
+  let duration = Date.now() - startTime;
+
+  let velocity = diff / duration;
+
+  sideNav.style.transition = "transform 0.32s cubic-bezier(.22,.61,.36,1)";
+  overlay.style.transition = "opacity 0.25s ease";
+
+  let threshold = menuWidth * 0.3;
+
+  // 🔥 FORCE SNAP LOGIC (NO MID STOP)
+  if(!isOpen){
+    if(diff > threshold || velocity > 0.5){
+      openMenu();   // go FULL OPEN
+    }else{
+      closeMenu();  // go FULL CLOSE
     }
-}, {passive: true});
+  }else{
+    if(diff < -threshold || velocity < -0.5){
+      closeMenu();  // go FULL CLOSE
+    }else{
+      openMenu();   // go FULL OPEN
+    }
+  }
+currentX = 0;
+startX = 0;
+  // 🔥 EXTRA SAFETY (prevents stuck state)
+  setTimeout(()=>{
+    if(isOpen){
+      sideNav.style.transform = "translateX(0)";
+    }else{
+      sideNav.style.transform = "translateX(-100%)";
+    }
+  }, 50);
+});
 
 // 👉 OPEN MENU
 function openMenu(){
