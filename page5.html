@@ -1,90 +1,208 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grievance Portal</title>
     <style>
-        body { font-family: sans-serif; background: #f0f4f8; margin: 0; padding-bottom: 30px; }
-        .header { background: #1a1a2e; color: white; padding: 30px; text-align: center; border-radius: 0 0 25px 25px; }
-        .container { padding: 15px; }
-        .card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 15px; }
-        .btn { width: 100%; padding: 15px; background: #2400b7; color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        :root { --primary: #2400b7; --bg: #f4f7fa; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding-top: 80px; }
+
+        /* FIXED HEADER */
+        .fixed-header {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 70px;
+            background: #1a1a2e;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-sizing: border-box;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .header-title h2 { margin: 0; font-size: 18px; }
+        .login-btn-head {
+            background: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .container { padding: 15px; max-width: 600px; margin: auto; }
+
+        /* BUTTONS SIDE BY SIDE */
+        .action-row { display: flex; gap: 10px; margin-bottom: 20px; }
+        .action-btn {
+            flex: 1;
+            padding: 15px;
+            background: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            color: var(--primary);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .action-btn.active { background: var(--primary); color: white; }
+
+        /* FORM CARDS */
+        .card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 15px; }
         input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1.5px solid #eee; border-radius: 10px; box-sizing: border-box; }
-        .status-badge { float: right; padding: 4px 10px; border-radius: 10px; font-size: 11px; font-weight: bold; background: #eef2ff; color: #2400b7; }
-        .flow-line { border-left: 2px solid #2400b7; padding-left: 15px; margin-left: 10px; margin-top: 10px; }
-        .flow-item { position: relative; margin-bottom: 10px; font-size: 13px; }
-        .flow-item::before { content: ''; position: absolute; left: -21px; top: 5px; width: 8px; height: 8px; border-radius: 50%; background: #2400b7; }
+        .submit-btn { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
+
+        /* SPINNER */
+        .spinner {
+            width: 18px; height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* TRACKING UI */
+        .status-badge { float: right; padding: 4px 10px; border-radius: 10px; font-size: 11px; font-weight: bold; background: #eef2ff; color: var(--primary); }
+        .flow-line { border-left: 2px solid var(--primary); padding-left: 15px; margin-left: 10px; margin-top: 15px; }
+        .flow-item { position: relative; margin-bottom: 15px; font-size: 13px; }
+        .flow-item::before { content: ''; position: absolute; left: -21px; top: 5px; width: 8px; height: 8px; border-radius: 50%; background: var(--primary); }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h2>Employee Portal</h2>
-    <p>File & Track Grievances</p>
+<div class="fixed-header">
+    <div class="header-title">
+        <h2>Grievance Portal</h2>
+    </div>
+    <button class="login-btn-head" onclick="window.location.href='officer_login.html'">OFFICER LOGIN</button>
 </div>
 
 <div class="container">
-    <div class="card">
-        <h3>Submit Grievance</h3>
+    <div class="action-row">
+        <button class="action-btn active" id="btnNew" onclick="showSection('new')">
+            <span>New Complaint</span>
+            <div class="spinner" id="spinNew"></div>
+        </button>
+        <button class="action-btn" id="btnTrack" onclick="showSection('track')">
+            <span>Track Flow</span>
+            <div class="spinner" id="spinTrack"></div>
+        </button>
+    </div>
+
+    <div id="newSection" class="card">
         <form id="gForm" onsubmit="submitGrievance(event)">
-            <input type="text" id="empName" placeholder="Your Name" required>
+            <input type="text" id="empName" placeholder="Full Name" required>
+            <input type="text" id="empDesig" placeholder="Designation" required>
+            <input type="text" id="workPlace" placeholder="Working Place" required>
+            
             <select id="cat" required>
-                <option value="">Category</option>
-                <option>Salary</option><option>Promotion</option><option>Facilities</option>
+                <option value="">Select Category</option>
+                <option>Salary Issue</option>
+                <option>Promotion</option>
+                <option>Facility Issue</option>
             </select>
-            <input type="text" id="sub" placeholder="Subject" required>
-            <textarea id="desc" rows="3" placeholder="Describe issue..." required></textarea>
+            
+            <input type="text" id="sub" placeholder="Subject / Title" required>
+            <textarea id="desc" rows="4" placeholder="Briefly describe your complaint..." required></textarea>
+            
+            <label style="font-size:12px; font-weight:bold; color:var(--primary);">SEND TO:</label>
             <select id="sendTo" required>
-                <option value="">Send To Officer</option>
-                <option>Section Officer</option><option>Assistant Engineer (AE)</option><option>Executive Engineer (EE)</option>
+                <option>Section Officer</option>
+                <option>Assistant Engineer (AE)</option>
+                <option>Executive Engineer (EE)</option>
+                <option>Division Manager</option>
             </select>
-            <button type="submit" class="btn" id="subBtn">Submit Grievance</button>
+            
+            <button type="submit" class="submit-btn" id="subBtn">Submit Grievance</button>
         </form>
     </div>
 
-    <button class="btn" style="background:#555" onclick="fetchFlow()">Track My Flow</button>
-    <button class="btn" style="background:#fff; color:#2400b7; border:1px solid #2400b7" onclick="window.location.href='officer_login.html'">Officer Login</button>
-
-    <div id="flowList" style="margin-top:15px;"></div>
+    <div id="trackSection" style="display:none;">
+        <div id="flowList"></div>
+    </div>
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzeYQkb84pjRJvNyzDhceex2FvVb05r2f7eduxUY1S-18V4jfK10HPLvy96hWKXuBAs/exec";
+    const SCRIPT_URL = "YOUR_WEB_APP_URL"; // Replace with your Apps Script URL
+
+    function showSection(type) {
+        document.getElementById('newSection').style.display = type === 'new' ? 'block' : 'none';
+        document.getElementById('trackSection').style.display = type === 'track' ? 'block' : 'none';
+        
+        document.getElementById('btnNew').classList.toggle('active', type === 'new');
+        document.getElementById('btnTrack').classList.toggle('active', type === 'track');
+
+        if(type === 'track') {
+            document.getElementById('spinTrack').style.display = 'block';
+            fetchFlow();
+        }
+    }
 
     async function submitGrievance(e) {
         e.preventDefault();
         const btn = document.getElementById('subBtn');
-        btn.disabled = true; btn.innerText = "Sending...";
+        btn.disabled = true; btn.innerText = "Processing...";
+
         const payload = {
             action: "submit",
             id: "GR-" + Math.floor(1000 + Math.random() * 9000),
             user: document.getElementById('empName').value,
+            empDesig: document.getElementById('empDesig').value,
+            workPlace: document.getElementById('workPlace').value,
             category: document.getElementById('cat').value,
             subject: document.getElementById('sub').value,
             desc: document.getElementById('desc').value,
             sendTo: document.getElementById('sendTo').value,
             date: new Date().toLocaleDateString()
         };
-        await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
-        alert("Success! ID: " + payload.id);
-        e.target.reset();
-        btn.disabled = false; btn.innerText = "Submit Grievance";
+
+        try {
+            await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
+            alert("Complaint Filed Successfully! Ticket ID: " + payload.id);
+            e.target.reset();
+        } catch(err) {
+            alert("Submission failed. Check connection.");
+        } finally {
+            btn.disabled = false; btn.innerText = "Submit Grievance";
+        }
     }
 
     async function fetchFlow() {
         const container = document.getElementById('flowList');
-        container.innerHTML = "Fetching...";
-        const res = await fetch(SCRIPT_URL);
-        const data = await res.json();
-        container.innerHTML = data.reverse().map(item => `
-            <div class="card">
-                <span class="status-badge">${item.status}</span>
-                <strong>#${item.id}</strong>
-                <div class="flow-line">
-                    ${item.history.map(h => `<div class="flow-item"><b>${h.officer}:</b> ${h.note}</div>`).join('')}
+        const spinner = document.getElementById('spinTrack');
+        
+        try {
+            const res = await fetch(SCRIPT_URL);
+            const data = await res.json();
+            
+            container.innerHTML = data.reverse().map(item => `
+                <div class="card">
+                    <span class="status-badge">${item.status}</span>
+                    <strong style="color:var(--primary)">#${item.id}</strong>
+                    <div style="font-size:13px; margin:5px 0;"><b>Name:</b> ${item.user} (${item.empDesig})</div>
+                    <div style="font-size:13px; color:#666;"><b>Subject:</b> ${item.sub}</div>
+                    <div class="flow-line">
+                        ${item.history.map(h => `<div class="flow-item"><b>${h.officer}:</b> ${h.note}</div>`).join('')}
+                    </div>
                 </div>
-            </div>
-        `).join('');
+            `).join('');
+        } catch(e) {
+            container.innerHTML = "<p style='text-align:center;'>No data available.</p>";
+        } finally {
+            spinner.style.display = 'none';
+        }
     }
 </script>
+
 </body>
 </html>
