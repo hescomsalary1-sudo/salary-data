@@ -3,117 +3,170 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { font-family: sans-serif; background: #f4f7fe; margin: 0; padding-bottom: 50px; }
-        .header { background: #1a1a2e; color: white; padding: 30px 20px; text-align: center; border-radius: 0 0 30px 30px; }
+        body { font-family: sans-serif; background: #f0f4f8; margin: 0; padding-bottom: 50px; color: #333; }
+        .header { background: #1a1a2e; color: white; padding: 35px 20px; text-align: center; border-radius: 0 0 30px 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         .container { padding: 20px; }
         
-        /* TABS */
+        /* TAB SYSTEM */
         .tabs { display: flex; gap: 10px; margin-bottom: 20px; }
-        .tab { flex: 1; padding: 12px; border: none; border-radius: 12px; background: white; font-weight: bold; cursor: pointer; }
-        .tab.active { background: #2400b7; color: white; }
+        .tab { flex: 1; padding: 14px; border: none; border-radius: 12px; background: white; font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .tab.active { background: #2400b7; color: white; transform: translateY(-2px); }
 
-        /* CARDS */
-        .card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 15px; }
+        /* FORM & CARDS */
+        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.06); margin-bottom: 15px; }
+        label { display: block; font-size: 13px; font-weight: 600; margin-top: 10px; color: #555; }
+        input, textarea, select { width: 100%; padding: 12px; margin: 5px 0 15px 0; border: 1.5px solid #eee; border-radius: 10px; box-sizing: border-box; font-family: inherit; }
+        input:focus, select:focus, textarea:focus { border-color: #2400b7; outline: none; }
         
-        /* FORM */
-        input, textarea, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; }
-        .btn { width: 100%; padding: 15px; background: #2400b7; color: white; border: none; border-radius: 10px; font-weight: bold; margin-top: 10px; }
+        .btn { width: 100%; padding: 16px; background: #2400b7; color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 16px; }
 
-        /* FLOW TIMELINE */
-        .flow-container { margin-top: 15px; border-left: 2px dashed #2400b7; padding-left: 20px; position: relative; }
-        .flow-step { position: relative; margin-bottom: 20px; font-size: 13px; }
-        .flow-step::before { content: '●'; position: absolute; left: -27px; color: #2400b7; background: #f4f7fe; font-size: 18px; }
-        .officer-name { font-weight: bold; color: #2400b7; display: block; }
-        .officer-note { color: #555; font-style: italic; }
+        /* TRACKING FLOW UI */
+        .ticket-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
+        .status-tag { padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
+        .status-open { background: #e0f2fe; color: #0369a1; }
         
-        .status-tag { float: right; padding: 4px 10px; border-radius: 10px; font-size: 11px; font-weight: bold; }
-        .open { background: #eef2ff; color: #2400b7; }
-        .resolved { background: #dcfce7; color: #15803d; }
+        .flow-line { margin-top: 15px; border-left: 2px solid #e2e8f0; padding-left: 20px; margin-left: 10px; }
+        .flow-item { position: relative; margin-bottom: 20px; }
+        .flow-item::before { content: ''; position: absolute; left: -26px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: #2400b7; border: 3px solid white; }
+        .officer-title { font-weight: bold; color: #1a1a2e; font-size: 14px; display: block; }
+        .officer-note { font-size: 13px; color: #666; font-style: italic; display: block; margin-top: 3px; }
+        .flow-date { font-size: 10px; color: #aaa; margin-top: 5px; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <h2>Grievance Tracking</h2>
-    <p>Official Workflow & Resolution</p>
+    <h2>Grievance Portal</h2>
+    <p>Submit & Track Official Redressal</p>
 </div>
 
 <div class="container">
     <div class="tabs">
-        <button class="tab active" onclick="switchTab('new')">New Issue</button>
-        <button class="tab" onclick="switchTab('track')">Track Flow</button>
+        <button class="tab active" id="tabNew" onclick="switchTab('new')">New Issue</button>
+        <button class="tab" id="tabTrack" onclick="switchTab('track')">Track Flow</button>
     </div>
 
     <div id="newSection" class="card">
         <form id="gForm" onsubmit="submitGrievance(event)">
-            <label>Category</label>
-            <select id="cat" required><option>Salary</option><option>Promotion</option><option>Facility</option></select>
-            <input type="text" id="sub" placeholder="Subject" required>
-            <textarea id="desc" rows="4" placeholder="Describe the problem..." required></textarea>
-            <button type="submit" class="btn">Submit to Section Officer</button>
+            <label>Category of Complaint</label>
+            <select id="cat" required>
+                <option value="">-- Select Category --</option>
+                <option>Salary / Payment</option>
+                <option>Promotion / Seniority</option>
+                <option>Transfer Request</option>
+                <option>Harassment / Conduct</option>
+            </select>
+
+            <label>Subject</label>
+            <input type="text" id="sub" placeholder="Enter brief subject" required>
+
+            <label>Detailed Description</label>
+            <textarea id="desc" rows="4" placeholder="Explain the issue in detail..." required></textarea>
+
+            <label>Send Grievance To:</label>
+            <select id="sendTo" required style="background: #fdfdfd; border: 1.5px solid #2400b7;">
+                <option value="">-- Select Officer --</option>
+                <option>Section Officer</option>
+                <option>Assistant Engineer (AE)</option>
+                <option>Executive Engineer (EE)</option>
+                <option>Division Manager</option>
+            </select>
+
+            <button type="submit" class="btn" id="submitBtn">Submit Grievance 🛡️</button>
         </form>
     </div>
 
     <div id="trackSection" style="display:none;">
-        <div id="flowList"></div>
+        <div id="flowList">
+            </div>
     </div>
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFQ1edhnGzc2PZ7kyvem45a6LtCwXkjaNqLKD6b8awy98bJBv0zLtHtygaNbzAEXo/exec";
+    // PASTE YOUR NEW DEPLOYMENT URL HERE
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBM-8MzF7trDM7Aw2OuDc4EPg3W6sZ41Zi1W3XdHHsn3iErt3kJn9Of78HN4mBdIpv/exec";
 
     function switchTab(t) {
         document.getElementById('newSection').style.display = t === 'new' ? 'block' : 'none';
         document.getElementById('trackSection').style.display = t === 'track' ? 'block' : 'none';
-        document.querySelectorAll('.tab').forEach(btn => btn.classList.remove('active'));
-        event.target.classList.add('active');
+        document.getElementById('tabNew').classList.toggle('active', t === 'new');
+        document.getElementById('tabTrack').classList.toggle('active', t === 'track');
         if(t === 'track') fetchFlow();
     }
 
     async function submitGrievance(e) {
         e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.innerText = "Sending...";
+
         const data = {
             action: "submit",
             id: "GR-" + Math.floor(Math.random()*9000 + 1000),
-            user: localStorage.getItem("currentUser") || "User",
+            user: localStorage.getItem("currentUser") || "Employee",
             category: document.getElementById('cat').value,
             subject: document.getElementById('sub').value,
             desc: document.getElementById('desc').value,
+            sendTo: document.getElementById('sendTo').value,
             date: new Date().toLocaleDateString()
         };
 
-        await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
-        alert("Grievance Filed. Current Level: Section Officer");
-        document.getElementById('gForm').reset();
+        try {
+            await fetch(SCRIPT_URL, { 
+                method: "POST", 
+                mode: "no-cors", 
+                body: JSON.stringify(data) 
+            });
+            alert("Grievance Successfully Submitted to " + data.sendTo);
+            document.getElementById('gForm').reset();
+            switchTab('track');
+        } catch(err) {
+            alert("Error submitting. Please check connection.");
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "Submit Grievance 🛡️";
+        }
     }
 
     async function fetchFlow() {
         const container = document.getElementById('flowList');
-        container.innerHTML = "Loading flow details...";
+        container.innerHTML = "<p style='text-align:center;'>Fetching flow details...</p>";
         
         try {
-            const res = await fetch(SCRIPT_URL);
-            const data = await res.json();
-            const user = localStorage.getItem("currentUser");
+            const response = await fetch(SCRIPT_URL);
+            const data = await response.json();
 
-            container.innerHTML = data.map(item => `
+            if (data.length === 0) {
+                container.innerHTML = "<p style='text-align:center; color:#999;'>No history found.</p>";
+                return;
+            }
+
+            container.innerHTML = data.reverse().map(item => `
                 <div class="card">
-                    <span class="status-tag ${item.status.toLowerCase()}">${item.status}</span>
-                    <strong style="color:#2400b7">#${item.id}</strong>
-                    <p style="font-size:12px; margin: 5px 0;">Currently with: <b>${item.handler}</b></p>
+                    <div class="ticket-header">
+                        <div>
+                            <strong style="color:#2400b7; font-size:16px;">#${item.id}</strong>
+                            <div style="font-size:14px; font-weight:bold; margin-top:4px;">${item.subject}</div>
+                        </div>
+                        <span class="status-tag status-open">${item.status}</span>
+                    </div>
                     
-                    <div class="flow-container">
+                    <div style="font-size:12px; color:#555;">Current Authority: <b>${item.handler}</b></div>
+                    
+                    <div class="flow-line">
                         ${item.history.map(step => `
-                            <div class="flow-step">
-                                <span class="officer-name">${step.officer}</span>
+                            <div class="flow-item">
+                                <span class="officer-title">${step.officer}</span>
                                 <span class="officer-note">"${step.note}"</span>
-                                <div style="font-size:10px; color:#999;">${step.date}</div>
+                                <div class="flow-date">${step.date}</div>
                             </div>
                         `).join('')}
                     </div>
                 </div>
             `).join('');
-        } catch(e) { container.innerHTML = "No active grievances."; }
+        } catch(e) { 
+            container.innerHTML = "<p style='text-align:center; color:red;'>Could not load flow. Ensure Script URL is correct and deployed as 'Anyone'.</p>"; 
+        }
     }
 </script>
 </body>
