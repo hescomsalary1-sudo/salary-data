@@ -808,7 +808,6 @@ opacity:0;
 visibility:hidden;
 transition:opacity 0.25s ease;
 z-index:2000;
-  backdrop-filter: blur(4px);
 }
 
 /* SIDENAV */
@@ -823,7 +822,7 @@ transform:translateX(-100%);
 transition:transform 0.28s cubic-bezier(.22,.61,.36,1);
   will-change: transform;
 z-index:2100;
-touch-action: pan-y;
+
 display:flex;              /* 🔥 ADD */
 flex-direction:column;     /* 🔥 ADD */
 }
@@ -969,7 +968,7 @@ display:block;
   <!-- HEADER -->
   <div class="menu-header">
 
-    <div class="close-btn" onclick="closeMenu()">✕</div>
+    <div class="close-btn" onclick="closeSideNav()">✕</div>
 
     <div class="profile-box">
       <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
@@ -1004,7 +1003,7 @@ display:block;
 
   <!-- FOOTER -->
   <div class="menu-footer">
-    <button onclick="closeMenu()">⬅ Close Menu</button>
+    <button onclick="closeSideNav()">⬅ Close Menu</button>
   </div>
 
 </div>
@@ -1018,7 +1017,7 @@ display:block;
 <div style="display:flex;align-items:center;gap:10px;">
 
   <!-- MENU BUTTON -->
-<div class="menu-btn" onclick="openMenu()">☰</div>
+ <div class="menu-btn" onclick="openSideNav()">☰</div>
 
   <!-- PROFILE -->
 
@@ -1782,13 +1781,34 @@ z-index:3000;
   to{transform:scale(1);opacity:1;}
 }
 </style>
+<script>
+function openSideNav(){
+  sideNav.style.transform = "translateX(0)";
+  document.body.style.overflow = "hidden";
+  isOpen = true;
 
+
+  // update name
+  document.getElementById("sideName").innerText =
+    document.getElementById("empName").innerText;
+
+  document.getElementById("sideRole").innerText =
+    document.getElementById("empDesg").innerText;
+}
+
+function closeSideNav(){
+  sideNav.style.transform = "translateX(-100%)";
+  document.body.style.overflow = "auto";
+  isOpen = false;
+}
+</script>
 <script>
 let startX = 0;
 let currentX = 0;
+let startTime = 0;
+
 let isDragging = false;
 let isOpen = false;
-let startTime = 0;
 
 const sideNav = document.getElementById("sideNav");
 const overlay = document.getElementById("sideOverlay");
@@ -1798,10 +1818,8 @@ const menuWidth = window.innerWidth;
 // 👉 TOUCH START
 document.addEventListener("touchstart", (e)=>{
   startX = e.touches[0].clientX;
-  currentX = startX;
   startTime = Date.now();
 
-  // allow open from edge OR drag when open
   if(startX < 40 || isOpen){
     isDragging = true;
     sideNav.style.transition = "none";
@@ -1816,89 +1834,71 @@ document.addEventListener("touchmove", (e)=>{
   currentX = e.touches[0].clientX;
   let diff = currentX - startX;
 
-  let translate;
+  let translateX;
 
   if(isOpen){
-    translate = diff;
+    translateX = Math.min(0, diff);
   }else{
-    translate = -menuWidth + diff;
+    translateX = Math.min(0, -menuWidth + diff);
   }
 
-  // 🔥 RUBBER BAND EFFECT (very important)
-  if(translate > 0){
-    translate = translate * 0.35;
-  }
-  if(translate < -menuWidth){
-    let extra = translate + menuWidth;
-    translate = -menuWidth + extra * 0.35;
+  // 🔥 RESISTANCE (edge feel)
+  if(translateX > 0){
+    translateX = translateX * 0.3;
   }
 
-  sideNav.style.transform = `translateX(${translate}px)`;
+  // apply movement
+  sideNav.style.transform = `translateX(${translateX}px)`;
 
-  // 🔥 PERFECT OVERLAY SYNC
-  let progress = 1 - Math.abs(translate / menuWidth);
-  overlay.style.opacity = progress * 0.45;
-  overlay.style.visibility = "visible";
+  // 🔥 OVERLAY FADE
+  let progress = 1 - Math.abs(translateX / menuWidth);
+  overlay.style.opacity = progress * 0.4;
 
 }, {passive:true});
 
 // 👉 TOUCH END
- 
 document.addEventListener("touchend", ()=>{
   if(!isDragging) return;
 
   isDragging = false;
 
   let diff = currentX - startX;
-  let duration = Date.now() - startTime;
+  let time = Date.now() - startTime;
 
-  let velocity = diff / duration;
+  let velocity = diff / time; // px per ms
 
-  sideNav.style.transition = "transform 0.32s cubic-bezier(.22,.61,.36,1)";
+  // restore animation
+  sideNav.style.transition = "transform 0.28s cubic-bezier(.22,.61,.36,1)";
   overlay.style.transition = "opacity 0.25s ease";
 
-  let threshold = menuWidth * 0.3;
-
-  // 🔥 FORCE SNAP LOGIC (NO MID STOP)
+  // 🔥 DECISION LOGIC (velocity + distance)
   if(!isOpen){
-    if(diff > threshold || velocity > 0.5){
-      openMenu();   // go FULL OPEN
+    if(diff > 80 || velocity > 0.5){
+      openMenu();
     }else{
-      closeMenu();  // go FULL CLOSE
+      closeMenu();
     }
   }else{
-    if(diff < -threshold || velocity < -0.5){
-      closeMenu();  // go FULL CLOSE
+    if(diff < -80 || velocity < -0.5){
+      closeMenu();
     }else{
-      openMenu();   // go FULL OPEN
+      openMenu();
     }
   }
-currentX = 0;
-startX = 0;
-  // 🔥 EXTRA SAFETY (prevents stuck state)
-  setTimeout(()=>{
-    if(isOpen){
-      sideNav.style.transform = "translateX(0)";
-    }else{
-      sideNav.style.transform = "translateX(-100%)";
-    }
-  }, 50);
 });
 
-// 👉 OPEN MENU
+// 👉 OPEN
 function openMenu(){
   sideNav.style.transform = "translateX(0)";
-  overlay.style.opacity = "0.45";
-  overlay.style.visibility = "visible";
+  overlay.style.opacity = "0.4";
   document.body.style.overflow = "hidden";
   isOpen = true;
 }
 
-// 👉 CLOSE MENU
+// 👉 CLOSE
 function closeMenu(){
   sideNav.style.transform = "translateX(-100%)";
   overlay.style.opacity = "0";
-  overlay.style.visibility = "hidden";
   document.body.style.overflow = "auto";
   isOpen = false;
 }
