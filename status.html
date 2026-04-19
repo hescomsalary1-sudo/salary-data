@@ -30,7 +30,7 @@
             background: #0f172a; display: flex; align-items: center;
             padding: 0 20px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        .back-btn { color: white; text-decoration: none; font-size: 1.2rem; margin-right: 15px; }
+        .back-btn { color: white; text-decoration: none; font-size: 1.2rem; margin-right: 15px; display: flex; align-items: center; }
         .nav-title { color: white; font-weight: 700; font-size: 1.1rem; }
 
         .container { margin-top: 85px; padding: 0 20px; max-width: 500px; margin-left: auto; margin-right: auto; }
@@ -39,7 +39,7 @@
         .search-card {
             background: white; padding: 25px; border-radius: 24px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.03); margin-bottom: 25px;
-            text-align: center;
+            text-align: center; border: 1px solid rgba(0,0,0,0.05);
         }
         .search-card h3 { margin: 0 0 8px 0; font-size: 1.2rem; font-weight: 800; }
         .search-card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; }
@@ -64,22 +64,23 @@
         .main-status-card {
             background: white; border-radius: 24px; padding: 25px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.03); margin-bottom: 20px;
+            border: 1px solid rgba(0,0,0,0.05);
         }
 
         .badge-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .ticket-id { font-weight: 900; color: var(--primary); font-size: 0.9rem; background: #eef5ff; padding: 5px 12px; border-radius: 8px; }
+        .ticket-id-display { font-weight: 900; color: var(--primary); font-size: 0.9rem; background: #eef5ff; padding: 6px 14px; border-radius: 10px; }
         .status-chip { padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
-        .pending { background: #fff7ed; color: #f59e0b; }
-        .resolved { background: #ecfdf5; color: #10b981; }
+        .pending-chip { background: #fff7ed; color: #f59e0b; }
+        .resolved-chip { background: #ecfdf5; color: #10b981; }
 
-        .info-bit { margin-bottom: 15px; }
-        .info-bit label { display: block; font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 3px; }
+        .info-bit { margin-bottom: 18px; }
+        .info-bit label { display: block; font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px; }
         .info-bit span { font-size: 0.95rem; font-weight: 600; display: block; }
 
         /* Movement Timeline */
         .timeline-box {
             background: #ffffff; border-radius: 24px; padding: 25px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);
         }
         .timeline-box h4 { margin: 0 0 20px 0; font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
 
@@ -90,15 +91,15 @@
             width: 12px; height: 12px; border-radius: 50%;
             background: white; border: 3px solid var(--primary);
         }
-        .timeline-item.active::before { background: var(--primary); box-shadow: 0 0 10px rgba(0,98,255,0.4); }
+        .timeline-item.latest::before { background: var(--primary); box-shadow: 0 0 10px rgba(0,98,255,0.4); }
         
         .tm-date { font-size: 10px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; display: block; }
         .tm-officer { font-size: 0.9rem; font-weight: 800; display: block; margin-bottom: 2px; }
-        .tm-note { font-size: 0.85rem; color: #475569; line-height: 1.4; }
+        .tm-note { font-size: 0.85rem; color: #475569; line-height: 1.4; background: #f8fafc; padding: 10px; border-radius: 10px; margin-top: 5px; }
 
         /* Loader */
         .loader-wrap { display: none; text-align: center; padding: 40px; }
-        .spin { width: 30px; height: 30px; border: 3px solid #e2e8f0; border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
+        .spin { width: 32px; height: 32px; border: 3px solid #e2e8f0; border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
         
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -108,15 +109,15 @@
 
     <nav>
         <a href="home_grievance.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
-        <div class="nav-title">Track Grievance</div>
+        <div class="nav-title">Track Ticket Status</div>
     </nav>
 
     <div class="container">
         <div class="search-card">
-            <h3>Track Ticket</h3>
-            <p>Enter your unique Ticket ID (e.g., GR-1234)</p>
+            <h3>Enter Ticket ID</h3>
+            <p>Check the live movement of your grievance</p>
             <div class="input-group">
-                <input type="text" id="ticketInput" placeholder="Enter ID here..." autocomplete="off">
+                <input type="text" id="ticketInput" placeholder="GR-XXXX" autocomplete="off">
                 <button class="search-trigger" onclick="searchGrievance()">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
@@ -125,14 +126,14 @@
 
         <div class="loader-wrap" id="loader">
             <div class="spin"></div>
-            <p style="font-size: 12px; font-weight: 700; margin-top: 15px; color: var(--primary);">FETCHING HISTORY...</p>
+            <p style="font-size: 11px; font-weight: 800; margin-top: 15px; color: var(--primary); letter-spacing: 1px;">CONNECTING TO SERVER...</p>
         </div>
 
         <div id="resultArea">
             <div class="main-status-card">
                 <div class="badge-row">
-                    <div class="ticket-id" id="resID">#GR-0000</div>
-                    <div id="resStatus" class="status-chip pending">Pending</div>
+                    <div class="ticket-id-display" id="resID">#GR-0000</div>
+                    <div id="resStatus" class="status-chip pending-chip">Pending</div>
                 </div>
 
                 <div class="info-bit">
@@ -144,8 +145,8 @@
                     <span id="resSubject">--</span>
                 </div>
                 <div class="info-bit" style="margin-bottom: 0;">
-                    <label>Currently With</label>
-                    <span id="resPendingWith" style="color: var(--primary);">--</span>
+                    <label>Current Status At</label>
+                    <span id="resHandler" style="color: var(--primary);">--</span>
                 </div>
             </div>
 
@@ -161,62 +162,80 @@
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzOqDDARIyXSnqaJth9fE2HSVGr7Vs1uYCEgYmX1gDIxxRcAoitVqed1HkqaLmK3SL2/exec";
 
         async function searchGrievance() {
-            const idInput = document.getElementById('ticketInput').value.trim();
+            const ticketID = document.getElementById('ticketInput').value.trim();
             const loader = document.getElementById('loader');
             const resultArea = document.getElementById('resultArea');
 
-            if (!idInput) { alert("Please enter a Ticket ID"); return; }
+            if (!ticketID) { alert("Please enter a Ticket ID"); return; }
 
-            // Reset & Show Loader
             resultArea.style.display = 'none';
             loader.style.display = 'block';
 
             try {
-                const response = await fetch(API_URL);
+                const response = await fetch(SCRIPT_URL);
                 const data = await response.json();
                 
-                // Find specific ticket
-                const grievance = data.find(item => item.id.toLowerCase() === idInput.toLowerCase());
+                // Matching exactly with "TicketID" header
+                const item = data.find(g => 
+                    (g.TicketID || "").toString().toLowerCase() === ticketID.toLowerCase()
+                );
 
-                if (grievance) {
-                    renderGrievance(grievance);
+                if (item) {
+                    renderGrievance(item);
                 } else {
-                    alert("Ticket ID not found. Please check and try again.");
+                    alert("Ticket ID not found. Ensure it is correct (e.g. GR-1234)");
                 }
             } catch (err) {
-                alert("Connection error. Could not fetch status.");
+                console.error(err);
+                alert("Connection error. Please check your internet and try again.");
             } finally {
                 loader.style.display = 'none';
             }
         }
 
         function renderGrievance(item) {
-            document.getElementById('resID').innerText = `#${item.id}`;
-            document.getElementById('resUser').innerText = item.user;
-            document.getElementById('resSubject').innerText = item.sub;
-            document.getElementById('resPendingWith').innerText = item.sendTo || "Final Authority";
+            // Mapping to your Column Headers
+            document.getElementById('resID').innerText = `#${item.TicketID}`;
+            document.getElementById('resUser').innerText = item.User || "Unknown";
+            document.getElementById('resSubject').innerText = item.Subject || "No Subject Provided";
+            document.getElementById('resHandler').innerText = item.CurrentHandler || "Awaiting Assignment";
 
             // Status Badge Logic
+            const statusText = (item.Status || "Pending").trim();
             const statusEl = document.getElementById('resStatus');
-            statusEl.innerText = item.status;
-            statusEl.className = `status-chip ${item.status.toLowerCase()}`;
+            statusEl.innerText = statusText;
+            statusEl.className = `status-chip ${statusText.toLowerCase() === 'resolved' ? 'resolved-chip' : 'pending-chip'}`;
 
-            // History Mapping
+            // Timeline Logic
             const timeline = document.getElementById('historyTimeline');
-            if (item.history && item.history.length > 0) {
-                timeline.innerHTML = item.history.map((h, index) => `
-                    <div class="timeline-item ${index === 0 ? 'active' : ''}">
-                        <span class="tm-date">${h.date}</span>
-                        <span class="tm-officer">${h.officer}</span>
-                        <div class="tm-note">${h.note}</div>
+            let historyData = [];
+
+            // Attempt to parse History column (checks if it's JSON or string)
+            try {
+                if (typeof item.History === "string" && item.History.startsWith("[")) {
+                    historyData = JSON.parse(item.History);
+                } else if (item.History) {
+                    // If it's just a single text note
+                    historyData = [{ date: item.Date, officer: item.CurrentHandler, note: item.History }];
+                }
+            } catch (e) { historyData = []; }
+
+            if (historyData.length > 0) {
+                timeline.innerHTML = historyData.reverse().map((h, index) => `
+                    <div class="timeline-item ${index === 0 ? 'latest' : ''}">
+                        <span class="tm-date">${h.date || item.Date}</span>
+                        <span class="tm-officer">${h.officer || 'Official'}</span>
+                        <div class="tm-note">${h.note || 'Processed'}</div>
                     </div>
                 `).join('');
             } else {
-                timeline.innerHTML = `<div class="timeline-item active">
-                    <span class="tm-date">${item.date}</span>
-                    <span class="tm-officer">System Generated</span>
-                    <div class="tm-note">Grievance submitted and forwarded to ${item.sendTo}.</div>
-                </div>`;
+                // Fallback if no history exists yet
+                timeline.innerHTML = `
+                    <div class="timeline-item latest">
+                        <span class="tm-date">${item.Date}</span>
+                        <span class="tm-officer">Submission</span>
+                        <div class="tm-note">Grievance registered. Currently with ${item.CurrentHandler || 'Authority'}.</div>
+                    </div>`;
             }
 
             document.getElementById('resultArea').style.display = 'block';
