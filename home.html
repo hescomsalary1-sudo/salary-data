@@ -808,6 +808,7 @@ opacity:0;
 visibility:hidden;
 transition:opacity 0.25s ease;
 z-index:2000;
+  backdrop-filter: blur(4px);
 }
 
 /* SIDENAV */
@@ -822,7 +823,7 @@ transform:translateX(-100%);
 transition:transform 0.28s cubic-bezier(.22,.61,.36,1);
   will-change: transform;
 z-index:2100;
-
+touch-action: pan-y;
 display:flex;              /* 🔥 ADD */
 flex-direction:column;     /* 🔥 ADD */
 }
@@ -1805,10 +1806,9 @@ function closeSideNav(){
 <script>
 let startX = 0;
 let currentX = 0;
-let startTime = 0;
-
 let isDragging = false;
 let isOpen = false;
+let startTime = 0;
 
 const sideNav = document.getElementById("sideNav");
 const overlay = document.getElementById("sideOverlay");
@@ -1818,8 +1818,10 @@ const menuWidth = window.innerWidth;
 // 👉 TOUCH START
 document.addEventListener("touchstart", (e)=>{
   startX = e.touches[0].clientX;
+  currentX = startX;
   startTime = Date.now();
 
+  // allow open from edge OR drag when open
   if(startX < 40 || isOpen){
     isDragging = true;
     sideNav.style.transition = "none";
@@ -1834,25 +1836,29 @@ document.addEventListener("touchmove", (e)=>{
   currentX = e.touches[0].clientX;
   let diff = currentX - startX;
 
-  let translateX;
+  let translate;
 
   if(isOpen){
-    translateX = Math.min(0, diff);
+    translate = diff;
   }else{
-    translateX = Math.min(0, -menuWidth + diff);
+    translate = -menuWidth + diff;
   }
 
-  // 🔥 RESISTANCE (edge feel)
-  if(translateX > 0){
-    translateX = translateX * 0.3;
+  // 🔥 RUBBER BAND EFFECT (very important)
+  if(translate > 0){
+    translate = translate * 0.35;
+  }
+  if(translate < -menuWidth){
+    let extra = translate + menuWidth;
+    translate = -menuWidth + extra * 0.35;
   }
 
-  // apply movement
-  sideNav.style.transform = `translateX(${translateX}px)`;
+  sideNav.style.transform = `translateX(${translate}px)`;
 
-  // 🔥 OVERLAY FADE
-  let progress = 1 - Math.abs(translateX / menuWidth);
-  overlay.style.opacity = progress * 0.4;
+  // 🔥 PERFECT OVERLAY SYNC
+  let progress = 1 - Math.abs(translate / menuWidth);
+  overlay.style.opacity = progress * 0.45;
+  overlay.style.visibility = "visible";
 
 }, {passive:true});
 
@@ -1863,23 +1869,22 @@ document.addEventListener("touchend", ()=>{
   isDragging = false;
 
   let diff = currentX - startX;
-  let time = Date.now() - startTime;
+  let duration = Date.now() - startTime;
 
-  let velocity = diff / time; // px per ms
+  let velocity = diff / duration;
 
-  // restore animation
-  sideNav.style.transition = "transform 0.28s cubic-bezier(.22,.61,.36,1)";
-  overlay.style.transition = "opacity 0.25s ease";
+  sideNav.style.transition = "transform 0.35s cubic-bezier(.22,.61,.36,1)";
+  overlay.style.transition = "opacity 0.3s ease";
 
-  // 🔥 DECISION LOGIC (velocity + distance)
+  // 🔥 SMART DECISION (distance + speed)
   if(!isOpen){
-    if(diff > 80 || velocity > 0.5){
+    if(diff > menuWidth * 0.25 || velocity > 0.5){
       openMenu();
     }else{
       closeMenu();
     }
   }else{
-    if(diff < -80 || velocity < -0.5){
+    if(diff < -menuWidth * 0.25 || velocity < -0.5){
       closeMenu();
     }else{
       openMenu();
@@ -1887,18 +1892,20 @@ document.addEventListener("touchend", ()=>{
   }
 });
 
-// 👉 OPEN
+// 👉 OPEN MENU
 function openMenu(){
   sideNav.style.transform = "translateX(0)";
-  overlay.style.opacity = "0.4";
+  overlay.style.opacity = "0.45";
+  overlay.style.visibility = "visible";
   document.body.style.overflow = "hidden";
   isOpen = true;
 }
 
-// 👉 CLOSE
+// 👉 CLOSE MENU
 function closeMenu(){
   sideNav.style.transform = "translateX(-100%)";
   overlay.style.opacity = "0";
+  overlay.style.visibility = "hidden";
   document.body.style.overflow = "auto";
   isOpen = false;
 }
