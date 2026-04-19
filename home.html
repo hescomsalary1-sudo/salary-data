@@ -1912,17 +1912,19 @@ function closeMenu(){
 
 function openGrievancePopup(){
 
-  // 🔥 CLOSE SIDENAV FIRST
-  closeMenu();   // very important
+  // 🔥 hide home content
+  document.getElementById("appPage").style.visibility = "hidden";
 
-  // small delay for smooth animation
-  setTimeout(()=>{
-    document.getElementById("grievancePopup").style.display = "flex";
-  },200);
+  // show popup
+  document.getElementById("grievancePopup").style.display = "flex";
 }
 
 function closeGrievancePopup(){
+
   document.getElementById("grievancePopup").style.display = "none";
+
+  // 🔥 show home again
+  document.getElementById("appPage").style.visibility = "visible";
 }
 
 function continueToGrievance(){
@@ -1947,7 +1949,7 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.4);
+background: rgba(0,0,0,0.6);
 display:none;
 align-items:center;
 justify-content:center;
