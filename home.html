@@ -1910,8 +1910,15 @@ function closeMenu(){
   isOpen = false;
 }
 
-  function openGrievancePopup(){
-  document.getElementById("grievancePopup").style.display = "flex";
+function openGrievancePopup(){
+
+  // 🔥 CLOSE SIDENAV FIRST
+  closeMenu();   // very important
+
+  // small delay for smooth animation
+  setTimeout(()=>{
+    document.getElementById("grievancePopup").style.display = "flex";
+  },200);
 }
 
 function closeGrievancePopup(){
