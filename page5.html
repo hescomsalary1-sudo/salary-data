@@ -3,27 +3,69 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { font-family: sans-serif; background: #f0f4f8; margin: 0; padding-bottom: 40px; }
-        .header { background: #1a1a2e; color: white; padding: 25px; text-align: center; border-radius: 0 0 25px 25px; }
+        :root { --primary: #2400b7; --bg: #f0f4f8; --card: #ffffff; }
+        body { font-family: sans-serif; background: var(--bg); margin: 0; padding-bottom: 50px; }
+        .header { background: #1a1a2e; color: white; padding: 30px 20px; text-align: center; border-radius: 0 0 30px 30px; }
         .container { padding: 15px; }
-        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 15px; }
-        .btn { width: 100%; padding: 14px; background: #2400b7; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
-        .status-badge { float: right; padding: 4px 10px; border-radius: 10px; font-size: 11px; font-weight: bold; background: #eef2ff; color: #2400b7; }
-        .flow-item { border-left: 2px solid #2400b7; padding-left: 15px; margin-left: 10px; margin-bottom: 15px; font-size: 13px; }
-        .officer-panel { background: #fff4e5; border: 1px dashed #ff9800; padding: 15px; border-radius: 10px; margin-top: 15px; }
+        .card { background: var(--card); padding: 20px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 15px; }
+        .tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+        .tab { flex: 1; padding: 12px; border: none; border-radius: 12px; background: white; font-weight: bold; cursor: pointer; }
+        .tab.active { background: var(--primary); color: white; }
+        
+        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1.5px solid #eee; border-radius: 10px; box-sizing: border-box; font-family: inherit; }
+        .btn { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
+        
+        /* Flow Styling */
+        .status-badge { float: right; padding: 4px 10px; border-radius: 10px; font-size: 11px; font-weight: bold; background: #eef2ff; color: var(--primary); }
+        .flow-line { border-left: 2px solid var(--primary); padding-left: 15px; margin-left: 10px; margin-top: 15px; }
+        .flow-item { position: relative; margin-bottom: 15px; font-size: 13px; }
+        .flow-item::before { content: ''; position: absolute; left: -21px; top: 5px; width: 8px; height: 8px; border-radius: 50%; background: var(--primary); }
+        .officer-panel { background: #fff9e6; border: 1px dashed #ffa000; padding: 15px; border-radius: 12px; margin-top: 15px; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <h2 id="portalTitle">Grievance System</h2>
-    <div id="userInfo" style="font-size: 12px; opacity: 0.8;">Public Access</div>
+    <h2 id="title">Employee Portal</h2>
+    <p id="subTitle">Grievance Submission & Tracking</p>
 </div>
 
 <div class="container">
-    <div id="loginSection" class="card">
-        <h3>Officer Login</h3>
+    <div class="tabs" id="navTabs">
+        <button class="tab active" onclick="switchMode('user')">Employee</button>
+        <button class="tab" onclick="switchMode('officer')">Officer Login</button>
+    </div>
+
+    <div id="userSection">
+        <div class="card">
+            <h3>New Grievance</h3>
+            <form id="gForm" onsubmit="submitGrievance(event)">
+                <input type="text" id="empName" placeholder="Your Name" required>
+                <select id="cat" required>
+                    <option value="">Select Category</option>
+                    <option>Salary Issue</option>
+                    <option>Promotion</option>
+                    <option>Harassment</option>
+                </select>
+                <input type="text" id="sub" placeholder="Subject" required>
+                <textarea id="desc" rows="4" placeholder="Description..." required></textarea>
+                <label style="font-size:12px; font-weight:bold;">Submit To:</label>
+                <select id="sendTo" required>
+                    <option>Section Officer</option>
+                    <option>Assistant Engineer (AE)</option>
+                    <option>Executive Engineer (EE)</option>
+                </select>
+                <button type="submit" class="btn" id="subBtn">Submit Grievance 🛡️</button>
+            </form>
+        </div>
+        <div id="publicTrack" class="card">
+            <button class="btn" style="background:#555" onclick="fetchFlow(false)">Track My Flow</button>
+            <div id="publicList" style="margin-top:15px;"></div>
+        </div>
+    </div>
+
+    <div id="loginSection" style="display:none;" class="card">
+        <h3>Official Login</h3>
         <select id="loginDesig">
             <option>Section Officer</option>
             <option>Assistant Engineer (AE)</option>
@@ -31,97 +73,114 @@
             <option>Division Manager</option>
         </select>
         <input type="password" id="loginKey" placeholder="Enter Login Key">
-        <button class="btn" onclick="officerLogin()">Login to Dashboard</button>
+        <button class="btn" onclick="doLogin()">Access Dashboard</button>
     </div>
 
-    <div id="mainDashboard" style="display:none;">
-        <div style="display:flex; gap:10px; margin-bottom:15px;">
-            <button class="btn" style="background:#666" onclick="location.reload()">Logout</button>
-            <button class="btn" onclick="fetchFlow()">Refresh List</button>
-        </div>
-        <div id="grievanceList"></div>
+    <div id="officerDashboard" style="display:none;">
+        <button class="btn" style="background:#cc0000; margin-bottom:15px;" onclick="location.reload()">Logout</button>
+        <div id="officerList"></div>
     </div>
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxRfj_jSSxzqXgAn0o32p_XbNjVebuIoj_nrVUZYXd08aVbou19GAeOasbtzhB3oHi8/exec";
-    let currentOfficer = null;
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwXMSQAQlmHvLd8GUsILnGUB3LnXQnOS33Nic7mK_fzvttBmXyyEX0EuS74WavLCyFl/exec";
+    let loggedOfficer = null;
 
-    async function officerLogin() {
+    function switchMode(mode) {
+        document.getElementById('userSection').style.display = mode === 'user' ? 'block' : 'none';
+        document.getElementById('loginSection').style.display = mode === 'officer' ? 'block' : 'none';
+        document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', (mode === 'user' && i === 0) || (mode === 'officer' && i === 1)));
+    }
+
+    async function submitGrievance(e) {
+        e.preventDefault();
+        const btn = document.getElementById('subBtn');
+        btn.disabled = true; btn.innerText = "Submitting...";
+
+        const payload = {
+            action: "submit",
+            id: "GR-" + Math.floor(1000 + Math.random() * 9000),
+            user: document.getElementById('empName').value,
+            category: document.getElementById('cat').value,
+            subject: document.getElementById('sub').value,
+            desc: document.getElementById('desc').value,
+            sendTo: document.getElementById('sendTo').value,
+            date: new Date().toLocaleDateString()
+        };
+
+        await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
+        alert("Submitted! Ticket ID: " + payload.id);
+        e.target.reset();
+        btn.disabled = false; btn.innerText = "Submit Grievance 🛡️";
+    }
+
+    async function doLogin() {
         const payload = {
             action: "login",
             designation: document.getElementById('loginDesig').value,
             loginKey: document.getElementById('loginKey').value
         };
-
         const res = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
         const result = await res.json();
 
         if (result.status === "success") {
-            currentOfficer = { name: result.name, designation: payload.designation };
+            loggedOfficer = { name: result.name, designation: payload.designation };
             document.getElementById('loginSection').style.display = "none";
-            document.getElementById('mainDashboard').style.display = "block";
-            document.getElementById('portalTitle').innerText = "Officer Dashboard";
-            document.getElementById('userInfo').innerText = `Logged in: ${currentOfficer.name} (${currentOfficer.designation})`;
-            fetchFlow();
-        } else {
-            alert("Invalid Key or Designation");
-        }
+            document.getElementById('navTabs').style.display = "none";
+            document.getElementById('officerDashboard').style.display = "block";
+            document.getElementById('title').innerText = "Officer Panel";
+            document.getElementById('subTitle').innerText = loggedOfficer.name + " (" + loggedOfficer.designation + ")";
+            fetchFlow(true);
+        } else { alert("Invalid Credentials"); }
     }
 
-    async function fetchFlow() {
-        const container = document.getElementById('grievanceList');
-        container.innerHTML = "Fetching tickets...";
+    async function fetchFlow(isOfficer) {
+        const container = isOfficer ? document.getElementById('officerList') : document.getElementById('publicList');
+        container.innerHTML = "Loading...";
         const res = await fetch(SCRIPT_URL);
         const data = await res.json();
 
-        container.innerHTML = data.map(item => {
-            const isHandler = item.handler === currentOfficer.designation && item.status !== "Resolved";
+        container.innerHTML = data.reverse().map(item => {
+            const canAction = isOfficer && item.handler === loggedOfficer.designation && item.status !== "Resolved";
             return `
                 <div class="card">
                     <span class="status-badge">${item.status}</span>
-                    <strong>#${item.id}</strong> | ${item.cat}
-                    <p style="font-size:14px;"><b>Subject:</b> ${item.sub}</p>
-                    <p style="font-size:13px; color:#555;">${item.desc}</p>
-                    <hr>
-                    <div class="flow-container">
-                        ${item.history.map(h => `<div class="flow-item"><b>${h.officer}:</b> "${h.note}" <br><small>${h.date}</small></div>`).join('')}
+                    <strong>#${item.id}</strong>
+                    <div style="font-size:14px; margin-top:5px;"><b>Sub:</b> ${item.sub}</div>
+                    <div class="flow-line">
+                        ${item.history.map(h => `<div class="flow-item"><b>${h.officer}:</b> ${h.note}</div>`).join('')}
                     </div>
-
-                    ${isHandler ? `
+                    ${canAction ? `
                         <div class="officer-panel">
-                            <label>Your Opinion/Action</label>
-                            <textarea id="opinion-${item.id}" placeholder="Write your remarks..."></textarea>
-                            <label>Forward To:</label>
-                            <select id="forward-${item.id}">
+                            <textarea id="op-${item.id}" placeholder="Your remarks..."></textarea>
+                            <select id="fw-${item.id}">
                                 <option>Assistant Engineer (AE)</option>
                                 <option>Executive Engineer (EE)</option>
                                 <option>Division Manager</option>
                                 <option value="Resolved">RESOLVE & CLOSE</option>
                             </select>
-                            <button class="btn" style="background:#ff9800" onclick="updateTicket('${item.id}')">Submit & Forward</button>
+                            <button class="btn" style="background:#ffa000" onclick="updateGrievance('${item.id}')">Forward Action</button>
                         </div>
-                    ` : `<p style="font-size:11px; color:#999; text-align:center;">Currently with ${item.handler}</p>`}
+                    ` : `<p style="font-size:11px; color:#888; text-align:center;">With: ${item.handler}</p>`}
                 </div>
             `;
         }).join('');
     }
 
-    async function updateTicket(id) {
-        const forwardVal = document.getElementById(`forward-${id}`).value;
+    async function updateGrievance(id) {
+        const fw = document.getElementById(`fw-${id}`).value;
         const payload = {
             action: "update",
             id: id,
-            officerName: currentOfficer.name,
-            designation: currentOfficer.designation,
-            opinion: document.getElementById(`opinion-${id}`).value,
-            newStatus: forwardVal === "Resolved" ? "Resolved" : "Forwarded",
-            forwardTo: forwardVal === "Resolved" ? "Closed" : forwardVal
+            officerName: loggedOfficer.name,
+            designation: loggedOfficer.designation,
+            opinion: document.getElementById(`op-${id}`).value,
+            newStatus: fw === "Resolved" ? "Resolved" : "Forwarded",
+            forwardTo: fw === "Resolved" ? "Closed" : fw
         };
-
         await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
-        alert("Action successful.");
-        fetchFlow();
+        alert("Action Updated");
+        fetchFlow(true);
     }
 </script>
 </body>
