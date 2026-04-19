@@ -1863,6 +1863,8 @@ document.addEventListener("touchmove", (e)=>{
 }, {passive:true});
 
 // 👉 TOUCH END
+  let currentX = 0;
+  currentX = startX;
 document.addEventListener("touchend", ()=>{
   if(!isDragging) return;
 
@@ -1873,23 +1875,34 @@ document.addEventListener("touchend", ()=>{
 
   let velocity = diff / duration;
 
-  sideNav.style.transition = "transform 0.35s cubic-bezier(.22,.61,.36,1)";
-  overlay.style.transition = "opacity 0.3s ease";
+  sideNav.style.transition = "transform 0.32s cubic-bezier(.22,.61,.36,1)";
+  overlay.style.transition = "opacity 0.25s ease";
 
-  // 🔥 SMART DECISION (distance + speed)
+  let threshold = menuWidth * 0.3;
+
+  // 🔥 FORCE SNAP LOGIC (NO MID STOP)
   if(!isOpen){
-    if(diff > menuWidth * 0.25 || velocity > 0.5){
-      openMenu();
+    if(diff > threshold || velocity > 0.5){
+      openMenu();   // go FULL OPEN
     }else{
-      closeMenu();
+      closeMenu();  // go FULL CLOSE
     }
   }else{
-    if(diff < -menuWidth * 0.25 || velocity < -0.5){
-      closeMenu();
+    if(diff < -threshold || velocity < -0.5){
+      closeMenu();  // go FULL CLOSE
     }else{
-      openMenu();
+      openMenu();   // go FULL OPEN
     }
   }
+
+  // 🔥 EXTRA SAFETY (prevents stuck state)
+  setTimeout(()=>{
+    if(isOpen){
+      sideNav.style.transform = "translateX(0)";
+    }else{
+      sideNav.style.transform = "translateX(-100%)";
+    }
+  }, 50);
 });
 
 // 👉 OPEN MENU
