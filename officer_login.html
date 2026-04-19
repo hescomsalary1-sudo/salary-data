@@ -1,39 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Officer Portal</title>
     <style>
+        :root { --primary: #2400b7; --error: #e63946; }
         body { font-family: sans-serif; background: #f0f4f8; margin: 0; padding-bottom: 30px; }
         .header { background: #1a1a2e; color: white; padding: 25px; text-align: center; }
-        .container { padding: 15px; }
+        .container { padding: 15px; max-width: 600px; margin: auto; }
         .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 15px; }
-        .btn { width: 100%; padding: 14px; background: #2400b7; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        
+        .btn { 
+            width: 100%; padding: 14px; background: var(--primary); color: white; 
+            border: none; border-radius: 10px; font-weight: bold; cursor: pointer; 
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
         input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        
+        /* SPINNER */
+        .spinner {
+            width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3);
+            border-top: 2px solid white; border-radius: 50%;
+            animation: spin 0.8s linear infinite; display: none;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* MODAL POPUP */
+        #alertOverlay {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 2000;
+        }
+        .modal {
+            background: white; padding: 30px; border-radius: 20px; text-align: center;
+            width: 80%; max-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .modal h3 { color: var(--error); margin-top: 0; }
+
+        /* TRACKING & DASHBOARD STYLES */
         .status-badge { float: right; padding: 4px 10px; border-radius: 10px; font-size: 11px; font-weight: bold; background: #eef2ff; color: #2400b7; }
         .officer-panel { background: #fff9e6; border: 1px dashed #ffa000; padding: 15px; border-radius: 10px; margin-top: 10px; }
-        .flow-item { border-left: 2px solid #2400b7; padding-left: 10px; margin-bottom: 10px; font-size: 12px; }
+        .flow-item { border-left: 2px solid var(--primary); padding-left: 10px; margin-bottom: 10px; font-size: 12px; position: relative; }
     </style>
 </head>
 <body>
 
+<div id="alertOverlay">
+    <div class="modal">
+        <div style="font-size: 40px;">🚫</div>
+        <h3>Access Denied</h3>
+        <p id="alertMsg">Invalid Login Key or Designation. Please try again.</p>
+        <button class="btn" style="background: #333" onclick="closeAlert()">Close</button>
+    </div>
+</div>
+
 <div class="header">
     <h2 id="title">Officer Login</h2>
-    <p id="subTitle">Official Redressal Portal</p>
+    <p id="subTitle">Official Grievance Redressal</p>
 </div>
 
 <div class="container">
     <div id="loginSection" class="card">
+        <label>Select Designation</label>
         <select id="loginDesig">
-            <option>Section Officer</option><option>Assistant Engineer (AE)</option>
-            <option>Executive Engineer (EE)</option><option>Division Manager</option>
+            <option>Section Officer</option>
+            <option>Assistant Engineer (AE)</option>
+            <option>Executive Engineer (EE)</option>
+            <option>Division Manager</option>
         </select>
-        <input type="password" id="loginKey" placeholder="Enter Login Key">
-        <button class="btn" onclick="doLogin()">Login to Dashboard</button>
-        <button class="btn" style="background:#666" onclick="window.location.href='grievance.html'">Back to Employee Portal</button>
+        <input type="password" id="loginKey" placeholder="Enter Secret Login Key">
+        <button class="btn" onclick="doLogin()" id="loginBtn">
+            <span>Login to Dashboard</span>
+            <div class="spinner" id="loginSpin"></div>
+        </button>
+        <button class="btn" style="background:#666; margin-top: 10px;" onclick="window.location.href='grievance.html'">Back to Portal</button>
     </div>
 
     <div id="dashboard" style="display:none;">
-        <button class="btn" style="background:#cc0000; margin-bottom:15px;" onclick="location.reload()">Logout</button>
+        <button class="btn" style="background:#cc0000; margin-bottom:15px;" onclick="location.reload()">Logout Account</button>
         <div id="grievanceList"></div>
     </div>
 </div>
@@ -42,67 +86,89 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzOqDDARIyXSnqaJth9fE2HSVGr7Vs1uYCEgYmX1gDIxxRcAoitVqed1HkqaLmK3SL2/exec";
     let loggedOfficer = null;
 
+    function showAlert() { document.getElementById('alertOverlay').style.display = 'flex'; }
+    function closeAlert() { document.getElementById('alertOverlay').style.display = 'none'; }
+
     async function doLogin() {
+        const btn = document.getElementById('loginBtn');
+        const spin = document.getElementById('loginSpin');
+        
+        btn.disabled = true;
+        spin.style.display = 'block';
+
         const payload = {
             action: "login",
             designation: document.getElementById('loginDesig').value,
             loginKey: document.getElementById('loginKey').value
         };
-        const res = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
-        const result = await res.json();
 
-        if (result.status === "success") {
-            loggedOfficer = { name: result.name, designation: payload.designation };
-            document.getElementById('loginSection').style.display = "none";
-            document.getElementById('dashboard').style.display = "block";
-            document.getElementById('title').innerText = "Officer Panel";
-            document.getElementById('subTitle').innerText = loggedOfficer.name + " (" + loggedOfficer.designation + ")";
-            loadTickets();
-        } else { alert("Login Failed"); }
+        try {
+            const res = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
+            const result = await res.json();
+
+            if (result.status === "success") {
+                loggedOfficer = { name: result.name, designation: payload.designation };
+                document.getElementById('loginSection').style.display = "none";
+                document.getElementById('dashboard').style.display = "block";
+                document.getElementById('title').innerText = "Officer Panel";
+                document.getElementById('subTitle').innerText = loggedOfficer.name + " (" + loggedOfficer.designation + ")";
+                loadTickets();
+            } else {
+                showAlert();
+            }
+        } catch(e) {
+            alert("Connection error.");
+        } finally {
+            btn.disabled = false;
+            spin.style.display = 'none';
+        }
     }
 
     async function loadTickets() {
         const container = document.getElementById('grievanceList');
-        container.innerHTML = "Loading...";
+        container.innerHTML = "<p style='text-align:center;'>Fetching assigned grievances...</p>";
         const res = await fetch(SCRIPT_URL);
         const data = await res.json();
 
-       container.innerHTML = data.reverse().map(item => {
-    const isHandler = item.handler === loggedOfficer.designation && item.status !== "Resolved";
-    return `
-        <div class="card">
-            <span class="status-badge">${item.status}</span>
-            <strong style="color:#2400b7">#${item.id}</strong>
-            <div style="font-size:11px; color:#999;">Submitted on: ${item.date}</div>
+        container.innerHTML = data.reverse().map(item => {
+            const isHandler = item.handler === loggedOfficer.designation && item.status !== "Resolved";
+            return `
+                <div class="card">
+                    <span class="status-badge">${item.status}</span>
+                    <strong style="color:var(--primary)">#${item.id}</strong>
+                    <div style="font-size:11px; color:#999; margin-top:5px;">Complaint Date: ${item.date}</div>
 
-            <div style="margin-top:10px; font-size:14px;"><b>From:</b> ${item.user} (${item.empDesig})</div>
-            <div style="font-size:14px;"><b>Workplace:</b> ${item.workPlace}</div>
-            <div style="font-size:14px; margin-bottom:8px;"><b>Subject:</b> ${item.sub}</div>
-            
-            <div style="background:#f0f2f5; padding:12px; border-radius:10px; font-size:13px; margin-bottom:15px;">
-                <b>Employee Description:</b><br>${item.desc}
-            </div>
+                    <div style="margin-top:10px; font-size:14px;"><b>Employee:</b> ${item.user} (${item.empDesig})</div>
+                    <div style="font-size:14px;"><b>Workplace:</b> ${item.workPlace}</div>
+                    <div style="font-size:14px; margin-bottom:8px;"><b>Subject:</b> ${item.sub}</div>
+                    
+                    <div style="background:#f7f8fa; padding:12px; border-radius:10px; font-size:13px; margin-bottom:15px; border:1px solid #eee;">
+                        <b>Description:</b><br>${item.desc}
+                    </div>
 
-            <div style="font-size:12px; border-top:1px solid #eee; padding-top:10px;">
-                <b>Action History:</b>
-                ${item.history.map(h => `<div class="flow-item"><b>${h.officer}:</b> ${h.note}</div>`).join('')}
-            </div>
+                    <div style="font-size:12px; border-top:1px solid #eee; padding-top:10px;">
+                        <b>Movement History:</b>
+                        <div style="margin-top:8px;">
+                            ${item.history.map(h => `<div class="flow-item"><b>${h.officer}:</b> ${h.note}</div>`).join('')}
+                        </div>
+                    </div>
 
-            ${isHandler ? `
-                <div class="officer-panel">
-                    <textarea id="op-${item.id}" placeholder="Your remarks/opinion..."></textarea>
-                    <select id="fw-${item.id}">
-                        <option>Assistant Engineer (AE)</option>
-                        <option>Executive Engineer (EE)</option>
-                        <option>Division Manager</option>
-                        <option value="Resolved">RESOLVE & CLOSE</option>
-                    </select>
-                    <button class="btn" style="background:#ffa000" onclick="updateTicket('${item.id}')">Submit Action</button>
+                    ${isHandler ? `
+                        <div class="officer-panel">
+                            <textarea id="op-${item.id}" placeholder="Enter your opinion/order..."></textarea>
+                            <label style="font-size:11px;">Forward To Authority:</label>
+                            <select id="fw-${item.id}">
+                                <option>Assistant Engineer (AE)</option>
+                                <option>Executive Engineer (EE)</option>
+                                <option>Division Manager</option>
+                                <option value="Resolved">RESOLVE & CLOSE</option>
+                            </select>
+                            <button class="btn" style="background:#ffa000" onclick="updateTicket('${item.id}')">Submit Action</button>
+                        </div>
+                    ` : `<p style="font-size:11px; color:#999; text-align:center; margin-top:15px;">Pending with: ${item.handler}</p>`}
                 </div>
-            ` : `<p style="font-size:11px; color:#999; text-align:center; margin-top:10px;">Currently with: ${item.handler}</p>`}
-        </div>
-    `;
-}).join('');
+            `;
+        }).join('');
     }
 
     async function updateTicket(id) {
@@ -117,7 +183,7 @@
             forwardTo: fw === "Resolved" ? "Closed" : fw
         };
         await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
-        alert("Action Saved");
+        alert("Action Successful.");
         loadTickets();
     }
 </script>
