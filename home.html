@@ -1792,8 +1792,7 @@ let startY = 0;
 function openMenu() {
     document.getElementById("sideNav").classList.add("open");
     document.getElementById("sideOverlay").classList.add("show");
-    // Prevent the home page from scrolling while menu is open
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = "hidden"; 
 }
 
 function closeMenu() {
@@ -1802,27 +1801,31 @@ function closeMenu() {
     document.body.style.overflow = "auto";
 }
 
-// Attach gesture listeners to the sideNav element
-const menuEl = document.getElementById("sideNav");
+// Fixed Swiping Logic
+const sideNavEl = document.getElementById("sideNav");
 
-menuEl.addEventListener('touchstart', (e) => {
+sideNavEl.addEventListener('touchstart', function(e) {
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
-}, { passive: true });
+}, {passive: true});
 
-menuEl.addEventListener('touchend', (e) => {
-    let endX = e.changedTouches[0].clientX;
-    let endY = e.changedTouches[0].clientY;
+sideNavEl.addEventListener('touchmove', function(e) {
+    let moveX = e.touches[0].clientX;
+    let moveY = e.touches[0].clientY;
     
-    let xDist = startX - endX;
-    let yDist = Math.abs(startY - endY);
+    let diffX = startX - moveX;
+    let diffY = Math.abs(startY - moveY);
 
-    // Only close if swipe is LEFT and horizontal movement > vertical movement
-    // This stops diagonal swipes from breaking the scroll
-    if (xDist > 50 && xDist > yDist) {
-        closeMenu();
+    // DIAGONAL FIX: 
+    // If horizontal movement is greater than vertical, it's a menu swipe.
+    // If vertical is greater, the user is scrolling the menu, so don't close.
+    if (diffX > 10 && diffX > diffY) {
+        // Prevent accidental closing while scrolling vertically
+        if (diffX > 50) { 
+            closeMenu();
+        }
     }
-});
+}, {passive: true});
 
 // 👉 OPEN MENU
 function openMenu(){
