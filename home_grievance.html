@@ -3,205 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Home | Grievance Hub</title>
+    <title>Grievance Hub | Home</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #0062ff;
-            --bg-start: #ffffff;
-            --bg-end: #f0f4f8;
-            --text-dark: #0f172a;
-            --text-muted: #64748b;
-            --header-bg: #0f172a;
-            --glass-card: rgba(255, 255, 255, 0.7);
+            --accent: #0062ff;
+            --accent-light: #e0ebff;
+            --bg-dark: #0f172a;
+            --glass: rgba(255, 255, 255, 0.7);
+            --border: rgba(255, 255, 255, 0.4);
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'Inter', -apple-system, sans-serif; }
 
-        body, html {
-            margin: 0; padding: 0; min-height: 100vh; width: 100%;
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
-            color: var(--text-dark);
-            display: flex; flex-direction: column;
+        body {
+            margin: 0; padding: 0; min-height: 100vh;
+            background: #f8fafc;
+            background: radial-gradient(at 0% 0%, rgba(0, 98, 255, 0.05) 0px, transparent 50%),
+                        radial-gradient(at 100% 100%, rgba(0, 210, 255, 0.05) 0px, transparent 50%);
+            display: flex; flex-direction: column; overflow-x: hidden;
         }
 
-        /* Fixed Top Nav */
+        /* Fixed App Bar */
         nav {
-            position: fixed; top: 0; left: 0; width: 100%; height: 60px;
-            background: var(--header-bg); display: flex; align-items: center;
-            justify-content: space-between; padding: 0 20px; z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            position: fixed; top: 0; width: 100%; height: 70px;
+            background: var(--bg-dark); display: flex; align-items: center;
+            justify-content: space-between; padding: 0 24px; z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         }
-        .logo { color: #fff; font-weight: 800; font-size: 1rem; letter-spacing: 0.5px; }
-        .logo span { color: var(--primary); }
+        .app-title { color: white; font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px; }
+        .app-title span { color: var(--accent); }
+        .bell-icon { color: white; opacity: 0.6; font-size: 1.1rem; position: relative; }
+        .bell-dot { position: absolute; top: 0; right: 0; width: 6px; height: 6px; background: #ff4d4d; border-radius: 50%; }
 
-        /* Content Container */
-        .container {
-            margin-top: 80px; flex: 1; padding: 0 15px 30px 15px;
+        /* Dashboard Content */
+        .app-body {
+            margin-top: 90px; padding: 0 20px 40px;
+            max-width: 480px; margin-left: auto; margin-right: auto; width: 100%;
+        }
+
+        /* Modern Status Dashboard */
+        .status-hero {
+            background: #ffffff; border-radius: 30px; padding: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.04);
+            border: 1px solid var(--border);
+            margin-bottom: 25px; position: relative;
+        }
+        .live-tag {
+            position: absolute; top: 20px; right: 25px;
+            background: #ecfdf5; color: #10b981; font-size: 9px;
+            padding: 4px 10px; border-radius: 20px; font-weight: 800;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .pulse { width: 6px; height: 6px; background: #10b981; border-radius: 50%; animation: pulse 1.5s infinite; }
+
+        .status-hero h3 { font-size: 13px; color: #94a3b8; margin: 0 0 15px 0; text-transform: uppercase; letter-spacing: 1px; }
+        .stats-row { display: flex; justify-content: space-between; align-items: flex-end; }
+        .stat-group .val { font-size: 2.2rem; font-weight: 900; display: block; color: var(--bg-dark); line-height: 1; }
+        .stat-group .lbl { font-size: 11px; font-weight: 600; color: #64748b; margin-top: 5px; display: block; }
+
+        /* Ultra-Modern Grid */
+        .grid-container {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+        }
+
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 28px; padding: 22px 10px;
             display: flex; flex-direction: column; align-items: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
         }
 
-        .welcome-msg { text-align: center; margin-bottom: 25px; animation: fadeIn 0.8s ease; }
-        .welcome-msg h2 { font-size: 1.3rem; margin: 0; font-weight: 800; }
-        .welcome-msg p { color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; }
-
-        /* Compact Grid */
-        .menu-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
-            width: 100%; max-width: 400px; margin-bottom: 30px;
+        .glass-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            background: #ffffff;
+            box-shadow: 0 20px 40px rgba(0, 98, 255, 0.1);
+            border-color: var(--accent);
         }
 
-        .menu-item {
-            background: #fff; border: 1px solid rgba(0,0,0,0.05);
-            padding: 18px 10px; border-radius: 20px; text-align: center;
-            cursor: pointer; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-            display: flex; flex-direction: column; align-items: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        .glass-card:active { transform: scale(0.95); }
+
+        .icon-sphere {
+            width: 56px; height: 56px; border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; margin-bottom: 15px;
+            background: white; box-shadow: 0 8px 16px rgba(0,0,0,0.03);
+            color: var(--accent);
+            transition: 0.3s;
         }
-        .menu-item:hover { transform: translateY(-4px); border-color: var(--primary); box-shadow: 0 10px 20px rgba(0,98,255,0.1); }
-        .menu-item:active { transform: scale(0.96); }
 
-        .icon-wrap {
-            width: 44px; height: 44px; background: #f1f5f9;
-            border-radius: 14px; display: flex; align-items: center;
-            justify-content: center; margin-bottom: 10px; color: var(--primary); font-size: 18px;
-        }
-        .menu-item span { font-size: 0.75rem; font-weight: 700; color: var(--text-dark); }
+        .glass-card:hover .icon-sphere { background: var(--accent); color: white; }
 
-        /* Admin Button Specifics */
-        .admin-btn { background: var(--header-bg); border: none; }
-        .admin-btn .icon-wrap { background: rgba(255,255,255,0.1); color: #fff; }
-        .admin-btn span { color: #fff; }
+        .glass-card span { font-size: 0.85rem; font-weight: 700; color: var(--bg-dark); }
 
-        /* Summary Dashboard Section */
-        .summary-dashboard {
-            width: 100%; max-width: 400px; background: var(--glass-card);
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.5); border-radius: 28px;
-            padding: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-            text-align: center;
-        }
-        .summary-header { font-size: 10px; font-weight: 800; color: var(--text-muted); letter-spacing: 1.5px; margin-bottom: 15px; }
-
-        .stats-row { display: flex; gap: 12px; }
-        .stat-card {
-            flex: 1; padding: 15px; border-radius: 18px; background: #fff;
-            border: 1px solid rgba(0,0,0,0.03);
-        }
-        .stat-val { font-size: 1.8rem; font-weight: 800; display: block; margin-bottom: 2px; }
-        .stat-lab { font-size: 9px; font-weight: 700; opacity: 0.7; text-transform: uppercase; }
-
-        /* Loader */
+        /* Full Screen Spinner */
         #pageLoader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.9); z-index: 2000;
-            display: none; flex-direction: column; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+            display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 2000;
         }
-        .spinner {
-            width: 40px; height: 40px; border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--primary); border-radius: 50%;
-            animation: spin 1s linear infinite;
+        .liquid-spinner {
+            width: 50px; height: 50px; border: 4px solid var(--accent-light);
+            border-top: 4px solid var(--accent); border-radius: 50%;
+            animation: spin 0.8s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
         }
 
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+        
+        /* Entrance Animation */
+        .slide-up { animation: slideUp 0.6s ease-out forwards; opacity: 0; }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo">GRIEVANCE<span>HUB</span></div>
-        <div style="color: #fff; opacity: 0.8;"><i class="fa-solid fa-fingerprint"></i></div>
+        <div class="app-title">SECURE<span>CORE</span></div>
+        <div class="bell-icon"><i class="fa-solid fa-bell"></i><div class="bell-dot"></div></div>
     </nav>
 
-    <div class="container">
-        <div class="welcome-msg">
-            <h2>Service Portal</h2>
-            <p>Authorized Personnel Access</p>
+    <div class="app-body">
+        <div class="status-hero slide-up">
+            <div class="live-tag"><div class="pulse"></div> LIVE SYNC</div>
+            <h3>Overview</h3>
+            <div class="stats-row">
+                <div class="stat-group">
+                    <span class="val" id="p_count">--</span>
+                    <span class="lbl">Pending Cases</span>
+                </div>
+                <div class="stat-group" style="text-align: right;">
+                    <span class="val" id="r_count" style="color: #10b981;">--</span>
+                    <span class="lbl">Resolved</span>
+                </div>
+            </div>
         </div>
 
-        <div class="menu-grid">
-            <div class="menu-item" onclick="launch('lodge_grievance.html', 'Preparing Form')">
-                <div class="icon-wrap"><i class="fa-solid fa-file-circle-plus"></i></div>
+        <div class="grid-container">
+            <div class="glass-card slide-up" style="animation-delay: 0.1s;" onclick="route('lodge_grievance.html', 'Preparing Form')">
+                <div class="icon-sphere"><i class="fa-solid fa-feather-pointed"></i></div>
                 <span>Lodge</span>
             </div>
-            <div class="menu-item" onclick="launch('view_status.html', 'Tracking status')">
-                <div class="icon-wrap"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+
+            <div class="glass-card slide-up" style="animation-delay: 0.2s;" onclick="route('view_status.html', 'Syncing Records')">
+                <div class="icon-sphere"><i class="fa-solid fa-chart-line"></i></div>
                 <span>Status</span>
             </div>
-            <div class="menu-item" onclick="launch('appeal.html', 'Opening Appeal')">
-                <div class="icon-wrap"><i class="fa-solid fa-gavel"></i></div>
+
+            <div class="glass-card slide-up" style="animation-delay: 0.3s;" onclick="route('appeal.html', 'Opening Appeal')">
+                <div class="icon-sphere"><i class="fa-solid fa-shield-halved"></i></div>
                 <span>Appeal</span>
             </div>
-            <div class="menu-item" onclick="launch('redress_process.html', 'System Flow')">
-                <div class="icon-wrap"><i class="fa-solid fa-diagram-next"></i></div>
+
+            <div class="glass-card slide-up" style="animation-delay: 0.4s;" onclick="route('redress_process.html', 'Loading Flow')">
+                <div class="icon-sphere"><i class="fa-solid fa-code-branch"></i></div>
                 <span>Process</span>
             </div>
-            <div class="menu-item" onclick="launch('about_us.html', 'About Portal')">
-                <div class="icon-wrap"><i class="fa-solid fa-shield-halved"></i></div>
+
+            <div class="glass-card slide-up" style="animation-delay: 0.5s;" onclick="route('about_us.html', 'Information')">
+                <div class="icon-sphere"><i class="fa-solid fa-fingerprint"></i></div>
                 <span>About Us</span>
             </div>
-            <div class="menu-item admin-btn" onclick="launch('authority_login.html', 'Secure Login')">
-                <div class="icon-wrap"><i class="fa-solid fa-lock"></i></div>
-                <span>Admin</span>
-            </div>
-        </div>
 
-        <div class="summary-dashboard">
-            <div class="summary-header">LIVE SYSTEM METRICS</div>
-            <div id="loadingStats">
-                <div class="spinner" style="width:20px; height:20px; margin: 0 auto;"></div>
-            </div>
-            <div class="stats-row" id="statsContent" style="display: none;">
-                <div class="stat-card" style="border-bottom: 3px solid #ff4d4d;">
-                    <span class="stat-val" style="color: #ff4d4d;" id="pCount">0</span>
-                    <span class="stat-lab">Pending</span>
-                </div>
-                <div class="stat-card" style="border-bottom: 3px solid #00c853;">
-                    <span class="stat-val" style="color: #00c853;" id="rCount">0</span>
-                    <span class="stat-lab">Resolved</span>
-                </div>
+            <div class="glass-card slide-up" style="animation-delay: 0.6s;" onclick="route('authority_login.html', 'Secure Login')">
+                <div class="icon-sphere" style="background: var(--bg-dark); color: white;"><i class="fa-solid fa-lock"></i></div>
+                <span>Admin</span>
             </div>
         </div>
     </div>
 
     <div id="pageLoader">
-        <div class="spinner"></div>
-        <p id="loaderTxt" style="margin-top:12px; font-size:11px; font-weight:700; color:var(--primary); letter-spacing:1px;"></p>
+        <div class="liquid-spinner"></div>
+        <p id="loaderMsg" style="margin-top:20px; font-weight:800; font-size:11px; color:var(--bg-dark); letter-spacing:1px;"></p>
     </div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzOqDDARIyXSnqaJth9fE2HSVGr7Vs1uYCEgYmX1gDIxxRcAoitVqed1HkqaLmK3SL2/exec";
+        const DATABASE_URL = "https://script.google.com/macros/s/AKfycbzOqDDARIyXSnqaJth9fE2HSVGr7Vs1uYCEgYmX1gDIxxRcAoitVqed1HkqaLmK3SL2/exec";
 
-        // Fetch Data for Summary on Load
-        window.addEventListener('DOMContentLoaded', async () => {
+        // Fetch Data for Hero Dashboard
+        async function fetchDashboard() {
             try {
-                const response = await fetch(SCRIPT_URL);
-                const data = await response.json();
+                const res = await fetch(DATABASE_URL);
+                const data = await res.json();
                 
-                const pending = data.filter(i => i.status !== 'Resolved').length;
-                const resolved = data.filter(i => i.status === 'Resolved').length;
+                const pending = data.filter(x => x.status !== 'Resolved').length;
+                const resolved = data.filter(x => x.status === 'Resolved').length;
 
-                document.getElementById('pCount').innerText = pending;
-                document.getElementById('rCount').innerText = resolved;
-                
-                document.getElementById('loadingStats').style.display = 'none';
-                document.getElementById('statsContent').style.display = 'flex';
+                document.getElementById('p_count').innerText = pending;
+                document.getElementById('r_count').innerText = resolved;
             } catch (e) {
-                document.getElementById('loadingStats').innerHTML = "<span style='font-size:10px; color:red;'>Offline</span>";
+                document.getElementById('p_count').innerText = "0";
+                document.getElementById('r_count').innerText = "0";
             }
-        });
-
-        function launch(page, msg) {
-            const loader = document.getElementById('pageLoader');
-            document.getElementById('loaderTxt').innerText = msg.toUpperCase() + "...";
-            loader.style.display = 'flex';
-            setTimeout(() => { window.location.href = page; }, 800);
         }
 
-        // Fix for browser back button loader persistence
-        window.onpageshow = (e) => { if (e.persisted) document.getElementById('pageLoader').style.display = 'none'; };
+        // Beautiful Navigation Transition
+        function route(path, msg) {
+            const loader = document.getElementById('pageLoader');
+            document.getElementById('loaderMsg').innerText = msg.toUpperCase();
+            loader.style.display = 'flex';
+            setTimeout(() => { window.location.href = path; }, 800);
+        }
+
+        window.onload = fetchDashboard;
+
+        // Ensure back-button doesn't show stuck loader
+        window.onpageshow = (event) => { if (event.persisted) document.getElementById('pageLoader').style.display = 'none'; };
     </script>
 </body>
 </html>
