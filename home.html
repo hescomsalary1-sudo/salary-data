@@ -1968,68 +1968,88 @@ justify-content:center;
 z-index:4000;
 ">
 
+ <div style="
+background:white;
+padding:20px;
+border-radius:20px;
+width:85%;
+max-width:320px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+">
+
+  <!-- ICON -->
   <div style="
-  background:white;
-  padding:20px;
-  border-radius:20px;
-  width:85%;
-  max-width:320px;
-  text-align:center;
-  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+  width:60px;
+  height:60px;
+  margin:auto;
+  border-radius:50%;
+  background:#ffe5e5;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  color:#ff3d3d;
   ">
+    ⚠️
+  </div>
 
-   <h3 style="color:#ff3d3d;margin-top:0;">
-  You are leaving Salary Portal
-</h3>
+  <!-- MAIN TEXT -->
+  <h3 style="color:#ff3d3d;margin-top:15px;">
+    You are leaving Salary Portal
+  </h3>
 
-<p style="font-size:14px;font-weight:bold;color:#333;">
-  You will be redirected to Grievance Portal
-</p>
+  <!-- SUB TEXT -->
+  <p style="font-size:14px;font-weight:600;color:#444;">
+    Redirecting to Employee Grievance Portal
+  </p>
 
-    <!-- BUTTONS -->
-    <div id="grievanceBtns" style="display:flex;gap:10px;margin-top:15px;">
-      
-      <button onclick="closeGrievancePopup()" style="
-      flex:1;
-      padding:10px;
-      border:none;
-      border-radius:10px;
-      background:#eee;
-      ">
-      Cancel
-      </button>
+  <!-- BUTTONS -->
+  <div id="grievanceBtns" style="display:flex;gap:10px;margin-top:15px;">
+    
+    <button onclick="closeGrievancePopup()" style="
+    flex:1;
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    background:#eee;
+    font-weight:600;
+    ">
+    ❌ Cancel
+    </button>
 
-      <button onclick="continueToGrievance()" style="
-      flex:1;
-      padding:10px;
-      border:none;
-      border-radius:10px;
-      background:#2400b7;
-      color:white;
-      ">
-      Continue
-      </button>
-
-    </div>
-
-    <!-- SPINNER -->
-    <div id="grievanceLoader" style="display:none;margin-top:20px;">
-      <div style="
-      width:40px;
-      height:40px;
-      border:4px solid #eee;
-      border-top:4px solid #2400b7;
-      border-radius:50%;
-      margin:auto;
-      animation:spin 1s linear infinite;
-      "></div>
-
-      <p style="margin-top:10px;font-size:13px;color:#555;">
-        Redirecting...
-      </p>
-    </div>
+    <button onclick="continueToGrievance()" style="
+    flex:1;
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    background:#2400b7;
+    color:white;
+    font-weight:600;
+    ">
+    ➡ Continue
+    </button>
 
   </div>
+
+  <!-- SPINNER -->
+  <div id="grievanceLoader" style="display:none;margin-top:20px;">
+    <div style="
+    width:40px;
+    height:40px;
+    border:4px solid #eee;
+    border-top:4px solid #2400b7;
+    border-radius:50%;
+    margin:auto;
+    animation:spin 1s linear infinite;
+    "></div>
+
+    <p style="margin-top:10px;font-size:13px;color:#555;">
+      Redirecting...
+    </p>
+  </div>
+
+</div>
 
 </div>
 </body>
