@@ -1,184 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Info Center</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: #fff;
-}
-
-/* HEADER */
-.header {
-  text-align: center;
-  padding: 20px;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-/* CARD STYLE */
-.card {
-  background: rgba(255,255,255,0.08);
-  margin: 15px;
-  padding: 15px;
-  border-radius: 18px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-}
-
-/* TIP + NOTICE */
-.info-box {
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-/* POINTS SECTION */
-.points {
-  font-size: 26px;
-  font-weight: bold;
-}
-
-.level {
-  margin-top: 5px;
-  font-size: 16px;
-  color: #ffd700;
-}
-
-/* PROGRESS BAR */
-.progress-bar {
-  height: 8px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 10px;
-  margin-top: 10px;
-  overflow: hidden;
-}
-
-.progress {
-  height: 100%;
-  background: #00ffcc;
-  width: 0%;
-}
-
-/* GRID BUTTONS */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-top: 10px;
-}
-
-.btn {
-  padding: 12px;
-  border-radius: 12px;
-  text-align: center;
-  background: rgba(255,255,255,0.12);
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.btn:hover {
-  background: rgba(255,255,255,0.25);
-  transform: scale(1.05);
-}
-
-/* SMALL TEXT */
-.small {
-  font-size: 13px;
-  opacity: 0.8;
-}
-</style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; background: #f0f4f8; margin: 0; padding-bottom: 30px; }
+        .header { background: #1a1a2e; color: white; padding: 25px; text-align: center; }
+        .container { padding: 15px; }
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 15px; }
+        .btn { width: 100%; padding: 14px; background: #2400b7; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .status-badge { float: right; padding: 4px 10px; border-radius: 10px; font-size: 11px; font-weight: bold; background: #eef2ff; color: #2400b7; }
+        .officer-panel { background: #fff9e6; border: 1px dashed #ffa000; padding: 15px; border-radius: 10px; margin-top: 10px; }
+        .flow-item { border-left: 2px solid #2400b7; padding-left: 10px; margin-bottom: 10px; font-size: 12px; }
+    </style>
 </head>
-
 <body>
 
-<div class="header">⚡ Info Center</div>
-
-<!-- FUN + INFO -->
-<div class="card">
-  <div class="info-box">
-    💡 Tip: Maintain full attendance to earn bonus points!<br>
-    📢 Notice: Salary will be credited on 5th
-  </div>
+<div class="header">
+    <h2 id="title">Officer Login</h2>
+    <p id="subTitle">Official Redressal Portal</p>
 </div>
 
-<!-- REWARDS -->
-<div class="card">
-  <div class="points" id="points">0 Points</div>
-  <div class="level" id="level">Bronze</div>
+<div class="container">
+    <div id="loginSection" class="card">
+        <select id="loginDesig">
+            <option>Section Officer</option><option>Assistant Engineer (AE)</option>
+            <option>Executive Engineer (EE)</option><option>Division Manager</option>
+        </select>
+        <input type="password" id="loginKey" placeholder="Enter Login Key">
+        <button class="btn" onclick="doLogin()">Login to Dashboard</button>
+        <button class="btn" style="background:#666" onclick="window.location.href='grievance.html'">Back to Employee Portal</button>
+    </div>
 
-  <div class="progress-bar">
-    <div class="progress" id="progress"></div>
-  </div>
-
-  <div class="small" id="summary"></div>
-</div>
-
-<!-- QUICK ACTIONS -->
-<div class="card">
-  <div class="grid">
-    <div class="btn" onclick="go('salary.html')">💰 Salary</div>
-    <div class="btn" onclick="go('attendance.html')">📅 Attendance</div>
-    <div class="btn" onclick="go('seniority.html')">📊 Seniority</div>
-    <div class="btn" onclick="go('forum.html')">💬 Forum</div>
-  </div>
+    <div id="dashboard" style="display:none;">
+        <button class="btn" style="background:#cc0000; margin-bottom:15px;" onclick="location.reload()">Logout</button>
+        <div id="grievanceList"></div>
+    </div>
 </div>
 
 <script>
+    const SCRIPT_URL = "YOUR_WEB_APP_URL";
+    let loggedOfficer = null;
 
-/* SAMPLE DATA (Replace later with real data from CSV) */
-let present = 18;
-let leave = 2;
-let absent = 1;
+    async function doLogin() {
+        const payload = {
+            action: "login",
+            designation: document.getElementById('loginDesig').value,
+            loginKey: document.getElementById('loginKey').value
+        };
+        const res = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
+        const result = await res.json();
 
-/* POINT CALCULATION */
-let points =
-  (present * 10) +
-  (leave * 5) +
-  (absent * 0);
+        if (result.status === "success") {
+            loggedOfficer = { name: result.name, designation: payload.designation };
+            document.getElementById('loginSection').style.display = "none";
+            document.getElementById('dashboard').style.display = "block";
+            document.getElementById('title').innerText = "Officer Panel";
+            document.getElementById('subTitle').innerText = loggedOfficer.name + " (" + loggedOfficer.designation + ")";
+            loadTickets();
+        } else { alert("Login Failed"); }
+    }
 
-/* BONUS */
-if(absent === 0) points += 50; // monthly bonus
-if(absent <= 1) points += 20; // weekly consistency
+    async function loadTickets() {
+        const container = document.getElementById('grievanceList');
+        container.innerHTML = "Loading...";
+        const res = await fetch(SCRIPT_URL);
+        const data = await res.json();
 
-/* LEVEL SYSTEM */
-let level = "Bronze";
-let progress = 0;
+        container.innerHTML = data.reverse().map(item => {
+            const isHandler = item.handler === loggedOfficer.designation && item.status !== "Resolved";
+            return `
+                <div class="card">
+                    <span class="status-badge">${item.status}</span>
+                    <strong>#${item.id}</strong> | ${item.user}
+                    <p style="font-size:14px; margin:5px 0;">${item.sub}</p>
+                    <div style="font-size:12px; border-top:1px solid #eee; padding-top:10px;">
+                        ${item.history.map(h => `<div class="flow-item"><b>${h.officer}:</b> ${h.note}</div>`).join('')}
+                    </div>
+                    ${isHandler ? `
+                        <div class="officer-panel">
+                            <textarea id="op-${item.id}" placeholder="Your remarks..."></textarea>
+                            <select id="fw-${item.id}">
+                                <option>Assistant Engineer (AE)</option><option>Executive Engineer (EE)</option>
+                                <option>Division Manager</option><option value="Resolved">RESOLVE & CLOSE</option>
+                            </select>
+                            <button class="btn" style="background:#ffa000" onclick="updateTicket('${item.id}')">Submit & Forward</button>
+                        </div>
+                    ` : `<p style="font-size:11px; color:#999; text-align:center;">With: ${item.handler}</p>`}
+                </div>
+            `;
+        }).join('');
+    }
 
-if(points >= 1000){
-  level = "💎 Platinum";
-  progress = 100;
-}else if(points >= 500){
-  level = "🥇 Gold";
-  progress = (points - 500) / 5;
-}else if(points >= 200){
-  level = "🥈 Silver";
-  progress = (points - 200) / 3;
-}else{
-  level = "🥉 Bronze";
-  progress = points / 2;
-}
-
-/* UPDATE UI */
-document.getElementById("points").innerText = points + " Points";
-document.getElementById("level").innerText = level;
-document.getElementById("progress").style.width = progress + "%";
-
-document.getElementById("summary").innerText =
-  "Present: " + present +
-  " | Leave: " + leave +
-  " | Absent: " + absent;
-
-/* NAVIGATION */
-function go(page){
-  window.location.replace(page);
-}
-
+    async function updateTicket(id) {
+        const fw = document.getElementById(`fw-${id}`).value;
+        const payload = {
+            action: "update",
+            id: id,
+            officerName: loggedOfficer.name,
+            designation: loggedOfficer.designation,
+            opinion: document.getElementById(`op-${id}`).value,
+            newStatus: fw === "Resolved" ? "Resolved" : "Forwarded",
+            forwardTo: fw === "Resolved" ? "Closed" : fw
+        };
+        await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
+        alert("Action Saved");
+        loadTickets();
+    }
 </script>
-
 </body>
 </html>
