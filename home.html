@@ -960,6 +960,9 @@ display:block;
 0%{transform:rotate(0deg);}
 100%{transform:rotate(360deg);}
 }
+  #grievancePopup{
+pointer-events: all;
+}
 </style>
 </head>
 
@@ -1912,25 +1915,21 @@ function closeMenu(){
 
 function openGrievancePopup(){
 
-  // 🔥 KEEP SIDENAV OPEN (no close)
+  // 🔥 DISABLE SIDENAV OVERLAY CLICK
+  document.getElementById("sideOverlay").style.pointerEvents = "none";
 
-  // 🔥 BLOCK BACKGROUND INTERACTION
+  // 🔥 KEEP SIDENAV STATE
   document.body.style.overflow = "hidden";
-
-  // 🔥 DIM APP PAGE (not hide)
-  document.getElementById("appPage").style.opacity = "0.3";
 
   // show popup
   document.getElementById("grievancePopup").style.display = "flex";
 }
-
 function closeGrievancePopup(){
 
   document.getElementById("grievancePopup").style.display = "none";
 
-  // 🔥 RESTORE UI
-  document.body.style.overflow = "hidden"; // sidenav still open
-  document.getElementById("appPage").style.opacity = "1";
+  // 🔥 ENABLE OVERLAY AGAIN
+  document.getElementById("sideOverlay").style.pointerEvents = "auto";
 
 }
 
