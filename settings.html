@@ -3,43 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Menu</title>
+<title>Settings</title>
 
 <style>
 
 body{
 font-family:'Segoe UI', sans-serif;
 margin:0;
-background:#ffffff;
-height:100vh;
-overflow:hidden;
+background:#f4f6ff;
 }
 
-/* 🔥 PAGE ANIMATION (FROM LEFT) */
+/* PAGE */
 #appPage{
 transform:translateX(-100%);
-transition:transform 0.35s ease;
-height:100%;
+transition:0.35s ease;
+min-height:100vh;
 }
 
 /* HEADER */
 .header{
-padding:45px 25px 30px;
+padding:45px 20px 30px;
 background:linear-gradient(135deg,#2400b7,#3b1eff);
 color:white;
 border-bottom-right-radius:40px;
 }
 
-/* CLOSE ICON */
 .close-btn{
 font-size:26px;
 cursor:pointer;
-margin-bottom:20px;
-display:inline-block;
-}
-
-.close-btn:active{
-transform:scale(0.8);
+margin-bottom:15px;
 }
 
 /* PROFILE */
@@ -56,78 +48,118 @@ border-radius:50%;
 border:2px solid rgba(255,255,255,0.4);
 }
 
-.profile h2{
-margin:0;
-font-size:18px;
+/* SECTION */
+.section{
+padding:15px;
 }
 
-.profile p{
-margin:4px 0 0;
-font-size:12px;
-opacity:0.8;
+/* CARD */
+.card{
+background:white;
+border-radius:18px;
+padding:15px;
+margin-bottom:15px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
 }
 
-/* MENU */
-.menu-content{
-padding:20px 15px;
+/* ITEM */
+.item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 0;
+border-bottom:1px solid #eee;
 }
 
-.nav-link{
+.item:last-child{
+border:none;
+}
+
+.left{
 display:flex;
 align-items:center;
-padding:15px;
-margin-bottom:10px;
-background:#f8f9ff;
-border-radius:15px;
-text-decoration:none;
-color:#444;
+gap:10px;
 font-weight:600;
-}
-
-.nav-link:active{
-background:#eef0ff;
-transform:scale(0.97);
 }
 
 .icon{
 width:35px;
 height:35px;
-background:white;
 border-radius:10px;
+background:#eef0ff;
 display:flex;
 align-items:center;
 justify-content:center;
-margin-right:15px;
 }
 
-/* FOOTER BUTTON */
-.footer{
+/* SWITCH */
+.switch{
+position:relative;
+width:45px;
+height:24px;
+}
+
+.switch input{
+display:none;
+}
+
+.slider{
 position:absolute;
-bottom:30px;
-width:100%;
-padding:0 20px;
-box-sizing:border-box;
+cursor:pointer;
+top:0;
+left:0;
+right:0;
+bottom:0;
+background:#ccc;
+border-radius:20px;
+transition:.3s;
 }
 
-.close-full-btn{
+.slider:before{
+position:absolute;
+content:"";
+height:18px;
+width:18px;
+left:3px;
+bottom:3px;
+background:white;
+border-radius:50%;
+transition:.3s;
+}
+
+input:checked + .slider{
+background:#2400b7;
+}
+
+input:checked + .slider:before{
+transform:translateX(20px);
+}
+
+/* BUTTON */
+.btn{
 width:100%;
 padding:14px;
-background:#ff3d3d;
-color:white;
 border:none;
-border-radius:15px;
+border-radius:14px;
+background:#2400b7;
+color:white;
 font-weight:bold;
-font-size:15px;
-display:flex;
-align-items:center;
-justify-content:center;
-gap:10px;
-box-shadow:0 6px 15px rgba(255,61,61,0.3);
+margin-top:10px;
 }
 
-.close-full-btn:active{
-transform:scale(0.96);
-background:#e63535;
+/* LOGOUT */
+.logout{
+background:#ff3d3d;
+}
+
+/* DARK MODE */
+.dark{
+background:#121212;
+color:white;
+}
+
+.dark .card{
+background:#1e1e1e;
 }
 
 </style>
@@ -137,6 +169,7 @@ background:#e63535;
 
 <div id="appPage">
 
+<!-- HEADER -->
 <div class="header">
 
 <div class="close-btn" onclick="goBack()">✕</div>
@@ -151,85 +184,164 @@ background:#e63535;
 
 </div>
 
-<div class="menu-content">
+<div class="section">
 
-<a href="home.html" class="nav-link">
-<div class="icon">🏠</div> Home
-</a>
+<!-- 🔔 GENERAL -->
+<div class="card">
 
-<a href="resources.html" class="nav-link">
-<div class="icon">📂</div> Resources
-</a>
+<div class="item">
+<div class="left">
+<div class="icon">🌙</div> Dark Mode
+</div>
 
-<a href="employee_info.html" class="nav-link">
-<div class="icon">👤</div> My Profile
-</a>
+<label class="switch">
+<input type="checkbox" id="darkToggle">
+<span class="slider"></span>
+</label>
+</div>
 
-<a href="forum.html" class="nav-link">
-<div class="icon">💬</div> Forum
-</a>
+<div class="item">
+<div class="left">
+<div class="icon">🔔</div> Notifications
+</div>
+
+<label class="switch">
+<input type="checkbox" id="notifyToggle" checked>
+<span class="slider"></span>
+</label>
+</div>
 
 </div>
 
-<div class="footer">
-<button class="close-full-btn" onclick="goBack()">
-⬅ Close Menu
-</button>
+<!-- 🔐 SECURITY -->
+<div class="card">
+
+<div class="item">
+<div class="left">
+<div class="icon">🔐</div> Change Password
+</div>
+</div>
+
+<input type="password" placeholder="New Password" id="newPass" style="width:100%;padding:10px;border-radius:10px;border:1px solid #ccc;margin-top:10px;">
+
+<button class="btn" onclick="changePassword()">Update Password</button>
+
+</div>
+
+<!-- 🧹 APP CONTROL -->
+<div class="card">
+
+<div class="item" onclick="clearCache()">
+<div class="left">
+<div class="icon">🧹</div> Clear Cache
+</div>
+</div>
+
+<div class="item">
+<div class="left">
+<div class="icon">📊</div> App Version
+</div>
+<span>v1.0</span>
+</div>
+
+</div>
+
+<!-- 🚪 LOGOUT -->
+<button class="btn logout" onclick="logout()">Logout</button>
+
 </div>
 
 </div>
 
 <script>
 
-/* LOAD USER NAME */
+/* LOAD USER */
 document.addEventListener("DOMContentLoaded", ()=>{
-  let user = localStorage.getItem("currentUser");
-  if(user){
-    document.getElementById("userName").innerText = user;
-  }
+let user = localStorage.getItem("currentUser");
+document.getElementById("userName").innerText = user || "User";
+
+/* DARK MODE LOAD */
+if(localStorage.getItem("darkMode")==="true"){
+document.body.classList.add("dark");
+document.getElementById("darkToggle").checked = true;
+}
 });
 
-/* 🔥 OPEN FROM LEFT */
-window.onload = function(){
-  let page = document.getElementById("appPage");
-
-  setTimeout(()=>{
-    page.style.transform = "translateX(0)";
-  },10);
+/* PAGE OPEN */
+window.onload = ()=>{
+setTimeout(()=>{
+document.getElementById("appPage").style.transform="translateX(0)";
+},10);
 };
 
-/* 🔥 CLOSE TO LEFT */
+/* BACK */
 function goBack(){
-
-  let page = document.getElementById("appPage");
-
-  page.style.transform = "translateX(-100%)";
-
-  setTimeout(()=>{
-    window.history.back();
-  },300);
+let page = document.getElementById("appPage");
+page.style.transform="translateX(-100%)";
+setTimeout(()=>window.history.back(),300);
 }
 
-/* 🔥 SWIPE LEFT TO CLOSE */
-let startX = 0;
-let startY = 0;
+/* DARK MODE */
+document.getElementById("darkToggle").addEventListener("change", function(){
+if(this.checked){
+document.body.classList.add("dark");
+localStorage.setItem("darkMode","true");
+}else{
+document.body.classList.remove("dark");
+localStorage.setItem("darkMode","false");
+}
+});
 
-document.addEventListener("touchstart", e=>{
-  startX = e.touches[0].clientX;
-  startY = e.touches[0].clientY;
+/* NOTIFICATION */
+document.getElementById("notifyToggle").addEventListener("change", function(){
+localStorage.setItem("notifications", this.checked);
+});
+
+/* CHANGE PASSWORD */
+function changePassword(){
+let pass = document.getElementById("newPass").value;
+
+if(pass.length < 4){
+alert("Password too short");
+return;
+}
+
+localStorage.setItem("password", pass);
+alert("Password updated successfully");
+}
+
+/* CLEAR CACHE */
+function clearCache(){
+
+if('caches' in window){
+caches.keys().then(names=>{
+for(let name of names) caches.delete(name);
+});
+}
+
+localStorage.clear();
+
+alert("Cache cleared");
+location.reload();
+}
+
+/* LOGOUT */
+function logout(){
+localStorage.removeItem("currentUser");
+window.location.href="login.html";
+}
+
+/* SWIPE CLOSE */
+let startX=0;
+document.addEventListener("touchstart",e=>{
+startX=e.touches[0].clientX;
 },{passive:true});
 
-document.addEventListener("touchend", e=>{
-  let endX = e.changedTouches[0].clientX;
-  let endY = e.changedTouches[0].clientY;
-
-  let diffX = endX - startX;
-  let diffY = Math.abs(endY - startY);
-
-  // swipe LEFT to close
-  if(diffX < -60 && diffY < 50){
-    goBack();
-  }
+document.addEventListener("touchend",e=>{
+let endX=e.changedTouches[0].clientX;
+if(endX < startX - 60){
+goBack();
+}
 });
 
 </script>
