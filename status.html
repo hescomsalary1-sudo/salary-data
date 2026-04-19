@@ -158,88 +158,84 @@
         </div>
     </div>
 
-    <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzt4moF7TSX4so_H50w9lYZDjl3_8OXvhf1PXWYuHTg45vNYL5jeZrjNyy7MxPx1W50/exec";
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzOqDDARIyXSnqaJth9fE2HSVGr7Vs1uYCEgYmX1gDIxxRcAoitVqed1HkqaLmK3SL2/exec";
 
-        async function searchGrievance() {
-            const ticketID = document.getElementById('ticketInput').value.trim();
-            const loader = document.getElementById('loader');
-            const resultArea = document.getElementById('resultArea');
+    async function searchGrievance() {
+        const ticketID = document.getElementById('ticketInput').value.trim();
+        const loader = document.getElementById('loader');
+        const resultArea = document.getElementById('resultArea');
 
-            if (!ticketID) { alert("Please enter a Ticket ID"); return; }
+        if (!ticketID) { alert("Please enter a Ticket ID"); return; }
 
-            resultArea.style.display = 'none';
-            loader.style.display = 'block';
+        resultArea.style.display = 'none';
+        loader.style.display = 'block';
 
-            try {
-                const response = await fetch(SCRIPT_URL);
-                const data = await response.json();
-                
-                // Matching exactly with "TicketID" header
-                const item = data.find(g => 
-                    (g.TicketID || "").toString().toLowerCase() === ticketID.toLowerCase()
-                );
+        try {
+            const response = await fetch(SCRIPT_URL);
+            const data = await response.json();
+            
+            // Your script uses 'id' (lowercase) in the .map() function
+            const item = data.find(g => 
+                (g.id || "").toString().toLowerCase() === ticketID.toLowerCase()
+            );
 
-                if (item) {
-                    renderGrievance(item);
-                } else {
-                    alert("Ticket ID not found. Ensure it is correct (e.g. GR-1234)");
-                }
-            } catch (err) {
-                console.error(err);
-                alert("Connection error. Please check your internet and try again.");
-            } finally {
-                loader.style.display = 'none';
-            }
-        }
-
-        function renderGrievance(item) {
-            // Mapping to your Column Headers
-            document.getElementById('resID').innerText = `#${item.TicketID}`;
-            document.getElementById('resUser').innerText = item.User || "Unknown";
-            document.getElementById('resSubject').innerText = item.Subject || "No Subject Provided";
-            document.getElementById('resHandler').innerText = item.CurrentHandler || "Awaiting Assignment";
-
-            // Status Badge Logic
-            const statusText = (item.Status || "Pending").trim();
-            const statusEl = document.getElementById('resStatus');
-            statusEl.innerText = statusText;
-            statusEl.className = `status-chip ${statusText.toLowerCase() === 'resolved' ? 'resolved-chip' : 'pending-chip'}`;
-
-            // Timeline Logic
-            const timeline = document.getElementById('historyTimeline');
-            let historyData = [];
-
-            // Attempt to parse History column (checks if it's JSON or string)
-            try {
-                if (typeof item.History === "string" && item.History.startsWith("[")) {
-                    historyData = JSON.parse(item.History);
-                } else if (item.History) {
-                    // If it's just a single text note
-                    historyData = [{ date: item.Date, officer: item.CurrentHandler, note: item.History }];
-                }
-            } catch (e) { historyData = []; }
-
-            if (historyData.length > 0) {
-                timeline.innerHTML = historyData.reverse().map((h, index) => `
-                    <div class="timeline-item ${index === 0 ? 'latest' : ''}">
-                        <span class="tm-date">${h.date || item.Date}</span>
-                        <span class="tm-officer">${h.officer || 'Official'}</span>
-                        <div class="tm-note">${h.note || 'Processed'}</div>
-                    </div>
-                `).join('');
+            if (item) {
+                renderGrievance(item);
             } else {
-                // Fallback if no history exists yet
-                timeline.innerHTML = `
-                    <div class="timeline-item latest">
-                        <span class="tm-date">${item.Date}</span>
-                        <span class="tm-officer">Submission</span>
-                        <div class="tm-note">Grievance registered. Currently with ${item.CurrentHandler || 'Authority'}.</div>
-                    </div>`;
+                alert("Ticket ID '" + ticketID + "' not found. Check if it matches exactly (e.g. GR-1234)");
             }
-
-            document.getElementById('resultArea').style.display = 'block';
+        } catch (err) {
+            console.error("Fetch error:", err);
+            alert("Connection error. Could not reach the server.");
+        } finally {
+            loader.style.display = 'none';
         }
-    </script>
+    }
+
+    function renderGrievance(item) {
+        // Updated to match your Apps Script: id, user, sub, status, handler
+        document.getElementById('resID').innerText = `#${item.id}`;
+        document.getElementById('resUser').innerText = item.user || "N/A";
+        document.getElementById('resSubject').innerText = item.sub || "No Subject";
+        document.getElementById('resHandler').innerText = item.handler || "In Process";
+
+        // Status Styling
+        const statusText = (item.status || "Open").trim();
+        const statusEl = document.getElementById('resStatus');
+        statusEl.innerText = statusText;
+        
+        // Matches "Resolved" or "Closed" for the green color
+        if(statusText.toLowerCase() === 'resolved' || statusText.toLowerCase() === 'closed') {
+            statusEl.className = 'status-chip resolved-chip';
+        } else {
+            statusEl.className = 'status-chip pending-chip';
+        }
+
+        // Timeline Logic
+        const timeline = document.getElementById('historyTimeline');
+        
+        // Since your Apps Script already does JSON.parse(r[10]), history is already an array
+        if (item.history && Array.isArray(item.history) && item.history.length > 0) {
+            // .reverse() shows the newest update at the top
+            timeline.innerHTML = [...item.history].reverse().map((h, index) => `
+                <div class="timeline-item ${index === 0 ? 'latest' : ''}">
+                    <span class="tm-date">${h.date || item.date}</span>
+                    <span class="tm-officer">${h.officer || 'Officer'}</span>
+                    <div class="tm-note">${h.note || 'Processed'}</div>
+                </div>
+            `).join('');
+        } else {
+            timeline.innerHTML = `
+                <div class="timeline-item latest">
+                    <span class="tm-date">${item.date}</span>
+                    <span class="tm-officer">Submission</span>
+                    <div class="tm-note">Grievance submitted successfully. Awaiting review from ${item.handler}.</div>
+                </div>`;
+        }
+
+        document.getElementById('resultArea').style.display = 'block';
+    }
+</script>
 </body>
 </html>
