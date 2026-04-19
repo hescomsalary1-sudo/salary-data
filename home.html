@@ -1004,7 +1004,7 @@ display:block;
 
   <!-- FOOTER -->
   <div class="menu-footer">
-    <button onclick="closeSideNav()">⬅ Close Menu</button>
+    <button onclick="closeMenu()">⬅ Close Menu</button>
   </div>
 
 </div>
@@ -1873,7 +1873,8 @@ document.addEventListener("touchend", ()=>{
       openMenu();   // go FULL OPEN
     }
   }
-
+currentX = 0;
+startX = 0;
   // 🔥 EXTRA SAFETY (prevents stuck state)
   setTimeout(()=>{
     if(isOpen){
