@@ -2011,68 +2011,65 @@ function closeMenu(){
   isOpen = false;
 }
 
-const G_SHEET_URL = "https://script.google.com/macros/s/AKfycbzOqDDARIyXSnqaJth9fE2HSVGr7Vs1uYCEgYmX1gDIxxRcAoitVqed1HkqaLmK3SL2/exec";
 
-async function checkSheetForNewGrievance() {
+
+// --- GRIEVANCE PORTAL LOGIC ---
+const G_SHEET_URL = "https://script.google.com/macros/s/AKfycbzOqDDARIyXSnqaJth9fE2HSVGr7Vs1uYCEgYmX1gDIxxRcAoitVqed1HkqaLmK3SL2/exec"; 
+
+async function checkGrievances() {
     try {
         const res = await fetch(G_SHEET_URL);
         const data = await res.json();
-        
+        const currentUser = localStorage.getItem("currentUser");
+
         if (data && data.length > 0) {
-            // 1. Filter only those grievances that are NOT resolved
-            // Note: Ensure 'item.status' matches the column name in your Sheet
+            // Filter: Must be for current user AND status is NOT Resolved
             const activeGrievances = data.filter(item => 
-                item.status.toLowerCase() !== "resolved" && 
-                item.status.toLowerCase() !== "closed"
+                item.username === currentUser && 
+                item.status.toLowerCase() !== "resolved"
             );
 
             const badge = document.getElementById("notifBadge");
 
             if (activeGrievances.length > 0) {
-                // 2. Show the badge with the number of active complaints
+                // Show badge with number of active complaints
                 badge.innerText = activeGrievances.length;
-                badge.style.display = "block";
+                badge.style.display = "flex";
                 
-                // Store the latest one to show in the popup
-                const latest = activeGrievances[activeGrievances.length - 1];
-                localStorage.setItem("tempGrievanceData", JSON.stringify(latest));
+                // Store the latest one for the popup
+                localStorage.setItem("latestGrievance", JSON.stringify(activeGrievances[0]));
             } else {
-                // 3. No active complaints? Hide the badge
                 badge.style.display = "none";
-                localStorage.removeItem("tempGrievanceData");
+                localStorage.removeItem("latestGrievance");
             }
         }
     } catch (e) {
-        console.error("Error checking grievances:", e);
+        console.error("Grievance Error:", e);
     }
 }
 
 function openGrievanceNotif() {
-    const dataString = localStorage.getItem("tempGrievanceData");
+    const dataString = localStorage.getItem("latestGrievance");
     
     if (!dataString) {
-        alert("No new notifications. All grievances are resolved!");
+        alert("No notifications. All grievances are resolved!");
         return;
     }
 
     const data = JSON.parse(dataString);
     const content = `
-        <div class="g-detail" style="text-align:center; margin-bottom:15px;">
-            <span class="status-badge" style="background:#fff4f4; color:#ff3d3d; padding:5px 12px; border-radius:12px; font-size:12px; font-weight:bold;">
+        <div class="g-detail" style="text-align:center;">
+            <span class="status-badge" style="background:#fff4f4; color:#ff3d3d; padding:4px 10px; border-radius:10px; font-size:12px; font-weight:bold;">
                 Status: ${data.status}
             </span>
         </div>
         <div class="g-detail">
-            <span class="g-label">Ticket ID</span>
-            <span class="g-value">#${data.id}</span>
-        </div>
-        <div class="g-detail">
             <span class="g-label">Subject</span>
-            <span class="g-value">${data.subject || data.sub}</span>
+            <span class="g-value">${data.subject}</span>
         </div>
         <div class="g-detail">
-            <span class="g-label">Description</span>
-            <span class="g-value" style="font-weight:normal; font-size:12px;">${data.desc}</span>
+            <span class="g-label">Details</span>
+            <span class="g-value" style="font-weight:normal;">${data.details}</span>
         </div>
     `;
     
@@ -2082,11 +2079,10 @@ function openGrievanceNotif() {
 
 function closeGrievanceNotif() {
     document.getElementById("grievanceOverlay").style.display = "none";
-    // We don't hide the badge here because the complaint is still "Unresolved" in the sheet
 }
 
-// Run the check when page loads
-checkSheetForNewGrievance();
+// Start checking when page loads
+checkGrievances();
 </script>
 
   <!-- GRIEVANCE POPUP -->
@@ -2187,15 +2183,14 @@ box-shadow:0 10px 30px rgba(0,0,0,0.2);
 </div>
 
 </div>
- <div id="grievanceOverlay">
+<div id="grievanceOverlay">
     <div class="grievance-card">
         <div class="grievance-header">
-            <div style="font-size:30px">🔔</div>
-            <h3 style="margin:5px 0">New Grievance Details</h3>
+            <h3 style="margin:0;">Grievance Update</h3>
         </div>
         <div class="grievance-body" id="grievanceContent">
             </div>
-        <button class="g-close" onclick="closeGrievanceNotif()">Understood</button>
+        <button class="g-close" onclick="closeGrievanceNotif()">Close</button>
     </div>
 </div>
 </body>
