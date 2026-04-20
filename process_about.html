@@ -1,184 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Info Center</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Information Hub | Grievance Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0062ff;
+            --bg: #f8fafc;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --white: #ffffff;
+        }
 
-<style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: #fff;
-}
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-/* HEADER */
-.header {
-  text-align: center;
-  padding: 20px;
-  font-size: 20px;
-  font-weight: bold;
-}
+        body {
+            margin: 0; padding: 0; min-height: 100vh;
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg); color: var(--text-dark);
+            line-height: 1.6;
+        }
 
-/* CARD STYLE */
-.card {
-  background: rgba(255,255,255,0.08);
-  margin: 15px;
-  padding: 15px;
-  border-radius: 18px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-}
+        /* Fixed Header */
+        nav {
+            position: fixed; top: 0; width: 100%; height: 65px;
+            background: #0f172a; display: flex; align-items: center;
+            padding: 0 20px; z-index: 1000;
+        }
+        .back-btn { color: white; text-decoration: none; font-size: 1.2rem; margin-right: 15px; }
+        .nav-title { color: white; font-weight: 700; font-size: 1.1rem; }
 
-/* TIP + NOTICE */
-.info-box {
-  font-size: 14px;
-  line-height: 1.6;
-}
+        /* Tabs Navigation */
+        .tabs-header {
+            margin-top: 65px; background: white;
+            display: flex; border-bottom: 1px solid #e2e8f0;
+            position: sticky; top: 65px; z-index: 999;
+        }
+        .tab-btn {
+            flex: 1; padding: 18px 0; border: none; background: none;
+            font-weight: 700; color: var(--text-muted); font-size: 0.9rem;
+            cursor: pointer; transition: 0.3s; position: relative;
+        }
+        .tab-btn.active { color: var(--primary); }
+        .tab-btn.active::after {
+            content: ''; position: absolute; bottom: 0; left: 20%; right: 20%;
+            height: 3px; background: var(--primary); border-radius: 10px 10px 0 0;
+        }
 
-/* POINTS SECTION */
-.points {
-  font-size: 26px;
-  font-weight: bold;
-}
+        .container { padding: 25px 20px; max-width: 600px; margin: 0 auto; }
 
-.level {
-  margin-top: 5px;
-  font-size: 16px;
-  color: #ffd700;
-}
+        .content-section { display: none; animation: fadeIn 0.4s ease; }
+        .content-section.active { display: block; }
 
-/* PROGRESS BAR */
-.progress-bar {
-  height: 8px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 10px;
-  margin-top: 10px;
-  overflow: hidden;
-}
+        /* Procedure Styling */
+        .step-card {
+            background: white; border-radius: 20px; padding: 20px;
+            margin-bottom: 15px; display: flex; gap: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.05);
+        }
+        .step-num {
+            width: 35px; height: 35px; background: #eef5ff; color: var(--primary);
+            border-radius: 10px; display: flex; align-items: center;
+            justify-content: center; font-weight: 800; flex-shrink: 0;
+        }
+        .step-content h4 { margin: 0 0 5px 0; font-size: 1rem; color: var(--text-dark); }
+        .step-content p { margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
 
-.progress {
-  height: 100%;
-  background: #00ffcc;
-  width: 0%;
-}
+        /* About Section Styling */
+        .about-hero {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            border-radius: 24px; padding: 30px 20px; color: white;
+            text-align: center; margin-bottom: 25px;
+        }
+        .about-hero h3 { margin: 0 0 10px 0; font-size: 1.4rem; }
+        .about-hero p { margin: 0; font-size: 0.9rem; opacity: 0.8; }
 
-/* GRID BUTTONS */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-top: 10px;
-}
+        .mission-box {
+            background: white; border-radius: 20px; padding: 25px;
+            border-left: 5px solid var(--primary); margin-bottom: 20px;
+        }
+        .mission-box h4 { margin: 0 0 10px 0; color: var(--primary); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
 
-.btn {
-  padding: 12px;
-  border-radius: 12px;
-  text-align: center;
-  background: rgba(255,255,255,0.12);
-  cursor: pointer;
-  transition: 0.3s;
-}
+        .contact-pill {
+            display: flex; align-items: center; gap: 12px;
+            background: white; padding: 15px; border-radius: 15px;
+            margin-bottom: 10px; text-decoration: none; color: inherit;
+        }
+        .contact-pill i { color: var(--primary); font-size: 1.1rem; }
 
-.btn:hover {
-  background: rgba(255,255,255,0.25);
-  transform: scale(1.05);
-}
-
-/* SMALL TEXT */
-.small {
-  font-size: 13px;
-  opacity: 0.8;
-}
-</style>
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
-
 <body>
 
-<div class="header">⚡ Info Center</div>
+    <nav>
+        <a href="home_grievance.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+        <div class="nav-title">Information Center</div>
+    </nav>
 
-<!-- FUN + INFO -->
-<div class="card">
-  <div class="info-box">
-    💡 Tip: Maintain full attendance to earn bonus points!<br>
-    📢 Notice: Salary will be credited on 5th
-  </div>
-</div>
+    <div class="tabs-header">
+        <button class="tab-btn active" onclick="openTab(event, 'process')">PROCEDURE</button>
+        <button class="tab-btn" onclick="openTab(event, 'about')">ABOUT US</button>
+    </div>
 
-<!-- REWARDS -->
-<div class="card">
-  <div class="points" id="points">0 Points</div>
-  <div class="level" id="level">Bronze</div>
+    <div class="container">
+        
+        <div id="process" class="content-section active">
+            <h3 style="margin-bottom: 20px;">Grievance Workflow</h3>
+            
+            <div class="step-card">
+                <div class="step-num">01</div>
+                <div class="step-content">
+                    <h4>Submit Request</h4>
+                    <p>Fill out the digital form with your details, category of grievance, and a clear description of the issue.</p>
+                </div>
+            </div>
 
-  <div class="progress-bar">
-    <div class="progress" id="progress"></div>
-  </div>
+            <div class="step-card">
+                <div class="step-num">02</div>
+                <div class="step-content">
+                    <h4>Initial Review</h4>
+                    <p>Your ticket is automatically assigned to the relevant department head for initial verification.</p>
+                </div>
+            </div>
 
-  <div class="small" id="summary"></div>
-</div>
+            <div class="step-card">
+                <div class="step-num">03</div>
+                <div class="step-content">
+                    <h4>Processing</h4>
+                    <p>The authority investigates the matter and provides remarks or forwards it to the necessary official.</p>
+                </div>
+            </div>
 
-<!-- QUICK ACTIONS -->
-<div class="card">
-  <div class="grid">
-    <div class="btn" onclick="go('salary.html')">💰 Salary</div>
-    <div class="btn" onclick="go('attendance.html')">📅 Attendance</div>
-    <div class="btn" onclick="go('seniority.html')">📊 Seniority</div>
-    <div class="btn" onclick="go('forum.html')">💬 Forum</div>
-  </div>
-</div>
+            <div class="step-card">
+                <div class="step-num">04</div>
+                <div class="step-content">
+                    <h4>Resolution</h4>
+                    <p>Once fixed, the status changes to "Resolved." You can then view the final outcome in your Track Status page.</p>
+                </div>
+            </div>
 
-<script>
+            <div class="step-card" style="border-left: 3px solid #f59e0b;">
+                <div class="step-num" style="background:#fff7ed; color:#f59e0b;">!</div>
+                <div class="step-content">
+                    <h4>Appeal Option</h4>
+                    <p>If you are not satisfied with the resolution, you have 7 days to file an appeal for higher authority review.</p>
+                </div>
+            </div>
+        </div>
 
-/* SAMPLE DATA (Replace later with real data from CSV) */
-let present = 18;
-let leave = 2;
-let absent = 1;
+        <div id="about" class="content-section">
+            <div class="about-hero">
+                <h3>Transparency First</h3>
+                <p>Ensuring every employee voice is heard and every concern is addressed with integrity.</p>
+            </div>
 
-/* POINT CALCULATION */
-let points =
-  (present * 10) +
-  (leave * 5) +
-  (absent * 0);
+            <div class="mission-box">
+                <h4>Our Objective</h4>
+                <p style="font-size: 0.95rem; font-weight: 500;">To provide a seamless, paperless, and time-bound grievance redressal mechanism that fosters trust and professional growth within the organization.</p>
+            </div>
 
-/* BONUS */
-if(absent === 0) points += 50; // monthly bonus
-if(absent <= 1) points += 20; // weekly consistency
+            <h4 style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin: 30px 0 15px;">Support & Contact</h4>
+            
+            <div class="contact-pill">
+                <i class="fa-solid fa-building-shield"></i>
+                <div>
+                    <div style="font-size: 0.85rem; font-weight: 700;">HR Administration</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">Main Office, Level 4</div>
+                </div>
+            </div>
 
-/* LEVEL SYSTEM */
-let level = "Bronze";
-let progress = 0;
+            <div class="contact-pill">
+                <i class="fa-solid fa-envelope"></i>
+                <div>
+                    <div style="font-size: 0.85rem; font-weight: 700;">IT Support Email</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">support.portal@company.com</div>
+                </div>
+            </div>
 
-if(points >= 1000){
-  level = "💎 Platinum";
-  progress = 100;
-}else if(points >= 500){
-  level = "🥇 Gold";
-  progress = (points - 500) / 5;
-}else if(points >= 200){
-  level = "🥈 Silver";
-  progress = (points - 200) / 3;
-}else{
-  level = "🥉 Bronze";
-  progress = points / 2;
-}
+            <div class="contact-pill">
+                <i class="fa-solid fa-phone-volume"></i>
+                <div>
+                    <div style="font-size: 0.85rem; font-weight: 700;">Internal Helpline</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">Ext: 4455 (9 AM - 5 PM)</div>
+                </div>
+            </div>
+        </div>
 
-/* UPDATE UI */
-document.getElementById("points").innerText = points + " Points";
-document.getElementById("level").innerText = level;
-document.getElementById("progress").style.width = progress + "%";
+    </div>
 
-document.getElementById("summary").innerText =
-  "Present: " + present +
-  " | Leave: " + leave +
-  " | Absent: " + absent;
+    <script>
+        function openTab(evt, tabName) {
+            var i, content, tablinks;
+            
+            // Hide all sections
+            content = document.getElementsByClassName("content-section");
+            for (i = 0; i < content.length; i++) {
+                content[i].style.display = "none";
+            }
 
-/* NAVIGATION */
-function go(page){
-  window.location.replace(page);
-}
+            // Deactivate all buttons
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
 
-</script>
+            // Show current section and add active class to button
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
 
+        // Handle URL parameters if you want to link directly to "About"
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            const view = params.get('view');
+            if(view === 'about') {
+                document.querySelectorAll('.tab-btn')[1].click();
+            }
+        };
+    </script>
 </body>
 </html>
