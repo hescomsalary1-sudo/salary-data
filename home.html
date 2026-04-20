@@ -2005,73 +2005,75 @@ function closeMenu(){
   isOpen = false;
 }
 
-function openGrievancePopup(){
+// Use the same SCRIPT_URL from your grievance.html
+const G_SHEET_URL = "https://script.google.com/macros/s/AKfycbzOqDDARIyXSnqaJth9fE2HSVGr7Vs1uYCEgYmX1gDIxxRcAoitVqed1HkqaLmK3SL2/exec";
 
-  isPopupOpen = true;
+async function checkSheetForNewGrievance() {
+    try {
+        const res = await fetch(G_SHEET_URL);
+        const data = await res.json();
+        
+        if (data && data.length > 0) {
+            // Get the very last complaint (newest)
+            const latestGrievance = data[data.length - 1];
+            const lastSeenId = localStorage.getItem("lastSeenGrievanceId");
 
-  // 🔥 LOCK SIDENAV POSITION (very important)
-  sideNav.style.transition = "none";
-  sideNav.style.transform = "translateX(0)";
-
-  // 🔥 DISABLE SWIPE + TOUCH
-  document.body.style.pointerEvents = "none";
-
-  // allow popup interaction only
-  document.getElementById("grievancePopup").style.pointerEvents = "all";
-  document.getElementById("grievancePopup").style.display = "flex";
-}
-function closeGrievancePopup(){
-
-  isPopupOpen = false;
-
-  document.getElementById("grievancePopup").style.display = "none";
-
-  // 🔥 RESTORE INTERACTION
-  document.body.style.pointerEvents = "auto";
-
-}
-
-function continueToGrievance(){
-
-  // hide buttons
-  document.getElementById("grievanceBtns").style.display = "none";
-
-  // show spinner
-  document.getElementById("grievanceLoader").style.display = "block";
-
-  // redirect after delay
-  setTimeout(()=>{
-    window.location = "welcome.html"; // 👉 change if needed
-  },1500);
-}
-
-  // Function to check for new complaints
-async function checkNewGrievances() {
-    const user = localStorage.getItem("currentUser");
-    // This is where you'd typically fetch your grievance CSV/Database
-    // For now, let's simulate a 'New' status check
-    const hasNewComplaint = true; 
-
-    if(hasNewComplaint) {
-        document.getElementById("notifCount").style.display = "block";
-        document.getElementById("notifCount").innerText = "1";
+            // If the ID is new, show the red notification badge
+            if (latestGrievance.id !== lastSeenId) {
+                document.getElementById("notifBadge").style.display = "block";
+                // Store the latest data temporarily to show in the popup
+                localStorage.setItem("tempGrievanceData", JSON.stringify(latestGrievance));
+            }
+        }
+    } catch (e) {
+        console.log("Error checking sheet:", e);
     }
 }
 
-// Open the beautiful popup
-function openGrievanceDetails() {
-    // Optional: Hide badge once clicked
-    document.getElementById("notifCount").style.display = "none";
-    document.getElementById("grievanceOverlay").style.display = "flex";
+function openGrievanceNotif() {
+    const dataString = localStorage.getItem("tempGrievanceData");
+    if (!dataString) return;
+
+    const data = JSON.parse(dataString);
+    
+    // Build the beautiful popup content
+    const content = `
+        <div class="notif-row">
+            <span class="notif-label">Ticket ID</span><br>
+            <strong style="color:#2400b7;">#${data.id}</strong>
+        </div>
+        <div class="notif-row">
+            <span class="notif-label">Employee</span><br>
+            <span>${data.user}</span>
+        </div>
+        <div class="notif-row">
+            <span class="notif-label">Subject</span><br>
+            <span>${data.sub}</span>
+        </div>
+        <div class="notif-row" style="background:#f8f9ff; padding:10px; border-radius:10px; margin-top:10px;">
+            <span class="notif-label">Description</span><br>
+            <span style="font-size:12px;">${data.desc}</span>
+        </div>
+    `;
+    
+    document.getElementById("notifContent").innerHTML = content;
+    document.getElementById("notifOverlay").style.display = "flex";
 }
 
-// Close popup
-function closeGrievance() {
-    document.getElementById("grievanceOverlay").style.display = "none";
+function closeNotif() {
+    const dataString = localStorage.getItem("tempGrievanceData");
+    if (dataString) {
+        const data = JSON.parse(dataString);
+        // Save this ID as "seen" so the badge disappears
+        localStorage.setItem("lastSeenGrievanceId", data.id);
+    }
+    
+    document.getElementById("notifOverlay").style.display = "none";
+    document.getElementById("notifBadge").style.display = "none";
 }
 
-// Call the check on load
-checkNewGrievances();
+// Check the sheet whenever home.html is loaded
+document.addEventListener("DOMContentLoaded", checkSheetForNewGrievance);
 </script>
 
   <!-- GRIEVANCE POPUP -->
