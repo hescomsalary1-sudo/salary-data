@@ -1,183 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Info Center</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Statistics | Grievance Analytics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --pending: #f59e0b;
+            --resolved: #10b981;
+            --appeal: #ef4444;
+            --bg: #f8fafc;
+            --text-dark: #0f172a;
+            --card-shadow: 0 10px 25px rgba(0,0,0,0.03);
+        }
 
-<style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: #fff;
-}
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-/* HEADER */
-.header {
-  text-align: center;
-  padding: 20px;
-  font-size: 20px;
-  font-weight: bold;
-}
+        body {
+            margin: 0; padding: 0; min-height: 100vh;
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg); color: var(--text-dark);
+        }
 
-/* CARD STYLE */
-.card {
-  background: rgba(255,255,255,0.08);
-  margin: 15px;
-  padding: 15px;
-  border-radius: 18px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-}
+        /* Nav */
+        nav {
+            position: fixed; top: 0; width: 100%; height: 65px;
+            background: #0f172a; display: flex; align-items: center;
+            padding: 0 20px; z-index: 1000;
+        }
+        .back-btn { color: white; text-decoration: none; font-size: 1.2rem; margin-right: 15px; }
+        .nav-title { color: white; font-weight: 700; font-size: 1.1rem; }
 
-/* TIP + NOTICE */
-.info-box {
-  font-size: 14px;
-  line-height: 1.6;
-}
+        .container { margin-top: 85px; padding: 0 20px; max-width: 800px; margin-left: auto; margin-right: auto; }
 
-/* POINTS SECTION */
-.points {
-  font-size: 26px;
-  font-weight: bold;
-}
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 25px; }
+        .stat-card {
+            background: white; padding: 15px; border-radius: 20px;
+            text-align: center; box-shadow: var(--card-shadow);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .stat-card i { font-size: 1.2rem; margin-bottom: 8px; display: block; }
+        .stat-val { font-size: 1.4rem; font-weight: 800; display: block; }
+        .stat-label { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
 
-.level {
-  margin-top: 5px;
-  font-size: 16px;
-  color: #ffd700;
-}
+        /* Table Card */
+        .table-card {
+            background: white; border-radius: 24px; padding: 20px;
+            box-shadow: var(--card-shadow); border: 1px solid rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+        .table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .table-header h3 { margin: 0; font-size: 1.1rem; font-weight: 800; }
 
-/* PROGRESS BAR */
-.progress-bar {
-  height: 8px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 10px;
-  margin-top: 10px;
-  overflow: hidden;
-}
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .data-table th { text-align: left; padding: 12px; color: var(--text-muted); font-size: 10px; text-transform: uppercase; border-bottom: 1px solid #f1f5f9; }
+        .data-table td { padding: 15px 12px; border-bottom: 1px solid #f8fafc; font-weight: 600; cursor: pointer; }
+        .data-table tr:hover td { background: #f8fafc; }
 
-.progress {
-  height: 100%;
-  background: #00ffcc;
-  width: 0%;
-}
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 5px; }
 
-/* GRID BUTTONS */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-top: 10px;
-}
+        /* Detail Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+            display: none; align-items: center; justify-content: center; z-index: 2000;
+        }
+        .modal-content {
+            background: white; width: 90%; max-width: 450px; border-radius: 28px;
+            padding: 30px; animation: popUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+        .close-modal { position: absolute; top: 20px; right: 20px; font-size: 1.2rem; color: var(--text-muted); cursor: pointer; }
 
-.btn {
-  padding: 12px;
-  border-radius: 12px;
-  text-align: center;
-  background: rgba(255,255,255,0.12);
-  cursor: pointer;
-  transition: 0.3s;
-}
+        .detail-row { margin-bottom: 15px; }
+        .detail-row label { display: block; font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+        .detail-row p { margin: 0; font-size: 0.95rem; font-weight: 600; line-height: 1.4; }
 
-.btn:hover {
-  background: rgba(255,255,255,0.25);
-  transform: scale(1.05);
-}
+        .loader { text-align: center; padding: 50px; }
+        .spin { width: 30px; height: 30px; border: 3px solid #f1f5f9; border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
 
-/* SMALL TEXT */
-.small {
-  font-size: 13px;
-  opacity: 0.8;
-}
-</style>
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes popUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    </style>
 </head>
-
 <body>
 
-<div class="header">⚡ Info Center</div>
+<nav>
+    <a href="home_grievance.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+    <div class="nav-title">Statistics & Records</div>
+</nav>
 
-<!-- FUN + INFO -->
-<div class="card">
-  <div class="info-box">
-    💡 Tip: Maintain full attendance to earn bonus points!<br>
-    📢 Notice: Salary will be credited on 5th
-  </div>
+<div class="container">
+    <div class="stats-grid">
+        <div class="stat-card">
+            <i class="fa-solid fa-clock-rotate-left" style="color: var(--pending);"></i>
+            <span class="stat-val" id="totalPending">0</span>
+            <span class="stat-label">Pending</span>
+        </div>
+        <div class="stat-card">
+            <i class="fa-solid fa-circle-check" style="color: var(--resolved);"></i>
+            <span class="stat-val" id="totalResolved">0</span>
+            <span class="stat-label">Resolved</span>
+        </div>
+        <div class="stat-card">
+            <i class="fa-solid fa-scale-balanced" style="color: var(--appeal);"></i>
+            <span class="stat-val" id="totalAppealed">0</span>
+            <span class="stat-label">Appeals</span>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <div class="table-header">
+            <h3>Registered Grievances</h3>
+            <span id="recordCount" style="font-size: 0.7rem; background: #f1f5f9; padding: 4px 10px; border-radius: 20px; font-weight: 700;">Loading...</span>
+        </div>
+
+        <div id="loader" class="loader"><div class="spin"></div></div>
+
+        <table class="data-table" id="grievanceTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Ticket ID</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                </tbody>
+        </table>
+    </div>
 </div>
 
-<!-- REWARDS -->
-<div class="card">
-  <div class="points" id="points">0 Points</div>
-  <div class="level" id="level">Bronze</div>
-
-  <div class="progress-bar">
-    <div class="progress" id="progress"></div>
-  </div>
-
-  <div class="small" id="summary"></div>
-</div>
-
-<!-- QUICK ACTIONS -->
-<div class="card">
-  <div class="grid">
-    <div class="btn" onclick="go('salary.html')">💰 Salary</div>
-    <div class="btn" onclick="go('attendance.html')">📅 Attendance</div>
-    <div class="btn" onclick="go('seniority.html')">📊 Seniority</div>
-    <div class="btn" onclick="go('forum.html')">💬 Forum</div>
-  </div>
+<div class="modal-overlay" id="detailModal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <i class="fa-solid fa-xmark close-modal" onclick="closeModal()"></i>
+        <h2 id="mID" style="color: var(--primary); margin: 0 0 20px 0; font-size: 1.4rem;">#GR-0000</h2>
+        
+        <div class="detail-row">
+            <label>Employee</label>
+            <p id="mUser">--</p>
+        </div>
+        <div class="detail-row">
+            <label>Subject</label>
+            <p id="mSub">--</p>
+        </div>
+        <div class="detail-row">
+            <label>Description</label>
+            <p id="mDesc" style="font-weight: 400; color: #475569; background: #f8fafc; padding: 12px; border-radius: 12px;"></p>
+        </div>
+        <div class="detail-row">
+            <label>Current Status</label>
+            <p id="mStatus" style="color: var(--pending);">--</p>
+        </div>
+        <div class="detail-row">
+            <label>Handled By</label>
+            <p id="mHandler">--</p>
+        </div>
+    </div>
 </div>
 
 <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzOqDDARIyXSnqaJth9fE2HSVGr7Vs1uYCEgYmX1gDIxxRcAoitVqed1HkqaLmK3SL2/exec";
+    let allData = [];
 
-/* SAMPLE DATA (Replace later with real data from CSV) */
-let present = 18;
-let leave = 2;
-let absent = 1;
+    async function loadStats() {
+        try {
+            const response = await fetch(SCRIPT_URL);
+            const data = await response.json();
+            allData = data;
 
-/* POINT CALCULATION */
-let points =
-  (present * 10) +
-  (leave * 5) +
-  (absent * 0);
+            // Calculate Metrics
+            const pending = data.filter(i => i.status.toLowerCase() === 'open').length;
+            const resolved = data.filter(i => i.status.toLowerCase() === 'resolved').length;
+            const appealed = data.filter(i => i.status.toLowerCase() === 'appealed').length;
 
-/* BONUS */
-if(absent === 0) points += 50; // monthly bonus
-if(absent <= 1) points += 20; // weekly consistency
+            document.getElementById('totalPending').innerText = pending;
+            document.getElementById('totalResolved').innerText = resolved;
+            document.getElementById('totalAppealed').innerText = appealed;
+            document.getElementById('recordCount').innerText = `${data.length} Total Records`;
 
-/* LEVEL SYSTEM */
-let level = "Bronze";
-let progress = 0;
+            renderTable(data);
+        } catch (err) {
+            console.error(err);
+            alert("Failed to load statistics.");
+        } finally {
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('grievanceTable').style.display = 'table';
+        }
+    }
 
-if(points >= 1000){
-  level = "💎 Platinum";
-  progress = 100;
-}else if(points >= 500){
-  level = "🥇 Gold";
-  progress = (points - 500) / 5;
-}else if(points >= 200){
-  level = "🥈 Silver";
-  progress = (points - 200) / 3;
-}else{
-  level = "🥉 Bronze";
-  progress = points / 2;
-}
+    function renderTable(list) {
+        const body = document.getElementById('tableBody');
+        // Sort by date (descending - newest first)
+        const sorted = list.sort((a,b) => new Date(b.date) - new Date(a.date));
 
-/* UPDATE UI */
-document.getElementById("points").innerText = points + " Points";
-document.getElementById("level").innerText = level;
-document.getElementById("progress").style.width = progress + "%";
+        body.innerHTML = sorted.map(item => {
+            let color = 'var(--pending)';
+            if(item.status.toLowerCase() === 'resolved') color = 'var(--resolved)';
+            if(item.status.toLowerCase() === 'appealed') color = 'var(--appeal)';
 
-document.getElementById("summary").innerText =
-  "Present: " + present +
-  " | Leave: " + leave +
-  " | Absent: " + absent;
+            return `
+                <tr onclick="showDetails('${item.id}')">
+                    <td style="color: var(--text-muted);">${item.date}</td>
+                    <td style="color: var(--primary);">#${item.id}</td>
+                    <td>
+                        <span class="status-dot" style="background: ${color}"></span>
+                        ${item.status}
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    }
 
-/* NAVIGATION */
-function go(page){
-  window.location.replace(page);
-}
+    function showDetails(id) {
+        const item = allData.find(i => i.id === id);
+        if(!item) return;
 
+        document.getElementById('mID').innerText = `#${item.id}`;
+        document.getElementById('mUser').innerText = item.user;
+        document.getElementById('mSub').innerText = item.sub;
+        document.getElementById('mDesc').innerText = item.desc || "No detailed description provided.";
+        document.getElementById('mStatus').innerText = item.status;
+        document.getElementById('mHandler').innerText = item.handler;
+
+        document.getElementById('detailModal').style.display = 'flex';
+    }
+
+    function closeModal(e) {
+        document.getElementById('detailModal').style.display = 'none';
+    }
+
+    window.onload = loadStats;
 </script>
 
 </body>
