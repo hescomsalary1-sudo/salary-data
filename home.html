@@ -1180,7 +1180,7 @@ pointer-events: all;
 
 <div class="grid-small">
 
-  <div style="position: relative; width: 100%;" onclick="openGrievancePopup()">
+  <div style="position: relative; width: 100%;" onclick="openGrievancePopup2()">
     <div class="small-card settings">
       ⚙ Notification
     </div>
@@ -1228,7 +1228,7 @@ pointer-events: all;
     </div>
     <div id="grievanceList" style="max-height: 350px; overflow-y: auto; padding: 15px;">
       </div>
-    <button onclick="closeGrievanceNotif()" style="width: 100%; padding: 15px; border: none; background: #f1f1f1; color: #4b2dd8; font-weight: bold; cursor: pointer;">
+    <button onclick="closeGrievanceNotif2()" style="width: 100%; padding: 15px; border: none; background: #f1f1f1; color: #4b2dd8; font-weight: bold; cursor: pointer;">
       Dismiss
     </button>
   </div>
@@ -2009,7 +2009,7 @@ function continueToGrievance(){
 }
 
 
-  async function checkGrievances() {
+  async function checkGrievances2() {
   const currentUser = localStorage.getItem("currentUser");
   const badge = document.getElementById("notifBadge");
   const listContainer = document.getElementById("grievanceList");
@@ -2053,16 +2053,16 @@ function continueToGrievance(){
   }
 }
 
-function openGrievancePopup() {
+function openGrievancePopup2() {
   document.getElementById("grievanceOverlay").style.display = "flex";
 }
 
-function closeGrievanceNotif() {
+function closeGrievanceNotif2() {
   document.getElementById("grievanceOverlay").style.display = "none";
 }
 
 // Run on load
-checkGrievances();
+checkGrievances2();
 </script>
 
   <!-- GRIEVANCE POPUP -->
