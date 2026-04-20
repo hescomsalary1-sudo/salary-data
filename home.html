@@ -2009,6 +2009,20 @@ function continueToGrievance(){
 }
 
 
+// 1. OPEN THE POPUP
+function openGrievancePopup2() {
+  document.getElementById("grievanceOverlay").style.display = "flex";
+  document.body.style.overflow = "hidden"; // Stop background scrolling
+  checkGrievances2(); // Refresh data when opened
+}
+
+// 2. CLOSE THE POPUP
+function closeGrievanceNotif2() {
+  document.getElementById("grievanceOverlay").style.display = "none";
+  document.body.style.overflow = "auto";
+}
+
+// 3. FETCH DATA FROM YOUR APPSCRIPT
 async function checkGrievances2() {
   const currentUser = localStorage.getItem("currentUser");
   const badge = document.getElementById("notifBadge");
@@ -2017,66 +2031,50 @@ async function checkGrievances2() {
   if (!currentUser) return;
 
   try {
-    // Your specific Web App URL
-    const scriptURL = "https://script.google.com/macros/s/AKfycbzeO5RppL-lE_62OuL4VQ5FYZiehPMPFsH6NC9X2_i40YEIzXPPjW8-QUH1QpfS1Jg1/exec";
+    // Replace this with your CURRENT Web App URL from Google AppScript
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwN16Tvu0QmOsUT0Hct4xNYEEEELPO1WJkVH4Y9JKAlZLdvvZb1lmPJLeqWPYIAaXI/exec";
     
-    // Fetching the list from your doGet()
     const response = await fetch(scriptURL);
     const data = await response.json();
 
-    // FILTERING: Match 'user' and ensure 'status' is not 'Resolved'
-    // Note: Your AppScript sets default status as "Open"
+    // Filter for current user where status is not Resolved
     const activeItems = data.filter(item => {
-      const isMyGrievance = String(item.user).trim() === currentUser.trim();
-      const isNotResolved = String(item.status).toLowerCase() !== "resolved";
-      return isMyGrievance && isNotResolved;
+      return String(item.user).trim() === currentUser.trim() && 
+             String(item.status).toLowerCase() !== "resolved";
     });
 
+    // Update the Red Badge
     if (activeItems.length > 0) {
-      // Show Red Badge with Number
       badge.innerText = activeItems.length;
       badge.style.display = "flex";
 
-      // Build the list for the Popup
+      // Build the list
       let html = "";
       activeItems.forEach(item => {
-        // Determine color based on status
-        const statusColor = item.status === "Open" ? "#ff3d3d" : "#ffa500"; 
-        
+        const statusColor = (item.status === "Open") ? "#ff3d3d" : "#ffa500";
         html += `
-          <div class="grievance-item" style="border-left: 4px solid ${statusColor};">
-            <div style="font-size:10px; color:#777;">Ticket: ${item.id} | ${item.date}</div>
-            <div style="font-size:14px; color:#2400b7; font-weight:600; margin:3px 0;">${item.sub}</div>
-            <div style="font-size:12px; color:#555; margin-bottom:8px; line-height:1.4;">${item.desc}</div>
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-               <span style="font-size:11px; background:#f0f0f0; color:${statusColor}; padding:2px 8px; border-radius:10px; font-weight:bold;">
-                 ● ${item.status}
-               </span>
-               <span style="font-size:10px; color:#999;">Handler: ${item.handler}</span>
+          <div class="grievance-item" style="border-left: 4px solid ${statusColor}; margin-bottom:10px; background:#f9f9f9; padding:10px; border-radius:8px;">
+            <div style="font-size:10px; color:#888;">ID: ${item.id} | ${item.date}</div>
+            <div style="font-weight:bold; color:#2400b7; margin:4px 0;">${item.sub}</div>
+            <div style="font-size:12px; color:#444;">${item.desc}</div>
+            <div style="margin-top:8px; font-size:11px; font-weight:bold; color:${statusColor};">
+              Status: ${item.status}
             </div>
           </div>
         `;
       });
       listContainer.innerHTML = html;
     } else {
-      // No notifications
       badge.style.display = "none";
-      listContainer.innerHTML = `
-        <div style="text-align:center; padding:40px 20px;">
-          <div style="font-size:40px; margin-bottom:10px;">✅</div>
-          <p style="color:#555; font-weight:600; margin:0;">No new notifications</p>
-          <p style="font-size:12px; color:#888;">All your complaints are resolved.</p>
-        </div>
-      `;
+      listContainer.innerHTML = "<p style='text-align:center; color:#888;'>No new notifications</p>";
     }
   } catch (e) {
-    console.error("Grievance System Error:", e);
-    badge.style.display = "none";
+    console.error("Fetch Error:", e);
   }
 }
 
-// Call on load
-document.addEventListener("DOMContentLoaded", checkGrievances2);
+// 4. AUTO-RUN ON LOAD (to show the badge immediately)
+checkGrievances2();
 </script>
 
   <!-- GRIEVANCE POPUP -->
