@@ -3,159 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Welcome | Secure Portal</title>
+    <title>Welcome | Nexus Portal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #0062ff;
-            --bg-start: #ffffff;
-            --bg-end: #f0f4f8;
-            --text-dark: #0f172a;
-            --text-muted: #64748b;
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.5);
+            --primary: #4f46e5;
+            --primary-glow: rgba(79, 70, 229, 0.4);
+            --accent: #10b981;
+            --bg: #030712;
+            --card-bg: rgba(17, 24, 39, 0.7);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body, html {
-            margin: 0; padding: 0; 
+            margin: 0; padding: 0;
             min-height: 100vh;
             width: 100%;
             font-family: 'Inter', -apple-system, sans-serif;
-            background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
-            color: var(--text-dark);
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
+            color: var(--text-main);
             display: flex;
             flex-direction: column;
             overflow: hidden;
         }
 
-        /* Animated Background Glow */
-        .bg-glow {
-            position: fixed; top: -10%; right: -10%;
-            width: 60vw; height: 60vw;
-            background: radial-gradient(circle, rgba(0, 98, 255, 0.05) 0%, transparent 70%);
-            z-index: -1; filter: blur(80px);
+        /* Top Status Bar */
+        .status-bar {
+            width: 100%;
+            padding: 12px 25px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-dim);
+            z-index: 100;
+        }
+        .live-indicator { display: flex; align-items: center; gap: 6px; }
+        .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent); animation: pulse 2s infinite; }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
         }
 
-        .marquee {
-            width: 100%; background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px); padding: 14px 0;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            overflow: hidden; flex-shrink: 0;
-            z-index: 10;
-        }
-        .marquee-content {
-            display: inline-block; white-space: nowrap;
-            animation: marquee 30s linear infinite;
-            color: var(--primary); font-size: 11px;
-            font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
-        }
-        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-
-        .main-wrapper {
-            flex: 1; display: flex; align-items: center;
-            justify-content: center; padding: 25px;
+        /* Modern Glass Card */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 50px 40px;
+            border-radius: 40px;
+            text-align: center;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 5;
+            animation: cardReveal 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .hero-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid var(--glass-border);
-            padding: 50px 35px; border-radius: 35px;
-            text-align: center; width: 100%; max-width: 420px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.06);
-            animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .icon-box {
-            width: 80px; height: 80px;
-            background: white;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            border-radius: 24px;
+        .brand-icon {
+            width: 90px; height: 90px;
+            background: linear-gradient(135deg, var(--primary), #818cf8);
+            border-radius: 30px;
             display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 30px auto;
-            font-size: 34px; color: var(--primary);
-            box-shadow: 0 10px 20px rgba(0, 98, 255, 0.1);
-            animation: float 4s ease-in-out infinite;
+            margin: 0 auto 35px;
+            font-size: 38px; color: white;
+            box-shadow: 0 20px 40px var(--primary-glow);
+            transform: rotate(-5deg);
+            animation: iconFloat 6s ease-in-out infinite;
         }
 
-        h1 { font-size: 2rem; margin: 0 0 12px 0; font-weight: 800; letter-spacing: -1px; }
-        p { color: var(--text-muted); line-height: 1.6; font-size: 1rem; margin-bottom: 40px; }
-
-        .btn-action {
-            background: var(--text-dark); color: white; padding: 18px;
-            border-radius: 18px; font-weight: 700; font-size: 16px;
-            border: none; cursor: pointer; width: 100%;
-            display: flex; align-items: center; justify-content: center;
-            gap: 12px; transition: all 0.3s ease;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        h1 {
+            font-size: 2.2rem;
+            margin: 0 0 15px 0;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            background: linear-gradient(to bottom right, #fff 50%, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .btn-action:hover { background: var(--primary); transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0, 98, 255, 0.25); }
-        .btn-action:disabled { opacity: 0.8; cursor: not-allowed; }
 
-        .spinner-sm {
-            width: 18px; height: 18px;
-            border: 3px solid rgba(255, 255, 255, 0.2);
-            border-top: 3px solid #fff;
-            border-radius: 50%; animation: spin 0.8s linear infinite;
+        p {
+            color: var(--text-dim);
+            line-height: 1.6;
+            font-size: 1rem;
+            margin-bottom: 45px;
+            padding: 0 10px;
+        }
+
+        /* Advanced Button Action */
+        .btn-launch {
+            position: relative;
+            background: #fff;
+            color: #000;
+            padding: 20px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 15px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-launch:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-launch:active { transform: scale(0.98); }
+
+        .btn-launch:disabled { opacity: 0.7; cursor: wait; }
+
+        /* Footer Info */
+        .footer-note {
+            position: absolute; bottom: 30px;
+            font-size: 11px; color: var(--text-dim);
+            letter-spacing: 2px; text-transform: uppercase;
+            opacity: 0.5;
+        }
+
+        /* Animations */
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        @keyframes iconFloat { 0%, 100% { transform: translateY(0) rotate(-5deg); } 50% { transform: translateY(-15px) rotate(5deg); } }
+        @keyframes cardReveal { 
+            from { opacity: 0; transform: translateY(30px) scale(0.95); } 
+            to { opacity: 1; transform: translateY(0) scale(1); } 
+        }
+
+        /* Loading Spinner */
+        .loader-ring {
+            width: 20px; height: 20px;
+            border: 3px solid rgba(0,0,0,0.1);
+            border-top-color: #000;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
             display: none;
         }
-
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
     </style>
 </head>
 <body>
 
-    <div class="bg-glow"></div>
-
-    <div class="marquee">
-        <div class="marquee-content">
-            SECURITY PROTOCOL ACTIVE • AUTHORIZED ACCESS ONLY • GRIEVANCE DATABASE CONNECTED • REAL-TIME TRACKING ONLINE • ENCRYPTED SESSION •
-        </div>
+    <div class="status-bar">
+        <div class="live-indicator"><div class="dot"></div> SYSTEM ONLINE</div>
+        <div>V2.0.4 • ENCRYPTED</div>
     </div>
 
-    <div class="main-wrapper">
-        <div class="hero-card">
-            <div class="icon-box">
-                <i class="fa-solid fa-user-shield"></i>
+    <div class="main-container">
+        <div class="glass-card">
+            <div class="brand-icon">
+                <i class="fa-solid fa-fingerprint"></i>
             </div>
-            <h1>Secure Portal</h1>
-            <p>Access your organizational dashboard to manage payroll details and report workplace grievances securely.</p>
+            <h1>Nexus Portal</h1>
+            <p>Your secure gateway for employee management, payroll analytics, and grievance resolution.</p>
 
-            <button class="btn-action" id="enterBtn" onclick="initiateSystem()">
-                <span id="enterTxt">INITIALIZE SYSTEM</span>
-                <i class="fa-solid fa-chevron-right" id="enterIcon"></i>
-                <div class="spinner-sm" id="enterSpin"></div>
+            <button class="btn-launch" id="launchBtn" onclick="handleLaunch()">
+                <span id="btnLabel">Establish Connection</span>
+                <i class="fa-solid fa-arrow-right-long" id="btnIcon"></i>
+                <div class="loader-ring" id="btnLoader"></div>
             </button>
         </div>
+
+        <div class="footer-note">Organizational Integrity System</div>
     </div>
 
     <script>
-        function initiateSystem() {
-            const btn = document.getElementById('enterBtn');
-            const icon = document.getElementById('enterIcon');
-            const spin = document.getElementById('enterSpin');
-            const txt = document.getElementById('enterTxt');
+        function handleLaunch() {
+            const btn = document.getElementById('launchBtn');
+            const label = document.getElementById('btnLabel');
+            const icon = document.getElementById('btnIcon');
+            const loader = document.getElementById('btnLoader');
 
-            // Button Loading State
+            // Set loading state
             btn.disabled = true;
-            icon.style.display = 'none';
-            spin.style.display = 'block';
-            txt.innerText = "AUTHENTICATING...";
+            label.innerText = "Connecting...";
+            icon.style.display = "none";
+            loader.style.display = "block";
+            
+            // Minimal haptic-like feel
+            if (window.navigator.vibrate) window.navigator.vibrate(20);
 
-            // Direct smooth navigation after simulated "security check"
             setTimeout(() => {
                 window.location.href = 'home_grievance.html';
-            }, 1200);
+            }, 1400);
         }
 
-        // Prevent accidental back-navigation loops
+        // Lock history to prevent accidental logout/back navigation
         history.pushState(null, null, location.href);
-        window.onpopstate = () => { history.pushState(null, null, location.href); };
+        window.onpopstate = function () {
+            history.pushState(null, null, location.href);
+        };
     </script>
 </body>
 </html>
