@@ -1180,30 +1180,30 @@ pointer-events: all;
 
 <div class="grid-small">
 
-  <div style="position: relative; width: 100%;" onclick="openGrievancePopup2()">
-    <div class="small-card settings">
-      ⚙ Notification
-    </div>
-    <span id="notifBadge" style="
-      position: absolute;
-      top: -5px;
-      right: 5px;
-      background: #ff3d3d;
-      color: white;
-      font-size: 11px;
-      font-weight: bold;
-      min-width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      border: 2px solid white;
-      display: none; /* Hidden by default */
-      align-items: center;
-      justify-content: center;
-      animation: pulseBadge 2s infinite;
-      box-shadow: 0 4px 10px rgba(255, 61, 61, 0.4);
-      z-index: 10;
-    ">0</span>
+ <div style="position: relative; width: 100%;" onclick="openGrievancePopup2()">
+  <div class="small-card settings">
+    ⚙ Notification
   </div>
+  <span id="notifBadge" style="
+    position: absolute;
+    top: -5px;
+    right: 5px;
+    background: #ff3d3d;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid white;
+    display: none; 
+    align-items: center;
+    justify-content: center;
+    animation: pulseBadge 2s infinite;
+    box-shadow: 0 4px 10px rgba(255, 61, 61, 0.4);
+    z-index: 10;
+  ">0</span>
+</div>
 
   <div class="small-card about" onclick="showLoader('page2.html')">
     ℹ About us
@@ -2010,65 +2010,74 @@ function continueToGrievance(){
 
 
 // 1. OPEN THE POPUP
+// --- NOTIFICATION SYSTEM FUNCTIONS ---
+
+// 1. Function to open the popup
+function openGrievancePopup2() {
+  const overlay = document.getElementById("grievanceOverlay");
+  overlay.style.display = "flex";
+  document.body.style.overflow = "hidden"; // Prevent scrolling behind popup
+  checkGrievances2(); // Refresh data whenever opened
+}
+
+// 2. Function to close the popup
+function closeGrievanceNotif2() {
+  document.getElementById("grievanceOverlay").style.display = "none";
+  document.body.style.overflow = "auto";
+}
+
+// 3. Data fetching logic
 async function checkGrievances2() {
   const currentUser = localStorage.getItem("currentUser");
   const badge = document.getElementById("notifBadge");
   const listContainer = document.getElementById("grievanceList");
 
-  console.log("Logged in as:", currentUser); // DEBUG
-
   if (!currentUser) return;
 
   try {
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwN16Tvu0QmOsUT0Hct4xNYEEEELPO1WJkVH4Y9JKAlZLdvvZb1lmPJLeqWPYIAaXI/exec";
+    // Web App URL from your AppScript
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzeO5RppL-lE_62OuL4VQ5FYZiehPMPFsH6NC9X2_i40YEIzXPPjW8-QUH1QpfS1Jg1/exec";
     
     const response = await fetch(scriptURL);
     const data = await response.json();
-    
-    console.log("Data from Sheet:", data); // DEBUG - See if data is actually coming
 
+    // Filtering: find matches for current user that aren't 'Resolved'
     const activeItems = data.filter(item => {
-      // We convert both to string, trim spaces, and lowercase for a perfect match
-      const sheetUser = String(item.user).trim().toLowerCase();
-      const localUser = String(currentUser).trim().toLowerCase();
-      const status = String(item.status).toLowerCase();
-
-      return sheetUser === localUser && status !== "resolved";
+      const isUser = String(item.user).trim().toLowerCase() === currentUser.trim().toLowerCase();
+      const isNotDone = String(item.status).toLowerCase() !== "resolved";
+      return isUser && isNotDone;
     });
 
-    console.log("Matched Items:", activeItems); // DEBUG
-
     if (activeItems.length > 0) {
+      // Update badge
       badge.innerText = activeItems.length;
       badge.style.display = "flex";
 
+      // Populate list
       let html = "";
       activeItems.forEach(item => {
-        const statusColor = (item.status === "Open") ? "#ff3d3d" : "#ffa500";
+        const color = item.status === "Open" ? "#ff3d3d" : "#ffa500";
         html += `
-          <div class="grievance-item" style="border-left: 4px solid ${statusColor}; margin-bottom:10px; background:#f9f9f9; padding:10px; border-radius:8px; text-align:left;">
-            <div style="font-size:10px; color:#888;">ID: ${item.id} | ${item.date}</div>
-            <div style="font-weight:bold; color:#2400b7; margin:4px 0;">${item.sub}</div>
+          <div style="background:#f0f2f5; padding:12px; border-radius:12px; margin-bottom:10px; border-left:5px solid ${color}; text-align:left;">
+            <div style="font-size:10px; color:#666;">ID: ${item.id} | ${item.date}</div>
+            <div style="font-weight:bold; color:#2400b7; margin:3px 0;">${item.sub}</div>
             <div style="font-size:12px; color:#444;">${item.desc}</div>
-            <div style="margin-top:8px; font-size:11px; font-weight:bold; color:${statusColor};">
-              Status: ${item.status}
-            </div>
+            <div style="margin-top:5px; font-size:11px; font-weight:bold; color:${color};">Status: ${item.status}</div>
           </div>
         `;
       });
       listContainer.innerHTML = html;
     } else {
       badge.style.display = "none";
-      listContainer.innerHTML = `
-        <div style="text-align:center; padding:20px;">
-          <p style="color:#888;">No active notifications found for <b>${currentUser}</b></p>
-        </div>`;
+      listContainer.innerHTML = "<div style='padding:20px; color:#888; text-align:center;'>No new notifications</div>";
     }
-  } catch (e) {
-    console.error("Fetch Error:", e);
-    listContainer.innerHTML = "<p style='color:red; text-align:center;'>Connection Error</p>";
+  } catch (err) {
+    console.error("Notification Error:", err);
   }
 }
+
+// Run this immediately on page load to show the red badge if needed
+document.addEventListener("DOMContentLoaded", checkGrievances2);
 </script>
 
   <!-- GRIEVANCE POPUP -->
