@@ -1261,12 +1261,12 @@ pointer-events: all;
 <!-- SMALL BUTTONS -->
 
 <div class="grid-small">
-    <div class="notification-container" onclick="openGrievanceDetails()">
-        <div class="small-card settings">
-            ⚙ Notification
-        </div>
-        <span id="notifCount" class="badge">1</span>
+ <div class="notification-container" onclick="openGrievanceNotif()">
+    <div class="small-card settings">
+        ⚙ Notification
     </div>
+    <span id="notifBadge" class="badge-red" style="display:none;">1</span>
+</div>
 
     <div class="small-card about" onclick="showLoader('page2.html')">
         ℹ About us
