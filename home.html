@@ -2021,13 +2021,8 @@ function openGrievancePopup2() {
 }
 
 // 2. Function to close the popup
-function closeGrievanceNotif2() {
-  document.getElementById("grievanceOverlay").style.display = "none";
-  document.body.style.overflow = "auto";
-}
-
-// 3. Data fetching logic
 async function checkGrievances2() {
+  // 1. Get logged in user and setup UI elements
   const currentUser = localStorage.getItem("currentUser");
   const badge = document.getElementById("notifBadge");
   const listContainer = document.getElementById("grievanceList");
@@ -2035,48 +2030,65 @@ async function checkGrievances2() {
   if (!currentUser) return;
 
   try {
-    // Web App URL from your AppScript
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwN16Tvu0QmOsUT0Hct4xNYEEEELPO1WJkVH4Y9JKAlZLdvvZb1lmPJLeqWPYIAaXI/exec";
+    // 2. USE YOUR NEW DEPLOY URL HERE
+    const scriptURL = "https://script.google.com/macros/s/AKfycbz8drDOZ-x5VUNh7bA2ndG13BVzl9o4IQ1r7wrtESIlipYuqcXSD-hK6s9xB5eMkLj8/exec";
     
     const response = await fetch(scriptURL);
     const data = await response.json();
 
-    // Filtering: find matches for current user that aren't 'Resolved'
+    // 3. FILTER: Match User AND Status is NOT "Resolved"
     const activeItems = data.filter(item => {
-      const isUser = String(item.user).trim().toLowerCase() === currentUser.trim().toLowerCase();
-      const isNotDone = String(item.status).toLowerCase() !== "resolved";
-      return isUser && isNotDone;
+      const sheetUser = String(item.user || "").trim().toLowerCase();
+      const loggedInUser = String(currentUser).trim().toLowerCase();
+      const currentStatus = String(item.status || "").trim().toLowerCase();
+
+      // Return true if it belongs to user and is NOT resolved
+      return (sheetUser === loggedInUser) && (currentStatus !== "resolved" && currentStatus !== "");
     });
 
+    // 4. UPDATE UI
     if (activeItems.length > 0) {
-      // Update badge
+      // Show Red Badge
       badge.innerText = activeItems.length;
       badge.style.display = "flex";
 
-      // Populate list
+      // Build List for Popup
       let html = "";
       activeItems.forEach(item => {
-        const color = item.status === "Open" ? "#ff3d3d" : "#ffa500";
+        // Red border for Open, Orange for anything else (Pending, Forwarded, etc.)
+        const borderColor = (String(item.status).toLowerCase() === "open") ? "#ff3d3d" : "#ffa500";
+        
         html += `
-          <div style="background:#f0f2f5; padding:12px; border-radius:12px; margin-bottom:10px; border-left:5px solid ${color}; text-align:left;">
-            <div style="font-size:10px; color:#666;">ID: ${item.id} | ${item.date}</div>
-            <div style="font-weight:bold; color:#2400b7; margin:3px 0;">${item.sub}</div>
-            <div style="font-size:12px; color:#444;">${item.desc}</div>
-            <div style="margin-top:5px; font-size:11px; font-weight:bold; color:${color};">Status: ${item.status}</div>
+          <div style="background:#fff; border-left:6px solid ${borderColor}; padding:15px; border-radius:12px; margin-bottom:12px; box-shadow:0 4px 12px rgba(0,0,0,0.08); text-align:left;">
+            <div style="font-size:10px; color:#999; margin-bottom:5px;">ID: ${item.id} | ${item.date}</div>
+            <div style="font-weight:bold; color:#2400b7; font-size:15px; margin-bottom:4px;">${item.sub}</div>
+            <div style="font-size:13px; color:#555; line-height:1.4;">${item.desc}</div>
+            <div style="margin-top:10px; display:flex; justify-content:space-between; align-items:center;">
+              <span style="background:${borderColor}; color:white; font-size:10px; padding:3px 10px; border-radius:15px; font-weight:bold; text-transform:uppercase;">
+                ${item.status}
+              </span>
+              <span style="font-size:11px; color:#666;">Admin: ${item.handler || 'Processing'}</span>
+            </div>
           </div>
         `;
       });
       listContainer.innerHTML = html;
     } else {
+      // No active grievances
       badge.style.display = "none";
-      listContainer.innerHTML = "<div style='padding:20px; color:#888; text-align:center;'>No new notifications</div>";
+      listContainer.innerHTML = `
+        <div style="text-align:center; padding:40px 10px;">
+          <div style="font-size:40px; margin-bottom:10px;">✅</div>
+          <p style="margin:0; font-weight:bold; color:#333;">All caught up!</p>
+          <p style="font-size:12px; color:#888;">No pending notifications.</p>
+        </div>`;
     }
-  } catch (err) {
-    console.error("Notification Error:", err);
+  } catch (error) {
+    console.error("Grievance System Error:", error);
   }
 }
 
-// Run this immediately on page load to show the red badge if needed
+// Start the check when the page loads
 document.addEventListener("DOMContentLoaded", checkGrievances2);
 </script>
 
