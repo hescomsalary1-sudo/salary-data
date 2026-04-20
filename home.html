@@ -2009,7 +2009,7 @@ function continueToGrievance(){
 }
 
 
-  async function checkGrievances2() {
+async function checkGrievances2() {
   const currentUser = localStorage.getItem("currentUser");
   const badge = document.getElementById("notifBadge");
   const listContainer = document.getElementById("grievanceList");
@@ -2017,52 +2017,76 @@ function continueToGrievance(){
   if (!currentUser) return;
 
   try {
-    // Using the Script URL from your system
-    const scriptURL = "https://script.google.com/macros/s/AKfycby383At3kfyfB1ScUQPqhK9uV0a7wwIyCwValiV0jzMnOON21Dsxxygvhfrnv9EfuEk/exec?type=getGrievances";
+    // Replace with your Google Script Web App URL
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzeO5RppL-lE_62OuL4VQ5FYZiehPMPFsH6NC9X2_i40YEIzXPPjW8-QUH1QpfS1Jg1/exec?type=getGrievances";
     
     const response = await fetch(scriptURL);
     const data = await response.json();
 
-    // Filter for current user and status NOT 'Resolved'
-    const activeItems = data.filter(item => 
-      item.username === currentUser && 
-      item.status.toLowerCase() !== "resolved"
-    );
+    // FILTERING LOGIC
+    // We filter where User matches login and Status is NOT 'Resolved'
+    const activeItems = data.filter(item => {
+      // Handle case-sensitivity and trimming
+      const sheetUser = String(item.User || item.user).trim();
+      const sheetStatus = String(item.Status || item.status).trim().toLowerCase();
+      
+      return sheetUser === currentUser && sheetStatus !== "resolved";
+    });
 
     if (activeItems.length > 0) {
+      // Show Red Badge with Number
       badge.innerText = activeItems.length;
       badge.style.display = "flex";
 
+      // Build the list for the Popup
       let html = "";
-      activeItems.forEach(g => {
+      activeItems.forEach(item => {
         html += `
           <div class="grievance-item">
-            <div style="font-size:10px; color:#777;">ID: ${g.id}</div>
-            <div style="font-size:14px; color:#2400b7; font-weight:600;">${g.subject}</div>
-            <div style="font-size:11px; margin-top:5px; color:#ff3d3d; font-weight:bold;">Status: ${g.status}</div>
+            <div style="font-size:10px; color:#777;">ID: ${item.TicketID} | ${item.Date}</div>
+            <div style="font-size:14px; color:#2400b7; font-weight:600; margin:3px 0;">${item.Subject}</div>
+            <div style="font-size:12px; color:#555; margin-bottom:8px;">${item.Description.substring(0,60)}...</div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+               <span style="font-size:11px; background:#fff1f1; color:#ff3d3d; padding:2px 8px; border-radius:10px; font-weight:bold;">
+                 ● ${item.Status}
+               </span>
+               <span style="font-size:10px; color:#4b2dd8;">View Details</span>
+            </div>
           </div>
         `;
       });
       listContainer.innerHTML = html;
     } else {
+      // No notifications
       badge.style.display = "none";
-      listContainer.innerHTML = "<div style='text-align:center; padding:20px; color:#888;'>No new notifications</div>";
+      listContainer.innerHTML = `
+        <div style="text-align:center; padding:40px 20px;">
+          <div style="font-size:40px; margin-bottom:10px;">✅</div>
+          <p style="color:#555; font-weight:600; margin:0;">No new notifications</p>
+          <p style="font-size:12px; color:#888;">All your complaints are resolved.</p>
+        </div>
+      `;
     }
   } catch (e) {
-    console.log("Notif fetch error:", e);
+    console.error("Grievance System Error:", e);
+    listContainer.innerHTML = "<p style='text-align:center; color:red;'>Connection Error</p>";
   }
 }
 
+// Function to open popup
 function openGrievancePopup2() {
   document.getElementById("grievanceOverlay").style.display = "flex";
+  document.body.style.overflow = "hidden";
 }
 
+// Function to close popup
 function closeGrievanceNotif2() {
   document.getElementById("grievanceOverlay").style.display = "none";
+  document.body.style.overflow = "auto";
 }
 
-// Run on load
-checkGrievances2();
+// Trigger check when page loads
+document.addEventListener("DOMContentLoaded", checkGrievances2);
 </script>
 
   <!-- GRIEVANCE POPUP -->
