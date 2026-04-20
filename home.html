@@ -2012,84 +2012,135 @@ function continueToGrievance(){
 // 1. OPEN THE POPUP
 // --- NOTIFICATION SYSTEM FUNCTIONS ---
 
-// 1. Function to open the popup
+// --- 1. SPINNER CSS INJECTION ---
+(function injectSpinnerCSS() {
+  const style = document.createElement('style');
+  style.innerHTML = `
+    .notif-spinner {
+      width: 35px;
+      height: 35px;
+      border: 4px solid rgba(36, 0, 183, 0.1);
+      border-top: 4px solid #2400b7;
+      border-radius: 50%;
+      animation: notif-spin 0.8s linear infinite;
+      margin: 30px auto;
+    }
+    @keyframes notif-spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  `;
+  document.head.appendChild(style);
+})();
+
+// --- 2. POPUP UI CONTROLS ---
+
 function openGrievancePopup2() {
   const overlay = document.getElementById("grievanceOverlay");
+  const listContainer = document.getElementById("grievanceList");
+  
+  // Show the popup
   overlay.style.display = "flex";
-  document.body.style.overflow = "hidden"; // Prevent scrolling behind popup
-  checkGrievances2(); // Refresh data whenever opened
-}
-
-// 2. Function to close the popup
-// 1. FUNCTION TO OPEN THE POPUP
-// 1. OPEN POPUP
-function openGrievancePopup2() {
-  document.getElementById("grievanceOverlay").style.display = "flex";
   document.body.style.overflow = "hidden"; 
+
+  // Immediate Loading State: Show Spinner
+  listContainer.innerHTML = `
+    <div style="text-align:center; padding:20px;">
+      <div class="notif-spinner"></div>
+      <p style="font-size:13px; color:#4b2dd8; font-weight:600; margin-top:10px;">Loading live records...</p>
+    </div>`;
+
+  // Fetch the latest data
   checkGrievances2(); 
 }
 
-// 2. CLOSE POPUP
 function closeGrievanceNotif2() {
   document.getElementById("grievanceOverlay").style.display = "none";
   document.body.style.overflow = "auto";
 }
 
-// 3. FETCH ALL ACTIVE GRIEVANCES (NO USER FILTER)
+// --- 3. DATA FETCHING & RENDERING (Full Details) ---
+
 async function checkGrievances2() {
   const badge = document.getElementById("notifBadge");
   const listContainer = document.getElementById("grievanceList");
 
   try {
-    // Replace with your Web App URL
+    // API URL
     const scriptURL = "https://script.google.com/macros/s/AKfycbz8drDOZ-x5VUNh7bA2ndG13BVzl9o4IQ1r7wrtESIlipYuqcXSD-hK6s9xB5eMkLj8/exec";
     
     const response = await fetch(scriptURL);
     const data = await response.json();
 
-    // FILTER: Show everything where status is NOT 'Resolved' and NOT empty
+    // Filter Logic: All non-resolved items for global view
     const activeItems = data.filter(item => {
       const status = String(item.status || "").trim().toLowerCase();
       return status !== "resolved" && status !== "";
     });
 
     if (activeItems.length > 0) {
-      // Update badge with total count of all pending items
+      // Update the Red Badge on the Home Screen
       badge.innerText = activeItems.length;
       badge.style.display = "flex";
 
+      // Build the Detailed List
       let html = "";
       activeItems.forEach(item => {
         const color = (String(item.status).toLowerCase() === "open") ? "#ff3d3d" : "#ffa500";
         
         html += `
-          <div style="background:#ffffff; border-left:6px solid ${color}; padding:15px; border-radius:12px; margin-bottom:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); text-align:left;">
-            <div style="display:flex; justify-content:space-between; font-size:10px; color:#888; margin-bottom:5px;">
-              <span>User: <b>${item.user}</b></span>
-              <span>${item.date}</span>
+          <div style="background:#fff; border-left:6px solid ${color}; padding:15px; border-radius:18px; margin-bottom:15px; box-shadow:0 6px 15px rgba(0,0,0,0.08); text-align:left; border: 1px solid #eee;">
+            
+            <div style="display:flex; justify-content:space-between; font-size:10px; color:#999; margin-bottom:10px; border-bottom:1px solid #f8f9ff; padding-bottom:6px;">
+              <span>📅 ${item.date || 'N/A'}</span>
+              <span style="background:#eee; padding:2px 6px; border-radius:4px;">ID: ${item.id}</span>
             </div>
-            <div style="font-weight:bold; color:#2400b7; margin-bottom:4px; font-size:14px;">${item.sub}</div>
-            <div style="font-size:12px; color:#444; margin-bottom:8px;">${item.desc}</div>
-            <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #eee; padding-top:8px;">
-              <span style="background:${color}; color:white; font-size:10px; padding:2px 8px; border-radius:10px; font-weight:bold; text-transform:uppercase;">${item.status}</span>
-              <span style="font-size:10px; color:#777;">ID: ${item.id}</span>
+
+            <div style="margin-bottom:10px;">
+              <div style="font-size:13px; font-weight:bold; color:#2400b7;">👤 ${item.user}</div>
+              <div style="font-size:11px; color:#666;">💼 ${item.empDesig} | 📍 ${item.workPlace}</div>
             </div>
+
+            <div style="background:#f8f9ff; padding:10px; border-radius:10px; margin-bottom:12px;">
+              <div style="font-size:11px; font-weight:bold; color:#4b2dd8; text-transform:uppercase; margin-bottom:4px;">📂 ${item.cat}</div>
+              <div style="font-weight:bold; color:#111; font-size:14px; margin-bottom:4px;">${item.sub}</div>
+              <div style="font-size:12px; color:#444; line-height:1.5;">${item.desc}</div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="background:${color}; color:white; font-size:10px; padding:4px 12px; border-radius:20px; font-weight:bold; text-transform:uppercase; box-shadow: 0 4px 8px ${color}44;">
+                ● ${item.status}
+              </span>
+              <div style="text-align:right;">
+                <div style="font-size:9px; color:#aaa; text-transform:uppercase;">Handled By</div>
+                <div style="font-size:11px; font-weight:bold; color:#333;">${item.handler || 'Not Assigned'}</div>
+              </div>
+            </div>
+
           </div>`;
       });
       listContainer.innerHTML = html;
     } else {
+      // No active items
       badge.style.display = "none";
       listContainer.innerHTML = `
-        <div style="text-align:center; padding:30px; color:#888;">
-          <p>✅ All grievances are resolved!</p>
+        <div style="text-align:center; padding:40px 20px;">
+          <div style="font-size:50px; margin-bottom:15px;">🎉</div>
+          <h3 style="margin:0; color:#2400b7;">All Clear!</h3>
+          <p style="font-size:12px; color:#777; margin-top:8px;">No active grievances found in the system at this time.</p>
         </div>`;
     }
-  } catch (e) {
-    console.error("Fetch Error:", e);
+  } catch (err) {
+    console.error("System Error:", err);
+    listContainer.innerHTML = `
+      <div style="text-align:center; padding:30px; color:#ff3d3d;">
+        <p>⚠️ Failed to connect to server.</p>
+        <button onclick="checkGrievances2()" style="background:#2400b7; color:white; border:none; padding:8px 15px; border-radius:8px; font-size:12px;">Retry</button>
+      </div>`;
   }
 }
 
-// Run on load
+// Start tracking badge immediately
 document.addEventListener("DOMContentLoaded", checkGrievances2);
 </script>
 
