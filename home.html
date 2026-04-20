@@ -2010,50 +2010,43 @@ function continueToGrievance(){
 
 
 // 1. OPEN THE POPUP
-function openGrievancePopup2() {
-  document.getElementById("grievanceOverlay").style.display = "flex";
-  document.body.style.overflow = "hidden"; // Stop background scrolling
-  checkGrievances2(); // Refresh data when opened
-}
-
-// 2. CLOSE THE POPUP
-function closeGrievanceNotif2() {
-  document.getElementById("grievanceOverlay").style.display = "none";
-  document.body.style.overflow = "auto";
-}
-
-// 3. FETCH DATA FROM YOUR APPSCRIPT
 async function checkGrievances2() {
   const currentUser = localStorage.getItem("currentUser");
   const badge = document.getElementById("notifBadge");
   const listContainer = document.getElementById("grievanceList");
 
+  console.log("Logged in as:", currentUser); // DEBUG
+
   if (!currentUser) return;
 
   try {
-    // Replace this with your CURRENT Web App URL from Google AppScript
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwN16Tvu0QmOsUT0Hct4xNYEEEELPO1WJkVH4Y9JKAlZLdvvZb1lmPJLeqWPYIAaXI/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzeO5RppL-lE_62OuL4VQ5FYZiehPMPFsH6NC9X2_i40YEIzXPPjW8-QUH1QpfS1Jg1/exec";
     
     const response = await fetch(scriptURL);
     const data = await response.json();
+    
+    console.log("Data from Sheet:", data); // DEBUG - See if data is actually coming
 
-    // Filter for current user where status is not Resolved
     const activeItems = data.filter(item => {
-      return String(item.user).trim() === currentUser.trim() && 
-             String(item.status).toLowerCase() !== "resolved";
+      // We convert both to string, trim spaces, and lowercase for a perfect match
+      const sheetUser = String(item.user).trim().toLowerCase();
+      const localUser = String(currentUser).trim().toLowerCase();
+      const status = String(item.status).toLowerCase();
+
+      return sheetUser === localUser && status !== "resolved";
     });
 
-    // Update the Red Badge
+    console.log("Matched Items:", activeItems); // DEBUG
+
     if (activeItems.length > 0) {
       badge.innerText = activeItems.length;
       badge.style.display = "flex";
 
-      // Build the list
       let html = "";
       activeItems.forEach(item => {
         const statusColor = (item.status === "Open") ? "#ff3d3d" : "#ffa500";
         html += `
-          <div class="grievance-item" style="border-left: 4px solid ${statusColor}; margin-bottom:10px; background:#f9f9f9; padding:10px; border-radius:8px;">
+          <div class="grievance-item" style="border-left: 4px solid ${statusColor}; margin-bottom:10px; background:#f9f9f9; padding:10px; border-radius:8px; text-align:left;">
             <div style="font-size:10px; color:#888;">ID: ${item.id} | ${item.date}</div>
             <div style="font-weight:bold; color:#2400b7; margin:4px 0;">${item.sub}</div>
             <div style="font-size:12px; color:#444;">${item.desc}</div>
@@ -2066,15 +2059,16 @@ async function checkGrievances2() {
       listContainer.innerHTML = html;
     } else {
       badge.style.display = "none";
-      listContainer.innerHTML = "<p style='text-align:center; color:#888;'>No new notifications</p>";
+      listContainer.innerHTML = `
+        <div style="text-align:center; padding:20px;">
+          <p style="color:#888;">No active notifications found for <b>${currentUser}</b></p>
+        </div>`;
     }
   } catch (e) {
     console.error("Fetch Error:", e);
+    listContainer.innerHTML = "<p style='color:red; text-align:center;'>Connection Error</p>";
   }
 }
-
-// 4. AUTO-RUN ON LOAD (to show the badge immediately)
-checkGrievances2();
 </script>
 
   <!-- GRIEVANCE POPUP -->
