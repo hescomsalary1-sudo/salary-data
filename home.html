@@ -963,6 +963,102 @@ display:block;
   #grievancePopup{
 pointer-events: all;
 }
+
+  /* NOTIFICATION BADGE */
+.notification-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.badge {
+    position: absolute;
+    top: -5px;
+    right: 5px;
+    background: #ff3d3d;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: none; /* Hidden by default */
+    animation: pulseBadge 2s infinite;
+}
+
+@keyframes pulseBadge {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 61, 61, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(255, 61, 61, 0); }
+    100% { transform: scale(1); }
+}
+
+/* GRIEVANCE POPUP */
+#grievanceOverlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 4000;
+    backdrop-filter: blur(4px);
+}
+
+.grievance-card {
+    width: 85%;
+    max-width: 350px;
+    background: white;
+    border-radius: 25px;
+    overflow: hidden;
+    animation: slideUp 0.3s ease;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.grievance-header {
+    background: linear-gradient(135deg, #2400b7, #4b2dd8);
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.grievance-body {
+    padding: 20px;
+}
+
+.g-detail {
+    margin-bottom: 12px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+.g-label {
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    display: block;
+}
+
+.g-value {
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+}
+
+.g-close {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: #f1f1f1;
+    color: #4b2dd8;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
 </style>
 </head>
 
@@ -1165,15 +1261,16 @@ pointer-events: all;
 <!-- SMALL BUTTONS -->
 
 <div class="grid-small">
+    <div class="notification-container" onclick="openGrievanceDetails()">
+        <div class="small-card settings">
+            ⚙ Notification
+        </div>
+        <span id="notifCount" class="badge">1</span>
+    </div>
 
-<div class="small-card settings" onclick="showLoader('page5.html')">
-⚙ Notification
-</div>
-
-<div class="small-card about" onclick="showLoader('page2.html')">
-ℹ About us
-</div>
-
+    <div class="small-card about" onclick="showLoader('page2.html')">
+        ℹ About us
+    </div>
 </div>
 
 <div class="news-box">
@@ -1947,6 +2044,34 @@ function continueToGrievance(){
     window.location = "welcome.html"; // 👉 change if needed
   },1500);
 }
+
+  // Function to check for new complaints
+async function checkNewGrievances() {
+    const user = localStorage.getItem("currentUser");
+    // This is where you'd typically fetch your grievance CSV/Database
+    // For now, let's simulate a 'New' status check
+    const hasNewComplaint = true; 
+
+    if(hasNewComplaint) {
+        document.getElementById("notifCount").style.display = "block";
+        document.getElementById("notifCount").innerText = "1";
+    }
+}
+
+// Open the beautiful popup
+function openGrievanceDetails() {
+    // Optional: Hide badge once clicked
+    document.getElementById("notifCount").style.display = "none";
+    document.getElementById("grievanceOverlay").style.display = "flex";
+}
+
+// Close popup
+function closeGrievance() {
+    document.getElementById("grievanceOverlay").style.display = "none";
+}
+
+// Call the check on load
+checkNewGrievances();
 </script>
 
   <!-- GRIEVANCE POPUP -->
@@ -2046,6 +2171,29 @@ box-shadow:0 10px 30px rgba(0,0,0,0.2);
 
 </div>
 
+</div>
+  <div id="grievanceOverlay">
+    <div class="grievance-card">
+        <div class="grievance-header">
+            <div style="font-size: 30px;">📩</div>
+            <h3 style="margin:5px 0;">Complaint Details</h3>
+        </div>
+        <div class="grievance-body" id="grievanceContent">
+            <div class="g-detail">
+                <span class="g-label">Complaint ID</span>
+                <span class="g-value">#GRV-2026-001</span>
+            </div>
+            <div class="g-detail">
+                <span class="g-label">Subject</span>
+                <span id="gSubject" class="g-value">Salary Discrepancy</span>
+            </div>
+            <div class="g-detail">
+                <span class="g-label">Status</span>
+                <span id="gStatus" class="g-value" style="color: #ff9800;">Pending Review</span>
+            </div>
+        </div>
+        <button class="g-close" onclick="closeGrievance()">Dismiss</button>
+    </div>
 </div>
 </body>
 </html>
