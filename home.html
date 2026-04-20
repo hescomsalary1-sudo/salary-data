@@ -2021,8 +2021,29 @@ function openGrievancePopup2() {
 }
 
 // 2. Function to close the popup
+// 1. FUNCTION TO OPEN THE POPUP
+function openGrievancePopup2() {
+  const overlay = document.getElementById("grievanceOverlay");
+  if (overlay) {
+    overlay.style.display = "flex";
+    document.body.style.overflow = "hidden"; // Stop background scroll
+    checkGrievances2(); // Refresh data when opened
+  } else {
+    console.error("Error: grievanceOverlay element not found in HTML");
+  }
+}
+
+// 2. FUNCTION TO CLOSE THE POPUP
+function closeGrievanceNotif2() {
+  const overlay = document.getElementById("grievanceOverlay");
+  if (overlay) {
+    overlay.style.display = "none";
+    document.body.style.overflow = "auto"; // Resume background scroll
+  }
+}
+
+// 3. THE DATA LOGIC (FETCH AND FILTER)
 async function checkGrievances2() {
-  // 1. Get logged in user and setup UI elements
   const currentUser = localStorage.getItem("currentUser");
   const badge = document.getElementById("notifBadge");
   const listContainer = document.getElementById("grievanceList");
@@ -2030,65 +2051,57 @@ async function checkGrievances2() {
   if (!currentUser) return;
 
   try {
-    // 2. USE YOUR NEW DEPLOY URL HERE
+    // Replace with your LATEST Web App URL from App Script
     const scriptURL = "https://script.google.com/macros/s/AKfycbz8drDOZ-x5VUNh7bA2ndG13BVzl9o4IQ1r7wrtESIlipYuqcXSD-hK6s9xB5eMkLj8/exec";
     
     const response = await fetch(scriptURL);
     const data = await response.json();
 
-    // 3. FILTER: Match User AND Status is NOT "Resolved"
+    // Aggressive Filter: Match user and ignore 'Resolved'
     const activeItems = data.filter(item => {
       const sheetUser = String(item.user || "").trim().toLowerCase();
-      const loggedInUser = String(currentUser).trim().toLowerCase();
-      const currentStatus = String(item.status || "").trim().toLowerCase();
+      const localUser = String(currentUser).trim().toLowerCase();
+      const status = String(item.status || "").trim().toLowerCase();
 
-      // Return true if it belongs to user and is NOT resolved
-      return (sheetUser === loggedInUser) && (currentStatus !== "resolved" && currentStatus !== "");
+      return (sheetUser === localUser) && (status !== "resolved" && status !== "");
     });
 
-    // 4. UPDATE UI
     if (activeItems.length > 0) {
       // Show Red Badge
-      badge.innerText = activeItems.length;
-      badge.style.display = "flex";
+      if (badge) {
+        badge.innerText = activeItems.length;
+        badge.style.display = "flex";
+      }
 
-      // Build List for Popup
+      // Build List
       let html = "";
       activeItems.forEach(item => {
-        // Red border for Open, Orange for anything else (Pending, Forwarded, etc.)
-        const borderColor = (String(item.status).toLowerCase() === "open") ? "#ff3d3d" : "#ffa500";
-        
+        const color = (String(item.status).toLowerCase() === "open") ? "#ff3d3d" : "#ffa500";
         html += `
-          <div style="background:#fff; border-left:6px solid ${borderColor}; padding:15px; border-radius:12px; margin-bottom:12px; box-shadow:0 4px 12px rgba(0,0,0,0.08); text-align:left;">
-            <div style="font-size:10px; color:#999; margin-bottom:5px;">ID: ${item.id} | ${item.date}</div>
-            <div style="font-weight:bold; color:#2400b7; font-size:15px; margin-bottom:4px;">${item.sub}</div>
-            <div style="font-size:13px; color:#555; line-height:1.4;">${item.desc}</div>
-            <div style="margin-top:10px; display:flex; justify-content:space-between; align-items:center;">
-              <span style="background:${borderColor}; color:white; font-size:10px; padding:3px 10px; border-radius:15px; font-weight:bold; text-transform:uppercase;">
-                ${item.status}
-              </span>
-              <span style="font-size:11px; color:#666;">Admin: ${item.handler || 'Processing'}</span>
+          <div style="background:#ffffff; border-left:6px solid ${color}; padding:15px; border-radius:12px; margin-bottom:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); text-align:left;">
+            <div style="font-size:10px; color:#888; margin-bottom:5px;">${item.date} | ID: ${item.id}</div>
+            <div style="font-weight:bold; color:#2400b7; margin-bottom:4px; font-size:14px;">${item.sub}</div>
+            <div style="font-size:12px; color:#444; margin-bottom:8px;">${item.desc}</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #eee; padding-top:8px;">
+              <span style="background:${color}; color:white; font-size:10px; padding:2px 8px; border-radius:10px; font-weight:bold; text-transform:uppercase;">${item.status}</span>
+              <span style="font-size:10px; color:#777;">Handler: ${item.handler || 'Pending'}</span>
             </div>
-          </div>
-        `;
+          </div>`;
       });
       listContainer.innerHTML = html;
     } else {
-      // No active grievances
-      badge.style.display = "none";
+      if (badge) badge.style.display = "none";
       listContainer.innerHTML = `
-        <div style="text-align:center; padding:40px 10px;">
-          <div style="font-size:40px; margin-bottom:10px;">✅</div>
-          <p style="margin:0; font-weight:bold; color:#333;">All caught up!</p>
-          <p style="font-size:12px; color:#888;">No pending notifications.</p>
+        <div style="text-align:center; padding:30px; color:#888;">
+          <p>No active notifications for ${currentUser}</p>
         </div>`;
     }
-  } catch (error) {
-    console.error("Grievance System Error:", error);
+  } catch (e) {
+    console.error("Grievance System Error:", e);
   }
 }
 
-// Start the check when the page loads
+// 4. AUTO-RUN ON PAGE LOAD
 document.addEventListener("DOMContentLoaded", checkGrievances2);
 </script>
 
