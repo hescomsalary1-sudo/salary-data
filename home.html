@@ -977,6 +977,31 @@ pointer-events: all;
   margin-bottom: 10px;
   border-left: 4px solid #ff3d3d;
 }
+
+
+  /* Make the scrollbar visible inside the grievance list */
+#grievanceList::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+  display: block; /* Force display */
+}
+
+#grievanceList::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  border-radius: 10px;
+}
+
+#grievanceList::-webkit-scrollbar-thumb {
+  background: #4b2dd8; 
+  border-radius: 10px;
+}
+
+/* Ensure the container is strictly scrollable */
+#grievanceList {
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: #4b2dd8 #f1f1f1;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none; /* Critical to stop the refresh */
+}
 </style>
 </head>
 
@@ -1230,8 +1255,14 @@ pointer-events: all;
       <h3 style="margin:0;">Grievance Notifications</h3>
     </div>
 
- <div id="grievanceList" style="max-height: 350px; overflow-y: auto; padding: 15px; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;">
-   </div>
+ <div id="grievanceList" style="
+    height: 300px; 
+    max-height: 50vh; 
+    overflow-y: scroll; /* Changed from 'auto' to 'scroll' to force the track */
+    padding: 15px;
+    overscroll-behavior: contain;
+">
+  </div>
 
     <button onclick="closeGrievanceNotif2()" style="width: 100%; padding: 15px; border: none; background: #f1f1f1; color: #4b2dd8; font-weight: bold; cursor: pointer; flex-shrink: 0;">
       Dismiss
@@ -2044,26 +2075,20 @@ function openGrievancePopup2() {
   const overlay = document.getElementById("grievanceOverlay");
   const listContainer = document.getElementById("grievanceList");
   
-  // 1. Show the popup
   overlay.style.display = "flex";
   document.body.style.overflow = "hidden"; 
 
-  // 2. PREVENT REFRESH: Stop touch gestures from reaching the browser's refresh trigger
-  listContainer.addEventListener('touchmove', function(e) {
-    // Only prevent default if the element is scrollable
-    if (this.scrollHeight > this.clientHeight) {
-      e.stopPropagation(); 
+  // Force a tiny scroll so the browser knows we are "inside" a list
+  listContainer.innerHTML = `<div style="text-align:center; padding:20px;"><div class="notif-spinner"></div></div>`;
+  
+  // This is the trick: 
+  // If the user touches the list, stop the "Pull-to-Refresh"
+  listContainer.addEventListener('touchstart', function() {
+    if (this.scrollTop === 0) {
+      this.scrollTop = 1;
     }
-  }, { passive: false });
+  }, {passive: true});
 
-  // 3. Immediate Loading State
-  listContainer.innerHTML = `
-    <div style="text-align:center; padding:20px;">
-      <div class="notif-spinner" style="margin: 0 auto;"></div>
-      <p style="font-size:13px; color:#4b2dd8; font-weight:600; margin-top:10px;">Loading live records...</p>
-    </div>`;
-
-  // 4. Fetch the latest data
   checkGrievances2(); 
 }
 
