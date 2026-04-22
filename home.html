@@ -2089,18 +2089,36 @@ function openGrievancePopup2() {
   const listContainer = document.getElementById("grievanceList");
   
   overlay.style.display = "flex";
-  document.body.style.overflow = "hidden"; 
-
-  // Force a tiny scroll so the browser knows we are "inside" a list
-  listContainer.innerHTML = `<div style="text-align:center; padding:20px;"><div class="notif-spinner"></div></div>`;
   
-  // This is the trick: 
-  // If the user touches the list, stop the "Pull-to-Refresh"
-  listContainer.addEventListener('touchstart', function() {
-    if (this.scrollTop === 0) {
-      this.scrollTop = 1;
+  // 1. Lock the background body completely
+  document.body.style.overflow = "hidden";
+  document.body.style.height = "100%";
+
+  // 2. Prevent the "Pull-to-Refresh" gesture on the overlay
+  overlay.addEventListener('touchmove', function(e) {
+    if (e.target.id === 'grievanceOverlay') {
+        e.preventDefault();
     }
-  }, {passive: true});
+  }, { passive: false });
+
+  // 3. Ensure the list container allows scrolling
+  listContainer.addEventListener('touchstart', function() {
+    const top = this.scrollTop;
+    const totalScroll = this.scrollHeight;
+    const currentScroll = top + this.offsetHeight;
+
+    // If at the very top, move down 1px to prevent browser refresh
+    if (top === 0) {
+      this.scrollTop = 1;
+    } 
+    // If at the very bottom, move up 1px to prevent background bounce
+    else if (currentScroll === totalScroll) {
+      this.scrollTop = top - 1;
+    }
+  }, { passive: true });
+
+  // 4. Loading state
+  listContainer.innerHTML = `<div style="text-align:center; padding:20px;"><div class="notif-spinner"></div></div>`;
 
   checkGrievances2(); 
 }
