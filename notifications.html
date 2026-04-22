@@ -4,15 +4,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Grievance Notifications</title>
     <style>
-        /* 1. THE REFRESH KILLER: Force the browser to disable pull-to-refresh */
+        /* FULL SCREEN LOCK */
         html, body {
             margin: 0;
             padding: 0;
             height: 100%;
-            overflow: hidden; /* Prevents the whole page from bouncing */
+            width: 100%;
+            overflow: hidden; /* Stops the main page from scrolling */
             background: rgba(15, 12, 41, 0.9);
-            /* This is the magic line for modern mobile browsers */
-            touch-action: none; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: none; /* Disables all browser gestures on background */
         }
 
         .container {
@@ -20,33 +23,37 @@
             max-width: 400px;
             background: #ffffff;
             border-radius: 28px;
-            overflow: hidden;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: column;
-            max-height: 85vh; /* Keep it centered and small */
-            /* Re-enable touch for the card only */
-            touch-action: auto; 
+            max-height: 85vh;
+            touch-action: auto; /* Re-enables touch for the card only */
+            overflow: hidden;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .header {
             background: linear-gradient(135deg, #2400b7, #4b2dd8);
             color: white;
-            padding: 22px;
+            padding: 20px;
             text-align: center;
             flex-shrink: 0;
         }
 
-        /* 2. THE SCROLL AREA: Specifically allow vertical scrolling here */
+        /* SCROLLABLE LIST */
         #grievanceList {
             flex-grow: 1;
             overflow-y: auto !important;
             padding: 15px;
             background: #fdfdff;
             -webkit-overflow-scrolling: touch;
-            /* Allow ONLY vertical swiping inside the list */
-            touch-action: pan-y !important; 
-            overscroll-behavior-y: contain;
+            /* CRITICAL: Prevents pull-to-refresh on modern browsers */
+            overscroll-behavior-y: contain; 
         }
 
         .dismiss-btn {
@@ -56,13 +63,20 @@
             background: #f8f9ff;
             color: #4b2dd8;
             font-weight: bold;
-            font-size: 15px;
             cursor: pointer;
             border-top: 1px solid #eee;
-            flex-shrink: 0;
         }
 
-        /* Spinner Styles */
+        /* LIST ITEM STYLING */
+        .item-card {
+            background:#fff; 
+            padding:15px; 
+            border-radius:18px; 
+            margin-bottom:15px; 
+            box-shadow:0 6px 15px rgba(0,0,0,0.06); 
+            border: 1px solid #eee;
+        }
+
         .spinner-box { text-align: center; padding: 50px 20px; }
         .spinner {
             width: 35px; height: 35px;
@@ -70,22 +84,20 @@
             border-top: 4px solid #4b2dd8;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
-            margin: 0 auto 15px;
+            margin: 0 auto 10px;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-<div class="container" id="mainCard">
-    <div class="header">
-        <h3 style="margin:0;">Live Records</h3>
-    </div>
+<div class="container">
+    <div class="header"><h3 style="margin:0;">Live Records</h3></div>
     
     <div id="grievanceList">
         <div class="spinner-box">
             <div class="spinner"></div>
-            <p style="font-size:13px; color:#4b2dd8; font-weight:bold;">Loading Records...</p>
+            <p style="font-size:13px; color:#4b2dd8;">Syncing Data...</p>
         </div>
     </div>
 
@@ -93,73 +105,79 @@
 </div>
 
 <script>
-// 3. THE JAVASCRIPT LOCK: Prevents the "Top-of-Page" refresh bounce
-document.addEventListener('touchmove', function (e) {
-    // If the touch is NOT inside the scrollable list, block it entirely
-    if (!e.target.closest('#grievanceList')) {
-        e.preventDefault();
-    }
-}, { passive: false });
+    // THE ULTIMATE REFRESH BLOCKER
+    const scrollContainer = document.getElementById('grievanceList');
 
-async function loadGrievances() {
-    const listContainer = document.getElementById("grievanceList");
-    const scriptURL = "https://script.google.com/macros/s/AKfycbz8drDOZ-x5VUNh7bA2ndG13BVzl9o4IQ1r7wrtESIlipYuqcXSD-hK6s9xB5eMkLj8/exec";
-
-    try {
-        const response = await fetch(scriptURL);
-        const data = await response.json();
-
-        const activeItems = data.filter(item => {
-            const status = String(item.status || "").trim().toLowerCase();
-            return status !== "resolved" && status !== "";
-        });
-
-        if (activeItems.length > 0) {
-            let html = "";
-            activeItems.forEach(item => {
-                const statusLower = String(item.status).toLowerCase();
-                const color = (statusLower === "open") ? "#ff3d3d" : "#ffa500";
-
-                html += `
-                <div style="background:#fff; border-left:6px solid ${color}; padding:15px; border-radius:18px; margin-bottom:15px; box-shadow:0 6px 15px rgba(0,0,0,0.08); text-align:left; border: 1px solid #eee;">
-                    <div style="display:flex; justify-content:space-between; font-size:10px; color:#999; margin-bottom:10px; border-bottom:1px solid #f8f9ff; padding-bottom:6px;">
-                        <span>📅 ${item.date || 'N/A'}</span>
-                        <span style="background:#eee; padding:2px 6px; border-radius:4px;">ID: ${item.id}</span>
-                    </div>
-                    <div style="margin-bottom:10px;">
-                        <div style="font-size:13px; font-weight:bold; color:#2400b7;">👤 ${item.user}</div>
-                        <div style="font-size:11px; color:#666;">💼 ${item.empDesig} | 📍 ${item.workPlace}</div>
-                    </div>
-                    <div style="background:#f8f9ff; padding:10px; border-radius:10px; margin-bottom:12px;">
-                        <div style="font-size:11px; font-weight:bold; color:#4b2dd8; text-transform:uppercase; margin-bottom:4px;">📂 ${item.cat}</div>
-                        <div style="font-weight:bold; color:#111; font-size:14px; margin-bottom:4px;">${item.sub}</div>
-                        <div style="font-size:12px; color:#444; line-height:1.5;">${item.desc}</div>
-                    </div>
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="background:${color}; color:white; font-size:10px; padding:4px 12px; border-radius:20px; font-weight:bold; text-transform:uppercase;">
-                            ● ${item.status}
-                        </span>
-                        <div style="text-align:right;">
-                            <div style="font-size:9px; color:#aaa; text-transform:uppercase;">Handled By</div>
-                            <div style="font-size:11px; font-weight:bold; color:#333;">${item.handler || 'Not Assigned'}</div>
-                        </div>
-                    </div>
-                </div>`;
-            });
-            listContainer.innerHTML = html;
-            
-            // Trick to prevent refresh: Scroll 1px down immediately
-            listContainer.scrollTop = 1; 
-            
-        } else {
-            listContainer.innerHTML = `<div style="text-align:center; padding:40px 20px;"><div style="font-size:50px;">🎉</div><h3 style="color:#2400b7;">All Clear!</h3></div>`;
+    scrollContainer.addEventListener('touchstart', (e) => {
+        // If we are at the very top, push it down 1px so the browser 
+        // doesn't think we are at the "trigger point" for a refresh.
+        if (scrollContainer.scrollTop <= 0) {
+            scrollContainer.scrollTop = 1;
         }
-    } catch (err) {
-        listContainer.innerHTML = `<div style="text-align:center; padding:30px; color:#ff3d3d;"><p>Connection Error</p></div>`;
-    }
-}
+    }, { passive: true });
 
-window.onload = loadGrievances;
+    // Block the touchmove from reaching the browser's refresh logic
+    scrollContainer.addEventListener('touchmove', (e) => {
+        const isAtTop = scrollContainer.scrollTop <= 0;
+        const isScrollingUp = e.touches[0].pageY > lastY;
+
+        if (isAtTop && isScrollingUp) {
+            // Stop the pull-down gesture completely
+            if (e.cancelable) e.preventDefault();
+        }
+        lastY = e.touches[0].pageY;
+    }, { passive: false });
+
+    let lastY = 0;
+
+    async function loadGrievances() {
+        const scriptURL = "https://script.google.com/macros/s/AKfycbz8drDOZ-x5VUNh7bA2ndG13BVzl9o4IQ1r7wrtESIlipYuqcXSD-hK6s9xB5eMkLj8/exec";
+        try {
+            const response = await fetch(scriptURL);
+            const data = await response.json();
+            
+            const activeItems = data.filter(item => {
+                const status = String(item.status || "").trim().toLowerCase();
+                return status !== "resolved" && status !== "";
+            });
+
+            let html = "";
+            if (activeItems.length > 0) {
+                activeItems.forEach(item => {
+                    const color = (String(item.status).toLowerCase() === "open") ? "#ff3d3d" : "#ffa500";
+                    html += `
+                    <div class="item-card" style="border-left: 6px solid ${color}">
+                        <div style="display:flex; justify-content:space-between; font-size:10px; color:#999; margin-bottom:10px;">
+                            <span>📅 ${item.date || 'N/A'}</span>
+                            <span style="background:#eee; padding:2px 6px; border-radius:4px;">ID: ${item.id}</span>
+                        </div>
+                        <div style="margin-bottom:10px;">
+                            <div style="font-size:13px; font-weight:bold; color:#2400b7;">👤 ${item.user}</div>
+                            <div style="font-size:11px; color:#666;">💼 ${item.empDesig} | 📍 ${item.workPlace}</div>
+                        </div>
+                        <div style="background:#f8f9ff; padding:10px; border-radius:10px; margin-bottom:12px;">
+                            <div style="font-size:11px; font-weight:bold; color:#4b2dd8; text-transform:uppercase; margin-bottom:4px;">📂 ${item.cat}</div>
+                            <div style="font-weight:bold; color:#111; font-size:14px; margin-bottom:4px;">${item.sub}</div>
+                            <div style="font-size:12px; color:#444; line-height:1.5;">${item.desc}</div>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span style="background:${color}; color:white; font-size:10px; padding:4px 12px; border-radius:20px; font-weight:bold;">● ${item.status}</span>
+                            <div style="text-align:right;">
+                                <div style="font-size:9px; color:#aaa;">Handled By</div>
+                                <div style="font-size:11px; font-weight:bold; color:#333;">${item.handler || 'Not Assigned'}</div>
+                            </div>
+                        </div>
+                    </div>`;
+                });
+            } else {
+                html = `<div style="text-align:center; padding:40px;"><div style="font-size:50px;">🎉</div><h3>All Clear!</h3></div>`;
+            }
+            scrollContainer.innerHTML = html;
+        } catch (err) {
+            scrollContainer.innerHTML = `<div style="text-align:center; padding:30px; color:red;"><p>Connection Error</p></div>`;
+        }
+    }
+    window.onload = loadGrievances;
 </script>
 
 </body>
