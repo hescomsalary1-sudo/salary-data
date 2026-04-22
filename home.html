@@ -2051,18 +2051,26 @@ function openGrievancePopup2() {
   const overlay = document.getElementById("grievanceOverlay");
   const listContainer = document.getElementById("grievanceList");
   
-  // Show the popup
+  // 1. Show the popup
   overlay.style.display = "flex";
   document.body.style.overflow = "hidden"; 
 
-  // Immediate Loading State: Show Spinner
+  // 2. PREVENT REFRESH: Stop touch gestures from reaching the browser's refresh trigger
+  listContainer.addEventListener('touchmove', function(e) {
+    // Only prevent default if the element is scrollable
+    if (this.scrollHeight > this.clientHeight) {
+      e.stopPropagation(); 
+    }
+  }, { passive: false });
+
+  // 3. Immediate Loading State
   listContainer.innerHTML = `
     <div style="text-align:center; padding:20px;">
-      <div class="notif-spinner"></div>
+      <div class="notif-spinner" style="margin: 0 auto;"></div>
       <p style="font-size:13px; color:#4b2dd8; font-weight:600; margin-top:10px;">Loading live records...</p>
     </div>`;
 
-  // Fetch the latest data
+  // 4. Fetch the latest data
   checkGrievances2(); 
 }
 
