@@ -2036,22 +2036,12 @@ function continueToGrievance(){
 // --- 2. POPUP UI CONTROLS ---
 
 function openGrievancePopup2() {
-  const overlay = document.getElementById("grievanceOverlay");
-  const listContainer = document.getElementById("grievanceList");
-  
-  // Show the popup
-  overlay.style.display = "flex";
-  document.body.style.overflow = "hidden"; 
-
-  // Immediate Loading State: Show Spinner
-  listContainer.innerHTML = `
-    <div style="text-align:center; padding:20px;">
-      <div class="notif-spinner"></div>
-      <p style="font-size:13px; color:#4b2dd8; font-weight:600; margin-top:10px;">Loading live records...</p>
-    </div>`;
-
-  // Fetch the latest data
-  checkGrievances2(); 
+    // Optional: Show your existing skeleton loader for 500ms for a "Premium" feel
+    document.getElementById("loader").style.display = "flex";
+    
+    setTimeout(() => {
+        window.location.href = "notifications.html";
+    }, 500);
 }
 
 function closeGrievanceNotif2() {
