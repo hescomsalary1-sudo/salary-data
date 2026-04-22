@@ -53,192 +53,314 @@ body {
     background: transparent;
 }
 
- /* 2. HEADER - STICKY AT TOP */
-        .header {
-            background: linear-gradient(135deg, #2400b7, #4b2dd8);
-            color: white;
-            padding: 20px 15px;
-            text-align: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
+/* PROFILE HEADER CARD */
+.profile-header {
+    background:linear-gradient(135deg,#2400b7,#3b1eff);
+    color: white;
+    padding: 20px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 12px;
+    box-shadow: 0 10px 15px -3px rgba(67, 56, 202, 0.2);
+}
 
-        .header h3 { margin: 0; font-size: 18px; letter-spacing: 0.5px; }
+.avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 800;
+}
 
-        /* 3. SCROLLABLE CONTENT AREA */
-        #grievanceList {
-            position: absolute;
-            top: 65px; /* Height of header */
-            bottom: 70px; /* Height of footer button */
-            left: 0;
-            right: 0;
-            overflow-y: auto !important;
-            padding: 15px;
-            -webkit-overflow-scrolling: touch;
-            /* Prevents browser pull-to-refresh */
-            overscroll-behavior-y: contain; 
-            touch-action: pan-y;
-        }
+.profile-name {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
 
-        /* 4. FOOTER BUTTON - STICKY AT BOTTOM */
-        .footer-action {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: #fff;
-            padding: 12px 15px;
-            border-top: 1px solid #eee;
-            z-index: 100;
-        }
+.profile-desg {
+    font-size: 13px;
+    opacity: 0.85;
+}
 
-        .dismiss-btn {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            background: #f1f3ff;
-            color: #2400b7;
-            font-weight: 700;
-            font-size: 15px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+/* COMPACT STATS */
+.stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 15px;
+}
 
-        .dismiss-btn:active { background: #e2e6ff; transform: scale(0.98); }
+.stat-card {
+    background: #ffffff;
+    padding: 12px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+}
 
-        /* LIST ITEM STYLING */
-        .item-card {
-            background: #ffffff;
-            padding: 16px;
-            border-radius: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 15px rgba(36, 0, 183, 0.05);
-            border: 1px solid #f0f0f0;
-            animation: fadeIn 0.4s ease-out;
-        }
+.stat-card:first-child { border-left: 4px solid #6366f1; }
+.stat-card:last-child { border-left: 4px solid #f59e0b; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+.stat-card label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #64748b;
+    display: block;
+    margin-bottom: 4px;
+}
 
-        /* SPINNER STYLES */
-        .spinner-box { text-align: center; padding: 60px 20px; }
-        .spinner {
-            width: 35px; height: 35px;
-            border: 4px solid rgba(75, 45, 216, 0.1);
-            border-top: 4px solid #4b2dd8;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 12px;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    </style>
+.stat-card p {
+    margin: 0;
+    font-weight: 700;
+    font-size: 12px;
+    color: #1e293b;
+    line-height: 1.3;
+}
+
+/* SECTIONS */
+.section {
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 20px;
+    margin-top: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.section-title {
+    font-weight: 800;
+    font-size: 14px;
+    margin-bottom: 12px;
+    color: #4338ca;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 6px;
+}
+
+/* COMPACT GRID */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px; /* Decreased gap */
+}
+
+/* PROFILE ITEM */
+.profile-item {
+    background: #f8fafc;
+    padding: 8px 10px; /* Decreased padding */
+    border-radius: 10px;
+}
+
+.profile-item label {
+    font-size: 10px;
+    color: #94a3b8;
+    font-weight: 600;
+    display: block;
+}
+
+.profile-item p {
+    margin: 2px 0 0 0;
+    font-size: 12px;
+    font-weight: 700;
+    color: #334155;
+}
+
+/* DARK MODE */
+.dark-mode {
+    background: #0f172a;
+    color: #f8fafc;
+}
+
+.dark-mode .top, .dark-mode .section, .dark-mode .stat-card {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+.dark-mode .top h2, .dark-mode .stat-card p { color: #f8fafc; }
+.dark-mode .profile-item { background: #0f172a; }
+.dark-mode .profile-item p { color: #e2e8f0; }
+
+/* BACK BUTTON */
+.back-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.back-btn:active { transform: scale(0.95); }
+
+</style>
 </head>
+
 <body>
 
-    <div class="header">
-        <h3>Grievance Records</h3>
-    </div>
-    
-    <div id="grievanceList">
-        <div class="spinner-box">
-            <div class="spinner"></div>
-            <p style="font-size:13px; color:#4b2dd8; font-weight:600;">Syncing Live Data...</p>
-        </div>
-    </div>
+<div class="top">
+  <div class="back-btn" onclick="goBack()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <path d="M15 18L9 12L15 6" stroke="#4338ca" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <div class="icon">👤</div>
+  <h2>Employee Profile</h2>
+</div>
 
-    <div class="footer-action">
-        <button class="dismiss-btn" onclick="window.location.href='home.html'">Back to Home</button>
-    </div>
+<div class="content">
+<div class="card">
+<div id="data"></div>
+</div>
+</div>
 
 <script>
-    const scrollContainer = document.getElementById('grievanceList');
-    let lastY = 0;
+let user = localStorage.getItem("currentUser");
 
-    // REFRESH PREVENTION LOGIC
-    scrollContainer.addEventListener('touchstart', (e) => {
-        if (scrollContainer.scrollTop <= 0) {
-            scrollContainer.scrollTop = 1;
-        }
-    }, { passive: true });
+if(!user){
+window.location="login.html";
+}
 
-    scrollContainer.addEventListener('touchmove', (e) => {
-        const isAtTop = scrollContainer.scrollTop <= 0;
-        const currentY = e.touches[0].pageY;
-        const isScrollingUp = currentY > lastY;
+function parseDate(dateStr){
+if(!dateStr) return null;
+let parts = dateStr.split("-");
+if(parts.length === 3){
+let day = parseInt(parts[0]);
+let month = parseInt(parts[1]) - 1;
+let year = parseInt(parts[2]);
+return new Date(year, month, day);
+}
+return new Date(dateStr);
+}
 
-        if (isAtTop && isScrollingUp) {
-            if (e.cancelable) e.preventDefault();
-        }
-        lastY = currentY;
-    }, { passive: false });
+function calculateService(joinDate){
+let start = parseDate(joinDate);
+let today = new Date();
+if(!start) return "";
+let years = today.getFullYear() - start.getFullYear();
+let months = today.getMonth() - start.getMonth();
+let days = today.getDate() - start.getDate();
+if(days < 0){
+months--;
+let prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+days += prevMonth.getDate();
+}
+if(months < 0){
+years--;
+months += 12;
+}
+return years+"Years "+months+"Months "+days+"Days";
+}
 
-    async function loadGrievances() {
-        const scriptURL = "https://script.google.com/macros/s/AKfycbz8drDOZ-x5VUNh7bA2ndG13BVzl9o4IQ1r7wrtESIlipYuqcXSD-hK6s9xB5eMkLj8/exec";
-        
-        try {
-            const response = await fetch(scriptURL);
-            const data = await response.json();
-            
-            const activeItems = data.filter(item => {
-                const status = String(item.status || "").trim().toLowerCase();
-                return status !== "resolved" && status !== "";
-            });
+function retirementCountdown(retDate){
+let retire = parseDate(retDate);
+let today = new Date();
+if(!retire) return "";
+let years = retire.getFullYear() - today.getFullYear();
+let months = retire.getMonth() - today.getMonth();
+let days = retire.getDate() - today.getDate();
+if(days < 0){
+months--;
+let prevMonth = new Date(retire.getFullYear(), retire.getMonth(), 0);
+days += prevMonth.getDate();
+}
+if(months < 0){
+years--;
+months += 12;
+}
+return years+"Years "+months+"Months "+days+"Days";
+}
 
-            let html = "";
-            if (activeItems.length > 0) {
-                activeItems.forEach(item => {
-                    const statusLower = String(item.status).toLowerCase();
-                    const color = (statusLower === "open") ? "#ff3d3d" : "#ffa500";
+async function loadProfile(){
+let response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
+let text = await response.text();
+let rows = text.trim().split("\n");
 
-                    html += `
-                    <div class="item-card" style="border-left: 6px solid ${color}">
-                        <div style="display:flex; justify-content:space-between; font-size:10px; color:#999; margin-bottom:10px;">
-                            <span>📅 ${item.date || 'N/A'}</span>
-                            <span style="background:#f0f0f0; padding:2px 6px; border-radius:4px; font-weight:bold;">ID: ${item.id}</span>
-                        </div>
-                        <div style="margin-bottom:10px;">
-                            <div style="font-size:14px; font-weight:bold; color:#2400b7;">👤 ${item.user}</div>
-                            <div style="font-size:11px; color:#666; margin-top:2px;">💼 ${item.empDesig} | 📍 ${item.workPlace}</div>
-                        </div>
-                        <div style="background:#f8f9ff; padding:12px; border-radius:12px; margin-bottom:12px; border: 1px solid #edf0ff;">
-                            <div style="font-size:10px; font-weight:bold; color:#4b2dd8; text-transform:uppercase; margin-bottom:4px;">📂 ${item.cat}</div>
-                            <div style="font-weight:700; color:#111; font-size:14px; margin-bottom:6px;">${item.sub}</div>
-                            <div style="font-size:12px; color:#444; line-height:1.5;">${item.desc}</div>
-                        </div>
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <span style="background:${color}; color:white; font-size:10px; padding:5px 12px; border-radius:20px; font-weight:bold; text-transform:uppercase;">
-                                ● ${item.status}
-                            </span>
-                            <div style="text-align:right;">
-                                <div style="font-size:9px; color:#aaa; text-transform:uppercase;">Handled By</div>
-                                <div style="font-size:11px; font-weight:bold; color:#333;">${item.handler || 'Pending'}</div>
-                            </div>
-                        </div>
-                    </div>`;
-                });
-            } else {
-                html = `<div style="text-align:center; padding:100px 20px;">
-                            <div style="font-size:60px; margin-bottom:20px;">🎉</div>
-                            <h3 style="color:#2400b7; margin:0;">All Clear!</h3>
-                            <p style="color:#888; font-size:13px; margin-top:10px;">No active grievances found.</p>
-                        </div>`;
-            }
-            scrollContainer.innerHTML = html;
-        } catch (err) {
-            scrollContainer.innerHTML = `<div style="text-align:center; padding:100px 20px; color:#ff3d3d;">
-                                            <p style="font-weight:bold;">⚠️ Connection Error</p>
-                                            <p style="font-size:12px; color:#888;">Unable to reach the server.</p>
-                                         </div>`;
-        }
-    }
-    window.onload = loadGrievances;
+for(let i=1;i<rows.length;i++){
+let cols = rows[i].split(",");
+if(cols[0].trim() === user.trim()){
+let service = calculateService(cols[18]);
+let retirement = retirementCountdown(cols[6]);
+
+document.getElementById("data").innerHTML = `
+<div class="profile-header">
+<div class="avatar">${cols[1].charAt(0)}</div>
+<div>
+<div class="profile-name">${cols[1]}</div>
+<div class="profile-desg">${cols[2]}</div>
+</div>
+</div>
+
+<div class="stats">
+<div class="stat-card">
+<label>Service Length</label>
+<p>${service}</p>
+</div>
+<div class="stat-card">
+<label>Retirement In</label>
+<p>${retirement}</p>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Basic Information</div>
+<div class="grid">
+<div class="profile-item"><label>Designation</label><p>${cols[23]}</p></div>
+<div class="profile-item"><label>Working Place</label><p>${cols[3]}</p></div>
+<div class="profile-item"><label>District</label><p>${cols[16]}</p></div>
+<div class="profile-item"><label>Home Town</label><p>${cols[17]}</p></div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Personal Details</div>
+<div class="grid">
+<div class="profile-item"><label>Mobile</label><p>${cols[4]}</p></div>
+<div class="profile-item"><label>Email</label><p>${cols[8]}</p></div>
+<div class="profile-item"><label>Date of Birth</label><p>${cols[5]}</p></div>
+<div class="profile-item"><label>Marital Status</label><p>${cols[11]}</p></div>
+<div class="profile-item"><label>Qualification</label><p>${cols[12]}</p></div>
+<div class="profile-item"><label>Religion</label><p>${cols[13]}</p></div>
+<div class="profile-item"><label>Category</label><p>${cols[14]}</p></div>
+<div class="profile-item"><label>Caste Name</label><p>${cols[15]}</p></div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Service Details</div>
+<div class="grid">
+<div class="profile-item"><label>Joining Date</label><p>${cols[18]}</p></div>
+<div class="profile-item"><label>Joining Desg.</label><p>${cols[19]}</p></div>
+<div class="profile-item"><label>Retirement Date</label><p>${cols[6]}</p></div>
+<div class="profile-item"><label>Pension Type</label><p>${cols[26]}</p></div>
+<div class="profile-item"><label>NDCPS No</label><p>${cols[27]}</p></div>
+<div class="profile-item"><label>Working From</label><p>${cols[28]}</p></div>
+</div>
+</div>
+`;
+return;
+}
+}
+document.getElementById("data").innerHTML="User not found.";
+}
+
+loadProfile();
+
+if(localStorage.getItem("darkMode")==="true"){
+document.body.classList.add("dark-mode");
+}
+function goBack(){ window.history.back(); }
 </script>
 
 </body>
