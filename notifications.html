@@ -63,262 +63,175 @@
     margin: 0 auto;
   }
 
-  /* FILTER CARD */
-  .filter-card {
-    background: white;
-    padding: 18px;
-    border-radius: 18px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    margin-bottom: 25px;
-    border: 1px solid rgba(0,0,0,0.05);
-  }
+  #grievanceList {
+            position: absolute;
+            top: 65px; /* Height of header */
+            bottom: 70px; /* Height of footer button */
+            left: 0;
+            right: 0;
+            overflow-y: auto !important;
+            padding: 15px;
+            -webkit-overflow-scrolling: touch;
+            /* Prevents browser pull-to-refresh */
+            overscroll-behavior-y: contain; 
+            touch-action: pan-y;
+        }
 
-  .filter-title {
-    text-align: center;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 12px;
-  }
+        /* 4. FOOTER BUTTON - STICKY AT BOTTOM */
+        .footer-action {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            padding: 12px 15px;
+            border-top: 1px solid #eee;
+            z-index: 100;
+        }
 
-  .date-row {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-  }
+        .dismiss-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            background: #f1f3ff;
+            color: #2400b7;
+            font-weight: 700;
+            font-size: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
 
-  .input-box {
-    flex: 1;
-    background: #f8f9ff;
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    padding: 6px 12px;
-  }
+        .dismiss-btn:active { background: #e2e6ff; transform: scale(0.98); }
 
-  .input-box label {
-    display: block;
-    font-size: 10px;
-    color: var(--text-muted);
-    font-weight: 600;
-  }
+        /* LIST ITEM STYLING */
+        .item-card {
+            background: #ffffff;
+            padding: 16px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(36, 0, 183, 0.05);
+            border: 1px solid #f0f0f0;
+            animation: fadeIn 0.4s ease-out;
+        }
 
-  .input-box input {
-    width: 100%;
-    border: none;
-    background: transparent;
-    font-size: 13px;
-    font-weight: 600;
-    outline: none;
-    color: #333;
-  }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-  /* BUTTON */
-  .check-btn {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 10px;
-    background: #2400b7;
-    color: white;
-    font-weight: 700;
-    font-size: 14px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(75, 45, 216, 0.2);
-    transition: 0.2s;
-  }
-
-  .check-btn:active { transform: scale(0.98); }
-
-  /* DATA TABLE - SMALLER FONT */
-  .table-container {
-    width: 100%;
-    overflow-x: auto;
-    border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-    background: white;
-    border: 1px solid var(--border-color);
-  }
-
-  table {
-    width: 100%;
-    min-width: 1100px; 
-    border-collapse: collapse;
-    font-size: 11px; /* Even smaller font as requested */
-  }
-
-  th, td {
-    padding: 8px 6px; /* Tightened padding */
-    text-align: center;
-    border: 1px solid #eeeeee; 
-  }
-
-  th {
-    background: #f4f6ff;
-    color: var(--primary);
-    font-weight: 700;
-    white-space: nowrap;
-  }
-
-  td { color: #444; }
-
-  tr:nth-child(even) { background: #fafbff; }
-
-  /* SUMMARY BOXES */
-  #summaryBox { margin-top: 20px; }
-
-  .summary {
-    padding: 15px;
-    border-radius: 15px;
-    margin-bottom: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    font-weight: 600;
-    font-size: 13px;
-  }
-
-  .summary.main { background: #2400b7; color: white; }
-  .summary.income { background: linear-gradient(135deg,#1e88e5,#1565c0); color: white; }
-  .summary.breakdown { background: #ffffff; color: #333; border: 1px solid #eee; }
-
-  .row { display: flex; justify-content: space-between; margin: 5px 0; }
-  .total { border-top: 1px solid rgba(255,255,255,0.3); padding-top: 8px; margin-top: 8px; font-size: 15px; }
-
-  /* SCROLLBAR */
-  .table-container::-webkit-scrollbar { height: 6px; }
-  .table-container::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
-
-  /* LOADER */
-  #loader { position: fixed; inset: 0; background: white; display: none; justify-content: center; align-items: center; z-index: 9999; }
-  .spinner { width: 40px; height: 40px; border: 4px solid #eee; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
-  @keyframes spin { 100% { transform: rotate(360deg); } }
-</style>
+        /* SPINNER STYLES */
+        .spinner-box { text-align: center; padding: 60px 20px; }
+        .spinner {
+            width: 35px; height: 35px;
+            border: 4px solid rgba(75, 45, 216, 0.1);
+            border-top: 4px solid #4b2dd8;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 12px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
 </head>
-
 <body>
-<div id="loader"><div class="spinner"></div></div>
 
-<div class="top">
-    <h2>Assets & Liability</h2>
-    <p>Financial Data Summary</p>
-</div>
-
-<div class="content">
-  <div class="filter-card">
-    <div class="filter-title">Select Custom Period</div>
-    <div class="date-row">
-      <div class="input-box">
-        <label>FROM</label>
-        <input type="month" id="fromDate">
-      </div>
-      <div class="input-box">
-        <label>TO</label>
-        <input type="month" id="toDate">
-      </div>
+    <div class="header">
+        <h3>Grievance Records</h3>
     </div>
-    <button class="check-btn" onclick="loadData()">Generate Report</button>
-  </div>
+    
+    <div id="grievanceList">
+        <div class="spinner-box">
+            <div class="spinner"></div>
+            <p style="font-size:13px; color:#4b2dd8; font-weight:600;">Syncing Live Data...</p>
+        </div>
+    </div>
 
-  <div class="table-container">
-    <div id="tableData"></div>
-  </div>
-
-  <div id="summaryBox"></div>
-</div>
+    <div class="footer-action">
+        <button class="dismiss-btn" onclick="window.location.href='home.html'">Back to Home</button>
+    </div>
 
 <script>
-// Logic remains identical to your original to preserve data integrity
-let user = localStorage.getItem("currentUser");
-let headers = ["Month","Basic","Dearness","HRA","CCA","Personal","Special Pay","Conveyance","Washing","SFTA","Locality","MWA","Hill","Charge","Pension","LWF Company","Cash Duty","Other Earn","LIC","Income Tax","PT","Society","PLI","Union","SC/ST","House Rent","Urban Bank","Family Fund","Festival","PC10","PC14","LWF","Recovery","Other Ded"];
+    const scrollContainer = document.getElementById('grievanceList');
+    let lastY = 0;
 
-function inRange(year,month,from,to){
-  let current = year + "-" + month.padStart(2,"0");
-  return current >= from && current <= to;
-}
-
-function inYearRange(year,from,to){
-  let fromYear = from.split("-")[0];
-  let toYear = to.split("-")[0];
-  return year >= fromYear && year <= toYear;
-}
-
-async function loadData(){
-  let from = document.getElementById("fromDate").value;
-  let to = document.getElementById("toDate").value;
-  if(!from || !to){ alert("Select date range"); return; }
-  document.getElementById("loader").style.display = "flex";
-
-  try {
-    let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
-    let data = await res.text();
-    let rows = data.trim().split("\n");
-
-    let filteredRows = [];
-    let colUsed = new Array(headers.length).fill(false);
-
-    for(let i=1;i<rows.length;i++){
-      let c = rows[i].split(",");
-      let year = c[1];
-      let month = c[2];
-      if(c[0] === user && inRange(year,month,from,to)){
-        let row = [];
-        row.push(month+"-"+year);
-        for(let j=3;j<=35;j++){
-          let val = +c[j];
-          row.push(val>0 ? val : "");
-          if(val>0) colUsed[j-2] = true;
+    // REFRESH PREVENTION LOGIC
+    scrollContainer.addEventListener('touchstart', (e) => {
+        if (scrollContainer.scrollTop <= 0) {
+            scrollContainer.scrollTop = 1;
         }
-        filteredRows.push(row);
-      }
-    }
+    }, { passive: true });
 
-    let tableHTML = "<table><tr>";
-    headers.forEach((h,i)=>{ if(i==0 || colUsed[i]) tableHTML += `<th>${h}</th>`; });
-    tableHTML += "</tr>";
+    scrollContainer.addEventListener('touchmove', (e) => {
+        const isAtTop = scrollContainer.scrollTop <= 0;
+        const currentY = e.touches[0].pageY;
+        const isScrollingUp = currentY > lastY;
 
-    let totalE=0, totalD=0;
-    filteredRows.forEach(r=>{
-      tableHTML += "<tr>";
-      r.forEach((val,i)=>{ if(i==0 || colUsed[i]) tableHTML += `<td>${val}</td>`; });
-      tableHTML += "</tr>";
-      for(let i=1;i<=17;i++) totalE += +r[i] || 0;
-      for(let i=18;i<r.length;i++) totalD += +r[i] || 0;
-    });
-    tableHTML += "</table>";
-
-    let incomeFiles = {"Supplementary Salary":"supplementary.csv","DA Arrears":"da_arrears.csv","Double Wages":"double_wages.csv","Medical Bills":"medical_bills.csv","TA Bills":"ta_bills.csv","ELS Bills":"els_bills.csv","Others":"others.csv"};
-    let incomeBreakdown = {};
-    let totalOtherIncome = 0;
-
-    for(let type in incomeFiles){
-      try {
-        let resInc = await fetch("https://hescomsalary1-sudo.github.io/salary-data/" + incomeFiles[type]);
-        let text = await resInc.text();
-        if(!text.trim()) continue;
-        let incRows = text.trim().split("\n");
-        let typeTotal = 0;
-        for(let i=1;i<incRows.length;i++){
-          let c = incRows[i].split(",");
-          if(c[0] === user && inYearRange(c[1], from, to)) typeTotal += (+c[2] || 0);
+        if (isAtTop && isScrollingUp) {
+            if (e.cancelable) e.preventDefault();
         }
-        if(typeTotal > 0){ incomeBreakdown[type] = typeTotal; totalOtherIncome += typeTotal; }
-      } catch(e) {}
+        lastY = currentY;
+    }, { passive: false });
+
+    async function loadGrievances() {
+        const scriptURL = "https://script.google.com/macros/s/AKfycbz8drDOZ-x5VUNh7bA2ndG13BVzl9o4IQ1r7wrtESIlipYuqcXSD-hK6s9xB5eMkLj8/exec";
+        
+        try {
+            const response = await fetch(scriptURL);
+            const data = await response.json();
+            
+            const activeItems = data.filter(item => {
+                const status = String(item.status || "").trim().toLowerCase();
+                return status !== "resolved" && status !== "";
+            });
+
+            let html = "";
+            if (activeItems.length > 0) {
+                activeItems.forEach(item => {
+                    const statusLower = String(item.status).toLowerCase();
+                    const color = (statusLower === "open") ? "#ff3d3d" : "#ffa500";
+
+                    html += `
+                    <div class="item-card" style="border-left: 6px solid ${color}">
+                        <div style="display:flex; justify-content:space-between; font-size:10px; color:#999; margin-bottom:10px;">
+                            <span>📅 ${item.date || 'N/A'}</span>
+                            <span style="background:#f0f0f0; padding:2px 6px; border-radius:4px; font-weight:bold;">ID: ${item.id}</span>
+                        </div>
+                        <div style="margin-bottom:10px;">
+                            <div style="font-size:14px; font-weight:bold; color:#2400b7;">👤 ${item.user}</div>
+                            <div style="font-size:11px; color:#666; margin-top:2px;">💼 ${item.empDesig} | 📍 ${item.workPlace}</div>
+                        </div>
+                        <div style="background:#f8f9ff; padding:12px; border-radius:12px; margin-bottom:12px; border: 1px solid #edf0ff;">
+                            <div style="font-size:10px; font-weight:bold; color:#4b2dd8; text-transform:uppercase; margin-bottom:4px;">📂 ${item.cat}</div>
+                            <div style="font-weight:700; color:#111; font-size:14px; margin-bottom:6px;">${item.sub}</div>
+                            <div style="font-size:12px; color:#444; line-height:1.5;">${item.desc}</div>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span style="background:${color}; color:white; font-size:10px; padding:5px 12px; border-radius:20px; font-weight:bold; text-transform:uppercase;">
+                                ● ${item.status}
+                            </span>
+                            <div style="text-align:right;">
+                                <div style="font-size:9px; color:#aaa; text-transform:uppercase;">Handled By</div>
+                                <div style="font-size:11px; font-weight:bold; color:#333;">${item.handler || 'Pending'}</div>
+                            </div>
+                        </div>
+                    </div>`;
+                });
+            } else {
+                html = `<div style="text-align:center; padding:100px 20px;">
+                            <div style="font-size:60px; margin-bottom:20px;">🎉</div>
+                            <h3 style="color:#2400b7; margin:0;">All Clear!</h3>
+                            <p style="color:#888; font-size:13px; margin-top:10px;">No active grievances found.</p>
+                        </div>`;
+            }
+            scrollContainer.innerHTML = html;
+        } catch (err) {
+            scrollContainer.innerHTML = `<div style="text-align:center; padding:100px 20px; color:#ff3d3d;">
+                                            <p style="font-weight:bold;">⚠️ Connection Error</p>
+                                            <p style="font-size:12px; color:#888;">Unable to reach the server.</p>
+                                         </div>`;
+        }
     }
-
-    let summaryHTML = `
-      <div class="summary main">
-        <div class="row"><span>Total Earnings</span><span>₹ ${totalE}</span></div>
-        <div class="row"><span>Total Deduction</span><span>₹ ${totalD}</span></div>
-        <div class="row total"><span>Net Amount</span><span>₹ ${totalE - totalD}</span></div>
-      </div>
-      
-      <div class="summary breakdown">`;
-    for(let type in incomeBreakdown){ summaryHTML += `<div class="row"><span>${type}</span><span>₹ ${incomeBreakdown[type]}</span></div>`; }
-    summaryHTML += `</div>`;
-
-    document.getElementById("tableData").innerHTML = tableHTML;
-    document.getElementById("summaryBox").innerHTML = summaryHTML;
-  } catch (error) { console.error(error); }
-  document.getElementById("loader").style.display = "none";
-}
+    window.onload = loadGrievances;
 </script>
 
 </body>
