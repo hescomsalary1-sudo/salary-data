@@ -2095,46 +2095,37 @@ function openGrievancePopup2() {
   const overlay = document.getElementById("grievanceOverlay");
   const listContainer = document.getElementById("grievanceList");
   
-  overlay.style.display = "flex";
+  // 1. Add the "Lock" class to body
+  document.body.classList.add("modal-open");
   
-  // 1. Lock the background body completely
-  document.body.style.overflow = "hidden";
-  document.body.style.height = "100%";
+  overlay.style.display = "flex";
 
-  // 2. Prevent the "Pull-to-Refresh" gesture on the overlay
+  // 2. Prevent the refresh gesture on the overlay background
   overlay.addEventListener('touchmove', function(e) {
     if (e.target.id === 'grievanceOverlay') {
-        e.preventDefault();
+      e.preventDefault();
     }
   }, { passive: false });
 
-  // 3. Ensure the list container allows scrolling
-  listContainer.addEventListener('touchstart', function() {
-    const top = this.scrollTop;
-    const totalScroll = this.scrollHeight;
-    const currentScroll = top + this.offsetHeight;
-
-    // If at the very top, move down 1px to prevent browser refresh
-    if (top === 0) {
+  // 3. Trick the scroll to stay away from the refresh trigger (0px)
+  listContainer.addEventListener('scroll', function() {
+    if (this.scrollTop === 0) {
       this.scrollTop = 1;
-    } 
-    // If at the very bottom, move up 1px to prevent background bounce
-    else if (currentScroll === totalScroll) {
-      this.scrollTop = top - 1;
     }
-  }, { passive: true });
+  });
 
-  // 4. Loading state
+  // Loading state
   listContainer.innerHTML = `<div style="text-align:center; padding:20px;"><div class="notif-spinner"></div></div>`;
-
+  
   checkGrievances2(); 
 }
 
 function closeGrievanceNotif2() {
   document.getElementById("grievanceOverlay").style.display = "none";
-  document.body.style.overflow = "auto";
+  
+  // 4. Remove the "Lock" class to allow normal page scrolling again
+  document.body.classList.remove("modal-open");
 }
-
 // --- 3. DATA FETCHING & RENDERING (Full Details) ---
 
 async function checkGrievances2() {
