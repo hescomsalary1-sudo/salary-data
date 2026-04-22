@@ -1002,6 +1002,15 @@ pointer-events: all;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: none; /* Critical to stop the refresh */
 }
+  /* Ensure the overlay itself doesn't try to scroll */
+#grievanceOverlay {
+  touch-action: none; 
+}
+
+/* Allow touch back only for the list area */
+#grievanceList {
+  touch-action: pan-y;
+}
 </style>
 </head>
 
@@ -1256,11 +1265,15 @@ pointer-events: all;
     </div>
 
  <div id="grievanceList" style="
-    height: 300px; 
-    max-height: 50vh; 
-    overflow-y: scroll; /* Changed from 'auto' to 'scroll' to force the track */
-    padding: 15px;
-    overscroll-behavior: contain;
+   height: 300px;
+  max-height: 60vh;
+  overflow-y: auto !important;
+  /* Forces the browser to handle vertical touches ONLY inside this div */
+  touch-action: pan-y !important; 
+  /* Stops the "pull-down" from reaching the background */
+  overscroll-behavior-y: contain !important;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
 ">
   </div>
 
