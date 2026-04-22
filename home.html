@@ -20,7 +20,20 @@ padding-bottom:75px;
   position: fixed; /* This is the ultimate way to stop background refresh */
   width: 100%;
 }
+/* This class will be added to the <html> and <body> tags */
+.stop-refresh {
+  overflow: hidden !important;
+  overscroll-behavior-y: none !important;
+  touch-action: none !important; /* This stops ALL browser gestures */
+  height: 100% !important;
+}
 
+#grievanceList {
+  /* Re-enable scrolling ONLY for the list */
+  touch-action: pan-y !important; 
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
 /* HEADER */
 
 .top{
@@ -2093,35 +2106,43 @@ function continueToGrievance(){
 
 function openGrievancePopup2() {
   const overlay = document.getElementById("grievanceOverlay");
-  const listContainer = document.getElementById("grievanceList");
+  const list = document.getElementById("grievanceList");
   
-  // 1. Add the "Lock" class to body
-  document.body.classList.add("modal-open");
-  
+  // 1. Lock the entire website
+  document.documentElement.classList.add("stop-refresh");
+  document.body.classList.add("stop-refresh");
   overlay.style.display = "flex";
 
-  // 2. Prevent the refresh gesture on the overlay background
-  overlay.addEventListener('touchmove', function(e) {
-    if (e.target.id === 'grievanceOverlay') {
-      e.preventDefault();
+  // 2. The "Hard Lock": Prevents the browser from refreshing
+  const preventRefresh = (e) => {
+    // If we are touching the overlay (not the list), stop all movement
+    if (e.target === overlay) {
+        e.preventDefault();
     }
-  }, { passive: false });
+  };
 
-  // 3. Trick the scroll to stay away from the refresh trigger (0px)
-  listContainer.addEventListener('scroll', function() {
-    if (this.scrollTop === 0) {
-      this.scrollTop = 1;
-    }
-  });
+  // Attach the listener with {passive: false} - this is the secret
+  window.addEventListener('touchmove', preventRefresh, { passive: false });
 
-  // Loading state
-  listContainer.innerHTML = `<div style="text-align:center; padding:20px;"><div class="notif-spinner"></div></div>`;
-  
+  // 3. Keep the listener reference so we can remove it later
+  overlay._preventRefresh = preventRefresh;
+
+  // 4. Loading state
+  list.innerHTML = `<div style="text-align:center; padding:20px;"><div class="notif-spinner"></div></div>`;
   checkGrievances2(); 
 }
 
 function closeGrievanceNotif2() {
-  document.getElementById("grievanceOverlay").style.display = "none";
+  const overlay = document.getElementById("grievanceOverlay");
+  
+  // Unlock the website
+  document.documentElement.classList.remove("stop-refresh");
+  document.body.classList.remove("stop-refresh");
+  overlay.style.display = "none";
+
+  // Remove the "Hard Lock" listener
+  window.removeEventListener('touchmove', overlay._preventRefresh);
+}
   
   // 4. Remove the "Lock" class to allow normal page scrolling again
   document.body.classList.remove("modal-open");
