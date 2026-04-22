@@ -13,6 +13,13 @@ margin:0;
 background: linear-gradient(135deg, #f7f8fc, #edf5ff);
 padding-bottom:75px;
 }
+  body.modal-open {
+  overscroll-behavior-y: contain !important;
+  overflow: hidden !important;
+  height: 100vh;
+  position: fixed; /* This is the ultimate way to stop background refresh */
+  width: 100%;
+}
 
 /* HEADER */
 
