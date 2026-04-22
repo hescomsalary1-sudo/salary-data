@@ -991,10 +991,41 @@ pointer-events: all;
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+  /* Premium Page Transition Overlay */
+.page-transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f8faff; /* Matches your notification.html background */
+    z-index: 9999;
+    transform: translateY(100%); /* Start hidden at bottom */
+    transition: transform 0.4s cubic-bezier(0.32, 1, 0.23, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-transition-overlay.active {
+    transform: translateY(0); /* Slide up to cover screen */
+}
+
+/* Subtle Branding in the transition */
+.transition-logo {
+    width: 60px;
+    opacity: 0.8;
+    margin-bottom: 15px;
+}
 </style>
 </head>
 
 <body>
+  <div id="transitionOverlay" class="page-transition-overlay">
+    <div class="notif-spinner" style="width:30px; height:30px;"></div>
+</div>
   <!-- OVERLAY -->
 <div id="sideOverlay"></div>
 
@@ -2050,26 +2081,21 @@ function continueToGrievance(){
 // --- 2. POPUP UI CONTROLS ---
 
 function openGrievancePopup2() {
-  // 1. Show the main app loader/spinner
-  const loader = document.getElementById("loader");
-  loader.style.display = "flex";
-  loader.style.justifyContent = "center";
-  loader.style.alignItems = "center";
-  
-  // 2. Add a specific spinner inside the loader if the skeleton isn't enough
-  loader.innerHTML = `
-    <div style="text-align:center;">
-      <div class="notif-spinner" style="width:40px; height:40px; margin:0 auto;"></div>
-      <p style="font-size:14px; color:#4b2dd8; font-weight:600; margin-top:15px;">
-        Opening Notifications...
-      </p>
-    </div>
-  `;
+    // 1. Get the transition overlay
+    const transition = document.getElementById("transitionOverlay");
+    
+    // 2. Play a haptic-like scale effect on the card (optional but premium)
+    const card = event.currentTarget;
+    if(card) card.style.transform = "scale(0.95)";
 
-  // 3. Navigate to the new page after a short delay
-  setTimeout(() => {
-    window.location.href = "notifications.html";
-  }, 000);
+    // 3. Trigger the slide-up animation
+    transition.classList.add("active");
+
+    // 4. Redirect just as the animation is finishing
+    // This creates the illusion that the new page IS the slide
+    setTimeout(() => {
+        window.location.href = "notifications.html";
+    }, 350); 
 }
 
 function closeGrievanceNotif2() {
