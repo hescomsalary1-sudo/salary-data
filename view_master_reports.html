@@ -95,41 +95,46 @@
         }
 
         // --- NEW IMPROVED CSV DOWNLOAD FOR MOBILE APP ---
-        function downloadCSV() {
-            let table = document.getElementById("leaveTable");
-            let rows = table.querySelectorAll("tr");
-            let csv = [];
+     function downloadCSV() {
+    let table = document.getElementById("leaveTable");
+    let rows = table.querySelectorAll("tr");
+    let csv = [];
 
-            rows.forEach(row => {
-                if (row.style.display !== "none") {
-                    let data = [];
-                    row.querySelectorAll("th, td").forEach(cell => {
-                        data.push(cell.innerText.replace(/,/g, "")); 
-                    });
-                    csv.push(data.join(","));
-                }
+    // 1. Build the CSV String
+    rows.forEach(row => {
+        if (row.style.display !== "none") {
+            let data = [];
+            row.querySelectorAll("th, td").forEach(cell => {
+                // Remove commas and quotes to prevent formatting errors
+                let cleaned = cell.innerText.replace(/,/g, "").replace(/"/g, "");
+                data.push('"' + cleaned + '"'); 
             });
-
-            let csvString = csv.join("\n");
-            
-            // This is the most compatible way for Mobile Apps (Webviews)
-            // It tells the app: "This is an attachment stream, don't preview it"
-            let blob = new Blob([csvString], { type: 'application/octet-stream' });
-            let url = window.URL.createObjectURL(blob);
-            
-            let link = document.createElement("a");
-            link.setAttribute("href", url);
-            link.setAttribute("download", "Leave_Report.csv");
-            document.body.appendChild(link);
-            
-            link.click();
-            
-            // Clean up
-            setTimeout(() => {
-                document.body.removeChild(link);
-                window.URL.revokeObjectURL(url);
-            }, 150);
+            csv.push(data.join(","));
         }
+    });
+
+    const csvContent = csv.join("\n");
+    
+    // 2. Encode to Base64
+    // This tells the app it's a raw file, preventing the PDF preview
+    const base64Data = btoa(unescape(encodeURIComponent(csvContent)));
+    const filename = "Leave_Report.csv";
+
+    // 3. Create a forced download link
+    const link = document.createElement("a");
+    
+    // Using octet-stream forces the mobile app to "Download" instead of "Open"
+    link.href = "data:application/octet-stream;base64," + base64Data;
+    link.download = filename;
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // Clean up
+    setTimeout(() => {
+        document.body.removeChild(link);
+    }, 100);
+}
 
         window.onload = loadData;
     </script>
