@@ -122,37 +122,52 @@
         }
 
         // --- FIXED CSV LOGIC (FORCES TEXT DOWNLOAD) ---
-        function downloadCSV() {
-            let table = document.getElementById("leaveTable");
-            let rows = table.querySelectorAll("tr");
-            let csv = [];
+      // --- STABLE CSV DOWNLOAD LOGIC ---
+function downloadCSV() {
+    try {
+        let table = document.getElementById("leaveTable");
+        if (!table) return;
 
-            rows.forEach(row => {
+        let rows = table.querySelectorAll("tr");
+        let csv = [];
+
+        rows.forEach(row => {
+            if (row.style.display !== "none") {
                 let data = [];
-                // Process only visible rows (handles the search filter)
-                if (row.style.display !== "none") {
-                    row.querySelectorAll("th, td").forEach(cell => {
-                        // Remove commas within text to keep CSV clean
-                        data.push(cell.innerText.replace(/,/g, " "));
-                    });
-                    csv.push(data.join(","));
-                }
-            });
+                row.querySelectorAll("th, td").forEach(cell => {
+                    // Remove commas and extra spaces to keep CSV clean
+                    let cleanedText = cell.innerText.replace(/,/g, " ").trim();
+                    data.push('"' + cleanedText + '"'); // Wrap in quotes for safety
+                });
+                csv.push(data.join(","));
+            }
+        });
 
-            const csvContent = csv.join("\n");
-            
-            // We use Base64 encoding to force mobile browsers to handle it as a new file
-            const base64Content = btoa(unescape(encodeURIComponent(csvContent)));
-            const link = document.createElement("a");
-            
-            // Explicitly set the MIME type to text/csv
-            link.href = "data:text/csv;base64," + base64Content;
-            link.download = "HESCOM_Leave_Report.csv";
-            
-            document.body.appendChild(link);
-            link.click();
+        const csvContent = csv.join("\n");
+        
+        // Use Blob instead of Base64 to prevent app crashes
+        const blob = new Blob(["\ufeff", csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = window.URL.createObjectURL(blob);
+        
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "HESCOM_Leave_Report.csv";
+        
+        // Required for Firefox and some mobile webviews
+        document.body.appendChild(link);
+        link.click();
+        
+        // Clean up memory
+        setTimeout(() => {
             document.body.removeChild(link);
-        }
+            window.URL.revokeObjectURL(url);
+        }, 100);
+
+    } catch (err) {
+        console.error("Download error:", err);
+        alert("Download failed. Please try again.");
+    }
+}
 
         window.onload = loadData;
     </script>
