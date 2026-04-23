@@ -95,45 +95,34 @@
         }
 
         // --- NEW IMPROVED CSV DOWNLOAD FOR MOBILE APP ---
-     function downloadCSV() {
+  function downloadCSV() {
+    // 1. Extract columns from your table
     let table = document.getElementById("leaveTable");
     let rows = table.querySelectorAll("tr");
-    let csv = [];
+    let csvData = [];
 
-    // 1. Build the CSV String
     rows.forEach(row => {
+        // Only get visible rows (respects your search filter)
         if (row.style.display !== "none") {
-            let data = [];
-            row.querySelectorAll("th, td").forEach(cell => {
-                // Remove commas and quotes to prevent formatting errors
-                let cleaned = cell.innerText.replace(/,/g, "").replace(/"/g, "");
-                data.push('"' + cleaned + '"'); 
+            let cols = row.querySelectorAll("th, td");
+            let rowData = [];
+            
+            cols.forEach(col => {
+                // Remove commas from text to avoid breaking CSV format
+                let text = col.innerText.replace(/,/g, "");
+                rowData.push(text);
             });
-            csv.push(data.join(","));
+            
+            csvData.push(rowData.join(","));
         }
     });
 
-    const csvContent = csv.join("\n");
-    
-    // 2. Encode to Base64
-    // This tells the app it's a raw file, preventing the PDF preview
-    const base64Data = btoa(unescape(encodeURIComponent(csvContent)));
-    const filename = "Leave_Report.csv";
+    // 2. Convert the extracted data into a String
+    let csvString = csvData.join("\n");
 
-    // 3. Create a forced download link
-    const link = document.createElement("a");
-    
-    // Using octet-stream forces the mobile app to "Download" instead of "Open"
-    link.href = "data:application/octet-stream;base64," + base64Data;
-    link.download = filename;
-    
-    document.body.appendChild(link);
-    link.click();
-    
-    // Clean up
-    setTimeout(() => {
-        document.body.removeChild(link);
-    }, 100);
+    // 3. Use window.location.href like your Master Report
+    // We add 'charset=utf-8' and the data header to force the browser to download
+    window.location.href = "data:text/csv;charset=utf-8," + encodeURIComponent(csvString);
 }
 
         window.onload = loadData;
