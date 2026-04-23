@@ -8,224 +8,167 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     
     <style>
-        :root {
-            --primary: #4b2dd8;
-            --primary-light: #6c47ff;
-            --bg: #fdfdff;
-            --surface: #ffffff;
-            --text-main: #1a1a2e;
-            --text-sub: #6b7280;
-            --shadow: 0 8px 30px rgba(0,0,0,0.08);
+        :root { 
+            --primary: #4b2dd8; 
+            --primary-light: #f0edff;
+            --bg: #f8f9fd; 
+            --text-dark: #2d3436;
+            --text-light: #636e72;
+            --white: #ffffff;
         }
 
-        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            background: var(--bg);
-            color: var(--text-main);
-            overflow-x: hidden;
+        body { 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            margin: 0; 
+            background: var(--bg); 
+            color: var(--text-dark);
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- FIXED TOP HEADER SECTION --- */
-        .header-container {
-            position: fixed;
+        /* FIXED HEADER SECTION */
+        .fixed-header {
+            position: sticky;
             top: 0;
-            left: 0;
-            right: 0;
             z-index: 1000;
-            background: var(--primary);
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            padding-bottom: 20px;
-            border-bottom-left-radius: 30px;
-            border-bottom-right-radius: 30px;
-            box-shadow: 0 4px 20px rgba(75, 45, 216, 0.2);
+            background: var(--white);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
         }
 
-        .top-bar {
-            display: flex;
-            align-items: center;
-            padding: 20px 20px 10px 20px;
-            color: white;
+        .top-bar { 
+            padding: 18px 20px; 
+            background: var(--primary); 
+            color: white; 
+            display: flex; 
+            align-items: center; 
+            gap: 15px;
         }
 
+        .top-bar h3 { margin: 0; font-size: 18px; font-weight: 600; letter-spacing: 0.5px; }
+        
         .back-btn {
-            font-size: 24px;
-            margin-right: 15px;
-            cursor: pointer;
-            opacity: 0.9;
+            width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%; cursor: pointer;
         }
 
-        .top-bar h3 {
-            margin: 0;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            font-size: 19px;
-        }
-
-        .search-wrapper {
-            padding: 0 20px;
-            margin-top: 5px;
-        }
-
+        /* BEAUTIFUL SEARCH */
+        .search-container { padding: 15px 20px; background: var(--white); }
+        .search-wrapper { position: relative; }
         .search-box {
-            width: 100%;
-            padding: 14px 15px;
-            border-radius: 16px;
-            border: none;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            color: white;
-            font-size: 15px;
-            outline: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%; padding: 14px 15px 14px 45px;
+            border-radius: 12px; border: 1px solid #e0e0e0;
+            font-size: 15px; box-sizing: border-box;
+            outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #f1f3f6;
         }
-
-        .search-box::placeholder { color: rgba(255, 255, 255, 0.7); }
-
         .search-box:focus {
-            background: white;
-            color: var(--text-main);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background: var(--white);
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(75, 45, 216, 0.15);
+        }
+        .search-wrapper::before {
+            content: '🔍'; position: absolute; left: 15px; top: 50%;
+            transform: translateY(-50%); font-size: 16px; opacity: 0.5;
         }
 
-        /* --- CONTENT AREA --- */
-        .content {
-            margin-top: 160px; /* Space for fixed header */
-            padding: 20px;
-            padding-bottom: 100px; /* Space for bottom button */
+        /* ACTIONS */
+        .action-area { padding: 10px 20px 15px 20px; background: var(--white); }
+        .download-btn {
+            width: 100%; padding: 14px; border: none; border-radius: 12px;
+            color: white; font-weight: 600; cursor: pointer; font-size: 15px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: transform 0.2s;
+        }
+        .download-btn:active { transform: scale(0.97); }
+
+        /* PREMIUM TABLE DESIGN */
+        .content-body { padding: 15px; }
+        .table-card { 
+            background: var(--white); 
+            border-radius: 16px; 
+            overflow: hidden; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+        
+        table { width: 100%; border-collapse: collapse; }
+        thead th {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 12px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px;
+            padding: 15px 10px; text-align: center;
+        }
+        
+        tbody tr { transition: background 0.2s; }
+        tbody tr:last-child td { border-bottom: none; }
+        tbody td {
+            padding: 16px 10px; border-bottom: 1px solid #f1f1f1;
+            text-align: center; font-size: 14px; color: var(--text-dark);
+        }
+        
+        .emp-id { color: var(--text-light); font-family: monospace; font-weight: bold; }
+        .emp-name { text-align: left !important; font-weight: 600; color: var(--primary); }
+        .badge {
+            display: inline-block; padding: 4px 10px; 
+            background: #f1f3f6; border-radius: 6px; font-weight: 700;
         }
 
-        .table-card {
-            background: var(--surface);
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            border: 1px solid rgba(0,0,0,0.03);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            background: #f8f9ff;
-            color: var(--text-sub);
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 15px 10px;
-            text-align: center;
-            border-bottom: 1px solid #f0f0f5;
-        }
-
-        td {
-            padding: 16px 10px;
-            text-align: center;
-            font-size: 14px;
-            border-bottom: 1px solid #f9f9fb;
-        }
-
-        .emp-id { color: var(--primary); font-weight: 600; font-family: monospace; font-size: 13px; }
-        .emp-name { text-align: left !important; font-weight: 500; color: var(--text-main); }
-        .leave-count { font-weight: 700; color: #2d3436; }
-
-        /* --- FLOATING ACTION BUTTON (PDF) --- */
-        .fab-container {
-            position: fixed;
-            bottom: 30px;
-            left: 20px;
-            right: 20px;
-            z-index: 999;
-        }
-
-        .pdf-btn {
-            width: 100%;
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 16px;
-            border-radius: 18px;
-            font-weight: 700;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 10px 25px rgba(75, 45, 216, 0.4);
-            transition: 0.3s;
-        }
-
-        .pdf-btn:active { transform: scale(0.96); }
-
-        /* --- LOADER --- */
+        /* LOADING SPINNER */
         #loader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: white; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; z-index: 2000;
+            display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--white); flex-direction: column; justify-content: center;
+            align-items: center; z-index: 2000;
         }
         .spinner {
-            width: 40px; height: 40px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+            width: 40px; height: 40px; border: 4px solid var(--primary-light);
+            border-left-color: var(--primary); border-radius: 50%;
+            animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        #noResults {
-            padding: 40px; text-align: center; color: var(--text-sub); display: none;
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
     <div id="loader">
         <div class="spinner"></div>
-        <p style="margin-top:15px; font-weight:600; color:var(--primary); font-size:14px;">Syncing Records...</p>
+        <p style="color:var(--primary); font-size:13px; margin-top:12px; font-weight:600;">Generating Report...</p>
     </div>
 
-    <div class="header-container">
+    <div class="fixed-header">
         <div class="top-bar">
-            <div class="back-btn" onclick="window.history.back()">✕</div>
+            <div class="back-btn" onclick="window.history.back()">❮</div>
             <h3>Leave Summary Report</h3>
         </div>
-        <div class="search-wrapper">
-            <input type="text" id="searchInput" class="search-box" placeholder="Search employee name or ID..." onkeyup="filterTable()">
-        </div>
-    </div>
 
-    <div class="content">
-        <div class="table-card">
-            <div id="tableArea"></div>
-            <div id="noResults">
-                <div style="font-size: 40px; margin-bottom: 10px;">🔍</div>
-                <b>No records found</b><br>Try a different name
+        <div class="search-container">
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" class="search-box" placeholder="Search by name or employee ID..." onkeyup="filterTable()">
             </div>
         </div>
+
+        <div class="action-area">
+            <button class="download-btn" onclick="downloadPDF()">
+                <span>📄</span> Download Official PDF
+            </button>
+        </div>
     </div>
 
-    <div class="fab-container">
-        <button class="pdf-btn" onclick="downloadPDF()">
-            <span>📄</span> Generate PDF Report
-        </button>
+    <div class="content-body">
+        <div class="table-card" id="tableArea">
+            </div>
     </div>
 
     <script>
         function filterTable() {
             let input = document.getElementById("searchInput").value.toLowerCase();
             let tr = document.querySelectorAll("#leaveTable tbody tr");
-            let found = false;
-            
             tr.forEach(row => {
-                let match = row.innerText.toLowerCase().includes(input);
-                row.style.display = match ? "" : "none";
-                if(match) found = true;
+                row.style.display = row.textContent.toLowerCase().includes(input) ? "" : "none";
             });
-            document.getElementById("noResults").style.display = found ? "none" : "block";
         }
 
         async function loadData() {
@@ -243,7 +186,17 @@
                     if(c[0]) uMap[c[0].trim()] = c[1]?.trim() || "-"; 
                 });
 
-                let html = "<table id='leaveTable'><thead><tr><th>ID</th><th>Employee Name</th><th>EL</th><th>FPL</th></tr></thead><tbody>";
+                let html = `<table id='leaveTable'>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Employee Name</th>
+                            <th>EL</th>
+                            <th>FPL</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+
                 let is2H = new Date().getMonth() >= 6;
 
                 lRows.slice(1).forEach(r => {
@@ -252,19 +205,23 @@
                     let u = c[0].trim();
                     let el = (parseInt(c[3]) || 0) + (is2H ? 30 : 15);
                     let fpl = (parseInt(c[4]) || 0) + (is2H ? 10 : 5);
+                    
                     html += `<tr>
                         <td class="emp-id">${u}</td>
-                        <td class="emp-name">${uMap[u]||"-"}</td>
-                        <td class="leave-count">${el}</td>
-                        <td class="leave-count">${fpl}</td>
+                        <td class="emp-name">${uMap[u] || "Unknown User"}</td>
+                        <td><span class="badge">${el}</span></td>
+                        <td><span class="badge">${fpl}</span></td>
                     </tr>`;
                 });
+
                 html += "</tbody></table>";
                 document.getElementById("tableArea").innerHTML = html;
+            } catch (e) {
+                document.getElementById("tableArea").innerHTML = "<div style='padding:20px;text-align:center;'>Unable to load data.</div>";
             } finally {
-                // Smooth hide loader
-                document.getElementById("loader").style.opacity = "0";
-                setTimeout(() => { document.getElementById("loader").style.display = "none"; }, 500);
+                setTimeout(() => {
+                    document.getElementById("loader").style.display = "none";
+                }, 500);
             }
         }
 
@@ -272,26 +229,29 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF('p', 'pt', 'a4');
             
+            // PDF Styling
             doc.setFontSize(20);
             doc.setTextColor(75, 45, 216);
-            doc.text("HESCOM Leave Summary", 40, 50);
+            doc.text("HESCOM", 40, 50);
             
-            doc.setFontSize(10);
-            doc.setTextColor(150);
-            doc.text(`Generated on: ${new Date().toLocaleString()}`, 40, 65);
+            doc.setFontSize(12);
+            doc.setTextColor(100);
+            doc.text("Official Employee Leave Summary Report", 40, 70);
+            doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 40, 85);
 
             doc.autoTable({
                 html: '#leaveTable',
-                startY: 85,
+                startY: 110,
                 theme: 'grid',
                 headStyles: { fillColor: [75, 45, 216], fontSize: 10, halign: 'center' },
                 columnStyles: {
                     0: { halign: 'center', fontStyle: 'bold' },
-                    1: { halign: 'left' },
                     2: { halign: 'center' },
                     3: { halign: 'center' }
-                }
+                },
+                styles: { fontSize: 9, cellPadding: 8 }
             });
+            
             doc.save("HESCOM_Leave_Report.pdf");
         }
 
