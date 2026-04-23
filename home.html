@@ -1059,10 +1059,47 @@ pointer-events: all;
     0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
     100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
 }
+
+  /* Premium Page Transition Overlay */
+.page-slide-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f8faff; /* Matches your app background */
+    z-index: 9999;
+    transform: translateX(100%); /* Start hidden to the right */
+    transition: transform 0.4s cubic-bezier(0.32, 1, 0.23, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-slide-overlay.active {
+    transform: translateX(0); /* Slides in from right */
+}
+
+/* Optional: Subtle pulse logo during slide */
+.slide-logo {
+    width: 50px;
+    height: 50px;
+    background: #2400b7;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    box-shadow: 0 10px 20px rgba(36, 0, 183, 0.2);
+}
 </style>
 </head>
 
 <body>
+  <div id="pageSlideOverlay" class="page-slide-overlay">
+    <div class="slide-logo">⚡</div>
+</div>
   <div id="flowerOverlay" class="flower-reveal">
     <div class="bloom-center"></div>
 </div>
@@ -1427,11 +1464,14 @@ window.location.replace("login.html");
 let role = localStorage.getItem("role");
 
 
-function showLoader(url){
-document.getElementById("loader").style.display="flex";
-setTimeout(function(){
-window.location = url;
-},1000);
+// Update showLoader to use the same premium effect for grid cards
+function showLoader(url) {
+    const overlay = document.getElementById("pageSlideOverlay");
+    overlay.classList.add("active");
+    
+    setTimeout(() => {
+        window.location.href = url;
+    }, 450);
 }
 
 async function loadNews(){
@@ -1644,19 +1684,17 @@ loadCurrentMonthSalary();
 
 
 
-function goTab(index, url){
+function goTab(index, url) {
+    // 1. Get the overlay element
+    const overlay = document.getElementById("pageSlideOverlay");
+    
+    // 2. Add active class to start sliding
+    overlay.classList.add("active");
 
-// wait a bit so navbar stays visible
-setTimeout(()=>{
-  document.getElementById("loader").style.display = "flex";
-  document.body.style.overflow = "hidden";
-},150);
-
-// navigate
-setTimeout(()=>{
-  window.location = url;
-},700);
-
+    // 3. Navigate after the slide covers the screen (approx 350-400ms)
+    setTimeout(() => {
+        window.location.href = url;
+    }, 450);
 }
 
 
