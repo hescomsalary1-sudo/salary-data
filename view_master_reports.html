@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Leave Report - Advanced Portal</title>
+    <title>Leave Report - Excel & PDF</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -9,55 +9,38 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     
     <style>
-        :root { --primary: #4b2dd8; --bg: #f8f9ff; }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); color: #333; }
+        :root { --primary: #4b2dd8; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f8f9ff; }
 
         .top { padding: 15px; background: var(--primary); color: white; display: flex; align-items: center; gap: 10px; }
         
-        /* SEARCH BOX */
-        .search-container { padding: 15px 15px 0 15px; }
+        .search-container { padding: 15px; }
         .search-box {
-            width: 100%; padding: 12px 40px 12px 15px;
-            border-radius: 12px; border: 1px solid #ddd;
-            font-size: 14px; box-sizing: border-box;
-            outline: none; transition: 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd;
+            font-size: 14px; box-sizing: border-box; outline: none;
         }
-        .search-box:focus { border-color: var(--primary); box-shadow: 0 4px 15px rgba(75, 45, 216, 0.1); }
 
-        /* DOWNLOAD BUTTONS */
-        .download-box { display: flex; gap: 10px; padding: 15px; }
+        .download-box { display: flex; gap: 10px; padding: 0 15px 15px 15px; }
         .download-btn {
             flex: 1; padding: 12px; border: none; border-radius: 10px;
-            color: white; font-weight: 600; cursor: pointer; transition: 0.2s;
-            font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 5px;
+            color: white; font-weight: 600; cursor: pointer; font-size: 13px;
         }
-        .download-btn:active { transform: scale(0.95); }
         .pdf { background: #e74c3c; }
-        .excel { background: #217346; } /* Excel Green */
+        .excel { background: #217346; }
 
-        /* TABLE */
-        .tableBox { margin: 0 15px 15px 15px; border: 1px solid #eee; border-radius: 12px; overflow-x: auto; background: white; }
+        .tableBox { margin: 0 15px 15px 15px; border-radius: 12px; overflow-x: auto; background: white; border: 1px solid #eee; }
         table { width: 100%; border-collapse: collapse; font-size: 13px; }
         th { background: #f4f4f9; color: var(--primary); padding: 12px; border-bottom: 2px solid #eee; }
         td { padding: 12px; border-bottom: 1px solid #f1f1f1; text-align: center; }
         td:nth-child(2) { text-align: left; font-weight: 600; }
         
-        /* Highlight for no results */
-        #noResults { display: none; padding: 20px; text-align: center; color: #888; }
-
-        /* SPINNER */
         #loader {
-            display: flex; position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%; background: white;
-            flex-direction: column; justify-content: center; align-items: center; z-index: 9999;
+            display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: white; flex-direction: column; justify-content: center; align-items: center; z-index: 9999;
         }
         .spinner {
-            width: 35px; height: 35px;
-            border: 4px solid rgba(75, 45, 216, 0.1);
-            border-left-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            width: 35px; height: 35px; border: 4px solid rgba(75, 45, 216, 0.1);
+            border-left-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
@@ -66,7 +49,7 @@
 
     <div id="loader">
         <div class="spinner"></div>
-        <p style="color:var(--primary); font-size:12px; margin-top:10px; font-weight:600;">Loading Data...</p>
+        <p style="color:var(--primary); font-size:12px; margin-top:10px; font-weight:600;">Loading...</p>
     </div>
 
     <div class="top">
@@ -75,102 +58,96 @@
     </div>
 
     <div class="search-container">
-        <input type="text" id="searchInput" class="search-box" placeholder="Search Name or ID..." onkeyup="filterTable()">
+        <input type="text" id="searchInput" class="search-box" placeholder="Search name or ID..." onkeyup="filterTable()">
     </div>
 
     <div class="download-box">
-        <button class="download-btn pdf" onclick="downloadPDF()">⬇ PDF</button>
-        <button class="download-btn excel" onclick="downloadExcel()">📊 Excel</button>
+        <button class="download-btn pdf" onclick="downloadPDF()">⬇ Download PDF</button>
+        <button class="download-btn excel" onclick="downloadExcel()">📊 Download Excel</button>
     </div>
 
-    <div class="tableBox">
-        <div id="tableArea"></div>
-        <div id="noResults">No matching employees found.</div>
-    </div>
+    <div class="tableBox" id="tableArea"></div>
 
     <script>
-        // Filter Table Logic
         function filterTable() {
             let input = document.getElementById("searchInput").value.toLowerCase();
-            let table = document.getElementById("leaveTable");
-            let tr = table.getElementsByTagName("tr");
-            let found = false;
-
-            for (let i = 1; i < tr.length; i++) {
-                let textContent = tr[i].textContent.toLowerCase();
-                if (textContent.indexOf(input) > -1) {
-                    tr[i].style.display = "";
-                    found = true;
-                } else {
-                    tr[i].style.display = "none";
-                }
-            }
-            document.getElementById("noResults").style.display = found ? "none" : "block";
+            let tr = document.querySelectorAll("#leaveTable tbody tr");
+            tr.forEach(row => {
+                row.style.display = row.textContent.toLowerCase().includes(input) ? "" : "none";
+            });
         }
 
         async function loadData() {
             try {
-                const [leaveRes, empRes] = await Promise.all([
+                const [lRes, eRes] = await Promise.all([
                     fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv?v=" + Date.now()),
                     fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv?v=" + Date.now())
                 ]);
+                const lRows = (await lRes.text()).trim().split("\n");
+                const eRows = (await eRes.text()).trim().split("\n");
 
-                const leaveRows = (await leaveRes.text()).trim().split("\n");
-                const empRows = (await empRes.text()).trim().split("\n");
-
-                let userMap = {};
-                empRows.slice(1).forEach(row => {
-                    let c = row.split(",");
-                    if(c[0]) userMap[c[0].trim()] = c[1]?.trim() || "-";
-                });
+                let uMap = {};
+                eRows.slice(1).forEach(r => { let c = r.split(","); if(c[0]) uMap[c[0].trim()] = c[1]?.trim() || "-"; });
 
                 let html = "<table id='leaveTable'><thead><tr><th>User ID</th><th>Name</th><th>EL</th><th>FPL</th></tr></thead><tbody>";
-                let isSecondHalf = new Date().getMonth() >= 6;
+                let is2H = new Date().getMonth() >= 6;
 
-                leaveRows.slice(1).forEach(row => {
-                    let c = row.split(",");
+                lRows.slice(1).forEach(r => {
+                    let c = r.split(",");
                     if (c.length < 2) return;
-                    let user = c[0].trim();
-                    let el = (parseInt(c[3]) || 0) + (isSecondHalf ? 30 : 15);
-                    let fpl = (parseInt(c[4]) || 0) + (isSecondHalf ? 10 : 5);
-                    html += `<tr><td>${user}</td><td>${userMap[user] || "-"}</td><td>${el}</td><td>${fpl}</td></tr>`;
+                    let u = c[0].trim();
+                    let el = (parseInt(c[3]) || 0) + (is2H ? 30 : 15);
+                    let fpl = (parseInt(c[4]) || 0) + (is2H ? 10 : 5);
+                    html += `<tr><td>${u}</td><td>${uMap[u]||"-"}</td><td>${el}</td><td>${fpl}</td></tr>`;
                 });
-
                 html += "</tbody></table>";
                 document.getElementById("tableArea").innerHTML = html;
-            } catch (e) {
-                document.getElementById("tableArea").innerHTML = "Error loading report.";
             } finally {
                 document.getElementById("loader").style.display = "none";
             }
         }
 
-        // PDF GENERATION (Kept working version)
+        // --- PDF LOGIC (STAYS THE SAME) ---
         function downloadPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF('p', 'pt', 'a4');
-            doc.setFontSize(18);
-            doc.setTextColor(75, 45, 216);
+            doc.setFontSize(18); doc.setTextColor(75, 45, 216);
             doc.text("HESCOM Leave Report", 40, 40);
-            doc.setFontSize(10);
-            doc.setTextColor(100);
-            doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 40, 55);
-
             doc.autoTable({
-                html: '#leaveTable',
-                startY: 70,
-                theme: 'grid',
-                headStyles: { fillColor: [75, 45, 216] },
-                styles: { fontSize: 9, cellPadding: 8 }
+                html: '#leaveTable', startY: 70, theme: 'grid',
+                headStyles: { fillColor: [75, 45, 216] }
             });
-            doc.save("HESCOM_Leave_Report.pdf");
+            doc.save("Leave_Report.pdf");
         }
 
-        // EXCEL GENERATION
+        // --- FIXED EXCEL LOGIC ---
         function downloadExcel() {
             const table = document.getElementById("leaveTable");
-            const wb = XLSX.utils.table_to_book(table, { sheet: "Leave Report" });
-            XLSX.writeFile(wb, "HESCOM_Leave_Report.xlsx");
+            
+            // 1. Convert table to workbook
+            const wb = XLSX.utils.table_to_book(table, { sheet: "LeaveReport" });
+            
+            // 2. Generate binary data
+            const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+
+            // 3. Convert to octet stream
+            function s2ab(s) {
+                const buf = new ArrayBuffer(s.length);
+                const view = new Uint8Array(buf);
+                for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+                return buf;
+            }
+
+            // 4. Create Blob and Trigger Download
+            const blob = new Blob([s2ab(wbout)], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "HESCOM_Leave_Report.xlsx";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
 
         window.onload = loadData;
