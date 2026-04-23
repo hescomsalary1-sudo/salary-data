@@ -126,47 +126,61 @@
 function downloadCSV() {
     try {
         let table = document.getElementById("leaveTable");
-        if (!table) return;
-
         let rows = table.querySelectorAll("tr");
-        let csv = [];
+        let csvContent = "";
 
         rows.forEach(row => {
             if (row.style.display !== "none") {
-                let data = [];
+                let rowData = [];
                 row.querySelectorAll("th, td").forEach(cell => {
-                    // Remove commas and extra spaces to keep CSV clean
-                    let cleanedText = cell.innerText.replace(/,/g, " ").trim();
-                    data.push('"' + cleanedText + '"'); // Wrap in quotes for safety
+                    // Remove any newlines or commas that confuse mobile apps
+                    let text = cell.innerText.replace(/(\r\n|\n|\r)/gm, " ").replace(/,/g, " ");
+                    rowData.push(text.trim());
                 });
-                csv.push(data.join(","));
+                csvContent += rowData.join(",") + "\r\n";
             }
         });
 
-        const csvContent = csv.join("\n");
-        
-        // Use Blob instead of Base64 to prevent app crashes
-        const blob = new Blob(["\ufeff", csvContent], { type: 'text/csv;charset=utf-8;' });
-        const url = window.URL.createObjectURL(blob);
-        
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = "HESCOM_Leave_Report.csv";
-        
-        // Required for Firefox and some mobile webviews
-        document.body.appendChild(link);
-        link.click();
-        
-        // Clean up memory
-        setTimeout(() => {
-            document.body.removeChild(link);
-            window.URL.revokeObjectURL(url);
-        }, 100);
+        // This approach forces the mobile OS to see it as a "Text/Plain" attachment
+        // which prevents the app from misidentifying it as a PDF
+        const blob = new Blob([csvContent], { type: 'text/plain;charset=utf-8' });
+        const fileName = "Leave_Report.csv";
 
+        // Check if the mobile device supports the Web Share API (Best for Apps)
+        if (navigator.share && navigator.canShare && navigator.canShare({ files: [new File([blob], fileName, { type: 'text/csv' })] })) {
+            const file = new File([blob], fileName, { type: 'text/csv' });
+            navigator.share({
+                files: [file],
+                title: 'Leave Report',
+                text: 'HESCOM Leave Summary'
+            }).catch(() => {
+                // Fallback if sharing is cancelled
+                executeDownload(blob, fileName);
+            });
+        } else {
+            // Standard fallback download for laptops and older apps
+            executeDownload(blob, fileName);
+        }
     } catch (err) {
-        console.error("Download error:", err);
-        alert("Download failed. Please try again.");
+        alert("Error: " + err.message);
     }
+}
+
+function executeDownload(blob, fileName) {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.style.display = "none";
+    a.href = url;
+    a.download = fileName;
+    
+    // Some mobile apps require the link to be in the DOM to trigger correctly
+    document.body.appendChild(a);
+    a.click();
+    
+    setTimeout(() => {
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+    }, 200);
 }
 
         window.onload = loadData;
