@@ -1,62 +1,231 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Leave Report - PDF & CSV</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Report - Premium UI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     
     <style>
-        :root { --primary: #4b2dd8; }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f8f9ff; }
-        .top { padding: 15px; background: var(--primary); color: white; display: flex; align-items: center; gap: 10px; }
-        .search-container { padding: 15px; }
-        .search-box { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; font-size: 14px; box-sizing: border-box; outline: none; }
-        .download-box { display: flex; gap: 10px; padding: 0 15px 15px 15px; }
-        .download-btn { flex: 1; padding: 12px; border: none; border-radius: 10px; color: white; font-weight: 600; cursor: pointer; font-size: 13px; text-align: center; }
-        .pdf { background: #e74c3c; }
-        .csv { background: #27ae60; }
-        .tableBox { margin: 0 15px 15px 15px; border-radius: 12px; overflow-x: auto; background: white; border: 1px solid #eee; }
-        table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        th { background: #f4f4f9; color: var(--primary); padding: 12px; border-bottom: 2px solid #eee; }
-        td { padding: 12px; border-bottom: 1px solid #f1f1f1; text-align: center; }
-        td:nth-child(2) { text-align: left; font-weight: 600; }
-        #loader { display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; }
-        .spinner { width: 35px; height: 35px; border: 4px solid rgba(75, 45, 216, 0.1); border-left-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        :root {
+            --primary: #4b2dd8;
+            --primary-light: #6c47ff;
+            --bg: #fdfdff;
+            --surface: #ffffff;
+            --text-main: #1a1a2e;
+            --text-sub: #6b7280;
+            --shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+
+        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background: var(--bg);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* --- FIXED TOP HEADER SECTION --- */
+        .header-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            padding-bottom: 20px;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: 0 4px 20px rgba(75, 45, 216, 0.2);
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            padding: 20px 20px 10px 20px;
+            color: white;
+        }
+
+        .back-btn {
+            font-size: 24px;
+            margin-right: 15px;
+            cursor: pointer;
+            opacity: 0.9;
+        }
+
+        .top-bar h3 {
+            margin: 0;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            font-size: 19px;
+        }
+
+        .search-wrapper {
+            padding: 0 20px;
+            margin-top: 5px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 14px 15px;
+            border-radius: 16px;
+            border: none;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: white;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .search-box::placeholder { color: rgba(255, 255, 255, 0.7); }
+
+        .search-box:focus {
+            background: white;
+            color: var(--text-main);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* --- CONTENT AREA --- */
+        .content {
+            margin-top: 160px; /* Space for fixed header */
+            padding: 20px;
+            padding-bottom: 100px; /* Space for bottom button */
+        }
+
+        .table-card {
+            background: var(--surface);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8f9ff;
+            color: var(--text-sub);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 10px;
+            text-align: center;
+            border-bottom: 1px solid #f0f0f5;
+        }
+
+        td {
+            padding: 16px 10px;
+            text-align: center;
+            font-size: 14px;
+            border-bottom: 1px solid #f9f9fb;
+        }
+
+        .emp-id { color: var(--primary); font-weight: 600; font-family: monospace; font-size: 13px; }
+        .emp-name { text-align: left !important; font-weight: 500; color: var(--text-main); }
+        .leave-count { font-weight: 700; color: #2d3436; }
+
+        /* --- FLOATING ACTION BUTTON (PDF) --- */
+        .fab-container {
+            position: fixed;
+            bottom: 30px;
+            left: 20px;
+            right: 20px;
+            z-index: 999;
+        }
+
+        .pdf-btn {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 18px;
+            font-weight: 700;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(75, 45, 216, 0.4);
+            transition: 0.3s;
+        }
+
+        .pdf-btn:active { transform: scale(0.96); }
+
+        /* --- LOADER --- */
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: white; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 2000;
+        }
+        .spinner {
+            width: 40px; height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        #noResults {
+            padding: 40px; text-align: center; color: var(--text-sub); display: none;
+        }
     </style>
 </head>
 <body>
 
     <div id="loader">
         <div class="spinner"></div>
-        <p style="color:var(--primary); font-size:12px; margin-top:10px; font-weight:600;">Loading...</p>
+        <p style="margin-top:15px; font-weight:600; color:var(--primary); font-size:14px;">Syncing Records...</p>
     </div>
 
-    <div class="top">
-        <div onclick="window.history.back()" style="cursor:pointer;">⬅</div>
-        <h3>Leave Report</h3>
+    <div class="header-container">
+        <div class="top-bar">
+            <div class="back-btn" onclick="window.history.back()">✕</div>
+            <h3>Leave Summary Report</h3>
+        </div>
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" class="search-box" placeholder="Search employee name or ID..." onkeyup="filterTable()">
+        </div>
     </div>
 
-    <div class="search-container">
-        <input type="text" id="searchInput" class="search-box" placeholder="Search name or ID..." onkeyup="filterTable()">
+    <div class="content">
+        <div class="table-card">
+            <div id="tableArea"></div>
+            <div id="noResults">
+                <div style="font-size: 40px; margin-bottom: 10px;">🔍</div>
+                <b>No records found</b><br>Try a different name
+            </div>
+        </div>
     </div>
 
-    <div class="download-box">
-        <button class="download-btn pdf" onclick="downloadPDF()">⬇ Download PDF</button>
-        <button class="download-btn csv" onclick="downloadCSV()">⬇ Download CSV</button>
+    <div class="fab-container">
+        <button class="pdf-btn" onclick="downloadPDF()">
+            <span>📄</span> Generate PDF Report
+        </button>
     </div>
-
-    <div class="tableBox" id="tableArea"></div>
 
     <script>
         function filterTable() {
             let input = document.getElementById("searchInput").value.toLowerCase();
             let tr = document.querySelectorAll("#leaveTable tbody tr");
+            let found = false;
+            
             tr.forEach(row => {
-                row.style.display = row.textContent.toLowerCase().includes(input) ? "" : "none";
+                let match = row.innerText.toLowerCase().includes(input);
+                row.style.display = match ? "" : "none";
+                if(match) found = true;
             });
+            document.getElementById("noResults").style.display = found ? "none" : "block";
         }
 
         async function loadData() {
@@ -67,63 +236,64 @@
                 ]);
                 const lRows = (await lRes.text()).trim().split("\n");
                 const eRows = (await eRes.text()).trim().split("\n");
+
                 let uMap = {};
-                eRows.slice(1).forEach(r => { let c = r.split(","); if(c[0]) uMap[c[0].trim()] = c[1]?.trim() || "-"; });
-                let html = "<table id='leaveTable'><thead><tr><th>User ID</th><th>Name</th><th>EL</th><th>FPL</th></tr></thead><tbody>";
+                eRows.slice(1).forEach(r => { 
+                    let c = r.split(","); 
+                    if(c[0]) uMap[c[0].trim()] = c[1]?.trim() || "-"; 
+                });
+
+                let html = "<table id='leaveTable'><thead><tr><th>ID</th><th>Employee Name</th><th>EL</th><th>FPL</th></tr></thead><tbody>";
                 let is2H = new Date().getMonth() >= 6;
+
                 lRows.slice(1).forEach(r => {
                     let c = r.split(",");
                     if (c.length < 2) return;
                     let u = c[0].trim();
                     let el = (parseInt(c[3]) || 0) + (is2H ? 30 : 15);
                     let fpl = (parseInt(c[4]) || 0) + (is2H ? 10 : 5);
-                    html += `<tr><td>${u}</td><td>${uMap[u]||"-"}</td><td>${el}</td><td>${fpl}</td></tr>`;
+                    html += `<tr>
+                        <td class="emp-id">${u}</td>
+                        <td class="emp-name">${uMap[u]||"-"}</td>
+                        <td class="leave-count">${el}</td>
+                        <td class="leave-count">${fpl}</td>
+                    </tr>`;
                 });
                 html += "</tbody></table>";
                 document.getElementById("tableArea").innerHTML = html;
             } finally {
-                document.getElementById("loader").style.display = "none";
+                // Smooth hide loader
+                document.getElementById("loader").style.opacity = "0";
+                setTimeout(() => { document.getElementById("loader").style.display = "none"; }, 500);
             }
         }
 
         function downloadPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF('p', 'pt', 'a4');
-            doc.text("HESCOM Leave Report", 40, 40);
-            doc.autoTable({ html: '#leaveTable', startY: 70, theme: 'grid', headStyles: { fillColor: [75, 45, 216] } });
-            doc.save("Leave_Report.pdf");
-        }
-
-        // --- NEW IMPROVED CSV DOWNLOAD FOR MOBILE APP ---
-  function downloadCSV() {
-    // 1. Extract columns from your table
-    let table = document.getElementById("leaveTable");
-    let rows = table.querySelectorAll("tr");
-    let csvData = [];
-
-    rows.forEach(row => {
-        // Only get visible rows (respects your search filter)
-        if (row.style.display !== "none") {
-            let cols = row.querySelectorAll("th, td");
-            let rowData = [];
             
-            cols.forEach(col => {
-                // Remove commas from text to avoid breaking CSV format
-                let text = col.innerText.replace(/,/g, "");
-                rowData.push(text);
+            doc.setFontSize(20);
+            doc.setTextColor(75, 45, 216);
+            doc.text("HESCOM Leave Summary", 40, 50);
+            
+            doc.setFontSize(10);
+            doc.setTextColor(150);
+            doc.text(`Generated on: ${new Date().toLocaleString()}`, 40, 65);
+
+            doc.autoTable({
+                html: '#leaveTable',
+                startY: 85,
+                theme: 'grid',
+                headStyles: { fillColor: [75, 45, 216], fontSize: 10, halign: 'center' },
+                columnStyles: {
+                    0: { halign: 'center', fontStyle: 'bold' },
+                    1: { halign: 'left' },
+                    2: { halign: 'center' },
+                    3: { halign: 'center' }
+                }
             });
-            
-            csvData.push(rowData.join(","));
+            doc.save("HESCOM_Leave_Report.pdf");
         }
-    });
-
-    // 2. Convert the extracted data into a String
-    let csvString = csvData.join("\n");
-
-    // 3. Use window.location.href like your Master Report
-    // We add 'charset=utf-8' and the data header to force the browser to download
-    window.location.href = "data:text/csv;charset=utf-8," + encodeURIComponent(csvString);
-}
 
         window.onload = loadData;
     </script>
