@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Leave Report - Excel & PDF</title>
+    <title>Leave Report - PDF & CSV</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     
     <style>
         :root { --primary: #4b2dd8; }
@@ -24,9 +23,11 @@
         .download-btn {
             flex: 1; padding: 12px; border: none; border-radius: 10px;
             color: white; font-weight: 600; cursor: pointer; font-size: 13px;
+            transition: 0.2s;
         }
+        .download-btn:active { transform: scale(0.95); }
         .pdf { background: #e74c3c; }
-        .excel { background: #217346; }
+        .csv { background: #27ae60; } /* Green for CSV */
 
         .tableBox { margin: 0 15px 15px 15px; border-radius: 12px; overflow-x: auto; background: white; border: 1px solid #eee; }
         table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -63,7 +64,7 @@
 
     <div class="download-box">
         <button class="download-btn pdf" onclick="downloadPDF()">⬇ Download PDF</button>
-        <button class="download-btn excel" onclick="downloadExcel()">📊 Download Excel</button>
+        <button class="download-btn csv" onclick="downloadCSV()">⬇ Download CSV</button>
     </div>
 
     <div class="tableBox" id="tableArea"></div>
@@ -107,7 +108,7 @@
             }
         }
 
-        // --- PDF LOGIC (STAYS THE SAME) ---
+        // --- PDF LOGIC (UNTOUCHED) ---
         function downloadPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF('p', 'pt', 'a4');
@@ -120,40 +121,37 @@
             doc.save("Leave_Report.pdf");
         }
 
-       // --- NEW MOBILE-COMPATIBLE EXCEL LOGIC ---
-function downloadExcel() {
-    try {
-        const table = document.getElementById("leaveTable");
-        
-        // 1. Convert HTML table to Worksheet
-        const ws = XLSX.utils.table_to_sheet(table);
-        
-        // 2. Create a new Workbook and add the worksheet
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "LeaveReport");
+        // --- CSV DOWNLOAD LOGIC ---
+        function downloadCSV() {
+            let table = document.getElementById("leaveTable");
+            let rows = table.querySelectorAll("tr");
+            let csv = [];
 
-        // 3. Generate XLSX file as a base64 string
-        // This is the "magic" step that fixes mobile downloads
-        const b64data = XLSX.write(wb, { bookType: 'xlsx', type: 'base64' });
+            rows.forEach(row => {
+                let data = [];
+                // Only get visible rows if searching, or all rows if not
+                if (row.style.display !== "none") {
+                    row.querySelectorAll("th, td").forEach(cell => {
+                        // Clean commas from data to prevent CSV misalignment
+                        data.push(cell.innerText.replace(/,/g, " "));
+                    });
+                    csv.push(data.join(","));
+                }
+            });
 
-        // 4. Create a specialized Link with the correct Excel signature
-        const filename = "HESCOM_Leave_Report.xlsx";
-        const link = document.createElement("a");
-        
-        // We use the full Excel MIME type for Chrome/Safari mobile
-        link.href = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," + b64data;
-        link.download = filename;
-        
-        // 5. Trigger the download
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-    } catch (err) {
-        console.error("Excel Download Error:", err);
-        alert("Could not generate Excel file. Please try again.");
-    }
-}
+            const csvContent = csv.join("\n");
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            
+            link.setAttribute("href", url);
+            link.setAttribute("download", "HESCOM_Leave_Report.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        window.onload = loadData;
     </script>
 </body>
 </html>
