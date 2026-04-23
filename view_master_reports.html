@@ -1,432 +1,262 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>View Reports</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --primary: #4b2dd8;
+            --accent: #00c9a7;
+        }
 
-<style>
-body{
-font-family:sans-serif;
-margin:0;
-background:#f4f4f9;
-}
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background: #ffffff;
+        }
 
-/* HEADER */
-.top{
-padding:15px;
-background:#4b2dd8;
-color:white;
-display:flex;
-align-items:center;
-gap:10px;
-}
+        /* HEADER */
+        .top {
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 12px rgba(75, 45, 216, 0.2);
+        }
 
-.back{
-font-size:20px;
-cursor:pointer;
-}
+        .back {
+            font-size: 22px;
+            cursor: pointer;
+        }
 
-/* 🔥 SUMMARY */
-.summary{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:12px;
-padding:15px;
-}
+        /* TABLE STYLING */
+        .tableBox {
+            margin: 15px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+            overflow: hidden;
+            background: white;
+            border: 1px solid #eee;
+        }
 
-.card{
-background:white;
-border-radius:15px;
-padding:15px;
-text-align:center;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
 
-.card h3{
-margin:0;
-font-size:20px;
-color:#4b2dd8;
-}
+        th {
+            background: #f8f9ff;
+            color: var(--primary);
+            padding: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #eee;
+            text-align: center;
+        }
 
-.card p{
-margin:5px 0 0;
-font-size:12px;
-color:#666;
-}
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #f1f1f1;
+            text-align: center;
+            color: #444;
+        }
 
-/* TABLE */
-/* 🔥 COMPACT TABLE FOR LEAVE REPORT */
-/* 🔥 CLEAN TABLE WITH PROPER LINES */
-.tableBox{
-margin:15px;
-border-radius:12px;
-box-shadow:0 4px 12px rgba(0,0,0,0.1);
-overflow:hidden;
-background:white;
-}
+        /* NAME COLUMN */
+        td:nth-child(2) {
+            text-align: left;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
 
-table{
-width:100%;
-border-collapse:collapse;
-font-size:13px;
-}
+        /* DOWNLOAD BUTTONS */
+        .download-box {
+            display: flex;
+            gap: 12px;
+            padding: 15px;
+        }
 
-/* HEADER */
-th{
-background:#4b2dd8;
-color:white;
-padding:12px;
-font-size:13px;
-border:1px solid #ddd; /* lines visible */
-}
+        .download-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 14px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
 
-/* CELLS */
-td{
-padding:10px;
-border:1px solid #eee; /* row + column lines */
-text-align:center;
-}
+        .pdf { background: linear-gradient(135deg, #ff4b2b, #ff0000); }
+        .csv { background: linear-gradient(135deg, #00c853, #009624); }
+        
+        .download-btn:active { transform: scale(0.96); }
 
-/* NAME COLUMN LEFT ALIGN */
-td:nth-child(2){
-text-align:left;
-font-weight:600;
-color:#333;
-}
+        /* --- PREMIUM LIQUID LOADER --- */
+        #loader {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
 
-/* USER COLUMN */
-td:nth-child(1){
-font-weight:600;
-color:#555;
-}
+        .blob-wrapper {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            filter: drop-shadow(0 10px 20px rgba(75, 45, 216, 0.2));
+        }
 
-/* HOVER EFFECT (optional nice touch) */
-tr:hover{
-background:#f5f7ff;
-}
+        .liquid-shape {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            animation: morph 4s ease-in-out infinite;
+        }
 
-/* BETTER LOOK */
-td:first-child{
-font-weight:600;
-color:#333;
-}
+        @keyframes morph {
+            0%, 100% { border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%; transform: rotate(0deg); }
+            33% { border-radius: 70% 30% 46% 54% / 30% 29% 71% 70%; transform: rotate(120deg); }
+            66% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; transform: rotate(240deg); }
+        }
 
-/* LOADER */
-#loader{
-display:flex;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:white;
-justify-content:center;
-align-items:center;
-z-index:9999;
-}
-
-.spinner{
-width:40px;
-height:40px;
-border:5px solid #ddd;
-border-top:5px solid #4b2dd8;
-border-radius:50%;
-animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-0%{transform:rotate(0deg);}
-100%{transform:rotate(360deg);}
-}
-
-  /* DOWNLOAD BUTTONS */
-.download-box{
-display:flex;
-gap:10px;
-padding:15px;
-}
-
-.download-btn{
-flex:1;
-padding:12px;
-border:none;
-border-radius:12px;
-color:white;
-font-weight:600;
-cursor:pointer;
-font-size:13px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-transition:0.2s;
-}
-
-.download-btn:active{
-transform:scale(0.95);
-}
-
-.pdf{
-background:linear-gradient(135deg,#ff4b2b,#ff0000);
-}
-
-.csv{
-background:linear-gradient(135deg,#00c853,#009624);
-}
-</style>
+        .loader-text {
+            margin-top: 25px;
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="top">
-<div class="back" onclick="goBack()">⬅</div>
-<h3 id="title">Report</h3>
-</div>
-
-<!-- 🔥 SUMMARY -->
-<div class="download-box">
-
-<button class="download-btn pdf" onclick="downloadPDF()">📄 Download PDF</button>
-
-<button class="download-btn csv" onclick="downloadCSVReport()">⬇ Download CSV</button>
-
-</div>
-
-<div id="tableArea" class="tableBox"></div>
-
-<div id="loader">
-<div class="spinner"></div>
-</div>
-
-<script>
-
-// GET TYPE
-const params = new URLSearchParams(window.location.search);
-const type = params.get("type") || "all";
-
-document.getElementById("title").innerText = type + " Report";
-
-// BACK
-function goBack(){
-window.history.back();
-}
-
-// LOAD CSV
-async function loadCSV(){
-let r = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv?v=" + new Date().getTime());
-let t = await r.text();
-return t.trim().split("\n").map(r=>r.split(","));
-}
-
-// LOAD DATA
-async function loadData(){
-
-let data = await loadCSV();
-
-let genderIdx = 4;
-let phIdx = 10;
-let statusIdx = 5;
-
-/* 🔥 IF LEAVE REPORT */
-if(type === "Leave"){
-await loadLeaveReport();
-document.getElementById("loader").style.display="none";
-return;
-}
-
-/* NORMAL TABLE */
-let html = "<table>";
-
-html += "<tr>";
-data[0].forEach(col=>{
-html += `<th>${col}</th>`;
-});
-html += "</tr>";
-
-let total=0, male=0, female=0, leave=0;
-
-for(let i=1;i<data.length;i++){
-let row = data[i];
-let show = false;
-
-total++;
-
-if(row[genderIdx]?.trim() === 'Male') male++;
-if(row[genderIdx]?.trim() === 'Female') female++;
-if(row[statusIdx]?.toLowerCase().includes('leave')) leave++;
-
-if(type === 'all') show = true;
-else if(type === 'Male' && row[genderIdx]?.trim() === 'Male') show = true;
-else if(type === 'Female' && row[genderIdx]?.trim() === 'Female') show = true;
-else if(type === 'PH' && (row[phIdx]?.trim() === 'Yes' || row[phIdx]?.trim() === 'PH')) show = true;
-else if(type === 'Other') show = true;
-
-if(show){
-html += "<tr>";
-row.forEach(cell=>{
-html += `<td>${cell}</td>`;
-});
-html += "</tr>";
-}
-}
-
-html += "</table>";
-
-document.getElementById("tableArea").innerHTML = html;
-
-document.getElementById("totalCount").innerText = total;
-document.getElementById("maleCount").innerText = male;
-document.getElementById("femaleCount").innerText = female;
-document.getElementById("leaveCount").innerText = leave;
-
-document.getElementById("loader").style.display="none";
-}
-
-loadData();
-async function loadLeaveReport(){
-
-/* LOAD BOTH FILES */
-let leaveRes = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
-let leaveText = await leaveRes.text();
-let leaveRows = leaveText.trim().split("\n");
-
-let empRes = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
-let empText = await empRes.text();
-let empRows = empText.trim().split("\n");
-
-/* 🔥 CREATE USER → NAME MAP */
-let userMap = {};
-
-for(let i=1;i<empRows.length;i++){
-let c = empRows[i].split(",");
-
-let user = c[0]?.trim();   // adjust if index different
-let name = c[1]?.trim();   // adjust if name column different
-
-if(user){
-userMap[user] = name || "-";
-}
-}
-
-/* TABLE */
-let html = "<table>";
-html += "<tr><th>User</th><th>Name</th><th>EL</th><th>FPL</th></tr>";
-
-let totalUsers = 0;
-let totalEL = 0;
-let totalFPL = 0;
-
-/* DATE RULE */
-let today = new Date();
-let year = today.getFullYear();
-
-let jan1 = new Date(year, 0, 1);
-let july1 = new Date(year, 6, 1);
-
-/* LOOP */
-for(let i=1;i<leaveRows.length;i++){
-
-let c = leaveRows[i].split(",");
-
-let user = c[0].trim();
-let el = parseInt(c[3]) || 0;
-let fpl = parseInt(c[4]) || 0;
-
-/* APPLY CREDIT RULE */
-if(today >= jan1 && today < july1){
-el += 15;
-fpl += 5;
-}
-
-if(today >= july1){
-el += 30;
-fpl += 10;
-}
-
-/* GET NAME */
-let name = userMap[user] || "-";
-
-/* ADD ROW */
-html += `<tr>
-<td>${user}</td>
-<td>${name}</td>
-<td>${el}</td>
-<td>${fpl}</td>
-</tr>`;
-
-totalUsers++;
-totalEL += el;
-totalFPL += fpl;
-}
-
-html += "</table>";
-
-document.getElementById("tableArea").innerHTML = html;
-
-/* SUMMARY */
-document.getElementById("loader").style.display="none";
-}
-
-  /* 🔥 DOWNLOAD CSV */
-function downloadCSVReport(){
-
-let table = document.querySelector("table");
-
-if(!table){
-alert("No data to download");
-return;
-}
-
-let rows = table.querySelectorAll("tr");
-let csv = [];
-
-rows.forEach(row=>{
-let cols = row.querySelectorAll("th,td");
-let data = [];
-
-cols.forEach(col=>{
-let text = col.innerText.replace(/,/g, " "); // avoid comma issue
-data.push(text);
-});
-
-csv.push(data.join(","));
-});
-
-let blob = new Blob([csv.join("\n")], { type: "text/csv" });
-let url = URL.createObjectURL(blob);
-
-let a = document.createElement("a");
-a.href = url;
-a.download = "leave_report.csv";
-
-document.body.appendChild(a);
-a.click();
-document.body.removeChild(a);
-}
-
-/* 🔥 DOWNLOAD PDF */
-function downloadPDF(){
-
-let table = document.getElementById("tableArea");
-
-if(!table || table.innerHTML.trim() === ""){
-alert("No data to download");
-return;
-}
-
-/* CREATE PRINT VIEW */
-let original = document.body.innerHTML;
-
-document.body.innerHTML = `
-<h2 style="text-align:center;">Leave Report</h2>
-${table.innerHTML}
-`;
-
-/* PRINT */
-window.print();
-
-/* RESTORE PAGE */
-document.body.innerHTML = original;
-location.reload();
-}
-</script>
-
+    <div id="loader">
+        <div class="blob-wrapper">
+            <div class="liquid-shape"></div>
+        </div>
+        <div class="loader-text">Generating Report</div>
+    </div>
+
+    <div class="top">
+        <div class="back" onclick="goBack()">⬅</div>
+        <h3 id="title">Leave Report</h3>
+    </div>
+
+    <div class="download-box">
+        <button class="download-btn pdf" onclick="downloadPDF()">📄 PDF</button>
+        <button class="download-btn csv" onclick="downloadCSVReport()">⬇ CSV</button>
+    </div>
+
+    <div id="tableArea" class="tableBox"></div>
+
+    <script>
+        function goBack() { window.history.back(); }
+
+        async function loadData() {
+            try {
+                /* FETCH LEAVES AND EMPLOYEE DATA */
+                const [leaveRes, empRes] = await Promise.all([
+                    fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv?v=" + new Date().getTime()),
+                    fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv?v=" + new Date().getTime())
+                ]);
+
+                const leaveText = await leaveRes.text();
+                const empText = await empRes.text();
+
+                const leaveRows = leaveText.trim().split("\n");
+                const empRows = empText.trim().split("\n");
+
+                /* CREATE USER → NAME MAP */
+                let userMap = {};
+                for (let i = 1; i < empRows.length; i++) {
+                    let c = empRows[i].split(",");
+                    if (c[0]) userMap[c[0].trim()] = c[1]?.trim() || "-";
+                }
+
+                /* TABLE GENERATION */
+                let html = "<table><thead><tr><th>User</th><th>Name</th><th>EL</th><th>FPL</th></tr></thead><tbody>";
+
+                let today = new Date();
+                let year = today.getFullYear();
+                let jan1 = new Date(year, 0, 1);
+                let july1 = new Date(year, 6, 1);
+
+                for (let i = 1; i < leaveRows.length; i++) {
+                    let c = leaveRows[i].split(",");
+                    if (c.length < 2) continue;
+
+                    let user = c[0].trim();
+                    let el = parseInt(c[3]) || 0;
+                    let fpl = parseInt(c[4]) || 0;
+
+                    /* CREDIT RULES */
+                    if (today >= jan1 && today < july1) { el += 15; fpl += 5; }
+                    if (today >= july1) { el += 30; fpl += 10; }
+
+                    html += `<tr>
+                        <td>${user}</td>
+                        <td>${userMap[user] || "-"}</td>
+                        <td>${el}</td>
+                        <td>${fpl}</td>
+                    </tr>`;
+                }
+
+                html += "</tbody></table>";
+                document.getElementById("tableArea").innerHTML = html;
+            } catch (e) {
+                console.error("Error loading data", e);
+                document.getElementById("tableArea").innerHTML = "<p style='padding:20px; color:red;'>Failed to load report data.</p>";
+            } finally {
+                document.getElementById("loader").style.display = "none";
+            }
+        }
+
+        // CSV DOWNLOAD
+        function downloadCSVReport() {
+            let table = document.querySelector("table");
+            if (!table) return alert("No data");
+            
+            let csv = [];
+            table.querySelectorAll("tr").forEach(row => {
+                let data = [];
+                row.querySelectorAll("th,td").forEach(col => data.push(col.innerText.replace(/,/g, " ")));
+                csv.push(data.join(","));
+            });
+
+            let blob = new Blob([csv.join("\n")], { type: "text/csv" });
+            let a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "Leave_Report.csv";
+            a.click();
+        }
+
+        // PDF DOWNLOAD (PRINT)
+        function downloadPDF() {
+            const table = document.getElementById("tableArea").innerHTML;
+            const originalBody = document.body.innerHTML;
+            document.body.innerHTML = `<h2 style="text-align:center; color:#4b2dd8;">Leave Report</h2>${table}`;
+            window.print();
+            document.body.innerHTML = originalBody;
+            location.reload();
+        }
+
+        window.onload = loadData;
+    </script>
 </body>
 </html>
