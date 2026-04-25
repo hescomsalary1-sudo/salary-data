@@ -24,54 +24,71 @@
         }
 
         header {
-            width: 100%; padding: 18px 0; background: var(--primary);
+            width: 100%; padding: 15px 0; background: var(--primary);
             color: white; text-align: center; position: sticky; top: 0; z-index: 1000;
         }
 
-        .container { width: 95%; max-width: 1100px; padding: 20px 0; display: flex; flex-direction: column; gap: 20px; }
+        header h1 { font-size: 16px; margin: 0; font-weight: 700; }
 
-        /* Summary Tables Styling */
+        .container { width: 95%; max-width: 1100px; padding: 15px 0; display: flex; flex-direction: column; gap: 15px; }
+
+        /* Summary Sections - Fit to Screen */
+        .summary-wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
         .summary-card {
-            background: white; border-radius: 16px; padding: 20px;
-            border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            background: white; border-radius: 12px; padding: 12px;
+            border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
-        .summary-card h2 { margin-top: 0; font-size: 14px; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 15px; }
+        .summary-card h2 { 
+            margin-top: 0; font-size: 12px; color: var(--primary); 
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;
+            border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;
+        }
 
-        .scroll-x { overflow-x: auto; border-radius: 8px; border: 1px solid #f1f5f9; }
-        table { width: 100%; border-collapse: collapse; font-size: 12px; white-space: nowrap; }
-        th { background: #f8fafc; padding: 12px; text-align: left; border-bottom: 2px solid var(--border); font-weight: 700; color: #64748b; }
-        td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; }
-        .row-total { font-weight: 700; color: var(--primary); }
+        .scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        
+        table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        th { background: #f8fafc; padding: 10px 8px; text-align: left; color: #64748b; font-weight: 700; }
+        td { padding: 10px 8px; border-bottom: 1px solid #f1f5f9; white-space: nowrap; }
+        
+        .col-num { text-align: center; width: 60px; }
+        .row-total { font-weight: 700; color: var(--primary); text-align: center; }
 
-        /* Search Box */
+        /* Search Area */
         .search-area {
-            background: white; border-radius: 12px; padding: 12px 18px;
-            border: 1px solid var(--border); display: flex; align-items: center; gap: 12px;
-            position: sticky; top: 75px; z-index: 900;
+            background: white; border-radius: 10px; padding: 10px 15px;
+            border: 1px solid var(--border); display: flex; align-items: center; gap: 10px;
+            position: sticky; top: 60px; z-index: 900; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
         }
-        .search-area input { border: none; outline: none; width: 100%; font-size: 15px; }
+        .search-area input { border: none; outline: none; width: 100%; font-size: 14px; }
 
         /* Employee Cards */
+        .card-list { display: flex; flex-direction: column; gap: 10px; padding-bottom: 40px; }
         .emp-card {
-            background: white; border-radius: 16px; padding: 16px;
+            background: white; border-radius: 12px; padding: 14px;
             border: 1px solid var(--border); cursor: pointer; transition: 0.2s;
         }
-        .emp-card.active { background: #f0f7ff; border-color: #bfdbfe; }
+        .emp-card.active { background: #eff6ff; border-color: #bfdbfe; }
         
-        .card-header { display: flex; align-items: center; gap: 15px; }
-        .circle-id { width: 35px; height: 35px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11px; }
+        .card-header { display: flex; align-items: center; gap: 12px; }
+        .circle-id { width: 30px; height: 30px; background: #f1f5f9; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 10px; color: var(--primary); }
         .card-titles { flex: 1; }
-        .card-titles h3 { margin: 0; font-size: 14px; font-weight: 700; }
-        .card-titles p { margin: 2px 0; font-size: 11px; color: #64748b; }
+        .card-titles h3 { margin: 0; font-size: 13px; font-weight: 700; color: #1e293b; }
+        .card-titles p { margin: 2px 0; font-size: 10px; color: #64748b; }
 
-        /* Detailed Grid (Visible on Click) */
+        /* Detail Grid */
         .detail-pane { max-height: 0; overflow: hidden; transition: 0.3s ease-out; }
-        .active .detail-pane { max-height: 2000px; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #cbd5e1; }
+        .active .detail-pane { max-height: 2500px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1; }
         
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
-        .info-item label { display: block; font-size: 9px; font-weight: 700; color: #94a3b8; text-transform: uppercase; }
-        .info-item span { font-size: 11px; font-weight: 600; color: #334155; word-break: break-word; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .info-item { background: rgba(255,255,255,0.5); padding: 4px 0; }
+        .info-item label { display: block; font-size: 8px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 2px; }
+        .info-item span { font-size: 10.5px; font-weight: 600; color: #334155; word-break: break-all; line-height: 1.2; }
 
         #loader { position: fixed; inset: 0; background: white; z-index: 2000; display: flex; justify-content: center; align-items: center; }
     </style>
@@ -80,48 +97,50 @@
 
     <div id="loader"><i class="fas fa-circle-notch fa-spin fa-2x" style="color: var(--primary);"></i></div>
 
-    <header><h1>HR Master Portal</h1></header>
+    <header><h1>Master Employee Portal</h1></header>
 
     <div class="container">
         
-        <div class="summary-card">
-            <h2>Designation Summary</h2>
-            <div class="scroll-x">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Designation</th>
-                            <th>Sanctioned</th>
-                            <th>Working</th>
-                            <th>Vacant</th>
-                        </tr>
-                    </thead>
-                    <tbody id="designationSummary"></tbody>
-                </table>
+        <div class="summary-wrapper">
+            <div class="summary-card">
+                <h2>Designation Abstract</h2>
+                <div class="scroll-x">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Designation</th>
+                                <th class="col-num">Sanc.</th>
+                                <th class="col-num">Work.</th>
+                                <th class="col-num">Vac.</th>
+                            </tr>
+                        </thead>
+                        <tbody id="designationSummary"></tbody>
+                    </table>
+                </div>
             </div>
-        </div>
 
-        <div class="summary-card">
-            <h2>Pension Abstract</h2>
-            <div class="scroll-x">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Pension Type</th>
-                            <th>Count</th>
-                        </tr>
-                    </thead>
-                    <tbody id="pensionSummary"></tbody>
-                </table>
+            <div class="summary-card">
+                <h2>Pension Abstract</h2>
+                <div class="scroll-x">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Pension Scheme</th>
+                                <th style="text-align: center;">Total Count</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pensionSummary"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
         <div class="search-area">
-            <i class="fas fa-search" style="color: #94a3b8"></i>
-            <input type="text" id="searchInput" placeholder="Search any employee detail..." oninput="processSearch()">
+            <i class="fas fa-search" style="color: #94a3b8; font-size: 12px;"></i>
+            <input type="text" id="searchInput" placeholder="Search name, place, pan, etc..." oninput="processSearch()">
         </div>
 
-        <div id="cardList" style="display:flex; flex-direction:column; gap:12px; padding-bottom:50px;"></div>
+        <div id="cardList" class="card-list"></div>
 
     </div>
 
@@ -142,11 +161,10 @@
         };
 
         function getCol(row, key) {
-            return row[key] ? row[key].trim() : '---';
+            return row[key] ? String(row[key]).trim() : '---';
         }
 
         function generateSummaries() {
-            // 1. Designation Summary
             const desigMap = {};
             const pensionMap = { "NDCPS": 0, "OPS": 0 };
 
@@ -154,12 +172,12 @@
                 const d = getCol(r, 'designation');
                 if(!desigMap[d]) desigMap[d] = { s: 0, w: 0, v: 0 };
                 
-                // Add numbers (handling potential empty strings as 0)
+                // Designation logic based on specific columns
                 desigMap[d].s += parseInt(getCol(r, 'sanctioned_post')) || 0;
                 desigMap[d].w += parseInt(getCol(r, 'working_post')) || 0;
                 desigMap[d].v += parseInt(getCol(r, 'vacant_post')) || 0;
 
-                // 2. Pension Summary
+                // Pension logic
                 const p = getCol(r, 'Pension_type').toUpperCase();
                 if(p.includes("NDCPS")) pensionMap["NDCPS"]++;
                 else if(p.includes("OPS")) pensionMap["OPS"]++;
@@ -167,14 +185,21 @@
 
             // Render Designation Table
             const dBody = document.getElementById('designationSummary');
-            Object.keys(desigMap).forEach(k => {
+            dBody.innerHTML = "";
+            Object.keys(desigMap).sort().forEach(k => {
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td>${k}</td><td>${desigMap[k].s}</td><td>${desigMap[k].w}</td><td class="row-total">${desigMap[k].v}</td>`;
+                tr.innerHTML = `
+                    <td style="white-space: normal; font-weight:500;">${k}</td>
+                    <td class="col-num">${desigMap[k].s}</td>
+                    <td class="col-num">${desigMap[k].w}</td>
+                    <td class="row-total">${desigMap[k].v}</td>
+                `;
                 dBody.appendChild(tr);
             });
 
             // Render Pension Table
             const pBody = document.getElementById('pensionSummary');
+            pBody.innerHTML = "";
             for (let type in pensionMap) {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `<td>${type}</td><td class="row-total">${pensionMap[type]}</td>`;
@@ -192,15 +217,15 @@
                 card.className = 'emp-card';
                 card.onclick = function() { this.classList.toggle('active'); };
 
-                // Define every field you want to show in the expanded view
+                // Full field list from your sharing
                 const fields = [
                     'username','mobile','Date_of_birth','Retirement_date','PIN','E_mail','PAN_No.',
-                    'Physically_Disablity','Marital_status','Qualification','Religion','Category','Caste_name',
-                    'District','Home_town','Joining_date','Joining_designation','Appointment_type',
-                    'Probationary_period_declaration','Probationary_period_declaration_date','Current_designation',
-                    'Curent_designation_Date_of_entry','Entry_quota_current_designation','Pension_type','NDCPS_No.',
-                    'Working_from_date','Lien_office','group','Counted_posts_within_division','Counted_posts_other_division',
-                    'male_or_female'
+                    'Physically_Disablity','Marital_status','Qualification','Religion','Category',
+                    'Caste_name','District','Home_town','Joining_date','Joining_designation',
+                    'Appointment_type','Probationary_period_declaration','Probationary_period_declaration_date',
+                    'Curent_designation_Date_of_entry','Entry_quota_current_designation','Pension_type',
+                    'NDCPS_No.','Working_from_date','Lien_office','group','Counted_posts_within_division',
+                    'Counted_posts_other_division','male_or_female'
                 ];
 
                 let detailHtml = fields.map(f => `
@@ -217,7 +242,7 @@
                             <h3>${getCol(r, 'name')}</h3>
                             <p>${getCol(r, 'designation')} | ${getCol(r, 'place')}</p>
                         </div>
-                        <i class="fas fa-chevron-down" style="color:#cbd5e1; font-size:12px;"></i>
+                        <i class="fas fa-chevron-down" style="color:#cbd5e1; font-size:10px;"></i>
                     </div>
                     <div class="detail-pane">
                         <div class="info-grid">${detailHtml}</div>
