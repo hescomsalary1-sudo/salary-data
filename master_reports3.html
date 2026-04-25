@@ -1,96 +1,325 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Abstract Reports</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #ffffff; /* Pure white background */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: 'Inter', -apple-system, sans-serif;
+        :root {
+            --primary: #4338ca;
+            --bg: #f8fafc;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --border: #e2e8f0;
         }
 
-        .loader-content {
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background: var(--bg);
+            color: #1e293b;
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
         }
 
-        /* --- THE LIQUID BLOB --- */
-        .blob-wrapper {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            filter: drop-shadow(0 15px 30px rgba(75, 45, 216, 0.2));
-        }
-
-        .blob-svg {
+        /* Compact Header */
+        .header {
             width: 100%;
-            height: 100%;
-            fill: url(#liquid-gradient);
-            /* This animation handles the smooth shape-shifting */
-            animation: morph 4s ease-in-out infinite;
-            transform-origin: center;
+            padding: 15px 0;
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
-        /* --- TEXT --- */
-        .brand-text {
-            margin-top: 35px;
+        .header h1 { margin: 0; font-size: 18px; font-weight: 600; }
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Abstract Summary Cards */
+        .summary-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .abstract-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .abstract-card h2 {
+            margin: 0;
+            font-size: 15px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .stat-box {
+            background: #f1f5f9;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-box span { display: block; font-size: 11px; color: #64748b; text-transform: uppercase; }
+        .stat-box b { font-size: 18px; color: #1e293b; }
+
+        .view-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
             font-size: 12px;
-            font-weight: 700;
-            color: #4b2dd8;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            opacity: 0.8;
-            animation: text-pulse 2s ease-in-out infinite;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
         }
 
-        /* --- ANIMATIONS --- */
-        
-        /* The Secret: We animate the 'd' attribute (the path data) */
-        /* Note: For pure CSS morphing, the number of points in the path must match */
-        @keyframes morph {
-            0%, 100% {
-                border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
-                transform: rotate(0deg) scale(1);
-            }
-            33% {
-                border-radius: 70% 30% 46% 54% / 30% 29% 71% 70%;
-                transform: rotate(120deg) scale(1.1);
-            }
-            66% {
-                border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
-                transform: rotate(240deg) scale(0.95);
-            }
+        .view-btn:hover { opacity: 0.9; }
+
+        /* Search & Table Styles */
+        .table-section {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
         }
 
-        @keyframes text-pulse {
-            0%, 100% { opacity: 0.4; transform: scale(1); }
-            50% { opacity: 0.9; transform: scale(1.05); }
+        .search-bar {
+            padding: 15px;
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 10px;
         }
 
-        /* --- THE GRADIENT --- */
-        .liquid-shape {
+        .search-bar input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .table-wrapper {
+            overflow: auto;
+            max-height: 500px;
+        }
+
+        table {
             width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #4b2dd8, #00c9a7);
-            animation: morph 6s linear infinite alternate;
+            border-collapse: collapse;
+            font-size: 12px;
+            white-space: nowrap;
         }
 
+        th {
+            position: sticky;
+            top: 0;
+            background: #f8fafc;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid var(--border);
+            border-right: 1px solid var(--border);
+            color: #64748b;
+        }
+
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #f1f5f9;
+            border-right: 1px solid #f1f5f9;
+        }
+
+        tr:nth-child(even) { background: #fbfcfd; }
+        tr:hover { background: #f1f5f9; }
+
+        .loader {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(255,255,255,0.8);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
 
-    <div class="loader-content">
-        <div class="blob-wrapper">
-            <div class="liquid-shape"></div>
-        </div>
-        <div class="brand-text">HESCOM</div>
+    <div class="loader" id="loader">
+        <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--primary);"></i>
     </div>
 
+    <header class="header">
+        <h1>Master Administration Reports</h1>
+    </header>
+
+    <div class="container">
+        <div class="summary-row">
+            <div class="abstract-card">
+                <h2><i class="fas fa-users"></i> Gender Abstract</h2>
+                <div class="stats-grid">
+                    <div class="stat-box"><span id="male-label">Male</span><b id="male-count">0</b></div>
+                    <div class="stat-box"><span id="female-label">Female</span><b id="female-count">0</b></div>
+                </div>
+                <button class="view-btn" onclick="filterBy('gender')">
+                    <i class="fas fa-eye"></i> View Gender Details
+                </button>
+            </div>
+
+            <div class="abstract-card">
+                <h2><i class="fas fa-wheelchair"></i> Disability Abstract</h2>
+                <div class="stats-grid">
+                    <div class="stat-box"><span>Physically Challenged</span><b id="pwd-count">0</b></div>
+                    <div class="stat-box"><span>General</span><b id="gen-count">0</b></div>
+                </div>
+                <button class="view-btn" onclick="filterBy('pwd')">
+                    <i class="fas fa-eye"></i> View Disability Details
+                </button>
+            </div>
+        </div>
+
+        <div class="table-section">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Global search..." oninput="debouncedSearch()">
+                <button class="view-btn" style="background:#10b981" onclick="downloadCSV()">
+                    <i class="fas fa-download"></i> CSV
+                </button>
+            </div>
+            <div class="table-wrapper">
+                <table id="mainTable">
+                    <thead><tr id="tableHead"></tr></thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const CSV_URL = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
+        let fullData = [];
+        let searchTimeout;
+
+        // Column sets for filtered views
+        const genderColumns = ["username", "name", "Current_designation", "Lien_office", "male_or_female"];
+        
+        // Load data on start
+        window.onload = () => {
+            document.getElementById('loader').style.display = 'flex';
+            Papa.parse(CSV_URL, {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    fullData = results.data;
+                    updateAbstracts();
+                    renderTable(fullData); // Show all initially
+                    document.getElementById('loader').style.display = 'none';
+                }
+            });
+        };
+
+        function updateAbstracts() {
+            const males = fullData.filter(d => String(d.male_or_female).toLowerCase() === 'male').length;
+            const females = fullData.filter(d => String(d.male_or_female).toLowerCase() === 'female').length;
+            const pwd = fullData.filter(d => String(d.Physically_Disablity).toLowerCase() === 'yes').length;
+            
+            document.getElementById('male-count').textContent = males;
+            document.getElementById('female-count').textContent = females;
+            document.getElementById('pwd-count').textContent = pwd;
+            document.getElementById('gen-count').textContent = fullData.length - pwd;
+        }
+
+        function renderTable(data, specificCols = null) {
+            const head = document.getElementById('tableHead');
+            const body = document.getElementById('tableBody');
+            head.innerHTML = "";
+            body.innerHTML = "";
+
+            if(data.length === 0) return;
+
+            // Determine columns to show
+            const cols = specificCols || Object.keys(data[0]);
+
+            // SI.No Header + Others
+            let siTh = document.createElement('th'); siTh.textContent = "SI.No"; head.appendChild(siTh);
+            cols.forEach(c => {
+                let th = document.createElement('th');
+                th.textContent = c.replace(/_/g, ' ');
+                head.appendChild(th);
+            });
+
+            const frag = document.createDocumentFragment();
+            data.forEach((row, index) => {
+                let tr = document.createElement('tr');
+                let siTd = document.createElement('td'); siTd.textContent = index + 1; tr.appendChild(siTd);
+                
+                cols.forEach(c => {
+                    let td = document.createElement('td');
+                    td.textContent = row[c] || '-';
+                    tr.appendChild(td);
+                });
+                frag.appendChild(tr);
+            });
+            body.appendChild(frag);
+        }
+
+        function filterBy(type) {
+            if(type === 'gender') {
+                renderTable(fullData, genderColumns);
+            } else if(type === 'pwd') {
+                const pwdData = fullData.filter(d => String(d.Physically_Disablity).toLowerCase() === 'yes');
+                // Shows all columns requested for disability
+                const pwdCols = ["username","name","Current_designation","Lien_office","mobile","Date_of_birth","Retirement_date","PIN","E_mail","PAN_No.","Physically_Disablity","Marital_status","Qualification","Religion","Category","Caste_name","District","Home_town","Joining_date","Joining_designation","Appointment_type","Probationary_period_declaration","Probationary_period_declaration_date","Curent_designation_Date_of_entry","Entry_quota_current_designation","Pension_type","NDCPS_No.","Working_from_date","group","Counted_posts_within_division","Counted_posts_other_division","sanctioned_post","working_post","vacant_post","male_or_female"];
+                renderTable(pwdData, pwdCols);
+            }
+        }
+
+        function debouncedSearch() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const query = document.getElementById('searchInput').value.toLowerCase();
+                const filtered = fullData.filter(row => 
+                    Object.values(row).some(v => String(v).toLowerCase().includes(query))
+                );
+                renderTable(filtered);
+            }, 200);
+        }
+
+        function downloadCSV() { window.location.href = CSV_URL; }
+    </script>
 </body>
 </html>
