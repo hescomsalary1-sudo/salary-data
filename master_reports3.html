@@ -2,246 +2,279 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HR Intelligence App</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Master Analytics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 
     <style>
         :root {
             --primary: #4f46e5;
+            --secondary: #0ea5e9;
             --accent: #10b981;
-            --bg: #f3f4f6;
-            --card: #ffffff;
+            --dark: #0f172a;
+            --bg: #f8fafc;
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
+        * { box-sizing: border-box; }
+        
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0;
             background: var(--bg);
-            height: 100vh;
+            color: var(--dark);
+            /* Removed 100vh and overflow:hidden to allow natural page scrolling */
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* Prevent the whole page from moving */
         }
 
-        /* Fixed Header */
-        .app-header {
-            background: #fff;
+        header {
+            background: var(--dark);
+            color: white;
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #e5e7eb;
-            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        .app-header h1 { margin: 0; font-size: 18px; font-weight: 700; color: #111827; }
+        header h1 { margin: 0; font-size: 16px; font-weight: 700; }
 
-        /* Abstract Section (Horizontal Scrollable on Mobile) */
-        .summary-wrapper {
-            display: flex;
-            gap: 12px;
-            padding: 15px 20px;
-            overflow-x: auto;
+        /* Summary Section - Natural Flow */
+        .abstract-container {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .abstract-card {
             background: #fff;
-            border-bottom: 1px solid #e5e7eb;
-            flex-shrink: 0;
-            scrollbar-width: none;
-        }
-        .summary-wrapper::-webkit-scrollbar { display: none; }
-
-        .abstract-chip {
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
             border-radius: 16px;
-            padding: 12px 18px;
-            min-width: 160px;
+            padding: 20px;
+            border: 1px solid #f1f5f9;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 12px;
         }
 
-        .abstract-chip span { font-size: 10px; font-weight: 700; color: #6b7280; text-transform: uppercase; }
-        .abstract-chip b { font-size: 20px; color: #111827; }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+        }
 
-        .chip-btns { display: flex; gap: 6px; margin-top: 5px; }
-        .chip-btn {
+        .stat-row { display: flex; gap: 25px; margin: 5px 0; }
+        .stat-item b { font-size: 26px; color: var(--dark); display: block; }
+        .stat-item span { font-size: 10px; color: #94a3b8; font-weight: 600; }
+
+        .btn-group { display: flex; gap: 8px; margin-top: 5px; }
+
+        .action-btn {
+            flex: 1;
             border: none;
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-size: 10px;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 11px;
             font-weight: 700;
             cursor: pointer;
             color: white;
+            transition: transform 0.1s;
         }
-        .bg-blue { background: var(--primary); }
-        .bg-green { background: var(--accent); }
 
-        /* List Area (The Scrolling Content) */
-        .list-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 15px 20px;
-            display: flex;
+        .btn-male { background: var(--primary); }
+        .btn-female { background: var(--secondary); }
+        .btn-ph { background: var(--accent); }
+        .action-btn:active { transform: scale(0.96); }
+
+        /* Data Section - Natural Flow (Scrolls with the page) */
+        .data-section {
+            padding: 20px;
+            display: none; /* Hidden until button click */
             flex-direction: column;
-            gap: 12px;
-            /* Critical: Prevents pull-to-refresh on most mobile browsers */
-            overscroll-behavior-y: contain; 
         }
 
-        .list-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: #374151;
-            margin-bottom: 5px;
-            display: none;
+        .data-card {
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+            overflow: hidden;
         }
 
-        /* Employee Card Design */
-        .emp-card {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        .table-toolbar {
+            padding: 15px 20px;
+            background: #fafafa;
+            border-bottom: 1px solid #f1f5f9;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 15px;
-            animation: slideUp 0.3s ease;
         }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .emp-no {
-            width: 35px;
-            height: 35px;
-            background: #eef2ff;
-            color: var(--primary);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 12px;
+        /* Horizontal scrolling only for the table itself if screen is narrow */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
-        .emp-info { flex: 1; }
-        .emp-name { font-size: 14px; font-weight: 700; color: #111827; margin-bottom: 2px; }
-        .emp-desig { font-size: 12px; color: #6b7280; margin-bottom: 2px; }
-        .emp-place { font-size: 11px; color: #9ca3af; display: flex; align-items: center; gap: 4px; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 500px; }
+        th { 
+            background: #f8fafc; 
+            padding: 15px; 
+            text-align: left; 
+            border-bottom: 2px solid #edf2f7; 
+            color: #64748b; 
+            font-weight: 700; 
+            text-transform: uppercase;
+            font-size: 11px;
+        }
+        td { padding: 14px 15px; border-bottom: 1px solid #f1f5f9; }
+        tr:hover { background: #f8fafc; }
 
-        /* Loader */
-        #loader { position: fixed; inset: 0; background: #fff; z-index: 100; display: flex; justify-content: center; align-items: center; }
+        #loader { position: fixed; inset: 0; background: white; z-index: 999; display: flex; justify-content: center; align-items: center; }
+        .spinner { width: 32px; height: 32px; border: 3px solid #f3f3f3; border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <div id="loader"><i class="fas fa-spinner fa-spin fa-2x" style="color: var(--primary);"></i></div>
+    <div id="loader"><div class="spinner"></div></div>
 
-    <header class="app-header">
-        <h1>Admin Dashboard</h1>
-        <i class="fas fa-user-circle fa-lg" style="color: #d1d5db;"></i>
+    <header>
+        <h1>Master Administration</h1>
+        <div style="font-size: 10px; opacity: 0.8;">LIVE DATA</div>
     </header>
 
-    <div class="summary-wrapper">
-        <div class="abstract-chip">
-            <span>Gender Statistics</span>
-            <div style="display: flex; gap: 15px;">
-                <b id="m-val">0</b> <b id="f-val">0</b>
+    <section class="abstract-container">
+        <div class="abstract-card">
+            <div class="card-header"><span>Gender Distribution</span><i class="fa-solid fa-venus-mars"></i></div>
+            <div class="stat-row">
+                <div class="stat-item"><b id="m-val">0</b><span>MALE</span></div>
+                <div class="stat-item"><b id="f-val">0</b><span>FEMALE</span></div>
             </div>
-            <div class="chip-btns">
-                <button class="chip-btn bg-blue" onclick="filterList('male')">MALE</button>
-                <button class="chip-btn bg-blue" onclick="filterList('female')">FEMALE</button>
+            <div class="btn-group">
+                <button class="action-btn btn-male" onclick="loadData('male')">MALE LIST</button>
+                <button class="action-btn btn-female" onclick="loadData('female')">FEMALE LIST</button>
             </div>
         </div>
 
-        <div class="abstract-chip">
-            <span>Disability (Y)</span>
-            <b id="ph-val">0</b>
-            <div class="chip-btns">
-                <button class="chip-btn bg-green" onclick="filterList('ph')">VIEW LIST</button>
+        <div class="abstract-card">
+            <div class="card-header"><span>Health Abstract</span><i class="fa-solid fa-accessible-icon"></i></div>
+            <div class="stat-row">
+                <div class="stat-item"><b id="ph-val">0</b><span>PH CHALLENGED (Y)</span></div>
+            </div>
+            <div class="btn-group">
+                <button class="action-btn btn-ph" onclick="loadData('ph')">VIEW PH LIST</button>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="list-container" id="listArea">
-        <div id="listTitle" class="list-title">Select a category above</div>
-        <div id="resultsContent"></div>
-    </div>
+    <main class="data-section" id="dataArea">
+        <div class="data-card">
+            <div class="table-toolbar">
+                <h2 id="viewTitle" style="margin:0; font-size:14px; color:var(--primary);">Records</h2>
+                <span id="rowCount" style="font-size: 11px; background: #eef2ff; color: #4f46e5; padding: 4px 10px; border-radius: 12px; font-weight: 600;">0 Rows</span>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 70px;">SI.No</th>
+                            <th>Name</th>
+                            <th>Designation</th>
+                            <th>Working Place</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
 
     <script>
         const CSV_URL = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
-        let employees = [];
+        let masterData = [];
 
         window.onload = () => {
             Papa.parse(CSV_URL, {
                 download: true,
                 header: true,
                 skipEmptyLines: true,
-                complete: function(results) {
-                    employees = results.data;
-                    updateStats();
+                complete: function(res) {
+                    masterData = res.data;
+                    initStats();
                     document.getElementById('loader').style.display = 'none';
                 }
             });
         };
 
-        function getVal(row, keys) {
-            const foundKey = Object.keys(row).find(k => keys.includes(k.trim().toLowerCase()));
-            return foundKey ? row[foundKey] : '-';
+        function getCol(row, keys) {
+            const found = Object.keys(row).find(k => keys.includes(k.trim().toLowerCase()));
+            return found ? row[found] : '-';
         }
 
-        function updateStats() {
+        function initStats() {
             let m = 0, f = 0, ph = 0;
-            employees.forEach(r => {
-                const g = String(getVal(r, ['male_or_female'])).toLowerCase().trim();
-                const d = String(getVal(r, ['phisically_disability', 'physically_disablity'])).toUpperCase().trim();
+            masterData.forEach(r => {
+                const g = String(getCol(r, ['male_or_female'])).toLowerCase().trim();
+                const d = String(getCol(r, ['phisically_disability', 'physically_disablity'])).toUpperCase().trim();
                 if(g === 'male') m++;
                 if(g === 'female') f++;
                 if(d === 'Y') ph++;
             });
-            document.getElementById('m-val').innerHTML = `<small style="font-size:10px;color:#999">M:</small> ${m}`;
-            document.getElementById('f-val').innerHTML = `<small style="font-size:10px;color:#999">F:</small> ${f}`;
+            document.getElementById('m-val').innerText = m;
+            document.getElementById('f-val').innerText = f;
             document.getElementById('ph-val').innerText = ph;
         }
 
-        function filterList(type) {
-            const container = document.getElementById('resultsContent');
-            const title = document.getElementById('listTitle');
-            title.style.display = 'block';
-            container.innerHTML = "";
+        function loadData(type) {
+            const area = document.getElementById('dataArea');
+            const title = document.getElementById('viewTitle');
+            const badge = document.getElementById('rowCount');
+            const body = document.getElementById('tableBody');
+            
+            area.style.display = 'flex';
+            body.innerHTML = "";
 
             let filtered = [];
             if(type === 'male') {
-                title.innerText = "Showing: Male Staff";
-                filtered = employees.filter(r => String(getVal(r, ['male_or_female'])).toLowerCase().trim() === 'male');
+                title.innerText = "Male Staff Directory";
+                filtered = masterData.filter(r => String(getCol(r, ['male_or_female'])).toLowerCase().trim() === 'male');
             } else if(type === 'female') {
-                title.innerText = "Showing: Female Staff";
-                filtered = employees.filter(r => String(getVal(r, ['male_or_female'])).toLowerCase().trim() === 'female');
+                title.innerText = "Female Staff Directory";
+                filtered = masterData.filter(r => String(getCol(r, ['male_or_female'])).toLowerCase().trim() === 'female');
             } else {
-                title.innerText = "Showing: PH Staff (Y)";
-                filtered = employees.filter(r => String(getVal(r, ['phisically_disability', 'physically_disablity'])).toUpperCase().trim() === 'Y');
+                title.innerText = "Physically Challenged (Y) Directory";
+                filtered = masterData.filter(r => String(getCol(r, ['phisically_disability', 'physically_disablity'])).toUpperCase().trim() === 'Y');
             }
 
-            filtered.forEach((r, i) => {
-                const div = document.createElement('div');
-                div.className = 'emp-card';
-                div.innerHTML = `
-                    <div class="emp-no">${i + 1}</div>
-                    <div class="emp-info">
-                        <div class="emp-name">${getVal(r, ['name', 'employee_name'])}</div>
-                        <div class="emp-desig">${getVal(r, ['current_designation', 'designation'])}</div>
-                        <div class="emp-place"><i class="fas fa-map-marker-alt"></i> ${getVal(r, ['lien_office', 'working_place'])}</div>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
+            badge.innerText = `${filtered.length} Staff Members`;
 
-            // Reset scroll position to top of list
-            document.getElementById('listArea').scrollTop = 0;
+            const frag = document.createDocumentFragment();
+            filtered.forEach((r, i) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="font-weight:700; color:var(--primary);">${i + 1}</td>
+                    <td>${getCol(r, ['name', 'employee_name'])}</td>
+                    <td>${getCol(r, ['current_designation', 'designation'])}</td>
+                    <td>${getCol(r, ['lien_office', 'working_place'])}</td>
+                `;
+                frag.appendChild(tr);
+            });
+            body.appendChild(frag);
+
+            // Smooth scroll the whole page down to the table
+            area.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     </script>
 </body>
