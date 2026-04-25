@@ -16,7 +16,6 @@
         header h1 { font-size: 16px; margin: 0; font-weight: 700; }
         .container { width: 95%; max-width: 1100px; padding: 15px 0; display: flex; flex-direction: column; gap: 15px; }
 
-        /* Compact Summary Tables */
         .summary-card { background: white; border-radius: 12px; padding: 12px; border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .summary-card h2 { margin-top: 0; font-size: 11px; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; }
 
@@ -25,35 +24,27 @@
         th { background: #f8fafc; padding: 10px 8px; text-align: left; color: #64748b; font-weight: 700; border-bottom: 2px solid var(--border); }
         td { padding: 10px 8px; border-bottom: 1px solid #f1f5f9; white-space: nowrap; }
         
-        .col-num { text-align: center; width: 60px; font-weight: 600; font-variant-numeric: tabular-nums; }
+        .col-num { text-align: center; width: 60px; font-weight: 600; }
         .row-total { font-weight: 700; color: var(--primary); text-align: center; background: #f5f8ff; }
         .grand-total { background: #4338ca !important; color: white !important; font-weight: 800; }
 
-        /* Search & Cards */
         .search-area { background: white; border-radius: 10px; padding: 10px 15px; border: 1px solid var(--border); display: flex; align-items: center; gap: 10px; position: sticky; top: 60px; z-index: 900; }
         .search-area input { border: none; outline: none; width: 100%; font-size: 14px; }
 
-        .card-list { display: flex; flex-direction: column; gap: 10px; padding-bottom: 40px; }
-        .emp-card { background: white; border-radius: 12px; padding: 14px; border: 1px solid var(--border); cursor: pointer; transition: 0.2s; }
+        .emp-card { background: white; border-radius: 12px; padding: 14px; border: 1px solid var(--border); cursor: pointer; margin-bottom: 10px; }
         .emp-card.active { background: #eff6ff; border-color: #bfdbfe; }
-        .card-header { display: flex; align-items: center; gap: 12px; }
-        .circle-id { width: 30px; height: 30px; background: #f1f5f9; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 10px; color: var(--primary); }
-        
         .detail-pane { max-height: 0; overflow: hidden; transition: 0.3s ease-out; }
         .active .detail-pane { max-height: 3000px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1; }
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .info-item label { display: block; font-size: 8px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 2px; }
+        .info-item label { display: block; font-size: 8px; font-weight: 700; color: #94a3b8; text-transform: uppercase; }
         .info-item span { font-size: 10px; font-weight: 600; color: #334155; word-break: break-all; }
 
-        #loader { position: fixed; inset: 0; background: white; z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px; }
+        #loader { position: fixed; inset: 0; background: white; z-index: 2000; display: flex; justify-content: center; align-items: center; }
     </style>
 </head>
 <body>
 
-<div id="loader">
-    <i class="fas fa-circle-notch fa-spin fa-2x" style="color: var(--primary);"></i>
-    <span style="font-size: 12px; font-weight: 600; color: #64748b;">Processing Data...</span>
-</div>
+<div id="loader"><i class="fas fa-circle-notch fa-spin fa-2x" style="color: var(--primary);"></i></div>
 
 <header><h1>Master Employee Portal</h1></header>
 
@@ -90,32 +81,21 @@
 
     <div class="search-area">
         <i class="fas fa-search" style="color: #94a3b8; font-size: 12px;"></i>
-        <input type="text" id="searchInput" placeholder="Search by name, place, or any detail..." oninput="processSearch()">
+        <input type="text" id="searchInput" placeholder="Search..." oninput="processSearch()">
     </div>
 
-    <div id="cardList" class="card-list"></div>
+    <div id="cardList"></div>
 </div>
 
 <script>
     const CSV_URL = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
     let masterData = [];
 
-    // Helper to turn CSV text into actual numbers
-    function parseToNum(val) {
-        if (val === undefined || val === null) return 0;
-        let cleaned = String(val).replace(/[^\d.-]/g, ''); // Remove non-numeric chars
-        let num = parseInt(cleaned);
-        return isNaN(num) ? 0 : num;
-    }
-
     window.onload = () => {
         Papa.parse(CSV_URL, {
-            download: true,
-            header: true,
-            skipEmptyLines: true,
+            download: true, header: true, skipEmptyLines: true,
             complete: function(results) {
                 masterData = results.data;
-                console.log("Data Loaded:", masterData.length, "rows");
                 generateReports();
                 renderCards(masterData);
                 document.getElementById('loader').style.display = 'none';
@@ -126,58 +106,37 @@
     function generateReports() {
         const desigMap = {};
         const pensionCounts = { "NDCPS": 0, "OPS": 0 };
-        
         let totalS = 0, totalW = 0, totalV = 0;
 
         masterData.forEach(row => {
-            // 1. Logic for Designation Summary
             let dName = (row['designation'] || 'Not Specified').trim();
             if (!desigMap[dName]) desigMap[dName] = { sanc: 0, work: 0, vac: 0 };
 
-            let sVal = parseToNum(row['sanctioned_post']);
-            let wVal = parseToNum(row['working_post']);
-            let vVal = parseToNum(row['vacant_post']);
+            // Updated Logic: We count by checking for the specific text
+            let sRaw = String(row['sanctioned_post'] || '').toLowerCase();
+            let wRaw = String(row['working_post'] || '').toLowerCase();
+            let vRaw = String(row['vacant_post'] || '').toLowerCase();
 
-            desigMap[dName].sanc += sVal;
-            desigMap[dName].work += wVal;
-            desigMap[dName].vac += vVal;
+            if (sRaw.includes('sanctioned')) { desigMap[dName].sanc++; totalS++; }
+            if (wRaw.includes('working')) { desigMap[dName].work++; totalW++; }
+            if (vRaw.includes('vacant')) { desigMap[dName].vac++; totalV++; }
 
-            totalS += sVal;
-            totalW += wVal;
-            totalV += vVal;
-
-            // 2. Logic for Pension Summary
             let pType = String(row['Pension_type'] || '').toUpperCase();
             if (pType.includes("NDCPS")) pensionCounts["NDCPS"]++;
             else if (pType.includes("OPS")) pensionCounts["OPS"]++;
         });
 
-        // Populate Designation Table
         const dBody = document.getElementById('designationSummary');
         dBody.innerHTML = "";
         Object.keys(desigMap).sort().forEach(key => {
             const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td style="white-space:normal; min-width:120px;">${key}</td>
-                <td class="col-num">${desigMap[key].sanc}</td>
-                <td class="col-num">${desigMap[key].work}</td>
-                <td class="row-total">${desigMap[key].vac}</td>
-            `;
+            tr.innerHTML = `<td>${key}</td><td class="col-num">${desigMap[key].sanc}</td><td class="col-num">${desigMap[key].work}</td><td class="row-total">${desigMap[key].vac}</td>`;
             dBody.appendChild(tr);
         });
 
-        // Add Grand Totals
-        const dFoot = document.getElementById('designationFooter');
-        dFoot.innerHTML = `
-            <tr class="grand-total">
-                <td>GRAND TOTAL</td>
-                <td class="col-num">${totalS}</td>
-                <td class="col-num">${totalW}</td>
-                <td class="col-num">${totalV}</td>
-            </tr>
-        `;
+        document.getElementById('designationFooter').innerHTML = `
+            <tr class="grand-total"><td>GRAND TOTAL</td><td class="col-num">${totalS}</td><td class="col-num">${totalW}</td><td class="col-num">${totalV}</td></tr>`;
 
-        // Populate Pension Table
         const pBody = document.getElementById('pensionSummary');
         pBody.innerHTML = "";
         for (let scheme in pensionCounts) {
@@ -190,50 +149,27 @@
     function renderCards(data) {
         const list = document.getElementById('cardList');
         list.innerHTML = "";
-        
-        // List of all keys you want to see in the card
-        const displayKeys = [
-            'username','mobile','Date_of_birth','Retirement_date','PIN','E_mail','PAN_No.',
-            'Physically_Disablity','Marital_status','Qualification','Religion','Category','Caste_name',
-            'District','Home_town','Joining_date','Joining_designation','Appointment_type',
-            'Probationary_period_declaration','Current_designation','Pension_type','NDCPS_No.','Lien_office','male_or_female'
-        ];
+        const keys = ['username','mobile','Date_of_birth','Retirement_date','PIN','E_mail','PAN_No.','Physically_Disablity','Marital_status','Qualification','Religion','Category','Caste_name','District','Home_town','Joining_date','Joining_designation','Appointment_type','Current_designation','Pension_type','NDCPS_No.','Lien_office','male_or_female'];
 
         data.forEach((row, i) => {
             const card = document.createElement('div');
             card.className = 'emp-card';
             card.onclick = function() { this.classList.toggle('active'); };
-
-            let detailsHtml = displayKeys.map(k => `
-                <div class="info-item">
-                    <label>${k.replace(/_/g, ' ')}</label>
-                    <span>${row[k] || '---'}</span>
-                </div>
-            `).join('');
-
+            let details = keys.map(k => `<div class="info-item"><label>${k.replace(/_/g, ' ')}</label><span>${row[k] || '---'}</span></div>`).join('');
             card.innerHTML = `
-                <div class="card-header">
-                    <div class="circle-id">${i + 1}</div>
-                    <div style="flex:1">
-                        <h3 style="margin:0; font-size:13px;">${row['name'] || 'Unknown'}</h3>
-                        <p style="margin:2px 0; font-size:10px; color:#64748b;">${row['designation']} | ${row['place']}</p>
-                    </div>
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div style="width:30px; height:30px; background:#f1f5f9; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:10px; color:#4338ca;">${i+1}</div>
+                    <div style="flex:1"><h3 style="margin:0; font-size:13px;">${row['name'] || '---'}</h3><p style="margin:2px 0; font-size:10px; color:#64748b;">${row['designation']} | ${row['place']}</p></div>
                     <i class="fas fa-chevron-down" style="color:#cbd5e1; font-size:10px;"></i>
                 </div>
-                <div class="detail-pane">
-                    <div class="info-grid">${detailsHtml}</div>
-                </div>
-            `;
+                <div class="detail-pane"><div class="info-grid">${details}</div></div>`;
             list.appendChild(card);
         });
     }
 
     function processSearch() {
         const q = document.getElementById('searchInput').value.toLowerCase();
-        const filtered = masterData.filter(r => 
-            Object.values(r).some(v => String(v).toLowerCase().includes(q))
-        );
-        renderCards(filtered);
+        renderCards(masterData.filter(r => Object.values(r).some(v => String(v).toLowerCase().includes(q))));
     }
 </script>
 </body>
