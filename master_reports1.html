@@ -12,7 +12,6 @@
         :root {
             --primary: #4338ca;
             --bg: #f8fafc;
-            --card-bg: #ffffff;
             --text-main: #1e293b;
             --text-muted: #64748b;
             --sanc-color: #4338ca;
@@ -30,61 +29,70 @@
         header {
             width: 100%; padding: 18px 0; background: var(--primary);
             color: white; text-align: center; position: sticky; top: 0; z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         header h1 { margin: 0; font-size: 17px; font-weight: 700; }
 
-        .container { width: 92%; max-width: 600px; padding: 20px 0; display: flex; flex-direction: column; gap: 20px; }
+        .container { width: 92%; max-width: 600px; padding: 20px 0; display: flex; flex-direction: column; gap: 25px; }
 
-        /* --- Section Titles --- */
-        .section-title { font-size: 13px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: -10px; }
+        .section-title { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: -15px; }
 
         /* --- Grand Total Cards --- */
         .total-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
         .total-card {
-            background: white; border-radius: 16px; padding: 15px 10px; text-align: center;
+            background: white; border-radius: 16px; padding: 15px 5px; text-align: center;
             border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
         }
         .total-card span { display: block; font-size: 9px; font-weight: 700; color: var(--text-muted); margin-bottom: 5px; }
-        .total-card b { font-size: 22px; display: block; }
+        .total-card b { font-size: 20px; display: block; }
 
-        /* --- Full Width Designation Cards --- */
-        .desig-list { display: flex; flex-direction: column; gap: 12px; }
+        /* --- Sliding Carousel Wrapper --- */
+        .carousel-wrapper { position: relative; width: 100%; display: flex; align-items: center; }
+        
+        .desig-slider {
+            display: flex; gap: 15px; overflow-x: auto; scroll-behavior: smooth;
+            scrollbar-width: none; -ms-overflow-style: none;
+            scroll-snap-type: x mandatory; padding: 10px 0;
+        }
+        .desig-slider::-webkit-scrollbar { display: none; }
+
         .desig-card {
+            min-width: 85%; scroll-snap-align: center;
             background: white; border-radius: 16px; padding: 16px;
-            border-left: 5px solid var(--primary); border-top: 1px solid #e2e8f0;
-            border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;
+            border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
         .desig-card h3 { 
-            margin: 0 0 12px 0; font-size: 14px; font-weight: 700; color: var(--text-main); 
-            line-height: 1.4; word-wrap: break-word; /* Ensures full text shows */
+            margin: 0 0 12px 0; font-size: 13px; font-weight: 700; color: var(--text-main); 
+            height: 38px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
         }
-        .stats-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+        .stats-row { display: flex; justify-content: space-between; gap: 8px; }
         .mini-stat { flex: 1; text-align: center; background: #f8fafc; padding: 8px; border-radius: 10px; }
-        .mini-stat label { display: block; font-size: 8px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 2px; }
+        .mini-stat label { display: block; font-size: 8px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
         .mini-stat span { font-size: 14px; font-weight: 800; }
 
-        /* --- Search & Directory --- */
+        /* --- Carousel Buttons --- */
+        .nav-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 32px; height: 32px; background: white; border: 1px solid #e2e8f0;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 10; cursor: pointer; color: var(--primary);
+        }
+        .btn-left { left: -15px; }
+        .btn-right { right: -15px; }
+
+        /* --- Search & List --- */
         .search-box {
             position: sticky; top: 70px; z-index: 900; background: white;
             border-radius: 14px; padding: 12px 18px; border: 1px solid #e2e8f0;
             display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
         }
-        .search-box input { border: none; outline: none; width: 100%; font-size: 15px; font-family: inherit; }
+        .search-box input { border: none; outline: none; width: 100%; font-size: 15px; }
 
-        .emp-card {
-            background: white; border-radius: 18px; padding: 16px; margin-bottom: 12px;
-            border: 1px solid #e2e8f0; cursor: pointer;
-        }
-        .emp-card.active { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(67, 56, 202, 0.1); }
-        .emp-top { display: flex; align-items: center; gap: 12px; }
-        .id-badge { width: 32px; height: 32px; background: #eef2ff; color: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 11px; }
-        
+        .emp-card { background: white; border-radius: 18px; padding: 16px; margin-bottom: 12px; border: 1px solid #e2e8f0; }
+        .emp-card.active .detail-pane { max-height: 3000px; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #e2e8f0; }
         .detail-pane { max-height: 0; overflow: hidden; transition: 0.3s ease-out; }
-        .active .detail-pane { max-height: 3000px; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #e2e8f0; }
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .info-box label { display: block; font-size: 8px; font-weight: 700; color: #94a3b8; text-transform: uppercase; }
-        .info-box span { font-size: 11px; font-weight: 600; color: var(--text-main); }
+        .info-box span { font-size: 11px; font-weight: 600; }
 
         #loader { position: fixed; inset: 0; background: white; z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 15px; }
         .spinner { width: 35px; height: 35px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
@@ -93,7 +101,7 @@
 </head>
 <body>
 
-<div id="loader"><div class="spinner"></div><span style="font-size:12px; font-weight:600; color:var(--text-muted)">Generating Report...</span></div>
+<div id="loader"><div class="spinner"></div><span style="font-size:12px; font-weight:600; color:var(--text-muted)">Generating Analytics...</span></div>
 
 <header><h1>Employee Master Portal</h1></header>
 
@@ -107,8 +115,12 @@
     </div>
 
     <div class="section-title">Designation Abstract</div>
-    <div id="desigContainer" class="desig-list">
-        </div>
+    <div class="carousel-wrapper">
+        <button class="nav-btn btn-left" onclick="slide('left')"><i class="fas fa-chevron-left"></i></button>
+        <div id="desigSlider" class="desig-slider">
+            </div>
+        <button class="nav-btn btn-right" onclick="slide('right')"><i class="fas fa-chevron-right"></i></button>
+    </div>
 
     <div class="search-box">
         <i class="fas fa-search" style="color: var(--primary)"></i>
@@ -136,6 +148,12 @@
         });
     };
 
+    function slide(direction) {
+        const slider = document.getElementById('desigSlider');
+        const scrollAmount = slider.offsetWidth * 0.8;
+        slider.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
+    }
+
     function calculateAnalytics() {
         const desigMap = {};
         let grandS = 0, grandW = 0, grandV = 0;
@@ -153,14 +171,12 @@
             if (vTxt.includes('vacant')) { desigMap[d].v++; grandV++; }
         });
 
-        // Update Grand Totals
         document.getElementById('gtS').innerText = grandS;
         document.getElementById('gtW').innerText = grandW;
         document.getElementById('gtV').innerText = grandV;
 
-        // Render Designation Cards
-        const container = document.getElementById('desigContainer');
-        container.innerHTML = "";
+        const slider = document.getElementById('desigSlider');
+        slider.innerHTML = "";
         Object.keys(desigMap).sort().forEach(key => {
             const div = document.createElement('div');
             div.className = 'desig-card';
@@ -172,7 +188,7 @@
                     <div class="mini-stat"><label>Vac.</label><span style="color:var(--vac-color)">${desigMap[key].v}</span></div>
                 </div>
             `;
-            container.appendChild(div);
+            slider.appendChild(div);
         });
     }
 
@@ -185,32 +201,22 @@
             const card = document.createElement('div');
             card.className = 'emp-card';
             card.onclick = function() { this.classList.toggle('active'); };
-            
             let detailsHtml = fields.map(f => `<div class="info-box"><label>${f.replace(/_/g, ' ')}</label><span>${r[f] || '---'}</span></div>`).join('');
-
             card.innerHTML = `
-                <div class="emp-top">
+                <div style="display:flex; align-items:center; gap:12px;">
                     <div class="id-badge">${i+1}</div>
-                    <div style="flex:1">
-                        <h4 style="margin:0; font-size:13px;">${r['name'] || '---'}</h4>
-                        <p style="margin:2px 0; font-size:10px; color:var(--text-muted);">${r['designation']} • ${r['place']}</p>
-                    </div>
+                    <div style="flex:1"><h4 style="margin:0; font-size:13px;">${r['name'] || '---'}</h4><p style="margin:2px 0; font-size:10px; color:var(--text-muted);">${r['designation']} • ${r['place']}</p></div>
                     <i class="fas fa-chevron-down" style="color:#cbd5e1; font-size:10px;"></i>
                 </div>
-                <div class="detail-pane"><div class="info-grid">${detailsHtml}</div></div>
-            `;
+                <div class="detail-pane"><div class="info-grid">${detailsHtml}</div></div>`;
             list.appendChild(card);
         });
     }
 
     function handleSearch() {
         const q = document.getElementById('searchInput').value.toLowerCase();
-        const filtered = masterData.filter(row => 
-            Object.values(row).some(v => String(v).toLowerCase().includes(q))
-        );
-        renderEmployees(filtered);
+        renderEmployees(masterData.filter(row => Object.values(row).some(v => String(v).toLowerCase().includes(q))));
     }
 </script>
-
 </body>
 </html>
