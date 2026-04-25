@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Abstract Reports</title>
+    <title>Abstract Summary Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
@@ -11,8 +11,8 @@
     <style>
         :root {
             --primary: #4338ca;
-            --bg: #f8fafc;
-            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --bg: #f1f5f9;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
             --border: #e2e8f0;
         }
 
@@ -22,156 +22,90 @@
             background: var(--bg);
             color: #1e293b;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
             min-height: 100vh;
         }
 
-        /* Compact Header */
-        .header {
-            width: 100%;
-            padding: 15px 0;
-            background: var(--primary);
-            color: white;
-            text-align: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .header h1 { margin: 0; font-size: 18px; font-weight: 600; }
-
         .container {
             width: 95%;
-            max-width: 1200px;
-            padding: 20px 0;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        /* Abstract Summary Cards */
-        .summary-row {
+            max-width: 800px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            padding: 20px;
         }
 
+        /* Abstract Cards */
         .abstract-card {
             background: white;
-            border-radius: 16px;
-            padding: 20px;
+            border-radius: 20px;
+            padding: 25px;
             box-shadow: var(--card-shadow);
             border: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+            text-align: center;
+            transition: transform 0.2s;
         }
+
+        .abstract-card:hover { transform: translateY(-5px); }
 
         .abstract-card h2 {
-            margin: 0;
-            font-size: 15px;
+            margin: 0 0 20px 0;
+            font-size: 16px;
             color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .stat-box {
-            background: #f1f5f9;
-            padding: 12px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .stat-box span { display: block; font-size: 11px; color: #64748b; text-transform: uppercase; }
-        .stat-box b { font-size: 18px; color: #1e293b; }
-
-        .view-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 8px;
-            border-radius: 8px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: opacity 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
-        }
-
-        .view-btn:hover { opacity: 0.9; }
-
-        /* Search & Table Styles */
-        .table-section {
-            background: white;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
-        }
-
-        .search-bar {
-            padding: 15px;
-            background: #fff;
-            border-bottom: 1px solid var(--border);
-            display: flex;
             gap: 10px;
         }
 
-        .search-bar input {
+        .stats-display {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .stat-item {
             flex: 1;
-            padding: 10px 15px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            outline: none;
-            font-size: 13px;
-        }
-
-        .table-wrapper {
-            overflow: auto;
-            max-height: 500px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12px;
-            white-space: nowrap;
-        }
-
-        th {
-            position: sticky;
-            top: 0;
             background: #f8fafc;
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .stat-item span { display: block; font-size: 11px; color: #64748b; margin-bottom: 5px; }
+        .stat-item b { font-size: 24px; color: #1e293b; }
+
+        /* Premium Buttons */
+        .view-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #4338ca, #6366f1);
+            color: white;
+            border: none;
             padding: 12px;
-            text-align: left;
-            border-bottom: 2px solid var(--border);
-            border-right: 1px solid var(--border);
-            color: #64748b;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(67, 56, 202, 0.2);
         }
 
-        td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #f1f5f9;
-            border-right: 1px solid #f1f5f9;
-        }
+        .view-btn:active { transform: scale(0.98); }
 
-        tr:nth-child(even) { background: #fbfcfd; }
-        tr:hover { background: #f1f5f9; }
-
-        .loader {
-            display: none;
+        /* Loader Overlay */
+        #loader {
             position: fixed;
             inset: 0;
-            background: rgba(255,255,255,0.8);
-            z-index: 100;
+            background: white;
+            z-index: 999;
+            display: flex;
             justify-content: center;
             align-items: center;
         }
@@ -179,147 +113,76 @@
 </head>
 <body>
 
-    <div class="loader" id="loader">
-        <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--primary);"></i>
+    <div id="loader">
+        <i class="fas fa-circle-notch fa-spin fa-2x" style="color: var(--primary);"></i>
     </div>
 
-    <header class="header">
-        <h1>Master Administration Reports</h1>
-    </header>
-
     <div class="container">
-        <div class="summary-row">
-            <div class="abstract-card">
-                <h2><i class="fas fa-users"></i> Gender Abstract</h2>
-                <div class="stats-grid">
-                    <div class="stat-box"><span id="male-label">Male</span><b id="male-count">0</b></div>
-                    <div class="stat-box"><span id="female-label">Female</span><b id="female-count">0</b></div>
-                </div>
-                <button class="view-btn" onclick="filterBy('gender')">
-                    <i class="fas fa-eye"></i> View Gender Details
-                </button>
+        <div class="abstract-card">
+            <h2><i class="fas fa-venus-mars"></i> Gender Abstract</h2>
+            <div class="stats-display">
+                <div class="stat-item"><span>MALE</span><b id="male-count">0</b></div>
+                <div class="stat-item"><span>FEMALE</span><b id="female-count">0</b></div>
             </div>
-
-            <div class="abstract-card">
-                <h2><i class="fas fa-wheelchair"></i> Disability Abstract</h2>
-                <div class="stats-grid">
-                    <div class="stat-box"><span>Physically Challenged</span><b id="pwd-count">0</b></div>
-                    <div class="stat-box"><span>General</span><b id="gen-count">0</b></div>
-                </div>
-                <button class="view-btn" onclick="filterBy('pwd')">
-                    <i class="fas fa-eye"></i> View Disability Details
-                </button>
-            </div>
+            <button class="view-btn" onclick="openReport('gender')">
+                <i class="fas fa-list-ul"></i> View Gender Details
+            </button>
         </div>
 
-        <div class="table-section">
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Global search..." oninput="debouncedSearch()">
-                <button class="view-btn" style="background:#10b981" onclick="downloadCSV()">
-                    <i class="fas fa-download"></i> CSV
-                </button>
+        <div class="abstract-card">
+            <h2><i class="fas fa-accessible-icon"></i> Disability Abstract</h2>
+            <div class="stats-display">
+                <div class="stat-item" style="flex: none; width: 100%;">
+                    <span>Physically Challenged Persons</span>
+                    <b id="pwd-count">0</b>
+                </div>
             </div>
-            <div class="table-wrapper">
-                <table id="mainTable">
-                    <thead><tr id="tableHead"></tr></thead>
-                    <tbody id="tableBody"></tbody>
-                </table>
-            </div>
+            <button class="view-btn" onclick="openReport('pwd')" style="background: linear-gradient(135deg, #059669, #10b981);">
+                <i class="fas fa-file-invoice"></i> View Full Abstract
+            </button>
         </div>
     </div>
 
     <script>
         const CSV_URL = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
-        let fullData = [];
-        let searchTimeout;
+        let employeeData = [];
 
-        // Column sets for filtered views
-        const genderColumns = ["username", "name", "Current_designation", "Lien_office", "male_or_female"];
-        
-        // Load data on start
         window.onload = () => {
-            document.getElementById('loader').style.display = 'flex';
             Papa.parse(CSV_URL, {
                 download: true,
                 header: true,
                 skipEmptyLines: true,
                 complete: function(results) {
-                    fullData = results.data;
-                    updateAbstracts();
-                    renderTable(fullData); // Show all initially
+                    employeeData = results.data;
+                    calculateStats();
                     document.getElementById('loader').style.display = 'none';
                 }
             });
         };
 
-        function updateAbstracts() {
-            const males = fullData.filter(d => String(d.male_or_female).toLowerCase() === 'male').length;
-            const females = fullData.filter(d => String(d.male_or_female).toLowerCase() === 'female').length;
-            const pwd = fullData.filter(d => String(d.Physically_Disablity).toLowerCase() === 'yes').length;
-            
-            document.getElementById('male-count').textContent = males;
-            document.getElementById('female-count').textContent = females;
-            document.getElementById('pwd-count').textContent = pwd;
-            document.getElementById('gen-count').textContent = fullData.length - pwd;
-        }
-
-        function renderTable(data, specificCols = null) {
-            const head = document.getElementById('tableHead');
-            const body = document.getElementById('tableBody');
-            head.innerHTML = "";
-            body.innerHTML = "";
-
-            if(data.length === 0) return;
-
-            // Determine columns to show
-            const cols = specificCols || Object.keys(data[0]);
-
-            // SI.No Header + Others
-            let siTh = document.createElement('th'); siTh.textContent = "SI.No"; head.appendChild(siTh);
-            cols.forEach(c => {
-                let th = document.createElement('th');
-                th.textContent = c.replace(/_/g, ' ');
-                head.appendChild(th);
-            });
-
-            const frag = document.createDocumentFragment();
-            data.forEach((row, index) => {
-                let tr = document.createElement('tr');
-                let siTd = document.createElement('td'); siTd.textContent = index + 1; tr.appendChild(siTd);
+        function calculateStats() {
+            const counts = employeeData.reduce((acc, row) => {
+                const gender = String(row.male_or_female || "").toLowerCase();
+                const isPwd = String(row.Physically_Disablity || "").toLowerCase() === 'yes';
                 
-                cols.forEach(c => {
-                    let td = document.createElement('td');
-                    td.textContent = row[c] || '-';
-                    tr.appendChild(td);
-                });
-                frag.appendChild(tr);
-            });
-            body.appendChild(frag);
+                if(gender === 'male') acc.male++;
+                if(gender === 'female') acc.female++;
+                if(isPwd) acc.pwd++;
+                
+                return acc;
+            }, { male: 0, female: 0, pwd: 0 });
+
+            document.getElementById('male-count').textContent = counts.male;
+            document.getElementById('female-count').textContent = counts.female;
+            document.getElementById('pwd-count').textContent = counts.pwd;
         }
 
-        function filterBy(type) {
-            if(type === 'gender') {
-                renderTable(fullData, genderColumns);
-            } else if(type === 'pwd') {
-                const pwdData = fullData.filter(d => String(d.Physically_Disablity).toLowerCase() === 'yes');
-                // Shows all columns requested for disability
-                const pwdCols = ["username","name","Current_designation","Lien_office","mobile","Date_of_birth","Retirement_date","PIN","E_mail","PAN_No.","Physically_Disablity","Marital_status","Qualification","Religion","Category","Caste_name","District","Home_town","Joining_date","Joining_designation","Appointment_type","Probationary_period_declaration","Probationary_period_declaration_date","Curent_designation_Date_of_entry","Entry_quota_current_designation","Pension_type","NDCPS_No.","Working_from_date","group","Counted_posts_within_division","Counted_posts_other_division","sanctioned_post","working_post","vacant_post","male_or_female"];
-                renderTable(pwdData, pwdCols);
-            }
+        function openReport(type) {
+            // This will navigate to your existing reporting page with the specific filter
+            // Adjust the URL below to match your master_reports1.html or similar
+            const baseUrl = "view_master_reports.html"; 
+            window.location.href = `${baseUrl}?reportType=${type}`;
         }
-
-        function debouncedSearch() {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                const query = document.getElementById('searchInput').value.toLowerCase();
-                const filtered = fullData.filter(row => 
-                    Object.values(row).some(v => String(v).toLowerCase().includes(query))
-                );
-                renderTable(filtered);
-            }, 200);
-        }
-
-        function downloadCSV() { window.location.href = CSV_URL; }
     </script>
 </body>
 </html>
