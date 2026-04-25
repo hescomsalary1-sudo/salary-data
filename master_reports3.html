@@ -3,291 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Abstract Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Enterprise HR Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 
     <style>
         :root {
-            --primary: #4338ca;
-            --secondary: #059669;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --success: #10b981;
             --bg: #f8fafc;
-            --border: #e2e8f0;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
         }
+
+        * { box-sizing: border-box; }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0;
             background: var(--bg);
-            color: #1e293b;
+            color: var(--text-dark);
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            overflow: hidden; /* Main body is fixed; only table scrolls */
         }
 
-        /* Abstract Section (Top) */
-        .header-container {
-            width: 100%;
-            background: white;
-            padding: 25px 0;
-            border-bottom: 1px solid var(--border);
+        /* --- STICKY TOP SECTION --- */
+        header {
+            background: linear-gradient(135deg, var(--primary-dark), #312e81);
+            color: white;
+            padding: 15px 25px;
             display: flex;
-            justify-content: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            z-index: 100;
         }
 
-        .abstract-wrapper {
-            width: 95%;
-            max-width: 1000px;
+        header h1 { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
+        header .system-badge { background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+
+        .abstract-section {
+            background: white;
+            padding: 20px 25px;
+            border-bottom: 1px solid #e2e8f0;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
         }
 
+        /* --- PREMIUM ABSTRACT CARDS --- */
         .abstract-card {
-            background: #fff;
+            background: var(--card-bg);
             border-radius: 20px;
             padding: 20px;
-            border: 1px solid var(--border);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s;
+            border: 1px solid #f1f5f9;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
-        .card-top {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            color: #64748b;
+        .abstract-card:hover { transform: translateY(-3px); box-shadow: 0 15px 25px -5px rgba(99, 102, 241, 0.1); }
+
+        .card-info { display: flex; align-items: center; gap: 12px; }
+        .card-info i { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; }
+        .card-info .title { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+
+        .stats-display { display: flex; gap: 30px; margin-left: 52px; }
+        .stat-unit b { font-size: 26px; font-weight: 700; color: var(--text-dark); display: block; }
+        .stat-unit span { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+
+        .view-btn {
+            background: #f1f5f9;
+            border: none;
+            padding: 10px;
+            border-radius: 12px;
             font-size: 12px;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .stat-row {
-            display: flex;
-            gap: 25px;
-            margin-bottom: 20px;
-        }
-
-        .stat-box b { font-size: 28px; color: #0f172a; display: block; }
-        .stat-box span { font-size: 11px; color: #94a3b8; font-weight: 600; }
-
-        .action-btn {
-            width: 100%;
-            border: none;
-            padding: 12px;
-            border-radius: 12px;
-            font-size: 13px;
-            font-weight: 700;
+            color: var(--primary);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            color: white;
+            gap: 6px;
             transition: all 0.2s;
         }
 
-        .btn-indigo { background: var(--primary); }
-        .btn-emerald { background: var(--secondary); }
-        .action-btn:active { transform: scale(0.98); }
+        .view-btn:hover { background: var(--primary); color: white; }
 
-        /* Content Section (Below) */
-        .content-section {
-            width: 95%;
-            max-width: 1000px;
-            margin-top: 30px;
-            padding-bottom: 50px;
-        }
-
-        .report-box {
-            background: white;
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            display: none;
+        /* --- FULL SCREEN DATA TABLE --- */
+        .table-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 25px;
             overflow: hidden;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
-        .report-header {
+        .data-card {
+            background: white;
+            border-radius: 24px;
+            border: 1px solid #e2e8f0;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.03);
+        }
+
+        .table-header {
             padding: 15px 20px;
-            background: #f8fafc;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid #f1f5f9;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: #fafafa;
         }
 
-        .report-header h2 { margin: 0; font-size: 16px; color: #334155; }
+        .search-wrapper { position: relative; width: 300px; }
+        .search-wrapper i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px; }
+        .search-wrapper input { width: 100%; padding: 10px 10px 10px 35px; border-radius: 12px; border: 1px solid #e2e8f0; outline: none; font-size: 13px; }
 
-        .table-container { overflow: auto; max-height: 500px; }
+        .table-scroll { overflow: auto; flex-grow: 1; }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; white-space: nowrap; }
+        th { position: sticky; top: 0; background: #f8fafc; padding: 15px; text-align: left; border-bottom: 2px solid #edf2f7; color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 11px; z-index: 5; }
+        td { padding: 14px 15px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+        tr:hover { background: #f8fafc; }
 
-        th {
-            position: sticky;
-            top: 0;
-            background: #f1f5f9;
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 2px solid var(--border);
-            border-right: 1px solid var(--border);
-            color: #475569;
-            font-weight: 600;
-        }
+        /* --- LOADER --- */
+        #loader-screen { position: fixed; inset: 0; background: white; z-index: 999; display: flex; justify-content: center; align-items: center; }
+        .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        td {
-            padding: 10px 15px;
-            border-bottom: 1px solid #f1f5f9;
-            border-right: 1px solid #f1f5f9;
-        }
-
-        tr:nth-child(even) { background: #fbfcfd; }
-        tr:hover { background: #f1f5f9; }
-
-        #loader {
-            position: fixed;
-            inset: 0;
-            background: white;
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        @media (max-width: 768px) {
+            .abstract-section { grid-template-columns: 1fr; }
+            .search-wrapper { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <div id="loader"><i class="fas fa-circle-notch fa-spin fa-2x" style="color: var(--primary);"></i></div>
+    <div id="loader-screen"><div class="spinner"></div></div>
 
-    <div class="header-container">
-        <div class="abstract-wrapper">
-            
-            <div class="abstract-card">
-                <div class="card-top">
-                    <span>Gender Summary</span>
-                    <i class="fas fa-venus-mars"></i>
-                </div>
-                <div class="stat-row">
-                    <div class="stat-box"><b id="m-cnt">0</b><span>MALE</span></div>
-                    <div class="stat-box"><b id="f-cnt">0</b><span>FEMALE</span></div>
-                </div>
-                <button class="action-btn btn-indigo" onclick="loadView('gender')">
-                    VIEW DETAILS <i class="fas fa-arrow-right"></i>
-                </button>
+    <header>
+        <h1><i class="fa-solid fa-layer-group"></i> Master Employee Reports</h1>
+        <div class="system-badge">LIVE DATABASE</div>
+    </header>
+
+    <section class="abstract-section">
+        <div class="abstract-card">
+            <div class="card-info">
+                <i class="fa-solid fa-venus-mars" style="background: #6366f1;"></i>
+                <span class="title">Gender Summary</span>
             </div>
-
-            <div class="abstract-card">
-                <div class="card-top">
-                    <span>Disability Abstract</span>
-                    <i class="fas fa-wheelchair"></i>
-                </div>
-                <div class="stat-row">
-                    <div class="stat-box"><b id="ph-cnt">0</b><span>PHYSICALLY CHALLENGED (Y)</span></div>
-                </div>
-                <button class="action-btn btn-emerald" onclick="loadView('ph')">
-                    VIEW DETAILS <i class="fas fa-arrow-right"></i>
-                </button>
+            <div class="stats-display">
+                <div class="stat-unit"><b id="m-count">0</b><span>MALE</span></div>
+                <div class="stat-unit"><b id="f-count">0</b><span>FEMALE</span></div>
             </div>
-
+            <button class="view-btn" onclick="filterData('gender')">
+                <i class="fa-solid fa-eye"></i> View All Gender Data
+            </button>
         </div>
-    </div>
 
-    <div class="content-section">
-        <div id="report-box" class="report-box">
-            <div class="report-header">
-                <h2 id="report-title">Detailed Report</h2>
-                <input type="text" id="filterInput" placeholder="Quick Filter..." oninput="searchTable()" 
-                       style="padding: 8px 12px; border-radius: 8px; border: 1px solid #ddd; font-size: 12px; outline: none;">
+        <div class="abstract-card">
+            <div class="card-info">
+                <i class="fa-solid fa-accessible-icon" style="background: #10b981;"></i>
+                <span class="title">Disability Summary</span>
             </div>
-            <div class="table-container">
-                <table id="dataTable">
-                    <thead><tr id="tableHead"></tr></thead>
-                    <tbody id="tableBody"></tbody>
+            <div class="stats-display">
+                <div class="stat-unit"><b id="ph-count">0</b><span>PH CHALLENGED (Y)</span></div>
+            </div>
+            <button class="view-btn" onclick="filterData('ph')">
+                <i class="fa-solid fa-filter"></i> View PH Only
+            </button>
+        </div>
+    </section>
+
+    <main class="table-container">
+        <div class="data-card">
+            <div class="table-header">
+                <h2 id="report-name" style="margin:0; font-size: 15px; color: var(--primary);">Showing All Records</h2>
+                <div class="search-wrapper">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="tableSearch" placeholder="Search records..." oninput="searchLocal()">
+                </div>
+            </div>
+            <div class="table-scroll">
+                <table id="empTable">
+                    <thead>
+                        <tr>
+                            <th>SI.No</th>
+                            <th>Name</th>
+                            <th>Designation</th>
+                            <th>Working Place</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        </tbody>
                 </table>
             </div>
         </div>
-    </div>
+    </main>
 
     <script>
-        const CSV_URL = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
-        let csvData = [];
+        const CSV_PATH = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
+        let rawData = [];
 
         window.onload = () => {
-            Papa.parse(CSV_URL, {
+            Papa.parse(CSV_PATH, {
                 download: true,
                 header: true,
                 skipEmptyLines: true,
-                complete: function(results) {
-                    csvData = results.data;
-                    updateDashboard();
-                    document.getElementById('loader').style.display = 'none';
+                complete: function(res) {
+                    rawData = res.data;
+                    initStats();
+                    renderTable(rawData); // Load all initially
+                    document.getElementById('loader-screen').style.display = 'none';
                 }
             });
         };
 
-        function updateDashboard() {
-            let male = 0, female = 0, ph = 0;
-            csvData.forEach(row => {
+        function initStats() {
+            let m = 0, f = 0, ph = 0;
+            rawData.forEach(row => {
                 const g = String(row.male_or_female || "").toLowerCase();
+                // Exact logic for 'Y' in Phisically_disability
                 const d = String(row.Phisically_disability || row.Physically_Disablity || "").toUpperCase();
-
-                if(g === 'male') male++;
-                if(g === 'female') female++;
-                if(d === 'Y') ph++; // Counting 'Y' as Yes
+                
+                if(g === 'male') m++;
+                if(g === 'female') f++;
+                if(d === 'Y') ph++;
             });
-            document.getElementById('m-cnt').textContent = male;
-            document.getElementById('f-cnt').textContent = female;
-            document.getElementById('ph-cnt').textContent = ph;
+            document.getElementById('m-count').innerText = m;
+            document.getElementById('f-count').innerText = f;
+            document.getElementById('ph-count').innerText = ph;
         }
 
-        function loadView(type) {
-            const box = document.getElementById('report-box');
-            const title = document.getElementById('report-title');
-            const head = document.getElementById('tableHead');
+        function renderTable(data) {
             const body = document.getElementById('tableBody');
-            
-            box.style.display = 'block';
             body.innerHTML = "";
-            head.innerHTML = "<th>SI.No</th><th>Name</th><th>Designation</th><th>Working Place</th>";
-
-            let filtered = [];
-            if(type === 'gender') {
-                title.textContent = "Gender Wise Staff Details";
-                filtered = csvData;
-            } else {
-                title.textContent = "Physically Challenged Staff Details (Y)";
-                filtered = csvData.filter(r => String(r.Phisically_disability || r.Physically_Disablity || "").toUpperCase() === 'Y');
-            }
-
+            
             const fragment = document.createDocumentFragment();
-            filtered.forEach((row, index) => {
+            data.forEach((row, i) => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${row.name || row.Name || '-'}</td>
-                    <td>${row.Current_designation || row.Designation || '-'}</td>
-                    <td>${row.Lien_office || row.Working_place || '-'}</td>
+                    <td style="font-weight:bold; color: #6366f1;">${i + 1}</td>
+                    <td>${row.name || '-'}</td>
+                    <td>${row.Current_designation || '-'}</td>
+                    <td>${row.Lien_office || '-'}</td>
                 `;
                 fragment.appendChild(tr);
             });
             body.appendChild(fragment);
-
-            // Smooth scroll to results
-            box.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        function searchTable() {
-            let input = document.getElementById("filterInput").value.toUpperCase();
-            let tr = document.getElementById("tableBody").getElementsByTagName("tr");
-            for (let i = 0; i < tr.length; i++) {
-                tr[i].style.display = tr[i].innerText.toUpperCase().includes(input) ? "" : "none";
+        function filterData(type) {
+            const reportName = document.getElementById('report-name');
+            if(type === 'gender') {
+                reportName.innerText = "Gender Detailed Report (All)";
+                renderTable(rawData);
+            } else {
+                reportName.innerText = "Physically Challenged Records (Filtered by Y)";
+                const filtered = rawData.filter(r => 
+                    String(r.Phisically_disability || r.Physically_Disablity || "").toUpperCase() === 'Y'
+                );
+                renderTable(filtered);
+            }
+        }
+
+        function searchLocal() {
+            let val = document.getElementById("tableSearch").value.toUpperCase();
+            let rows = document.getElementById("tableBody").getElementsByTagName("tr");
+            for (let i = 0; i < rows.length; i++) {
+                rows[i].style.display = rows[i].innerText.toUpperCase().includes(val) ? "" : "none";
             }
         }
     </script>
