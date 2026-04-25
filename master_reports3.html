@@ -27,10 +27,9 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* Fixes layout to screen */
+            overflow: hidden; 
         }
 
-        /* --- Compact Premium Header --- */
         header {
             background: var(--dark);
             color: white;
@@ -43,7 +42,6 @@
 
         header h1 { margin: 0; font-size: 16px; font-weight: 700; }
 
-        /* --- Upper Abstract Section --- */
         .abstract-container {
             padding: 15px 20px;
             display: grid;
@@ -72,7 +70,6 @@
             font-weight: 700;
             color: #64748b;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .stat-row { display: flex; gap: 20px; margin: 5px 0; }
@@ -94,19 +91,16 @@
             align-items: center;
             justify-content: center;
             gap: 5px;
-            transition: opacity 0.2s;
         }
 
         .btn-male { background: var(--primary); }
         .btn-female { background: var(--secondary); }
         .btn-ph { background: var(--accent); }
-        .action-btn:hover { opacity: 0.9; }
 
-        /* --- Table Section (Fixed to Screen) --- */
         .table-section {
-            flex: 1; /* Occupies remaining height */
+            flex: 1;
             padding: 15px 20px;
-            display: none; /* Hidden until button click */
+            display: none; 
             flex-direction: column;
             overflow: hidden;
         }
@@ -117,7 +111,7 @@
             border: 1px solid #e2e8f0;
             display: flex;
             flex-direction: column;
-            height: 100%; /* Important: fits to the flex container */
+            height: 100%;
             overflow: hidden;
             box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
         }
@@ -131,14 +125,11 @@
             align-items: center;
         }
 
-        .table-toolbar h2 { margin: 0; font-size: 14px; color: var(--primary); }
-
         .scroll-area { overflow: auto; flex: 1; }
 
         table { width: 100%; border-collapse: collapse; font-size: 12px; }
         th { 
-            position: sticky; 
-            top: 0; 
+            position: sticky; top: 0; 
             background: #f8fafc; 
             padding: 12px 15px; 
             text-align: left; 
@@ -150,7 +141,6 @@
         td { padding: 10px 15px; border-bottom: 1px solid #f1f5f9; }
         tr:hover { background: #f8fafc; }
 
-        /* --- Loading State --- */
         #loader { position: fixed; inset: 0; background: white; z-index: 999; display: flex; justify-content: center; align-items: center; }
         .spinner { width: 32px; height: 32px; border: 3px solid #f3f3f3; border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -162,15 +152,11 @@
 
     <header>
         <h1><i class="fa-solid fa-chart-pie"></i> Abstract Dashboard</h1>
-        <div style="font-size: 10px; opacity: 0.8;">Admin View</div>
     </header>
 
     <section class="abstract-container">
         <div class="abstract-card">
-            <div class="card-header">
-                <span>Gender Abstract</span>
-                <i class="fa-solid fa-venus-mars"></i>
-            </div>
+            <div class="card-header"><span>Gender Abstract</span><i class="fa-solid fa-venus-mars"></i></div>
             <div class="stat-row">
                 <div class="stat-item"><b id="m-val">0</b><span>MALE</span></div>
                 <div class="stat-item"><b id="f-val">0</b><span>FEMALE</span></div>
@@ -182,10 +168,7 @@
         </div>
 
         <div class="abstract-card">
-            <div class="card-header">
-                <span>Disability Abstract</span>
-                <i class="fa-solid fa-accessible-icon"></i>
-            </div>
+            <div class="card-header"><span>Disability Abstract</span><i class="fa-solid fa-accessible-icon"></i></div>
             <div class="stat-row">
                 <div class="stat-item"><b id="ph-val">0</b><span>PH CHALLENGED (Y)</span></div>
             </div>
@@ -198,8 +181,8 @@
     <main class="table-section" id="tableSection">
         <div class="table-card">
             <div class="table-toolbar">
-                <h2 id="viewTitle">Records</h2>
-                <span id="rowCount" style="font-size: 11px; background: #eef2ff; color: #4f46e5; padding: 2px 8px; border-radius: 10px; font-weight: 600;">0 Rows</span>
+                <h2 id="viewTitle" style="margin:0; font-size:14px; color:var(--primary);">Records</h2>
+                <span id="rowCount" style="font-size:11px; background:#eef2ff; color:#4f46e5; padding:2px 8px; border-radius:10px; font-weight:600;">0 Rows</span>
             </div>
             <div class="scroll-area">
                 <table id="targetTable">
@@ -234,11 +217,21 @@
             });
         };
 
+        // Helper function to find column value even if keys are uppercase/lowercase
+        function getColValue(row, possibleKeys) {
+            const keys = Object.keys(row);
+            for (let pKey of possibleKeys) {
+                const foundKey = keys.find(k => k.trim().toLowerCase() === pKey.toLowerCase());
+                if (foundKey) return row[foundKey];
+            }
+            return '-';
+        }
+
         function initDashboard() {
             let m = 0, f = 0, ph = 0;
             masterRecords.forEach(r => {
-                const g = String(r.male_or_female || "").toLowerCase();
-                const d = String(r.Phisically_disability || r.Physically_Disablity || "").toUpperCase();
+                const g = String(getColValue(r, ['male_or_female'])).toLowerCase().trim();
+                const d = String(getColValue(r, ['Phisically_disability', 'Physically_Disablity'])).toUpperCase().trim();
                 
                 if(g === 'male') m++;
                 if(g === 'female') f++;
@@ -255,19 +248,19 @@
             const countBadge = document.getElementById('rowCount');
             const tbody = document.getElementById('tableContent');
             
-            section.style.display = 'flex'; // Show table area
+            section.style.display = 'flex';
             tbody.innerHTML = "";
 
             let filtered = [];
             if(type === 'male') {
                 title.innerText = "Male Employee List";
-                filtered = masterRecords.filter(r => String(r.male_or_female || "").toLowerCase() === 'male');
+                filtered = masterRecords.filter(r => String(getColValue(r, ['male_or_female'])).toLowerCase().trim() === 'male');
             } else if(type === 'female') {
                 title.innerText = "Female Employee List";
-                filtered = masterRecords.filter(r => String(r.male_or_female || "").toLowerCase() === 'female');
+                filtered = masterRecords.filter(r => String(getColValue(r, ['male_or_female'])).toLowerCase().trim() === 'female');
             } else {
                 title.innerText = "Physically Challenged (PH) List";
-                filtered = masterRecords.filter(r => String(r.Phisically_disability || r.Physically_Disablity || "").toUpperCase() === 'Y');
+                filtered = masterRecords.filter(r => String(getColValue(r, ['Phisically_disability', 'Physically_Disablity'])).toUpperCase().trim() === 'Y');
             }
 
             countBadge.innerText = `${filtered.length} Records`;
@@ -275,13 +268,18 @@
             const frag = document.createDocumentFragment();
             filtered.forEach((r, i) => {
                 const tr = document.createElement('tr');
+                // Maps your CSV columns to the 4 table columns
+                const name = getColValue(r, ['name', 'employee_name']);
+                const desig = getColValue(r, ['Current_designation', 'designation']);
+                const place = getColValue(r, ['Lien_office', 'working_place', 'working_from_date']);
+                
                 tr.innerHTML = `
                     <td style="font-weight:700; color:var(--primary);">${i + 1}</td>
-                    <td>${r.name || '-'}</td>
-                    <td>${r.Current_designation || '-'}</td>
-                    <td>${r.Lien_office || '-'}</td>
+                    <td>${name}</td>
+                    <td>${desig}</td>
+                    <td>${place}</td>
                 `;
-                fragment.appendChild(tr);
+                frag.appendChild(tr);
             });
             tbody.appendChild(frag);
         }
