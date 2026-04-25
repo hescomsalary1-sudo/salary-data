@@ -3,296 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HR Master Analytics</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>HR Intelligence App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 
     <style>
         :root {
             --primary: #4f46e5;
-            --secondary: #0ea5e9;
             --accent: #10b981;
-            --dark: #0f172a;
-            --bg: #f8fafc;
+            --bg: #f3f4f6;
+            --card: #ffffff;
         }
 
-        * { box-sizing: border-box; }
-        
-        /* Fixed height body to prevent page-level refreshing */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0;
             background: var(--bg);
-            color: var(--dark);
             height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow: hidden; 
-            overscroll-behavior: none; /* Prevents pull-to-refresh */
+            overflow: hidden; /* Prevent the whole page from moving */
         }
 
-        header {
-            background: var(--dark);
-            color: white;
-            padding: 12px 20px;
+        /* Fixed Header */
+        .app-header {
+            background: #fff;
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-bottom: 1px solid #e5e7eb;
             flex-shrink: 0;
         }
 
-        header h1 { margin: 0; font-size: 16px; font-weight: 700; }
+        .app-header h1 { margin: 0; font-size: 18px; font-weight: 700; color: #111827; }
 
-        .abstract-container {
+        /* Abstract Section (Horizontal Scrollable on Mobile) */
+        .summary-wrapper {
+            display: flex;
+            gap: 12px;
             padding: 15px 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 15px;
-            background: white;
-            border-bottom: 1px solid #e2e8f0;
-            flex-shrink: 0;
-        }
-
-        .abstract-card {
+            overflow-x: auto;
             background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            flex-shrink: 0;
+            scrollbar-width: none;
+        }
+        .summary-wrapper::-webkit-scrollbar { display: none; }
+
+        .abstract-chip {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
             border-radius: 16px;
-            padding: 15px;
-            border: 1px solid #f1f5f9;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            padding: 12px 18px;
+            min-width: 160px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
 
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 11px;
-            font-weight: 700;
-            color: #64748b;
-            text-transform: uppercase;
-        }
+        .abstract-chip span { font-size: 10px; font-weight: 700; color: #6b7280; text-transform: uppercase; }
+        .abstract-chip b { font-size: 20px; color: #111827; }
 
-        .stat-row { display: flex; gap: 20px; margin: 5px 0; }
-        .stat-item b { font-size: 22px; color: var(--dark); display: block; }
-        .stat-item span { font-size: 10px; color: #94a3b8; font-weight: 600; }
-
-        .btn-group { display: flex; gap: 8px; }
-
-        .action-btn {
-            flex: 1;
+        .chip-btns { display: flex; gap: 6px; margin-top: 5px; }
+        .chip-btn {
             border: none;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 11px;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 10px;
             font-weight: 700;
             cursor: pointer;
             color: white;
+        }
+        .bg-blue { background: var(--primary); }
+        .bg-green { background: var(--accent); }
+
+        /* List Area (The Scrolling Content) */
+        .list-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            /* Critical: Prevents pull-to-refresh on most mobile browsers */
+            overscroll-behavior-y: contain; 
+        }
+
+        .list-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #374151;
+            margin-bottom: 5px;
+            display: none;
+        }
+
+        /* Employee Card Design */
+        .emp-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .emp-no {
+            width: 35px;
+            height: 35px;
+            background: #eef2ff;
+            color: var(--primary);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
+            font-weight: 700;
+            font-size: 12px;
         }
 
-        .btn-male { background: var(--primary); }
-        .btn-female { background: var(--secondary); }
-        .btn-ph { background: var(--accent); }
+        .emp-info { flex: 1; }
+        .emp-name { font-size: 14px; font-weight: 700; color: #111827; margin-bottom: 2px; }
+        .emp-desig { font-size: 12px; color: #6b7280; margin-bottom: 2px; }
+        .emp-place { font-size: 11px; color: #9ca3af; display: flex; align-items: center; gap: 4px; }
 
-        /* Table Section Area */
-        .table-section {
-            flex: 1;
-            padding: 15px;
-            display: none; 
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .table-card {
-            background: white;
-            border-radius: 20px;
-            border: 1px solid #e2e8f0;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .table-toolbar {
-            padding: 10px 15px;
-            background: #fafafa;
-            border-bottom: 1px solid #f1f5f9;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        /* Fixed Internal Scrolling Area */
-        .scroll-area { 
-            overflow-y: auto; 
-            flex: 1; 
-            -webkit-overflow-scrolling: touch; /* Smooth mobile scroll */
-            overscroll-behavior: contain; /* Prevents scroll leakage to parent */
-        }
-
-        table { width: 100%; border-collapse: collapse; font-size: 12px; }
-        th { 
-            position: sticky; top: 0; 
-            background: #f8fafc; 
-            padding: 12px 15px; 
-            text-align: left; 
-            border-bottom: 2px solid #edf2f7; 
-            color: #64748b; 
-            font-weight: 700; 
-            z-index: 10;
-        }
-        td { padding: 12px 15px; border-bottom: 1px solid #f1f5f9; }
-        tr:hover { background: #f8fafc; }
-
-        #loader { position: fixed; inset: 0; background: white; z-index: 999; display: flex; justify-content: center; align-items: center; }
-        .spinner { width: 32px; height: 32px; border: 3px solid #f3f3f3; border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        /* Loader */
+        #loader { position: fixed; inset: 0; background: #fff; z-index: 100; display: flex; justify-content: center; align-items: center; }
     </style>
 </head>
 <body>
 
-    <div id="loader"><div class="spinner"></div></div>
+    <div id="loader"><i class="fas fa-spinner fa-spin fa-2x" style="color: var(--primary);"></i></div>
 
-    <header>
-        <h1><i class="fa-solid fa-chart-pie"></i> Abstract Dashboard</h1>
+    <header class="app-header">
+        <h1>Admin Dashboard</h1>
+        <i class="fas fa-user-circle fa-lg" style="color: #d1d5db;"></i>
     </header>
 
-    <section class="abstract-container">
-        <div class="abstract-card">
-            <div class="card-header"><span>Gender Abstract</span><i class="fa-solid fa-venus-mars"></i></div>
-            <div class="stat-row">
-                <div class="stat-item"><b id="m-val">0</b><span>MALE</span></div>
-                <div class="stat-item"><b id="f-val">0</b><span>FEMALE</span></div>
+    <div class="summary-wrapper">
+        <div class="abstract-chip">
+            <span>Gender Statistics</span>
+            <div style="display: flex; gap: 15px;">
+                <b id="m-val">0</b> <b id="f-val">0</b>
             </div>
-            <div class="btn-group">
-                <button class="action-btn btn-male" onclick="renderReport('male')">MALE LIST</button>
-                <button class="action-btn btn-female" onclick="renderReport('female')">FEMALE LIST</button>
+            <div class="chip-btns">
+                <button class="chip-btn bg-blue" onclick="filterList('male')">MALE</button>
+                <button class="chip-btn bg-blue" onclick="filterList('female')">FEMALE</button>
             </div>
         </div>
 
-        <div class="abstract-card">
-            <div class="card-header"><span>Disability Abstract</span><i class="fa-solid fa-accessible-icon"></i></div>
-            <div class="stat-row">
-                <div class="stat-item"><b id="ph-val">0</b><span>PH CHALLENGED (Y)</span></div>
-            </div>
-            <div class="btn-group">
-                <button class="action-btn btn-ph" onclick="renderReport('ph')">VIEW PH LIST</button>
+        <div class="abstract-chip">
+            <span>Disability (Y)</span>
+            <b id="ph-val">0</b>
+            <div class="chip-btns">
+                <button class="chip-btn bg-green" onclick="filterList('ph')">VIEW LIST</button>
             </div>
         </div>
-    </section>
+    </div>
 
-    <main class="table-section" id="tableSection">
-        <div class="table-card">
-            <div class="table-toolbar">
-                <h2 id="viewTitle" style="margin:0; font-size:14px; color:var(--primary);">Records</h2>
-                <span id="rowCount" style="font-size:11px; background:#eef2ff; color:#4f46e5; padding:2px 8px; border-radius:10px; font-weight:600;">0 Rows</span>
-            </div>
-            <div class="scroll-area">
-                <table id="targetTable">
-                    <thead>
-                        <tr>
-                            <th style="width: 60px;">SI.No</th>
-                            <th>Name</th>
-                            <th>Designation</th>
-                            <th>Working Place</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableContent"></tbody>
-                </table>
-            </div>
-        </div>
-    </main>
+    <div class="list-container" id="listArea">
+        <div id="listTitle" class="list-title">Select a category above</div>
+        <div id="resultsContent"></div>
+    </div>
 
     <script>
-        const DATA_URL = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
-        let masterRecords = [];
+        const CSV_URL = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
+        let employees = [];
 
         window.onload = () => {
-            Papa.parse(DATA_URL, {
+            Papa.parse(CSV_URL, {
                 download: true,
                 header: true,
                 skipEmptyLines: true,
-                complete: function(res) {
-                    masterRecords = res.data;
-                    initDashboard();
+                complete: function(results) {
+                    employees = results.data;
+                    updateStats();
                     document.getElementById('loader').style.display = 'none';
                 }
             });
         };
 
-        function getColValue(row, possibleKeys) {
-            const keys = Object.keys(row);
-            for (let pKey of possibleKeys) {
-                const foundKey = keys.find(k => k.trim().toLowerCase() === pKey.toLowerCase());
-                if (foundKey) return row[foundKey];
-            }
-            return '-';
+        function getVal(row, keys) {
+            const foundKey = Object.keys(row).find(k => keys.includes(k.trim().toLowerCase()));
+            return foundKey ? row[foundKey] : '-';
         }
 
-        function initDashboard() {
+        function updateStats() {
             let m = 0, f = 0, ph = 0;
-            masterRecords.forEach(r => {
-                const g = String(getColValue(r, ['male_or_female'])).toLowerCase().trim();
-                const d = String(getColValue(r, ['Phisically_disability', 'Physically_Disablity'])).toUpperCase().trim();
+            employees.forEach(r => {
+                const g = String(getVal(r, ['male_or_female'])).toLowerCase().trim();
+                const d = String(getVal(r, ['phisically_disability', 'physically_disablity'])).toUpperCase().trim();
                 if(g === 'male') m++;
                 if(g === 'female') f++;
                 if(d === 'Y') ph++;
             });
-            document.getElementById('m-val').innerText = m;
-            document.getElementById('f-val').innerText = f;
+            document.getElementById('m-val').innerHTML = `<small style="font-size:10px;color:#999">M:</small> ${m}`;
+            document.getElementById('f-val').innerHTML = `<small style="font-size:10px;color:#999">F:</small> ${f}`;
             document.getElementById('ph-val').innerText = ph;
         }
 
-        function renderReport(type) {
-            const section = document.getElementById('tableSection');
-            const title = document.getElementById('viewTitle');
-            const countBadge = document.getElementById('rowCount');
-            const tbody = document.getElementById('tableContent');
-            
-            section.style.display = 'flex';
-            tbody.innerHTML = "";
+        function filterList(type) {
+            const container = document.getElementById('resultsContent');
+            const title = document.getElementById('listTitle');
+            title.style.display = 'block';
+            container.innerHTML = "";
 
             let filtered = [];
             if(type === 'male') {
-                title.innerText = "Male Employee List";
-                filtered = masterRecords.filter(r => String(getColValue(r, ['male_or_female'])).toLowerCase().trim() === 'male');
+                title.innerText = "Showing: Male Staff";
+                filtered = employees.filter(r => String(getVal(r, ['male_or_female'])).toLowerCase().trim() === 'male');
             } else if(type === 'female') {
-                title.innerText = "Female Employee List";
-                filtered = masterRecords.filter(r => String(getColValue(r, ['male_or_female'])).toLowerCase().trim() === 'female');
+                title.innerText = "Showing: Female Staff";
+                filtered = employees.filter(r => String(getVal(r, ['male_or_female'])).toLowerCase().trim() === 'female');
             } else {
-                title.innerText = "Physically Challenged (PH) List";
-                filtered = masterRecords.filter(r => String(getColValue(r, ['Phisically_disability', 'Physically_Disablity'])).toUpperCase().trim() === 'Y');
+                title.innerText = "Showing: PH Staff (Y)";
+                filtered = employees.filter(r => String(getVal(r, ['phisically_disability', 'physically_disablity'])).toUpperCase().trim() === 'Y');
             }
 
-            countBadge.innerText = `${filtered.length} Records`;
-
-            const frag = document.createDocumentFragment();
             filtered.forEach((r, i) => {
-                const tr = document.createElement('tr');
-                const name = getColValue(r, ['name', 'employee_name']);
-                const desig = getColValue(r, ['Current_designation', 'designation']);
-                const place = getColValue(r, ['Lien_office', 'working_place']);
-                
-                tr.innerHTML = `
-                    <td style="font-weight:700; color:var(--primary);">${i + 1}</td>
-                    <td>${name}</td>
-                    <td>${desig}</td>
-                    <td>${place}</td>
+                const div = document.createElement('div');
+                div.className = 'emp-card';
+                div.innerHTML = `
+                    <div class="emp-no">${i + 1}</div>
+                    <div class="emp-info">
+                        <div class="emp-name">${getVal(r, ['name', 'employee_name'])}</div>
+                        <div class="emp-desig">${getVal(r, ['current_designation', 'designation'])}</div>
+                        <div class="emp-place"><i class="fas fa-map-marker-alt"></i> ${getVal(r, ['lien_office', 'working_place'])}</div>
+                    </div>
                 `;
-                frag.appendChild(tr);
+                container.appendChild(div);
             });
-            tbody.appendChild(frag);
-            
-            // Ensures the scroll area starts at the top without bouncing the page
-            document.querySelector('.scroll-area').scrollTop = 0;
+
+            // Reset scroll position to top of list
+            document.getElementById('listArea').scrollTop = 0;
         }
     </script>
 </body>
