@@ -3,88 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HR Master Analytics Pro</title>
+    <title>HR Master Analytics</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 
     <style>
-        :root { --primary: #4338ca; --bg: #f8fafc; --border: #e2e8f0; --text: #1e293b; }
+        :root {
+            --primary: #4338ca;
+            --primary-gradient: linear-gradient(135deg, #4338ca 0%, #6366f1 100%);
+            --bg: #f4f7fb;
+            --card-bg: #ffffff;
+            --border: #eef2f6;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
-        header { width: 100%; padding: 15px 0; background: var(--primary); color: white; text-align: center; position: sticky; top: 0; z-index: 1000; }
-        header h1 { font-size: 16px; margin: 0; font-weight: 700; }
-        .container { width: 95%; max-width: 1100px; padding: 15px 0; display: flex; flex-direction: column; gap: 15px; }
-
-        .summary-card { background: white; border-radius: 12px; padding: 12px; border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-        .summary-card h2 { margin-top: 0; font-size: 11px; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; }
-
-        .scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; }
-        table { width: 100%; border-collapse: collapse; font-size: 11px; }
-        th { background: #f8fafc; padding: 10px 8px; text-align: left; color: #64748b; font-weight: 700; border-bottom: 2px solid var(--border); }
-        td { padding: 10px 8px; border-bottom: 1px solid #f1f5f9; white-space: nowrap; }
         
-        .col-num { text-align: center; width: 60px; font-weight: 600; }
-        .row-total { font-weight: 700; color: var(--primary); text-align: center; background: #f5f8ff; }
-        .grand-total { background: #4338ca !important; color: white !important; font-weight: 800; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0; background: var(--bg); color: var(--text-dark);
+            min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+        }
 
-        .search-area { background: white; border-radius: 10px; padding: 10px 15px; border: 1px solid var(--border); display: flex; align-items: center; gap: 10px; position: sticky; top: 60px; z-index: 900; }
-        .search-area input { border: none; outline: none; width: 100%; font-size: 14px; }
+        /* --- Header --- */
+        header {
+            width: 100%; padding: 20px 0; background: var(--primary-gradient);
+            color: white; text-align: center; position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 4px 12px rgba(67, 56, 202, 0.2);
+        }
+        header h1 { font-size: 18px; margin: 0; font-weight: 700; letter-spacing: -0.5px; }
 
-        .emp-card { background: white; border-radius: 12px; padding: 14px; border: 1px solid var(--border); cursor: pointer; margin-bottom: 10px; }
-        .emp-card.active { background: #eff6ff; border-color: #bfdbfe; }
-        .detail-pane { max-height: 0; overflow: hidden; transition: 0.3s ease-out; }
-        .active .detail-pane { max-height: 3000px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1; }
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .info-item label { display: block; font-size: 8px; font-weight: 700; color: #94a3b8; text-transform: uppercase; }
-        .info-item span { font-size: 10px; font-weight: 600; color: #334155; word-break: break-all; }
+        .container { width: 92%; max-width: 600px; padding: 20px 0; display: flex; flex-direction: column; gap: 20px; }
 
-        #loader { position: fixed; inset: 0; background: white; z-index: 2000; display: flex; justify-content: center; align-items: center; }
+        /* --- Section Titles --- */
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .section-header h2 { font-size: 13px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; margin: 0; }
+
+        /* --- Designation Stats (Horizontal Scroll) --- */
+        .stats-scroll {
+            display: flex; gap: 12px; overflow-x: auto; padding: 5px 0 15px 0;
+            scrollbar-width: none; /* Firefox */
+        }
+        .stats-scroll::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
+
+        .stat-card {
+            min-width: 160px; background: var(--card-bg); border-radius: 16px; padding: 16px;
+            border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .stat-card h3 { margin: 0; font-size: 12px; font-weight: 700; color: var(--primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        .stat-row { display: flex; justify-content: space-between; font-size: 11px; font-weight: 500; }
+        .stat-val { font-weight: 700; }
+        .s-color { color: var(--text-dark); }
+        .w-color { color: var(--success); }
+        .v-color { color: var(--danger); }
+
+        /* --- Pension Abstract --- */
+        .pension-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .pension-card {
+            background: var(--card-bg); border-radius: 16px; padding: 15px;
+            border: 1px solid var(--border); text-align: center;
+        }
+        .pension-card span { display: block; font-size: 10px; font-weight: 700; color: var(--text-light); margin-bottom: 4px; }
+        .pension-card b { font-size: 20px; color: var(--text-dark); }
+
+        /* --- Search Area --- */
+        .search-container {
+            position: sticky; top: 75px; z-index: 900; background: rgba(244, 247, 251, 0.8);
+            backdrop-filter: blur(8px); padding: 5px 0;
+        }
+        .search-box {
+            background: white; border-radius: 14px; padding: 12px 18px;
+            border: 1px solid var(--border); display: flex; align-items: center; gap: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+        .search-box input { border: none; outline: none; width: 100%; font-size: 15px; font-family: inherit; }
+
+        /* --- Employee Cards --- */
+        .card-list { display: flex; flex-direction: column; gap: 12px; }
+        .emp-card {
+            background: white; border-radius: 18px; padding: 16px;
+            border: 1px solid var(--border); transition: 0.3s;
+        }
+        .emp-card.active { border-color: var(--primary); ring: 2px var(--primary); }
+
+        .emp-header { display: flex; align-items: center; gap: 14px; }
+        .emp-icon { 
+            width: 40px; height: 40px; background: #eef2ff; border-radius: 12px; 
+            display: flex; align-items: center; justify-content: center; 
+            font-weight: 700; color: var(--primary); font-size: 12px;
+        }
+        .emp-info h4 { margin: 0; font-size: 14px; font-weight: 700; }
+        .emp-info p { margin: 2px 0 0 0; font-size: 11px; color: var(--text-light); font-weight: 500; }
+
+        .detail-pane { max-height: 0; overflow: hidden; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .active .detail-pane { max-height: 4000px; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); }
+        
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .info-box label { display: block; font-size: 9px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 2px; }
+        .info-box span { font-size: 11.5px; font-weight: 600; color: var(--text-dark); word-break: break-all; }
+
+        /* --- Loader --- */
+        #loader { position: fixed; inset: 0; background: white; z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 15px; }
+        .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-<div id="loader"><i class="fas fa-circle-notch fa-spin fa-2x" style="color: var(--primary);"></i></div>
+<div id="loader">
+    <div class="spinner"></div>
+    <span style="font-size: 14px; font-weight: 600; color: var(--text-light);">Loading Portal...</span>
+</div>
 
 <header><h1>Master Employee Portal</h1></header>
 
 <div class="container">
-    <div class="summary-card">
-        <h2>Designation Wise Statistics</h2>
-        <div class="scroll-x">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Designation</th>
-                        <th class="col-num">Sanc.</th>
-                        <th class="col-num">Work.</th>
-                        <th class="col-num">Vac.</th>
-                    </tr>
-                </thead>
-                <tbody id="designationSummary"></tbody>
-                <tfoot id="designationFooter"></tfoot>
-            </table>
+    
+    <div class="section-header"><h2>Designation Statistics</h2></div>
+    <div class="stats-scroll" id="statsContainer">
+        </div>
+
+    <div class="section-header"><h2>Pension Abstract</h2></div>
+    <div class="pension-grid">
+        <div class="pension-card"><span>NDCPS TYPE</span><b id="ndcpsCount">0</b></div>
+        <div class="pension-card"><span>OPS TYPE</span><b id="opsCount">0</b></div>
+    </div>
+
+    <div class="search-container">
+        <div class="search-box">
+            <i class="fas fa-search" style="color: var(--primary)"></i>
+            <input type="text" id="searchInput" placeholder="Search by name, KGID, place..." oninput="filterData()">
         </div>
     </div>
 
-    <div class="summary-card">
-        <h2>Pension Abstract</h2>
-        <div class="scroll-x">
-            <table>
-                <thead>
-                    <tr><th>Pension Scheme</th><th style="text-align: center;">Total Count</th></tr>
-                </thead>
-                <tbody id="pensionSummary"></tbody>
-            </table>
-        </div>
-    </div>
+    <div class="section-header"><h2>Employee Directory</h2></div>
+    <div id="cardList" class="card-list"></div>
 
-    <div class="search-area">
-        <i class="fas fa-search" style="color: #94a3b8; font-size: 12px;"></i>
-        <input type="text" id="searchInput" placeholder="Search..." oninput="processSearch()">
-    </div>
-
-    <div id="cardList"></div>
 </div>
 
 <script>
@@ -96,81 +157,103 @@
             download: true, header: true, skipEmptyLines: true,
             complete: function(results) {
                 masterData = results.data;
-                generateReports();
+                processAnalytics();
                 renderCards(masterData);
                 document.getElementById('loader').style.display = 'none';
             }
         });
     };
 
-    function generateReports() {
+    function processAnalytics() {
         const desigMap = {};
-        const pensionCounts = { "NDCPS": 0, "OPS": 0 };
-        let totalS = 0, totalW = 0, totalV = 0;
+        const pension = { ndcps: 0, ops: 0 };
 
         masterData.forEach(row => {
-            let dName = (row['designation'] || 'Not Specified').trim();
-            if (!desigMap[dName]) desigMap[dName] = { sanc: 0, work: 0, vac: 0 };
+            let d = (row['designation'] || 'Unknown').trim();
+            if (!desigMap[d]) desigMap[d] = { s: 0, w: 0, v: 0 };
 
-            // Updated Logic: We count by checking for the specific text
-            let sRaw = String(row['sanctioned_post'] || '').toLowerCase();
-            let wRaw = String(row['working_post'] || '').toLowerCase();
-            let vRaw = String(row['vacant_post'] || '').toLowerCase();
+            // Logic: Count if text exists
+            let sTxt = String(row['sanctioned_post'] || '').toLowerCase();
+            let wTxt = String(row['working_post'] || '').toLowerCase();
+            let vTxt = String(row['vacant_post'] || '').toLowerCase();
 
-            if (sRaw.includes('sanctioned')) { desigMap[dName].sanc++; totalS++; }
-            if (wRaw.includes('working')) { desigMap[dName].work++; totalW++; }
-            if (vRaw.includes('vacant')) { desigMap[dName].vac++; totalV++; }
+            if (sTxt.includes('sanctioned')) desigMap[d].s++;
+            if (wTxt.includes('working')) desigMap[d].w++;
+            if (vTxt.includes('vacant')) desigMap[d].v++;
 
-            let pType = String(row['Pension_type'] || '').toUpperCase();
-            if (pType.includes("NDCPS")) pensionCounts["NDCPS"]++;
-            else if (pType.includes("OPS")) pensionCounts["OPS"]++;
+            // Pension logic
+            let p = String(row['Pension_type'] || '').toUpperCase();
+            if (p.includes('NDCPS')) pension.ndcps++;
+            else if (p.includes('OPS')) pension.ops++;
         });
 
-        const dBody = document.getElementById('designationSummary');
-        dBody.innerHTML = "";
+        // Render Designation Stats Cards
+        const statsContainer = document.getElementById('statsContainer');
+        statsContainer.innerHTML = "";
         Object.keys(desigMap).sort().forEach(key => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td>${key}</td><td class="col-num">${desigMap[key].sanc}</td><td class="col-num">${desigMap[key].work}</td><td class="row-total">${desigMap[key].vac}</td>`;
-            dBody.appendChild(tr);
+            const card = document.createElement('div');
+            card.className = 'stat-card';
+            card.innerHTML = `
+                <h3>${key}</h3>
+                <div class="stat-row"><span class="s-color">Sanctioned</span><span class="stat-val">${desigMap[key].s}</span></div>
+                <div class="stat-row"><span class="w-color">Working</span><span class="stat-val">${desigMap[key].w}</span></div>
+                <div class="stat-row"><span class="v-color">Vacant</span><span class="stat-val">${desigMap[key].v}</span></div>
+            `;
+            statsContainer.appendChild(card);
         });
 
-        document.getElementById('designationFooter').innerHTML = `
-            <tr class="grand-total"><td>GRAND TOTAL</td><td class="col-num">${totalS}</td><td class="col-num">${totalW}</td><td class="col-num">${totalV}</td></tr>`;
-
-        const pBody = document.getElementById('pensionSummary');
-        pBody.innerHTML = "";
-        for (let scheme in pensionCounts) {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td>${scheme}</td><td class="row-total">${pensionCounts[scheme]}</td>`;
-            pBody.appendChild(tr);
-        }
+        document.getElementById('ndcpsCount').innerText = pension.ndcps;
+        document.getElementById('opsCount').innerText = pension.ops;
     }
 
     function renderCards(data) {
         const list = document.getElementById('cardList');
         list.innerHTML = "";
-        const keys = ['username','mobile','Date_of_birth','Retirement_date','PIN','E_mail','PAN_No.','Physically_Disablity','Marital_status','Qualification','Religion','Category','Caste_name','District','Home_town','Joining_date','Joining_designation','Appointment_type','Current_designation','Pension_type','NDCPS_No.','Lien_office','male_or_female'];
+        
+        const keysToShow = [
+            'username','mobile','Date_of_birth','Retirement_date','PIN','E_mail','PAN_No.',
+            'Physically_Disablity','Marital_status','Qualification','Religion','Category','Caste_name',
+            'District','Home_town','Joining_date','Joining_designation','Appointment_type','Current_designation',
+            'Pension_type','NDCPS_No.','Lien_office','male_or_female'
+        ];
 
         data.forEach((row, i) => {
             const card = document.createElement('div');
             card.className = 'emp-card';
             card.onclick = function() { this.classList.toggle('active'); };
-            let details = keys.map(k => `<div class="info-item"><label>${k.replace(/_/g, ' ')}</label><span>${row[k] || '---'}</span></div>`).join('');
-            card.innerHTML = `
-                <div style="display:flex; align-items:center; gap:12px;">
-                    <div style="width:30px; height:30px; background:#f1f5f9; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:10px; color:#4338ca;">${i+1}</div>
-                    <div style="flex:1"><h3 style="margin:0; font-size:13px;">${row['name'] || '---'}</h3><p style="margin:2px 0; font-size:10px; color:#64748b;">${row['designation']} | ${row['place']}</p></div>
-                    <i class="fas fa-chevron-down" style="color:#cbd5e1; font-size:10px;"></i>
+
+            let detailsHtml = keysToShow.map(k => `
+                <div class="info-box">
+                    <label>${k.replace(/_/g, ' ')}</label>
+                    <span>${row[k] || '---'}</span>
                 </div>
-                <div class="detail-pane"><div class="info-grid">${details}</div></div>`;
+            `).join('');
+
+            card.innerHTML = `
+                <div class="emp-header">
+                    <div class="emp-icon">${i + 1}</div>
+                    <div class="emp-info">
+                        <h4>${row['name'] || 'Employee'}</h4>
+                        <p>${row['designation']} • ${row['place']}</p>
+                    </div>
+                    <i class="fas fa-chevron-down" style="margin-left:auto; color:#cbd5e1; font-size:12px;"></i>
+                </div>
+                <div class="detail-pane">
+                    <div class="info-grid">${detailsHtml}</div>
+                </div>
+            `;
             list.appendChild(card);
         });
     }
 
-    function processSearch() {
+    function filterData() {
         const q = document.getElementById('searchInput').value.toLowerCase();
-        renderCards(masterData.filter(r => Object.values(r).some(v => String(v).toLowerCase().includes(q))));
+        const filtered = masterData.filter(row => 
+            Object.values(row).some(v => String(v).toLowerCase().includes(q))
+        );
+        renderCards(filtered);
     }
 </script>
+
 </body>
 </html>
