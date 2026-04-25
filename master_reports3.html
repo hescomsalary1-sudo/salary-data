@@ -3,185 +3,262 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abstract Summary Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Executive Summary Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 
     <style>
         :root {
-            --primary: #4338ca;
-            --bg: #f1f5f9;
-            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
-            --border: #e2e8f0;
+            --glass: rgba(255, 255, 255, 0.8);
+            --border: rgba(255, 255, 255, 0.3);
+            --primary: #6366f1;
+            --secondary: #10b981;
+            --text: #1e293b;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0;
-            background: var(--bg);
-            color: #1e293b;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            color: var(--text);
         }
 
-        .container {
+        .dashboard-container {
             width: 95%;
-            max-width: 800px;
+            max-width: 900px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
             padding: 20px;
         }
 
-        /* Abstract Cards */
-        .abstract-card {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: var(--card-shadow);
+        /* Premium Card Design */
+        .premium-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--border);
-            text-align: center;
-            transition: transform 0.2s;
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
         }
 
-        .abstract-card:hover { transform: translateY(-5px); }
+        .premium-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(99, 102, 241, 0.1);
+        }
 
-        .abstract-card h2 {
-            margin: 0 0 20px 0;
-            font-size: 16px;
-            color: var(--primary);
+        /* Abstract Header */
+        .card-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 14px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            color: #64748b;
+        }
+
+        .icon-wrap {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            font-size: 20px;
+            color: white;
         }
 
-        .stats-display {
+        .bg-indigo { background: linear-gradient(135deg, #6366f1, #4338ca); }
+        .bg-emerald { background: linear-gradient(135deg, #10b981, #059669); }
+
+        /* Stats Layout */
+        .stats-grid {
             display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-            gap: 10px;
+            width: 100%;
+            gap: 15px;
+            margin-bottom: 25px;
         }
 
         .stat-item {
             flex: 1;
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 15px;
-            border: 1px solid #f1f5f9;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid var(--border);
         }
 
-        .stat-item span { display: block; font-size: 11px; color: #64748b; margin-bottom: 5px; }
-        .stat-item b { font-size: 24px; color: #1e293b; }
-
-        /* Premium Buttons */
-        .view-btn {
-            width: 100%;
-            background: linear-gradient(135deg, #4338ca, #6366f1);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 12px;
-            font-size: 14px;
+        .stat-item span {
+            display: block;
+            font-size: 11px;
             font-weight: 600;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+
+        .stat-item b {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(to bottom, #1e293b, #475569);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Action Buttons */
+        .btn-premium {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 18px;
+            font-size: 14px;
+            font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px rgba(67, 56, 202, 0.2);
+            gap: 10px;
+            color: white;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
         }
 
-        .view-btn:active { transform: scale(0.98); }
+        .btn-indigo { background: #4338ca; }
+        .btn-emerald { background: #059669; }
 
-        /* Loader Overlay */
-        #loader {
+        .btn-premium:hover {
+            opacity: 0.9;
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Skeleton Loader */
+        #loader-overlay {
             position: fixed;
             inset: 0;
-            background: white;
-            z-index: 999;
+            background: #fff;
+            z-index: 1000;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
         }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <div id="loader">
-        <i class="fas fa-circle-notch fa-spin fa-2x" style="color: var(--primary);"></i>
+    <div id="loader-overlay">
+        <div class="spinner"></div>
+        <p style="margin-top: 15px; font-weight: 600; color: #64748b;">Analysing CSV Data...</p>
     </div>
 
-    <div class="container">
-        <div class="abstract-card">
-            <h2><i class="fas fa-venus-mars"></i> Gender Abstract</h2>
-            <div class="stats-display">
+    <div class="dashboard-container">
+        <div class="premium-card">
+            <div class="card-header">
+                <h2>Gender Abstract</h2>
+                <div class="icon-wrap bg-indigo"><i class="fas fa-venus-mars"></i></div>
+            </div>
+            <div class="stats-grid">
                 <div class="stat-item"><span>MALE</span><b id="male-count">0</b></div>
                 <div class="stat-item"><span>FEMALE</span><b id="female-count">0</b></div>
             </div>
-            <button class="view-btn" onclick="openReport('gender')">
-                <i class="fas fa-list-ul"></i> View Gender Details
+            <button class="btn-premium btn-indigo" onclick="viewDetails('gender')">
+                <span>View Details</span> <i class="fas fa-arrow-right"></i>
             </button>
         </div>
 
-        <div class="abstract-card">
-            <h2><i class="fas fa-accessible-icon"></i> Disability Abstract</h2>
-            <div class="stats-display">
-                <div class="stat-item" style="flex: none; width: 100%;">
-                    <span>Physically Challenged Persons</span>
+        <div class="premium-card">
+            <div class="card-header">
+                <h2>Disability Abstract</h2>
+                <div class="icon-wrap bg-emerald"><i class="fas fa-wheelchair"></i></div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item" style="flex: 2;">
+                    <span>Physically Challenged (PH)</span>
                     <b id="pwd-count">0</b>
                 </div>
             </div>
-            <button class="view-btn" onclick="openReport('pwd')" style="background: linear-gradient(135deg, #059669, #10b981);">
-                <i class="fas fa-file-invoice"></i> View Full Abstract
+            <button class="btn-premium btn-emerald" onclick="viewDetails('pwd')">
+                <span>View Full Abstract</span> <i class="fas fa-arrow-right"></i>
             </button>
         </div>
     </div>
 
     <script>
-        const CSV_URL = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
-        let employeeData = [];
+        const DATA_SOURCE = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
 
         window.onload = () => {
-            Papa.parse(CSV_URL, {
+            Papa.parse(DATA_SOURCE, {
                 download: true,
                 header: true,
                 skipEmptyLines: true,
                 complete: function(results) {
-                    employeeData = results.data;
-                    calculateStats();
-                    document.getElementById('loader').style.display = 'none';
+                    processCSV(results.data);
+                    document.getElementById('loader-overlay').style.display = 'none';
+                },
+                error: function() {
+                    alert("Unable to fetch data. Please check the URL.");
+                    document.getElementById('loader-overlay').style.display = 'none';
                 }
             });
         };
 
-        function calculateStats() {
-            const counts = employeeData.reduce((acc, row) => {
-                const gender = String(row.male_or_female || "").toLowerCase();
-                const isPwd = String(row.Physically_Disablity || "").toLowerCase() === 'yes';
-                
-                if(gender === 'male') acc.male++;
-                if(gender === 'female') acc.female++;
-                if(isPwd) acc.pwd++;
-                
-                return acc;
-            }, { male: 0, female: 0, pwd: 0 });
+        function processCSV(data) {
+            let males = 0;
+            let females = 0;
+            let pwdCount = 0;
 
-            document.getElementById('male-count').textContent = counts.male;
-            document.getElementById('female-count').textContent = counts.female;
-            document.getElementById('pwd-count').textContent = counts.pwd;
+            data.forEach(row => {
+                // Normalize keys to handle case sensitivity or minor spelling issues
+                const gender = (row.male_or_female || "").toLowerCase().trim();
+                
+                // Specifically looking for the Physically Disability column
+                // Checking multiple possible spellings just in case
+                const phValue = (row.Physically_Disablity || row.Physically_Disability || "").toLowerCase().trim();
+
+                if (gender === 'male') males++;
+                if (gender === 'female') females++;
+                if (phValue === 'yes') pwdCount++;
+            });
+
+            document.getElementById('male-count').innerText = males;
+            document.getElementById('female-count').innerText = females;
+            document.getElementById('pwd-count').innerText = pwdCount;
         }
 
-        function openReport(type) {
-            // This will navigate to your existing reporting page with the specific filter
-            // Adjust the URL below to match your master_reports1.html or similar
-            const baseUrl = "view_master_reports.html"; 
-            window.location.href = `${baseUrl}?reportType=${type}`;
+        function viewDetails(type) {
+            // This redirects to your view page
+            // Make sure view_master_reports.html exists and handles the 'report' param
+            window.location.href = `view_master_reports.html?report=${type}`;
         }
     </script>
 </body>
