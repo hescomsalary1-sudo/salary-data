@@ -12,11 +12,13 @@
         :root {
             --primary: #4338ca;
             --bg: #f8fafc;
+            --card-bg: #ffffff;
             --text-main: #1e293b;
             --text-muted: #64748b;
             --sanc-color: #4338ca;
             --work-color: #10b981;
             --vac-color: #ef4444;
+            --accent-bg: #f1f5f9;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -34,7 +36,7 @@
 
         .container { width: 92%; max-width: 600px; padding: 20px 0; display: flex; flex-direction: column; gap: 25px; }
 
-        .section-title { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: -15px; }
+        .section-title { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: -15px; }
 
         /* --- Grand Total Cards --- */
         .total-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
@@ -45,16 +47,13 @@
         .total-card span { display: block; font-size: 9px; font-weight: 700; color: var(--text-muted); margin-bottom: 5px; }
         .total-card b { font-size: 20px; display: block; }
 
-        /* --- Sliding Carousel Wrapper --- */
+        /* --- Sliding Carousel --- */
         .carousel-wrapper { position: relative; width: 100%; display: flex; align-items: center; }
-        
         .desig-slider {
             display: flex; gap: 15px; overflow-x: auto; scroll-behavior: smooth;
-            scrollbar-width: none; -ms-overflow-style: none;
-            scroll-snap-type: x mandatory; padding: 10px 0;
+            scrollbar-width: none; scroll-snap-type: x mandatory; padding: 10px 0;
         }
         .desig-slider::-webkit-scrollbar { display: none; }
-
         .desig-card {
             min-width: 85%; scroll-snap-align: center;
             background: white; border-radius: 16px; padding: 16px;
@@ -69,7 +68,6 @@
         .mini-stat label { display: block; font-size: 8px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
         .mini-stat span { font-size: 14px; font-weight: 800; }
 
-        /* --- Carousel Buttons --- */
         .nav-btn {
             position: absolute; top: 50%; transform: translateY(-50%);
             width: 32px; height: 32px; background: white; border: 1px solid #e2e8f0;
@@ -79,7 +77,7 @@
         .btn-left { left: -15px; }
         .btn-right { right: -15px; }
 
-        /* --- Search & List --- */
+        /* --- Search Bar --- */
         .search-box {
             position: sticky; top: 70px; z-index: 900; background: white;
             border-radius: 14px; padding: 12px 18px; border: 1px solid #e2e8f0;
@@ -87,12 +85,51 @@
         }
         .search-box input { border: none; outline: none; width: 100%; font-size: 15px; }
 
-        .emp-card { background: white; border-radius: 18px; padding: 16px; margin-bottom: 12px; border: 1px solid #e2e8f0; }
-        .emp-card.active .detail-pane { max-height: 3000px; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #e2e8f0; }
-        .detail-pane { max-height: 0; overflow: hidden; transition: 0.3s ease-out; }
+        /* --- NEW Modern Individual Records --- */
+        .emp-card { 
+            background: white; border-radius: 20px; padding: 16px; margin-bottom: 15px; 
+            border: 1px solid #e2e8f0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; overflow: hidden;
+        }
+        .emp-card.active { border-color: var(--primary); background: #ffffff; box-shadow: 0 12px 24px -8px rgba(67, 56, 202, 0.15); }
+        
+        .card-main-info { display: flex; align-items: center; gap: 14px; }
+        .avatar-circle {
+            width: 48px; height: 48px; background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+            color: var(--primary); border-radius: 14px; display: flex; align-items: center;
+            justify-content: center; font-weight: 800; font-size: 14px;
+        }
+        .name-area h4 { margin: 0; font-size: 15px; font-weight: 700; color: var(--text-main); }
+        .name-area p { margin: 2px 0 0 0; font-size: 11px; color: var(--text-muted); font-weight: 500; }
+
+        .expand-icon { margin-left: auto; transition: 0.3s; color: #cbd5e1; font-size: 14px; }
+        .active .expand-icon { transform: rotate(180deg); color: var(--primary); }
+
+        /* Details Expansion Design */
+        .detail-pane { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out; }
+        .active .detail-pane { max-height: 4000px; padding-top: 20px; }
+
+        .info-section { margin-bottom: 20px; }
+        .info-section-title { 
+            display: flex; align-items: center; gap: 8px; font-size: 10px; 
+            font-weight: 800; color: var(--primary); text-transform: uppercase; 
+            letter-spacing: 1px; margin-bottom: 12px;
+        }
+        .info-section-title::after { content: ''; flex: 1; height: 1px; background: #f1f5f9; }
+
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .info-box label { display: block; font-size: 8px; font-weight: 700; color: #94a3b8; text-transform: uppercase; }
-        .info-box span { font-size: 11px; font-weight: 600; }
+        .info-box { background: #f8fafc; padding: 10px; border-radius: 12px; border: 1px solid #f1f5f9; }
+        .info-box label { display: block; font-size: 8px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 4px; }
+        .info-box span { font-size: 11px; font-weight: 600; color: var(--text-main); word-break: break-all; }
+
+        .action-bar { display: flex; gap: 10px; margin-top: 5px; }
+        .action-btn { 
+            flex: 1; padding: 10px; border-radius: 10px; text-decoration: none; 
+            display: flex; align-items: center; justify-content: center; gap: 8px; 
+            font-size: 11px; font-weight: 700; 
+        }
+        .btn-call { background: #ecfdf5; color: #059669; }
+        .btn-mail { background: #eef2ff; color: #4338ca; }
 
         #loader { position: fixed; inset: 0; background: white; z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 15px; }
         .spinner { width: 35px; height: 35px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
@@ -101,7 +138,7 @@
 </head>
 <body>
 
-<div id="loader"><div class="spinner"></div><span style="font-size:12px; font-weight:600; color:var(--text-muted)">Generating Analytics...</span></div>
+<div id="loader"><div class="spinner"></div><span style="font-size:12px; font-weight:600; color:var(--text-muted)">Syncing Personnel Data...</span></div>
 
 <header><h1>Employee Master Portal</h1></header>
 
@@ -117,8 +154,7 @@
     <div class="section-title">Designation Abstract</div>
     <div class="carousel-wrapper">
         <button class="nav-btn btn-left" onclick="slide('left')"><i class="fas fa-chevron-left"></i></button>
-        <div id="desigSlider" class="desig-slider">
-            </div>
+        <div id="desigSlider" class="desig-slider"></div>
         <button class="nav-btn btn-right" onclick="slide('right')"><i class="fas fa-chevron-right"></i></button>
     </div>
 
@@ -161,11 +197,9 @@
         masterData.forEach(row => {
             let d = (row['designation'] || 'Unknown').trim();
             if (!desigMap[d]) desigMap[d] = { s: 0, w: 0, v: 0 };
-
             let sTxt = String(row['sanctioned_post'] || '').toLowerCase();
             let wTxt = String(row['working_post'] || '').toLowerCase();
             let vTxt = String(row['vacant_post'] || '').toLowerCase();
-
             if (sTxt.includes('sanctioned')) { desigMap[d].s++; grandS++; }
             if (wTxt.includes('working')) { desigMap[d].w++; grandW++; }
             if (vTxt.includes('vacant')) { desigMap[d].v++; grandV++; }
@@ -186,8 +220,7 @@
                     <div class="mini-stat"><label>Sanc.</label><span style="color:var(--sanc-color)">${desigMap[key].s}</span></div>
                     <div class="mini-stat"><label>Work.</label><span style="color:var(--work-color)">${desigMap[key].w}</span></div>
                     <div class="mini-stat"><label>Vac.</label><span style="color:var(--vac-color)">${desigMap[key].v}</span></div>
-                </div>
-            `;
+                </div>`;
             slider.appendChild(div);
         });
     }
@@ -195,20 +228,49 @@
     function renderEmployees(data) {
         const list = document.getElementById('employeeList');
         list.innerHTML = "";
-        const fields = ['username','mobile','Date_of_birth','Retirement_date','PIN','E_mail','PAN_No.','Physically_Disablity','Marital_status','Qualification','Religion','Category','Caste_name','District','Home_town','Joining_date','Joining_designation','Appointment_type','Current_designation','Pension_type','NDCPS_No.','Lien_office','male_or_female'];
 
         data.forEach((r, i) => {
             const card = document.createElement('div');
             card.className = 'emp-card';
-            card.onclick = function() { this.classList.toggle('active'); };
-            let detailsHtml = fields.map(f => `<div class="info-box"><label>${f.replace(/_/g, ' ')}</label><span>${r[f] || '---'}</span></div>`).join('');
+            
+            // Extracting values for groups
+            const pInfo = [['DOB', r.Date_of_birth], ['Religion', r.Religion], ['District', r.District], ['Gender', r.male_or_female]];
+            const wInfo = [['Joined', r.Joining_date], ['Retirement', r.Retirement_date], ['Pension', r.Pension_type], ['Office', r.Lien_office]];
+            const iInfo = [['PAN', r['PAN_No.']], ['NDCPS', r['NDCPS_No.']], ['PIN', r.PIN], ['Status', r.Marital_status]];
+
             card.innerHTML = `
-                <div style="display:flex; align-items:center; gap:12px;">
-                    <div class="id-badge">${i+1}</div>
-                    <div style="flex:1"><h4 style="margin:0; font-size:13px;">${r['name'] || '---'}</h4><p style="margin:2px 0; font-size:10px; color:var(--text-muted);">${r['designation']} • ${r['place']}</p></div>
-                    <i class="fas fa-chevron-down" style="color:#cbd5e1; font-size:10px;"></i>
+                <div class="card-main-info" onclick="this.parentElement.classList.toggle('active')">
+                    <div class="avatar-circle">${i+1}</div>
+                    <div class="name-area">
+                        <h4>${r.name || 'Unknown Name'}</h4>
+                        <p>${r.designation} • ${r.place}</p>
+                    </div>
+                    <i class="fas fa-chevron-down expand-icon"></i>
                 </div>
-                <div class="detail-pane"><div class="info-grid">${detailsHtml}</div></div>`;
+                
+                <div class="detail-pane">
+                    <div class="action-bar">
+                        <a href="tel:${r.mobile}" class="action-btn btn-call"><i class="fas fa-phone"></i> Call</a>
+                        <a href="mailto:${r.E_mail}" class="action-btn btn-mail"><i class="fas fa-envelope"></i> Email</a>
+                    </div>
+                    
+                    <div style="height:15px;"></div>
+
+                    <div class="info-section">
+                        <div class="info-section-title"><i class="fas fa-user"></i> Personal</div>
+                        <div class="info-grid">${pInfo.map(it => `<div class="info-box"><label>${it[0]}</label><span>${it[1]||'---'}</span></div>`).join('')}</div>
+                    </div>
+
+                    <div class="info-section">
+                        <div class="info-section-title"><i class="fas fa-briefcase"></i> Professional</div>
+                        <div class="info-grid">${wInfo.map(it => `<div class="info-box"><label>${it[0]}</label><span>${it[1]||'---'}</span></div>`).join('')}</div>
+                    </div>
+
+                    <div class="info-section">
+                        <div class="info-section-title"><i class="fas fa-id-card"></i> Identity & Others</div>
+                        <div class="info-grid">${iInfo.map(it => `<div class="info-box"><label>${it[0]}</label><span>${it[1]||'---'}</span></div>`).join('')}</div>
+                    </div>
+                </div>`;
             list.appendChild(card);
         });
     }
