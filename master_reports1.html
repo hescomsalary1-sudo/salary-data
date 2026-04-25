@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Reports Ultra</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Master Employee Portal Ultra</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 
@@ -12,191 +12,185 @@
         :root {
             --primary: #4338ca;
             --primary-light: #eef2ff;
-            --bg: #f4f7fa;
+            --accent: #10b981;
+            --bg: #f8fafc;
             --border: #e2e8f0;
             --text-main: #1e293b;
             --text-muted: #64748b;
+            --card-active: #f0f7ff;
         }
 
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0;
             background: var(--bg);
             color: var(--text-main);
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* Changed to allow natural scrolling */
+            /* CRITICAL: Natural scroll prevents refresh issues */
             min-height: 100vh;
-            overflow-y: auto; 
+            overflow-x: hidden;
         }
 
-        /* Compact Header */
+        /* Sticky App Header */
         .header {
             width: 100%;
-            padding: 15px 0;
+            padding: 18px 0;
             background: var(--primary);
             color: white;
             text-align: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 10;
-            position: sticky; /* Keeps header visible while scrolling */
+            position: sticky;
             top: 0;
+            z-index: 1000;
         }
 
-        .header h1 { margin: 0; font-size: 18px; letter-spacing: 0.5px; }
+        .header h1 { margin: 0; font-size: 18px; letter-spacing: 0.5px; font-weight: 700; }
 
-        /* Main Container */
+        /* Main Content Wrapper */
         .main-content {
             width: 95%;
             max-width: 1100px;
+            padding: 20px 0 50px 0;
             display: flex;
             flex-direction: column;
-            padding: 15px 0;
-            gap: 15px;
-            /* Removed height: calc(100vh - 60px) to allow growth */
+            gap: 20px;
         }
 
-        /* Smaller Responsive Buttons */
-        .top-actions {
+        /* Top Action Section (Summary) */
+        .summary-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
         }
 
-        .action-btn {
+        .abstract-card {
             background: white;
-            padding: 10px 15px;
-            border-radius: 10px;
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .stat-label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 12px; }
+        
+        .stat-values { display: flex; gap: 30px; margin-bottom: 15px; }
+        .stat-item b { font-size: 26px; color: var(--text-main); display: block; }
+        .stat-item span { font-size: 10px; font-weight: 600; color: var(--text-muted); }
+
+        .btn-group { display: flex; gap: 8px; }
+        .action-btn {
+            flex: 1; border: none; padding: 12px; border-radius: 12px;
+            font-size: 11px; font-weight: 700; color: white; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: transform 0.1s;
+        }
+        .btn-fetch { background: var(--primary); width: 100%; margin-bottom: 15px; }
+        .btn-male { background: #4f46e5; }
+        .btn-female { background: #0ea5e9; }
+        .btn-ph { background: var(--accent); }
+        .action-btn:active { transform: scale(0.97); }
+
+        /* Search Section */
+        .search-box {
+            background: white;
+            border-radius: 15px;
+            padding: 12px 18px;
+            border: 1px solid var(--border);
             display: flex;
             align-items: center;
             gap: 12px;
-            cursor: pointer;
-            border: 1px solid var(--border);
-            transition: all 0.2s;
+            position: sticky;
+            top: 75px;
+            z-index: 900;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
-        .action-btn:hover { border-color: var(--primary); background: var(--primary-light); }
-        .action-btn:active { transform: scale(0.97); }
-
-        .icon-circle {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 14px;
-        }
-
-        .bg-indigo { background: #4f46e5; }
-        .bg-emerald { background: #10b981; }
-
-        .btn-label b { display: block; font-size: 13px; }
-        .btn-label span { font-size: 11px; color: var(--text-muted); }
-
-        /* Search Bar */
-        .search-container {
-            position: relative;
-            background: white;
-            border-radius: 10px;
-            padding: 8px 12px;
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .search-container i { color: var(--text-muted); font-size: 14px; }
-        .search-container input {
+        .search-box input {
             border: none;
             outline: none;
             width: 100%;
-            font-size: 14px;
-            color: var(--text-main);
+            font-size: 15px;
+            font-family: inherit;
         }
 
-        /* High Performance Data Table */
-        .table-card {
-            background: white;
-            border-radius: 12px;
-            border: 1px solid var(--border);
+        /* Results Display */
+        .results-container {
             display: flex;
             flex-direction: column;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-            margin-bottom: 30px; /* Space at bottom of page */
+            gap: 12px;
         }
 
-        .table-scroll {
-            overflow-x: auto; /* Horizontal scroll only */
-            width: 100%;
+        .list-header {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary);
+            padding-left: 5px;
+            border-left: 4px solid var(--primary);
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12px;
-            white-space: nowrap;
+        /* Employee Card */
+        .emp-card {
+            background: white;
+            border-radius: 18px;
+            padding: 16px;
+            border: 1px solid var(--border);
+            transition: all 0.2s ease;
+            cursor: pointer;
         }
 
-        /* Sticky Header */
-        thead th {
-            position: sticky;
-            top: 48px; /* Adjusted for the sticky header height */
-            background: #f8fafc;
-            color: var(--text-muted);
-            font-weight: 600;
-            padding: 12px;
-            text-align: left;
-            border-bottom: 2px solid var(--border);
-            border-right: 1px solid var(--border);
-            text-transform: uppercase;
-            font-size: 10px;
-            z-index: 1;
+        .emp-card.active {
+            background: var(--card-active);
+            border-color: #bfdbfe;
         }
 
-        tbody td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #f1f5f9;
-            border-right: 1px solid #f1f5f9;
+        .card-top { display: flex; align-items: center; gap: 15px; }
+        .badge { width: 35px; height: 35px; background: #f1f5f9; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; }
+        .active .badge { background: var(--primary); color: white; }
+
+        .core-info { flex: 1; }
+        .core-info h3 { margin: 0; font-size: 15px; font-weight: 700; }
+        .core-info p { margin: 2px 0; font-size: 12px; color: var(--text-muted); }
+
+        .chevron { color: #cbd5e1; transition: transform 0.3s; }
+        .active .chevron { transform: rotate(180deg); color: var(--primary); }
+
+        /* Hidden Detail Section */
+        .detail-pane {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .active .detail-pane {
+            max-height: 500px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #cbd5e1;
         }
 
-        tbody tr:nth-child(even) { background: #fbfcfd; }
-        tbody tr:hover { background: #f1f5f9 !important; }
+        .grid-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .detail-cell label { display: block; font-size: 9px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 3px; }
+        .detail-cell span { font-size: 12px; font-weight: 600; color: #334155; display: block; }
 
         /* Loader */
-        .loading-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(255,255,255,0.7);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(2px);
-        }
-
-        .spinner {
-            width: 30px;
-            height: 30px;
-            border: 3px solid #ddd;
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
+        #loader { position: fixed; inset: 0; background: white; z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 15px; }
+        .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        @media (max-width: 600px) {
-            .top-actions { grid-template-columns: 1fr; }
-        }
     </style>
 </head>
 <body>
 
-    <div class="loading-overlay" id="overlay">
+    <div id="loader">
         <div class="spinner"></div>
+        <span style="font-weight:600; color:var(--text-muted)">Loading Records...</span>
     </div>
 
     <header class="header">
@@ -204,123 +198,171 @@
     </header>
 
     <main class="main-content">
-        <div class="top-actions">
-            <div class="action-btn" onclick="loadData()">
-                <div class="icon-circle bg-indigo"><i class="fa-solid fa-sync"></i></div>
-                <div class="btn-label">
-                    <b>Fetch Records</b>
-                    <span>Reload employee.csv</span>
+        
+        <button class="action-btn btn-fetch" onclick="loadData()">
+            <i class="fas fa-sync"></i> Fetch All Data
+        </button>
+
+        <section class="summary-grid">
+            <div class="abstract-card">
+                <span class="stat-label">Staff Distribution</span>
+                <div class="stat-values">
+                    <div class="stat-item"><b id="m-count">0</b><span>MALE</span></div>
+                    <div class="stat-item"><b id="f-count">0</b><span>FEMALE</span></div>
+                </div>
+                <div class="btn-group">
+                    <button class="action-btn btn-male" onclick="filterBy('male')">MALE LIST</button>
+                    <button class="action-btn btn-female" onclick="filterBy('female')">FEMALE LIST</button>
                 </div>
             </div>
 
-            <div class="action-btn" onclick="downloadData()">
-                <div class="icon-circle bg-emerald"><i class="fa-solid fa-file-csv"></i></div>
-                <div class="btn-label">
-                    <b>Export File</b>
-                    <span>Download full CSV</span>
+            <div class="abstract-card">
+                <span class="stat-label">Health Abstract</span>
+                <div class="stat-values">
+                    <div class="stat-item"><b id="ph-count">0</b><span>PH (Y) ONLY</span></div>
+                </div>
+                <div class="btn-group">
+                    <button class="action-btn btn-ph" onclick="filterBy('ph')">VIEW PH LIST</button>
                 </div>
             </div>
+        </section>
+
+        <div class="search-box">
+            <i class="fas fa-search" style="color: var(--text-muted)"></i>
+            <input type="text" id="searchInput" placeholder="Search by name, KGID, or office..." oninput="instantSearch()">
         </div>
 
-        <div class="search-container">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="searchInput" placeholder="Instant search by any field..." oninput="debouncedSearch()">
+        <div class="results-container">
+            <div class="list-header" id="statusHeader">Ready to search</div>
+            <div id="listBody">
+                </div>
         </div>
 
-        <div class="table-card">
-            <div class="table-scroll">
-                <table id="dataTable">
-                    <thead><tr id="tableHeader"></tr></thead>
-                    <tbody id="tableBody">
-                        <tr><td colspan="100%" style="text-align:center; padding:50px; color:#94a3b8;">Click "Fetch Records" to display data</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </main>
 
     <script>
-        const CSV_URL = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
-        let masterData = [];
-        let searchTimeout;
+        const CSV_PATH = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
+        let rawData = [];
+
+        window.onload = () => {
+            loadData();
+        };
 
         function loadData() {
-            const overlay = document.getElementById('overlay');
-            overlay.style.display = 'flex';
-
-            Papa.parse(CSV_URL, {
+            document.getElementById('loader').style.display = 'flex';
+            Papa.parse(CSV_PATH, {
                 download: true,
                 header: true,
                 skipEmptyLines: true,
-                complete: function(results) {
-                    masterData = results.data;
-                    renderTable(masterData);
-                    overlay.style.display = 'none';
-                },
-                error: function() {
-                    alert("Failed to fetch data.");
-                    overlay.style.display = 'none';
+                complete: function(res) {
+                    rawData = res.data;
+                    calculateStats();
+                    renderCards(rawData);
+                    document.getElementById('loader').style.display = 'none';
                 }
             });
         }
 
-        function renderTable(data) {
-            const headerRow = document.getElementById('tableHeader');
-            const body = document.getElementById('tableBody');
-            
-            headerRow.innerHTML = '';
-            body.innerHTML = '';
+        function findCol(row, aliases) {
+            const keys = Object.keys(row);
+            const found = keys.find(k => aliases.includes(k.trim().toLowerCase()));
+            return found ? row[found] : '---';
+        }
 
-            if (data.length === 0) {
-                body.innerHTML = '<tr><td colspan="100%" style="text-align:center;">No records found.</td></tr>';
+        function calculateStats() {
+            let m = 0, f = 0, ph = 0;
+            rawData.forEach(r => {
+                const g = String(findCol(r, ['male_or_female'])).toLowerCase().trim();
+                const d = String(findCol(r, ['phisically_disability', 'physically_disablity'])).toUpperCase().trim();
+                if(g === 'male') m++;
+                if(g === 'female') f++;
+                if(d === 'Y') ph++;
+            });
+            document.getElementById('m-count').innerText = m;
+            document.getElementById('f-count').innerText = f;
+            document.getElementById('ph-count').innerText = ph;
+        }
+
+        function renderCards(data) {
+            const container = document.getElementById('listBody');
+            container.innerHTML = "";
+
+            if(data.length === 0) {
+                container.innerHTML = "<p style='text-align:center; padding:40px; color:#94a3b8;'>No matching records found.</p>";
                 return;
             }
 
-            const keys = Object.keys(data[0]);
-            keys.forEach(key => {
-                const th = document.createElement('th');
-                th.textContent = key;
-                headerRow.appendChild(th);
-            });
-
             const fragment = document.createDocumentFragment();
-            data.forEach(item => {
-                const tr = document.createElement('tr');
-                keys.forEach(key => {
-                    const td = document.createElement('td');
-                    td.textContent = item[key] || '';
-                    tr.appendChild(td);
-                });
-                fragment.appendChild(tr);
+            data.forEach((r, i) => {
+                const card = document.createElement('div');
+                card.className = 'emp-card';
+                card.onclick = function() { this.classList.toggle('active'); };
+
+                // Map data from CSV
+                const name = findCol(r, ['name', 'employee_name']);
+                const desig = findCol(r, ['current_designation', 'designation']);
+                const office = findCol(r, ['lien_office', 'working_place']);
+                const mobile = findCol(r, ['mobile', 'mobile_no', 'phone']);
+                const kgid = findCol(r, ['kgid_no', 'kgid']);
+                const dob = findCol(r, ['date_of_birth', 'dob']);
+                const retirement = findCol(r, ['retirement_date']);
+                const pan = findCol(r, ['pan_no.', 'pan']);
+
+                card.innerHTML = `
+                    <div class="card-top">
+                        <div class="badge">${i + 1}</div>
+                        <div class="core-info">
+                            <h3>${name}</h3>
+                            <p>${desig}</p>
+                            <p style="font-size:10px;"><i class="fas fa-map-marker-alt"></i> ${office}</p>
+                        </div>
+                        <i class="fas fa-chevron-down chevron"></i>
+                    </div>
+                    <div class="detail-pane">
+                        <div class="grid-details">
+                            <div class="detail-cell"><label>Mobile</label><span>${mobile}</span></div>
+                            <div class="detail-cell"><label>KGID NO</label><span>${kgid}</span></div>
+                            <div class="detail-cell"><label>Date of Birth</label><span>${dob}</span></div>
+                            <div class="detail-cell"><label>Retirement</label><span>${retirement}</span></div>
+                            <div class="detail-cell"><label>PAN Number</label><span>${pan}</span></div>
+                            <div class="detail-cell"><label>Status</label><span style="color:var(--accent)">Active Record</span></div>
+                        </div>
+                    </div>
+                `;
+                fragment.appendChild(card);
             });
-            body.appendChild(fragment);
+            container.appendChild(fragment);
         }
 
-        function debouncedSearch() {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                executeSearch();
-            }, 150);
-        }
-
-        function executeSearch() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
+        function instantSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            document.getElementById('statusHeader').innerText = query ? `Search results for: "${query}"` : "All Records";
             
-            const filtered = masterData.filter(row => {
-                return Object.values(row).some(val => 
-                    String(val).toLowerCase().includes(query)
-                );
+            const filtered = rawData.filter(row => {
+                return Object.values(row).some(v => String(v).toLowerCase().includes(query));
             });
-
-            window.requestAnimationFrame(() => {
-                renderTable(filtered);
-            });
+            renderCards(filtered);
         }
 
-        function downloadData() {
-            window.location.href = CSV_URL;
+        function filterBy(type) {
+            document.getElementById('searchInput').value = ""; // Clear search
+            let filtered = [];
+            
+            if(type === 'male') {
+                document.getElementById('statusHeader').innerText = "Category: Male Staff";
+                filtered = rawData.filter(r => String(findCol(r, ['male_or_female'])).toLowerCase().trim() === 'male');
+            } else if(type === 'female') {
+                document.getElementById('statusHeader').innerText = "Category: Female Staff";
+                filtered = rawData.filter(r => String(findCol(r, ['male_or_female'])).toLowerCase().trim() === 'female');
+            } else {
+                document.getElementById('statusHeader').innerText = "Category: Physically Challenged (Y)";
+                filtered = rawData.filter(r => String(findCol(r, ['phisically_disability', 'physically_disablity'])).toUpperCase().trim() === 'Y');
+            }
+            renderCards(filtered);
+            
+            // Scroll to the list area
+            document.getElementById('statusHeader').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     </script>
-
 </body>
 </html>
