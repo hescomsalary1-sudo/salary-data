@@ -9,257 +9,181 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 
     <style>
-        :root {
-            --primary: #4338ca;
-            --bg: #f8fafc;
-            --border: #e2e8f0;
-            --text: #1e293b;
-        }
-
+        :root { --primary: #4338ca; --bg: #f8fafc; --border: #e2e8f0; --text: #1e293b; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            margin: 0; background: var(--bg); color: var(--text);
-            min-height: 100vh; display: flex; flex-direction: column; align-items: center;
-        }
-
-        header {
-            width: 100%; padding: 15px 0; background: var(--primary);
-            color: white; text-align: center; position: sticky; top: 0; z-index: 1000;
-        }
-
+        body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        header { width: 100%; padding: 15px 0; background: var(--primary); color: white; text-align: center; position: sticky; top: 0; z-index: 1000; }
         header h1 { font-size: 16px; margin: 0; font-weight: 700; }
-
         .container { width: 95%; max-width: 1100px; padding: 15px 0; display: flex; flex-direction: column; gap: 15px; }
 
-        /* Summary Sections - Fit to Screen */
-        .summary-wrapper {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-        }
-
-        .summary-card {
-            background: white; border-radius: 12px; padding: 12px;
-            border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-
-        .summary-card h2 { 
-            margin-top: 0; font-size: 12px; color: var(--primary); 
-            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;
-            border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;
-        }
+        .summary-card { background: white; border-radius: 12px; padding: 12px; border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .summary-card h2 { margin-top: 0; font-size: 12px; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; }
 
         .scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-        
         table { width: 100%; border-collapse: collapse; font-size: 11px; }
-        th { background: #f8fafc; padding: 10px 8px; text-align: left; color: #64748b; font-weight: 700; }
+        th { background: #f8fafc; padding: 10px 8px; text-align: left; color: #64748b; font-weight: 700; border-bottom: 2px solid var(--border); }
         td { padding: 10px 8px; border-bottom: 1px solid #f1f5f9; white-space: nowrap; }
         
-        .col-num { text-align: center; width: 60px; }
-        .row-total { font-weight: 700; color: var(--primary); text-align: center; }
+        .col-num { text-align: center; width: 65px; font-weight: 600; }
+        .row-total { font-weight: 700; color: var(--primary); text-align: center; background: #f0f4ff; }
+        .grand-total { background: #4338ca !important; color: white !important; font-weight: 800; }
 
-        /* Search Area */
-        .search-area {
-            background: white; border-radius: 10px; padding: 10px 15px;
-            border: 1px solid var(--border); display: flex; align-items: center; gap: 10px;
-            position: sticky; top: 60px; z-index: 900; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-        }
+        .search-area { background: white; border-radius: 10px; padding: 10px 15px; border: 1px solid var(--border); display: flex; align-items: center; gap: 10px; position: sticky; top: 60px; z-index: 900; }
         .search-area input { border: none; outline: none; width: 100%; font-size: 14px; }
 
-        /* Employee Cards */
-        .card-list { display: flex; flex-direction: column; gap: 10px; padding-bottom: 40px; }
-        .emp-card {
-            background: white; border-radius: 12px; padding: 14px;
-            border: 1px solid var(--border); cursor: pointer; transition: 0.2s;
-        }
+        .emp-card { background: white; border-radius: 12px; padding: 14px; border: 1px solid var(--border); cursor: pointer; margin-bottom: 10px; }
         .emp-card.active { background: #eff6ff; border-color: #bfdbfe; }
-        
         .card-header { display: flex; align-items: center; gap: 12px; }
         .circle-id { width: 30px; height: 30px; background: #f1f5f9; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 10px; color: var(--primary); }
-        .card-titles { flex: 1; }
-        .card-titles h3 { margin: 0; font-size: 13px; font-weight: 700; color: #1e293b; }
-        .card-titles p { margin: 2px 0; font-size: 10px; color: #64748b; }
-
-        /* Detail Grid */
+        
         .detail-pane { max-height: 0; overflow: hidden; transition: 0.3s ease-out; }
         .active .detail-pane { max-height: 2500px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1; }
-        
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .info-item { background: rgba(255,255,255,0.5); padding: 4px 0; }
-        .info-item label { display: block; font-size: 8px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 2px; }
-        .info-item span { font-size: 10.5px; font-weight: 600; color: #334155; word-break: break-all; line-height: 1.2; }
+        .info-item label { display: block; font-size: 8px; font-weight: 700; color: #94a3b8; text-transform: uppercase; }
+        .info-item span { font-size: 10.5px; font-weight: 600; color: #334155; }
 
         #loader { position: fixed; inset: 0; background: white; z-index: 2000; display: flex; justify-content: center; align-items: center; }
     </style>
 </head>
 <body>
 
-    <div id="loader"><i class="fas fa-circle-notch fa-spin fa-2x" style="color: var(--primary);"></i></div>
+<div id="loader"><i class="fas fa-circle-notch fa-spin fa-2x" style="color: var(--primary);"></i></div>
 
-    <header><h1>Master Employee Portal</h1></header>
+<header><h1>Master Employee Portal</h1></header>
 
-    <div class="container">
-        
-        <div class="summary-wrapper">
-            <div class="summary-card">
-                <h2>Designation Abstract</h2>
-                <div class="scroll-x">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Designation</th>
-                                <th class="col-num">Sanc.</th>
-                                <th class="col-num">Work.</th>
-                                <th class="col-num">Vac.</th>
-                            </tr>
-                        </thead>
-                        <tbody id="designationSummary"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="summary-card">
-                <h2>Pension Abstract</h2>
-                <div class="scroll-x">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Pension Scheme</th>
-                                <th style="text-align: center;">Total Count</th>
-                            </tr>
-                        </thead>
-                        <tbody id="pensionSummary"></tbody>
-                    </table>
-                </div>
-            </div>
+<div class="container">
+    <div class="summary-card">
+        <h2>Designation Abstract</h2>
+        <div class="scroll-x">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Designation</th>
+                        <th class="col-num">Sanc.</th>
+                        <th class="col-num">Work.</th>
+                        <th class="col-num">Vac.</th>
+                    </tr>
+                </thead>
+                <tbody id="designationSummary"></tbody>
+                <tfoot id="designationFooter"></tfoot>
+            </table>
         </div>
-
-        <div class="search-area">
-            <i class="fas fa-search" style="color: #94a3b8; font-size: 12px;"></i>
-            <input type="text" id="searchInput" placeholder="Search name, place, pan, etc..." oninput="processSearch()">
-        </div>
-
-        <div id="cardList" class="card-list"></div>
-
     </div>
 
-    <script>
-        const CSV_URL = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
-        let masterData = [];
+    <div class="summary-card">
+        <h2>Pension Abstract</h2>
+        <div class="scroll-x">
+            <table>
+                <thead>
+                    <tr><th>Pension Scheme</th><th style="text-align: center;">Total Count</th></tr>
+                </thead>
+                <tbody id="pensionSummary"></tbody>
+            </table>
+        </div>
+    </div>
 
-        window.onload = () => {
-            Papa.parse(CSV_URL, {
-                download: true, header: true, skipEmptyLines: true,
-                complete: function(res) {
-                    masterData = res.data;
-                    generateSummaries();
-                    renderCards(masterData);
-                    document.getElementById('loader').style.display = 'none';
-                }
-            });
-        };
+    <div class="search-area">
+        <i class="fas fa-search" style="color: #94a3b8; font-size: 12px;"></i>
+        <input type="text" id="searchInput" placeholder="Search data..." oninput="processSearch()">
+    </div>
 
-        function getCol(row, key) {
-            return row[key] ? String(row[key]).trim() : '---';
-        }
+    <div id="cardList"></div>
+</div>
 
-        function generateSummaries() {
-            const desigMap = {};
-            const pensionMap = { "NDCPS": 0, "OPS": 0 };
+<script>
+    const CSV_URL = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
+    let masterData = [];
 
-            masterData.forEach(r => {
-                const d = getCol(r, 'designation');
-                if(!desigMap[d]) desigMap[d] = { s: 0, w: 0, v: 0 };
-                
-                // Designation logic based on specific columns
-                desigMap[d].s += parseInt(getCol(r, 'sanctioned_post')) || 0;
-                desigMap[d].w += parseInt(getCol(r, 'working_post')) || 0;
-                desigMap[d].v += parseInt(getCol(r, 'vacant_post')) || 0;
-
-                // Pension logic
-                const p = getCol(r, 'Pension_type').toUpperCase();
-                if(p.includes("NDCPS")) pensionMap["NDCPS"]++;
-                else if(p.includes("OPS")) pensionMap["OPS"]++;
-            });
-
-            // Render Designation Table
-            const dBody = document.getElementById('designationSummary');
-            dBody.innerHTML = "";
-            Object.keys(desigMap).sort().forEach(k => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td style="white-space: normal; font-weight:500;">${k}</td>
-                    <td class="col-num">${desigMap[k].s}</td>
-                    <td class="col-num">${desigMap[k].w}</td>
-                    <td class="row-total">${desigMap[k].v}</td>
-                `;
-                dBody.appendChild(tr);
-            });
-
-            // Render Pension Table
-            const pBody = document.getElementById('pensionSummary');
-            pBody.innerHTML = "";
-            for (let type in pensionMap) {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `<td>${type}</td><td class="row-total">${pensionMap[type]}</td>`;
-                pBody.appendChild(tr);
+    window.onload = () => {
+        Papa.parse(CSV_URL, {
+            download: true, header: true, skipEmptyLines: true,
+            complete: function(res) {
+                masterData = res.data;
+                generateSummaries();
+                renderCards(masterData);
+                document.getElementById('loader').style.display = 'none';
             }
+        });
+    };
+
+    function cleanNum(val) {
+        if (!val) return 0;
+        // Removes anything that isn't a digit (like spaces or special chars)
+        let n = parseInt(String(val).replace(/[^\d]/g, ''));
+        return isNaN(n) ? 0 : n;
+    }
+
+    function generateSummaries() {
+        const desigMap = {};
+        const pensionMap = { "NDCPS": 0, "OPS": 0 };
+        let grandS = 0, grandW = 0, grandV = 0;
+
+        masterData.forEach(r => {
+            const d = (r['designation'] || 'Unknown').trim();
+            if(!desigMap[d]) desigMap[d] = { s: 0, w: 0, v: 0 };
+            
+            const s = cleanNum(r['sanctioned_post']);
+            const w = cleanNum(r['working_post']);
+            const v = cleanNum(r['vacant_post']);
+
+            desigMap[d].s += s; desigMap[d].w += w; desigMap[d].v += v;
+            grandS += s; grandW += w; grandV += v;
+
+            const p = String(r['Pension_type'] || '').toUpperCase();
+            if(p.includes("NDCPS")) pensionMap["NDCPS"]++;
+            else if(p.includes("OPS")) pensionMap["OPS"]++;
+        });
+
+        const dBody = document.getElementById('designationSummary');
+        dBody.innerHTML = "";
+        Object.keys(desigMap).sort().forEach(k => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${k}</td><td class="col-num">${desigMap[k].s}</td><td class="col-num">${desigMap[k].w}</td><td class="row-total">${desigMap[k].v}</td>`;
+            dBody.appendChild(tr);
+        });
+
+        const dFoot = document.getElementById('designationFooter');
+        dFoot.innerHTML = `<tr class="grand-total"><td>GRAND TOTAL</td><td class="col-num">${grandS}</td><td class="col-num">${grandW}</td><td class="col-num">${grandV}</td></tr>`;
+
+        const pBody = document.getElementById('pensionSummary');
+        pBody.innerHTML = "";
+        for (let type in pensionMap) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${type}</td><td class="row-total">${pensionMap[type]}</td>`;
+            pBody.appendChild(tr);
         }
+    }
 
-        function renderCards(data) {
-            const list = document.getElementById('cardList');
-            list.innerHTML = "";
-            const frag = document.createDocumentFragment();
+    function renderCards(data) {
+        const list = document.getElementById('cardList');
+        list.innerHTML = "";
+        const fields = ['username','mobile','Date_of_birth','Retirement_date','PIN','E_mail','PAN_No.','Physically_Disablity','Marital_status','Qualification','Religion','Category','Caste_name','District','Home_town','Joining_date','Joining_designation','Appointment_type','Probationary_period_declaration','Current_designation','Pension_type','NDCPS_No.','Lien_office','male_or_female'];
 
-            data.forEach((r, i) => {
-                const card = document.createElement('div');
-                card.className = 'emp-card';
-                card.onclick = function() { this.classList.toggle('active'); };
+        data.forEach((r, i) => {
+            const card = document.createElement('div');
+            card.className = 'emp-card';
+            card.onclick = function() { this.classList.toggle('active'); };
+            
+            let details = fields.map(f => `<div class="info-item"><label>${f.replace(/_/g, ' ')}</label><span>${r[f] || '---'}</span></div>`).join('');
 
-                // Full field list from your sharing
-                const fields = [
-                    'username','mobile','Date_of_birth','Retirement_date','PIN','E_mail','PAN_No.',
-                    'Physically_Disablity','Marital_status','Qualification','Religion','Category',
-                    'Caste_name','District','Home_town','Joining_date','Joining_designation',
-                    'Appointment_type','Probationary_period_declaration','Probationary_period_declaration_date',
-                    'Curent_designation_Date_of_entry','Entry_quota_current_designation','Pension_type',
-                    'NDCPS_No.','Working_from_date','Lien_office','group','Counted_posts_within_division',
-                    'Counted_posts_other_division','male_or_female'
-                ];
-
-                let detailHtml = fields.map(f => `
-                    <div class="info-item">
-                        <label>${f.replace(/_/g, ' ')}</label>
-                        <span>${getCol(r, f)}</span>
+            card.innerHTML = `
+                <div class="card-header">
+                    <div class="circle-id">${i+1}</div>
+                    <div style="flex:1">
+                        <h3 style="margin:0; font-size:13px;">${r['name'] || '---'}</h3>
+                        <p style="margin:2px 0; font-size:10px; color:#64748b;">${r['designation']} | ${r['place']}</p>
                     </div>
-                `).join('');
+                    <i class="fas fa-chevron-down" style="color:#cbd5e1; font-size:10px;"></i>
+                </div>
+                <div class="detail-pane"><div class="info-grid">${details}</div></div>`;
+            list.appendChild(card);
+        });
+    }
 
-                card.innerHTML = `
-                    <div class="card-header">
-                        <div class="circle-id">${i+1}</div>
-                        <div class="card-titles">
-                            <h3>${getCol(r, 'name')}</h3>
-                            <p>${getCol(r, 'designation')} | ${getCol(r, 'place')}</p>
-                        </div>
-                        <i class="fas fa-chevron-down" style="color:#cbd5e1; font-size:10px;"></i>
-                    </div>
-                    <div class="detail-pane">
-                        <div class="info-grid">${detailHtml}</div>
-                    </div>
-                `;
-                frag.appendChild(card);
-            });
-            list.appendChild(frag);
-        }
-
-        function processSearch() {
-            const q = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = masterData.filter(r => 
-                Object.values(r).some(v => String(v).toLowerCase().includes(q))
-            );
-            renderCards(filtered);
-        }
-    </script>
+    function processSearch() {
+        const q = document.getElementById('searchInput').value.toLowerCase();
+        renderCards(masterData.filter(r => Object.values(r).some(v => String(v).toLowerCase().includes(q))));
+    }
+</script>
 </body>
 </html>
