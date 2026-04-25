@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>HR Master Analytics</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,6 +19,7 @@
 
         * { box-sizing: border-box; }
         
+        /* Fixed height body to prevent page-level refreshing */
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0;
@@ -28,6 +29,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden; 
+            overscroll-behavior: none; /* Prevents pull-to-refresh */
         }
 
         header {
@@ -38,6 +40,7 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            flex-shrink: 0;
         }
 
         header h1 { margin: 0; font-size: 16px; font-weight: 700; }
@@ -45,10 +48,11 @@
         .abstract-container {
             padding: 15px 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 15px;
             background: white;
             border-bottom: 1px solid #e2e8f0;
+            flex-shrink: 0;
         }
 
         .abstract-card {
@@ -97,9 +101,10 @@
         .btn-female { background: var(--secondary); }
         .btn-ph { background: var(--accent); }
 
+        /* Table Section Area */
         .table-section {
             flex: 1;
-            padding: 15px 20px;
+            padding: 15px;
             display: none; 
             flex-direction: column;
             overflow: hidden;
@@ -113,7 +118,6 @@
             flex-direction: column;
             height: 100%;
             overflow: hidden;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
         }
 
         .table-toolbar {
@@ -123,9 +127,16 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-shrink: 0;
         }
 
-        .scroll-area { overflow: auto; flex: 1; }
+        /* Fixed Internal Scrolling Area */
+        .scroll-area { 
+            overflow-y: auto; 
+            flex: 1; 
+            -webkit-overflow-scrolling: touch; /* Smooth mobile scroll */
+            overscroll-behavior: contain; /* Prevents scroll leakage to parent */
+        }
 
         table { width: 100%; border-collapse: collapse; font-size: 12px; }
         th { 
@@ -138,7 +149,7 @@
             font-weight: 700; 
             z-index: 10;
         }
-        td { padding: 10px 15px; border-bottom: 1px solid #f1f5f9; }
+        td { padding: 12px 15px; border-bottom: 1px solid #f1f5f9; }
         tr:hover { background: #f8fafc; }
 
         #loader { position: fixed; inset: 0; background: white; z-index: 999; display: flex; justify-content: center; align-items: center; }
@@ -152,7 +163,9 @@
 
     <header>
         <h1><i class="fa-solid fa-chart-pie"></i> Abstract Dashboard</h1>
-          <section class="abstract-container">
+    </header>
+
+    <section class="abstract-container">
         <div class="abstract-card">
             <div class="card-header"><span>Gender Abstract</span><i class="fa-solid fa-venus-mars"></i></div>
             <div class="stat-row">
@@ -176,9 +189,6 @@
         </div>
     </section>
 
-    </header>
-
-  
     <main class="table-section" id="tableSection">
         <div class="table-card">
             <div class="table-toolbar">
@@ -218,7 +228,6 @@
             });
         };
 
-        // Helper function to find column value even if keys are uppercase/lowercase
         function getColValue(row, possibleKeys) {
             const keys = Object.keys(row);
             for (let pKey of possibleKeys) {
@@ -233,7 +242,6 @@
             masterRecords.forEach(r => {
                 const g = String(getColValue(r, ['male_or_female'])).toLowerCase().trim();
                 const d = String(getColValue(r, ['Phisically_disability', 'Physically_Disablity'])).toUpperCase().trim();
-                
                 if(g === 'male') m++;
                 if(g === 'female') f++;
                 if(d === 'Y') ph++;
@@ -269,10 +277,9 @@
             const frag = document.createDocumentFragment();
             filtered.forEach((r, i) => {
                 const tr = document.createElement('tr');
-                // Maps your CSV columns to the 4 table columns
                 const name = getColValue(r, ['name', 'employee_name']);
                 const desig = getColValue(r, ['Current_designation', 'designation']);
-                const place = getColValue(r, ['Lien_office', 'working_place', 'working_from_date']);
+                const place = getColValue(r, ['Lien_office', 'working_place']);
                 
                 tr.innerHTML = `
                     <td style="font-weight:700; color:var(--primary);">${i + 1}</td>
@@ -283,6 +290,9 @@
                 frag.appendChild(tr);
             });
             tbody.appendChild(frag);
+            
+            // Ensures the scroll area starts at the top without bouncing the page
+            document.querySelector('.scroll-area').scrollTop = 0;
         }
     </script>
 </body>
