@@ -3,213 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Reports Pro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Master Reports Compact</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --success: #22c55e;
-            --bg: #f3f4f6;
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --text-main: #1f2937;
-            --text-muted: #6b7280;
+            --primary: #4f46e5;
+            --bg: #f9fafb;
+            --border: #e5e7eb;
+            --text-dark: #111827;
+            --text-light: #6b7280;
         }
 
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
-            background-color: var(--bg);
-            background-image: radial-gradient(circle at top right, #e0e7ff, transparent),
-                              radial-gradient(circle at bottom left, #f0fdf4, transparent);
-            color: var(--text-main);
+            background: var(--bg);
+            color: var(--text-dark);
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
         }
 
-        /* Header Section */
+        /* Slim Header */
         .header {
             width: 100%;
-            padding: 50px 20px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 20px;
+            background: var(--primary);
             color: white;
             text-align: center;
-            border-bottom-left-radius: 40px;
-            border-bottom-right-radius: 40px;
-            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.3);
-            margin-bottom: 30px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        .header h1 { margin: 0; font-size: 28px; letter-spacing: -0.5px; }
-        .header p { margin-top: 10px; opacity: 0.9; font-weight: 300; }
+        .header h1 { margin: 0; font-size: 20px; font-weight: 600; }
+        .header p { margin: 4px 0 0; font-size: 12px; opacity: 0.8; }
 
-        /* Dashboard Container */
         .container {
-            width: 90%;
-            max-width: 1000px;
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            padding-bottom: 50px;
+            width: 95%;
+            max-width: 900px;
+            padding: 20px 0;
         }
 
-        /* Action Cards */
+        /* Smaller Action Buttons */
         .actions-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
-        @media (max-width: 600px) {
-            .actions-grid { grid-template-columns: 1fr; }
-        }
-
-        .premium-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            padding: 25px;
-            border-radius: 24px;
+        .btn-card {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 12px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
         }
 
-        .premium-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            border-color: var(--primary);
-        }
+        .btn-card:active { transform: scale(0.98); }
+        .btn-card:hover { border-color: var(--primary); }
 
-        .icon-box {
-            width: 60px;
-            height: 60px;
-            border-radius: 18px;
+        .icon-sm {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 16px;
             color: white;
-            flex-shrink: 0;
         }
 
-        .blue-grad { background: linear-gradient(135deg, #818cf8, #4f46e5); }
-        .green-grad { background: linear-gradient(135deg, #4ade80, #16a34a); }
+        .bg-blue { background: #6366f1; }
+        .bg-green { background: #22c55e; }
 
-        .card-info h3 { margin: 0; font-size: 18px; color: var(--text-main); }
-        .card-info p { margin: 5px 0 0; font-size: 13px; color: var(--text-muted); }
+        .btn-info h3 { margin: 0; font-size: 14px; font-weight: 600; }
+        .btn-info p { margin: 2px 0 0; font-size: 11px; color: var(--text-light); }
 
-        /* Data Table Section */
+        /* Data Section with Table Lines */
         #data-section {
-            background: var(--white);
-            border-radius: 24px;
-            padding: 20px;
-            display: none; /* Hidden until button clicked */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            animation: slideIn 0.5s ease-out;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            display: none;
+            overflow: hidden;
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .table-controls {
+        .table-bar {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            gap: 10px;
+            background: #fcfcfd;
         }
 
         #search-input {
-            padding: 10px 15px;
-            border-radius: 12px;
-            border: 1px solid #ddd;
-            width: 100%;
-            max-width: 300px;
-            outline: none;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 13px;
+            width: 200px;
         }
 
-        .table-wrapper {
-            overflow-x: auto;
-            border-radius: 12px;
-        }
+        .table-wrapper { overflow-x: auto; }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 14px;
+            font-size: 13px;
+        }
+
+        /* Grid Lines Style */
+        th, td {
+            padding: 10px 12px;
+            border: 1px solid #edf2f7; /* Vertical and horizontal lines */
             text-align: left;
         }
 
         th {
             background: #f8fafc;
-            padding: 12px 15px;
-            color: var(--text-muted);
+            color: var(--text-light);
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 11px;
-            border-bottom: 2px solid #edf2f7;
+            font-size: 10px;
+            letter-spacing: 0.5px;
         }
 
-        td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #edf2f7;
-            color: var(--text-main);
-        }
-
+        tr:nth-child(even) { background: #fafafa; }
         tr:hover { background: #f1f5f9; }
 
         .loader {
             display: none;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--primary);
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary);
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
+            width: 24px;
+            height: 24px;
+            animation: spin 0.8s linear infinite;
             margin: 20px auto;
         }
 
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        @media (max-width: 500px) {
+            .actions-grid { grid-template-columns: 1fr; }
+            #search-input { width: 100%; }
+            .table-bar { flex-direction: column; gap: 10px; align-items: flex-start; }
+        }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>Master Data Intelligence</h1>
-        <p>Enterprise Resource Planning & Reporting</p>
+        <h1>Master Reports</h1>
+        <p>Employee Database Management</p>
     </div>
 
     <div class="container">
         <div class="actions-grid">
-            <div class="premium-card" onclick="loadAndDisplayData()">
-                <div class="icon-box blue-grad">
-                    <i class="fa-solid fa-chart-simple"></i>
-                </div>
-                <div class="card-info">
-                    <h3>View Master Data</h3>
-                    <p>Analyze live employee records</p>
+            <div class="btn-card" onclick="fetchData()">
+                <div class="icon-sm bg-blue"><i class="fa-solid fa-eye"></i></div>
+                <div class="btn-info">
+                    <h3>View All Data</h3>
+                    <p>Load master records</p>
                 </div>
             </div>
 
-            <div class="premium-card" onclick="downloadCSV()">
-                <div class="icon-box green-grad">
-                    <i class="fa-solid fa-file-arrow-down"></i>
-                </div>
-                <div class="card-info">
+            <div class="btn-card" onclick="downloadCSV()">
+                <div class="icon-sm bg-green"><i class="fa-solid fa-download"></i></div>
+                <div class="btn-info">
                     <h3>Download CSV</h3>
-                    <p>Export full database (Excel)</p>
+                    <p>Export full file</p>
                 </div>
             </div>
         </div>
@@ -217,97 +190,75 @@
         <div id="loader" class="loader"></div>
 
         <div id="data-section">
-            <div class="table-controls">
-                <h3 style="margin:0">Live Data Feed</h3>
-                <input type="text" id="search-input" placeholder="Search by name, ID or role..." onkeyup="filterTable()">
+            <div class="table-bar">
+                <span style="font-weight:600; font-size:14px;">Records Feed</span>
+                <input type="text" id="search-input" placeholder="Quick search..." onkeyup="filterData()">
             </div>
             <div class="table-wrapper">
-                <table id="employee-table">
-                    <thead><tr id="table-head"></tr></thead>
-                    <tbody id="table-body"></tbody>
+                <table id="master-table">
+                    <thead><tr id="thead-row"></tr></thead>
+                    <tbody id="tbody-rows"></tbody>
                 </table>
             </div>
         </div>
     </div>
 
     <script>
-        const csvUrl = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
+        const csvPath = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
 
-        // Function 1: View Data (Parses CSV and builds table)
-        function loadAndDisplayData() {
-            const loader = document.getElementById('loader');
-            const dataSection = document.getElementById('data-section');
-            
-            loader.style.display = 'block';
-            dataSection.style.display = 'none';
+        function fetchData() {
+            document.getElementById('loader').style.display = 'block';
+            document.getElementById('data-section').style.display = 'none';
 
-            Papa.parse(csvUrl, {
+            Papa.parse(csvPath, {
                 download: true,
                 header: true,
                 skipEmptyLines: true,
                 complete: function(results) {
-                    loader.style.display = 'none';
-                    dataSection.style.display = 'block';
-                    renderTable(results);
-                },
-                error: function(err) {
-                    alert("Error loading data. Please check your internet connection.");
-                    loader.style.display = 'none';
+                    document.getElementById('loader').style.display = 'none';
+                    document.getElementById('data-section').style.display = 'block';
+                    populateTable(results);
                 }
             });
         }
 
-        function renderTable(results) {
-            const head = document.getElementById('table-head');
-            const body = document.getElementById('table-body');
-            
-            // Clear previous data
-            head.innerHTML = "";
-            body.innerHTML = "";
+        function populateTable(results) {
+            const thead = document.getElementById('thead-row');
+            const tbody = document.getElementById('tbody-rows');
+            thead.innerHTML = "";
+            tbody.innerHTML = "";
 
-            // Create Headers
-            const headers = Object.keys(results.data[0]);
-            headers.forEach(h => {
-                const th = document.createElement('th');
-                th.textContent = h;
-                head.appendChild(th);
-            });
-
-            // Create Rows
-            results.data.forEach(row => {
-                const tr = document.createElement('tr');
-                headers.forEach(h => {
-                    const td = document.createElement('td');
-                    td.textContent = row[h];
-                    tr.appendChild(td);
+            if(results.data.length > 0) {
+                const cols = Object.keys(results.data[0]);
+                cols.forEach(c => {
+                    let th = document.createElement('th');
+                    th.textContent = c;
+                    thead.appendChild(th);
                 });
-                body.appendChild(tr);
-            });
-        }
 
-        // Search Filter Logic
-        function filterTable() {
-            const input = document.getElementById("search-input");
-            const filter = input.value.toUpperCase();
-            const table = document.getElementById("employee-table");
-            const tr = table.getElementsByTagName("tr");
-
-            for (let i = 1; i < tr.length; i++) {
-                let text = tr[i].textContent || tr[i].innerText;
-                tr[i].style.display = text.toUpperCase().indexOf(filter) > -1 ? "" : "none";
+                results.data.forEach(row => {
+                    let tr = document.createElement('tr');
+                    cols.forEach(c => {
+                        let td = document.createElement('td');
+                        td.textContent = row[c];
+                        tr.appendChild(td);
+                    });
+                    tbody.appendChild(tr);
+                });
             }
         }
 
-        // Function 2: Download CSV
+        function filterData() {
+            let input = document.getElementById("search-input").value.toUpperCase();
+            let rows = document.getElementById("tbody-rows").getElementsByTagName("tr");
+            for (let i = 0; i < rows.length; i++) {
+                rows[i].style.display = rows[i].innerText.toUpperCase().includes(input) ? "" : "none";
+            }
+        }
+
         function downloadCSV() {
-            const link = document.createElement('a');
-            link.href = csvUrl;
-            link.download = 'employee_master_report.csv';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            window.location.href = csvPath;
         }
     </script>
-
 </body>
 </html>
