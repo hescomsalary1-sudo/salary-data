@@ -26,8 +26,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 100vh;
-            overflow: hidden; /* Prevent body scroll */
+            /* Changed to allow natural scrolling */
+            min-height: 100vh;
+            overflow-y: auto; 
         }
 
         /* Compact Header */
@@ -39,6 +40,8 @@
             text-align: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             z-index: 10;
+            position: sticky; /* Keeps header visible while scrolling */
+            top: 0;
         }
 
         .header h1 { margin: 0; font-size: 18px; letter-spacing: 0.5px; }
@@ -49,9 +52,9 @@
             max-width: 1100px;
             display: flex;
             flex-direction: column;
-            height: calc(100vh - 60px);
             padding: 15px 0;
             gap: 15px;
+            /* Removed height: calc(100vh - 60px) to allow growth */
         }
 
         /* Smaller Responsive Buttons */
@@ -119,16 +122,15 @@
             background: white;
             border-radius: 12px;
             border: 1px solid var(--border);
-            flex-grow: 1;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            margin-bottom: 30px; /* Space at bottom of page */
         }
 
         .table-scroll {
-            overflow: auto;
-            flex-grow: 1;
+            overflow-x: auto; /* Horizontal scroll only */
+            width: 100%;
         }
 
         table {
@@ -138,10 +140,10 @@
             white-space: nowrap;
         }
 
-        /* Sticky Header and Grid Lines */
+        /* Sticky Header */
         thead th {
             position: sticky;
-            top: 0;
+            top: 48px; /* Adjusted for the sticky header height */
             background: #f8fafc;
             color: var(--text-muted);
             font-weight: 600;
@@ -242,7 +244,6 @@
         let masterData = [];
         let searchTimeout;
 
-        // 1. Optimized Data Fetching
         function loadData() {
             const overlay = document.getElementById('overlay');
             overlay.style.display = 'flex';
@@ -263,7 +264,6 @@
             });
         }
 
-        // 2. High Performance Rendering
         function renderTable(data) {
             const headerRow = document.getElementById('tableHeader');
             const body = document.getElementById('tableBody');
@@ -276,7 +276,6 @@
                 return;
             }
 
-            // Render Headers
             const keys = Object.keys(data[0]);
             keys.forEach(key => {
                 const th = document.createElement('th');
@@ -284,7 +283,6 @@
                 headerRow.appendChild(th);
             });
 
-            // Fragment for performance
             const fragment = document.createDocumentFragment();
             data.forEach(item => {
                 const tr = document.createElement('tr');
@@ -298,25 +296,22 @@
             body.appendChild(fragment);
         }
 
-        // 3. Instant Search with Debounce (Prevents Lag)
         function debouncedSearch() {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {
                 executeSearch();
-            }, 150); // 150ms delay makes it feel instant but saves CPU
+            }, 150);
         }
 
         function executeSearch() {
             const query = document.getElementById('searchInput').value.toLowerCase();
             
-            // Fast filter logic
             const filtered = masterData.filter(row => {
                 return Object.values(row).some(val => 
                     String(val).toLowerCase().includes(query)
                 );
             });
 
-            // Use RequestAnimationFrame for smooth UI update
             window.requestAnimationFrame(() => {
                 renderTable(filtered);
             });
