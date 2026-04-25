@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Master Employee Portal Ultra</title>
+    <title>HR Master Analytics Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
@@ -11,357 +11,229 @@
     <style>
         :root {
             --primary: #4338ca;
-            --primary-light: #eef2ff;
-            --accent: #10b981;
             --bg: #f8fafc;
             --border: #e2e8f0;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --card-active: #f0f7ff;
+            --text: #1e293b;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            margin: 0;
-            background: var(--bg);
-            color: var(--text-main);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            /* CRITICAL: Natural scroll prevents refresh issues */
-            min-height: 100vh;
-            overflow-x: hidden;
+            margin: 0; background: var(--bg); color: var(--text);
+            min-height: 100vh; display: flex; flex-direction: column; align-items: center;
         }
 
-        /* Sticky App Header */
-        .header {
-            width: 100%;
-            padding: 18px 0;
-            background: var(--primary);
-            color: white;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+        header {
+            width: 100%; padding: 18px 0; background: var(--primary);
+            color: white; text-align: center; position: sticky; top: 0; z-index: 1000;
         }
 
-        .header h1 { margin: 0; font-size: 18px; letter-spacing: 0.5px; font-weight: 700; }
+        .container { width: 95%; max-width: 1100px; padding: 20px 0; display: flex; flex-direction: column; gap: 20px; }
 
-        /* Main Content Wrapper */
-        .main-content {
-            width: 95%;
-            max-width: 1100px;
-            padding: 20px 0 50px 0;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+        /* Summary Tables Styling */
+        .summary-card {
+            background: white; border-radius: 16px; padding: 20px;
+            border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
         }
 
-        /* Top Action Section (Summary) */
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px;
+        .summary-card h2 { margin-top: 0; font-size: 14px; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 15px; }
+
+        .scroll-x { overflow-x: auto; border-radius: 8px; border: 1px solid #f1f5f9; }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; white-space: nowrap; }
+        th { background: #f8fafc; padding: 12px; text-align: left; border-bottom: 2px solid var(--border); font-weight: 700; color: #64748b; }
+        td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; }
+        .row-total { font-weight: 700; color: var(--primary); }
+
+        /* Search Box */
+        .search-area {
+            background: white; border-radius: 12px; padding: 12px 18px;
+            border: 1px solid var(--border); display: flex; align-items: center; gap: 12px;
+            position: sticky; top: 75px; z-index: 900;
         }
+        .search-area input { border: none; outline: none; width: 100%; font-size: 15px; }
 
-        .abstract-card {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid var(--border);
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-        }
-
-        .stat-label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 12px; }
-        
-        .stat-values { display: flex; gap: 30px; margin-bottom: 15px; }
-        .stat-item b { font-size: 26px; color: var(--text-main); display: block; }
-        .stat-item span { font-size: 10px; font-weight: 600; color: var(--text-muted); }
-
-        .btn-group { display: flex; gap: 8px; }
-        .action-btn {
-            flex: 1; border: none; padding: 12px; border-radius: 12px;
-            font-size: 11px; font-weight: 700; color: white; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            transition: transform 0.1s;
-        }
-        .btn-fetch { background: var(--primary); width: 100%; margin-bottom: 15px; }
-        .btn-male { background: #4f46e5; }
-        .btn-female { background: #0ea5e9; }
-        .btn-ph { background: var(--accent); }
-        .action-btn:active { transform: scale(0.97); }
-
-        /* Search Section */
-        .search-box {
-            background: white;
-            border-radius: 15px;
-            padding: 12px 18px;
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            position: sticky;
-            top: 75px;
-            z-index: 900;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-
-        .search-box input {
-            border: none;
-            outline: none;
-            width: 100%;
-            font-size: 15px;
-            font-family: inherit;
-        }
-
-        /* Results Display */
-        .results-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .list-header {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--primary);
-            padding-left: 5px;
-            border-left: 4px solid var(--primary);
-        }
-
-        /* Employee Card */
+        /* Employee Cards */
         .emp-card {
-            background: white;
-            border-radius: 18px;
-            padding: 16px;
-            border: 1px solid var(--border);
-            transition: all 0.2s ease;
-            cursor: pointer;
+            background: white; border-radius: 16px; padding: 16px;
+            border: 1px solid var(--border); cursor: pointer; transition: 0.2s;
         }
+        .emp-card.active { background: #f0f7ff; border-color: #bfdbfe; }
+        
+        .card-header { display: flex; align-items: center; gap: 15px; }
+        .circle-id { width: 35px; height: 35px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11px; }
+        .card-titles { flex: 1; }
+        .card-titles h3 { margin: 0; font-size: 14px; font-weight: 700; }
+        .card-titles p { margin: 2px 0; font-size: 11px; color: #64748b; }
 
-        .emp-card.active {
-            background: var(--card-active);
-            border-color: #bfdbfe;
-        }
+        /* Detailed Grid (Visible on Click) */
+        .detail-pane { max-height: 0; overflow: hidden; transition: 0.3s ease-out; }
+        .active .detail-pane { max-height: 2000px; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #cbd5e1; }
+        
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+        .info-item label { display: block; font-size: 9px; font-weight: 700; color: #94a3b8; text-transform: uppercase; }
+        .info-item span { font-size: 11px; font-weight: 600; color: #334155; word-break: break-word; }
 
-        .card-top { display: flex; align-items: center; gap: 15px; }
-        .badge { width: 35px; height: 35px; background: #f1f5f9; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; }
-        .active .badge { background: var(--primary); color: white; }
-
-        .core-info { flex: 1; }
-        .core-info h3 { margin: 0; font-size: 15px; font-weight: 700; }
-        .core-info p { margin: 2px 0; font-size: 12px; color: var(--text-muted); }
-
-        .chevron { color: #cbd5e1; transition: transform 0.3s; }
-        .active .chevron { transform: rotate(180deg); color: var(--primary); }
-
-        /* Hidden Detail Section */
-        .detail-pane {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-        .active .detail-pane {
-            max-height: 500px;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px dashed #cbd5e1;
-        }
-
-        .grid-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .detail-cell label { display: block; font-size: 9px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 3px; }
-        .detail-cell span { font-size: 12px; font-weight: 600; color: #334155; display: block; }
-
-        /* Loader */
-        #loader { position: fixed; inset: 0; background: white; z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 15px; }
-        .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        #loader { position: fixed; inset: 0; background: white; z-index: 2000; display: flex; justify-content: center; align-items: center; }
     </style>
 </head>
 <body>
 
-    <div id="loader">
-        <div class="spinner"></div>
-        <span style="font-weight:600; color:var(--text-muted)">Loading Records...</span>
+    <div id="loader"><i class="fas fa-circle-notch fa-spin fa-2x" style="color: var(--primary);"></i></div>
+
+    <header><h1>HR Master Portal</h1></header>
+
+    <div class="container">
+        
+        <div class="summary-card">
+            <h2>Designation Summary</h2>
+            <div class="scroll-x">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Designation</th>
+                            <th>Sanctioned</th>
+                            <th>Working</th>
+                            <th>Vacant</th>
+                        </tr>
+                    </thead>
+                    <tbody id="designationSummary"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <h2>Pension Abstract</h2>
+            <div class="scroll-x">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Pension Type</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pensionSummary"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="search-area">
+            <i class="fas fa-search" style="color: #94a3b8"></i>
+            <input type="text" id="searchInput" placeholder="Search any employee detail..." oninput="processSearch()">
+        </div>
+
+        <div id="cardList" style="display:flex; flex-direction:column; gap:12px; padding-bottom:50px;"></div>
+
     </div>
 
-    <header class="header">
-        <h1>Master Employee Portal</h1>
-    </header>
-
-    <main class="main-content">
-        
-        <button class="action-btn btn-fetch" onclick="loadData()">
-            <i class="fas fa-sync"></i> Fetch All Data
-        </button>
-
-        <section class="summary-grid">
-            <div class="abstract-card">
-                <span class="stat-label">Staff Distribution</span>
-                <div class="stat-values">
-                    <div class="stat-item"><b id="m-count">0</b><span>MALE</span></div>
-                    <div class="stat-item"><b id="f-count">0</b><span>FEMALE</span></div>
-                </div>
-                <div class="btn-group">
-                    <button class="action-btn btn-male" onclick="filterBy('male')">MALE LIST</button>
-                    <button class="action-btn btn-female" onclick="filterBy('female')">FEMALE LIST</button>
-                </div>
-            </div>
-
-            <div class="abstract-card">
-                <span class="stat-label">Health Abstract</span>
-                <div class="stat-values">
-                    <div class="stat-item"><b id="ph-count">0</b><span>PH (Y) ONLY</span></div>
-                </div>
-                <div class="btn-group">
-                    <button class="action-btn btn-ph" onclick="filterBy('ph')">VIEW PH LIST</button>
-                </div>
-            </div>
-        </section>
-
-        <div class="search-box">
-            <i class="fas fa-search" style="color: var(--text-muted)"></i>
-            <input type="text" id="searchInput" placeholder="Search by name, KGID, or office..." oninput="instantSearch()">
-        </div>
-
-        <div class="results-container">
-            <div class="list-header" id="statusHeader">Ready to search</div>
-            <div id="listBody">
-                </div>
-        </div>
-
-    </main>
-
     <script>
-        const CSV_PATH = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
-        let rawData = [];
+        const CSV_URL = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
+        let masterData = [];
 
         window.onload = () => {
-            loadData();
-        };
-
-        function loadData() {
-            document.getElementById('loader').style.display = 'flex';
-            Papa.parse(CSV_PATH, {
-                download: true,
-                header: true,
-                skipEmptyLines: true,
+            Papa.parse(CSV_URL, {
+                download: true, header: true, skipEmptyLines: true,
                 complete: function(res) {
-                    rawData = res.data;
-                    calculateStats();
-                    renderCards(rawData);
+                    masterData = res.data;
+                    generateSummaries();
+                    renderCards(masterData);
                     document.getElementById('loader').style.display = 'none';
                 }
             });
+        };
+
+        function getCol(row, key) {
+            return row[key] ? row[key].trim() : '---';
         }
 
-        function findCol(row, aliases) {
-            const keys = Object.keys(row);
-            const found = keys.find(k => aliases.includes(k.trim().toLowerCase()));
-            return found ? row[found] : '---';
-        }
+        function generateSummaries() {
+            // 1. Designation Summary
+            const desigMap = {};
+            const pensionMap = { "NDCPS": 0, "OPS": 0 };
 
-        function calculateStats() {
-            let m = 0, f = 0, ph = 0;
-            rawData.forEach(r => {
-                const g = String(findCol(r, ['male_or_female'])).toLowerCase().trim();
-                const d = String(findCol(r, ['phisically_disability', 'physically_disablity'])).toUpperCase().trim();
-                if(g === 'male') m++;
-                if(g === 'female') f++;
-                if(d === 'Y') ph++;
+            masterData.forEach(r => {
+                const d = getCol(r, 'designation');
+                if(!desigMap[d]) desigMap[d] = { s: 0, w: 0, v: 0 };
+                
+                // Add numbers (handling potential empty strings as 0)
+                desigMap[d].s += parseInt(getCol(r, 'sanctioned_post')) || 0;
+                desigMap[d].w += parseInt(getCol(r, 'working_post')) || 0;
+                desigMap[d].v += parseInt(getCol(r, 'vacant_post')) || 0;
+
+                // 2. Pension Summary
+                const p = getCol(r, 'Pension_type').toUpperCase();
+                if(p.includes("NDCPS")) pensionMap["NDCPS"]++;
+                else if(p.includes("OPS")) pensionMap["OPS"]++;
             });
-            document.getElementById('m-count').innerText = m;
-            document.getElementById('f-count').innerText = f;
-            document.getElementById('ph-count').innerText = ph;
+
+            // Render Designation Table
+            const dBody = document.getElementById('designationSummary');
+            Object.keys(desigMap).forEach(k => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${k}</td><td>${desigMap[k].s}</td><td>${desigMap[k].w}</td><td class="row-total">${desigMap[k].v}</td>`;
+                dBody.appendChild(tr);
+            });
+
+            // Render Pension Table
+            const pBody = document.getElementById('pensionSummary');
+            for (let type in pensionMap) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${type}</td><td class="row-total">${pensionMap[type]}</td>`;
+                pBody.appendChild(tr);
+            }
         }
 
         function renderCards(data) {
-            const container = document.getElementById('listBody');
-            container.innerHTML = "";
+            const list = document.getElementById('cardList');
+            list.innerHTML = "";
+            const frag = document.createDocumentFragment();
 
-            if(data.length === 0) {
-                container.innerHTML = "<p style='text-align:center; padding:40px; color:#94a3b8;'>No matching records found.</p>";
-                return;
-            }
-
-            const fragment = document.createDocumentFragment();
             data.forEach((r, i) => {
                 const card = document.createElement('div');
                 card.className = 'emp-card';
                 card.onclick = function() { this.classList.toggle('active'); };
 
-                // Map data from CSV
-                const name = findCol(r, ['name', 'employee_name']);
-                const desig = findCol(r, ['current_designation', 'designation']);
-                const office = findCol(r, ['lien_office', 'working_place']);
-                const mobile = findCol(r, ['mobile', 'mobile_no', 'phone']);
-                const kgid = findCol(r, ['kgid_no', 'kgid']);
-                const dob = findCol(r, ['date_of_birth', 'dob']);
-                const retirement = findCol(r, ['retirement_date']);
-                const pan = findCol(r, ['pan_no.', 'pan']);
+                // Define every field you want to show in the expanded view
+                const fields = [
+                    'username','mobile','Date_of_birth','Retirement_date','PIN','E_mail','PAN_No.',
+                    'Physically_Disablity','Marital_status','Qualification','Religion','Category','Caste_name',
+                    'District','Home_town','Joining_date','Joining_designation','Appointment_type',
+                    'Probationary_period_declaration','Probationary_period_declaration_date','Current_designation',
+                    'Curent_designation_Date_of_entry','Entry_quota_current_designation','Pension_type','NDCPS_No.',
+                    'Working_from_date','Lien_office','group','Counted_posts_within_division','Counted_posts_other_division',
+                    'male_or_female'
+                ];
+
+                let detailHtml = fields.map(f => `
+                    <div class="info-item">
+                        <label>${f.replace(/_/g, ' ')}</label>
+                        <span>${getCol(r, f)}</span>
+                    </div>
+                `).join('');
 
                 card.innerHTML = `
-                    <div class="card-top">
-                        <div class="badge">${i + 1}</div>
-                        <div class="core-info">
-                            <h3>${name}</h3>
-                            <p>${desig}</p>
-                            <p style="font-size:10px;"><i class="fas fa-map-marker-alt"></i> ${office}</p>
+                    <div class="card-header">
+                        <div class="circle-id">${i+1}</div>
+                        <div class="card-titles">
+                            <h3>${getCol(r, 'name')}</h3>
+                            <p>${getCol(r, 'designation')} | ${getCol(r, 'place')}</p>
                         </div>
-                        <i class="fas fa-chevron-down chevron"></i>
+                        <i class="fas fa-chevron-down" style="color:#cbd5e1; font-size:12px;"></i>
                     </div>
                     <div class="detail-pane">
-                        <div class="grid-details">
-                            <div class="detail-cell"><label>Mobile</label><span>${mobile}</span></div>
-                            <div class="detail-cell"><label>KGID NO</label><span>${kgid}</span></div>
-                            <div class="detail-cell"><label>Date of Birth</label><span>${dob}</span></div>
-                            <div class="detail-cell"><label>Retirement</label><span>${retirement}</span></div>
-                            <div class="detail-cell"><label>PAN Number</label><span>${pan}</span></div>
-                            <div class="detail-cell"><label>Status</label><span style="color:var(--accent)">Active Record</span></div>
-                        </div>
+                        <div class="info-grid">${detailHtml}</div>
                     </div>
                 `;
-                fragment.appendChild(card);
+                frag.appendChild(card);
             });
-            container.appendChild(fragment);
+            list.appendChild(frag);
         }
 
-        function instantSearch() {
-            const query = document.getElementById('searchInput').value.toLowerCase().trim();
-            document.getElementById('statusHeader').innerText = query ? `Search results for: "${query}"` : "All Records";
-            
-            const filtered = rawData.filter(row => {
-                return Object.values(row).some(v => String(v).toLowerCase().includes(query));
-            });
+        function processSearch() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = masterData.filter(r => 
+                Object.values(r).some(v => String(v).toLowerCase().includes(q))
+            );
             renderCards(filtered);
-        }
-
-        function filterBy(type) {
-            document.getElementById('searchInput').value = ""; // Clear search
-            let filtered = [];
-            
-            if(type === 'male') {
-                document.getElementById('statusHeader').innerText = "Category: Male Staff";
-                filtered = rawData.filter(r => String(findCol(r, ['male_or_female'])).toLowerCase().trim() === 'male');
-            } else if(type === 'female') {
-                document.getElementById('statusHeader').innerText = "Category: Female Staff";
-                filtered = rawData.filter(r => String(findCol(r, ['male_or_female'])).toLowerCase().trim() === 'female');
-            } else {
-                document.getElementById('statusHeader').innerText = "Category: Physically Challenged (Y)";
-                filtered = rawData.filter(r => String(findCol(r, ['phisically_disability', 'physically_disablity'])).toUpperCase().trim() === 'Y');
-            }
-            renderCards(filtered);
-            
-            // Scroll to the list area
-            document.getElementById('statusHeader').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     </script>
 </body>
