@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Media Portal</title>
+    <title>Premium Mobile Grid Gallery</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #2563eb;
-            --bg-gradient: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            --bg-gradient: linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%);
             --card-bg: #ffffff;
-            --border: #e2e8f0;
         }
 
         body {
@@ -18,122 +17,123 @@
             color: #1e293b;
             font-family: 'Inter', sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 10px;
             min-height: 100vh;
         }
 
         header {
             text-align: center;
-            padding: 40px 0;
+            padding: 20px 0;
         }
 
-        /* --- 2-Line (2-Column) Grid View --- */
+        /* --- 2-Column Grid for ALL screens (Mobile + Desktop) --- */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Forces exactly 2 columns */
-            gap: 25px;
-            max-width: 1000px;
+            grid-template-columns: repeat(2, 1fr); /* 2 columns always */
+            gap: 12px; /* Smaller gap for mobile */
+            max-width: 1200px;
             margin: 0 auto;
         }
 
         .photo-card {
             background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 20px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        .photo-card:hover {
-            transform: translateY(-5px);
-        }
-
+        /* --- Skeleton Loader / Image Spinner Container --- */
         .image-container {
             width: 100%;
-            height: 280px;
-            background: #f1f5f9;
+            aspect-ratio: 1 / 1; /* Makes cards perfectly square */
+            position: relative;
+            background: #e5e7eb; /* The background seen while loading */
+            overflow: hidden;
+        }
+
+        /* The Animated Pulse Spinner */
+        .image-container::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: loading-pulse 1.5s infinite;
+        }
+
+        @keyframes loading-pulse {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         .image-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Prevents image cutting/stretching */
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0; /* Hidden until loaded */
+            transition: opacity 0.5s ease-in-out;
+            z-index: 2;
         }
 
-        /* --- Info & Description --- */
         .info-container {
-            padding: 20px;
-            flex-grow: 1;
+            padding: 10px;
+            background: white;
         }
 
         .info-container h3 {
-            margin: 0 0 10px 0;
-            font-size: 1.1rem;
+            margin: 0;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
             color: #0f172a;
         }
 
-        .info-container p {
-            font-size: 0.9rem;
-            color: #64748b;
-            margin-bottom: 20px;
-        }
-
-        /* --- Animated Download Button --- */
         .download-btn {
             width: 100%;
             background: var(--primary);
             color: white;
             border: none;
-            padding: 12px;
-            border-radius: 10px;
+            padding: 8px;
+            margin-top: 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
             font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            transition: background 0.2s;
-            text-decoration: none;
+            gap: 5px;
         }
 
-        .download-btn:disabled {
-            background: #94a3b8;
-            cursor: not-allowed;
-        }
-
-        /* --- Button Spinner --- */
+        /* Inner Button Spinner */
         .btn-spinner {
-            width: 18px;
-            height: 18px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-top: 2px solid white;
+            width: 12px;
+            height: 12px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: #fff;
             border-radius: 50%;
-            display: none; /* Hidden by default */
+            display: none;
             animation: spin 0.8s linear infinite;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        @media (max-width: 768px) {
-            .gallery-grid { grid-template-columns: 1fr; } /* Stacks on mobile */
-        }
-
-        #page-loader { text-align: center; padding: 50px; color: var(--primary); }
+        #page-loader { text-align: center; padding: 40px; color: var(--primary); font-weight: 600; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Resource Library</h1>
-        <p>Managed Cloud Assets</p>
+        <h1 style="font-size: 1.2rem;">My Gallery</h1>
     </header>
 
-    <div id="page-loader">Connecting to Drive...</div>
+    <div id="page-loader">Syncing Drive...</div>
     <div class="gallery-grid" id="gallery"></div>
 
     <script>
@@ -150,50 +150,51 @@
                     const card = document.createElement('div');
                     card.className = 'photo-card';
                     
-                    const imgUrl = `https://lh3.googleusercontent.com/d/${photo.id}`;
+                    const imgUrl = `https://drive.google.com/uc?export=view&id=${photo.id}`;
                     const downloadUrl = `https://drive.google.com/uc?export=download&id=${photo.id}`;
 
                     card.innerHTML = `
                         <div class="image-container">
-                            <img src="${imgUrl}" alt="${photo.name}" loading="lazy">
+                            <img src="${imgUrl}" onload="handleImageLoad(this)">
                         </div>
                         <div class="info-container">
                             <h3>${photo.name}</h3>
-                            <p>Premium high-resolution asset.</p>
                             <button class="download-btn" onclick="handleDownload(this, '${downloadUrl}')">
                                 <span class="btn-spinner"></span>
-                                <span class="btn-text">Download Image</span>
+                                <span class="btn-text">Download</span>
                             </button>
                         </div>
                     `;
                     gallery.appendChild(card);
                 });
             } catch (error) {
-                document.getElementById('page-loader').innerText = "Error loading files.";
+                document.getElementById('page-loader').innerText = "Failed to load.";
             }
         }
 
-        // --- Handle Button Spinner & Download ---
+        // --- Removes the pulse spinner when image is ready ---
+        function handleImageLoad(img) {
+            img.style.opacity = '1';
+            img.parentElement.classList.add('loaded');
+            // Hide the pulse animation
+            img.parentElement.style.setProperty('--after-display', 'none');
+        }
+
         function handleDownload(btn, url) {
             const spinner = btn.querySelector('.btn-spinner');
             const text = btn.querySelector('.btn-text');
-
-            // Show Spinner
             btn.disabled = true;
-            spinner.style.display = 'block';
-            text.innerText = "Processing...";
+            spinner.style.display = 'inline-block';
+            text.innerText = "Wait...";
 
-            // Simulate server lag for 2 seconds then trigger download
             setTimeout(() => {
                 window.location.href = url;
-
-                // Reset button after download starts
                 setTimeout(() => {
                     btn.disabled = false;
                     spinner.style.display = 'none';
-                    text.innerText = "Download Image";
+                    text.innerText = "Download";
                 }, 1000);
-            }, 1500);
+            }, 1200);
         }
 
         loadGallery();
