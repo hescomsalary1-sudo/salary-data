@@ -3,149 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Asset Manager</title>
+    <title>Premium Media Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #2563eb;
-            --text-dark: #1e293b;
-            --text-light: #64748b;
-            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --bg-gradient: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
         }
 
         body {
-            /* White Gradient Background */
-            background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
-            color: var(--text-dark);
+            background: var(--bg-gradient);
+            color: #1e293b;
             font-family: 'Inter', sans-serif;
             margin: 0;
+            padding: 20px;
             min-height: 100vh;
-            padding-bottom: 50px;
         }
 
         header {
-            padding: 50px 20px;
             text-align: center;
+            padding: 40px 0;
         }
 
-        header h1 {
-            font-size: 2.2rem;
-            margin: 0;
-            color: #0f172a;
-        }
-
-        /* --- Side-by-Side Grid Layout --- */
+        /* --- 2-Line (2-Column) Grid View --- */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 30px;
-            padding: 0 40px;
-            max-width: 1400px;
+            grid-template-columns: repeat(2, 1fr); /* Forces exactly 2 columns */
+            gap: 25px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
         .photo-card {
-            background: white;
-            border-radius: 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: var(--card-shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
             display: flex;
-            flex-direction: column; /* Stacked internally, but cards are side-by-side in grid */
-            border: 1px solid #e2e8f0;
+            flex-direction: column;
+            transition: transform 0.3s ease;
         }
 
         .photo-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
         .image-container {
             width: 100%;
-            height: 220px;
-            overflow: hidden;
-            background: #f8fafc;
+            height: 280px;
+            background: #f1f5f9;
         }
 
         .image-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
+            object-fit: cover; /* Prevents image cutting/stretching */
         }
 
-        .photo-card:hover img {
-            transform: scale(1.08);
-        }
-
-        /* --- Description Container --- */
-        .info-box {
+        /* --- Info & Description --- */
+        .info-container {
             padding: 20px;
-            background: #ffffff;
             flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
         }
 
-        .info-box h3 {
-            margin: 0 0 8px 0;
+        .info-container h3 {
+            margin: 0 0 10px 0;
             font-size: 1.1rem;
-            color: var(--text-dark);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            color: #0f172a;
         }
 
-        .info-box p {
+        .info-container p {
             font-size: 0.9rem;
-            color: var(--text-light);
-            margin: 0 0 20px 0;
-            line-height: 1.5;
+            color: #64748b;
+            margin-bottom: 20px;
         }
 
-        .action-area {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            text-decoration: none;
+        /* --- Animated Download Button --- */
+        .download-btn {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
             font-weight: 600;
-            font-size: 0.85rem;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             transition: background 0.2s;
+            text-decoration: none;
         }
 
-        .btn-view { background: var(--primary); color: white; border: none; }
-        .btn-view:hover { background: #1d4ed8; }
-
-        .btn-save { background: #f1f5f9; color: var(--text-dark); border: 1px solid #e2e8f0; }
-        .btn-save:hover { background: #e2e8f0; }
-
-        /* Mobile View */
-        @media (max-width: 600px) {
-            .gallery-grid {
-                grid-template-columns: 1fr;
-                padding: 0 20px;
-            }
+        .download-btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
         }
 
-        #loader { text-align: center; padding: 100px; color: var(--primary); }
+        /* --- Button Spinner --- */
+        .btn-spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            display: none; /* Hidden by default */
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid { grid-template-columns: 1fr; } /* Stacks on mobile */
+        }
+
+        #page-loader { text-align: center; padding: 50px; color: var(--primary); }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Media Assets</h1>
-        <p>Explore and manage your cloud-hosted images</p>
+        <h1>Resource Library</h1>
+        <p>Managed Cloud Assets</p>
     </header>
 
-    <div id="loader">Loading your gallery...</div>
+    <div id="page-loader">Connecting to Drive...</div>
     <div class="gallery-grid" id="gallery"></div>
 
     <script>
@@ -156,7 +144,7 @@
                 const response = await fetch(SCRIPT_URL);
                 const photos = await response.json();
                 const gallery = document.getElementById('gallery');
-                document.getElementById('loader').style.display = 'none';
+                document.getElementById('page-loader').style.display = 'none';
 
                 photos.forEach(photo => {
                     const card = document.createElement('div');
@@ -169,23 +157,43 @@
                         <div class="image-container">
                             <img src="${imgUrl}" alt="${photo.name}" loading="lazy">
                         </div>
-                        <div class="info-box">
-                            <div>
-                                <h3>${photo.name}</h3>
-                                <p>Source: Google Drive Asset</p>
-                            </div>
-                            <div class="action-area">
-                                <a href="https://drive.google.com/file/d/${photo.id}/view" target="_blank" class="btn btn-view">Maximize</a>
-                                <a href="${downloadUrl}" class="btn btn-save">Download</a>
-                            </div>
+                        <div class="info-container">
+                            <h3>${photo.name}</h3>
+                            <p>Premium high-resolution asset.</p>
+                            <button class="download-btn" onclick="handleDownload(this, '${downloadUrl}')">
+                                <span class="btn-spinner"></span>
+                                <span class="btn-text">Download Image</span>
+                            </button>
                         </div>
                     `;
                     gallery.appendChild(card);
                 });
             } catch (error) {
-                console.error("Fetch Error:", error);
-                document.getElementById('loader').innerText = "Failed to load photos. Please check your Drive permissions.";
+                document.getElementById('page-loader').innerText = "Error loading files.";
             }
+        }
+
+        // --- Handle Button Spinner & Download ---
+        function handleDownload(btn, url) {
+            const spinner = btn.querySelector('.btn-spinner');
+            const text = btn.querySelector('.btn-text');
+
+            // Show Spinner
+            btn.disabled = true;
+            spinner.style.display = 'block';
+            text.innerText = "Processing...";
+
+            // Simulate server lag for 2 seconds then trigger download
+            setTimeout(() => {
+                window.location.href = url;
+
+                // Reset button after download starts
+                setTimeout(() => {
+                    btn.disabled = false;
+                    spinner.style.display = 'none';
+                    text.innerText = "Download Image";
+                }, 1000);
+            }, 1500);
         }
 
         loadGallery();
