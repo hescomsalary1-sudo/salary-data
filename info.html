@@ -428,7 +428,7 @@ if (q.includes("tell story")) return "Once upon a time... an AI helped employees
 
 // END EXTRA
     // SECTION 1: GREETINGS (1-10)
-    if (/^(hi|hello|hey|hii|hey|yo|namaste|morning|evening|afternoon)/.test(q)) {
+    if (/^(hi|hello|hey|hii|yo|namaste|hai|hola|sup|what's up|good morning|good evening|good afternoon)/.test(q)) {
         const r = ["Hello! How can I help you?", "Hi there! Ready to assist.", "Hello 👋 What's on your mind today?", "Hey! How's your work going?"];
         return r[Math.floor(Math.random()*r.length)];
     }
