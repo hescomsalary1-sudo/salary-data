@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premium Mobile Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #2563eb;
             --bg-gradient: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
             --card-bg: #ffffff;
             --skeleton: #e2e8f0;
-            --text-dim: #64748b;
         }
 
         body {
@@ -23,29 +22,12 @@
             min-height: 100vh;
         }
 
-        /* --- Header & Sub-heading Design --- */
         header {
             text-align: center;
-            padding: 30px 0 20px 0;
+            padding: 20px 0 10px 0;
         }
 
-        header h1 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin: 0;
-            color: #0f172a;
-            letter-spacing: -0.5px;
-        }
-
-        .sub-heading {
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            font-weight: 400;
-            margin-top: 4px;
-            display: block;
-        }
-
-        /* --- 2-Column Grid for Mobile --- */
+        /* --- STICKY 2-COLUMN GRID FOR MOBILE --- */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -64,6 +46,7 @@
             flex-direction: column;
         }
 
+        /* --- SKELETON LOADER (The gray box that pulses) --- */
         .image-container {
             width: 100%;
             aspect-ratio: 1 / 1;
@@ -71,7 +54,6 @@
             background-color: var(--skeleton);
         }
 
-        /* Skeleton Pulse Effect */
         .image-container.loading::after {
             content: "";
             position: absolute;
@@ -90,7 +72,7 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            opacity: 0;
+            opacity: 0; /* Hidden until fully loaded */
             transition: opacity 0.4s ease;
         }
 
@@ -109,7 +91,7 @@
             text-overflow: ellipsis;
         }
 
-        /* Download Button */
+        /* --- DOWNLOAD BUTTON WITH SPINNER --- */
         .download-btn {
             width: 100%;
             background: var(--primary);
@@ -144,8 +126,8 @@
 <body>
 
     <header>
-        <h1>Photo Library</h1>
-        <span class="sub-heading">Browse and download cloud assets</span>
+        <h1 style="font-size: 1.4rem;">Photo Library</h1>
+        <span class="sub-heading">Browse and download cloud assets of images</span>
     </header>
 
     <div id="page-loader">Connecting to Folder...</div>
@@ -165,7 +147,10 @@
                     const card = document.createElement('div');
                     card.className = 'photo-card';
                     
-                    // Fixed URL for high compatibility
+                    /**
+                     * FIXED URL: Using 'lh3.googleusercontent.com' is much more 
+                     * reliable for mobile browsers than 'drive.google.com/uc'
+                     */
                     const imgUrl = `https://lh3.googleusercontent.com/d/${photo.id}`;
                     const downloadUrl = `https://drive.google.com/uc?export=download&id=${photo.id}`;
 
@@ -188,6 +173,7 @@
             }
         }
 
+        // --- Logic to show image and hide skeleton ---
         function showImage(img) {
             img.style.opacity = '1';
             img.parentElement.classList.remove('loading');
@@ -198,6 +184,7 @@
             img.parentElement.classList.remove('loading');
         }
 
+        // --- Download Spinner Logic ---
         function handleDownload(btn, url) {
             const spinner = btn.querySelector('.btn-spinner');
             const text = btn.querySelector('.btn-text');
