@@ -134,7 +134,15 @@ async function AI_ENGINE(q) {
         state.module = "salary";
     }
 
-    else if (q.includes("attendance") || q.includes("present") || q.includes("absent")) state.module = "attendance";
+    else if (
+    q.includes("attendance") ||
+    q.includes("present") ||
+    q.includes("absent") ||
+    q.includes("leave") ||
+    q.includes("holiday")
+) {
+    state.module = "attendance";
+}
     else if (q.includes("leave") || q.includes("balance")) state.module = "leave";
     else if (q.includes("nominee") || q.includes("family")) state.module = "nominee";
     else if (
@@ -453,7 +461,106 @@ async function getSpecificSalaryDetail(q, userData, month, year) {
     }
     return null; 
 }
-async function ATTENDANCE_MODULE(q,u){if(!state.step){state.step="y";return "Year?"}if(state.step=="y"){state.data.y=q;state.step="m";return "Month?"}state.module=null;state.step=null;return "Fetching attendance...";}
+async function ATTENDANCE_MODULE(q, user) {
+
+    let res = await fetch(baseURL + "attendance.csv");
+    let text = await res.text();
+
+    let rows = text.trim().split("\n");
+    let headers = rows[0].split(",");
+
+    let lowerQ = q.toLowerCase();
+
+    // 📅 MONTH MAP
+    let monthMap = {
+        jan:"Jan", feb:"Feb", mar:"Mar", apr:"Apr", may:"May", jun:"Jun",
+        jul:"Jul", aug:"Aug", sep:"Sep", oct:"Oct", nov:"Nov", dec:"Dec"
+    };
+
+    let selectedMonth = null;
+    let selectedYear = null;
+
+    // 🔍 FIND MONTH
+    for (let m in monthMap) {
+        if (lowerQ.includes(m)) selectedMonth = monthMap[m];
+    }
+
+    // 🔍 FIND YEAR
+    let yearMatch = lowerQ.match(/\d{4}/);
+    if (yearMatch) selectedYear = yearMatch[0];
+
+    // DEFAULT → CURRENT YEAR/MONTH IF NOT GIVEN
+    if (!selectedYear) selectedYear = new Date().getFullYear().toString();
+    if (!selectedMonth) selectedMonth = "Jan";
+
+    // 🔍 FIND MATCHING RECORD
+    for (let i = 1; i < rows.length; i++) {
+
+        let c = rows[i].split(",");
+
+        if (
+            c[0].trim() === user &&
+            c[1].trim() === selectedYear &&
+            c[2].trim().toLowerCase() === selectedMonth.toLowerCase()
+        ) {
+
+            let days = c.slice(3); // day 1 to 31
+
+            let present = 0, absent = 0, leave = 0, holiday = 0;
+
+            // 🔥 COUNT LOGIC
+            days.forEach(d => {
+                d = d.trim().toUpperCase();
+
+                if (d === "P") present++;
+                else if (d === "A") absent++;
+                else if (["EL","CL","IL","FPL","MDL"].includes(d)) leave++;
+                else if (["GH","WH"].includes(d)) holiday++;
+            });
+
+            // 🔍 QUICK ANSWERS
+            if (lowerQ.includes("present")) return `✅ Present Days: <b>${present}</b>`;
+            if (lowerQ.includes("absent")) return `❌ Absent Days: <b>${absent}</b>`;
+            if (lowerQ.includes("leave")) return `🌴 Leave Days: <b>${leave}</b>`;
+            if (lowerQ.includes("holiday")) return `🎉 Holidays: <b>${holiday}</b>`;
+
+            // 🌟 FULL UI (PREMIUM)
+            let calendar = days.map((d, i) => {
+                let color = "#333";
+
+                if (d === "P") color = "green";
+                else if (d === "A") color = "red";
+                else if (["EL","CL","IL","FPL","MDL"].includes(d)) color = "orange";
+                else if (["GH","WH"].includes(d)) color = "blue";
+
+                return `<span style="display:inline-block;width:28px;margin:2px;padding:4px;border-radius:6px;background:#f2f2f2;color:${color};font-size:12px;text-align:center;">
+                ${i+1}<br>${d}
+                </span>`;
+            }).join("");
+
+            return `
+<div style="background:#fff;padding:14px;border-radius:14px;border-left:6px solid #2400b7;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+
+<b style="color:#2400b7;">📊 Attendance ${selectedMonth} ${selectedYear}</b>
+<hr>
+
+<div style="display:flex;flex-wrap:wrap;">
+${calendar}
+</div>
+
+<hr>
+
+<div style="color:green;"><b>Present:</b> ${present}</div>
+<div style="color:red;"><b>Absent:</b> ${absent}</div>
+<div style="color:orange;"><b>Leave:</b> ${leave}</div>
+<div style="color:blue;"><b>Holiday:</b> ${holiday}</div>
+
+</div>`;
+        }
+    }
+
+    return `❌ No attendance data found for ${selectedMonth} ${selectedYear}`;
+}
 async function NOMINEE_MODULE(q,u){state.module=null;return "Loading nominee details from secure API...";}
 
 /* ================= 100+ CONVERSATION ENGINE ================= */
