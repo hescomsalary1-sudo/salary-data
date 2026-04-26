@@ -1,6 +1,6 @@
 username,name,designation,place,mobile,Date_of_birth,Retirement_date,PIN,E_mail,PAN_No.,Physically_Disablity,Marital_status,Qualification,Religion,Category,Caste_name,District,Home_town,Joining_date,Joining_designation,Appointment_type,Probationary_period_declaration,Probationary_period_declaration_date,Current_designation,Curent_designation_Date_of_entry,Entry_quota_current_designation,Pension_type,NDCPS_No.,Working_from_date,Lien_office,group,Counted_posts_within_division,Counted_posts_other_division,sanctioned_post,working_post,vacant_post,male_or_female
-emp2,D K NAGABHUSHAN,ACCOUNTS OFFICER,O&M Division HESCOM Sirsi,0,,,,,,,,,,,,,,,,,,,,,,,0,,O&M Division HESCOM Sirsi,C,,,sanctioned,working,,male
-emp3,SOMASHEKAR SHETTY,ACCOUNTS OFFICER,Internal Audit O&M Division HESCOM Sirsi,0,,,,,,,,,,,,,,,,,,,,,,,0,,Internal Audit O&M Division HESCOM Sirsi,C,,,sanctioned,working,,male
+emp2,D K NAGABHUSHAN,ACCOUNTS OFFICER,O&M Division HESCOM Sirsi,0,,,,,,,,,,OTHERS,,,,,,,,,,,,,0,,O&M Division HESCOM Sirsi,C,,,sanctioned,working,,male
+emp3,SOMASHEKAR SHETTY,ACCOUNTS OFFICER,Internal Audit O&M Division HESCOM Sirsi,0,,,,,,,,,,OTHERS,,,,,,,,,,,,,0,,Internal Audit O&M Division HESCOM Sirsi,C,,,sanctioned,working,,male
 emp1,MAHENDRA NAIK,ASSISTANT,O&M Division HESCOM Sirsi,9663781340,25-04-1988,30-04-2048,,mtnaik88@gmail.com,AMVPN4035D,N,MARRIED,BSC                 ,HINDHU,CAT-II(A),NAMADHARI,UTTARA KANNADA,SIRSI,29-09-2018,JUNIOR ASSISTANT,DIRECT,Y,29-09-2019,ASSISTANT,22-08-2022,PR,NDCPS,2.02E+13,31-10-2023,O&M Division HESCOM Sirsi,C,,,sanctioned,working,,male
 emp4,LINGARAJA N,ASSISTANT,O&M Division HESCOM Sirsi,9591518667,15-12-1989,31-12-2049,,aosirsi.hescom@gmail.com,ALNPL9024H,N,MARRIED,BE (INFORMATION SCIENCE)             ,HINDHU,CAT-II(A),EDIGA,SHIVAMOGGA,SAGARA,20-06-2018,ASSISTANT,DIRECT,Y,20-06-2019,ASSISTANT,20-06-2018,DR,NDCPS,2.02E+13,20-06-2018,O&M Division HESCOM Sirsi,C,,,sanctioned,working,,male
 emp5,RAJESH P BANDEKAR,ASSISTANT,O&M Division HESCOM Sirsi,9986910684,18-03-1987,31-03-2047,,aosirsi.hescom@gmail.com,ANXPB7472R,N,MARRIED,PUC,HINDHU,CAT-II(A),BAANDHI,UTTARA KANNADA,SIRSI,24-03-2006,JUNIOR ASSISTANT,COMPASSIONATE,Y,24-03-2007,ASSISTANT,01-06-2018,PR,OPS,0,30-11-2022,O&M Division HESCOM Sirsi,C,,,sanctioned,working,,male
@@ -34,8 +34,8 @@ emp23,MOTILAL CHAVAN,ASST. ENGR.ELEC.,Works unit O&M Subdivision HESCOMSiddapur,
 emp24,HEMANT,ASST. ENGR.ELEC.,O&M Sub Division HESCOM Yellapur,9591464530,01-06-1987,31-05-2047,,aosirsi.hescom@gmail.com,AFMPH5488J,N,MARRIED,BE(E&E)             ,HINDHU,CAT-I,HALAKKI VOKKALU,DAKSHINA KANNADA,MANGALURU,10-01-2011,JUNIOR ENGINEER ELEC.,DIRECT,Y,01-09-2011,ASST. ENGR.ELEC. (G),02-09-2015,PR,NDCPS,2.01E+13,27-09-2024,O&M Sub Division HESCOM Yellapur,C,,,sanctioned,working,,male
 emp25,RAMAKANT,ASST. ENGR.ELEC.,O&M Section HESCOM Yellapur Town,9741533230,25-05-1971,31-05-2031,,aosirsi.hescom@gmail.com,APXPN4855N,N,MARRIED,SSLC DIPLOMA(ELECTRONICS),HINDHU,CAT-II(A),NAMADHARI,UTTARA KANNADA,YALLAPURA,30-08-2007,JUNIOR ENGINEER ELEC.,DIRECT,Y,30-08-2008,ASST. ENGR.ELEC. (G),06-01-2017,PR,NDCPS,2.01E+13,17-01-2020,O&M Section HESCOM Yellapur Town,C,,,sanctioned,working,,male
 emp26,SHREEDHARA P,ASST. ENGR.ELEC.,O&M Section HESCOM Siddapur Town,8971772266,23-11-1990,30-11-2050,,aosirsi.hescom@gmail.com,DOYPS5032D,N,MARRIED,BE(E&E)             ,HINDHU,CAT-II(A),DEVANGA,CHIKKAMAGALURU,SHRINGERI,27-03-2024,ASST. ENGR.ELEC.,DIRECT,N,,ASST. ENGR.ELEC. (G),27-03-2024,DR,NDCPS,2.02E+13,27-03-2024,O&M Section HESCOM Siddapur Town,C,,,sanctioned,working,,male
-,NARAHARI A M,ASST. ENGR.ELEC.,O&M SECTION Urban Sirsi,,,,,,,,,,,,,,,,,,,,,,,,,,,C,,,sanctioned,working,,male
-,,ASST. ENGR.ELEC.,O&M Division HESCOM Sirsi,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,male
+,NARAHARI A M,ASST. ENGR.ELEC.,O&M SECTION Urban Sirsi,,,,,,,,,,,OTHERS,,,,,,,,,,,,,,,,C,,,sanctioned,working,,male
+,,ASST. ENGR.ELEC.,O&M Division HESCOM Sirsi,,,,,,,,,,,OTHERS,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,male
 ,,ASST. ENGR.ELEC.,O&M Section HESCOM Sirsi Rural-1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,male
 ,,ASST. ENGR.ELEC.,Works unit O&M Subdivision HESCOM Sirsi,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,male
 ,,ASST. ENGR.ELEC.,O&M Sub Division HESCOM Siddapur,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,male
@@ -48,10 +48,10 @@ emp29,JYOTHI S K,ASST.ACCOUNTS OFFICER,O&M Sub Division HESCOM Sirsi,9538765389,
 emp30,VINAYAK SHET,ASST.ACCOUNTS OFFICER,O&M Sub Division HESCOM Yellapur,8088034244,10-10-1986,31-10-2046,,aosirsi.hescom@gmail.com,CHLPS1600Q,N,MARRIED,MCOM                ,HINDHU,GEN,BRAHMIN,UTTARA KANNADA,YELLAPUR,01-10-2018,ASST.ACCOUNTS OFFICER,DIRECT,Y,07-05-2022,ASST.ACCOUNTS OFFICER,01-10-2018,DR,NDCPS,2.02E+13,01-10-2018,O&M Sub Division HESCOM Yellapur,C,,,sanctioned,working,,male
 emp31,MOHAMMED TAUSIF KHAN PATHAN,ASST.ACCOUNTS OFFICER,O&M Sub Division HESCOM Siddapur,9980150625,14-07-1986,31-07-2046,,aosirsi.hescom@gmail.com,ARTPP9667Q,N,MARRIED,MCOM                ,MUSLIM,CAT-II(B),MUSLIM,UTTARA KANNADA,SIRSI,27-11-2017,ASST.ACCOUNTS OFFICER,DIRECT,Y,27-11-2018,ASST.ACCOUNTS OFFICER,27-11-2018,DR,NDCPS,2.02E+13,05-08-2024,O&M Sub Division HESCOM Siddapur,C,,,sanctioned,working,,male
 ,,ASST.ACCOUNTS OFFICER,O&M Sub Division HESCOM Mundagod,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,male
-emp32,NAGARAJ B PATIL,ASST.EXEC.ENGR.ELEC,O&M Sub Division HESCOM Sirsi,0,,,,,,,,,,,,,,,,,,,,,,,0,,O&M Sub Division HESCOM Sirsi,C,,,sanctioned,working,,male
-emp33,NARAYAN G KARKI,ASST.EXEC.ENGR.ELEC,O&M Division HESCOM Sirsi,0,,,,,,,,,,,,,,,,,,,,,,,0,,O&M Division HESCOM Sirsi,C,,,sanctioned,working,,male
-emp34,VINAY M RACHOTI,ASST.EXEC.ENGR.ELEC,33 KV Sub Division HESCOM Sirsi,0,,,,,,,,,,,,,,,,,,,,,,,0,,33 KV Sub Division HESCOM Sirsi,C,,,sanctioned,working,,male
-,,ASST.EXEC.ENGR.ELEC,LTMR Sub Division HESCOM Sirsi,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,male
+emp32,NAGARAJ B PATIL,ASST.EXEC.ENGR.ELEC,O&M Sub Division HESCOM Sirsi,0,,,,,,,,,,OTHERS,,,,,,,,,,,,,0,,O&M Sub Division HESCOM Sirsi,C,,,sanctioned,working,,male
+emp33,NARAYAN G KARKI,ASST.EXEC.ENGR.ELEC,O&M Division HESCOM Sirsi,0,,,,,,,,,,OTHERS,,,,,,,,,,,,,0,,O&M Division HESCOM Sirsi,C,,,sanctioned,working,,male
+emp34,VINAY M RACHOTI,ASST.EXEC.ENGR.ELEC,33 KV Sub Division HESCOM Sirsi,0,,,,,,,,,,OTHERS,,,,,,,,,,,,,0,,33 KV Sub Division HESCOM Sirsi,C,,,sanctioned,working,,male
+,,ASST.EXEC.ENGR.ELEC,LTMR Sub Division HESCOM Sirsi,,,,,,,,,,,OTHERS,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,male
 ,,ASST.EXEC.ENGR.ELEC,O&M Sub Division HESCOM Siddapur,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,male
 ,,ASST.EXEC.ENGR.ELEC,O&M Sub Division HESCOM Yellapur,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,male
 ,,ASST.EXEC.ENGR.ELEC,O&M Sub Division HESCOM Mundagod,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,male
@@ -138,8 +138,8 @@ emp88,PAVANAKUMAR CHINCHALI,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM 
 emp89,VINOD MUTTA PUJARI,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Hulekal,9483272094,22-09-1997,30-09-2057,,aosirsi.hescom@gmail.com,FDLPP4936B,N,UN MARRIED,SSLC,HINDHU,CAT-II(A),POOJARI,UTTARA KANNADA,SIRSI,22-03-2020,JUNIOR LINEMAN,DIRECT,Y,22-03-2022,ASST.LINEMAN (DISTRIBUTION O&M),31-12-2023,PR,NDCPS,2.02E+13,31-12-2023,O&M Section HESCOM Hulekal,C,,,sanctioned,working,,
 emp90,KARABASSU S YARADETTIN,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Yellapur Town,7090494256,09-01-1997,31-01-2057,,aosirsi.hescom@gmail.com,AZEPY8998E,N,UN MARRIED,SSLC,HINDHU,CAT-III(B),VEERASHAIVA LINGAYAT,BAGALKOTE,HUNGUND,12-07-2017,JUNIOR LINEMAN,DIRECT,Y,13-07-2022,ASST.LINEMAN (DISTRIBUTION O&M),30-12-2023,PR,NDCPS,2.02E+13,30-12-2023,O&M Section HESCOM Yellapur Town,C,,,sanctioned,working,,
 emp91,SHIVAJI TANOJAPPA JADAV,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Hulekal,9535242587,03-03-1990,31-03-2050,,aosirsi.hescom@gmail.com,AQZPJ6961C,N,MARRIED,SSLC,HINDHU,CAT-III(B),MARATA MARATHA,HAVERI,HAVERI,24-03-2019,JUNIOR LINEMAN,DIRECT,Y,24-03-2021,ASST.LINEMAN (DISTRIBUTION O&M),28-02-2023,PR,NDCPS,2.02E+13,28-02-2023,O&M Section HESCOM Hulekal,C,,,sanctioned,working,,
-,PRADEEP DONAGE,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Hulekal,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,working,,
-,,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Hulekal,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
+,PRADEEP DONAGE,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Hulekal,,,,,,,,,,,OTHERS,,,,,,,,,,,,,,,,,,,sanctioned,working,,
+,,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Hulekal,,,,,,,,,,,OTHERS,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
 ,,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Hulekal,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
 ,,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Hulekal,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
 ,,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Hulekal,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
@@ -151,7 +151,8 @@ emp95,PRAMOD KHANDUGOL,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Yella
 emp96,ANILKUMAR DEVAPPA JOGIN,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Yellapur Town,8762042595,01-07-1993,30-06-2053,,aosirsi.hescom@gmail.com,BDLPJ0829F,N,UN MARRIED,SSLC,HINDHU,SC,CHALAVADI,GADAGA,RONA,26-12-2015,JUNIOR LINEMAN,DIRECT,Y,26-12-2020,ASST.LINEMAN (DISTRIBUTION O&M),08-03-2022,PR,NDCPS,2.02E+13,08-03-2022,O&M Section HESCOM Yellapur Town,C,,,sanctioned,working,,
 emp97,MANJUNATH KERAKANAVAR,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Yellapur Town,9148123799,25-05-1998,31-05-2058,,aosirsi.hescom@gmail.com,GZUPK3943M,N,UN MARRIED,SSLC,HINDHU,CAT-I,HANABAR,BELAGAVI,KITTUR,11-07-2017,JUNIOR LINEMAN,DIRECT,Y,11-07-2022,ASST.LINEMAN (DISTRIBUTION O&M),30-12-2023,PR,NDCPS,2.02E+13,30-12-2023,O&M Section HESCOM Yellapur Town,C,,,sanctioned,working,,
 emp98,BASAVARAJA K R,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Yellapur Town,9480733109,17-10-1996,31-10-2056,,aosirsi.hescom@gmail.com,HVSPK0461H,N,MARRIED,SSLC,HINDHU,CAT-II(A),KURUBA,DAVANAGERE,DAVANAGERE,31-03-2016,JUNIOR LINEMAN,DIRECT,Y,31-03-2021,ASST.LINEMAN (DISTRIBUTION O&M),06-03-2023,PR,NDCPS,2.02E+13,06-03-2023,O&M Section HESCOM Yellapur Town,C,,,sanctioned,working,,
-,MAHAMADJAVEED N MALALI,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Yellapur Town,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,working,,
+,MAHAMADJAVEED N MALALI,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Yellapur Town,,,,,,,,,,,OTHERS,,,,,,,,,,,,,,,,,,,sanctioned,working,,
+,,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Yellapur Town,,,,,,,,,,,OTHERS,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
 ,,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Yellapur Town,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
 ,,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Yellapur Town,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
 ,,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Yellapur Town,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
@@ -159,9 +160,8 @@ emp98,BASAVARAJA K R,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Yellapu
 ,,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Yellapur Town,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
 ,,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Yellapur Town,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
 ,,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Yellapur Town,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
-,,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Yellapur Town,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
-,LAXMAPPA NAVI,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Mundgod,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,working,,
-,,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Mundgod,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
+,LAXMAPPA NAVI,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Mundgod,,,,,,,,,,,OTHERS,,,,,,,,,,,,,,,,,,,sanctioned,working,,
+,,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Mundgod,,,,,,,,,,,OTHERS,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
 ,,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Mundgod,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
 ,,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Mundgod,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
 ,,ASST.POWERMAN (DISTRIBUTION O&M),O&M Section HESCOM Mundgod,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
@@ -237,8 +237,8 @@ emp132,CHANDRAKALA VISHWESHWAR NAIK,JUNIOR ASSISTANT,O&M Sub Division HESCOM Sid
 emp133,MAHESH KESHAV NAIK,JUNIOR ASSISTANT,O&M Sub Division HESCOM Siddapur,9480131976,24-05-1992,31-05-2052,,aosirsi.hescom@gmail.com,APSPN6354F,N,MARRIED,PUC,HINDHU,CAT-II(A),NAMADHARI,UTTARA KANNADA,SIDDAPUR,27-12-2017,JUNIOR ASSISTANT,COMPASSIONATE,Y,27-12-2018,JUNIOR ASSISTANT,27-12-2017,DR,NDCPS,2.02E+13,27-12-2017,O&M Sub Division HESCOM Siddapur,C,,,sanctioned,working,,
 emp134,RAMACHANDRA DEVA NAIKA,JUNIOR ASSISTANT,O&M Sub Division HESCOM Siddapur,8971057764,04-03-1980,31-03-2040,,aosirsi.hescom@gmail.com,AELTN0747G,N,MARRIED,PUC,HINDHU,CAT-II(A),NAMADHARI,UTTARA KANNADA,SIDDAPUR,12-06-2018,JUNIOR ASSISTANT,DIRECT,Y,12-06-2019,JUNIOR ASSISTANT,12-06-2018,DR,NDCPS,2.02E+13,12-06-2018,O&M Sub Division HESCOM Siddapur,C,,,sanctioned,working,,
 emp135,NAGARAJ BEERA NAIK,JUNIOR ASSISTANT,O&M Sub Division HESCOM Siddapur,9740888726,25-04-1983,30-04-2043,,aosirsi.hescom@gmail.com,AGRPN7051P,N,MARRIED,SSLC,HINDHU,CAT-II(A),NAMADHARI,UTTARA KANNADA,SIDDAPUR,17-01-2007,DAFTARY,DIRECT,Y,17-01-2008,JUNIOR ASSISTANT,16-12-2024,PR,NDCPS,2.01E+13,16-12-2024,O&M Sub Division HESCOM Siddapur,C,,,sanctioned,working,,
-,NAVEENA GADAGERI,JUNIOR ASSISTANT,O&M Sub Division HESCOM Sirsi,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,working,,
-,SHEETAL FERNANDIS,JUNIOR ASSISTANT,O&M Sub Division HESCOM Sirsi,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,working,,
+,NAVEENA GADAGERI,JUNIOR ASSISTANT,O&M Sub Division HESCOM Sirsi,,,,,,,,,,,OTHERS,,,,,,,,,,,,,,,,,,,sanctioned,working,,
+,SHEETAL FERNANDIS,JUNIOR ASSISTANT,O&M Sub Division HESCOM Sirsi,,,,,,,,,,,OTHERS,,,,,,,,,,,,,,,,,,,sanctioned,working,,
 ,,JUNIOR ASSISTANT,Internal Audit O&M Division HESCOM Sirsi,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
 ,,JUNIOR ASSISTANT,O&M Sub Division HESCOM Siddapur,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
 ,,JUNIOR ASSISTANT,O&M Sub Division HESCOM Siddapur,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
@@ -339,8 +339,8 @@ emp201,SUNEEL ASHOK KAMBALE,JUNIOR POWERMAN,O&M Section HESCOM Sirsi Rural-2,916
 emp202,NAVEENKUMAR D MYAGERI,JUNIOR POWERMAN,O&M Section HESCOM Sirsi Rural-2,8296215061,21-06-2000,30-06-2060,,aosirsi.hescom@gmail.com,GMXPM0470B,N,UN MARRIED,SSLC,HINDHU,SC,MADAR,BAGALKOTE,BILAGI,04-07-2022,JUNIOR LINEMAN,DIRECT,N,,JUNIOR LINEMAN,04-07-2022,DR,NDCPS,0,04-07-2022,O&M Section HESCOM Sirsi Rural-2,C,,,sanctioned,working,,
 emp203,MAHALINGA BABALI,JUNIOR POWERMAN,O&M Section HESCOM Sirsi Rural-2,9571688595,20-06-1982,30-06-2042,,aosirsi.hescom@gmail.com,AKBPB5173G,N,MARRIED,SSLC,HINDHU,CAT-II(A),UPPAR (BALIJA),BELAGAVI,MUDALAGI,14-07-2022,JUNIOR LINEMAN,DIRECT,N,,JUNIOR LINEMAN,14-07-2022,DR,NDCPS,0,14-07-2022,O&M Section HESCOM Sirsi Rural-2,C,,,sanctioned,working,,
 emp204,V ANANDA NAIK,JUNIOR POWERMAN,O&M Section HESCOM Sirsi Rural-2,8548957144,04-05-1999,31-05-2059,,aosirsi.hescom@gmail.com,CWNPA5018F,N,UN MARRIED,SSLC,HINDHU,SC,LAMBANI,BALLARI,SANDUR,08-07-2022,JUNIOR LINEMAN,DIRECT,N,,JUNIOR LINEMAN,08-07-2022,DR,NDCPS,0,08-07-2022,O&M Section HESCOM Sirsi Rural-2,C,,,sanctioned,working,,
-,SIDDAPPA LOKOOR S/o CHANABASAPPA LOKOOR,JUNIOR POWERMAN,O&M Section HESCOM Sirsi Rural-2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,working,,
-,,JUNIOR POWERMAN,O&M Section HESCOM Sirsi Rural-2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
+,SIDDAPPA LOKOOR S/o CHANABASAPPA LOKOOR,JUNIOR POWERMAN,O&M Section HESCOM Sirsi Rural-2,,,,,,,,,,,OTHERS,,,,,,,,,,,,,,,,,,,sanctioned,working,,
+,,JUNIOR POWERMAN,O&M Section HESCOM Sirsi Rural-2,,,,,,,,,,,OTHERS,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
 ,,JUNIOR POWERMAN,O&M Section HESCOM Sirsi Rural-2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
 ,,JUNIOR POWERMAN,O&M Section HESCOM Sirsi Rural-2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
 ,,JUNIOR POWERMAN,O&M Section HESCOM Sirsi Rural-2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
@@ -514,10 +514,10 @@ emp273,SHRIDEVI CHANDRASHEKHAR RAMPUR,OFFICE ATTENDANT GR.II,Internal Audit O&M 
 emp274,GEETA C,OFFICE ATTENDANT GR.II,O&M Sub Division HESCOM Sirsi,9686779698,27-11-1983,30-11-2043,,aosirsi.hescom@gmail.com,DBGPG6887P,N,WIDOW,NINETH STANDARD,HINDHU,CAT-II(A),KURUHINA SETTY,KALABURAGI,JEEVARGI,15-07-2023,OFFICE ATTENDANT GR.II,COMPASSIONATE,Y,15-07-2024,OFFICE ATTENDANT GR.II,15-07-2023,DR,NDCPS,2.02E+13,15-07-2023,O&M Sub Division HESCOM Sirsi,C,,,sanctioned,working,,
 emp275,SHRATI BASAVARAJ KENGANALA,OFFICE ATTENDANT GR.II,O&M SECTION Urban Sirsi,9964225942,10-05-1998,31-05-2058,,aosirsi.hescom@gmail.com,HKMPB9064A,N,WIDOW,SSLC,HINDHU,CAT-III(B),VEERASHAIVA LINGAYAT,VIJAYAPURA,INDI,14-08-2024,OFFICE ATTENDANT GR.II,COMPASSIONATE,N,,OFFICE ATTENDANT GR.II,14-08-2024,DR,NDCPS,2.02E+13,14-08-2024,O&M SECTION Urban Sirsi,C,,,sanctioned,working,,
 emp276,SAVITA MURAGEPPA HANGARAGI,OFFICE ATTENDANT GR.II,O&M SECTION Urban Sirsi,8618075350,01-06-1990,31-05-2050,,aosirsi.hescom@gmail.com,BNTPH0024C,N,WIDOW,SEVENTH STANDARD,HINDHU,CAT-III(B),LINGAYAT/ VEERASHAIVA-VEERASHAIVA PANCHAMASALI,VIJAYAPURA,BASAVAN BAGEVADI,12-03-2024,OFFICE ATTENDANT GR.II,COMPASSIONATE,N,,OFFICE ATTENDANT GR.II,12-03-2024,DR,NDCPS,2.02E+13,12-03-2024,O&M SECTION Urban Sirsi,C,,,sanctioned,working,,
-,Jayavva Iranna Chimmanakatti,OFFICE ATTENDANT GR.II,O&M Sub Division HESCOM Siddapur,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,working,,
-,SHASHIKALA BASARIGIDAD,OFFICE ATTENDANT GR.II,O&M Sub Division HESCOM Sirsi,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,working,,
-,Shweta Umesh Ammanagi,OFFICE ATTENDANT GR.II,O&M Sub Division HESCOM Yellapur,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,working,,
-,JAYASHRI M DADDENAVAR,OFFICE ATTENDANT GR.II,O&M SECTION Urban Sirsi,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,working,,
+,Jayavva Iranna Chimmanakatti,OFFICE ATTENDANT GR.II,O&M Sub Division HESCOM Siddapur,,,,,,,,,,,OTHERS,,,,,,,,,,,,,,,,,,,sanctioned,working,,
+,SHASHIKALA BASARIGIDAD,OFFICE ATTENDANT GR.II,O&M Sub Division HESCOM Sirsi,,,,,,,,,,,OTHERS,,,,,,,,,,,,,,,,,,,sanctioned,working,,
+,Shweta Umesh Ammanagi,OFFICE ATTENDANT GR.II,O&M Sub Division HESCOM Yellapur,,,,,,,,,,,OTHERS,,,,,,,,,,,,,,,,,,,sanctioned,working,,
+,JAYASHRI M DADDENAVAR,OFFICE ATTENDANT GR.II,O&M SECTION Urban Sirsi,,,,,,,,,,,OTHERS,,,,,,,,,,,,,,,,,,,sanctioned,working,,
 emp246,SHOBHA GIRIYAMMANAVAR,OVERSEER,O&M Section HESCOM Mundgod,9480881857,20-05-1978,31-05-2038,,aosirsi.hescom@gmail.com,AOAPG8183J,N,MARRIED,ITI,HINDHU,CAT-III(A),REDDY,HAVERI,HAVERI,03-11-2005,ASST.LINEMAN (DISTRIBUTION O&M),DIRECT,Y,02-11-2006,METER READER,21-02-2019,PR,OPS,0,21-02-2019,O&M Section HESCOM Mundgod,C,,,sanctioned,working,,
 emp262,SANTOSH BALAKRISHNA BAVKAR,OVERSEER,O&M Section HESCOM Yellapur Town,9449078419,18-12-1988,31-12-2048,,aosirsi.hescom@gmail.com,APBPB6867L,N,MARRIED,SSLC,HINDHU,CAT-III(B),MARATA MARATHA,UTTARA KANNADA,SIRSI,01-01-2008,JUNIOR METER READER,COMPASSIONATE,N,,METER READER,22-02-2019,PR,NDCPS,2.01E+13,22-02-2019,O&M Section HESCOM Yellapur Town,C,,,sanctioned,working,,
 emp265,GANESH BHOOTA MADIVAL,OVERSEER,O&M Section HESCOM Siddapur Town,9341359080,22-12-1971,31-12-2031,,aosirsi.hescom@gmail.com,ATGPM3857J,N,MARRIED,SSLC,HINDHU,CAT-II(A),MADIVALA,UTTARA KANNADA,SIDDAPUR,18-01-2002,ASST.LINEMAN (DISTRIBUTION O&M),ABSORPTION,Y,18-01-2003,METER READER,22-02-2019,PR,OPS,0,22-02-2019,O&M Section HESCOM Siddapur Town,C,,,sanctioned,working,,
@@ -600,8 +600,8 @@ emp350,JAIKUMAR SHRINJEEVA NAIK,SENIOR ASSISTANT,Internal Audit O&M Division HES
 emp351,RAJANI CHOWKIMANE,SENIOR ASSISTANT,Internal Audit O&M Division HESCOM Sirsi,9886251326,25-04-1972,30-04-2032,,aosirsi.hescom@gmail.com,ADQPC7058P,N,MARRIED,BA                  ,HINDHU,SC,MOGER,UTTARA KANNADA,BHATKAL,01-03-1999,TYPIST,DIRECT,Y,01-03-2000,SENIOR ASSISTANT,11-07-2013,PR,OPS,0,11-07-2013,Internal Audit O&M Division HESCOM Sirsi,C,,,sanctioned,working,,
 emp352,H M PRASANTAYYA,SENIOR ASSISTANT,O&M SECTION Urban Sirsi,9448266714,12-08-1974,31-08-2034,,aosirsi.hescom@gmail.com,ARNPP9789K,N,MARRIED,SSLC,HINDHU,CAT-III(B),VEERASHAIVA LINGAYAT,UTTARA KANNADA,SIRSI,09-09-1999,JUNIOR ASSISTANT,COMPASSIONATE,Y,09-09-2000,SENIOR ASSISTANT,12-05-2015,PR,OPS,0,12-05-2015,O&M SECTION Urban Sirsi,C,,,sanctioned,working,,
 emp353,SHOBHA B BHAT,SENIOR ASSISTANT,O&M Sub Division HESCOM Siddapur,9482211851,03-01-1967,31-01-2037,,aosirsi.hescom@gmail.com,AEKPB4248K,N,MARRIED,BCOM                ,HINDHU,GEN,BRAHMIN,UTTARA KANNADA,SIDDAPUR,20-11-1992,TYPIST,DIRECT,Y,02-06-2003,SENIOR ASSISTANT,23-06-2008,DR,OPS,0,23-06-2008,O&M Sub Division HESCOM Siddapur,C,,,sanctioned,working,,
-,VIBHA BADAKAR,SENIOR ASSISTANT,O&M Sub Division HESCOM Yellapur,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,working,,
-,JAIPRAKESH NAIK,SENIOR ASSISTANT,O&M Sub Division HESCOM Mundagod,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,working,,
+,VIBHA BADAKAR,SENIOR ASSISTANT,O&M Sub Division HESCOM Yellapur,,,,,,,,,,,OTHERS,,,,,,,,,,,,,,,,,,,sanctioned,working,,
+,JAIPRAKESH NAIK,SENIOR ASSISTANT,O&M Sub Division HESCOM Mundagod,,,,,,,,,,,OTHERS,,,,,,,,,,,,,,,,,,,sanctioned,working,,
 ,,SENIOR ASSISTANT,O&M Division HESCOM Sirsi,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
 ,,SENIOR ASSISTANT,O&M Sub Division HESCOM Sirsi,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
 ,,SPL GR DRIVER,VOLTAGE IMPROVEMENT CELL SIRSI,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sanctioned,,vacant,
