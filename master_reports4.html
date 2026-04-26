@@ -1,96 +1,211 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HR Group Analytics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+
     <style>
+        :root {
+            --primary: #6366f1;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --sc-color: #f43f5e;
+            --st-color: #fbbf24;
+            --other-color: #10b981;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
-            margin: 0;
-            padding: 0;
-            background: #ffffff; /* Pure white background */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0; background: var(--bg); color: var(--text-main);
+            padding-bottom: 100px;
         }
 
-        .loader-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        header {
+            width: 100%; padding: 25px 0; background: var(--primary);
+            color: white; text-align: center; position: sticky; top: 0; z-index: 1000;
+            border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        header h1 { margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
+
+        .container { width: 92%; max-width: 500px; margin: 20px auto; display: flex; flex-direction: column; gap: 20px; }
+
+        /* --- Section Styling --- */
+        .section-card {
+            background: var(--card); border-radius: 24px; padding: 20px;
+            border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .section-title {
+            font-size: 14px; font-weight: 800; color: var(--primary);
+            margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
 
-        /* --- THE LIQUID BLOB --- */
-        .blob-wrapper {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            filter: drop-shadow(0 15px 30px rgba(75, 45, 216, 0.2));
-        }
-
-        .blob-svg {
-            width: 100%;
-            height: 100%;
-            fill: url(#liquid-gradient);
-            /* This animation handles the smooth shape-shifting */
-            animation: morph 4s ease-in-out infinite;
-            transform-origin: center;
-        }
-
-        /* --- TEXT --- */
-        .brand-text {
-            margin-top: 35px;
-            font-size: 12px;
-            font-weight: 700;
-            color: #4b2dd8;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            opacity: 0.8;
-            animation: text-pulse 2s ease-in-out infinite;
-        }
-
-        /* --- ANIMATIONS --- */
+        /* --- Group Row Styling --- */
+        .group-row { margin-bottom: 18px; }
+        .group-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .group-label { font-size: 15px; font-weight: 700; }
+        .group-count { font-size: 15px; font-weight: 800; color: var(--primary); }
         
-        /* The Secret: We animate the 'd' attribute (the path data) */
-        /* Note: For pure CSS morphing, the number of points in the path must match */
-        @keyframes morph {
-            0%, 100% {
-                border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
-                transform: rotate(0deg) scale(1);
-            }
-            33% {
-                border-radius: 70% 30% 46% 54% / 30% 29% 71% 70%;
-                transform: rotate(120deg) scale(1.1);
-            }
-            66% {
-                border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
-                transform: rotate(240deg) scale(0.95);
-            }
+        .progress-bg { width: 100%; height: 8px; background: #f1f5f9; border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--primary); border-radius: 10px; transition: width 1s ease-in-out; }
+
+        /* --- Category Grid --- */
+        .category-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 12px; }
+        .cat-box { padding: 12px 8px; border-radius: 16px; text-align: center; }
+        .cat-sc { background: #fff1f2; border: 1px solid #fecdd3; }
+        .cat-st { background: #fffbeb; border: 1px solid #fef3c7; }
+        .cat-oth { background: #ecfdf5; border: 1px solid #d1fae5; }
+        
+        .cat-box label { display: block; font-size: 9px; font-weight: 800; margin-bottom: 4px; color: var(--text-muted); }
+        .cat-box b { font-size: 16px; font-weight: 800; }
+
+        /* --- Total Summary Banner --- */
+        .total-banner {
+            background: var(--text-main); color: white; border-radius: 20px;
+            padding: 20px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .total-banner div span { display: block; font-size: 10px; opacity: 0.7; font-weight: 700; text-transform: uppercase; }
+        .total-banner div b { font-size: 24px; font-weight: 800; }
+
+        /* --- Download FAB --- */
+        .download-fab {
+            position: fixed; bottom: 30px; right: 25px; 
+            background: #1e293b; color: white; border: none;
+            padding: 16px 24px; border-radius: 50px; font-weight: 800; font-size: 14px;
+            display: flex; align-items: center; gap: 10px; z-index: 1001;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
 
-        @keyframes text-pulse {
-            0%, 100% { opacity: 0.4; transform: scale(1); }
-            50% { opacity: 0.9; transform: scale(1.05); }
-        }
-
-        /* --- THE GRADIENT --- */
-        .liquid-shape {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #4b2dd8, #00c9a7);
-            animation: morph 6s linear infinite alternate;
-        }
-
+        #loader { position: fixed; inset: 0; background: white; z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <div class="loader-content">
-        <div class="blob-wrapper">
-            <div class="liquid-shape"></div>
-        </div>
-        <div class="brand-text">HESCOM</div>
+<div id="loader"><div class="spinner"></div></div>
+
+<header><h1>Group-wise Statistics</h1></header>
+
+<div class="container">
+    
+    <div class="total-banner">
+        <div><span>Total Employees</span><b id="totalEmp">0</b></div>
+        <i class="fas fa-users-cog fa-2x" style="opacity: 0.3;"></i>
     </div>
 
+    <div class="section-card">
+        <div class="section-title"><i class="fas fa-layer-group"></i> Group Strength</div>
+        <div id="groupStats"></div>
+    </div>
+
+    <div id="categoryBreakdown"></div>
+
+</div>
+
+<button class="download-fab" onclick="triggerCSVDownload()">
+    <i class="fas fa-download"></i> Full CSV
+</button>
+
+<script>
+    const CSV_URL = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
+    let masterData = [];
+
+    window.onload = () => {
+        Papa.parse(CSV_URL, {
+            download: true, header: true, skipEmptyLines: true,
+            complete: function(res) {
+                masterData = res.data;
+                processData();
+                document.getElementById('loader').style.display = 'none';
+            }
+        });
+    };
+
+    function processData() {
+        const stats = {
+            'A': { total: 0, sc: 0, st: 0, others: 0 },
+            'B': { total: 0, sc: 0, st: 0, others: 0 },
+            'C': { total: 0, sc: 0, st: 0, others: 0 },
+            'D': { total: 0, sc: 0, st: 0, others: 0 }
+        };
+
+        let grandTotal = 0;
+
+        masterData.forEach(row => {
+            let grp = (row.group || '').toUpperCase().trim();
+            let cat = (row.Religion || '').toUpperCase().trim(); // Adjust 'Religion' to match your exact CSV column for Caste if needed
+
+            if (stats[grp]) {
+                stats[grp].total++;
+                grandTotal++;
+                
+                if (cat.includes('SC')) stats[grp].sc++;
+                else if (cat.includes('ST')) stats[grp].st++;
+                else stats[grp].others++;
+            }
+        });
+
+        document.getElementById('totalEmp').innerText = grandTotal;
+
+        // Render Group Bars
+        const groupContainer = document.getElementById('groupStats');
+        const catContainer = document.getElementById('categoryBreakdown');
+        
+        groupContainer.innerHTML = '';
+        catContainer.innerHTML = '';
+
+        ['A', 'B', 'C', 'D'].forEach(g => {
+            const data = stats[g];
+            const percent = grandTotal > 0 ? (data.total / grandTotal * 100).toFixed(1) : 0;
+
+            // Group Strength Bar
+            groupContainer.innerHTML += `
+                <div class="group-row">
+                    <div class="group-info">
+                        <span class="group-label">Group ${g}</span>
+                        <span class="group-count">${data.total} <small style="color:var(--text-muted)">(${percent}%)</small></span>
+                    </div>
+                    <div class="progress-bg">
+                        <div class="progress-fill" style="width: ${percent}%"></div>
+                    </div>
+                </div>
+            `;
+
+            // Category Card
+            catContainer.innerHTML += `
+                <div class="section-card" style="margin-bottom:15px;">
+                    <div class="section-title"><i class="fas fa-chart-pie"></i> Group ${g} Categories</div>
+                    <div class="category-grid">
+                        <div class="cat-box cat-sc"><label>SC</label><b style="color:var(--sc-color)">${data.sc}</b></div>
+                        <div class="cat-box cat-st"><label>ST</label><b style="color:var(--st-color)">${data.st}</b></div>
+                        <div class="cat-box cat-oth"><label>OTHERS</label><b style="color:var(--other-color)">${data.others}</b></div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function triggerCSVDownload() {
+        const csv = Papa.unparse(masterData);
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", "HR_Master_Report.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setTimeout(() => URL.revokeObjectURL(url), 150);
+    }
+</script>
 </body>
 </html>
