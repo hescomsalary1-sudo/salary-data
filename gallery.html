@@ -121,11 +121,83 @@
         @keyframes spin { to { transform: rotate(360deg); } }
 
         #page-loader { text-align: center; padding: 40px; color: var(--primary); font-weight: 600; }
+
+        .event-description {
+    max-width: 800px;
+    margin: 10px auto 25px auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.03);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle accent line on the left */
+.event-description::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--primary);
+}
+
+.banner-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--primary);
+    background: rgba(37, 99, 235, 0.08);
+    padding: 4px 10px;
+    border-radius: 50px;
+    margin-bottom: 10px;
+}
+
+.event-description h2 {
+    margin: 0 0 8px 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.event-description p {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #64748b;
+}
+
+.banner-meta {
+    margin-top: 15px;
+    display: flex;
+    gap: 15px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #94a3b8;
+}
     </style>
 </head>
 <body>
 
     <header>
+        <section class="event-description">
+    <div class="banner-tag">Event Highlights</div>
+    <h2>Lineman Diwas Celebrations</h2>
+    <p>
+        Honoring the dedication of our field force. This gallery captures the 
+        milestones, safety demonstrations, and team spirit during the 
+        Lineman Diwas event.
+    </p>
+    <div class="banner-meta">
+        <span>📍 Central Division</span>
+        <span>🗓️ April 2026</span>
+    </div>
+</section>
         <h1 style="font-size: 1.4rem;">Photo Library</h1>
         <span class="sub-heading">Browse and download cloud assets of images</span>
     </header>
