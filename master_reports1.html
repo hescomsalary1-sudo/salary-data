@@ -11,141 +11,145 @@
     <style>
         :root {
             --primary: #4f46e5;
-            --primary-light: #eef2ff;
+            --primary-soft: #eef2ff;
             --bg: #f8fafc;
-            --text-main: #1e293b;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
             --text-muted: #64748b;
             --career: #6366f1;
             --personal: #10b981;
             --identity: #f59e0b;
             --social: #f43f5e;
-            --glass: rgba(255, 255, 255, 0.9);
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0; background: var(--bg); color: var(--text-main);
             min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+            padding-bottom: 100px;
         }
 
+        /* --- Modern Header --- */
         header {
-            width: 100%; padding: 20px 0; 
-            background: linear-gradient(135deg, #4f46e5, #3730a3);
+            width: 100%; padding: 25px 0; 
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
             color: white; text-align: center; position: sticky; top: 0; z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.3);
+            border-bottom-left-radius: 24px; border-bottom-right-radius: 24px;
         }
-        header h1 { margin: 0; font-size: 18px; font-weight: 800; letter-spacing: 0.5px; }
+        header h1 { margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
 
-        .container { width: 94%; max-width: 600px; padding: 20px 0; display: flex; flex-direction: column; gap: 20px; }
+        .container { width: 92%; max-width: 500px; padding: 20px 0; display: flex; flex-direction: column; gap: 20px; }
 
-        /* --- Global Totals --- */
+        /* --- Stat Cards --- */
         .total-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
         .total-card {
-            background: white; border-radius: 20px; padding: 18px 5px; text-align: center;
-            border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            background: var(--card-bg); border-radius: 20px; padding: 15px 5px; text-align: center;
+            border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: var(--shadow);
         }
-        .total-card span { display: block; font-size: 10px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; letter-spacing: 1px; }
-        .total-card b { font-size: 24px; display: block; font-weight: 800; }
+        .total-card span { display: block; font-size: 9px; font-weight: 800; color: var(--text-muted); margin-bottom: 4px; letter-spacing: 0.5px; }
+        .total-card b { font-size: 22px; display: block; font-weight: 800; }
 
-        /* --- Carousel --- */
-        .carousel-wrapper { position: relative; width: 100%; display: flex; align-items: center; }
+        /* --- Designation Carousel --- */
+        .carousel-wrapper { position: relative; width: 100%; }
         .desig-slider {
-            display: flex; gap: 14px; overflow-x: auto; scroll-behavior: smooth;
-            scrollbar-width: none; scroll-snap-type: x mandatory; padding: 10px 0;
+            display: flex; gap: 12px; overflow-x: auto; scroll-behavior: smooth;
+            scrollbar-width: none; padding: 10px 5px;
         }
         .desig-slider::-webkit-scrollbar { display: none; }
         .desig-card {
-            min-width: 85%; scroll-snap-align: center; background: white; border-radius: 20px; 
-            padding: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            min-width: 80%; background: var(--card-bg); border-radius: 24px; padding: 20px; 
+            border: 1px solid #e2e8f0; box-shadow: var(--shadow);
         }
-        .desig-card h3 { margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: var(--primary); height: 35px; overflow: hidden; }
+        .desig-card h3 { margin: 0 0 15px 0; font-size: 14px; font-weight: 800; color: var(--primary); }
         .stats-row { display: flex; justify-content: space-between; gap: 8px; }
-        .mini-stat { flex: 1; text-align: center; background: #f1f5f9; padding: 10px; border-radius: 14px; }
-        .mini-stat label { display: block; font-size: 8px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
-        .mini-stat span { font-size: 16px; font-weight: 800; color: var(--text-main); }
-        
-        .nav-btn { 
-            position: absolute; top: 50%; transform: translateY(-50%); 
-            width: 36px; height: 36px; background: white; border: none; 
-            border-radius: 50%; z-index: 10; color: var(--primary); 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer;
-        }
+        .mini-stat { flex: 1; text-align: center; background: var(--primary-soft); padding: 10px; border-radius: 16px; }
+        .mini-stat label { display: block; font-size: 8px; font-weight: 700; color: var(--primary); text-transform: uppercase; }
+        .mini-stat span { font-size: 16px; font-weight: 800; }
 
-        /* --- Search Bar --- */
+        /* --- App-Style Search --- */
         .search-box {
-            position: sticky; top: 75px; z-index: 900; background: var(--glass);
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            border-radius: 18px; padding: 16px 20px; border: 1px solid rgba(226, 232, 240, 0.8);
-            display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+            position: sticky; top: 95px; z-index: 900; 
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px);
+            border-radius: 20px; padding: 15px 20px; border: 1px solid white;
+            display: flex; align-items: center; gap: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.05);
         }
-        .search-box input { border: none; outline: none; width: 100%; font-size: 16px; font-family: inherit; background: transparent; }
+        .search-box input { border: none; outline: none; width: 100%; font-size: 16px; font-family: inherit; background: transparent; font-weight: 500; }
 
-        /* --- DOWNLOAD BUTTON --- */
-        .download-fab {
-            position: fixed; bottom: 30px; right: 20px; background: var(--primary);
-            color: white; border: none; border-radius: 50px; padding: 15px 25px;
-            font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 10px;
-            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3); z-index: 1001; cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .download-fab:active { transform: scale(0.95); }
-
-        /* --- INDIVIDUAL RECORDS --- */
+        /* --- Individual Employee Cards --- */
         .emp-card {
-            background: white; border-radius: 24px; padding: 20px; margin-bottom: 18px;
-            border: 1px solid #e2e8f0; transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            background: var(--card-bg); border-radius: 28px; padding: 20px; margin-bottom: 15px;
+            border: 1px solid #e2e8f0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
         }
-        .emp-card.active { border-color: var(--primary); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.08); }
+        .emp-card.active { border-color: var(--primary); box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.1); transform: translateY(-2px); }
 
         .card-header { display: flex; align-items: center; gap: 15px; cursor: pointer; }
         .avatar {
-            width: 54px; height: 54px; background: var(--primary-light); border-radius: 16px;
+            width: 52px; height: 52px; background: linear-gradient(135deg, #eef2ff, #e0e7ff); border-radius: 18px;
             display: flex; align-items: center; justify-content: center;
             font-weight: 800; font-size: 16px; color: var(--primary);
         }
-        .name-meta h4 { margin: 0; font-size: 16px; font-weight: 800; color: #0f172a; }
+        .name-meta h4 { margin: 0; font-size: 16px; font-weight: 800; letter-spacing: -0.3px; }
         .name-meta p { margin: 3px 0 0 0; font-size: 12px; color: var(--text-muted); font-weight: 500; }
-        .chevron { margin-left: auto; color: #cbd5e1; transition: 0.3s; font-size: 14px; }
+        .chevron { margin-left: auto; color: #cbd5e1; transition: 0.3s; }
         .active .chevron { transform: rotate(180deg); color: var(--primary); }
 
-        .detail-pane { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0, 1, 0, 1); }
-        .active .detail-pane { max-height: 3000px; margin-top: 25px; }
+        /* Expansion Styling */
+        .detail-pane { max-height: 0; overflow: hidden; transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .active .detail-pane { max-height: 2000px; margin-top: 25px; }
 
         .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .act-btn { padding: 14px; border-radius: 16px; text-decoration: none; text-align: center; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; transition: opacity 0.2s; }
+        .act-btn { padding: 14px; border-radius: 18px; text-decoration: none; text-align: center; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
         .act-call { background: #dcfce7; color: #15803d; }
         .act-mail { background: #dbeafe; color: #1d4ed8; }
-        .act-btn:active { opacity: 0.7; }
+        .act-btn:active { transform: scale(0.96); }
 
-        /* Colorful Section Containers */
+        /* Data Sections */
         .data-sect { border-radius: 24px; padding: 20px; margin-bottom: 15px; }
-        .career-bg { background: #f5f3ff; border: 1px solid #ede9fe; }
-        .personal-bg { background: #f0fdf4; border: 1px solid #dcfce7; }
-        .identity-bg { background: #fffbeb; border: 1px solid #fef3c7; }
-        .social-bg { background: #fff1f2; border: 1px solid #ffe4e6; }
+        .career-bg { background: #f5f3ff; }
+        .personal-bg { background: #f0fdf4; }
+        .identity-bg { background: #fffbeb; }
+        .social-bg { background: #fff1f2; }
 
-        .sect-head { display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .sect-head { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
         
         .grid-info { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .data-box { background: rgba(255,255,255,0.7); padding: 12px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.5); }
+        .data-box { background: rgba(255,255,255,0.6); padding: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.5); }
         .data-box label { display: block; font-size: 8px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
-        .data-box span { font-size: 12px; font-weight: 700; color: #1e293b; display: block; word-break: break-all; }
+        .data-box span { font-size: 12px; font-weight: 700; color: var(--text-main); display: block; }
 
-        #loader { position: fixed; inset: 0; background: white; z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 15px; }
-        .spinner { width: 45px; height: 45px; border: 5px solid #f3f3f3; border-top: 5px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        /* --- Floating Download Button --- */
+        .download-fab {
+            position: fixed; bottom: 30px; right: 25px; 
+            background: var(--primary); color: white; border: none;
+            padding: 16px 24px; border-radius: 50px; font-weight: 800; font-size: 14px;
+            display: flex; align-items: center; gap: 10px; z-index: 1001;
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.4);
+            cursor: pointer; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .download-fab:hover { transform: translateY(-5px); background: #4338ca; }
+        .download-fab:active { transform: scale(0.9); }
+
+        #loader { position: fixed; inset: 0; background: var(--bg); z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px; }
+        .spinner { width: 50px; height: 50px; border: 5px solid #e2e8f0; border-top: 5px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-<div id="loader"><div class="spinner"></div><span style="font-size:14px; font-weight:700; color:var(--primary)">Syncing Analytics...</span></div>
+<div id="loader">
+    <div class="spinner"></div>
+    <span style="font-size:14px; font-weight:800; color:var(--primary)">Initializing Portal...</span>
+</div>
 
-<header><h1>Employee Master Portal</h1></header>
+<header><h1>HR Master Portal</h1></header>
 
 <div class="container">
+    
     <div class="total-grid">
         <div class="total-card"><span>SANCTIONED</span><b id="gtS" style="color:var(--career)">0</b></div>
         <div class="total-card"><span>WORKING</span><b id="gtW" style="color:var(--personal)">0</b></div>
@@ -153,45 +157,37 @@
     </div>
 
     <div class="carousel-wrapper">
-        <button class="nav-btn" style="left:-10px" onclick="slide('left')"><i class="fas fa-chevron-left"></i></button>
         <div id="desigSlider" class="desig-slider"></div>
-        <button class="nav-btn" style="right:-10px" onclick="slide('right')"><i class="fas fa-chevron-right"></i></button>
     </div>
 
     <div class="search-box">
         <i class="fas fa-search" style="color: var(--primary)"></i>
-        <input type="text" id="searchInput" placeholder="Search name, post, or ID..." oninput="handleSearch()">
+        <input type="text" id="searchInput" placeholder="Search by name, post, town..." oninput="handleSearch()">
     </div>
 
     <div id="employeeList"></div>
+
 </div>
 
-<button class="download-fab" onclick="downloadCurrentData()">
-    <i class="fas fa-file-csv"></i> Download CSV
+<button class="download-fab" onclick="downloadCSV()">
+    <i class="fas fa-cloud-download-alt"></i> Full Download
 </button>
 
 <script>
     const CSV_URL = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
     let masterData = [];
-    let filteredData = [];
 
     window.onload = () => {
         Papa.parse(CSV_URL, {
             download: true, header: true, skipEmptyLines: true,
             complete: function(res) {
                 masterData = res.data;
-                filteredData = [...masterData];
                 calculateAnalytics();
                 renderEmployees(masterData);
                 document.getElementById('loader').style.display = 'none';
             }
         });
     };
-
-    function slide(dir) {
-        const s = document.getElementById('desigSlider');
-        s.scrollBy({ left: dir === 'left' ? -280 : 280, behavior: 'smooth' });
-    }
 
     function calculateAnalytics() {
         const desigMap = {};
@@ -214,76 +210,5 @@
         Object.keys(desigMap).sort().forEach(k => {
             const div = document.createElement('div');
             div.className = 'desig-card';
-            div.innerHTML = `<h3>${k}</h3><div class="stats-row"><div class="mini-stat"><label>Sanc.</label><span>${desigMap[k].s}</span></div><div class="mini-stat"><label>Work.</label><span>${desigMap[k].w}</span></div><div class="mini-stat"><label>Vac.</label><span>${desigMap[k].v}</span></div></div>`;
+            div.innerHTML = `<h3>${k}</h3><div class="stats-row"><div class="mini-stat"><label>Sanc</label><span>${desigMap[k].s}</span></div><div class="mini-stat"><label>Work</label><span>${desigMap[k].w}</span></div><div class="mini-stat"><label>Vac</label><span>${desigMap[k].v}</span></div></div>`;
             slider.appendChild(div);
-        });
-    }
-
-    function renderEmployees(data) {
-        const list = document.getElementById('employeeList');
-        list.innerHTML = "";
-        data.forEach((r, i) => {
-            const card = document.createElement('div');
-            card.className = 'emp-card';
-            const career = [['Joined', r.Joining_date], ['Joined As', r.Joining_designation], ['Current', r.Current_designation], ['Designation', r.designation], ['Office', r.Lien_office], ['Retirement', r.Retirement_date], ['Type', r.Appointment_type], ['Probation', r.Probationary_period_declaration]];
-            const personal = [['DOB', r.Date_of_birth], ['Gender', r.male_or_female], ['Religion', r.Religion], ['Caste', r.Caste_name], ['Category', r.Category], ['Town', r.Home_town], ['District', r.District], ['Qualification', r.Qualification]];
-            const identity = [['PAN', r['PAN_No.']], ['KGID/NDCPS', r['NDCPS_No.']], ['Pension', r.Pension_type], ['PIN', r.PIN], ['Marital', r.Marital_status], ['Disabled', r.Physically_Disablity]];
-            const social = [['Mobile', r.mobile], ['Email', r.E_mail], ['Username', r.username]];
-
-            card.innerHTML = `
-                <div class="card-header" onclick="this.parentElement.classList.toggle('active')">
-                    <div class="avatar">${i+1}</div>
-                    <div class="name-meta">
-                        <h4>${r.name || 'Staff Member'}</h4>
-                        <p>${r.designation} • ${r.place}</p>
-                    </div>
-                    <i class="fas fa-chevron-down chevron"></i>
-                </div>
-                <div class="detail-pane">
-                    <div class="action-row">
-                        <a href="tel:${r.mobile}" class="act-btn act-call"><i class="fas fa-phone"></i> Call Now</a>
-                        <a href="mailto:${r.E_mail}" class="act-btn act-mail"><i class="fas fa-envelope"></i> Email</a>
-                    </div>
-                    <div class="data-sect career-bg">
-                        <div class="sect-head" style="color:var(--career)"><i class="fas fa-briefcase"></i> Professional</div>
-                        <div class="grid-info">${career.map(x => `<div class="data-box"><label>${x[0]}</label><span>${x[1]||'---'}</span></div>`).join('')}</div>
-                    </div>
-                    <div class="data-sect personal-bg">
-                        <div class="sect-head" style="color:var(--personal)"><i class="fas fa-user-circle"></i> Personal</div>
-                        <div class="grid-info">${personal.map(x => `<div class="data-box"><label>${x[0]}</label><span>${x[1]||'---'}</span></div>`).join('')}</div>
-                    </div>
-                    <div class="data-sect identity-bg">
-                        <div class="sect-head" style="color:var(--identity)"><i class="fas fa-id-card"></i> Identity</div>
-                        <div class="grid-info">${identity.map(x => `<div class="data-box"><label>${x[0]}</label><span>${x[1]||'---'}</span></div>`).join('')}</div>
-                    </div>
-                    <div class="data-sect social-bg">
-                        <div class="sect-head" style="color:var(--social)"><i class="fas fa-address-book"></i> Contact</div>
-                        <div class="grid-info">${social.map(x => `<div class="data-box"><label>${x[0]}</label><span>${x[1]||'---'}</span></div>`).join('')}</div>
-                    </div>
-                </div>`;
-            list.appendChild(card);
-        });
-    }
-
-    function handleSearch() {
-        const q = document.getElementById('searchInput').value.toLowerCase();
-        filteredData = masterData.filter(r => Object.values(r).some(v => String(v).toLowerCase().includes(q)));
-        renderEmployees(filteredData);
-    }
-
-    function downloadCurrentData() {
-        if (filteredData.length === 0) return alert("No data to download");
-        const csv = Papa.unparse(filteredData);
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement("a");
-        const url = URL.createObjectURL(blob);
-        link.setAttribute("href", url);
-        link.setAttribute("download", `Employee_Report_${new Date().toLocaleDateString()}.csv`);
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-</script>
-</body>
-</html>
