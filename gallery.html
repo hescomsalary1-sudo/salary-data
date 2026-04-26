@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Folder Gallery</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap" rel="stylesheet">
+    <title>Premium Asset Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #030712;
             --accent: #3b82f6;
-            --glass: rgba(255, 255, 255, 0.03);
+            --card-bg: rgba(255, 255, 255, 0.03);
             --border: rgba(255, 255, 255, 0.1);
         }
 
@@ -18,119 +18,177 @@
             color: white;
             font-family: 'Inter', sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
 
-        /* Premium Masonry - Keeps images from being cut */
-        .gallery-wrapper {
-            columns: 3 280px; /* Adjusts columns based on screen size */
-            column-gap: 20px;
-            max-width: 1200px;
+        /* --- Header Design --- */
+        header {
+            padding: 60px 20px;
+            text-align: center;
+            background: radial-gradient(circle at top, #1e293b 0%, #030712 70%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -1px;
+        }
+
+        header p {
+            color: #94a3b8;
+            margin-top: 10px;
+        }
+
+        /* --- Grid View --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 40px;
+            max-width: 1300px;
             margin: 0 auto;
         }
 
         .photo-card {
-            break-inside: avoid;
-            margin-bottom: 20px;
-            background: var(--glass);
-            border-radius: 16px;
-            overflow: hidden;
+            background: var(--card-bg);
             border: 1px solid var(--border);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .photo-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-5px);
             border-color: var(--accent);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
         }
 
         .photo-card img {
             width: 100%;
-            height: auto; /* Ensures the whole image shows */
+            height: 250px;
+            object-fit: cover; /* Keeps grid uniform */
             display: block;
-            opacity: 0; /* Hidden until loaded */
-            transition: opacity 0.5s ease;
         }
 
-        /* --- Premium Spinner Style --- */
-        #loader {
-            display: flex;
+        .photo-desc {
+            padding: 15px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        /* --- Lightbox (Max Size View) --- */
+        #lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 300px;
+            z-index: 1000;
+            padding: 20px;
         }
 
+        #lightbox img {
+            max-width: 90%;
+            max-height: 80vh;
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        .lightbox-controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-download { background: var(--accent); color: white; }
+        .btn-close { background: #334155; color: white; }
+
+        /* --- Loader --- */
+        #loader { text-align: center; padding: 100px; color: var(--accent); }
         .spinner {
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             border: 3px solid rgba(59, 130, 246, 0.1);
             border-top: 3px solid var(--accent);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-bottom: 15px;
+            margin: 0 auto 20px;
         }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .error-msg { color: #ef4444; padding: 20px; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <h1 style="text-align:center; font-weight:300; margin-bottom: 40px;">Media Assets</h1>
-    
-    <div id="loader">
-        <div class="spinner"></div>
-        <p>Syncing with Google Drive...</p>
-    </div>
+    <header>
+        <h1>Media Portfolio</h1>
+        <p>Live Assets from Google Drive</p>
+    </header>
 
-    <div class="gallery-wrapper" id="gallery"></div>
+    <div id="loader"><div class="spinner"></div>Loading Gallery...</div>
+    <div class="gallery-grid" id="gallery"></div>
+
+    <div id="lightbox">
+        <img id="lightbox-img" src="" alt="Full size">
+        <div class="lightbox-controls">
+            <a id="download-link" href="#" class="btn btn-download" download>Download Image</a>
+            <button class="btn btn-close" onclick="closeLightbox()">Close</button>
+        </div>
+    </div>
 
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzlmhlCzSc1GNYp_CSXc9gU36rorQfRdNZGW4hXoe0Ccz4aMwdqdjHbd21tVMsntp345w/exec';
 
         async function loadGallery() {
-            const gallery = document.getElementById('gallery');
-            const loader = document.getElementById('loader');
-
             try {
                 const response = await fetch(SCRIPT_URL);
                 const photos = await response.json();
-
-                if (photos.length === 0) {
-                    loader.innerHTML = "<p>No images found in folder.</p>";
-                    return;
-                }
-
-                loader.style.display = 'none';
+                const gallery = document.getElementById('gallery');
+                document.getElementById('loader').style.display = 'none';
 
                 photos.forEach(photo => {
                     const card = document.createElement('div');
                     card.className = 'photo-card';
                     
-                    /** * PREMIUM TIP: 
-                     * Using 'lh3.googleusercontent.com/d/' is much more reliable 
-                     * than 'drive.google.com/uc' for modern browsers.
-                     */
                     const imgUrl = `https://lh3.googleusercontent.com/d/${photo.id}`;
+                    const downloadUrl = `https://drive.google.com/uc?export=download&id=${photo.id}`;
 
                     card.innerHTML = `
-                        <img src="${imgUrl}" 
-                             onload="this.style.opacity='1'" 
-                             onerror="this.parentElement.style.display='none'">
+                        <img src="${imgUrl}" loading="lazy">
+                        <div class="photo-desc">${photo.name || 'View Image'}</div>
                     `;
+
+                    card.onclick = () => openLightbox(imgUrl, downloadUrl);
                     gallery.appendChild(card);
                 });
             } catch (error) {
-                loader.innerHTML = `<div class="error-msg">Error: Check Drive permissions or App Script URL.</div>`;
-                console.error("Gallery Error:", error);
+                console.error("Error:", error);
             }
+        }
+
+        function openLightbox(src, downloadUrl) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('download-link').href = downloadUrl;
+            document.getElementById('lightbox').style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
         }
 
         loadGallery();
