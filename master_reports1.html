@@ -212,3 +212,77 @@
             div.className = 'desig-card';
             div.innerHTML = `<h3>${k}</h3><div class="stats-row"><div class="mini-stat"><label>Sanc</label><span>${desigMap[k].s}</span></div><div class="mini-stat"><label>Work</label><span>${desigMap[k].w}</span></div><div class="mini-stat"><label>Vac</label><span>${desigMap[k].v}</span></div></div>`;
             slider.appendChild(div);
+        });
+    }
+
+    function renderEmployees(data) {
+        const list = document.getElementById('employeeList');
+        list.innerHTML = "";
+
+        data.forEach((r, i) => {
+            const card = document.createElement('div');
+            card.className = 'emp-card';
+            
+            const career = [['Joined', r.Joining_date], ['Joined As', r.Joining_designation], ['Office', r.Lien_office], ['Retirement', r.Retirement_date]];
+            const personal = [['DOB', r.Date_of_birth], ['Religion', r.Religion], ['Town', r.Home_town], ['Qualification', r.Qualification]];
+            const identity = [['PAN', r['PAN_No.']], ['KGID', r['NDCPS_No.']], ['Pension', r.Pension_type]];
+            const social = [['Mobile', r.mobile], ['Email', r.E_mail]];
+
+            card.innerHTML = `
+                <div class="card-header" onclick="this.parentElement.classList.toggle('active')">
+                    <div class="avatar">${i+1}</div>
+                    <div class="name-meta">
+                        <h4>${r.name || 'Staff Member'}</h4>
+                        <p>${r.designation} • ${r.place}</p>
+                    </div>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="detail-pane">
+                    <div class="action-row">
+                        <a href="tel:${r.mobile}" class="act-btn act-call"><i class="fas fa-phone"></i> Call Now</a>
+                        <a href="mailto:${r.E_mail}" class="act-btn act-mail"><i class="fas fa-envelope"></i> Email</a>
+                    </div>
+
+                    <div class="data-sect career-bg">
+                        <div class="sect-head" style="color:var(--career)"><i class="fas fa-briefcase"></i> Professional</div>
+                        <div class="grid-info">${career.map(x => `<div class="data-box"><label>${x[0]}</label><span>${x[1]||'---'}</span></div>`).join('')}</div>
+                    </div>
+
+                    <div class="data-sect personal-bg">
+                        <div class="sect-head" style="color:var(--personal)"><i class="fas fa-user-circle"></i> Personal</div>
+                        <div class="grid-info">${personal.map(x => `<div class="data-box"><label>${x[0]}</label><span>${x[1]||'---'}</span></div>`).join('')}</div>
+                    </div>
+
+                    <div class="data-sect identity-bg">
+                        <div class="sect-head" style="color:var(--identity)"><i class="fas fa-id-card"></i> Identity</div>
+                        <div class="grid-info">${identity.map(x => `<div class="data-box"><label>${x[0]}</label><span>${x[1]||'---'}</span></div>`).join('')}</div>
+                    </div>
+
+                    <div class="data-sect social-bg">
+                        <div class="sect-head" style="color:var(--social)"><i class="fas fa-address-book"></i> Communication</div>
+                        <div class="grid-info">${social.map(x => `<div class="data-box"><label>${x[0]}</label><span>${x[1]||'---'}</span></div>`).join('')}</div>
+                    </div>
+                </div>`;
+            list.appendChild(card);
+        });
+    }
+
+    function handleSearch() {
+        const q = document.getElementById('searchInput').value.toLowerCase();
+        renderEmployees(masterData.filter(r => Object.values(r).some(v => String(v).toLowerCase().includes(q))));
+    }
+
+    function downloadCSV() {
+        const csvContent = Papa.unparse(masterData);
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", "employee_master_data.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+</script>
+</body>
+</html>
