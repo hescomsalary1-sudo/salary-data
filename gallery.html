@@ -10,6 +10,7 @@
             --bg: #030712;
             --accent: #3b82f6;
             --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
         body {
@@ -20,58 +21,92 @@
             padding: 20px;
         }
 
-        /* Premium Masonry - Fixes the "Cut" issue */
+        /* Premium Masonry - Keeps images from being cut */
         .gallery-wrapper {
-            columns: 3 250px;
-            column-gap: 15px;
-            max-width: 1100px;
+            columns: 3 280px; /* Adjusts columns based on screen size */
+            column-gap: 20px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
         .photo-card {
             break-inside: avoid;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             background: var(--glass);
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: transform 0.3s ease;
+            border: 1px solid var(--border);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
         }
 
         .photo-card:hover {
-            transform: scale(1.02);
+            transform: translateY(-8px);
             border-color: var(--accent);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
         }
 
         .photo-card img {
             width: 100%;
-            height: auto;
+            height: auto; /* Ensures the whole image shows */
             display: block;
+            opacity: 0; /* Hidden until loaded */
+            transition: opacity 0.5s ease;
         }
 
+        /* --- Premium Spinner Style --- */
         #loader {
-            text-align: center;
-            padding: 50px;
-            color: var(--accent);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
         }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(59, 130, 246, 0.1);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-msg { color: #ef4444; padding: 20px; }
     </style>
 </head>
 <body>
 
-    <h1 style="text-align:center; font-weight:300;">Media Assets</h1>
-    <div id="loader">Fetching photos from Drive...</div>
+    <h1 style="text-align:center; font-weight:300; margin-bottom: 40px;">Media Assets</h1>
+    
+    <div id="loader">
+        <div class="spinner"></div>
+        <p>Syncing with Google Drive...</p>
+    </div>
+
     <div class="gallery-wrapper" id="gallery"></div>
 
     <script>
-        // PASTE YOUR GOOGLE APPS SCRIPT URL HERE
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzlmhlCzSc1GNYp_CSXc9gU36rorQfRdNZGW4hXoe0Ccz4aMwdqdjHbd21tVMsntp345w/exec';
 
         async function loadGallery() {
+            const gallery = document.getElementById('gallery');
+            const loader = document.getElementById('loader');
+
             try {
                 const response = await fetch(SCRIPT_URL);
                 const photos = await response.json();
-                const gallery = document.getElementById('gallery');
-                const loader = document.getElementById('loader');
+
+                if (photos.length === 0) {
+                    loader.innerHTML = "<p>No images found in folder.</p>";
+                    return;
+                }
 
                 loader.style.display = 'none';
 
@@ -79,14 +114,22 @@
                     const card = document.createElement('div');
                     card.className = 'photo-card';
                     
-                    // Direct Link Format
-                    const imgUrl = `https://drive.google.com/uc?export=view&id=${photo.id}`;
+                    /** * PREMIUM TIP: 
+                     * Using 'lh3.googleusercontent.com/d/' is much more reliable 
+                     * than 'drive.google.com/uc' for modern browsers.
+                     */
+                    const imgUrl = `https://lh3.googleusercontent.com/d/${photo.id}`;
 
-                    card.innerHTML = `<img src="${imgUrl}" loading="lazy">`;
+                    card.innerHTML = `
+                        <img src="${imgUrl}" 
+                             onload="this.style.opacity='1'" 
+                             onerror="this.parentElement.style.display='none'">
+                    `;
                     gallery.appendChild(card);
                 });
             } catch (error) {
-                document.getElementById('loader').innerText = "Error loading folder. Check permissions.";
+                loader.innerHTML = `<div class="error-msg">Error: Check Drive permissions or App Script URL.</div>`;
+                console.error("Gallery Error:", error);
             }
         }
 
