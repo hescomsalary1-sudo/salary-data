@@ -11,14 +11,13 @@
     <style>
         :root {
             --primary: #4f46e5;
-            --bg: #f1f5f9;
+            --bg: #f8fafc;
             --card: #ffffff;
-            --text-dark: #0f172a;
+            --text-dark: #1e293b;
             --text-light: #64748b;
-            --accent-blue: #3b82f6;
-            --accent-green: #10b981;
-            --accent-red: #ef4444;
-            --accent-orange: #f59e0b;
+            --sanc: #3b82f6;
+            --work: #10b981;
+            --vaca: #ef4444;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -32,22 +31,22 @@
         header {
             width: 100%; padding: 20px 0; background: var(--primary);
             color: white; text-align: center; position: sticky; top: 0; z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        header h1 { margin: 0; font-size: 18px; font-weight: 800; }
+        header h1 { margin: 0; font-size: 17px; font-weight: 800; }
 
-        .container { width: 94%; max-width: 600px; padding: 20px 0; display: flex; flex-direction: column; gap: 20px; }
+        .container { width: 94%; max-width: 600px; padding: 15px 0; display: flex; flex-direction: column; gap: 15px; }
 
         /* --- Stats Grid --- */
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
         .stat-card {
-            background: var(--card); border-radius: 16px; padding: 15px 5px; text-align: center;
+            background: var(--card); border-radius: 12px; padding: 12px 5px; text-align: center;
             border: 1px solid #e2e8f0;
         }
-        .stat-card span { display: block; font-size: 9px; font-weight: 800; color: var(--text-light); margin-bottom: 5px; text-transform: uppercase; }
-        .stat-card b { font-size: 20px; display: block; }
+        .stat-card span { display: block; font-size: 9px; font-weight: 800; color: var(--text-light); margin-bottom: 4px; }
+        .stat-card b { font-size: 18px; display: block; }
 
-        /* --- Carousel with Arrows --- */
+        /* --- Professional Designation Carousel --- */
         .carousel-container { position: relative; width: 100%; display: flex; align-items: center; }
         .slider-box {
             display: flex; gap: 12px; overflow-x: auto; scroll-behavior: smooth;
@@ -55,90 +54,87 @@
         }
         .slider-box::-webkit-scrollbar { display: none; }
         .desig-card {
-            min-width: 85%; background: var(--card); border-radius: 18px; padding: 18px; 
-            border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            min-width: 80%; background: var(--card); border-radius: 14px; padding: 15px; 
+            border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+            border-left: 5px solid var(--primary);
         }
-        .desig-card h3 { margin: 0 0 12px 0; font-size: 14px; font-weight: 700; color: var(--primary); height: 40px; }
+        .desig-card h3 { margin: 0 0 12px 0; font-size: 13px; font-weight: 700; color: var(--text-dark); line-height: 1.3; height: 34px; overflow: hidden; }
+        
+        .stats-row { display: flex; justify-content: space-between; gap: 6px; }
+        .mini-stat { flex: 1; text-align: center; padding: 8px 4px; border-radius: 8px; }
+        .stat-s { background: #eff6ff; color: var(--sanc); }
+        .stat-w { background: #f0fdf4; color: var(--work); }
+        .stat-v { background: #fef2f2; color: var(--vaca); }
+        .mini-stat label { display: block; font-size: 8px; font-weight: 800; text-transform: uppercase; }
+        .mini-stat span { font-size: 14px; font-weight: 800; }
         
         .nav-btn {
-            position: absolute; width: 32px; height: 32px; background: white; 
-            border: 1px solid #cbd5e1; border-radius: 50%; z-index: 10; 
+            position: absolute; width: 30px; height: 30px; background: white; 
+            border: 1px solid #e2e8f0; border-radius: 50%; z-index: 10; 
             color: var(--primary); cursor: pointer; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        .nav-left { left: -10px; }
-        .nav-right { right: -10px; }
+        .nav-left { left: -8px; }
+        .nav-right { right: -8px; }
 
         /* --- Search --- */
         .search-wrapper {
-            position: sticky; top: 75px; z-index: 900; background: white;
-            border-radius: 14px; padding: 12px 18px; border: 1px solid #e2e8f0;
-            display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+            position: sticky; top: 70px; z-index: 900; background: white;
+            border-radius: 12px; padding: 12px 15px; border: 1px solid #e2e8f0;
+            display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
         }
         .search-wrapper input { border: none; outline: none; width: 100%; font-size: 15px; font-family: inherit; }
 
-        /* --- Modern Individual Data Design --- */
+        /* --- Neatly Arranged Individual Data --- */
         .emp-card {
-            background: var(--card); border-radius: 20px; padding: 16px; margin-bottom: 12px;
-            border: 1px solid #e2e8f0; transition: 0.3s;
+            background: var(--card); border-radius: 16px; margin-bottom: 10px;
+            border: 1px solid #e2e8f0; overflow: hidden;
         }
-        .emp-card.active { border-color: var(--primary); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-
-        .card-main { display: flex; align-items: center; gap: 12px; cursor: pointer; }
-        .id-badge {
-            width: 44px; height: 44px; background: #f1f5f9; border-radius: 12px;
+        .card-main { padding: 15px; display: flex; align-items: center; gap: 12px; cursor: pointer; }
+        .id-circle {
+            width: 40px; height: 40px; background: #f1f5f9; border-radius: 10px;
             display: flex; align-items: center; justify-content: center;
-            font-weight: 800; color: var(--primary); font-size: 14px;
+            font-weight: 800; color: var(--primary); font-size: 13px;
         }
-        .info-meta h4 { margin: 0; font-size: 15px; font-weight: 700; color: var(--text-dark); }
-        .info-meta p { margin: 2px 0 0 0; font-size: 11px; color: var(--text-light); font-weight: 500; }
-        .chevron { margin-left: auto; color: #cbd5e1; transition: 0.3s; }
+        .info-meta h4 { margin: 0; font-size: 14px; font-weight: 700; }
+        .info-meta p { margin: 2px 0 0 0; font-size: 11px; color: var(--text-light); }
+        .chevron { margin-left: auto; color: #cbd5e1; font-size: 12px; transition: 0.3s; }
         .active .chevron { transform: rotate(180deg); color: var(--primary); }
 
-        .details { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
-        .active .details { max-height: 2000px; margin-top: 15px; padding-top: 15px; border-top: 1px solid #f1f5f9; }
+        .details { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; background: #fcfcfd; }
+        .active .details { max-height: 1500px; padding: 0 15px 15px 15px; border-top: 1px solid #f1f5f9; }
 
-        /* Action Buttons */
-        .btns-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .btn-action { padding: 12px; border-radius: 12px; text-decoration: none; text-align: center; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-call { background: #ecfdf5; color: #059669; }
-        .btn-mail { background: #eff6ff; color: #2563eb; }
-
-        /* Data Layout */
-        .section-tag { font-size: 10px; font-weight: 800; letter-spacing: 1px; color: var(--text-light); margin: 15px 0 8px 5px; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
+        .section-title { font-size: 9px; font-weight: 800; color: var(--primary); margin: 15px 0 8px 0; text-transform: uppercase; letter-spacing: 0.5px; border-left: 3px solid var(--primary); padding-left: 8px; }
         .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .data-item { background: #f8fafc; padding: 10px 12px; border-radius: 12px; border: 1px solid #f1f5f9; }
-        .data-item label { display: block; font-size: 8px; font-weight: 700; color: var(--text-light); text-transform: uppercase; margin-bottom: 2px; }
-        .data-item span { font-size: 12px; font-weight: 600; color: var(--text-dark); display: block; }
+        .data-item { background: white; padding: 8px 10px; border-radius: 8px; border: 1px solid #f1f5f9; }
+        .data-item label { display: block; font-size: 7.5px; font-weight: 700; color: var(--text-light); text-transform: uppercase; margin-bottom: 2px; }
+        .data-item span { font-size: 11.5px; font-weight: 600; color: var(--text-dark); display: block; }
 
-        /* --- Floating Download Button --- */
+        /* --- Fixed Download Button --- */
         .download-btn {
-            position: fixed; bottom: 25px; right: 20px; 
-            background: var(--primary); color: white; border: none;
-            padding: 14px 22px; border-radius: 50px; font-weight: 700; font-size: 14px;
-            display: flex; align-items: center; gap: 10px; z-index: 1001;
-            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
-            text-decoration: none; transition: transform 0.2s;
+            position: fixed; bottom: 20px; right: 20px; 
+            background: var(--text-dark); color: white; border: none;
+            padding: 12px 20px; border-radius: 50px; font-weight: 700; font-size: 13px;
+            display: flex; align-items: center; gap: 8px; z-index: 1001;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.2); cursor: pointer;
         }
-        .download-btn:active { transform: scale(0.95); }
 
         #loader { position: fixed; inset: 0; background: white; z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        .spinner { width: 35px; height: 35px; border: 3px solid #f3f3f3; border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-<div id="loader"><div class="spinner"></div><p style="font-weight:700; font-size:13px; margin-top:15px;">Loading HR Analytics...</p></div>
+<div id="loader"><div class="spinner"></div></div>
 
-<header><h1>Master Reports Portal</h1></header>
+<header><h1>HR Analytics Dashboard</h1></header>
 
 <div class="container">
     
     <div class="stats-grid">
-        <div class="stat-card"><span>SANCTIONED</span><b id="gtS" style="color:var(--accent-blue)">0</b></div>
-        <div class="stat-card"><span>WORKING</span><b id="gtW" style="color:var(--accent-green)">0</b></div>
-        <div class="stat-card"><span>VACANT</span><b id="gtV" style="color:var(--accent-red)">0</b></div>
+        <div class="stat-card"><span>SANCTIONED</span><b id="gtS" style="color:var(--sanc)">0</b></div>
+        <div class="stat-card"><span>WORKING</span><b id="gtW" style="color:var(--work)">0</b></div>
+        <div class="stat-card"><span>VACANT</span><b id="gtV" style="color:var(--vaca)">0</b></div>
     </div>
 
     <div class="carousel-container">
@@ -149,16 +145,16 @@
 
     <div class="search-wrapper">
         <i class="fas fa-search" style="color: var(--primary)"></i>
-        <input type="text" id="searchInput" placeholder="Search by name, post or place..." oninput="handleSearch()">
+        <input type="text" id="searchInput" placeholder="Quick search..." oninput="handleSearch()">
     </div>
 
     <div id="employeeList"></div>
 
 </div>
 
-<a href="https://hescomsalary1-sudo.github.io/salary-data/employee.csv" class="download-btn" download>
-    <i class="fas fa-file-csv"></i> Download CSV
-</a>
+<button class="download-btn" onclick="forceDownload()">
+    <i class="fas fa-download"></i> Full CSV
+</button>
 
 <script>
     const CSV_URL = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
@@ -178,7 +174,7 @@
 
     function move(dir) {
         const s = document.getElementById('desigSlider');
-        s.scrollBy({ left: dir === 'left' ? -250 : 250, behavior: 'smooth' });
+        s.scrollBy({ left: dir === 'left' ? -260 : 260, behavior: 'smooth' });
     }
 
     function calculateAnalytics() {
@@ -202,7 +198,12 @@
         Object.keys(desigMap).sort().forEach(k => {
             const div = document.createElement('div');
             div.className = 'desig-card';
-            div.innerHTML = `<h3>${k}</h3><div class="stats-row"><div class="mini-stat"><label>Sanc</label><span>${desigMap[k].s}</span></div><div class="mini-stat"><label>Work</label><span>${desigMap[k].w}</span></div><div class="mini-stat"><label>Vac</label><span>${desigMap[k].v}</span></div></div>`;
+            div.innerHTML = `<h3>${k}</h3>
+                <div class="stats-row">
+                    <div class="mini-stat stat-s"><label>Sanc</label><span>${desigMap[k].s}</span></div>
+                    <div class="mini-stat stat-w"><label>Work</label><span>${desigMap[k].w}</span></div>
+                    <div class="mini-stat stat-v"><label>Vac</label><span>${desigMap[k].v}</span></div>
+                </div>`;
             slider.appendChild(div);
         });
     }
@@ -215,13 +216,13 @@
             const card = document.createElement('div');
             card.className = 'emp-card';
             
-            const career = [['Joining Date', r.Joining_date], ['Joining Post', r.Joining_designation], ['Lien Office', r.Lien_office], ['Retirement', r.Retirement_date]];
-            const info = [['DOB', r.Date_of_birth], ['Gender', r.male_or_female], ['Qualification', r.Qualification], ['Hometown', r.Home_town]];
-            const docs = [['PAN No', r['PAN_No.']], ['KGID/NDCPS', r['NDCPS_No.']], ['Pension Type', r.Pension_type]];
+            const career = [['Joined Date', r.Joining_date], ['Office', r.Lien_office], ['Retirement', r.Retirement_date], ['Qualification', r.Qualification]];
+            const info = [['DOB', r.Date_of_birth], ['Gender', r.male_or_female], ['Religion', r.Religion], ['Hometown', r.Home_town]];
+            const docs = [['PAN No', r['PAN_No.']], ['KGID/NDCPS', r['NDCPS_No.']], ['Pension', r.Pension_type], ['Mobile', r.mobile]];
 
             card.innerHTML = `
                 <div class="card-main" onclick="this.parentElement.classList.toggle('active')">
-                    <div class="id-badge">${i+1}</div>
+                    <div class="id-circle">${i+1}</div>
                     <div class="info-meta">
                         <h4>${r.name || 'N/A'}</h4>
                         <p>${r.designation} • ${r.place}</p>
@@ -229,18 +230,13 @@
                     <i class="fas fa-chevron-down chevron"></i>
                 </div>
                 <div class="details">
-                    <div class="btns-row">
-                        <a href="tel:${r.mobile}" class="btn-action btn-call"><i class="fas fa-phone"></i> Call</a>
-                        <a href="mailto:${r.E_mail}" class="btn-action btn-mail"><i class="fas fa-envelope"></i> Email</a>
-                    </div>
-
-                    <div class="section-tag"><i class="fas fa-briefcase"></i> Work History</div>
+                    <div class="section-title">Employment Info</div>
                     <div class="data-grid">${career.map(x => `<div class="data-item"><label>${x[0]}</label><span>${x[1]||'---'}</span></div>`).join('')}</div>
 
-                    <div class="section-tag"><i class="fas fa-user"></i> Personal</div>
+                    <div class="section-title">Personal Details</div>
                     <div class="data-grid">${info.map(x => `<div class="data-item"><label>${x[0]}</label><span>${x[1]||'---'}</span></div>`).join('')}</div>
 
-                    <div class="section-tag"><i class="fas fa-id-card"></i> Documents</div>
+                    <div class="section-title">Identification & Contact</div>
                     <div class="data-grid">${docs.map(x => `<div class="data-item"><label>${x[0]}</label><span>${x[1]||'---'}</span></div>`).join('')}</div>
                 </div>`;
             list.appendChild(card);
@@ -250,6 +246,20 @@
     function handleSearch() {
         const q = document.getElementById('searchInput').value.toLowerCase();
         renderEmployees(masterData.filter(r => Object.values(r).some(v => String(v).toLowerCase().includes(q))));
+    }
+
+    // Force Download to trigger Mobile Notification
+    function forceDownload() {
+        const csvContent = Papa.unparse(masterData);
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", "Employee_Master_Report.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setTimeout(() => URL.revokeObjectURL(url), 100);
     }
 </script>
 </body>
