@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Active Workforce Analytics</title>
+    <title>HESCOM HR Analytics</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
@@ -11,11 +11,11 @@
     <style>
         :root {
             --primary: #4f46e5;
-            --bg: #f1f5f9;
+            --bg: #f8fafc;
             --card-bg: #ffffff;
             --text-dark: #0f172a;
             --text-light: #64748b;
-            --sc-theme: #f43f5e;
+            --sc-theme: #ef4444;
             --st-theme: #f59e0b;
             --other-theme: #10b981;
         }
@@ -24,199 +24,174 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0; background: var(--bg); color: var(--text-dark);
-            padding-bottom: 100px;
+            padding-bottom: 50px;
         }
 
         header {
-            width: 100%; padding: 30px 0; background: linear-gradient(135deg, #4f46e5, #6366f1);
-            color: white; text-align: center; position: sticky; top: 0; z-index: 1000;
-            border-bottom-left-radius: 30px; border-bottom-right-radius: 30px;
-            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);
+            width: 100%; padding: 35px 20px; background: #1e293b;
+            color: white; text-align: center; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px;
         }
-        header h1 { margin: 0; font-size: 18px; font-weight: 800; }
-        header p { margin: 5px 0 0 0; font-size: 11px; opacity: 0.8; font-weight: 600; text-transform: uppercase; }
+        header h1 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+        header p { margin: 8px 0 0 0; font-size: 12px; opacity: 0.7; font-weight: 600; text-transform: uppercase; }
 
-        .container { width: 92%; max-width: 500px; margin: 20px auto; display: flex; flex-direction: column; gap: 20px; }
+        .container { width: 92%; max-width: 500px; margin: -30px auto 0 auto; display: flex; flex-direction: column; gap: 15px; }
 
-        /* --- Active Total Banner --- */
-        .hero-card {
-            background: var(--text-dark); color: white; border-radius: 28px;
-            padding: 25px; display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        /* --- Stats Overview --- */
+        .hero-stats {
+            background: var(--card-bg); border-radius: 24px; padding: 25px;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        .hero-card .label { display: block; font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
-        .hero-card .val { font-size: 32px; font-weight: 800; }
-        .pulse-icon { color: #22c55e; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+        .hero-stats .main-count { font-size: 34px; font-weight: 800; color: var(--primary); display: block; }
+        .hero-stats .label { font-size: 11px; font-weight: 700; color: var(--text-light); text-transform: uppercase; }
 
-        /* --- Analysis Cards --- */
-        .analysis-card {
+        /* --- Section Cards --- */
+        .card {
             background: var(--card-bg); border-radius: 24px; padding: 20px;
-            border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
         }
-        .card-head {
-            font-size: 13px; font-weight: 800; color: var(--text-dark);
-            margin-bottom: 20px; display: flex; align-items: center; gap: 8px;
-        }
-
-        /* --- Progress Bars --- */
-        .group-row { margin-bottom: 20px; }
-        .group-meta { display: flex; justify-content: space-between; margin-bottom: 6px; }
-        .group-name { font-size: 14px; font-weight: 700; color: var(--text-dark); }
-        .group-val { font-size: 14px; font-weight: 800; color: var(--primary); }
-        .bar-bg { width: 100%; height: 10px; background: #f1f5f9; border-radius: 10px; overflow: hidden; }
-        .bar-fill { height: 100%; background: var(--primary); border-radius: 10px; transition: width 1s ease-out; }
-
-        /* --- Category Grid --- */
-        .cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 15px; }
-        .cat-item { padding: 15px 10px; border-radius: 20px; text-align: center; border: 1px solid transparent; }
-        .cat-item.sc { background: #fff1f2; border-color: #fecdd3; color: var(--sc-theme); }
-        .cat-item.st { background: #fffbeb; border-color: #fef3c7; color: var(--st-theme); }
-        .cat-item.oth { background: #ecfdf5; border-color: #d1fae5; color: var(--other-theme); }
-        
-        .cat-item label { display: block; font-size: 9px; font-weight: 800; margin-bottom: 5px; opacity: 0.8; }
-        .cat-item b { font-size: 20px; font-weight: 800; }
-
-        /* --- Floating Download --- */
-        .fab {
-            position: fixed; bottom: 30px; right: 25px; 
-            background: var(--text-dark); color: white; border: none;
-            padding: 16px 25px; border-radius: 50px; font-weight: 800; font-size: 13px;
-            display: flex; align-items: center; gap: 10px; z-index: 1001;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        .card-title {
+            font-size: 13px; font-weight: 800; margin-bottom: 15px;
+            display: flex; align-items: center; gap: 8px; color: var(--text-dark);
         }
 
-        #loader { position: fixed; inset: 0; background: white; z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        /* --- Group Rows --- */
+        .group-row { margin-bottom: 15px; }
+        .row-info { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px; font-weight: 700; }
+        .progress-container { height: 10px; background: #f1f5f9; border-radius: 10px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--primary); border-radius: 10px; transition: width 1s ease; }
+
+        /* --- Category Pill Grid --- */
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .pill { padding: 12px 5px; border-radius: 16px; text-align: center; border: 1px solid transparent; }
+        .pill span { display: block; font-size: 9px; font-weight: 800; margin-bottom: 2px; opacity: 0.7; }
+        .pill b { font-size: 18px; font-weight: 800; }
+
+        .pill-sc { background: #fef2f2; border-color: #fee2e2; color: var(--sc-theme); }
+        .pill-st { background: #fffbeb; border-color: #fef3c7; color: var(--st-theme); }
+        .pill-oth { background: #f0fdf4; border-color: #dcfce7; color: var(--other-theme); }
+
+        #loading-screen { position: fixed; inset: 0; background: white; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .loader { width: 30px; height: 30px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-<div id="loader"><div class="spinner"></div></div>
+<div id="loading-screen"><div class="loader"></div><p style="font-weight: 700; font-size: 12px; margin-top: 10px;">ANALYZING CSV...</p></div>
 
 <header>
-    <h1>Workforce Intelligence</h1>
-    <p>Active Employee Distribution</p>
+    <h1>HESCOM Analytics</h1>
+    <p>Division Workforce Report</p>
 </header>
 
 <div class="container">
     
-    <div class="hero-card">
+    <div class="hero-stats">
         <div>
-            <span class="label">Working Employees</span>
-            <b class="val" id="totalActive">0</b>
+            <span class="label">Total Working Personnel</span>
+            <span class="main-count" id="totalCount">0</span>
         </div>
-        <i class="fas fa-circle pulse-icon"></i>
+        <div style="text-align: right;">
+            <i class="fas fa-users-check fa-2x" style="color: #e2e8f0;"></i>
+        </div>
     </div>
 
-    <div class="analysis-card">
-        <div class="card-head"><i class="fas fa-chart-bar" style="color:var(--primary)"></i> GROUP-WISE STRENGTH</div>
-        <div id="groupList"></div>
+    <div class="card">
+        <div class="card-title"><i class="fas fa-chart-line"></i> GROUP DISTRIBUTION</div>
+        <div id="groupContainer"></div>
     </div>
 
-    <div id="categorySection"></div>
+    <div id="categoryContainer"></div>
 
 </div>
 
-<button class="fab" onclick="triggerCSVDownload()">
-    <i class="fas fa-file-csv"></i> Download Master
-</button>
-
 <script>
-    const CSV_URL = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
-    let masterData = [];
+    // Link to your CSV
+    const CSV_PATH = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
 
     window.onload = () => {
-        Papa.parse(CSV_URL, {
-            download: true, header: true, skipEmptyLines: true,
-            complete: function(res) {
-                masterData = res.data;
-                processActiveAnalytics();
-                document.getElementById('loader').style.display = 'none';
+        Papa.parse(CSV_PATH, {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            complete: function(results) {
+                renderDashboard(results.data);
+                document.getElementById('loading-screen').style.display = 'none';
             }
         });
     };
 
-    function processActiveAnalytics() {
-        const groupStats = {
-            'A': { total: 0, sc: 0, st: 0, others: 0 },
-            'B': { total: 0, sc: 0, st: 0, others: 0 },
-            'C': { total: 0, sc: 0, st: 0, others: 0 },
-            'D': { total: 0, sc: 0, st: 0, others: 0 }
-        };
+    function renderDashboard(data) {
+        const stats = {};
+        let totalWorking = 0;
 
-        let activeGrandTotal = 0;
-
-        masterData.forEach(row => {
-            // Logic 1: Filter only "Working" employees
-            const isWorking = (row.working_post || '').toLowerCase().includes('working');
+        data.forEach(row => {
+            // Check for "working" in the working_post column
+            const isWorking = (row.working_post || '').toLowerCase().trim() === 'working';
             
             if (isWorking) {
-                const grp = (row.group || '').toUpperCase().trim();
-                const cat = (row.Category || '').toUpperCase().trim();
+                totalWorking++;
+                
+                // Get Group (Default to 'Unknown' if column is blank)
+                let grp = (row.group || 'Unknown').toUpperCase().trim();
+                let cat = (row.Category || '').toUpperCase().trim();
 
-                if (groupStats[grp]) {
-                    groupStats[grp].total++;
-                    activeGrandTotal++;
-
-                    // Logic 2: Categorize SC, ST, Others based on Working population
-                    if (cat.includes('SC')) groupStats[grp].sc++;
-                    else if (cat.includes('ST')) groupStats[grp].st++;
-                    else groupStats[grp].others++;
+                if (!stats[grp]) {
+                    stats[grp] = { total: 0, sc: 0, st: 0, others: 0 };
                 }
+
+                stats[grp].total++;
+
+                // Category Logic
+                if (cat.includes('SC')) stats[grp].sc++;
+                else if (cat.includes('ST')) stats[grp].st++;
+                else stats[grp].others++;
             }
         });
 
-        document.getElementById('totalActive').innerText = activeGrandTotal;
+        document.getElementById('totalCount').innerText = totalWorking;
 
-        const groupDiv = document.getElementById('groupList');
-        const catDiv = document.getElementById('categorySection');
-        groupDiv.innerHTML = '';
-        catDiv.innerHTML = '';
+        const groupList = document.getElementById('groupContainer');
+        const catList = document.getElementById('categoryContainer');
+        
+        groupList.innerHTML = '';
+        catList.innerHTML = '';
 
-        ['A', 'B', 'C', 'D'].forEach(g => {
-            const data = groupStats[g];
-            const percent = activeGrandTotal > 0 ? (data.total / activeGrandTotal * 100).toFixed(1) : 0;
+        // Sort groups alphabetically (A, B, C, D, Unknown)
+        const sortedGroups = Object.keys(stats).sort();
 
-            // Render Group Progress Bars
-            groupDiv.innerHTML += `
+        sortedGroups.forEach(g => {
+            const s = stats[g];
+            const percent = ((s.total / totalWorking) * 100).toFixed(1);
+
+            // Group Row
+            groupList.innerHTML += `
                 <div class="group-row">
-                    <div class="group-meta">
-                        <span class="group-name">Group ${g}</span>
-                        <span class="group-val">${data.total} <small style="color:var(--text-light); font-weight:600;">${percent}%</small></span>
+                    <div class="row-info">
+                        <span>Group ${g}</span>
+                        <span>${s.total} <small style="color:var(--text-light)">(${percent}%)</small></span>
                     </div>
-                    <div class="bar-bg">
-                        <div class="bar-fill" style="width: ${percent}%"></div>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: ${percent}%"></div>
                     </div>
                 </div>
             `;
 
-            // Render Premium Category Grid
-            catDiv.innerHTML += `
-                <div class="analysis-card" style="margin-bottom:15px;">
-                    <div class="card-head"><i class="fas fa-users" style="color:var(--primary)"></i> GROUP ${g} CATEGORIES</div>
-                    <div class="cat-grid">
-                        <div class="cat-item sc"><label>SC</label><b>${data.sc}</b></div>
-                        <div class="cat-item st"><label>ST</label><b>${data.st}</b></div>
-                        <div class="cat-item oth"><label>OTHERS</label><b>${data.others}</b></div>
+            // Category Breakdown Card
+            catList.innerHTML += `
+                <div class="card" style="margin-bottom:15px;">
+                    <div class="card-title"><i class="fas fa-filter"></i> GROUP ${g} CATEGORIES</div>
+                    <div class="grid-3">
+                        <div class="pill pill-sc"><span>SC</span><b>${s.sc}</b></div>
+                        <div class="pill pill-st"><span>ST</span><b>${s.st}</b></div>
+                        <div class="pill pill-oth"><span>OTHERS</span><b>${s.others}</b></div>
                     </div>
                 </div>
             `;
         });
-    }
-
-    function triggerCSVDownload() {
-        const csv = Papa.unparse(masterData);
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.setAttribute("href", url);
-        link.setAttribute("download", "Active_Workforce_Report.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        setTimeout(() => URL.revokeObjectURL(url), 150);
     }
 </script>
 </body>
