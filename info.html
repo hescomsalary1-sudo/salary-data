@@ -137,7 +137,30 @@ async function AI_ENGINE(q) {
     else if (q.includes("attendance") || q.includes("present") || q.includes("absent")) state.module = "attendance";
     else if (q.includes("leave") || q.includes("balance")) state.module = "leave";
     else if (q.includes("nominee") || q.includes("family")) state.module = "nominee";
-    else if (q.includes("profile") || q.includes("designation")) state.module = "profile";
+    else if (
+    q.includes("profile") ||
+    q.includes("name") ||
+    q.includes("mobile") ||
+    q.includes("phone") ||
+    q.includes("email") ||
+    q.includes("dob") ||
+    q.includes("birth") ||
+    q.includes("retirement") ||
+    q.includes("designation") ||
+    q.includes("joining") ||
+    q.includes("district") ||
+    q.includes("qualification") ||
+    q.includes("category") ||
+    q.includes("caste") ||
+    q.includes("religion") ||
+    q.includes("gender") ||
+    q.includes("pan") ||
+    q.includes("pin") ||
+    q.includes("marital") ||
+    q.includes("pension")
+) {
+    state.module = "profile";
+}
 }
     
 
@@ -166,13 +189,88 @@ async function LEAVE_MODULE(q, user) {
 
 async function PROFILE_MODULE(q, user) {
     state.module = null;
+
     let res = await fetch(baseURL + "employee.csv");
-    let rows = (await res.text()).split("\n");
-    for (let r of rows) {
-        let c = r.split(",");
-        if (c[0].trim() === user) return `👤 **Profile:**<br>Designation: ${c[2]}<br>Joining: ${c[18]}<br>Retirement: ${c[6]}`;
+    let text = await res.text();
+
+    let rows = text.trim().split("\n");
+
+    // 🔥 GET HEADERS (ALL COLUMNS)
+    let headers = rows[0].split(",");
+
+    for (let i = 1; i < rows.length; i++) {
+
+        let c = rows[i].split(",");
+
+        if (c[0].trim() === user) {
+
+            // 🔥 CREATE OBJECT (ALL DATA)
+            let emp = {};
+            headers.forEach((h, index) => {
+                emp[h.trim()] = c[index] || "-";
+            });
+
+            let lowerQ = q.toLowerCase();
+
+            // 🔍 SMART FIELD SEARCH (AUTO)
+            for (let key in emp) {
+                if (lowerQ.includes(key.toLowerCase().replace(/_/g," "))) {
+                    return `🔍 <b>${key.replace(/_/g," ")}</b>: <br><span style="font-size:18px;color:#2400b7;">${emp[key]}</span>`;
+                }
+            }
+
+            // 🔍 COMMON SHORT KEYWORDS (ADVANCED MATCHING)
+            const smartMap = {
+                "name": "name",
+                "mobile": "mobile",
+                "phone": "mobile",
+                "email": "E_mail",
+                "mail": "E_mail",
+                "dob": "Date_of_birth",
+                "birth": "Date_of_birth",
+                "retirement": "Retirement_date",
+                "designation": "designation",
+                "joining": "Joining_date",
+                "district": "District",
+                "qualification": "Qualification",
+                "category": "Category",
+                "caste": "Caste_name",
+                "religion": "Religion",
+                "gender": "male_or_female",
+                "place": "place",
+                "office": "place",
+                "pan": "PAN_No.",
+                "pin": "PIN",
+                "marital": "Marital_status",
+                "pension": "Pension_type"
+            };
+
+            for (let k in smartMap) {
+                if (lowerQ.includes(k)) {
+                    let col = smartMap[k];
+                    return `🔍 <b>${col.replace(/_/g," ")}</b>: <br><span style="font-size:18px;color:#2400b7;">${emp[col] || "-"}</span>`;
+                }
+            }
+
+            // 🌟 FULL PROFILE (ALL DATA SHOWN)
+            let html = `
+<div style="background:#fff;padding:14px;border-radius:14px;border-left:6px solid #2400b7;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+
+<b style="color:#2400b7;font-size:16px;">👤 Complete Employee Profile</b>
+<hr>
+`;
+
+            headers.forEach(h => {
+                html += `<small><b>${h.replace(/_/g," ")}:</b> ${emp[h] || "-"}</small><br>`;
+            });
+
+            html += `</div>`;
+
+            return html;
+        }
     }
-    return "Profile not found.";
+
+    return "❌ Employee not found.";
 }
 
 /* ================= UPDATED SALARY MODULE ================= */
