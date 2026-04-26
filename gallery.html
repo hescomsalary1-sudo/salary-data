@@ -3,153 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Asset Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Media Asset Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #030712;
-            --accent: #3b82f6;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.1);
+            --primary: #2563eb;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
 
         body {
-            background-color: var(--bg);
-            color: white;
+            /* White Gradient Background */
+            background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+            color: var(--text-dark);
             font-family: 'Inter', sans-serif;
             margin: 0;
-            padding: 0;
+            min-height: 100vh;
+            padding-bottom: 50px;
         }
 
-        /* --- Header Design --- */
         header {
-            padding: 60px 20px;
+            padding: 50px 20px;
             text-align: center;
-            background: radial-gradient(circle at top, #1e293b 0%, #030712 70%);
-            border-bottom: 1px solid var(--border);
         }
 
         header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
+            font-size: 2.2rem;
             margin: 0;
-            letter-spacing: -1px;
+            color: #0f172a;
         }
 
-        header p {
-            color: #94a3b8;
-            margin-top: 10px;
-        }
-
-        /* --- Grid View --- */
+        /* --- Side-by-Side Grid Layout --- */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            padding: 40px;
-            max-width: 1300px;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 0 40px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
         .photo-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 20px;
+            background: white;
+            border-radius: 16px;
             overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column; /* Stacked internally, but cards are side-by-side in grid */
+            border: 1px solid #e2e8f0;
         }
 
         .photo-card:hover {
             transform: translateY(-5px);
-            border-color: var(--accent);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
-        .photo-card img {
+        .image-container {
             width: 100%;
-            height: 250px;
-            object-fit: cover; /* Keeps grid uniform */
-            display: block;
+            height: 220px;
+            overflow: hidden;
+            background: #f8fafc;
         }
 
-        .photo-desc {
-            padding: 15px;
-            font-size: 0.85rem;
-            color: #cbd5e1;
-            text-align: center;
-            border-top: 1px solid var(--border);
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
         }
 
-        /* --- Lightbox (Max Size View) --- */
-        #lightbox {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.95);
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
+        .photo-card:hover img {
+            transform: scale(1.08);
+        }
+
+        /* --- Description Container --- */
+        .info-box {
             padding: 20px;
-        }
-
-        #lightbox img {
-            max-width: 90%;
-            max-height: 80vh;
-            border-radius: 10px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
-        }
-
-        .lightbox-controls {
-            margin-top: 20px;
+            background: #ffffff;
+            flex-grow: 1;
             display: flex;
-            gap: 15px;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .info-box h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .info-box p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin: 0 0 20px 0;
+            line-height: 1.5;
+        }
+
+        .action-area {
+            display: flex;
+            gap: 10px;
         }
 
         .btn {
-            padding: 12px 25px;
-            border-radius: 30px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
             text-decoration: none;
-            display: inline-flex;
-            align-items: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.2s;
         }
 
-        .btn-download { background: var(--accent); color: white; }
-        .btn-close { background: #334155; color: white; }
+        .btn-view { background: var(--primary); color: white; border: none; }
+        .btn-view:hover { background: #1d4ed8; }
 
-        /* --- Loader --- */
-        #loader { text-align: center; padding: 100px; color: var(--accent); }
-        .spinner {
-            width: 40px; height: 40px;
-            border: 3px solid rgba(59, 130, 246, 0.1);
-            border-top: 3px solid var(--accent);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+        .btn-save { background: #f1f5f9; color: var(--text-dark); border: 1px solid #e2e8f0; }
+        .btn-save:hover { background: #e2e8f0; }
+
+        /* Mobile View */
+        @media (max-width: 600px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                padding: 0 20px;
+            }
         }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        #loader { text-align: center; padding: 100px; color: var(--primary); }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Media Portfolio</h1>
-        <p>Live Assets from Google Drive</p>
+        <h1>Media Assets</h1>
+        <p>Explore and manage your cloud-hosted images</p>
     </header>
 
-    <div id="loader"><div class="spinner"></div>Loading Gallery...</div>
+    <div id="loader">Loading your gallery...</div>
     <div class="gallery-grid" id="gallery"></div>
-
-    <div id="lightbox">
-        <img id="lightbox-img" src="" alt="Full size">
-        <div class="lightbox-controls">
-            <a id="download-link" href="#" class="btn btn-download" download>Download Image</a>
-            <button class="btn btn-close" onclick="closeLightbox()">Close</button>
-        </div>
-    </div>
 
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzlmhlCzSc1GNYp_CSXc9gU36rorQfRdNZGW4hXoe0Ccz4aMwdqdjHbd21tVMsntp345w/exec';
@@ -169,26 +166,26 @@
                     const downloadUrl = `https://drive.google.com/uc?export=download&id=${photo.id}`;
 
                     card.innerHTML = `
-                        <img src="${imgUrl}" loading="lazy">
-                        <div class="photo-desc">${photo.name || 'View Image'}</div>
+                        <div class="image-container">
+                            <img src="${imgUrl}" alt="${photo.name}" loading="lazy">
+                        </div>
+                        <div class="info-box">
+                            <div>
+                                <h3>${photo.name}</h3>
+                                <p>Source: Google Drive Asset</p>
+                            </div>
+                            <div class="action-area">
+                                <a href="https://drive.google.com/file/d/${photo.id}/view" target="_blank" class="btn btn-view">Maximize</a>
+                                <a href="${downloadUrl}" class="btn btn-save">Download</a>
+                            </div>
+                        </div>
                     `;
-
-                    card.onclick = () => openLightbox(imgUrl, downloadUrl);
                     gallery.appendChild(card);
                 });
             } catch (error) {
-                console.error("Error:", error);
+                console.error("Fetch Error:", error);
+                document.getElementById('loader').innerText = "Failed to load photos. Please check your Drive permissions.";
             }
-        }
-
-        function openLightbox(src, downloadUrl) {
-            document.getElementById('lightbox-img').src = src;
-            document.getElementById('download-link').href = downloadUrl;
-            document.getElementById('lightbox').style.display = 'flex';
-        }
-
-        function closeLightbox() {
-            document.getElementById('lightbox').style.display = 'none';
         }
 
         loadGallery();
