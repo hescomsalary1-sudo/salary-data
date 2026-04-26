@@ -360,7 +360,73 @@ async function NOMINEE_MODULE(q,u){state.module=null;return "Loading nominee det
 
 /* ================= 100+ CONVERSATION ENGINE ================= */
 function COMMON_CHAT(q) {
+// SECTION EXTRA (101-200)
 
+// GENERAL QUESTIONS
+if (q.includes("what is your purpose")) return "My purpose is to help you with employee services quickly.";
+if (q.includes("who made you")) return "I was developed for HESCOM employee support system.";
+if (q.includes("are you real")) return "I am a virtual assistant designed to help you.";
+if (q.includes("can you think")) return "I process logic, not emotions.";
+if (q.includes("are you human")) return "No, I am an AI assistant.";
+if (q.includes("what can i ask")) return "You can ask about salary, leave, attendance, and more.";
+if (q.includes("can you learn")) return "I follow programmed logic, not self-learning.";
+if (q.includes("do you sleep")) return "No, I am available 24/7.";
+if (q.includes("are you free")) return "Yes, always ready to help.";
+if (q.includes("what is hescom")) return "HESCOM is Hubli Electricity Supply Company.";
+
+// WORK RELATED
+if (q.includes("work pressure")) return "Take breaks and stay focused. Balance is important.";
+if (q.includes("office timing")) return "Please check official office schedule.";
+if (q.includes("overtime")) return "Overtime details are available in salary section.";
+if (q.includes("promotion")) return "Promotion depends on department rules.";
+if (q.includes("transfer")) return "Please contact HR for transfer details.";
+
+// TECH HELP
+if (q.includes("app not working")) return "Try refreshing or check your internet connection.";
+if (q.includes("slow")) return "Your network might be slow. Try again.";
+if (q.includes("error")) return "Please retry or contact admin.";
+if (q.includes("login issue")) return "Ensure correct credentials are used.";
+if (q.includes("data not loading")) return "Server might be busy. Try again later.";
+
+// PERSONAL CHAT
+if (q.includes("i am sad")) return "Stay strong. Better days are coming.";
+if (q.includes("i am happy")) return "That's great to hear! 😊";
+if (q.includes("feeling tired")) return "Take some rest, you deserve it.";
+if (q.includes("feeling bored")) return "Maybe take a short break or chat with me!";
+if (q.includes("i am stressed")) return "Try relaxing for a few minutes.";
+
+// FUN
+if (q.includes("tell me something")) return "Did you know? Electricity travels at the speed of light!";
+if (q.includes("fact")) return "Fun fact: The sun provides more energy in 1 hour than Earth uses in a year!";
+if (q.includes("quote")) return "Success is not final, failure is not fatal.";
+if (q.includes("inspire")) return "Push yourself, because no one else will do it for you.";
+if (q.includes("challenge")) return "Every challenge is an opportunity.";
+
+// WEATHER (BASIC)
+if (q.includes("weather")) return "I currently don’t fetch live weather, but you can check Google Weather.";
+
+// LANGUAGE
+if (q.includes("kannada")) return "Naanu Kannada swalpa mathadthini 😊";
+if (q.includes("hindi")) return "Main thoda Hindi bol sakta hoon.";
+if (q.includes("english")) return "Yes, I can communicate in English.";
+
+// SECURITY
+if (q.includes("is my data safe")) return "Yes, your data is handled securely.";
+if (q.includes("privacy")) return "We respect your privacy.";
+
+// SYSTEM RESPONSES
+if (q.includes("refresh")) return "Please pull down to refresh the app.";
+if (q.includes("update app")) return "Check for latest version update.";
+if (q.includes("version")) return "You are using the latest version.";
+
+// EXTRA SMALL TALK
+if (q.includes("what are you doing")) return "Waiting to assist you.";
+if (q.includes("are you busy")) return "Never too busy for you!";
+if (q.includes("do you like me")) return "I am here to help you always.";
+if (q.includes("can we chat")) return "Of course! Ask me anything.";
+if (q.includes("tell story")) return "Once upon a time... an AI helped employees instantly 😄";
+
+// END EXTRA
     // SECTION 1: GREETINGS (1-10)
     if (/^(hi|hello|hey|hii|hey|yo|namaste|morning|evening|afternoon)/.test(q)) {
         const r = ["Hello! How can I help you?", "Hi there! Ready to assist.", "Hello 👋 What's on your mind today?", "Hey! How's your work going?"];
