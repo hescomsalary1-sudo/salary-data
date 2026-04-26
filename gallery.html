@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Mobile Grid Gallery</title>
+    <title>Premium Mobile Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #2563eb;
-            --bg-gradient: linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%);
+            --bg-gradient: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
             --card-bg: #ffffff;
+            --skeleton: #e2e8f0;
         }
 
         body {
@@ -17,53 +18,51 @@
             color: #1e293b;
             font-family: 'Inter', sans-serif;
             margin: 0;
-            padding: 10px;
+            padding: 12px;
             min-height: 100vh;
         }
 
         header {
             text-align: center;
-            padding: 20px 0;
+            padding: 20px 0 10px 0;
         }
 
-        /* --- 2-Column Grid for ALL screens (Mobile + Desktop) --- */
+        /* --- STICKY 2-COLUMN GRID FOR MOBILE --- */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 2 columns always */
-            gap: 12px; /* Smaller gap for mobile */
-            max-width: 1200px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            max-width: 800px;
             margin: 0 auto;
         }
 
         .photo-card {
             background: var(--card-bg);
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        /* --- Skeleton Loader / Image Spinner Container --- */
+        /* --- SKELETON LOADER (The gray box that pulses) --- */
         .image-container {
             width: 100%;
-            aspect-ratio: 1 / 1; /* Makes cards perfectly square */
+            aspect-ratio: 1 / 1;
             position: relative;
-            background: #e5e7eb; /* The background seen while loading */
-            overflow: hidden;
+            background-color: var(--skeleton);
         }
 
-        /* The Animated Pulse Spinner */
-        .image-container::after {
+        .image-container.loading::after {
             content: "";
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            animation: loading-pulse 1.5s infinite;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            animation: pulse 1.5s infinite;
         }
 
-        @keyframes loading-pulse {
+        @keyframes pulse {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
         }
@@ -72,46 +71,43 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            position: absolute;
-            top: 0;
-            left: 0;
-            opacity: 0; /* Hidden until loaded */
-            transition: opacity 0.5s ease-in-out;
-            z-index: 2;
+            display: block;
+            opacity: 0; /* Hidden until fully loaded */
+            transition: opacity 0.4s ease;
         }
 
         .info-container {
-            padding: 10px;
-            background: white;
+            padding: 12px;
+            text-align: center;
         }
 
         .info-container h3 {
-            margin: 0;
-            font-size: 0.85rem;
+            margin: 0 0 8px 0;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #0f172a;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            color: #0f172a;
         }
 
+        /* --- DOWNLOAD BUTTON WITH SPINNER --- */
         .download-btn {
             width: 100%;
             background: var(--primary);
             color: white;
             border: none;
-            padding: 8px;
-            margin-top: 8px;
-            border-radius: 6px;
+            padding: 10px;
+            border-radius: 8px;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
+            gap: 8px;
         }
 
-        /* Inner Button Spinner */
         .btn-spinner {
             width: 12px;
             height: 12px;
@@ -130,10 +126,10 @@
 <body>
 
     <header>
-        <h1 style="font-size: 1.2rem;">My Gallery</h1>
+        <h1 style="font-size: 1.4rem;">Photo Library</h1>
     </header>
 
-    <div id="page-loader">Syncing Drive...</div>
+    <div id="page-loader">Connecting to Folder...</div>
     <div class="gallery-grid" id="gallery"></div>
 
     <script>
@@ -150,51 +146,59 @@
                     const card = document.createElement('div');
                     card.className = 'photo-card';
                     
-                    const imgUrl = `https://drive.google.com/uc?export=view&id=${photo.id}`;
+                    /**
+                     * FIXED URL: Using 'lh3.googleusercontent.com' is much more 
+                     * reliable for mobile browsers than 'drive.google.com/uc'
+                     */
+                    const imgUrl = `https://lh3.googleusercontent.com/d/${photo.id}`;
                     const downloadUrl = `https://drive.google.com/uc?export=download&id=${photo.id}`;
 
                     card.innerHTML = `
-                        <div class="image-container">
-                            <img src="${imgUrl}" onload="handleImageLoad(this)">
+                        <div class="image-container loading">
+                            <img src="${imgUrl}" onload="showImage(this)" onerror="handleError(this)">
                         </div>
                         <div class="info-container">
                             <h3>${photo.name}</h3>
                             <button class="download-btn" onclick="handleDownload(this, '${downloadUrl}')">
                                 <span class="btn-spinner"></span>
-                                <span class="btn-text">Download</span>
+                                <span class="btn-text">SAVE</span>
                             </button>
                         </div>
                     `;
                     gallery.appendChild(card);
                 });
             } catch (error) {
-                document.getElementById('page-loader').innerText = "Failed to load.";
+                document.getElementById('page-loader').innerText = "Network Error. Check Script URL.";
             }
         }
 
-        // --- Removes the pulse spinner when image is ready ---
-        function handleImageLoad(img) {
+        // --- Logic to show image and hide skeleton ---
+        function showImage(img) {
             img.style.opacity = '1';
-            img.parentElement.classList.add('loaded');
-            // Hide the pulse animation
-            img.parentElement.style.setProperty('--after-display', 'none');
+            img.parentElement.classList.remove('loading');
         }
 
+        function handleError(img) {
+            img.parentElement.innerHTML = '<div style="font-size:10px; padding:20px; color:red;">Private Access</div>';
+            img.parentElement.classList.remove('loading');
+        }
+
+        // --- Download Spinner Logic ---
         function handleDownload(btn, url) {
             const spinner = btn.querySelector('.btn-spinner');
             const text = btn.querySelector('.btn-text');
             btn.disabled = true;
-            spinner.style.display = 'inline-block';
-            text.innerText = "Wait...";
+            spinner.style.display = 'block';
+            text.innerText = "WAIT...";
 
             setTimeout(() => {
                 window.location.href = url;
                 setTimeout(() => {
                     btn.disabled = false;
                     spinner.style.display = 'none';
-                    text.innerText = "Download";
-                }, 1000);
-            }, 1200);
+                    text.innerText = "SAVE";
+                }, 1500);
+            }, 1000);
         }
 
         loadGallery();
