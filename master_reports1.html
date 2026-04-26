@@ -10,170 +10,143 @@
 
     <style>
         :root {
-            --primary: #4f46e5;
-            --bg: #f8fafc;
-            --card: #ffffff;
-            --text-dark: #1e293b;
-            --text-light: #64748b;
-            --sanc: #3b82f6;
-            --work: #10b981;
-            --vaca: #ef4444;
-            /* Section Colors */
-            --blue-soft: #eff6ff; --blue-deep: #2563eb;
-            --green-soft: #f0fdf4; --green-deep: #16a34a;
-            --purple-soft: #f5f3ff; --purple-deep: #7c3aed;
-            --amber-soft: #fffbeb; --amber-deep: #d97706;
+            --primary: #4338ca;
+            --bg: #f1f5f9;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --career: #4338ca;
+            --personal: #059669;
+            --identity: #d97706;
+            --social: #e11d48;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            margin: 0; background: var(--bg); color: var(--text-dark);
+            margin: 0; background: var(--bg); color: var(--text-main);
             min-height: 100vh; display: flex; flex-direction: column; align-items: center;
-            padding-bottom: 100px;
         }
 
         header {
-            width: 100%; padding: 22px 0; background: var(--primary);
+            width: 100%; padding: 20px 0; background: var(--primary);
             color: white; text-align: center; position: sticky; top: 0; z-index: 1000;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
         }
-        header h1 { margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
+        header h1 { margin: 0; font-size: 16px; font-weight: 800; letter-spacing: 0.5px; }
 
-        .container { width: 94%; max-width: 600px; padding: 15px 0; display: flex; flex-direction: column; gap: 15px; }
+        .container { width: 94%; max-width: 600px; padding: 20px 0; display: flex; flex-direction: column; gap: 20px; }
 
-        /* --- Stats Grid --- */
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .stat-card {
-            background: var(--card); border-radius: 16px; padding: 14px 5px; text-align: center;
-            border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        /* --- Global Totals --- */
+        .total-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .total-card {
+            background: white; border-radius: 16px; padding: 15px 5px; text-align: center;
+            border: 1px solid #e2e8f0;
         }
-        .stat-card span { display: block; font-size: 9px; font-weight: 800; color: var(--text-light); margin-bottom: 4px; }
-        .stat-card b { font-size: 20px; display: block; }
+        .total-card span { display: block; font-size: 9px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; }
+        .total-card b { font-size: 20px; display: block; }
 
-        /* --- Designation Carousel --- */
-        .carousel-container { position: relative; width: 100%; display: flex; align-items: center; }
-        .slider-box {
+        /* --- Carousel --- */
+        .carousel-wrapper { position: relative; width: 100%; display: flex; align-items: center; }
+        .desig-slider {
             display: flex; gap: 12px; overflow-x: auto; scroll-behavior: smooth;
-            scrollbar-width: none; padding: 10px 0; width: 100%;
+            scrollbar-width: none; scroll-snap-type: x mandatory; padding: 10px 0;
         }
-        .slider-box::-webkit-scrollbar { display: none; }
+        .desig-slider::-webkit-scrollbar { display: none; }
         .desig-card {
-            min-width: 85%; background: var(--card); border-radius: 20px; padding: 18px; 
-            border: 1px solid #e2e8f0; border-left: 6px solid var(--primary);
+            min-width: 85%; scroll-snap-align: center; background: white; border-radius: 16px; padding: 16px; border: 1px solid #e2e8f0;
         }
-        .desig-card h3 { margin: 0 0 12px 0; font-size: 14px; font-weight: 700; height: 36px; overflow: hidden; color: var(--text-dark); }
-        .stats-row { display: flex; justify-content: space-between; gap: 8px; }
-        .mini-stat { flex: 1; text-align: center; padding: 10px 5px; border-radius: 12px; }
-        .stat-s { background: var(--blue-soft); color: var(--sanc); }
-        .stat-w { background: var(--green-soft); color: var(--work); }
-        .stat-v { background: #fef2f2; color: var(--vaca); }
-        .mini-stat label { display: block; font-size: 8px; font-weight: 800; text-transform: uppercase; }
-        .mini-stat span { font-size: 16px; font-weight: 800; }
-        
-        .nav-btn {
-            position: absolute; width: 34px; height: 34px; background: white; 
-            border: 1px solid #e2e8f0; border-radius: 50%; z-index: 10; 
-            color: var(--primary); display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        .nav-left { left: -10px; }
-        .nav-right { right: -10px; }
+        .desig-card h3 { margin: 0 0 10px 0; font-size: 13px; font-weight: 700; height: 35px; overflow: hidden; }
+        .stats-row { display: flex; justify-content: space-between; gap: 5px; }
+        .mini-stat { flex: 1; text-align: center; background: #f8fafc; padding: 8px; border-radius: 10px; }
+        .mini-stat label { display: block; font-size: 8px; font-weight: 700; color: var(--text-muted); }
+        .mini-stat span { font-size: 14px; font-weight: 800; }
+        .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; background: white; border: 1px solid #e2e8f0; border-radius: 50%; z-index: 10; color: var(--primary); }
 
-        /* --- Search --- */
-        .search-wrapper {
+        /* --- Search Bar --- */
+        .search-box {
             position: sticky; top: 75px; z-index: 900; background: white;
             border-radius: 16px; padding: 14px 18px; border: 1px solid #e2e8f0;
-            display: flex; align-items: center; gap: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 20px -5px rgba(0,0,0,0.05);
         }
-        .search-wrapper input { border: none; outline: none; width: 100%; font-size: 16px; font-family: inherit; }
+        .search-box input { border: none; outline: none; width: 100%; font-size: 15px; font-family: inherit; }
 
-        /* --- MODERN INDIVIDUAL DATA --- */
+        /* --- MODERN INDIVIDUAL RECORDS --- */
         .emp-card {
-            background: var(--card); border-radius: 24px; margin-bottom: 15px;
-            border: 1px solid #e2e8f0; overflow: hidden; transition: 0.3s;
+            background: white; border-radius: 24px; padding: 18px; margin-bottom: 15px;
+            border: 1px solid #e2e8f0; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .emp-card.active { border-color: var(--primary); box-shadow: 0 15px 30px rgba(79, 70, 229, 0.1); }
-        
-        .card-main { padding: 18px; display: flex; align-items: center; gap: 15px; cursor: pointer; }
-        .id-icon {
-            width: 48px; height: 48px; background: linear-gradient(135deg, #f1f5f9, #e2e8f0); 
-            border-radius: 16px; display: flex; align-items: center; justify-content: center;
-            font-weight: 800; color: var(--primary); font-size: 15px;
+        .emp-card.active { border-color: var(--primary); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+
+        .card-header { display: flex; align-items: center; gap: 15px; cursor: pointer; }
+        .avatar {
+            width: 50px; height: 50px; background: #f1f5f9; border-radius: 18px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 15px; color: var(--primary); border: 2px solid #fff;
         }
-        .info-meta h4 { margin: 0; font-size: 16px; font-weight: 800; letter-spacing: -0.3px; }
-        .info-meta p { margin: 3px 0 0 0; font-size: 12px; color: var(--text-light); }
+        .name-meta h4 { margin: 0; font-size: 15px; font-weight: 800; }
+        .name-meta p { margin: 2px 0 0 0; font-size: 11px; color: var(--text-muted); }
         .chevron { margin-left: auto; color: #cbd5e1; transition: 0.3s; }
         .active .chevron { transform: rotate(180deg); color: var(--primary); }
 
-        .details { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; background: #fafafa; }
-        .active .details { max-height: 2000px; padding: 20px; border-top: 1px solid #f1f5f9; }
+        /* Expansion Styling */
+        .detail-pane { max-height: 0; overflow: hidden; transition: max-height 0.6s ease; }
+        .active .detail-pane { max-height: 5000px; margin-top: 20px; }
 
-        /* Colorful Data Blocks */
-        .data-block { 
-            border-radius: 20px; padding: 18px; margin-bottom: 15px; 
-            display: flex; flex-direction: column; gap: 12px;
-            border: 1px solid rgba(0,0,0,0.03);
-        }
-        .block-pro { background: var(--purple-soft); }
-        .block-per { background: var(--green-soft); }
-        .block-doc { background: var(--blue-soft); }
+        .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .act-btn { padding: 12px; border-radius: 14px; text-decoration: none; text-align: center; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .act-call { background: #ecfdf5; color: #059669; }
+        .act-mail { background: #eff6ff; color: #3b82f6; }
 
-        .block-head { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
-        .block-head i { font-size: 14px; }
-        .block-head span { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+        /* Colorful Section Containers */
+        .data-sect { border-radius: 20px; padding: 15px; margin-bottom: 15px; }
+        .career-bg { background: #f5f3ff; border: 1px solid #ddd6fe; }
+        .personal-bg { background: #f0fdf4; border: 1px solid #dcfce7; }
+        .identity-bg { background: #fffbeb; border: 1px solid #fef3c7; }
+        .social-bg { background: #fff1f2; border: 1px solid #ffe4e6; }
 
-        .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .data-cell label { display: block; font-size: 8px; font-weight: 800; color: var(--text-light); text-transform: uppercase; margin-bottom: 3px; }
-        .data-cell span { font-size: 13px; font-weight: 700; color: var(--text-dark); word-break: break-all; }
+        .sect-head { display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 800; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .career-head { color: var(--career); }
+        .personal-head { color: var(--personal); }
+        .identity-head { color: var(--identity); }
+        .social-head { color: var(--social); }
 
-        /* --- Download Button --- */
-        .download-btn {
-            position: fixed; bottom: 25px; right: 20px; 
-            background: #1e293b; color: white; border: none;
-            padding: 16px 24px; border-radius: 50px; font-weight: 800; font-size: 14px;
-            display: flex; align-items: center; gap: 10px; z-index: 1001;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3); cursor: pointer;
-        }
-        .download-btn:active { transform: scale(0.95); }
+        .grid-info { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .data-box { background: rgba(255,255,255,0.6); padding: 10px; border-radius: 12px; }
+        .data-box label { display: block; font-size: 8px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 3px; }
+        .data-box span { font-size: 11px; font-weight: 700; color: #1e293b; display: block; }
 
-        #loader { position: fixed; inset: 0; background: white; z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        #loader { position: fixed; inset: 0; background: white; z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 15px; }
         .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-<div id="loader"><div class="spinner"></div></div>
+<div id="loader"><div class="spinner"></div><span style="font-size:13px; font-weight:700;">Building Dashboard...</span></div>
 
-<header><h1>Master Analytics Portal</h1></header>
+<header><h1>Employee Master Portal</h1></header>
 
 <div class="container">
     
-    <div class="stats-grid">
-        <div class="stat-card"><span>SANCTIONED</span><b id="gtS" style="color:var(--sanc)">0</b></div>
-        <div class="stat-card"><span>WORKING</span><b id="gtW" style="color:var(--work)">0</b></div>
-        <div class="stat-card"><span>VACANT</span><b id="gtV" style="color:var(--vaca)">0</b></div>
+    <div class="total-grid">
+        <div class="total-card"><span>SANCTIONED</span><b id="gtS" style="color:#4338ca">0</b></div>
+        <div class="total-card"><span>WORKING</span><b id="gtW" style="color:#059669">0</b></div>
+        <div class="total-card"><span>VACANT</span><b id="gtV" style="color:#e11d48">0</b></div>
     </div>
 
-    <div class="carousel-container">
-        <button class="nav-btn nav-left" onclick="move('left')"><i class="fas fa-chevron-left"></i></button>
-        <div id="desigSlider" class="slider-box"></div>
-        <button class="nav-btn nav-right" onclick="move('right')"><i class="fas fa-chevron-right"></i></button>
+    <div class="carousel-wrapper">
+        <button class="nav-btn" style="left:-10px" onclick="slide('left')"><i class="fas fa-chevron-left"></i></button>
+        <div id="desigSlider" class="desig-slider"></div>
+        <button class="nav-btn" style="right:-10px" onclick="slide('right')"><i class="fas fa-chevron-right"></i></button>
     </div>
 
-    <div class="search-wrapper">
+    <div class="search-box">
         <i class="fas fa-search" style="color: var(--primary)"></i>
-        <input type="text" id="searchInput" placeholder="Search by name, place, or ID..." oninput="handleSearch()">
+        <input type="text" id="searchInput" placeholder="Search anything..." oninput="handleSearch()">
     </div>
 
     <div id="employeeList"></div>
 
 </div>
-
-<button class="download-btn" onclick="triggerCSVDownload()">
-    <i class="fas fa-file-export"></i> Full Download
-</button>
 
 <script>
     const CSV_URL = "https://hescomsalary1-sudo.github.io/salary-data/employee.csv";
@@ -191,9 +164,9 @@
         });
     };
 
-    function move(dir) {
+    function slide(dir) {
         const s = document.getElementById('desigSlider');
-        s.scrollBy({ left: dir === 'left' ? -280 : 280, behavior: 'smooth' });
+        s.scrollBy({ left: dir === 'left' ? -250 : 250, behavior: 'smooth' });
     }
 
     function calculateAnalytics() {
@@ -217,12 +190,7 @@
         Object.keys(desigMap).sort().forEach(k => {
             const div = document.createElement('div');
             div.className = 'desig-card';
-            div.innerHTML = `<h3>${k}</h3>
-                <div class="stats-row">
-                    <div class="mini-stat stat-s"><label>Sanc</label><span>${desigMap[k].s}</span></div>
-                    <div class="mini-stat stat-w"><label>Work</label><span>${desigMap[k].w}</span></div>
-                    <div class="mini-stat stat-v"><label>Vac</label><span>${desigMap[k].v}</span></div>
-                </div>`;
+            div.innerHTML = `<h3>${k}</h3><div class="stats-row"><div class="mini-stat"><label>Sanc.</label><span>${desigMap[k].s}</span></div><div class="mini-stat"><label>Work.</label><span>${desigMap[k].w}</span></div><div class="mini-stat"><label>Vac.</label><span>${desigMap[k].v}</span></div></div>`;
             slider.appendChild(div);
         });
     }
@@ -235,36 +203,52 @@
             const card = document.createElement('div');
             card.className = 'emp-card';
             
-            const pro = [['Joined On', r.Joining_date], ['Lien Office', r.Lien_office], ['Retirement', r.Retirement_date], ['Qualification', r.Qualification]];
-            const per = [['DOB', r.Date_of_birth], ['Gender', r.male_or_female], ['Religion', r.Religion], ['Town', r.Home_town]];
-            const iden = [['PAN Number', r['PAN_No.']], ['KGID No.', r['NDCPS_No.']], ['Pension Type', r.Pension_type], ['Mobile', r.mobile]];
+            // Section 1: Professional (Indigo)
+            const career = [['Joined', r.Joining_date], ['Joined As', r.Joining_designation], ['Current', r.Current_designation], ['Designation', r.designation], ['Office', r.Lien_office], ['Retirement', r.Retirement_date], ['Type', r.Appointment_type], ['Probation', r.Probationary_period_declaration]];
+            
+            // Section 2: Personal (Green)
+            const personal = [['DOB', r.Date_of_birth], ['Gender', r.male_or_female], ['Religion', r.Religion], ['Caste', r.Caste_name], ['Category', r.Category], ['Town', r.Home_town], ['District', r.District], ['Qualification', r.Qualification]];
+            
+            // Section 3: Identity & Finance (Amber)
+            const identity = [['PAN', r['PAN_No.']], ['KGID/NDCPS', r['NDCPS_No.']], ['Pension', r.Pension_type], ['PIN', r.PIN], ['Marital', r.Marital_status], ['Disabled', r.Physically_Disablity]];
+
+            // Section 4: Contact (Rose)
+            const social = [['Mobile', r.mobile], ['Email', r.E_mail], ['Username', r.username]];
 
             card.innerHTML = `
-                <div class="card-main" onclick="this.parentElement.classList.toggle('active')">
-                    <div class="id-icon">${i+1}</div>
-                    <div class="info-meta">
-                        <h4>${r.name || 'N/A'}</h4>
+                <div class="card-header" onclick="this.parentElement.classList.toggle('active')">
+                    <div class="avatar">${i+1}</div>
+                    <div class="name-meta">
+                        <h4>${r.name || 'Staff Member'}</h4>
                         <p>${r.designation} • ${r.place}</p>
                     </div>
                     <i class="fas fa-chevron-down chevron"></i>
                 </div>
-                <div class="details">
-                    
-                    <div class="data-block block-pro">
-                        <div class="block-head" style="color:var(--purple-deep)"><i class="fas fa-user-tie"></i> <span>Professional Career</span></div>
-                        <div class="data-grid">${pro.map(x => `<div class="data-cell"><label>${x[0]}</label><span>${x[1]||'---'}</span></div>`).join('')}</div>
+                <div class="detail-pane">
+                    <div class="action-row">
+                        <a href="tel:${r.mobile}" class="act-btn act-call"><i class="fas fa-phone"></i> Call Now</a>
+                        <a href="mailto:${r.E_mail}" class="act-btn act-mail"><i class="fas fa-envelope"></i> Email</a>
                     </div>
 
-                    <div class="data-block block-per">
-                        <div class="block-head" style="color:var(--green-deep)"><i class="fas fa-id-badge"></i> <span>Personal Details</span></div>
-                        <div class="data-grid">${per.map(x => `<div class="data-cell"><label>${x[0]}</label><span>${x[1]||'---'}</span></div>`).join('')}</div>
+                    <div class="data-sect career-bg">
+                        <div class="sect-head career-head"><i class="fas fa-briefcase"></i> Professional Career</div>
+                        <div class="grid-info">${career.map(x => `<div class="data-box"><label>${x[0]}</label><span>${x[1]||'---'}</span></div>`).join('')}</div>
                     </div>
 
-                    <div class="data-block block-doc">
-                        <div class="block-head" style="color:var(--blue-deep)"><i class="fas fa-fingerprint"></i> <span>Identity & Contact</span></div>
-                        <div class="data-grid">${iden.map(x => `<div class="data-cell"><label>${x[0]}</label><span>${x[1]||'---'}</span></div>`).join('')}</div>
+                    <div class="data-sect personal-bg">
+                        <div class="sect-head personal-head"><i class="fas fa-user-circle"></i> Personal Background</div>
+                        <div class="grid-info">${personal.map(x => `<div class="data-box"><label>${x[0]}</label><span>${x[1]||'---'}</span></div>`).join('')}</div>
                     </div>
 
+                    <div class="data-sect identity-bg">
+                        <div class="sect-head identity-head"><i class="fas fa-id-card"></i> Identity & Accounts</div>
+                        <div class="grid-info">${identity.map(x => `<div class="data-box"><label>${x[0]}</label><span>${x[1]||'---'}</span></div>`).join('')}</div>
+                    </div>
+
+                    <div class="data-sect social-bg">
+                        <div class="sect-head social-head"><i class="fas fa-address-book"></i> Communication</div>
+                        <div class="grid-info">${social.map(x => `<div class="data-box"><label>${x[0]}</label><span>${x[1]||'---'}</span></div>`).join('')}</div>
+                    </div>
                 </div>`;
             list.appendChild(card);
         });
@@ -273,20 +257,6 @@
     function handleSearch() {
         const q = document.getElementById('searchInput').value.toLowerCase();
         renderEmployees(masterData.filter(r => Object.values(r).some(v => String(v).toLowerCase().includes(q))));
-    }
-
-    // This method ensures a mobile notification occurs
-    function triggerCSVDownload() {
-        const csv = Papa.unparse(masterData);
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.setAttribute("href", url);
-        link.setAttribute("download", "Full_Employee_Master_Report.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        setTimeout(() => URL.revokeObjectURL(url), 150);
     }
 </script>
 </body>
