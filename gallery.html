@@ -3,138 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Media Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>Live Folder Gallery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #030712;
-            --card-bg: rgba(255, 255, 255, 0.03);
             --accent: #3b82f6;
-            --border: rgba(255, 255, 255, 0.08);
+            --glass: rgba(255, 255, 255, 0.03);
         }
 
         body {
             background-color: var(--bg);
-            color: #f8fafc;
+            color: white;
             font-family: 'Inter', sans-serif;
             margin: 0;
-            padding: 40px 20px;
+            padding: 20px;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .header h1 {
-            font-weight: 700;
-            letter-spacing: -1px;
-            margin-bottom: 10px;
-        }
-
-        /* Modern Masonry Layout - Prevents "Cut" images */
+        /* Premium Masonry - Fixes the "Cut" issue */
         .gallery-wrapper {
-            columns: 3 300px; /* Number of columns and min-width */
-            column-gap: 20px;
-            max-width: 1200px;
+            columns: 3 250px;
+            column-gap: 15px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
         .photo-card {
-            break-inside: avoid; /* Keeps the card from splitting between columns */
-            margin-bottom: 20px;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 20px;
+            break-inside: avoid;
+            margin-bottom: 15px;
+            background: var(--glass);
+            border-radius: 12px;
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s ease;
         }
 
         .photo-card:hover {
             transform: scale(1.02);
             border-color: var(--accent);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
         .photo-card img {
             width: 100%;
-            height: auto; /* Fixed: allows image to show fully without being cut */
+            height: auto;
             display: block;
-            transition: filter 0.3s ease;
         }
 
-        /* Premium Overlay Effect */
-        .photo-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 20px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .photo-card:hover .photo-overlay {
-            opacity: 1;
-        }
-
-        .photo-btn {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        /* Mobile Adjustments */
-        @media (max-width: 600px) {
-            .gallery-wrapper {
-                columns: 1;
-            }
+        #loader {
+            text-align: center;
+            padding: 50px;
+            color: var(--accent);
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>Company Assets</h1>
-        <p style="color: #94a3b8;">High-resolution media library</p>
-    </div>
-
-    <div class="gallery-wrapper" id="gallery">
-        </div>
+    <h1 style="text-align:center; font-weight:300;">Media Assets</h1>
+    <div id="loader">Fetching photos from Drive...</div>
+    <div class="gallery-wrapper" id="gallery"></div>
 
     <script>
-        const photoIds = [
-            '1c0wUc24-IBaBt7DIt0taYsmhM8rPCyPU', // Your provided ID
-            'FILE_ID_2',
-            'FILE_ID_3'
-        ];
+        // PASTE YOUR GOOGLE APPS SCRIPT URL HERE
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzlmhlCzSc1GNYp_CSXc9gU36rorQfRdNZGW4hXoe0Ccz4aMwdqdjHbd21tVMsntp345w/exec';
 
-        const gallery = document.getElementById('gallery');
+        async function loadGallery() {
+            try {
+                const response = await fetch(SCRIPT_URL);
+                const photos = await response.json();
+                const gallery = document.getElementById('gallery');
+                const loader = document.getElementById('loader');
 
-        photoIds.forEach(id => {
-            if(id === 'FILE_ID_2' || id === 'FILE_ID_3') return; // Skip placeholders
+                loader.style.display = 'none';
 
-            const card = document.createElement('div');
-            card.className = 'photo-card';
-            
-            // Fixed URL Logic: Using the direct export link for Drive
-            const imgUrl = `https://lh3.googleusercontent.com/d/${id}`;
+                photos.forEach(photo => {
+                    const card = document.createElement('div');
+                    card.className = 'photo-card';
+                    
+                    // Direct Link Format
+                    const imgUrl = `https://drive.google.com/uc?export=view&id=${photo.id}`;
 
-            card.innerHTML = `
-                <img src="${imgUrl}" alt="Gallery Image" loading="lazy">
-                <div class="photo-overlay">
-                    <button class="photo-btn">View Asset</button>
-                </div>
-            `;
-            gallery.appendChild(card);
-        });
+                    card.innerHTML = `<img src="${imgUrl}" loading="lazy">`;
+                    gallery.appendChild(card);
+                });
+            } catch (error) {
+                document.getElementById('loader').innerText = "Error loading folder. Check permissions.";
+            }
+        }
+
+        loadGallery();
     </script>
 </body>
 </html>
