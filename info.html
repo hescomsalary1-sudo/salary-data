@@ -129,6 +129,15 @@ async function AI_ENGINE(q) {
     ){
         state.module = "legal";
     }
+        else if (
+    q.includes("els") ||
+    q.includes("bill") ||
+    q.includes("earned leave") ||
+    q.includes("els amount") ||
+    q.includes("els status")
+){
+    state.module = "els";
+}
 
     else if (
         q.includes("salary") || 
@@ -195,6 +204,7 @@ async function AI_ENGINE(q) {
     if (state.module === "nominee") return await NOMINEE_MODULE(q, user);
     if (state.module === "profile") return await PROFILE_MODULE(q, user);
     if (state.module === "legal") return LEGAL_MODULE(q, user);
+    if (state.module === "els") return await ELS_MODULE(q, user);
 
     // 2. COMMON CONVERSATION ENGINE (100+ Responses)
     return COMMON_CHAT(q);
@@ -633,6 +643,63 @@ function LEGAL_MODULE(q, user){
     reply += `</div>`;
 
     return reply;
+}
+    /* ================= ELS MODULE ================= */
+async function ELS_MODULE(q, user){
+
+    state.module = null;
+
+    try{
+        let res = await fetch(baseURL + "els_bills.csv");
+        let text = await res.text();
+        let rows = text.trim().split("\n");
+
+        let results = [];
+
+        for(let i=1; i<rows.length; i++){
+            let c = rows[i].split(",");
+
+            if(c[0].trim() === user){
+                results.push({
+                    year: c[1],
+                    amount: c[2],
+                    period: c[3],
+                    status: c[4],
+                    remarks: c[5],
+                    days: c[6]
+                });
+            }
+        }
+
+        if(results.length === 0){
+            return "❌ No ELS records found.";
+        }
+
+        let reply = `
+<div style="background:#fff;padding:14px;border-radius:14px;border-left:6px solid #2400b7;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+
+<b style="color:#2400b7;">💰 ELS Bills</b>
+<hr>
+`;
+
+        results.forEach(r=>{
+            reply += `
+<b>📅 Year:</b> ${r.year}<br>
+<b>💵 Amount:</b> ₹${r.amount}<br>
+<b>🗓 Period:</b> ${r.period}<br>
+<b>📊 Status:</b> ${r.status}<br>
+<b>📝 Remarks:</b> ${r.remarks}<br>
+<b>📆 ELS Days:</b> ${r.days}
+<hr>`;
+        });
+
+        reply += `</div>`;
+
+        return reply;
+
+    }catch(e){
+        return "⚠️ Error loading ELS data.";
+    }
 }
 async function NOMINEE_MODULE(q,u){state.module=null;return "Loading nominee details from secure API...";}
 
