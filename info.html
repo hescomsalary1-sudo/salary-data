@@ -145,6 +145,11 @@ button { background: #2400b7; color: white; border: none; padding: 0 20px; margi
     from { transform: translateY(100%); }
     to { transform: translateY(0); }
 }
+    /* Prevent background scroll when popup open */
+body.no-scroll {
+    overflow: hidden;
+    height: 100vh;
+}
 </style>
 </head>
 
@@ -923,10 +928,21 @@ addMessage("Hello! I am your Secure Smart support. Ask me about your Salary, Lea
 history.pushState(null, null, location.href);
 window.onpopstate = function () { window.location.replace("home.html"); };
 
-    function toggleHelp(){
+ function toggleHelp(){
     let popup = document.getElementById("helpPopup");
-    popup.style.display = popup.style.display === "flex" ? "none" : "flex";
+
+    if (popup.style.display === "flex") {
+        popup.style.display = "none";
+        document.body.classList.remove("no-scroll"); // enable background
+    } else {
+        popup.style.display = "flex";
+        document.body.classList.add("no-scroll"); // disable background
+    }
 }
+
+    document.getElementById("helpPopup").addEventListener("touchmove", function(e){
+    e.stopPropagation(); // stop parent scroll
+}, { passive: false });
 </script>
     <!-- FLOATING HELP BUTTON -->
 <div id="helpBtn" onclick="toggleHelp()">❓</div>
