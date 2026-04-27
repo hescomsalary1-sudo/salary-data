@@ -128,10 +128,10 @@ button { background: #2400b7; color: white; border: none; padding: 0 20px; margi
 /* BODY */
 .help-body {
     flex: 1;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow-y: auto; /* Correct */
+    -webkit-overflow-scrolling: touch; /* Correct */
+    overscroll-behavior: contain; /* ADD THIS: Prevents the background from "refreshing" when you reach the top/bottom */
 }
-
 /* CARD */
 .card {
     background: #f5f5f5;
@@ -941,9 +941,7 @@ window.onpopstate = function () { window.location.replace("home.html"); };
     }
 }
 
-    document.getElementById("helpPopup").addEventListener("touchmove", function(e){
-    e.stopPropagation(); // stop parent scroll
-}, { passive: false });
+    
 </script>
     <!-- FLOATING HELP BUTTON -->
 <div id="helpBtn" onclick="toggleHelp()">❓</div>
