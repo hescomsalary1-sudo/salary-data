@@ -144,15 +144,15 @@ async function AI_ENGINE(q) {
         state.module = "salary";
     }
 
-    else if (
-        q.includes("attendance") ||
-        q.includes("present") ||
-        q.includes("absent ") || q === "absent"
-        q.includes("leave") ||
-        q.includes("holiday")
-    ){
-        state.module = "attendance";
-    }
+  else if (
+    q.includes("attendance") ||
+    q.includes("present") ||
+    q.includes("absent") ||
+    q.includes("leave") ||
+    q.includes("holiday")
+){
+    state.module = "attendance";
+}
 
     else if (q.includes("leave") || q.includes("balance")){
         state.module = "leave";
