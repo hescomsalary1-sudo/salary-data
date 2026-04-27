@@ -529,13 +529,13 @@ async function ATTENDANCE_MODULE(q, user) {
 
                     let days = c.slice(3);
 
-                    let present = 0,  = 0, leave = 0, holiday = 0;
+                    let present = 0, absent = 0, leave = 0, holiday = 0; // Added 'absent'
 
                     days.forEach(d => {
                         d = d.trim().toUpperCase();
 
                         if (d === "P") present++;
-                        else if (d === "A") ++;
+                        else if (d === "A") absent++; // Specify 'absent'
                         else if (["EL","CL","IL","FPL","MDL"].includes(d)) leave++;
                         else if (["GH","WH"].includes(d)) holiday++;
                     });
