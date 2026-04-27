@@ -64,6 +64,83 @@ body {
 
 input { flex: 1; padding: 12px; border-radius: 25px; border: 1px solid #ddd; outline: none; }
 button { background: #2400b7; color: white; border: none; padding: 0 20px; margin-left: 10px; border-radius: 25px; font-weight: bold; }
+
+    /* FLOAT BUTTON */
+#helpBtn {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
+    background: linear-gradient(135deg, #2400b7, #5f2cff);
+    color: white;
+    font-size: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 9999;
+    transition: 0.3s;
+}
+
+#helpBtn:hover {
+    transform: scale(1.1);
+}
+
+/* POPUP BACKGROUND */
+#helpPopup {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: flex-end;
+    z-index: 9999;
+}
+
+/* POPUP BOX */
+.help-content {
+    width: 100%;
+    max-height: 80%;
+    background: white;
+    border-radius: 20px 20px 0 0;
+    animation: slideUp 0.3s ease;
+}
+
+/* HEADER */
+.help-header {
+    padding: 15px;
+    background: #2400b7;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* BODY */
+.help-body {
+    padding: 15px;
+    overflow-y: auto;
+}
+
+/* CARD */
+.card {
+    background: #f5f5f5;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* ANIMATION */
+@keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
 </style>
 </head>
 
@@ -841,6 +918,57 @@ addMessage("Hello! I am your Secure Smart support. Ask me about your Salary, Lea
 // BACK NAVIGATION
 history.pushState(null, null, location.href);
 window.onpopstate = function () { window.location.replace("home.html"); };
+
+    function toggleHelp(){
+    let popup = document.getElementById("helpPopup");
+    popup.style.display = popup.style.display === "flex" ? "none" : "flex";
+}
 </script>
+    <!-- FLOATING HELP BUTTON -->
+<div id="helpBtn" onclick="toggleHelp()">❓</div>
+
+<!-- HELP POPUP -->
+<div id="helpPopup">
+    <div class="help-content">
+        <div class="help-header">
+            💡 Help & Commands
+            <span onclick="toggleHelp()">✖</span>
+        </div>
+
+        <div class="help-body">
+
+            <div class="card">
+                <b>💰 Salary</b><br>
+                salary, pay, tax, basic, hra
+            </div>
+
+            <div class="card">
+                <b>📊 Attendance</b><br>
+                attendance, present, absent, leave
+            </div>
+
+            <div class="card">
+                <b>📅 Leave</b><br>
+                leave balance, cl, el, fpl
+            </div>
+
+            <div class="card">
+                <b>👤 Profile</b><br>
+                name, mobile, dob, designation
+            </div>
+
+            <div class="card">
+                <b>⚖️ Legal</b><br>
+                case, court, notice, absence, negligence
+            </div>
+
+            <div class="card">
+                <b>💵 ELS Bills</b><br>
+                els, els bill, els status, els amount
+            </div>
+
+        </div>
+    </div>
+</div>
 </body>
 </html>
