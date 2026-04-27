@@ -117,6 +117,17 @@ async function AI_ENGINE(q) {
 
     // 1. DATA MODULE ROUTER
     if (!state.module) {
+        else if (
+    q.includes("case") ||
+    q.includes("legal") ||
+    q.includes("court") ||
+    q.includes("notice") ||
+    q.includes("discipline") ||
+    q.includes("absence") ||
+    q.includes("negligence")
+){
+    state.module = "legal";
+}
 
     if (
         q.includes("salary") || 
@@ -177,6 +188,7 @@ async function AI_ENGINE(q) {
     if (state.module === "leave") return await LEAVE_MODULE(q, user);
     if (state.module === "nominee") return await NOMINEE_MODULE(q, user);
     if (state.module === "profile") return await PROFILE_MODULE(q, user);
+    if (state.module === "legal") return LEGAL_MODULE(q, user);
 
     // 2. COMMON CONVERSATION ENGINE (100+ Responses)
     return COMMON_CHAT(q);
@@ -565,6 +577,56 @@ ${calendar}
             return "⚠️ Error loading attendance data";
         }
     }
+}
+    /* ================= LEGAL MODULE ================= */
+function LEGAL_MODULE(q, user){
+
+    state.module = null;
+
+    const data = [
+    {title:"Unauthorized Absence", status:"Active", desc:"Found absent from duty on 05-Mar-2026 without prior permission.", date:"12-Mar-26", action:"Explanation Sought", category:"Dept"},
+    {title:"WP No. 44521/2026", status:"Active", desc:"Writ Petition regarding promotion seniority list.", date:"25-May-26", action:"High Court (Dharwad)", category:"Court"},
+    {title:"Technical Negligence", status:"Active", desc:"Failure to follow SOP during line maintenance.", date:"20-Mar-26", action:"Inquiry Ongoing", category:"Dept"},
+    {title:"CC No. 102/2023", status:"Disposed", desc:"Criminal case regarding accidental damage during work.", date:"15-Nov-24", action:"District Court", category:"Court"},
+    {title:"Safety Violation", status:"Disposed", desc:"Violation of safety protocols during rain storm work.", date:"10-Jan-25", action:"Censure Issued", category:"Dept"},
+    {title:"Late Submission", status:"Active", desc:"Delay in submitting monthly technical reports.", date:"01-Apr-26", action:"Show Cause Notice", category:"Dept"}
+    ];
+
+    let results = [];
+
+    q = q.toLowerCase();
+
+    data.forEach(item=>{
+        if(
+            item.title.toLowerCase().includes(q) ||
+            item.desc.toLowerCase().includes(q) ||
+            item.category.toLowerCase().includes(q) ||
+            item.status.toLowerCase().includes(q)
+        ){
+            results.push(item);
+        }
+    });
+
+    if(results.length === 0){
+        return "❌ No legal records found.";
+    }
+
+    let reply = `<div style="background:#fff;padding:12px;border-radius:12px;border-left:5px solid #2400b7;">`;
+
+    results.forEach(r=>{
+        reply += `
+        <b>${r.title}</b><br>
+        📌 Status: ${r.status}<br>
+        📝 ${r.desc}<br>
+        📅 Date: ${r.date}<br>
+        ⚖️ Action: ${r.action}<br>
+        🏷 Category: ${r.category}
+        <hr>`;
+    });
+
+    reply += `</div>`;
+
+    return reply;
 }
 async function NOMINEE_MODULE(q,u){state.module=null;return "Loading nominee details from secure API...";}
 
