@@ -1137,41 +1137,38 @@ pointer-events: all;
     50% { transform: scale(1.3); opacity: 1; }
 }
 
-    /* 1. Prevent Shaking: Set a default height for the top area */
-.top {
-    min-height: 85px; 
-    transition: all 0.3s ease;
-}
-
-/* 2. Create the Entrance Animation */
-@keyframes pageEnter {
-    from { 
-        opacity: 0; 
-        transform: translateY(20px); 
-        filter: blur(5px);
-    }
-    to { 
-        opacity: 1; 
-        transform: translateY(0); 
-        filter: blur(0);
-    }
-}
-
-/* Apply animation to the main page container */
+/* 1. HIDE PAGE INITIALLY TO PREVENT SHAKING */
 #appPage {
-    opacity: 0; /* Hidden by default */
-    animation: pageEnter 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    animation-delay: 0.1s; /* Tiny delay to ensure styles are loaded */
+    opacity: 0;
+    transform: translateY(15px) scale(0.98); /* Start slightly lower and smaller */
+    transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    visibility: hidden;
 }
 
-/* 3. Smooth out images so they don't "pop" in */
-img {
-    transition: opacity 0.5s ease;
+/* 2. CLASS TO TRIGGER SMOOTH ENTRANCE */
+#appPage.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    visibility: visible;
 }
 
-/* 4. Fix content padding to match header exactly */
+/* 3. FIX HEADER JUMPING */
+.top {
+    min-height: 85px; /* Matches your header height exactly */
+    backdrop-filter: blur(10px);
+}
+
+/* 4. CONTENT PADDING ADJUSTMENT */
 .content {
-    padding-top: 130px; /* Increased slightly to prevent "jump" on render */
+    padding-top: 110px; /* Ensures space is reserved before content loads */
+}
+
+/* 5. LOADER OVERLAY TWEAK */
+#loader {
+    background: radial-gradient(circle at center, rgba(230, 236, 255, 0.9), rgba(240, 235, 255, 1));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
 }
 </style>
 </head>
@@ -1488,18 +1485,39 @@ img {
 </div>
 <script>
 
-/* YOUR ORIGINAL JAVASCRIPT REMAINS EXACTLY THE SAME */
+// 1. PASTE THIS AT THE VERY TOP OF YOUR SCRIPT TAG
+window.addEventListener('load', () => {
+    const loader = document.getElementById("loader");
+    const appPage = document.getElementById("appPage");
 
+    setTimeout(() => {
+        // Fade out the Orbit Loader
+        loader.style.transition = "opacity 0.5s ease";
+        loader.style.opacity = "0";
+        
+        // Slide the page up smoothly
+        appPage.classList.add("visible");
+
+        setTimeout(() => {
+            loader.style.display = "none";
+        }, 500);
+    }, 800); 
+});
+
+// 2. REPLACE YOUR OLD refreshApp WITH THIS ONE
 function refreshApp(){
-    // Show the "Middle" loader
-    document.getElementById("loader").style.display = "flex";
+    const appPage = document.getElementById("appPage");
+    const loader = document.getElementById("loader");
+
+    appPage.style.opacity = "0";
+    appPage.style.transform = "scale(0.95)";
     
-    // Optional: add a slight fade to the content area only
-    document.querySelector('.content').style.opacity = "0.4";
+    loader.style.display = "flex";
+    loader.style.opacity = "1";
 
     setTimeout(function(){
         location.reload(true);
-    }, 1000);
+    }, 600);
 }
 
 setTimeout(function(){
@@ -1733,20 +1751,22 @@ loadCurrentMonthSalary();
 
 
 
-function goTab(index, url){
-
-// wait a bit so navbar stays visible
-setTimeout(()=>{
-  document.getElementById("loader").style.display = "flex";
-  document.body.style.overflow = "hidden";
-},150);
-
-// navigate
-setTimeout(()=>{
-  window.location = url;
-},700);
-
+// 3. ADD THIS goTab FUNCTION (REPLACE THE ONE YOU MIGHT HAVE)
+function goTab(index, url) {
+    const appPage = document.getElementById("appPage");
+    appPage.style.opacity = "0";
+    appPage.style.transform = "translateX(-30px)";
+    
+    setTimeout(() => {
+        window.location.href = url;
+    }, 350);
 }
+
+/* --- LEAVE ALL YOUR OTHER CODE BELOW THIS LINE --- */
+/* The rest of your code (loadNews, loadUserProfile, etc.) stays exactly where it is */
+
+setTimeout(function(){
+    let user = localStorage.getItem("currentUser");
 
 
 window.onload = function(){
