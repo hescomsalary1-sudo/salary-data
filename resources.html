@@ -108,19 +108,89 @@ color:#bbb;
 }
 
 /* LOADER BELOW HEADER */
-#loader{
-position:fixed;
-top:95px; /* 🔥 important (below header) */
-left:0;
-width:100%;
-height:calc(100vh - 160px);
-background:#f3f4fa;
-display:none;
-flex-direction:column;
-padding:20px;
-gap:15px;
-z-index:500;
-overflow:hidden;
+#loader {
+    position: fixed;
+    top: 85px;  /* Below Fixed Header */
+    bottom: 70px; /* Above Fixed Footer */
+    left: 0;
+    width: 100%;
+    background: rgba(243, 244, 250, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 900;
+}
+
+/* FLUID ORBIT DESIGN */
+.fluid-loader {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.orbit {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #2400b7;
+    border-bottom-color: #00c9a7;
+    animation: rotate-orbit 1.5s linear infinite;
+}
+
+.orbit:nth-child(2) {
+    width: 70%;
+    height: 70%;
+    border-top-color: #6a5cff;
+    border-bottom-color: #ff4e8a;
+    animation-duration: 1s;
+    animation-direction: reverse;
+}
+
+.orbit:nth-child(3) {
+    width: 40%;
+    height: 40%;
+    border-top-color: #00e0b8;
+    border-bottom-color: #2400b7;
+    animation-duration: 2s;
+}
+
+.core {
+    width: 15px;
+    height: 15px;
+    background: #2400b7;
+    border-radius: 50%;
+    box-shadow: 0 0 15px #2400b7, 0 0 30px #00c9a7;
+    animation: pulse-core 1.5s ease-in-out infinite;
+}
+
+/* TEXT STYLE */
+.loader-text {
+    margin-top: 30px;
+    font-weight: 700;
+    color: #2400b7;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+/* ANIMATIONS */
+@keyframes rotate-orbit {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-core {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.3); opacity: 1; }
 }
 
 /* SKELETON */
@@ -336,9 +406,13 @@ background:linear-gradient(135deg,#2400b7,#3b1eff);
 
 <!-- LOADER -->
 <div id="loader">
-<div class="skeleton"></div>
-<div class="skeleton"></div>
-<div class="skeleton"></div>
+    <div class="fluid-loader">
+        <div class="orbit"></div>
+        <div class="orbit"></div>
+        <div class="orbit"></div>
+        <div class="core"></div>
+    </div>
+    <div class="loader-text">Syncing Secure Data...</div>
 </div>
 
 <script>
