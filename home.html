@@ -220,19 +220,19 @@ margin-bottom:4px;
 /* LOADER (FULL SCREEN SKELETON) */
 
 /* LOADER BELOW HEADER */
-#loader{
-position:fixed;
-top:95px; /* 🔥 important (below header) */
-left:0;
-width:100%;
-height:calc(100vh - 160px);
-background:#f3f4fa;
-display:none;
-flex-direction:column;
-padding:20px;
-gap:15px;
-z-index:500;
-overflow:hidden;
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(243, 244, 250, 0.8); /* Semi-transparent background */
+    backdrop-filter: blur(10px); /* Modern blur effect */
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999; /* Above everything */
 }
 /* shimmer */
 @keyframes shimmer{
@@ -984,7 +984,7 @@ pointer-events: all;
   border-left: 4px solid #ff3d3d;
 }
 
-  .notif-spinner {
+  .notif- {
   width: 30px;
   height: 30px;
   border: 4px solid rgba(75, 45, 216, 0.1);
@@ -1065,6 +1065,36 @@ pointer-events: all;
     0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
     100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
 }
+
+    /* THE SPINNER */
+.modern-spinner {
+    width: 60px;
+    height: 60px;
+    border: 5px solid rgba(36, 0, 183, 0.1);
+    border-top: 5px solid #2400b7;
+    border-radius: 50%;
+    animation: spin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+}
+
+/* LOADING TEXT */
+.loader-text {
+    margin-top: 15px;
+    font-weight: 600;
+    color: #2400b7;
+    font-size: 14px;
+    letter-spacing: 1px;
+    animation: pulseText 1.5s ease-in-out infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pulseText {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
 </style>
 </head>
 
@@ -1073,7 +1103,7 @@ pointer-events: all;
     <div class="bloom-center"></div>
 </div>
   <div id="transitionOverlay" class="page-transition-overlay">
-    <div class="notif-spinner" style="width:30px; height:30px;"></div>
+    <div class="notif-" style="width:30px; height:30px;"></div>
 </div>
   <!-- OVERLAY -->
 <div id="sideOverlay"></div>
@@ -1155,35 +1185,8 @@ pointer-events: all;
 
 
 <div id="loader">
-
-<!-- header -->
-<div style="display:flex;align-items:center;gap:10px;">
-<div class="skeleton skel-circle"></div>
-<div style="flex:1;">
-<div class="skeleton skel-line" style="width:60%;margin-bottom:6px;"></div>
-<div class="skeleton skel-line" style="width:40%;"></div>
-</div>
-</div>
-
-<!-- salary card -->
-<div class="skeleton skel-big"></div>
-
-<!-- grid -->
-<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
-<div class="skeleton skel-card"></div>
-<div class="skeleton skel-card"></div>
-<div class="skeleton skel-card"></div>
-<div class="skeleton skel-card"></div>
-</div>
-
-<!-- news -->
-<div class="skeleton skel-line" style="width:70%;"></div>
-<div class="skeleton skel-line"></div>
-<div class="skeleton skel-line" style="width:90%;"></div>
-  <div class="skeleton skel-card"></div>
-<div class="skeleton skel-card"></div>
-<div class="skeleton skel-card"></div>
-
+    <div class="modern-spinner"></div>
+    <div class="loader-text">LOADING...</div>
 </div>
 
 <div class="content">
@@ -1405,18 +1408,20 @@ pointer-events: all;
 /* YOUR ORIGINAL JAVASCRIPT REMAINS EXACTLY THE SAME */
 
 function refreshApp(){
-document.getElementById("loader").style.display="flex";
-document.body.style.overflow="hidden";
+    let loader = document.getElementById("loader");
+    loader.style.display = "flex";
+    document.body.style.overflow = "hidden";
 
-if('caches' in window){
-caches.keys().then(function(names){
-for(let name of names) caches.delete(name);
-});
-}
+    // Optional: Clear cache as you had before
+    if('caches' in window){
+        caches.keys().then(names => {
+            for(let name of names) caches.delete(name);
+        });
+    }
 
-setTimeout(function(){
-location.reload(true);
-},800);
+    setTimeout(() => {
+        location.reload(true);
+    }, 1200); // Slightly longer for a smoother feel
 }
 
 setTimeout(function(){
