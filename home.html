@@ -26,6 +26,7 @@ padding-bottom:75px;
 
 .top {
     position: fixed; /* Keep it at the top */
+ height: 90px;   /* fix height */
     top: 0;
     left: 0;
     width: 100%;
@@ -41,7 +42,9 @@ padding-bottom:75px;
     border-bottom-right-radius: 40px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Optional: adds depth */
 }
-
+.top{
+  will-change: transform;
+}
 .profile{
 width:55px;
 height:55px;
@@ -66,10 +69,18 @@ font-size:22px;
 
 .content {
     padding: 20px;
-    padding-top: 120px; /* IMPORTANT: Space to prevent header overlap */
+  
     padding-bottom: 90px;
+ padding-top: 90px; /* same as header height */
+}
+body{
+  overflow-x:hidden;
 }
 
+.top, .content{
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
 /* SALARY CARD IMAGE */
 
 .salary-card{
