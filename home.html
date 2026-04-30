@@ -13,10 +13,15 @@ margin:0;
 background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
 padding-bottom:75px;
 }
- @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+ 
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.content{
+  animation: slideUp 0.4s ease;
+}
 /* HEADER */
 
 .top {
@@ -1422,7 +1427,7 @@ pointer-events: all;
 
 <div class="navbar">
 
-<div class="nav-item" data-page="home.html" onclick="goTab(0,'home.html')">
+<div class="nav-item" data-page="home.html" onclick="navigateSmooth('home.html')">
   <div class="nav-icon">🏠</div>
   <span>Home</span>
 </div>
@@ -2279,6 +2284,13 @@ async function checkGrievances2() {
 
 // Start tracking badge immediately
 document.addEventListener("DOMContentLoaded", checkGrievances2);
+
+ function navigateSmooth(url){
+  document.getElementById("loader").style.display="flex";
+  setTimeout(()=>{
+    window.location.href = url;
+  },500);
+}
 </script>
 
   <!-- GRIEVANCE POPUP -->
