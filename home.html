@@ -235,6 +235,7 @@ margin-bottom:4px;
     align-items: center;
     justify-content: center;
     z-index: 900;
+    transition: opacity 0.3s ease;
 }
 /* shimmer */
 @keyframes shimmer{
@@ -1266,7 +1267,7 @@ pointer-events: all;
 
 
   <!-- GALLERY BUTTON -->
-  <div class="gallery-arrow" onclick="openGallery()">
+  <div class="gallery-arrow" onclick="navigateSmooth('gallery.html')">
     Visit to Photo Gallery
   </div>
 
@@ -1303,7 +1304,7 @@ pointer-events: all;
 <p>My Accounts</p>
 </div>
 
-<div class="card" onclick="showLoader('menu.html')">
+<div class="card" onclick="navigateSmooth('menu.html')">
 <div class="circle">💰</div>
 <p>Salary</p>
 </div>
@@ -1419,7 +1420,7 @@ pointer-events: all;
 
 <div class="navbar">
 
-<div class="nav-item" data-page="home.html" onclick="goTab(0,'home.html')">
+<div class="nav-item" data-page="home.html" onclick="navigateSmooth('home.html')">
   <div class="nav-icon">🏠</div>
   <span>Home</span>
 </div>
@@ -1697,25 +1698,21 @@ loadCurrentMonthSalary();
 
 
 function goTab(index, url){
-
-// wait a bit so navbar stays visible
-setTimeout(()=>{
-  document.getElementById("loader").style.display = "flex";
-  document.body.style.overflow = "hidden";
-},150);
-
-// navigate
-setTimeout(()=>{
-  window.location = url;
-},700);
-
+  navigateSmooth(url);
 }
 
 
-window.onload = function(){
-document.getElementById("loader").style.display="none";
-document.body.style.overflow="auto";
-};
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    document.getElementById("loader").style.opacity = "0";
+    
+    setTimeout(()=>{
+      document.getElementById("loader").style.display = "none";
+      document.body.style.overflow = "auto";
+    },300);
+
+  }, 300); // small delay = smooth
+});
 
 
 /* UNIQUE USER TRACKING */
@@ -2276,6 +2273,23 @@ async function checkGrievances2() {
 
 // Start tracking badge immediately
 document.addEventListener("DOMContentLoaded", checkGrievances2);
+
+    function navigateSmooth(url){
+
+  let loader = document.getElementById("loader");
+
+  // show loader
+  loader.style.display = "flex";
+  loader.style.opacity = "1";
+
+  // stop scrolling
+  document.body.style.overflow = "hidden";
+
+  // smooth delay
+  setTimeout(()=>{
+    window.location.href = url;
+  }, 500); // SAME timing everywhere
+}
 </script>
 
   <!-- GRIEVANCE POPUP -->
