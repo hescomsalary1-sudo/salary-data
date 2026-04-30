@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,21 +17,21 @@ padding-bottom:75px;
 /* HEADER */
 
 .top {
-    position: fixed; 
+    position: fixed; /* Keep it at the top */
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1100; 
-    box-sizing: border-box; 
-    padding: 15px 20px 25px 20px; 
+    z-index: 1100; /* Higher than content and sidebar overlay */
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+    padding: 15px 20px 25px 20px; /* Adjusted padding for a fixed look */
     background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
     color: #2400b7;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom-left-radius: 40px; 
+    border-bottom-left-radius: 40px; /* Slightly smaller radius for fixed header */
     border-bottom-right-radius: 40px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Optional: adds depth */
 }
 
 .profile{
@@ -57,7 +58,7 @@ font-size:22px;
 
 .content {
     padding: 20px;
-    padding-top: 120px; 
+    padding-top: 120px; /* IMPORTANT: Space to prevent header overlap */
     padding-bottom: 90px;
 }
 
@@ -92,6 +93,8 @@ margin-top:5px;
 
 /* MAIN BUTTON GRID */
 
+/* MAIN BUTTON GRID */
+
 .grid-main{
 display:grid;
 grid-template-columns:repeat(2,1fr);
@@ -104,7 +107,7 @@ margin-bottom:15px;
 .card{
 background:linear-gradient(135deg,#ffffff,#f1efff);
 border-radius:18px;
-padding:10px;
+padding:10px;          /* 🔽 reduced from 22px */
 display:flex;
 flex-direction:column;
 align-items:center;
@@ -122,14 +125,14 @@ transform:scale(0.96);
 /* ICON CIRCLE */
 
 .circle{
-width:45px;
+width:45px;            /* 🔽 reduced from 55px */
 height:45px;
 border-radius:50%;
 background:#4b2dd8;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:20px;
+font-size:20px;        /* 🔽 reduced from 26px */
 color:white;
 margin-bottom:6px;
 box-shadow:0 5px 12px rgba(75,45,216,0.3);
@@ -137,7 +140,7 @@ box-shadow:0 5px 12px rgba(75,45,216,0.3);
 
 .card p{
 margin:0;
-font-size:13px;
+font-size:13px;        /* 🔽 reduced from 14px */
 font-weight:600;
 color:#4b2dd8;
 }
@@ -211,30 +214,125 @@ color:#777;
 margin-bottom:4px;
 }
 
+
+
+
 /* LOADER (FULL SCREEN SKELETON) */
 
+/* LOADER BELOW HEADER */
+/* MODERN BOXED LOADER */
 #loader {
     position: fixed;
-    top: 0;
+    top: 85px;  /* Below Fixed Header */
+    bottom: 70px; /* Above Fixed Footer */
     left: 0;
     width: 100%;
-    height: 100%;
-    background: rgba(243, 244, 250, 0.95);
+    background: rgba(243, 244, 250, 0.8);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    z-index: 9000;
+    z-index: 900;
 }
-
+/* shimmer */
 @keyframes shimmer{
 0%{background-position:-400px 0;}
 100%{background-position:400px 0;}
 }
 
+.skeleton{
+height:20px;
+border-radius:6px;
+background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
+background-size:400px 100%;
+animation:shimmer 1.2s infinite;
+}
+
+.skel-big{height:80px;border-radius:20px;}
+.skel-circle{
+width:55px;
+height:55px;
+border-radius:50%;
+}
+.skel-line{height:15px;}
+.skel-card{height:90px;border-radius:20px;}
+
+
+
+/* MODERN SOLID FOOTER */
+
 /* MODERN SOLID NAVBAR */
+.navbar{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+height:68px;
+background:#ffffff;
+display:flex;
+justify-content:space-around;
+align-items:center;
+border-top:1px solid #e5e7eb;
+box-shadow:0 -3px 12px rgba(0,0,0,0.06);
+z-index:1000;
+}
+  /* NAV ITEM */
+.nav-item{
+flex:1;
+text-align:center;
+cursor:pointer;
+position:relative;
+padding-top:6px;
+transition:0.25s;
+}
+
+/* ICON */
+.nav-icon{
+font-size:22px;
+color:#9ca3af;
+transition:0.3s;
+}
+
+/* TEXT */
+.nav-item span{
+display:block;
+font-size:11px;
+margin-top:3px;
+color:#9ca3af;
+transition:0.3s;
+}
+
+/* ACTIVE STYLE */
+.nav-item.active .nav-icon{
+color:#2400b7;
+transform:scale(1.15);
+}
+
+.nav-item.active span{
+color:#2400b7;
+font-weight:600;
+}
+
+/* TOP INDICATOR BAR */
+.nav-item.active::before{
+content:"";
+position:absolute;
+top:0;
+left:20%;
+width:60%;
+height:4px;
+border-radius:10px;
+background:linear-gradient(135deg,#2400b7,#3b1eff);
+}
+
+/* CLICK EFFECT */
+.nav-item:active{
+transform:scale(0.92);
+}
+
+  /* CENTER FLOAT BUTTON */
 .navbar{
 position:fixed;
 bottom:0;
@@ -251,12 +349,14 @@ z-index:1000;
 padding:0 5px;
 }
 
+/* Equal spacing */
 .nav-item{
 flex:1;
 text-align:center;
 cursor:pointer;
 }
 
+/* Normal icons */
 .nav-icon{
 font-size:22px;
 color:#9ca3af;
@@ -268,17 +368,15 @@ font-size:11px;
 color:#9ca3af;
 }
 
-/* ACTIVE STYLE */
-.nav-item.active .nav-icon, .nav-item.active span{
-color:#2400b7;
-}
-
+/* ⭐ CENTER SPECIAL BUTTON */
 .center-item{
 display:flex;
 justify-content:center;
 align-items:center;
 }
 
+/* Animated button */
+/* CENTER WRAPPER */
 .center-wrapper{
   display:flex;
   flex-direction:column;
@@ -286,6 +384,7 @@ align-items:center;
   transform:translateY(-18px);
 }
 
+/* NEW PREMIUM BUTTON */
 .center-btn{
   width:60px;
   height:60px;
@@ -300,17 +399,48 @@ align-items:center;
   animation:float 2s ease-in-out infinite;
 }
 
+/* FLOAT EFFECT */
 @keyframes float{
   0%,100%{ transform:translateY(0); }
   50%{ transform:translateY(-6px); }
 }
 
+/* TEXT BELOW BUTTON */
 .center-text{
   font-size:11px;
   margin-top:4px;
   color:#ff3d3d;
   font-weight:600;
 }
+
+/* 🔥 Animation like GIF */
+@keyframes pulse{
+0%{
+transform:scale(1);
+box-shadow:0 0 0 0 rgba(59,30,255,0.5);
+}
+70%{
+transform:scale(1.1);
+box-shadow:0 0 0 12px rgba(59,30,255,0);
+}
+100%{
+transform:scale(1);
+}
+}
+
+/* Click effect */
+.center-btn:active{
+transform:scale(0.9);
+}
+
+
+
+
+/* optional hover */
+.gallery-btn:hover{
+background:#f3f0ff;
+}
+
 
 .visitor-row{
 display:flex;
@@ -319,6 +449,7 @@ gap:10px;
 margin-bottom:15px;
 }
 
+/* USER BOX */
 .visitor-box{
 padding:10px 14px;
 border-radius:10px;
@@ -326,12 +457,13 @@ background:#4B2DD8;
 color:white;
 font-size:13px;
 font-weight:600;
-white-space:nowrap; 
+white-space:nowrap; /* prevent break */
 box-shadow:0 4px 10px rgba(0,0,0,0.15);
 }
 
+/* ARROW BUTTON (RESPONSIVE WIDTH) */
 .gallery-arrow{
-flex:1; 
+flex:1; /* 🔥 takes remaining space */
 position:relative;
 padding:12px 15px;
 background:#008000;
@@ -341,12 +473,27 @@ border-radius:10px;
 cursor:pointer;
 box-shadow:0 6px 12px rgba(0,0,0,0.2);
 transition:0.2s;
-text-align:center;
+text-align:center; /* center text */
 }
 
+/* ARROW TIP */
+.gallery-arrow::after{
+content:"";
+position:absolute;
+top:0;
+right:-18px;
+width:0;
+height:0;
+border-top:22px solid transparent;
+border-bottom:22px solid transparent;
+border-left:18px solid #008000;
+}
+
+/* CLICK EFFECT */
 .gallery-arrow:active{
 transform:scale(0.97);
 }
+
 
   .quick-info-btn{
 margin-top:10px;
@@ -359,7 +506,16 @@ cursor:pointer;
 transition:0.2s;
 }
 
-/* ATTENDANCE */
+.quick-info-btn:active{
+transform:scale(0.95);
+background:rgba(255,255,255,0.3);
+}
+
+  /* ATTENDANCE CARD */
+
+
+/* ATTENDANCE CARD SIDE LAYOUT */
+
 .attendance-card{
 margin:15px 0;
 padding:12px;
@@ -368,6 +524,13 @@ background:linear-gradient(135deg,#ffffff,#f1efff);
 box-shadow:0 8px 18px rgba(0,0,0,0.08);
 }
 
+/* HEADER CENTER */
+.attendance-card h3,
+.attendance-card .date{
+text-align:center;
+}
+
+/* MAIN ROW (CHART + LEGEND) */
 .chart-box{
 display:flex;
 align-items:center;
@@ -376,6 +539,7 @@ gap:10px;
 margin-top:10px;
 }
 
+/* LEFT CHART */
 .donut{
 width:80px;
 height:80px;
@@ -383,9 +547,10 @@ border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
-background: conic-gradient(#4caf50 0%, #eee 0%);
+flex-shrink:0;
 }
 
+/* INNER */
 .center{
 width:55px;
 height:55px;
@@ -402,17 +567,20 @@ font-weight:bold;
 color:#2400b7;
 }
 
+/* RIGHT LEGEND */
 .legend{
 flex:1;
 font-size:12px;
 }
 
+/* ROWS */
 .legend div{
 display:flex;
 justify-content:space-between;
 margin:4px 0;
 }
 
+/* DOT */
 .dot{
 height:8px;
 width:8px;
@@ -421,9 +589,12 @@ display:inline-block;
 margin-right:6px;
 }
 
+.blue{ background:#4caf50; }
 .green{ background:#4caf50; }
 .yellow{ background:#ffc107; }
 .red{ background:#f44336; }
+
+  /* HEADER CONTAINER */
 
 .att-header{
 display:flex;
@@ -435,24 +606,28 @@ background:rgba(36,0,183,0.06);
 border-radius:10px;
 }
 
+/* TITLE */
 .att-title{
 font-size:13px;
 font-weight:600;
 color:#2400b7;
 }
 
+/* DATE */
 .att-date{
 font-size:11px;
 color:#777;
 }
 
+
+  /* SLIDER STYLES */
 .slider-container {
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   gap: 15px;
   padding: 10px 0;
-  scrollbar-width: none;
+  scrollbar-width: none; /* Hide scrollbar for Chrome/Safari below */
 }
 
 .slider-container::-webkit-scrollbar {
@@ -460,7 +635,7 @@ color:#777;
 }
 
 .slider-item {
-  flex: 0 0 85%;
+  flex: 0 0 85%; /* Shows 85% of the card, hinting at the next one */
   scroll-snap-align: center;
   position: relative;
   height: 150px;
@@ -474,8 +649,12 @@ color:#777;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.7);
+  filter: brightness(0.7); /* Makes text more readable */
   transition: transform 0.3s;
+}
+
+.slider-item:active img {
+  transform: scale(1.05);
 }
 
 .slider-text {
@@ -489,8 +668,104 @@ color:#777;
 .slider-text h4 {
   margin: 0;
   font-size: 16px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
+.slider-text p {
+  margin: 2px 0 0;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+
+  /* PROFILE BUTTON WRAPPER */
+/* MODERN PROFILE BUTTON */
+.profile-btn{
+position:relative;
+width:58px;
+height:58px;
+cursor:pointer;
+}
+
+/* GRADIENT RING */
+.profile-ring{
+width:100%;
+height:100%;
+border-radius:50%;
+padding:2px;
+background:linear-gradient(135deg,#2400b7,#6a5cff,#00c9a7);
+display:flex;
+align-items:center;
+justify-content:center;
+box-shadow:0 6px 18px rgba(0,0,0,0.2);
+transition:0.3s;
+}
+
+/* IMAGE */
+.profile-ring img{
+width:100%;
+height:100%;
+border-radius:50%;
+object-fit:cover;
+border:2px solid white;
+}
+
+/* HAMBURGER BADGE (MODERN) */
+.menu-badge{
+position:absolute;
+bottom:-3px;
+right:-3px;
+width:22px;
+height:22px;
+background:#111;
+border-radius:50%;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+gap:2px;
+border:2px solid white;
+box-shadow:0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* 3 LINES */
+.menu-badge span{
+width:10px;
+height:2px;
+background:white;
+border-radius:2px;
+display:block;
+}
+
+/* CLICK EFFECT */
+.profile-btn:active .profile-ring{
+transform:scale(0.92);
+}
+
+/* SUBTLE HOVER (WEB) */
+.profile-btn:hover .profile-ring{
+box-shadow:0 10px 25px rgba(36,0,183,0.35);
+}
+
+/* SMALL MENU ICON OVERLAY */
+.menu-icon{
+position:absolute;
+bottom:-2px;
+right:-2px;
+background:#2400b7;
+color:white;
+font-size:14px;
+padding:5px;
+border-radius:50%;
+border:2px solid white;
+}
+
+/* CLICK EFFECT */
+.profile-btn:active{
+transform:scale(0.9);
+}
+
+  /* MENU BUTTON */
 .menu-btn{
 width:42px;
 height:42px;
@@ -503,9 +778,33 @@ justify-content:center;
 font-size:20px;
 cursor:pointer;
 box-shadow:0 4px 10px rgba(0,0,0,0.2);
+transition:0.2s;
 }
 
-/* OVERLAY */
+.menu-btn:active{
+transform:scale(0.9);
+}
+
+/* PROFILE CLEAN */
+.profile-new{
+width:50px;
+height:50px;
+border-radius:50%;
+overflow:hidden;
+border:3px solid white;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+.profile-new img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+  #appPage{
+transition: transform 0.35s ease;
+}
+
+  /* OVERLAY */
 #sideOverlay{
 position:fixed;
 top:0;
@@ -519,6 +818,7 @@ transition:opacity 0.25s ease;
 z-index:2000;
 }
 
+/* SIDENAV */
 #sideNav{
 position:fixed;
 top:0;
@@ -528,14 +828,53 @@ height:100%;
 background:#ffffff;
 transform:translateX(-100%);
 transition:transform 0.28s cubic-bezier(.22,.61,.36,1);
+  will-change: transform;
 z-index:2100;
-display:flex;
-flex-direction:column;
+
+display:flex;              /* 🔥 ADD */
+flex-direction:column;     /* 🔥 ADD */
 }
 
-#sideNav.open{ transform:translateX(0); }
-#sideOverlay.show{ opacity:1; visibility:visible; }
+/* OPEN */
+#sideNav.open{
+transform:translateX(0);
+}
 
+#sideOverlay.show{
+opacity:1;
+visibility:visible;
+}
+
+/* HEADER */
+.side-header{
+padding:25px;
+text-align:center;
+border-bottom:1px solid rgba(255,255,255,0.2);
+}
+
+/* MENU */
+.side-menu{
+padding:15px;
+}
+
+.side-menu div{
+padding:12px;
+margin-bottom:8px;
+border-radius:10px;
+cursor:pointer;
+transition:0.2s;
+}
+
+.side-menu div:hover{
+background:rgba(255,255,255,0.2);
+}
+  .menu-content{
+padding:20px 15px;
+flex:1;                   /* 🔥 TAKE AVAILABLE SPACE */
+overflow-y:auto;          /* 🔥 SCROLL INSIDE */
+}
+
+  /* HEADER */
 .menu-header{
 padding:45px 20px 25px;
 background:linear-gradient(135deg,#2400b7,#3b1eff);
@@ -543,10 +882,40 @@ color:white;
 border-bottom-right-radius:40px;
 }
 
-.close-btn{ font-size:26px; cursor:pointer; margin-bottom:20px; }
+.close-btn{
+font-size:26px;
+cursor:pointer;
+margin-bottom:20px;
+}
 
-.profile-box{ display:flex; align-items:center; gap:15px; }
-.profile-box img{ width:60px; height:60px; border-radius:50%; border:2px solid rgba(255,255,255,0.4); }
+.profile-box{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.profile-box img{
+width:60px;
+height:60px;
+border-radius:50%;
+border:2px solid rgba(255,255,255,0.4);
+}
+
+.profile-box h2{
+margin:0;
+font-size:18px;
+}
+
+.profile-box p{
+margin:4px 0 0;
+font-size:12px;
+opacity:0.8;
+}
+
+/* MENU */
+.menu-content{
+padding:20px 15px;
+}
 
 .nav-link{
 display:flex;
@@ -557,27 +926,127 @@ background:#f8f9ff;
 border-radius:15px;
 font-weight:600;
 cursor:pointer;
+transition:0.2s;
 }
 
-.menu-footer{ padding:15px 20px; }
-.menu-footer button{ width:100%; padding:14px; background:#ff3d3d; color:white; border:none; border-radius:15px; font-weight:bold; }
+.nav-link:active{
+transform:scale(0.97);
+background:#eef0ff;
+}
 
-/* Flower Bloom Overlay */
+.icon{
+width:35px;
+height:35px;
+background:white;
+border-radius:10px;
+display:flex;
+align-items:center;
+justify-content:center;
+margin-right:15px;
+}
+
+/* FOOTER */
+.menu-footer{
+padding:15px 20px;
+box-sizing:border-box;
+width:100%;
+padding:0 20px;
+}
+
+.menu-footer button{
+width:100%;
+padding:14px;
+background:#ff3d3d;
+color:white;
+border:none;
+border-radius:15px;
+font-weight:bold;
+display:block;
+}
+
+  @keyframes spin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+  #grievancePopup{
+pointer-events: all;
+}
+
+  @keyframes pulseBadge {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.grievance-item {
+  background: #f8f9ff;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  border-left: 4px solid #ff3d3d;
+}
+
+  .notif- {
+  width: 30px;
+  height: 30px;
+  border: 4px solid rgba(75, 45, 216, 0.1);
+  border-top: 4px solid #4b2dd8;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+  /* Premium Page Transition Overlay */
+.page-transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f8faff; /* Matches your notification.html background */
+    z-index: 9999;
+    transform: translateY(100%); /* Start hidden at bottom */
+    transition: transform 0.4s cubic-bezier(0.32, 1, 0.23, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-transition-overlay.active {
+    transform: translateY(0); /* Slide up to cover screen */
+}
+
+/* Subtle Branding in the transition */
+.transition-logo {
+    width: 60px;
+    opacity: 0.8;
+    margin-bottom: 15px;
+}
+  /* Flower Bloom Overlay */
 .flower-reveal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: #f8faff; 
+    background: #f8faff; /* Matches your notification.html background */
     z-index: 9999;
     pointer-events: none;
+    /* Start as a tiny circle in the center (or button position) */
     clip-path: circle(0% at 50% 50%);
     transition: clip-path 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.flower-reveal.bloom { clip-path: circle(150% at 50% 50%); }
+.flower-reveal.bloom {
+    clip-path: circle(150% at 50% 50%);
+}
 
+/* Optional: Add a soft pulse in the center while blooming */
 .bloom-center {
     position: absolute;
     top: 50%;
@@ -585,18 +1054,21 @@ cursor:pointer;
     transform: translate(-50%, -50%);
     width: 40px;
     height: 40px;
-    background: #2400b7;
+    background: var(--primary);
     border-radius: 50%;
     opacity: 0;
 }
 
-.flower-reveal.bloom .bloom-center { animation: bloomPulse 0.6s ease-out forwards; }
+.flower-reveal.bloom .bloom-center {
+    animation: bloomPulse 0.6s ease-out forwards;
+}
 
 @keyframes bloomPulse {
     0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
     100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
 }
 
+/* FLUID ORBIT DESIGN */
 .fluid-loader {
     position: relative;
     width: 80px;
@@ -643,6 +1115,7 @@ cursor:pointer;
     animation: pulse-core 1.5s ease-in-out infinite;
 }
 
+/* TEXT STYLE */
 .loader-text {
     margin-top: 30px;
     font-weight: 700;
@@ -650,25 +1123,40 @@ cursor:pointer;
     font-size: 13px;
     letter-spacing: 2px;
     text-transform: uppercase;
+    opacity: 0.8;
 }
 
-@keyframes rotate-orbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-@keyframes pulse-core { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.3); opacity: 1; } }
+/* ANIMATIONS */
+@keyframes rotate-orbit {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
 
+@keyframes pulse-core {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.3); opacity: 1; }
+}
 </style>
 </head>
 
 <body>
   <div id="flowerOverlay" class="flower-reveal">
     <div class="bloom-center"></div>
-  </div>
-
-<div id="sideOverlay" onclick="closeSideNav()"></div>
+</div>
+  <div id="transitionOverlay" class="page-transition-overlay">
+    <div class="notif-" style="width:30px; height:30px;"></div>
+</div>
+  <!-- OVERLAY -->
+<div id="sideOverlay"></div>
 
 <!-- SIDENAV -->
 <div id="sideNav">
+
+  <!-- HEADER -->
   <div class="menu-header">
+
     <div class="close-btn" onclick="closeSideNav()">✕</div>
+
     <div class="profile-box">
       <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
       <div>
@@ -676,41 +1164,68 @@ cursor:pointer;
         <p id="sideRole">Employee</p>
       </div>
     </div>
+
   </div>
-  <div class="menu-content">
-    <div class="nav-link" onclick="showLoader('grievance.html')">
-      <div class="icon">📢</div>
-      Employee Grievance Portal
-    </div>
-    <div class="nav-link" onclick="logout()">
-      <div class="icon">🚪</div>
-      Logout
-    </div>
+
+<!-- MENU -->
+<div class="menu-content">
+
+
+  <!-- EMPLOYEE GRIEVANCE PORTAL -->
+  <div class="nav-link" onclick="openGrievancePopup()">
+    <div class="icon">📢</div>
+    Employee Grievance Portal
   </div>
+
+  <!-- LOGOUT -->
+  <div class="nav-link" onclick="logout()">
+    <div class="icon">🚪</div>
+    Logout
+  </div>
+
+</div>
+
+  <!-- FOOTER -->
   <div class="menu-footer">
     <button onclick="closeSideNav()">⬅ Close Menu</button>
   </div>
+
+</div>
+  <div id="appPage">
+  
+
+<div class="top">
+
+<div class="user-box">
+
+<div style="display:flex;align-items:center;gap:10px;">
+
+  <!-- MENU BUTTON -->
+ <div class="menu-btn" onclick="openSideNav()">☰</div>
+
+  <!-- PROFILE -->
+
+
 </div>
 
-<div id="appPage">
-  <div class="top">
-    <div class="user-box">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div class="menu-btn" onclick="openSideNav()">☰</div>
-      </div>
-      <div>
-        <div>Welcome</div>
-        <strong id="empName">Loading...</strong>
-        <div id="empDesg" style="font-size:12px;opacity:0.8;"></div>
-      </div>
-    </div>
-    <div>
-      <span style="font-size:22px;margin-right:10px;cursor:pointer;" onclick="refreshApp()">🔄</span>
-      <span class="logout" onclick="logout()">🔓</span>
-    </div>
-  </div>
+<div>
+<div>Welcome</div>
+<strong id="empName">Loading...</strong>
+<div id="empDesg" style="font-size:12px;opacity:0.8;"></div>
+</div>
 
-  <div id="loader">
+</div>
+
+<div>
+<span style="font-size:22px;margin-right:10px;cursor:pointer;" onclick="refreshApp()">🔄</span>
+<span class="logout" onclick="logout()">🔓</span>
+</div>
+
+</div>
+
+
+
+<div id="loader">
     <div class="fluid-loader">
         <div class="orbit"></div>
         <div class="orbit"></div>
@@ -718,177 +1233,1148 @@ cursor:pointer;
         <div class="core"></div>
     </div>
     <div class="loader-text">Syncing Secure Data...</div>
+</div>
+
+<div class="content">
+
+<!-- SALARY CARD -->
+
+<div class="salary-card">
+
+<div class="salary-info">
+<h3>Last Month Salary</h3>
+<div class="salary-amount">₹<span id="netSalary">--</span></div>
+<div style="font-size:14px;opacity:0.9;">Net Pay</div>
+
+<!-- QUICK INFO BUTTON -->
+<div class="quick-info-btn" onclick="openLastSalary()">
+  Quick Info ➜
+</div>
+</div>
+
+<img src="https://cdn-icons-png.flaticon.com/512/3135/3135679.png">
+
+</div
+  <!-- VISITOR COUNT -->
+
+<div class="visitor-row">
+
+  <!-- USER COUNT -->
+  <div class="visitor-box">
+    Users: <span id="visitorCount">loading..</span>
   </div>
 
-  <div class="content">
-    <!-- SALARY CARD -->
-    <div class="salary-card">
-      <div class="salary-info">
-        <h3>Last Month Salary</h3>
-        <div class="salary-amount">₹<span id="netSalary">--</span></div>
-        <div style="font-size:14px;opacity:0.9;">Net Pay</div>
-        <div class="quick-info-btn" onclick="showLoader('salary_details.html')">Quick Info ➜</div>
-      </div>
-      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135679.png">
-    </div>
 
-    <!-- VISITOR COUNT -->
-    <div class="visitor-row">
-      <div class="visitor-box">Users: <span id="visitorCount">1,240</span></div>
-      <div class="gallery-arrow" onclick="showLoader('gallery.html')">Visit to Photo Gallery</div>
-    </div>
+  <!-- GALLERY BUTTON -->
+  <div class="gallery-arrow" onclick="openGallery()">
+    Visit to Photo Gallery
+  </div>
 
-    <div class="att-header">
-      <div class="att-title">📊 Attendance Report</div>
-      <div class="att-date">This Month</div>
-    </div>
-    <div class="chart-box">
-      <div class="donut" id="donutChart">
-        <div class="center">
-          <span id="percentText">85%</span>
-        </div>
-      </div>
-      <div class="legend">
-        <div><span><span class="dot green"></span> Present</span> <b id="presentVal">85%</b></div>
-        <div><span><span class="dot yellow"></span> Leave</span> <b id="leaveVal">10%</b></div>
-        <div><span><span class="dot red"></span> Absent</span> <b id="absentVal">5%</b></div>
-      </div>
-    </div>
+</div>
+<div class="att-header">
+  <div class="att-title">📊 Attendance Report</div>
+  <div class="att-date">This Month</div>
+</div>
+<div class="chart-box">
 
-    <div class="grid-main">
-      <div class="card" onclick="showLoader('accounts.html')"><div class="circle">👤</div><p>My Accounts</p></div>
-      <div class="card" onclick="showLoader('menu.html')"><div class="circle">💰</div><p>Salary</p></div>
-      <div class="card" onclick="showLoader('page3.html')"><div class="circle">📅</div><p>Non-salary Income</p></div>
-      <div class="card" onclick="showLoader('page4.html')"><div class="circle">📝</div><p>Forms & Formats</p></div>
-    </div>
-
-    <div class="grid-small">
-      <div class="small-card settings" onclick="showLoader('grievance.html')">⚙ Grievance Notif</div>
-      <div class="small-card about" onclick="showLoader('page2.html')">ℹ About us</div>
-    </div>
-
-    <div class="news-box">
-      <h3>📢 What's New?</h3>
-      <div class="slider-container">
-        <div class="slider-item" onclick="showLoader('salary_details.html')">
-          <img src="https://i0.wp.com/complainthub.org/wp-content/uploads/2024/04/HESCOM-Logo.png?fit=720%2C480&ssl=1">
-          <div class="slider-text"><h4>ಲೈನಮ್ಯಾನ್ ಸುರಕ್ಷತೆ</h4><p>Details ➜</p></div>
-        </div>
-      </div>
-      <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
-      <div id="newsData">Loading updates...</div>
+  <!-- LEFT DONUT -->
+  <div class="donut" id="donutChart">
+    <div class="center">
+      <span id="percentText">0%</span>
     </div>
   </div>
 
-  <div class="navbar">
-    <div class="nav-item active" onclick="goTab(0,'home.html')"><div class="nav-icon">🏠</div><span>Home</span></div>
-    <div class="nav-item" onclick="goTab(1,'forum.html')"><div class="nav-icon">💬</div><span>Forum</span></div>
-    <div class="nav-item center-item" onclick="goTab(99,'info.html')">
-      <div class="center-wrapper"><div class="center-btn">⚡</div><div class="center-text">Smart Support</div></div>
+  <!-- RIGHT DETAILS -->
+  <div class="legend">
+    <div><span><span class="dot green"></span> Present</span> <b id="presentVal">0%</b></div>
+    <div><span><span class="dot green"></span> Late</span> <b id="lateVal">0%</b></div>
+    <div><span><span class="dot yellow"></span> Leave</span> <b id="leaveVal">0%</b></div>
+    <div><span><span class="dot red"></span> Absent</span> <b id="absentVal">0%</b></div>
+  </div>
+
+</div>
+
+<!-- MAIN BUTTONS -->
+
+<div class="grid-main">
+
+<div class="card" onclick="showLoader('accounts.html')">
+<div class="circle">👤</div>
+<p>My Accounts</p>
+</div>
+
+<div class="card" onclick="showLoader('menu.html')">
+<div class="circle">💰</div>
+<p>Salary</p>
+</div>
+
+<div class="card" onclick="showLoader('page3.html')">
+<div class="circle">📅</div>
+<p>Non-salary Income</p>
+</div>
+
+<div class="card" onclick="showLoader('page4.html')">
+<div class="circle">📝</div>
+<p>Forms & Formats</p>
+</div>
+</div>
+
+<!-- SMALL BUTTONS -->
+
+<div class="grid-small">
+
+ <div style="position: relative; width: 100%;" onclick="openGrievancePopup2()">
+  <div class="small-card settings">
+    ⚙ Grievance Notification
+  </div>
+  <span id="notifBadge" style="
+    position: absolute;
+    top: -5px;
+    right: 5px;
+    background: #ff3d3d;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid white;
+    display: none; 
+    align-items: center;
+    justify-content: center;
+    animation: pulseBadge 2s infinite;
+    box-shadow: 0 4px 10px rgba(255, 61, 61, 0.4);
+    z-index: 10;
+  ">0</span>
+</div>
+
+  <div class="small-card about" onclick="showLoader('page2.html')">
+    ℹ About us
+  </div>
+
+</div>
+
+<div id="grievanceOverlay" style="
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(15, 12, 41, 0.75);
+  backdrop-filter: blur(8px);
+  display: none; align-items: center; justify-content: center;
+  z-index: 5000;
+">
+  <div class="grievance-card" style="
+    width: 90%; max-width: 360px;
+    background: #ffffff; border-radius: 28px;
+    overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+  ">
+    <div style="background: linear-gradient(135deg, #2400b7, #4b2dd8); color: white; padding: 25px 20px; text-align: center;">
+      <h3 style="margin:0;">Grievance Notifications</h3>
     </div>
-    <div class="nav-item" onclick="goTab(2,'employee_info.html')"><div class="nav-icon">👤</div><span>Employee</span></div>
-    <div class="nav-item" onclick="goTab(3,'resources.html')"><div class="nav-icon">📂</div><span>Resources</span></div>
+    <div id="grievanceList" style="max-height: 350px; overflow-y: auto; padding: 15px;">
+      </div>
+    <button onclick="closeGrievanceNotif2()" style="width: 100%; padding: 15px; border: none; background: #f1f1f1; color: #4b2dd8; font-weight: bold; cursor: pointer;">
+      Dismiss
+    </button>
   </div>
 </div>
 
-<script>
-function openSideNav() {
-  document.getElementById("sideNav").classList.add("open");
-  document.getElementById("sideOverlay").classList.add("show");
-}
+<div class="news-box">
+  <h3>📢 What's New?</h3>
+  
+  <div class="slider-container">
+    
+    <div class="slider-item" onclick="showLoader('salary_details.html')">
+      <img src="https://i0.wp.com/complainthub.org/wp-content/uploads/2024/04/HESCOM-Logo.png?fit=720%2C480&ssl=1" alt="Salary">
+      <div class="slider-text">
+        <h4>ಲೈನಮ್ಯಾನ್ ಸುರಕ್ಷತೆ</h4>
+        <p>View detailed breakdown ➜</p>
+      </div>
+    </div>
 
-function closeSideNav() {
-  document.getElementById("sideNav").classList.remove("open");
-  document.getElementById("sideOverlay").classList.remove("show");
-}
+    <div class="slider-item" onclick="showLoader('finance_planner.html')">
+      <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=500&q=80" alt="Finance">
+      <div class="slider-text">
+        <h4>Tax & Savings</h4>
+        <p>Plan your investments ➜</p>
+      </div>
+    </div>
+
+    <div class="slider-item" onclick="showLoader('loan_info.html')">
+      <img src="https://images.unsplash.com/photo-1565514020179-026b92b84bb6?auto=format&fit=crop&w=500&q=80" alt="PF">
+      <div class="slider-text">
+        <h4>PF & Loans</h4>
+        <p>Check eligibility ➜</p>
+      </div>
+    </div>
+
+  </div>
+
+  <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+
+  <div id="newsData">Loading updates...</div>
+</div>
+
+</div>
+
+
+
+<div class="navbar">
+
+<div class="nav-item" data-page="home.html" onclick="goTab(0,'home.html')">
+  <div class="nav-icon">🏠</div>
+  <span>Home</span>
+</div>
+
+<div class="nav-item" data-page="forum.html" onclick="goTab(1,'forum.html')">
+  <div class="nav-icon">💬</div>
+  <span>Forum</span>
+</div>
+
+<div class="nav-item center-item" data-page="info.html" onclick="goTab(99,'info.html')">
+  <div class="center-wrapper">
+    <div class="center-btn">⚡</div>
+    <div class="center-text">Smart Support</div>
+  </div>
+</div>
+
+<div class="nav-item" data-page="employee_info.html" onclick="goTab(2,'employee_info.html')">
+  <div class="nav-icon">👤</div>
+  <span>Employee</span>
+</div>
+
+<div class="nav-item" data-page="resources.html" onclick="goTab(3,'resources.html')">
+  <div class="nav-icon">📂</div>
+  <span>Resources</span>
+</div>
+
+</div>
+
+</div>
+<script>
+
+/* YOUR ORIGINAL JAVASCRIPT REMAINS EXACTLY THE SAME */
 
 function refreshApp(){
+    // Show the "Middle" loader
     document.getElementById("loader").style.display = "flex";
-    setTimeout(() => { location.reload(true); }, 1000);
+    
+    // Optional: add a slight fade to the content area only
+    document.querySelector('.content').style.opacity = "0.4";
+
+    setTimeout(function(){
+        location.reload(true);
+    }, 1000);
 }
+
+setTimeout(function(){
+
+let user = localStorage.getItem("currentUser");
+
+if(!user){
+window.location.replace("login.html");
+}
+
+}, 200);
+
+// keep role if needed
+let role = localStorage.getItem("role");
+
 
 function showLoader(url){
-    document.getElementById("flowerOverlay").classList.add("bloom");
-    setTimeout(() => { window.location.href = url; }, 600);
-}
-
-function goTab(index, url) {
-    const app = document.getElementById("appPage");
-    app.style.transition = "0.4s";
-    app.style.opacity = "0";
-    app.style.transform = "translateX(-20px)";
-    setTimeout(() => { window.location.href = url; }, 350);
+document.getElementById("loader").style.display="flex";
+setTimeout(function(){
+window.location = url;
+},1000);
 }
 
 async function loadNews(){
-    try {
-        let response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/news.csv?v=" + new Date().getTime());
-        let text = await response.text();
-        let rows = text.split("\n");
-        let output="";
-        for(let i=1;i<rows.length;i++){
-            if(!rows[i].trim()) continue;
-            let cols = rows[i].split(",");
-            output+=`<div class="news-item"><div class="news-date">${cols[0]}</div><div>${cols[1]}</div></div>`;
-        }
-        document.getElementById("newsData").innerHTML = output || "No updates.";
-    } catch(e) { document.getElementById("newsData").innerHTML = "Error loading news."; }
+
+try{
+
+let response = await fetch(
+"https://hescomsalary1-sudo.github.io/salary-data/news.csv?v=" + new Date().getTime(),
+{
+cache:"no-store"
+});
+
+let text = await response.text();
+let rows = text.split("\n");
+
+let output="";
+
+for(let i=1;i<rows.length;i++){
+
+if(rows[i].trim()==="") continue;
+
+let cols = rows[i].split(",");
+
+if(cols.length<2) continue;
+
+output+=`
+<div class="news-item">
+<div class="news-date">${cols[0]}</div>
+<div>${cols[1]}</div>
+</div>
+`;
+
+}
+
+if(output===""){
+output="No updates available.";
+}
+
+document.getElementById("newsData").innerHTML=output;
+
+}catch(error){
+
+document.getElementById("newsData").innerHTML="Unable to load updates.";
+
+}
+
+}
+
+loadNews();
+
+if(localStorage.getItem("darkMode")==="true"){
+document.body.classList.add("dark-mode");
 }
 
 async function loadUserProfile(){
-    let loginUser = localStorage.getItem("currentUser");
-    if(!loginUser) { window.location.replace("login.html"); return; }
-    try {
-        let response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
-        let text = await response.text();
-        let rows = text.trim().split("\n");
-        for(let i=1; i<rows.length; i++){
-            let cols = rows[i].split(",");
-            if(cols[0]?.trim() === loginUser){
-                document.getElementById("empName").innerText = cols[1];
-                document.getElementById("sideName").innerText = cols[1];
-                document.getElementById("empDesg").innerText = cols[2];
-                document.getElementById("sideRole").innerText = cols[2];
-                return;
-            }
-        }
-    } catch(e) {}
-    document.getElementById("empName").innerText = loginUser;
+
+let loginUser = localStorage.getItem("currentUser");
+
+try{
+
+let response = await fetch(
+"https://hescomsalary1-sudo.github.io/salary-data/employee.csv"
+);
+
+let text = await response.text();
+let rows = text.trim().split("\n");
+
+for(let i=1;i<rows.length;i++){
+
+let cols = rows[i].split(",");
+
+let username = cols[0]?.trim();
+let name = cols[1]?.trim();
+let designation = cols[2]?.trim();
+
+if(username===loginUser){
+
+document.getElementById("empName").innerText=name;
+document.getElementById("empDesg").innerText=designation;
+return;
+
 }
+
+}
+
+document.getElementById("empName").innerText=loginUser;
+
+}catch(e){
+
+document.getElementById("empName").innerText=loginUser;
+
+}
+
+}
+
+loadUserProfile();
 
 function logout(){
-    if(confirm("Logout?")) {
-        localStorage.clear();
-        window.location.href="login.html";
-    }
+  document.getElementById("logoutPopup").style.display = "flex";
 }
 
-// Logic for Salary
-async function loadSalary(){
-    let user = localStorage.getItem("currentUser");
-    try {
-        let response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/salary .csv");
-        let data = await response.text();
-        let rows = data.trim().split("\n");
-        for(let i=rows.length-1; i>=1; i--){
-            let cols = rows[i].split(",");
-            if(cols[0] === user){
-                let earnings = 0;
-                for(let j=3; j<=19; j++) earnings += Number(cols[j] || 0);
-                let deductions = 0;
-                for(let j=20; j<=35; j++) deductions += Number(cols[j] || 0);
-                document.getElementById("netSalary").innerText = (earnings - deductions).toLocaleString();
-                return;
-            }
-        }
-    } catch(e) {}
+function closeLogout(){
+  document.getElementById("logoutPopup").style.display = "none";
 }
 
-window.onload = () => {
-    loadUserProfile();
-    loadNews();
-    loadSalary();
+function confirmLogout(){
+  localStorage.removeItem("currentUser");
+  localStorage.removeItem("role");
+  window.location.href="login.html";
+}
+
+async function loadCurrentMonthSalary(){
+
+let user = localStorage.getItem("currentUser");
+if(!user) return;
+
+let now = new Date();
+
+/* GET PREVIOUS MONTH */
+
+let prevMonth = new Date(now.getFullYear(), now.getMonth()-1, 1);
+
+let year = prevMonth.getFullYear().toString();
+let month = String(prevMonth.getMonth()+1).padStart(2,"0");
+
+try{
+
+let response = await fetch(
+"https://hescomsalary1-sudo.github.io/salary-data/salary .csv?v=" + new Date().getTime()
+);
+
+let data = await response.text();
+let rows = data.trim().split("\n");
+
+for(let i=1;i<rows.length;i++){
+
+let cols = rows[i].split(",");
+
+if(cols[0]===user && cols[1]===year && cols[2]===month){
+
+let basic = +cols[3];
+let dearness_pay = +cols[4];
+let rouse_rent_allowances = +cols[5];
+let city_compensation_allowances = +cols[6];
+let personal_pay = +cols[7];
+let special_personal_pay = +cols[8];
+let conveyance_allowances = +cols[9];
+let washing_allowances = +cols[10];
+let sfta = +cols[11];
+let special_locality_allowances = +cols[12];
+let mwa = +cols[13];
+let hill_allowances = +cols[14];
+let charge_allowances = +cols[15];
+let pension_contribution_14_percent = +cols[16];
+let labour_welfare_fund_company_contribution = +cols[17];
+let cash_duty_allowances = +cols[18];
+let other_earnings = +cols[19];
+
+let LIC = +cols[20];
+let income_tax = +cols[21];
+let professional_tax = +cols[22];
+let KPTCL_employes_society = +cols[23];
+let PLI = +cols[24];
+let union_fund = +cols[25];
+let sc_st_union_fund = +cols[26];
+let house_rent = +cols[27];
+let urban_bank = +cols[28];
+let family_benefit_fund = +cols[29];
+let festival_advance = +cols[30];
+let PC_10_contribution = +cols[31];
+let PC_14_contribution = +cols[32];
+let LWF = +cols[33];
+let recovery_any = +cols[34];
+let other_deduction = +cols[35];
+
+let totalEarning =
+basic+dearness_pay+rouse_rent_allowances+city_compensation_allowances+
+personal_pay+special_personal_pay+conveyance_allowances+washing_allowances+
+sfta+special_locality_allowances+mwa+hill_allowances+charge_allowances+
+pension_contribution_14_percent+labour_welfare_fund_company_contribution+
+cash_duty_allowances+other_earnings;
+
+let totalDeduction =
+LIC+income_tax+professional_tax+KPTCL_employes_society+PLI+
+union_fund+sc_st_union_fund+house_rent+urban_bank+family_benefit_fund+
+festival_advance+PC_10_contribution+PC_14_contribution+LWF+
+recovery_any+other_deduction;
+
+let net = totalEarning-totalDeduction;
+
+document.getElementById("netSalary").innerText = net;
+
+return;
+
+}
+
+}
+
+document.getElementById("netSalary").innerText="0";
+
+}catch(e){
+
+document.getElementById("netSalary").innerText="--";
+
+}
+
+}
+
+loadCurrentMonthSalary();
+
+
+
+function goTab(index, url){
+
+// wait a bit so navbar stays visible
+setTimeout(()=>{
+  document.getElementById("loader").style.display = "flex";
+  document.body.style.overflow = "hidden";
+},150);
+
+// navigate
+setTimeout(()=>{
+  window.location = url;
+},700);
+
+}
+
+
+window.onload = function(){
+document.getElementById("loader").style.display="none";
+document.body.style.overflow="auto";
 };
+
+
+/* UNIQUE USER TRACKING */
+
+
+
+  function openGallery(){
+
+// show skeleton loader
+document.getElementById("loader").style.display = "flex";
+document.body.style.overflow = "hidden";
+
+// open gallery page
+setTimeout(function(){
+window.location = "gallery.html";
+},800);
+
+}
+
+  function openLastSalary(){
+
+document.getElementById("loader").style.display = "flex";
+document.body.style.overflow = "hidden";
+
+setTimeout(function(){
+window.location = "last_salary.html";
+},800);
+
+}
+
+
+
+(function () {
+    // Clear history effect
+    history.pushState(null, "", location.href);
+
+    window.onpopstate = function () {
+        history.go(1); // Force forward (no back)
+    };
+})();
+
+
+// SAMPLE DATA (you can later connect CSV)
+
+async function loadAttendance(){
+
+let user = localStorage.getItem("currentUser");
+if(!user) return;
+
+user = user.trim().toLowerCase();   // 🔥 FIX
+
+let now = new Date();
+
+// 🔥 GET PREVIOUS MONTH
+let prevMonth = new Date(now.getFullYear(), now.getMonth()-1, 1);
+
+let year = prevMonth.getFullYear().toString();
+
+let months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+let month = months[prevMonth.getMonth()];
+
+try{
+
+let res = await fetch(
+"https://hescomsalary1-sudo.github.io/salary-data/attendance.csv?v=" + new Date().getTime()
+);
+
+let text = await res.text();
+let rows = text.trim().split("\n");
+
+let present = 0;
+let absent = 0;
+let leave = 0;
+
+for(let i=1;i<rows.length;i++){
+
+let cols = rows[i].split(",");
+
+let csvUser = cols[0]?.trim().toLowerCase();  // 🔥 FIX
+let csvYear = cols[1]?.trim();
+let csvMonth = cols[2]?.trim();
+
+if(csvUser===user && csvYear===year && csvMonth===month){
+
+for(let j=3;j<cols.length;j++){
+
+let val = cols[j]?.trim();
+
+if(val==="P"){
+present++;
+}
+else if(val==="A"){
+absent++;
+}
+else if(["EL","CL","FPL","IL","MDL"].includes(val)){
+leave++;
+}
+
+}
+
+break;
+}
+
+}
+
+// DEBUG (important)
+console.log("User:", user);
+console.log("Month:", month);
+console.log("Present:", present, "Leave:", leave, "Absent:", absent);
+
+// total
+let total = present + absent + leave;
+if(total === 0) total = 1;
+
+// percentage
+let presentPer = Math.round((present/total)*100);
+let leavePer = Math.round((leave/total)*100);
+let absentPer = Math.round((absent/total)*100);
+
+// update UI
+document.getElementById("percentText").innerText = presentPer + "%";
+document.getElementById("presentVal").innerText = presentPer + "%";
+document.getElementById("leaveVal").innerText = leavePer + "%";
+document.getElementById("absentVal").innerText = absentPer + "%";
+
+// hide late
+document.getElementById("lateVal").parentElement.style.display="none";
+
+// gradient
+let p1 = presentPer;
+let p2 = p1 + leavePer;
+
+document.getElementById("donutChart").style.background =
+`conic-gradient(
+#4caf50 0% ${p1}%,     /* ✅ Present = GREEN */
+#ffc107 ${p1}% ${p2}%, /* Leave = Yellow */
+#f44336 ${p2}% 100%    /* Absent = Red */
+)`;
+
+}catch(e){
+console.log("Error:", e);
+}
+
+}
+
+loadAttendance();
+
+
 </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+  fetch("navbar.html")  // or ../navbar.html
+  .then(res => res.text())
+  .then(data => {
+
+    document.getElementById("navbar-container").innerHTML = data;
+
+    // set active after load
+    setActiveTab();
+
+  });
+
+});
+</script>
+
+  <script>
+window.addEventListener("load", function(){
+
+  let page = location.pathname.split("/").pop();
+
+  let items = document.querySelectorAll(".nav-item");
+
+  items.forEach(item => {
+    let target = item.getAttribute("data-page");
+
+    if(target === page){
+      item.classList.add("active");
+    }
+  });
+
+});
+</script>
+
+<script>
+  async function loadUserCount(){
+
+  try{
+    let res = await fetch("https://script.google.com/macros/s/AKfycbzeO5RppL-lE_62OuL4VQ5FYZiehPMPFsH6NC9X2_i40YEIzXPPjW8-QUH1QpfS1Jg1/exec?type=count");
+    let count = await res.text();
+
+    document.getElementById("visitorCount").innerText = count;
+
+  }catch(e){
+    document.getElementById("visitorCount").innerText = "0";
+    console.log("User count error:", e);
+  }
+
+}
+  loadUserCount();
+</script>
+  <!-- LOGOUT POPUP -->
+<div id="logoutPopup" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:3000;
+">
+
+  <div style="
+  background:white;
+  padding:20px;
+  border-radius:20px;
+  width:85%;
+  max-width:320px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+  animation:scaleIn 0.25s ease;
+  ">
+
+    <h3 style="margin-top:0;color:#2400b7;">Logout</h3>
+    <p style="font-size:14px;color:#555;">
+      Are you sure you want to logout?
+    </p>
+
+    <div style="display:flex;gap:10px;margin-top:15px;">
+      
+      <button onclick="closeLogout()" style="
+      flex:1;
+      padding:10px;
+      border:none;
+      border-radius:10px;
+      background:#eee;
+      cursor:pointer;
+      ">
+      Cancel
+      </button>
+
+      <button onclick="confirmLogout()" style="
+      flex:1;
+      padding:10px;
+      border:none;
+      border-radius:10px;
+      background:#2400b7;
+      color:white;
+      cursor:pointer;
+      ">
+      Logout
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+<style>
+@keyframes scaleIn{
+  from{transform:scale(0.8);opacity:0;}
+  to{transform:scale(1);opacity:1;}
+}
+</style>
+<script>
+function openSideNav(){
+  sideNav.style.transform = "translateX(0)";
+  document.body.style.overflow = "hidden";
+  isOpen = true;
+
+
+  // update name
+  document.getElementById("sideName").innerText =
+    document.getElementById("empName").innerText;
+
+  document.getElementById("sideRole").innerText =
+    document.getElementById("empDesg").innerText;
+}
+
+function closeSideNav(){
+  sideNav.style.transform = "translateX(-100%)";
+  document.body.style.overflow = "auto";
+  isOpen = false;
+}
+
+  
+</script>
+<script>
+let startX = 0;
+let currentX = 0;
+let startTime = 0;
+
+let isDragging = false;
+let isOpen = false;
+
+const sideNav = document.getElementById("sideNav");
+const overlay = document.getElementById("sideOverlay");
+
+const menuWidth = window.innerWidth;
+
+// 👉 TOUCH START
+document.addEventListener("touchstart", (e)=>{
+  startX = e.touches[0].clientX;
+  startTime = Date.now();
+
+  if(startX < 40 || isOpen){
+    isDragging = true;
+    sideNav.style.transition = "none";
+    overlay.style.transition = "none";
+  }
+}, {passive:true});
+
+// 👉 TOUCH MOVE
+document.addEventListener("touchmove", (e)=>{
+  if(!isDragging) return;
+
+  currentX = e.touches[0].clientX;
+  let diff = currentX - startX;
+
+  let translateX;
+
+  if(isOpen){
+    translateX = Math.min(0, diff);
+  }else{
+    translateX = Math.min(0, -menuWidth + diff);
+  }
+
+  // 🔥 RESISTANCE (edge feel)
+  if(translateX > 0){
+    translateX = translateX * 0.3;
+  }
+
+  // apply movement
+  sideNav.style.transform = `translateX(${translateX}px)`;
+
+  // 🔥 OVERLAY FADE
+  let progress = 1 - Math.abs(translateX / menuWidth);
+  overlay.style.opacity = progress * 0.4;
+
+}, {passive:true});
+
+// 👉 TOUCH END
+document.addEventListener("touchend", ()=>{
+  if(!isDragging) return;
+
+  isDragging = false;
+
+  let diff = currentX - startX;
+  let time = Date.now() - startTime;
+
+  let velocity = diff / time; // px per ms
+
+  // restore animation
+  sideNav.style.transition = "transform 0.28s cubic-bezier(.22,.61,.36,1)";
+  overlay.style.transition = "opacity 0.25s ease";
+
+  // 🔥 DECISION LOGIC (velocity + distance)
+  if(!isOpen){
+    if(diff > 80 || velocity > 0.5){
+      openMenu();
+    }else{
+      closeMenu();
+    }
+  }else{
+    if(diff < -80 || velocity < -0.5){
+      closeMenu();
+    }else{
+      openMenu();
+    }
+  }
+});
+
+// 👉 OPEN
+function openMenu(){
+  sideNav.style.transform = "translateX(0)";
+  overlay.style.opacity = "0.4";
+  document.body.style.overflow = "hidden";
+  isOpen = true;
+}
+
+// 👉 CLOSE
+function closeMenu(){
+  sideNav.style.transform = "translateX(-100%)";
+  overlay.style.opacity = "0";
+  document.body.style.overflow = "auto";
+  isOpen = false;
+}
+
+function openGrievancePopup(){
+
+  isPopupOpen = true;
+
+  // 🔥 LOCK SIDENAV POSITION (very important)
+  sideNav.style.transition = "none";
+  sideNav.style.transform = "translateX(0)";
+
+  // 🔥 DISABLE SWIPE + TOUCH
+  document.body.style.pointerEvents = "none";
+
+  // allow popup interaction only
+  document.getElementById("grievancePopup").style.pointerEvents = "all";
+  document.getElementById("grievancePopup").style.display = "flex";
+}
+function closeGrievancePopup(){
+
+  isPopupOpen = false;
+
+  document.getElementById("grievancePopup").style.display = "none";
+
+  // 🔥 RESTORE INTERACTION
+  document.body.style.pointerEvents = "auto";
+
+}
+
+function continueToGrievance(){
+
+  // hide buttons
+  document.getElementById("grievanceBtns").style.display = "none";
+
+  // show spinner
+  document.getElementById("grievanceLoader").style.display = "block";
+
+  // redirect after delay
+  setTimeout(()=>{
+    window.location = "welcome.html"; // 👉 change if needed
+  },1500);
+}
+
+
+// 1. OPEN THE POPUP
+// --- NOTIFICATION SYSTEM FUNCTIONS ---
+
+// --- 1. SPINNER CSS INJECTION ---
+(function injectSpinnerCSS() {
+  const style = document.createElement('style');
+  style.innerHTML = `
+    .notif-spinner {
+      width: 35px;
+      height: 35px;
+      border: 4px solid rgba(36, 0, 183, 0.1);
+      border-top: 4px solid #2400b7;
+      border-radius: 50%;
+      animation: notif-spin 0.8s linear infinite;
+      margin: 30px auto;
+    }
+    @keyframes notif-spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  `;
+  document.head.appendChild(style);
+})();
+
+// --- 2. POPUP UI CONTROLS ---
+
+function openGrievancePopup2() {
+    const flower = document.getElementById("flowerOverlay");
+    
+    // 1. Trigger the bloom effect
+    flower.classList.add("bloom");
+
+    // 2. Redirect as the "flower" fully covers the screen
+    // We use a slightly longer delay (500ms) to let the flower open beautifully
+    setTimeout(() => {
+        window.location.href = "notifications.html";
+    }, 550);
+}
+
+function closeGrievanceNotif2() {
+  document.getElementById("grievanceOverlay").style.display = "none";
+  document.body.style.overflow = "auto";
+}
+
+// --- 3. DATA FETCHING & RENDERING (Full Details) ---
+
+async function checkGrievances2() {
+  const badge = document.getElementById("notifBadge");
+  const listContainer = document.getElementById("grievanceList");
+
+  try {
+    // API URL
+    const scriptURL = "https://script.google.com/macros/s/AKfycbz8drDOZ-x5VUNh7bA2ndG13BVzl9o4IQ1r7wrtESIlipYuqcXSD-hK6s9xB5eMkLj8/exec";
+    
+    const response = await fetch(scriptURL);
+    const data = await response.json();
+
+    // Filter Logic: All non-resolved items for global view
+    const activeItems = data.filter(item => {
+      const status = String(item.status || "").trim().toLowerCase();
+      return status !== "resolved" && status !== "";
+    });
+
+    if (activeItems.length > 0) {
+      // Update the Red Badge on the Home Screen
+      badge.innerText = activeItems.length;
+      badge.style.display = "flex";
+
+      // Build the Detailed List
+      let html = "";
+      activeItems.forEach(item => {
+        const color = (String(item.status).toLowerCase() === "open") ? "#ff3d3d" : "#ffa500";
+        
+        html += `
+          <div style="background:#fff; border-left:6px solid ${color}; padding:15px; border-radius:18px; margin-bottom:15px; box-shadow:0 6px 15px rgba(0,0,0,0.08); text-align:left; border: 1px solid #eee;">
+            
+            <div style="display:flex; justify-content:space-between; font-size:10px; color:#999; margin-bottom:10px; border-bottom:1px solid #f8f9ff; padding-bottom:6px;">
+              <span>📅 ${item.date || 'N/A'}</span>
+              <span style="background:#eee; padding:2px 6px; border-radius:4px;">ID: ${item.id}</span>
+            </div>
+
+            <div style="margin-bottom:10px;">
+              <div style="font-size:13px; font-weight:bold; color:#2400b7;">👤 ${item.user}</div>
+              <div style="font-size:11px; color:#666;">💼 ${item.empDesig} | 📍 ${item.workPlace}</div>
+            </div>
+
+            <div style="background:#f8f9ff; padding:10px; border-radius:10px; margin-bottom:12px;">
+              <div style="font-size:11px; font-weight:bold; color:#4b2dd8; text-transform:uppercase; margin-bottom:4px;">📂 ${item.cat}</div>
+              <div style="font-weight:bold; color:#111; font-size:14px; margin-bottom:4px;">${item.sub}</div>
+              <div style="font-size:12px; color:#444; line-height:1.5;">${item.desc}</div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="background:${color}; color:white; font-size:10px; padding:4px 12px; border-radius:20px; font-weight:bold; text-transform:uppercase; box-shadow: 0 4px 8px ${color}44;">
+                ● ${item.status}
+              </span>
+              <div style="text-align:right;">
+                <div style="font-size:9px; color:#aaa; text-transform:uppercase;">Handled By</div>
+                <div style="font-size:11px; font-weight:bold; color:#333;">${item.handler || 'Not Assigned'}</div>
+              </div>
+            </div>
+
+          </div>`;
+      });
+      listContainer.innerHTML = html;
+    } else {
+      // No active items
+      badge.style.display = "none";
+      listContainer.innerHTML = `
+        <div style="text-align:center; padding:40px 20px;">
+          <div style="font-size:50px; margin-bottom:15px;">🎉</div>
+          <h3 style="margin:0; color:#2400b7;">All Clear!</h3>
+          <p style="font-size:12px; color:#777; margin-top:8px;">No active grievances found in the system at this time.</p>
+        </div>`;
+    }
+  } catch (err) {
+    console.error("System Error:", err);
+    listContainer.innerHTML = `
+      <div style="text-align:center; padding:30px; color:#ff3d3d;">
+        <p>⚠️ Failed to connect to server.</p>
+        <button onclick="checkGrievances2()" style="background:#2400b7; color:white; border:none; padding:8px 15px; border-radius:8px; font-size:12px;">Retry</button>
+      </div>`;
+  }
+}
+
+// Start tracking badge immediately
+document.addEventListener("DOMContentLoaded", checkGrievances2);
+</script>
+
+  <!-- GRIEVANCE POPUP -->
+<div id="grievancePopup" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background: rgba(0,0,0,0.6);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:4000;
+">
+
+ <div style="
+background:white;
+padding:20px;
+border-radius:20px;
+width:85%;
+max-width:320px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+">
+
+  <!-- ICON -->
+  <div style="
+  width:60px;
+  height:60px;
+  margin:auto;
+  border-radius:50%;
+  background:#ffe5e5;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  color:#ff3d3d;
+  ">
+    ⚠️
+  </div>
+
+  <!-- MAIN TEXT -->
+  <h3 style="color:#ff3d3d;margin-top:15px;">
+    You are leaving Salary Portal
+  </h3>
+
+  <!-- SUB TEXT -->
+  <p style="font-size:14px;font-weight:600;color:#444;">
+    Redirecting to Employee Grievance Portal
+  </p>
+
+  <!-- BUTTONS -->
+  <div id="grievanceBtns" style="display:flex;gap:10px;margin-top:15px;">
+    
+    <button onclick="closeGrievancePopup()" style="
+    flex:1;
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    background:#eee;
+    font-weight:600;
+    ">
+    ❌ Cancel
+    </button>
+
+    <button onclick="continueToGrievance()" style="
+    flex:1;
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    background:#2400b7;
+    color:white;
+    font-weight:600;
+    ">
+    ➡ Continue
+    </button>
+
+  </div>
+
+  <!-- SPINNER -->
+  <div id="grievanceLoader" style="display:none;margin-top:20px;">
+    <div style="
+    width:40px;
+    height:40px;
+    border:4px solid #eee;
+    border-top:4px solid #2400b7;
+    border-radius:50%;
+    margin:auto;
+    animation:spin 1s linear infinite;
+    "></div>
+
+    <p style="margin-top:10px;font-size:13px;color:#555;">
+      Redirecting...
+    </p>
+  </div>
+
+</div>
+
+</div>
 </body>
 </html>
