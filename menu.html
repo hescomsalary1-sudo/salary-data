@@ -5,420 +5,585 @@
 <title>Salary Overview</title>
 
 <style>
-/* --- SHARED PREMIUM VARIABLES --- */
-:root {
-    --primary: #4b2dd8;
-    --primary-dark: #2400b7;
-    --accent: #9b6dff;
-    --bg-body: #f8faff;
-    --card-bg: #ffffff;
-    --text-main: #1a1a1a;
-    --text-muted: #718096;
-    --border-light: rgba(226, 232, 240, 0.8);
+
+/* --- SAME YOUR CSS (NO CHANGE) --- */
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:linear-gradient(135deg,#eef2f7,#e6ebf3);
 }
 
-/* --- BLOOM ENTRANCE EFFECT --- */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--bg-body);
-    z-index: 10000;
-    pointer-events: none;
-    animation: bloomReveal 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+/* TITLE */
+.title{
+padding:70px 15px 8px; /* top increased */
+font-size:22px;
+font-weight:600;
+color:#2d3748;
+}
+/* MOBILE TOP */
+.top{
+display:grid;
+grid-template-columns:1fr;
+gap:12px;
+padding:0 12px;
 }
 
-@keyframes bloomReveal {
-    0% { clip-path: circle(0% at 50% 50%); }
-    100% { clip-path: circle(150% at 50% 50%); }
+
+/* CARD */
+.card{
+background:linear-gradient(145deg,#eef2f7,#dfe5ef);
+border-radius:18px;
+padding:14px;
+box-shadow:
+8px 8px 20px rgba(0,0,0,0.08),
+-8px -8px 20px rgba(255,255,255,0.9);
+position:relative;
 }
 
-body {
-    margin: 0;
-    font-family: 'Segoe UI', Roboto, sans-serif;
-    background-color: var(--bg-body);
-    color: var(--text-main);
-    padding-bottom: 30px;
+/* SALARY */
+/* 🔥 MODERN SALARY CARDS */
+
+.grid2{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px; /* smaller gap */
 }
 
-/* --- PREMIUM GLASS HEADER --- */
-.top-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    padding: 18px 0;
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid var(--border-light);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-    z-index: 1000;
+.box{
+padding:8px;
+border-radius:14px;
+background:linear-gradient(145deg,#ffffff,#e6ebf3);
+box-shadow:
+4px 4px 10px rgba(0,0,0,0.08),
+-4px -4px 10px rgba(255,255,255,0.9);
+transition:0.2s;
 }
 
-.back-btn {
-    position: absolute;
-    left: 15px;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f1f3ff;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: 0.2s;
+.box h4{
+margin:0;
+font-size:11px;
+color:#6b7280;
 }
 
-.back-btn:active { transform: scale(0.9); }
-
-.header-title {
-    width: 100%;
-    text-align: center;
+.box p{
+margin:3px 0 0;
+font-size:15px; /* smaller */
+font-weight:600;
 }
 
-.header-title h2 {
-    margin: 0;
-    font-size: 19px;
-    background: linear-gradient(135deg, var(--primary-dark), var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 800;
+/* NET CARD (highlight) */
+.net{
+margin-top:8px;
+padding:10px;
+border-radius:14px;
+background:linear-gradient(135deg, #2400b7, #3b1eff);
+color:white;
+text-align:center;
+box-shadow:0 6px 15px rgba(0,82,204,0.3);
 }
 
-/* --- CONTENT SPACING --- */
-.container {
-    padding: 95px 16px 20px;
-    max-width: 500px;
-    margin: 0 auto;
+.net h4{
+margin:0;
+font-size:12px;
+opacity:0.9;
 }
 
-/* --- MODERN CARD STYLING --- */
-.card {
-    background: var(--card-bg);
-    border-radius: 24px;
-    padding: 20px;
-    box-shadow: 0 10px 30px rgba(75, 45, 216, 0.04);
-    margin-bottom: 20px;
-    border: 1px solid var(--border-light);
-    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+.net p{
+margin:4px 0 0;
+font-size:18px;
+font-weight:700;
 }
 
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+/* FLOAT */
+.float{
+position:absolute;
+left:50%;
+top:58%;
+transform:translate(-50%,-50%);
+width:45px;
+height:45px;
+border-radius:50%;
+background:#eef2f7;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:20px;
+color:#2b6cb0;
+box-shadow:
+6px 6px 14px rgba(0,0,0,0.15),
+-6px -6px 14px rgba(255,255,255,0.9);
 }
 
-/* SALARY SUMMARY GRID */
-.grid2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+/* CHART */
+.chart{
+position:relative;
+height:160px;
+display:flex;
+align-items:flex-end;
+justify-content:space-between; /* better spacing */
+gap:6px; /* ✅ add gap */
+padding:0 5px; /* small side spacing */
 }
 
-.box {
-    padding: 15px;
-    border-radius: 18px;
-    background: #f9faff;
-    border: 1px solid rgba(75, 45, 216, 0.05);
+/* BAR */
+.bar{
+width:10px;
+border-radius:8px;
+background:green;
 }
 
-.box h4 { margin: 0; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-.box p { margin: 5px 0 0; font-size: 16px; font-weight: 700; color: var(--primary-dark); }
-
-/* NET SALARY HIGHLIGHT */
-.net {
-    margin-top: 15px;
-    padding: 18px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-    color: white;
-    text-align: center;
-    box-shadow: 0 10px 20px rgba(36, 0, 183, 0.2);
+/* SVG */
+.line{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
 }
 
-.net h4 { margin: 0; font-size: 12px; opacity: 0.8; font-weight: 500; }
-.net p { margin: 5px 0 0; font-size: 24px; font-weight: 800; }
-
-/* --- CHART AREA --- */
-.chart-title { font-size: 16px; font-weight: 700; color: var(--primary-dark); margin-bottom: 15px; text-align: left; }
-
-.chart {
-    position: relative;
-    height: 160px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-around;
-    gap: 4px;
+.line circle{
+fill:white;
+stroke:#f4a300;
+stroke-width:2;
 }
 
-.bar {
-    width: 12px;
-    border-radius: 6px 6px 0 0;
-    background: linear-gradient(to top, var(--primary), var(--accent));
-    min-height: 2px;
+/* COIN */
+.coin{
+position:absolute;
+top:-8px;
+right:10px;
+width:45px;
+height:45px;
+border-radius:50%;
+background:linear-gradient(145deg,#ffd54f,#f4a300);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:20px;
+color:white;
 }
 
-.line {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
+/* BUTTONS */
+/* 🔥 MODERN BUTTONS */
+
+.buttons{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:14px;
+padding:15px 12px;
 }
 
-/* --- NAVIGATION BUTTONS --- */
-.buttons {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    margin-top: 10px;
+.btn{
+position:relative;
+padding:14px;
+border-radius:20px;
+background:linear-gradient(145deg,#ffffff,#e6ebf3);
+box-shadow:
+6px 6px 16px rgba(0,0,0,0.08),
+-6px -6px 16px rgba(255,255,255,0.9);
+text-align:center;
+cursor:pointer;
+transition:all 0.25s ease;
+overflow:hidden;
 }
 
-.btn {
-    background: var(--card-bg);
-    padding: 20px 10px;
-    border-radius: 22px;
-    text-align: center;
-    border: 1px solid var(--border-light);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.02);
-    transition: 0.2s;
-    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+/* ICON CIRCLE */
+.icon{
+width:50px;
+height:50px;
+margin:auto;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+margin-bottom:8px;
+font-size:20px;
+color:white;
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 
-.btn:active { transform: scale(0.95); }
+/* GRADIENT COLORS */
+.blue-bg{background:linear-gradient(135deg,#4facfe,#0052cc);}
+.purple-bg{background:linear-gradient(135deg,#a18cd1,#6b46c1);}
+.orange-bg{background:linear-gradient(135deg,#f6ad55,#dd6b20);}
+.green-bg{background:linear-gradient(135deg,#48bb78,#2f855a);}
 
-.icon {
-    width: 50px;
-    height: 50px;
-    margin: 0 auto 12px;
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    color: white;
+/* TEXT */
+.btn p{
+margin:0;
+font-size:13px;
+font-weight:600;
+color:#2d3748;
 }
 
-.btn p { margin: 0; font-size: 13px; font-weight: 700; color: var(--text-main); }
-
-.blue-bg { background: linear-gradient(135deg, #4facfe, #0052cc); }
-.purple-bg { background: linear-gradient(135deg, #a18cd1, #6b46c1); }
-.orange-bg { background: linear-gradient(135deg, #f6ad55, #dd6b20); }
-.green-bg { background: linear-gradient(135deg, #48bb78, #2f855a); }
-
-/* --- SKELETON LOADER --- */
-#loader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--bg-body);
-    display: none;
-    flex-direction: column;
-    padding: 100px 20px;
-    gap: 15px;
-    z-index: 99999;
+/* HOVER EFFECT */
+.btn:active{
+transform:scale(0.95);
+box-shadow:inset 4px 4px 10px rgba(0,0,0,0.1),
+           inset -4px -4px 10px rgba(255,255,255,0.8);
 }
 
-.skeleton {
-    background: linear-gradient(90deg, #ececf1 25%, #f5f5f7 50%, #ececf1 75%);
-    background-size: 400px 100%;
-    animation: shimmer 1.5s infinite linear;
-    border-radius: 12px;
+/* LIGHT SHINE EFFECT */
+.btn::before{
+content:"";
+position:absolute;
+top:0;
+left:-100%;
+width:100%;
+height:100%;
+background:linear-gradient(120deg,transparent,rgba(255,255,255,0.6),transparent);
+transition:0.5s;
 }
 
-@keyframes shimmer { 0% { background-position: -400px 0; } 100% { background-position: 400px 0; } }
-.skel-card { height: 180px; border-radius: 24px; }
-.skel-btn { height: 120px; border-radius: 22px; }
+.btn:hover::before{
+left:100%;
+}
 
+/* SKELETON */
+#loader{
+position:fixed;
+top:0;
+left:0;
+width:100vw;
+height:100vh;
+background:#f3f4fa;
+display:none; /* ✅ FIXED */
+flex-direction:column;
+padding:20px;
+gap:15px;
+z-index:99999;
+}
+
+@keyframes shimmer{
+0%{background-position:-400px 0;}
+100%{background-position:400px 0;}
+}
+
+.skeleton{
+height:20px;
+border-radius:6px;
+background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
+background-size:400px 100%;
+animation:shimmer 1.2s infinite;
+}
+
+.skel-big{height:80px;border-radius:20px;}
+.skel-circle{width:55px;height:55px;border-radius:50%;}
+.skel-line{height:15px;}
+.skel-card{height:90px;border-radius:20px;}
+
+ .chart-title{
+margin:0 0 10px;
+font-size:16px;
+font-weight:600;
+color:#2d3748;
+text-align:center;
+letter-spacing:0.5px;
+} 
+
+
+   /* BACK BUTTON (FLOATING STYLE) */
+
+.back-btn{
+position:fixed;
+top:15px;
+left:12px;
+width:42px;
+height:42px;
+border-radius:50%;
+background:rgba(255,255,255,0.9);
+backdrop-filter: blur(8px);
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+box-shadow:0 6px 15px rgba(0,0,0,0.15);
+z-index:999;
+transition:0.25s;
+}
+
+.back-btn:hover{
+transform:scale(1.1);
+background:white;
+}
+
+.back-btn svg{
+transition:0.2s;
+}
+
+.back-btn:hover svg{
+transform:translateX(-2px);
+}        
 </style>
 </head>
 
 <body>
-
-<!-- NAVIGATION HEADER -->
-<div class="top-nav">
-    <div class="back-btn" onclick="goBack()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M15 18L9 12L15 6" stroke="#2400b7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </div>
-    <div class="header-title">
-        <h2>Salary Overview</h2>
-    </div>
+<!-- BACK BUTTON -->
+<div class="back-btn" onclick="goBack()">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+    <path d="M15 18L9 12L15 6" 
+          stroke="#2400b7" 
+          stroke-width="2.5" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"/>
+  </svg>
 </div>
-
-<!-- SKELETON LOADER -->
+<!-- ✅ SKELETON CONTENT ADDED -->
 <div id="loader">
-    <div class="skeleton skel-card"></div>
-    <div class="skeleton skel-card" style="height: 220px;"></div>
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-        <div class="skeleton skel-btn"></div>
-        <div class="skeleton skel-btn"></div>
-    </div>
+
+<div style="display:flex;align-items:center;gap:10px;">
+<div class="skeleton skel-circle"></div>
+<div style="flex:1;">
+<div class="skeleton skel-line" style="width:60%;margin-bottom:6px;"></div>
+<div class="skeleton skel-line" style="width:40%;"></div>
+</div>
 </div>
 
-<div class="container">
-    <!-- SUMMARY CARD -->
-    <div class="card" style="animation-delay: 0.1s;">
-        <div class="grid2">
-            <div class="box">
-                <h4>Earnings</h4>
-                <p id="currentSalary">Loading...</p>
-            </div>
-            <div class="box">
-                <h4>Deductions</h4>
-                <p id="deduction" style="color: #e53e3e;">Loading...</p>
-            </div>
-        </div>
-        <div class="net">
-            <h4>Net Payable Salary</h4>
-            <p id="netSalary">Loading...</p>
-        </div>
-    </div>
+<div class="skeleton skel-big"></div>
 
-    <!-- CHART CARD -->
-    <div class="card" style="animation-delay: 0.2s;">
-        <h3 class="chart-title">Growth Analytics</h3>
-        <div style="display:flex; gap: 10px;">
-            <!-- Y AXIS -->
-            <div id="yAxis" style="width:35px; font-size:10px; color:var(--text-muted); display: flex; flex-direction: column; justify-content: space-between; text-align: right; padding-right: 5px;"></div>
-            
-            <div style="flex:1;">
-                <div class="chart" id="chart">
-                    <svg class="line" id="line"></svg>
-                </div>
-                <!-- X AXIS -->
-                <div id="xAxis" style="display:flex; justify-content:space-around; font-size:9px; color:var(--text-muted); margin-top:8px; font-weight: 600;"></div>
-            </div>
-        </div>
-    </div>
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
+<div class="skeleton skel-card"></div>
+<div class="skeleton skel-card"></div>
+<div class="skeleton skel-card"></div>
+<div class="skeleton skel-card"></div>
+<div class="skeleton skel-card"></div>
+<div class="skeleton skel-card"></div>
+<div class="skeleton skel-card"></div>
+<div class="skeleton skel-card"></div>
+<div class="skeleton skel-card"></div>
+</div>
 
-    <!-- BUTTON GRID -->
-    <div class="buttons">
-        <div class="btn" onclick="showLoader('salary.html')" style="animation-delay: 0.3s;">
-            <div class="icon blue-bg">💰</div>
-            <p>Salary Slip</p>
-        </div>
-        <div class="btn" onclick="showLoader('reports_menu.html')" style="animation-delay: 0.4s;">
-            <div class="icon purple-bg">📊</div>
-            <p>Reports</p>
-        </div>
-        <div class="btn" onclick="showLoader('holidays.html')" style="animation-delay: 0.5s;">
-            <div class="icon orange-bg">📅</div>
-            <p>Holidays</p>
-        </div>
-        <div class="btn" onclick="showLoader('assets_liability.html')" style="animation-delay: 0.6s;">
-            <div class="icon green-bg">📄</div>
-            <p>A & L Forms</p>
-        </div>
-    </div>
+<div class="skeleton skel-line" style="width:70%;"></div>
+<div class="skeleton skel-line"></div>
+<div class="skeleton skel-line" style="width:90%;"></div>
+
+</div>
+
+<div class="title">Salary Overview</div>
+
+<div class="top">
+
+<div class="card">
+<div class="grid2">
+<div class="box">
+<h4>Last Month Salary</h4>
+<p class="blue" id="currentSalary">Loading...</p>
+</div>
+
+<div class="box">
+<h4>Deductions</h4>
+<p class="red" id="deduction">Loading...</p>
+</div>
+</div>
+
+<div class="net">
+<h4>Net Salary:</h4>
+<p class="green" id="netSalary" style="font-size:22px;">Loading...</p>
+</div>
+
+
+</div>
+
+<div class="card">
+<h3 class="chart-title">Salary Growth</h3>
+<div style="display:flex;">
+
+<!-- Y AXIS -->
+<div id="yAxis" style="width:40px;font-size:10px;color:#6b7280;"></div>
+
+<!-- CHART AREA -->
+<div style="flex:1;">
+<div class="chart" id="chart">
+<svg class="line" id="line"></svg>
+
+</div>
+
+<!-- X AXIS -->
+<div id="xAxis" style="display:flex;justify-content:space-around;font-size:10px;color:#6b7280;margin-top:4px;"></div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="buttons">
+
+<div class="btn" onclick="showLoader('salary.html')">
+<div class="icon blue-bg">💰</div>
+<p>Salary</p>
+</div>
+
+<div class="btn" onclick="showLoader('reports_menu.html')">
+<div class="icon purple-bg">📊</div>
+<p>Reports</p>
+</div>
+
+<div class="btn" onclick="showLoader('holidays.html')">
+<div class="icon orange-bg">📅</div>
+<p>Holiday List</p>
+</div>
+
+<div class="btn" onclick="showLoader('assets_liability.html')">
+<div class="icon green-bg">📄</div>
+<p>Assets and Liabilities</p>
+</div>
+
 </div>
 
 <script>
+
 let user = localStorage.getItem("currentUser");
+
+// show loader on page load
 document.getElementById("loader").style.display="flex";
 
+// FIXED URL
 let url = "https://hescomsalary1-sudo.github.io/salary-data/salary%20.csv";
 
 function showLoader(url){
-    document.getElementById("loader").style.display="flex";
-    setTimeout(()=>{ window.location=url },800);
-}
-
-function goBack(){
-    window.history.back();
+document.getElementById("loader").style.display="flex";
+setTimeout(()=>{ window.location=url },800);
 }
 
 fetch(url)
 .then(res => res.text())
 .then(data => {
-    let rows = data.trim().split("\n").slice(1);
-    let monthly = [];
 
-    rows.forEach(r=>{
-        let cols = r.split(",");
-        if(cols[0] !== user) return;
-        let year = Number(cols[1]);
-        let month = Number(cols[2]);
-        let earnings = 0;
-        for(let i=3;i<=19;i++){ earnings += Number(cols[i]) || 0; }
-        let deductions = 0;
-        for(let i=20;i<cols.length;i++){ deductions += Number(cols[i])||0; }
-        let net = earnings - deductions;
-        monthly.push({year,month,net,earnings,deductions});
-    });
+let rows = data.trim().split("\n").slice(1);
 
-    monthly.sort((a,b)=> (a.year*100 + a.month) - (b.year*100 + b.month));
+let monthly = [];
 
-    let last = monthly.length >= 2 ? monthly[monthly.length - 2] : (monthly.length === 1 ? monthly[0] : null);
+rows.forEach(r=>{
+let cols = r.split(",");
 
-    if(last){
-        document.getElementById("currentSalary").innerText="₹ "+last.earnings.toLocaleString();
-        document.getElementById("deduction").innerText="₹ "+last.deductions.toLocaleString();
-        document.getElementById("netSalary").innerText="₹ "+last.net.toLocaleString();
-    }
+if(cols[0] !== user) return;
 
-    // Chart Logic
-    let chart=document.getElementById("chart");
-    let last12 = monthly.slice(-12);
-    let values = last12.map(m=>m.net);
-    let months = last12.map(m=>m.month);
-    let years = last12.map(m=>m.year);
-    let names=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+let year = Number(cols[1]);
+let month = Number(cols[2]);
 
-    let step = 25000;
-    let maxVal = Math.max(...values, 50000);
-    let yMax = Math.ceil(maxVal/step)*step;
+let earnings = 0;
+for(let i=3;i<=19;i++){
+earnings += Number(cols[i]) || 0;
+}
 
-    let yAxis=document.getElementById("yAxis");
-    yAxis.innerHTML="";
-    for(let i=yMax; i>=0; i-=step){
-        let d=document.createElement("div");
-        d.innerText=(i/1000)+"K";
-        yAxis.appendChild(d);
-    }
+let deductions = 0;
+for(let i=20;i<cols.length;i++){
+deductions += Number(cols[i])||0;
+}
 
-    let xAxis=document.getElementById("xAxis");
-    xAxis.innerHTML="";
-    months.forEach((m,i)=>{
-        let d=document.createElement("div");
-        d.innerHTML = names[m-1] + "<br>" + years[i].toString().substr(-2);
-        xAxis.appendChild(d);
-    });
+let net = earnings - deductions;
 
-    values.forEach(v=>{
-        let bar=document.createElement("div");
-        bar.className="bar";
-        bar.style.height=(v/yMax)*100+"%";
-        chart.appendChild(bar);
-    });
-
-    let svg=document.getElementById("line");
-    let points=values.map((v,i)=>{
-        let x=(i/(values.length-1))* (chart.clientWidth - 20) + 10;
-        let y = 160 - (v / yMax) * 160;
-        return `${x},${y}`;
-    }).join(" ");
-
-    let poly=document.createElementNS("http://www.w3.org/2000/svg","polyline");
-    poly.setAttribute("points",points);
-    poly.setAttribute("fill","none");
-    poly.setAttribute("stroke","#9b6dff");
-    poly.setAttribute("stroke-width","3");
-    poly.setAttribute("stroke-linecap","round");
-    svg.appendChild(poly);
-
-    document.getElementById("loader").style.display="none";
+monthly.push({year,month,net,earnings,deductions});
 });
+
+monthly.sort((a,b)=>a.year-b.year||a.month-b.month);
+
+// sort properly
+monthly.sort((a,b)=>{
+return (a.year*100 + a.month) - (b.year*100 + b.month);
+});
+
+// ✅ get previous month
+let last = null;
+
+if(monthly.length >= 2){
+last = monthly[monthly.length - 2]; // previous month
+}else if(monthly.length === 1){
+last = monthly[0]; // fallback
+}
+
+if(last){
+document.getElementById("currentSalary").innerText="₹ "+last.earnings;
+document.getElementById("deduction").innerText="₹ "+last.deductions;
+document.getElementById("netSalary").innerText="₹ "+last.net;
+}
+
+let chart=document.getElementById("chart");
+chart.querySelectorAll(".bar").forEach(b=>b.remove());
+document.getElementById("line").innerHTML="";
+
+let last12 = monthly.slice(-12);
+let values = last12.map(m=>m.net);
+let months = last12.map(m=>m.month);
+let years = last12.map(m=>m.year);
+            // ✅ AXIS ADD
+
+let names=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+/* Y AXIS */
+let step = 25000;
+
+let maxVal = Math.max(...values);
+let yMax = Math.ceil(maxVal/step)*step;
+
+let yAxis=document.getElementById("yAxis");
+yAxis.innerHTML="";
+
+for(let i=yMax;i>=0;i-=step){
+let d=document.createElement("div");
+d.style.height = (160 / (yMax/step)) + "px";
+d.innerText=(i/1000)+"K";
+yAxis.appendChild(d);
+}
+
+yAxis.style.display = "flex";
+yAxis.style.flexDirection = "column";
+yAxis.style.justifyContent = "space-between";
+
+/* X AXIS */
+let xAxis=document.getElementById("xAxis");
+xAxis.innerHTML="";
+
+months.forEach((m,i)=>{
+let d=document.createElement("div");
+
+// ✅ Month + Year
+d.innerHTML = names[m-1] + "<br>" + years[i];
+d.style.textAlign = "center";
+d.style.fontSize = "9px";
+
+// optional: make it smaller
+d.style.textAlign="center";
+d.style.fontSize="9px";
+
+xAxis.appendChild(d);
+});
+
+let max=Math.max(...values);
+
+
+values.forEach(v=>{
+let bar=document.createElement("div");
+bar.className="bar";
+bar.style.height=(v/yMax)*100+"%";
+chart.appendChild(bar);
+});
+
+let svg=document.getElementById("line");
+
+let points=values.map((v,i)=>{
+let x=(i/(values.length-1))*280+10;
+let y = 140 - (v / yMax) * 120;
+return `${x},${y}`;
+}).join(" ");
+
+let poly=document.createElementNS("http://www.w3.org/2000/svg","polyline");
+poly.setAttribute("points",points);
+poly.setAttribute("fill","none");
+poly.setAttribute("stroke","#f4a300");
+poly.setAttribute("stroke-width","2");
+
+svg.appendChild(poly);
+
+// hide loader
+document.getElementById("loader").style.display="none";
+
+});
+function goBack(){
+  window.history.back();
+}
 </script>
 
 </body>
