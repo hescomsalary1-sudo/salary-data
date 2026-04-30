@@ -16,15 +16,22 @@ padding-bottom:75px;
 
 /* HEADER */
 
-.top{
-padding:25px 20px 110px 20px;
-background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
-color:#2400b7;
-display:flex;
-justify-content:space-between;
-align-items:center;
-border-bottom-left-radius:60px;
-border-bottom-right-radius:60px;
+.top {
+    position: fixed; /* Keep it at the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1100; /* Higher than content and sidebar overlay */
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+    padding: 15px 20px 25px 20px; /* Adjusted padding for a fixed look */
+    background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
+    color: #2400b7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom-left-radius: 40px; /* Slightly smaller radius for fixed header */
+    border-bottom-right-radius: 40px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Optional: adds depth */
 }
 
 .profile{
@@ -49,12 +56,11 @@ font-size:22px;
 /* CONTENT */
 
 
-.content{
-padding:20px;
-margin-top:-90px;
-padding-bottom:90px;
+.content {
+    padding: 20px;
+    padding-top: 120px; /* IMPORTANT: Space to prevent header overlap */
+    padding-bottom: 90px;
 }
-
 
 /* SALARY CARD IMAGE */
 
