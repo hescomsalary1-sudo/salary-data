@@ -1136,6 +1136,43 @@ pointer-events: all;
     0%, 100% { transform: scale(1); opacity: 0.8; }
     50% { transform: scale(1.3); opacity: 1; }
 }
+
+    /* 1. Prevent Shaking: Set a default height for the top area */
+.top {
+    min-height: 85px; 
+    transition: all 0.3s ease;
+}
+
+/* 2. Create the Entrance Animation */
+@keyframes pageEnter {
+    from { 
+        opacity: 0; 
+        transform: translateY(20px); 
+        filter: blur(5px);
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+        filter: blur(0);
+    }
+}
+
+/* Apply animation to the main page container */
+#appPage {
+    opacity: 0; /* Hidden by default */
+    animation: pageEnter 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: 0.1s; /* Tiny delay to ensure styles are loaded */
+}
+
+/* 3. Smooth out images so they don't "pop" in */
+img {
+    transition: opacity 0.5s ease;
+}
+
+/* 4. Fix content padding to match header exactly */
+.content {
+    padding-top: 130px; /* Increased slightly to prevent "jump" on render */
+}
 </style>
 </head>
 
