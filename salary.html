@@ -4,95 +4,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salary Dashboard</title>
+    <!-- Modern Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-hover: #4f46e5;
-            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            --glass-bg: rgba(255, 255, 255, 0.7);
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --bg-gradient: linear-gradient(135deg, #e0e7ff 0%, #f3f4f6 100%);
+            --glass-bg: rgba(255, 255, 255, 0.8);
             --text-main: #1e293b;
             --text-muted: #64748b;
         }
 
         body {
             margin: 0;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Inter', sans-serif;
             background: var(--bg-gradient);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             color: var(--text-main);
+            padding-top: 80px; /* Space for fixed header */
         }
 
-        /* HEADER */
-        .header {
-            margin-top: 40px;
-            margin-bottom: 20px;
+        /* MODERN HEADER WITH BACK BUTTON */
+        .header-bar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .back-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .back-btn:active { transform: scale(0.9); }
+
+        .header-bar h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-left: 15px;
+            color: var(--text-main);
+        }
+
+        /* PAGE INTRO */
+        .page-intro {
             text-align: center;
+            margin-bottom: 25px;
+            width: 90%;
         }
 
-        .header h1 {
-            font-size: 28px;
+        .page-intro h1 {
+            font-size: 26px;
             font-weight: 800;
-            letter-spacing: -0.5px;
             margin: 0;
-            background: linear-gradient(to right, #4f46e5, #ec4899);
+            background: linear-gradient(to right, #4f46e5, #9333ea);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .header p {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-top: 5px;
-        }
-
         /* MAIN CARD */
         .card {
-            width: 90%;
-            max-width: 400px;
+            width: 92%;
+            max-width: 420px;
             background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 24px;
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 30px;
             padding: 24px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+            box-sizing: border-box;
         }
 
-        /* CUSTOM SELECT */
-        .select-wrapper {
-            margin-bottom: 25px;
-        }
-
+        /* SELECT INPUT */
+        .select-wrapper { margin-bottom: 30px; }
         label {
             display: block;
-            font-size: 12px;
-            font-weight: 700;
+            font-size: 11px;
+            font-weight: 800;
             text-transform: uppercase;
             color: var(--text-muted);
-            margin-bottom: 8px;
-            margin-left: 4px;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
         }
 
         select {
             width: 100%;
-            padding: 12px 16px;
-            border-radius: 12px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 14px 18px;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
             background: white;
             font-size: 16px;
+            font-weight: 600;
             color: var(--text-main);
             outline: none;
-            appearance: none;
             cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
         }
 
         /* MONTH GRID */
@@ -102,85 +130,77 @@
             gap: 12px;
         }
 
-        /* MONTH BUTTON */
         .month-btn {
-            padding: 18px 10px;
-            border-radius: 16px;
+            padding: 20px 10px;
+            border-radius: 18px;
             background: white;
             color: var(--text-main);
             text-align: center;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 14px;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
         }
 
         .month-btn:hover {
             background: var(--primary);
             color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px -5px rgba(79, 70, 229, 0.4);
         }
 
-        .month-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* LOADER / SKELETON */
+        /* SKELETON LOADER */
         #loader {
             position: fixed;
             inset: 0;
             background: #ffffff;
-            padding: 40px 20px;
+            padding: 80px 20px;
             display: none;
             flex-direction: column;
-            gap: 20px;
-            z-index: 9999;
             align-items: center;
+            z-index: 9999;
         }
-
         .skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite;
-            border-radius: 12px;
+            border-radius: 20px;
         }
-
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        .sk-title { height: 30px; width: 180px; margin-bottom: 20px; }
-        .sk-card { height: 350px; width: 100%; max-width: 400px; border-radius: 24px; }
- 
-
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .sk-card { height: 400px; width: 100%; max-width: 400px; }
     </style>
 </head>
 
 <body>
 
+    <!-- TOP HEADER BAR -->
+    <div class="header-bar">
+        <button class="back-btn" onclick="goBack()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+        <h2>Back</h2>
+    </div>
+
     <div id="loader">
-        <div class="skeleton sk-title"></div>
         <div class="skeleton sk-card"></div>
     </div>
 
-    <div class="header">
+    <div class="page-intro">
         <h1>Salary Portal</h1>
-        <p>Select a period to view details</p>
+        <p style="color: var(--text-muted); margin-top: 8px;">Select a month to view pay slips</p>
     </div>
 
     <div class="card">
         <div class="select-wrapper">
-            <label for="year">Fiscal Year</label>
+            <label for="year">Financial Year</label>
             <select id="year">
-                <option value="2026">2026</option>
-                <option value="2027">2027</option>
-                <option value="2028">2028</option>
+                <option value="2026">2026 - 2027</option>
+                <option value="2027">2027 - 2028</option>
+                <option value="2028">2028 - 2029</option>
             </select>
         </div>
 
@@ -202,13 +222,15 @@
     </div>
 
     <script>
+        function goBack() {
+            window.history.back();
+        }
+
         function openSalary(month) {
             const year = document.getElementById("year").value;
-            
             localStorage.setItem("selectedYear", year);
             localStorage.setItem("selectedMonth", month);
 
-            // Show skeleton with fade in
             const loader = document.getElementById("loader");
             loader.style.display = "flex";
             document.body.style.overflow = "hidden";
