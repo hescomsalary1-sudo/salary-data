@@ -691,6 +691,18 @@ function goBack(){
     window.location.href = url;
   },500);
 }
+
+  function refreshApp(){
+    // Show the "Middle" loader
+    document.getElementById("loader").style.display = "flex";
+    
+    // Optional: add a slight fade to the content area only
+    document.querySelector('.content').style.opacity = "0.4";
+
+    setTimeout(function(){
+        location.reload(true);
+    }, 1000);
+}
 </script>
 
 </body>
