@@ -18,6 +18,28 @@ font-family:'Segoe UI',sans-serif;
 background:var(--bg);
 }
 
+/* --- ADDED BACK BUTTON STYLE --- */
+.back-nav {
+    display: flex;
+    align-items: center;
+    padding: 15px 15px 5px 15px;
+    background: #f7f8fc;
+}
+
+.back-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    border: none;
+    outline: none;
+}
+
 /* HEADER */
 .top{
 padding:10px 10px;
@@ -155,6 +177,15 @@ font-weight:bold;
 </head>
 
 <body>
+
+<!-- ADDED TOP ARROW BAR -->
+<div class="back-nav">
+    <button class="back-btn" onclick="history.back()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4b2dd8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+    </button>
+</div>
 
 <div class="top">
 <div class="icon">🎉</div>
