@@ -33,24 +33,26 @@ font-weight:600;
 color:#2d3748;
 }
 /* MOBILE TOP */
-.top{
-display:grid;
-grid-template-columns:1fr;
-gap:12px;
-padding:0 12px;
-  background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
+/* UPDATED MOBILE TOP GRID */
+.top {
+    display: grid;
+    /* This makes two equal columns side by side */
+    grid-template-columns: 1fr 1fr; 
+    gap: 12px;
+    padding: 12px;
+    background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
 }
 
 
-/* CARD */
-.card{
-background:linear-gradient(145deg,#eef2f7,#dfe5ef);
-border-radius:18px;
-padding:14px;
-box-shadow:
-8px 8px 20px rgba(0,0,0,0.08),
--8px -8px 20px rgba(255,255,255,0.9);
-position:relative;
+/* Adjust card height to be consistent when side-by-side */
+.card {
+    background: linear-gradient(145deg,#eef2f7,#dfe5ef);
+    border-radius: 18px;
+    padding: 14px;
+    box-shadow: 8px 8px 20px rgba(0,0,0,0.08), -8px -8px 20px rgba(255,255,255,0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 /* SALARY */
@@ -130,6 +132,7 @@ box-shadow:
 /* CHART */
 .chart{
 position:relative;
+  height: 120px; /* Reduced height to fit better side-by-side */
 height:160px;
 display:flex;
 align-items:flex-end;
@@ -137,7 +140,11 @@ justify-content:space-between; /* better spacing */
 gap:6px; /* ✅ add gap */
 padding:0 5px; /* small side spacing */
 }
-
+@media (max-width: 400px) {
+    .top {
+        grid-template-columns: 1fr;
+    }
+}
 /* BAR */
 .bar{
 width:10px;
@@ -670,7 +677,8 @@ chart.appendChild(bar);
 let svg=document.getElementById("line");
 
 let points=values.map((v,i)=>{
-let x=(i/(values.length-1))*280+10;
+let chartWidth = svg.clientWidth || 150; // Get actual width
+let x = (i / (values.length - 1)) * (chartWidth - 20) + 10;
 let y = 140 - (v / yMax) * 120;
 return `${x},${y}`;
 }).join(" ");
