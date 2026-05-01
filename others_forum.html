@@ -1,442 +1,282 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HESCOM Portal</title>
 
 <style>
-body{
-margin:0;
-font-family:'Segoe UI';
-background:#f4f6fb;
+:root {
+    --primary: #3b1eff;
+    --secondary: #2575fc;
+    --bg: #f4f7fe;
+    --text: #2d3436;
+    --card-bg: #ffffff;
 }
 
-/* HEADER */
-.top{
-background:linear-gradient(135deg,#2400b7,#3b1eff);
-color:white;
-padding:20px;
-text-align:center;
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+/* HEADER WITH BACK ARROW */
+.top {
+    background: linear-gradient(135deg, #2400b7, #3b1eff);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.back-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-right: 15px;
+    transition: 0.3s;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.top h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
 /* CONTAINER */
-.container{
-padding:15px;
+.container {
+    padding: 20px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* CARD */
-.card{
-background:white;
-padding:15px;
-border-radius:15px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-line-height:1.6;
+.card {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    line-height: 1.8;
 }
 
-  /* TREE DESIGN */
-.tree ul{
-padding-top:20px;
-position:relative;
+.card b {
+    color: var(--primary);
+    font-size: 1.1rem;
 }
 
-.tree li{
-display:inline-block;
-text-align:center;
-list-style:none;
-position:relative;
-padding:20px 5px 0 5px;
+/* ACCORDION ENHANCEMENTS */
+.accordion {
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #eef0f7;
+    overflow: hidden;
 }
 
-.tree li::before, .tree li::after{
-content:'';
-position:absolute;
-top:0;
-right:50%;
-border-top:2px solid #ccc;
-width:50%;
-height:20px;
+.acc-header {
+    padding: 16px;
+    font-weight: 600;
+    background: white;
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s;
 }
 
-.tree li::after{
-right:auto;
-left:50%;
-border-left:2px solid #ccc;
+.acc-header:hover {
+    background: #f8f9ff;
 }
 
-.tree li:only-child::after, .tree li:only-child::before{
-display:none;
+.acc-header.active {
+    background: var(--secondary);
+    color: white;
 }
 
-.tree li:first-child::before, .tree li:last-child::after{
-border:none;
+.acc-content {
+    display: none;
+    padding: 10px 15px;
+    background: #fafbff;
+    border-top: 1px solid #eee;
 }
 
-.tree ul ul::before{
-content:'';
-position:absolute;
-top:0;
-left:50%;
-border-left:2px solid #ccc;
-height:20px;
+.section {
+    background: white;
+    padding: 12px 15px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border-left: 4px solid var(--secondary);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    font-size: 0.95rem;
 }
 
-/* NODE STYLE */
-.node{
-background:white;
-padding:10px;
-border-radius:12px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-display:inline-block;
-min-width:110px;
-font-size:12px;
-font-weight:600;
+ul {
+    padding-left: 20px;
 }
 
-.main{background:#3b1eff;color:white;}
-.sub{background:#2575fc;color:white;}
-.sec{background:#e6f0ff;color:#333;}
-
-  /* ACCORDION STYLE */
-.accordion{
-background:white;
-border-radius:15px;
-margin-bottom:10px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-overflow:hidden;
+li {
+    margin-bottom: 8px;
 }
 
-.acc-header{
-padding:14px;
-font-weight:600;
-background:#2575fc;
-color:white;
-cursor:pointer;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.acc-content{
-display:none;
-padding:10px 15px;
-background:#f9fafc;
-}
-
-.section{
-background:white;
-padding:10px;
-margin:6px 0;
-border-radius:10px;
-box-shadow:0 2px 6px rgba(0,0,0,0.05);
-font-size:14px;
-}
 </style>
 </head>
-
 <body>
 
-<!-- HEADER -->
 <div class="top">
-<h2 id="title">Loading...</h2>
+    <a href="forum.html" class="back-btn">←</a>
+    <h2 id="title">Loading...</h2>
 </div>
 
-<!-- CONTENT -->
 <div class="container">
-<div class="card" id="content"></div>
+    <div class="card" id="content"></div>
 </div>
 
 <script>
-
-// ✅ STEP 3.2 → GET TYPE FROM URL
 const params = new URLSearchParams(window.location.search);
 const type = params.get("type");
 
-// ✅ STEP 3.3 → SET TITLE
 let title = "";
-
-if(type === "privacy") title = "Privacy Policy";
-if(type === "terms") title = "Terms & Conditions";
-if(type === "copyright") title = "Copyright Policy";
-if(type === "org") title = "Organization Chart";
-
-document.getElementById("title").innerText = title;
-
-
-// ✅ STEP 3.4 → SET CONTENT
 let content = "";
 
 if(type === "privacy"){
-content = `
-<b>Privacy Policy</b><br><br>
+    title = "Privacy Policy";
+    content = `
+    <b>Privacy & Data Security</b><br>
+    <small>Last updated: May 2026</small><br><br>
+    
+    <b>1. Data Collection</b><br>
+    We collect minimal data required for utility management:
+    <ul>
+        <li><b>Identity:</b> Name and Employee/User ID for secure access.</li>
+        <li><b>Contact:</b> Official email and phone number for critical alerts.</li>
+        <li><b>Usage:</b> Logs of interactions within the portal to improve speed.</li>
+    </ul>
 
-Your privacy is important to us. This application is designed to securely manage employee-related information such as salary details and support queries.
+    <b>2. Data Protection</b><br>
+    Your data is encrypted using SSL technology and stored in restricted Google Cloud instances. No unauthorized personnel can view your private salary breakdowns.
 
-<br><br>
-
-<b>1. Information We Collect</b><br>
-We may collect the following information:
-<ul>
-<li>User name (for login identification)</li>
-<li>Email address (for contact support)</li>
-<li>Messages or queries submitted by users</li>
-</ul>
-
-<br>
-
-<b>2. How We Use Information</b><br>
-The collected information is used for:
-<ul>
-<li>Providing app functionality (login, salary details)</li>
-<li>Responding to user queries</li>
-<li>Improving app performance</li>
-</ul>
-
-<br>
-
-<b>3. Data Storage</b><br>
-All data is securely stored using Google Sheets and is accessible only to authorized administrators.
-
-<br><br>
-
-<b>4. Data Sharing</b><br>
-We do not sell, trade, or share your personal information with third parties.
-
-<br><br>
-
-<b>5. Security</b><br>
-We take reasonable measures to protect your data from unauthorized access.
-
-<br><br>
-
-<b>6. User Responsibility</b><br>
-Users are responsible for maintaining the confidentiality of their login details.
-
-<br><br>
-
-<b>7. Updates</b><br>
-This policy may be updated from time to time to improve security and transparency.
-
-<br><br>
-
-<b>8. Contact</b><br>
-For any privacy-related concerns, please use the "Contact Us" section in the app.
-`;
+    <br><br>
+    <b>3. Cookies</b><br>
+    We use local storage only to keep you logged in during your session. No tracking cookies are used.
+    `;
 }
 
 if(type === "terms"){
-content = `
-<b>Terms & Conditions</b><br>
-<small>Effective Date: 01 Jan 2026</small>
-<br><br>
+    title = "Terms of Service";
+    content = `
+    <b>Terms & Conditions</b><br>
+    <small>Effective: 01 Jan 2026</small><br><br>
 
-By accessing and using this application, you agree to comply with the following terms and conditions.
+    <b>1. User Agreement</b><br>
+    By accessing HESCOM internal tools, you agree to protect sensitive organizational data. Unauthorized screenshots or sharing of internal metrics is strictly prohibited.
 
-<br><br>
+    <br><br>
+    <b>2. System Monitoring</b><br>
+    The organization reserves the right to monitor portal usage to ensure compliance with cybersecurity policies.
 
-<b>1. Purpose of the Application</b><br>
-This application is designed for employees to access salary-related information and communicate with the organization through support features. It must be used only for official purposes.
-
-<br><br>
-
-<b>2. User Authentication</b><br>
-Users must log in using valid credentials. You are responsible for maintaining the confidentiality of your account. Any activity performed under your account will be considered your responsibility.
-
-<br><br>
-
-<b>3. Acceptable Use</b><br>
-You agree not to misuse the application. Prohibited actions include:
-<ul>
-<li>Accessing or attempting to access another user's data</li>
-<li>Submitting false, abusive, or misleading information</li>
-<li>Using the app for unauthorized or illegal activities</li>
-</ul>
-
-<br>
-
-<b>4. Data Accuracy</b><br>
-Users must ensure that all submitted data (such as contact messages or queries) is accurate and relevant. Misuse may lead to restricted access.
-
-<br><br>
-
-<b>5. Data Storage & Handling</b><br>
-User data is stored securely using backend services such as Google Sheets. The organization takes reasonable steps to protect data but does not guarantee absolute security.
-
-<br><br>
-
-<b>6. Admin Rights</b><br>
-The administrator reserves the right to:
-<ul>
-<li>Modify or delete inappropriate content</li>
-<li>Respond to user queries</li>
-<li>Restrict or block users in case of misuse</li>
-</ul>
-
-<br>
-
-<b>7. Service Availability</b><br>
-We aim to keep the application available at all times. However, we do not guarantee uninterrupted or error-free service.
-
-<br><br>
-
-<b>8. Limitation of Liability</b><br>
-The organization shall not be held responsible for any direct or indirect loss resulting from the use or inability to use the application.
-
-<br><br>
-
-<b>9. Updates and Changes</b><br>
-These terms may be updated periodically. Continued use of the application after updates implies acceptance of the revised terms.
-
-<br><br>
-
-<b>10. Termination of Access</b><br>
-User access may be suspended or terminated if any violation of these terms is detected.
-
-<br><br>
-
-<b>11. Contact</b><br>
-For any questions regarding these terms, please use the "Contact Us" section within the application.
-`;
-}
-
-if(type === "copyright"){
-content = `
-<b>Copyright Policy</b><br>
-<small>Effective Date: 01 Jan 2026</small>
-<br><br>
-
-All content, features, and functionality of this application are the exclusive property of the organization and are protected by applicable copyright laws.
-
-<br><br>
-
-<b>1. Ownership</b><br>
-All materials within this application, including but not limited to text, data, design, layout, and functionality, are owned by the organization.
-
-<br><br>
-
-<b>2. Use of Content</b><br>
-Users are granted limited access to use the application for official purposes only. Any unauthorized copying, reproduction, or distribution of content is strictly prohibited.
-
-<br><br>
-
-<b>3. Restrictions</b><br>
-Users must not:
-<ul>
-<li>Copy or redistribute application data</li>
-<li>Modify or reverse-engineer the application</li>
-<li>Use the content for commercial or unauthorized purposes</li>
-</ul>
-
-<br>
-
-<b>4. Employee Data Protection</b><br>
-Salary and employee-related data displayed in the application are confidential and must not be shared with unauthorized individuals.
-
-<br><br>
-
-<b>5. Violations</b><br>
-Any violation of this policy may result in disciplinary action and/or legal consequences.
-
-<br><br>
-
-<b>6. Third-Party Content</b><br>
-If any third-party tools or services are used, their respective copyrights remain with their owners.
-
-<br><br>
-
-<b>7. Updates</b><br>
-This policy may be updated periodically. Continued use of the application indicates acceptance of the updated policy.
-
-<br><br>
-
-<b>8. Contact</b><br>
-For any copyright-related concerns, please use the "Contact Us" section in the application.
-`;
+    <br><br>
+    <b>3. Reporting Errors</b><br>
+    If you notice discrepancies in your salary or data, you must report it via the 'Contact Us' portal within 48 hours.
+    `;
 }
 
 if(type === "org"){
-content = `
+    title = "Organizational Structure";
+    content = `
+    <div class="accordion">
+        <div class="acc-header" onclick="toggle(this)">🏢 O & M Division - HESCOM, Sirsi <span>+</span></div>
+        <div class="acc-content">
+            
+            <div class="accordion">
+                <div class="acc-header" onclick="toggle(this)">Sirsi Subdivision <span>+</span></div>
+                <div class="acc-content">
+                    <div class="section">R-1 Section (City)</div>
+                    <div class="section">R-2 Section (Industrial)</div>
+                    <div class="section">Hulekal Rural</div>
+                    <div class="section">Banavasi Hub</div>
+                </div>
+            </div>
 
-<div class="accordion">
-<div class="acc-header" onclick="toggle(this)">🏢 O & M Division - HESCOM, Sirsi <span>+</span></div>
-<div class="acc-content">
+            <div class="accordion">
+                <div class="acc-header" onclick="toggle(this)">Siddapur Subdivision <span>+</span></div>
+                <div class="acc-content">
+                    <div class="section">Town Section</div>
+                    <div class="section">Rural Section</div>
+                    <div class="section">Herur Range</div>
+                </div>
+            </div>
 
-<!-- Sirsi -->
-<div class="accordion">
-<div class="acc-header" onclick="toggle(this)">Sirsi Subdivision <span>+</span></div>
-<div class="acc-content">
-<div class="section">R-1 Section</div>
-<div class="section">R-2 Section</div>
-<div class="section">Hulekal</div>
-<div class="section">Banavasi</div>
-</div>
-</div>
+            <div class="accordion">
+                <div class="acc-header" onclick="toggle(this)">Kumta & Coast Subdivision <span>+</span></div>
+                <div class="acc-content">
+                    <div class="section">Kumta Town</div>
+                    <div class="section">Haldipur Section</div>
+                    <div class="section">Mirjan Office</div>
+                </div>
+            </div>
 
-<!-- Siddapur -->
-<div class="accordion">
-<div class="acc-header" onclick="toggle(this)">Siddapur Subdivision <span>+</span></div>
-<div class="acc-content">
-<div class="section">Town Section</div>
-<div class="section">Rural Section</div>
-<div class="section">Herur</div>
-<div class="section">Bilagi</div>
-</div>
-</div>
-
-<!-- Yellapur -->
-<div class="accordion">
-<div class="acc-header" onclick="toggle(this)">Yellapur Subdivision <span>+</span></div>
-<div class="acc-content">
-<div class="section">Town Section</div>
-<div class="section">Rural Section</div>
-<div class="section">Manchikeri</div>
-<div class="section">Kiravatti</div>
-</div>
-</div>
-
-<!-- Mundgod -->
-<div class="accordion">
-<div class="acc-header" onclick="toggle(this)">Mundgod Subdivision <span>+</span></div>
-<div class="acc-content">
-<div class="section">Mundgod Section</div>
-<div class="section">Malgi Section</div>
-</div>
-</div>
-
-<!-- Accounting -->
-<div class="accordion">
-<div class="acc-header" onclick="toggle(this)">Sirsi Accounting Section <span>+</span></div>
-<div class="acc-content">
-<div class="section">Accounts & Billing</div>
-</div>
-</div>
-
-</div>
-</div>
-
-`;
+            <div class="accordion">
+                <div class="acc-header" onclick="toggle(this)">Administrative Sections <span>+</span></div>
+                <div class="acc-content">
+                    <div class="section">Accounts & Audit</div>
+                    <div class="section">HR & Recruitment</div>
+                    <div class="section">Technical Wing</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
 }
 
-// 👉 SHOW CONTENT
+if(type === "copyright"){
+    title = "Copyright Policy";
+    content = "<b>© 2026 HESCOM Division.</b><br>All rights reserved. The code, interface design, and database structures are proprietary property.";
+}
+
+document.getElementById("title").innerText = title;
 document.getElementById("content").innerHTML = content;
 
-  function toggle(el){
-let content = el.nextElementSibling;
-
-if(content.style.display === "block"){
-content.style.display = "none";
-el.querySelector("span").innerText = "+";
-}else{
-content.style.display = "block";
-el.querySelector("span").innerText = "-";
+function toggle(el) {
+    let content = el.nextElementSibling;
+    let isActive = el.classList.contains("active");
+    
+    // Toggle active class for styling
+    el.classList.toggle("active");
+    
+    if(content.style.display === "block"){
+        content.style.display = "none";
+        el.querySelector("span").innerText = "+";
+    } else {
+        content.style.display = "block";
+        el.querySelector("span").innerText = "-";
+    }
 }
-}
-
 </script>
-<script>
-history.pushState(null, null, location.href);
 
-window.onpopstate = function () {
-  window.location.replace("forum.html");
-};
-</script>
 </body>
 </html>
