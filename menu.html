@@ -12,6 +12,14 @@ margin:0;
 font-family:'Segoe UI',sans-serif;
 background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
 }
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.content{
+  animation: slideUp 0.4s ease;
+}
 
 /* TITLE */
 .title{
@@ -675,6 +683,13 @@ document.getElementById("loader").style.display="none";
 });
 function goBack(){
   window.history.back();
+}
+
+   function navigateSmooth(url){
+  document.getElementById("loader").style.display="flex";
+  setTimeout(()=>{
+    window.location.href = url;
+  },500);
 }
 </script>
 
