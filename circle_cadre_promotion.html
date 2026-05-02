@@ -6,47 +6,81 @@
 <title>Circle Cadre Promotion</title>
 
 <style>
+:root {
+    --accent: #6366f1;
+}
+
+/* BODY */
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
-    color: blue;
-    text-align: center;
+    background: radial-gradient(circle at top, #1e293b, #020617);
+    color: white;
 }
 
+/* 🔝 TOP NAV */
+.top-nav {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+}
+
+.back-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background: var(--accent);
+}
+
+/* HEADER */
 h1 {
-    padding: 20px;
-    font-size: 24px;
+    text-align: center;
+    margin: 10px 0;
 }
 
+/* CONTAINER */
 .container {
     padding: 15px;
 }
 
+/* FILE CARD */
 .file-card {
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.06);
     margin: 10px 0;
     padding: 15px;
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
+    border-radius: 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    backdrop-filter: blur(10px);
     transition: 0.3s;
 }
 
 .file-card:hover {
-    transform: scale(1.02);
-    background: rgba(255,255,255,0.15);
+    transform: translateY(-3px);
 }
 
+/* FILE NAME */
 .file-name {
-    font-size: 16px;
+    font-size: 15px;
     text-align: left;
 }
 
+/* BUTTON */
 .download-btn {
-    background: #00c6ff;
+    background: #6366f1;
     border: none;
     padding: 8px 14px;
     border-radius: 8px;
@@ -54,32 +88,98 @@ h1 {
     cursor: pointer;
 }
 
-.download-btn:hover {
-    background: #0072ff;
-}
-
+/* 🔥 ORBIT LOADER */
 .loader {
-    margin-top: 50px;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #020617;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
 }
 
+.orbit {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid rgba(255,255,255,0.1);
+    position: relative;
+}
+
+.orbit::before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #6366f1;
+    border-radius: 50%;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg) translateX(25px) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(25px) rotate(-360deg); }
+}
+
+/* NO DATA */
 .no-data {
-    margin-top: 50px;
-    color: #ccc;
+    text-align: center;
+    margin-top: 40px;
+    color: #94a3b8;
 }
 </style>
 </head>
 
 <body>
 
+<!-- 🔥 LOADER -->
+<div class="loader" id="loader">
+    <div class="orbit"></div>
+</div>
+
+<!-- TOP NAV -->
+<div class="top-nav">
+    <div class="back-btn" onclick="goBack()">←</div>
+</div>
+
 <h1>📄 Circle Cadre Promotion</h1>
 
 <div class="container" id="fileList">
-    <div class="loader">Loading files...</div>
+    <div class="no-data">Loading files...</div>
 </div>
 
 <script>
-const apiURL = "https://script.google.com/macros/s/AKfycbxmZ9bNMa-_YUz5xo8f7UIbS2pwrv2UKfDjQOtPOKet_OrPiK0Uxxpr3fO-xRRJ_8q4/exec"; // paste Apps Script URL
+const apiURL = "https://script.google.com/macros/s/AKfycbxmZ9bNMa-_YUz5xo8f7UIbS2pwrv2UKfDjQOtPOKet_OrPiK0Uxxpr3fO-xRRJ_8q4/exec";
 
+/* BACK BUTTON */
+function goBack() {
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = "promotions.html";
+    }
+}
+
+/* OPEN FILE WITH LOADER */
+function openFile(url) {
+    const loader = document.getElementById("loader");
+    loader.style.display = "flex";
+
+    // open in viewer (fix for PDF opening issue)
+    const viewer = "https://drive.google.com/viewerng/viewer?embedded=true&url=" + encodeURIComponent(url);
+
+    setTimeout(() => {
+        window.open(viewer, "_blank");
+        loader.style.display = "none";
+    }, 600);
+}
+
+/* FETCH FILES */
 fetch(apiURL)
 .then(res => res.json())
 .then(data => {
@@ -97,8 +197,8 @@ fetch(apiURL)
 
         card.innerHTML = `
             <div class="file-name">${file.name}</div>
-            <button class="download-btn" onclick="window.open('${file.url}')">
-                Download
+            <button class="download-btn" onclick="openFile('${file.url}')">
+                Open
             </button>
         `;
 
