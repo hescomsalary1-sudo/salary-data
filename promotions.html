@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Promotion Orders</title>
+    <title>Promotion Navigation</title>
     <style>
         :root {
             --primary: #1e293b;
@@ -11,229 +11,159 @@
             --bg: #f8fafc;
             --card: #ffffff;
             --border: #e2e8f0;
+            --text-muted: #64748b;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             margin: 0;
-            background-color: var(--bg);
+            background: linear-gradient(135deg, #f0f4ff 0%, #f5f3ff 100%);
             color: var(--primary);
-            padding-bottom: 30px;
-            background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
-        }
-
-        /* HEADER */
-        .top-nav {
-            padding: 20px;
-            background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
             display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .back-btn {
-            width: 35px;
-            height: 35px;
-            border-radius: 10px;
-            background: #f1f5f9;
-            border: none;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            cursor: pointer;
+            align-items: center;
+            min-height: 100vh;
         }
 
-        .top-nav h2 { margin: 0; font-size: 18px; font-weight: 700; }
-
-        .container { padding: 16px; max-width: 600px; margin: 0 auto; }
-
-        /* CADRE SELECTION CARDS */
-        .cadre-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-            margin-top: 10px;
-        }
-
-        .cadre-card {
-            background: white;
+        .container {
+            width: 100%;
+            max-width: 450px;
             padding: 20px;
-            border-radius: 20px;
-            border: 1px solid var(--border);
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header-section h2 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        .header-section p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* THE BEAUTIFUL BUTTON CARDS */
+        .nav-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .nav-card {
+            background: var(--card);
+            padding: 24px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            text-decoration: none; /* Removes underline from <a> tag */
+            color: inherit;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
         }
 
-        .cadre-card:active { transform: scale(0.97); }
+        /* Hover & Active States */
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.15);
+            border-color: var(--accent);
+        }
 
-        .cadre-info h3 { margin: 0; font-size: 16px; color: var(--primary); }
-        .cadre-info p { margin: 4px 0 0; font-size: 12px; color: #64748b; }
+        .nav-card:active {
+            transform: scale(0.96);
+        }
+
+        .info h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .info p {
+            margin: 4px 0 0;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
 
         .icon-box {
-            width: 40px;
-            height: 40px;
-            background: #eef2ff;
-            border-radius: 12px;
+            width: 52px;
+            height: 52px;
+            background: #f1f5f9;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--accent);
-            font-size: 20px;
+            font-size: 24px;
+            transition: all 0.3s;
         }
 
-        /* ORDER LIST */
-        .order-card {
-            background: white;
-            padding: 15px;
-            border-radius: 15px;
-            border: 1px solid var(--border);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .year-badge {
+        .nav-card:hover .icon-box {
             background: var(--accent);
-            color: white;
-            padding: 8px;
-            border-radius: 10px;
-            font-size: 12px;
-            font-weight: 700;
-            min-width: 40px;
-            text-align: center;
+            transform: rotate(-10deg);
         }
 
-        .order-title { font-size: 14px; font-weight: 600; flex: 1; }
-
-        .download-icon { color: #94a3b8; font-size: 18px; }
-
-        .section-label {
-            font-size: 12px;
-            font-weight: 800;
-            color: #64748b;
-            text-transform: uppercase;
-            margin: 20px 0 10px 5px;
-            display: block;
+        .nav-card:hover .info h3 {
+            color: var(--accent);
         }
 
-        .hidden { display: none; }
+        /* Arrow animation */
+        .arrow {
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .nav-card:hover .arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
     </style>
 </head>
 <body>
 
-    <div class="top-nav">
-        <button class="back-btn" onclick="handleBack()">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-        <h2 id="pageTitle">Promotions</h2>
-    </div>
-
     <div class="container">
-        
-        <div id="level1" class="cadre-grid">
-            <span class="section-label">Select Cadre Type</span>
-            <div class="cadre-card" onclick="showLevel2('Circle')">
-                <div class="cadre-info">
-                    <h3>Circle Cadre</h3>
-                    <p>JE, Sr. Asst, Assistant, Jr. Asst</p>
-                </div>
-                <div class="icon-box">🏢</div>
-            </div>
-
-            <div class="cadre-card" onclick="showLevel2('Divisional')">
-                <div class="cadre-info">
-                    <h3>Divisional Cadre</h3>
-                    <p>Mech, Powerman, Asst. Powerman</p>
-                </div>
-                <div class="icon-box">🛠️</div>
-            </div>
+        <div class="header-section">
+            <h2>Promotions</h2>
+            <p>Select your cadre to view orders</p>
         </div>
 
-        <div id="level2" class="hidden">
-            <span class="section-label" id="listLabel">Recent Promotion Orders</span>
-            <div id="orderList">
+        <div class="nav-grid">
+            
+            <!-- BUTTON 1: Redirects to circle.html -->
+            <a href="circle_cadre_promotion.html" class="nav-card">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div class="icon-box">🏢</div>
+                    <div class="info">
+                        <h3>Circle Cadre</h3>
+                        <p>JE, Sr. Asst, Jr. Asst</p>
+                    </div>
                 </div>
-        </div>
+                <div class="arrow">→</div>
+            </a>
 
+            <!-- BUTTON 2: Redirects to divisional.html -->
+            <a href="divisional.html" class="nav-card">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div class="icon-box">🛠️</div>
+                    <div class="info">
+                        <h3>Divisional Cadre</h3>
+                        <p>Mech, Powerman, Asst.</p>
+                    </div>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+
+        </div>
     </div>
 
-    <script>
-        const currentUser = localStorage.getItem("currentUser");
-        let currentView = 1;
-
-        function handleBack() {
-            if (currentView === 2) {
-                document.getElementById('level2').classList.add('hidden');
-                document.getElementById('level1').classList.remove('hidden');
-                document.getElementById('pageTitle').innerText = "Promotions";
-                currentView = 1;
-            } else {
-                history.back();
-            }
-        }
-
-        async function showLevel2(cadreType) {
-            currentView = 2;
-            document.getElementById('level1').classList.add('hidden');
-            document.getElementById('level2').classList.remove('hidden');
-            document.getElementById('pageTitle').innerText = cadreType + " Orders";
-            document.getElementById('orderList').innerHTML = `<p style="text-align:center; padding:20px;">Fetching your records...</p>`;
-
-            try {
-                const response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/promotions.csv?v=" + new Date().getTime());
-                const csvData = await response.text();
-                const rows = csvData.trim().split("\n");
-                
-                let html = "";
-                let found = 0;
-
-                for (let i = 1; i < rows.length; i++) {
-                    const cols = rows[i].split(",");
-                    const empId = cols[0]?.trim();
-                    const csvCadre = cols[1]?.trim();
-
-                    // Security: Match Current User AND Selected Cadre
-                    if (empId === currentUser && csvCadre === cadreType) {
-                        found++;
-                        html += `
-                            <a href="${cols[5]}" class="order-card">
-                                <div class="year-badge">${cols[3]}</div>
-                                <div class="order-title">
-                                    <div style="font-size:11px; color:#6366f1; margin-bottom:2px;">${cols[2]}</div>
-                                    ${cols[4]}
-                                </div>
-                                <div class="download-icon">📥</div>
-                            </a>
-                        `;
-                    }
-                }
-
-                document.getElementById('orderList').innerHTML = found > 0 ? html : 
-                    `<div style="text-align:center; padding:40px; color:#94a3b8;">
-                        <div style="font-size:40px; margin-bottom:10px;">📄</div>
-                        <p>No promotion orders found for your profile in ${cadreType} cadre.</p>
-                    </div>`;
-
-            } catch (e) {
-                document.getElementById('orderList').innerHTML = "Error loading data.";
-            }
-        }
-
-        // Dark Mode
-        if (localStorage.getItem("darkMode") === "true") {
-            document.body.classList.add("dark-mode");
-        }
-    </script>
 </body>
 </html>
