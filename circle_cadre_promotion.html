@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Circle Cadre Promotion</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #fff;
+    text-align: center;
+}
+
+h1 {
+    padding: 20px;
+    font-size: 24px;
+}
+
+.container {
+    padding: 15px;
+}
+
+.file-card {
+    background: rgba(255,255,255,0.08);
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.file-card:hover {
+    transform: scale(1.02);
+    background: rgba(255,255,255,0.15);
+}
+
+.file-name {
+    font-size: 16px;
+    text-align: left;
+}
+
+.download-btn {
+    background: #00c6ff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.download-btn:hover {
+    background: #0072ff;
+}
+
+.loader {
+    margin-top: 50px;
+}
+
+.no-data {
+    margin-top: 50px;
+    color: #ccc;
+}
+</style>
+</head>
+
+<body>
+
+<h1>📄 Circle Cadre Promotion</h1>
+
+<div class="container" id="fileList">
+    <div class="loader">Loading files...</div>
+</div>
+
+<script>
+const apiURL = "https://script.google.com/macros/s/AKfycbxmZ9bNMa-_YUz5xo8f7UIbS2pwrv2UKfDjQOtPOKet_OrPiK0Uxxpr3fO-xRRJ_8q4/exec"; // paste Apps Script URL
+
+fetch(apiURL)
+.then(res => res.json())
+.then(data => {
+    const container = document.getElementById("fileList");
+    container.innerHTML = "";
+
+    if (data.length === 0) {
+        container.innerHTML = "<div class='no-data'>No records found</div>";
+        return;
+    }
+
+    data.forEach(file => {
+        const card = document.createElement("div");
+        card.className = "file-card";
+
+        card.innerHTML = `
+            <div class="file-name">${file.name}</div>
+            <button class="download-btn" onclick="window.open('${file.url}')">
+                Download
+            </button>
+        `;
+
+        container.appendChild(card);
+    });
+})
+.catch(err => {
+    document.getElementById("fileList").innerHTML =
+        "<div class='no-data'>Error loading files</div>";
+});
+</script>
+
+</body>
+</html>
