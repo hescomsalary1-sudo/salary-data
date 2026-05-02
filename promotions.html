@@ -14,41 +14,83 @@
             --text-muted: #64748b;
         }
 
+        /* Smooth Opening Animation */
+        @keyframes pageReveal {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             margin: 0;
             background: linear-gradient(135deg, #f0f4ff 0%, #f5f3ff 100%);
             color: var(--primary);
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
+            /* Positions content from the top instead of center */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Top Navigation with Back Arrow */
+        .top-nav {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: white;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            background: #f1f5f9;
+            transform: translateX(-3px);
         }
 
         .container {
             width: 100%;
             max-width: 450px;
-            padding: 20px;
+            padding: 30px 20px;
+            /* Triggers the smooth opening animation */
+            animation: pageReveal 0.6s cubic-bezier(0.2, 1, 0.3, 1) forwards;
         }
 
         .header-section {
-            text-align: center;
             margin-bottom: 30px;
         }
 
         .header-section h2 {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 800;
-            margin-bottom: 8px;
-            color: var(--primary);
+            margin: 0 0 8px 0;
+            letter-spacing: -0.02em;
         }
 
         .header-section p {
             color: var(--text-muted);
-            font-size: 14px;
+            margin: 0;
+            font-size: 15px;
         }
 
-        /* THE BEAUTIFUL BUTTON CARDS */
+        /* NAVIGATION BUTTONS */
         .nav-grid {
             display: flex;
             flex-direction: column;
@@ -63,34 +105,22 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            text-decoration: none; /* Removes underline from <a> tag */
+            text-decoration: none;
             color: inherit;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
         }
 
-        /* Hover & Active States */
         .nav-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.15);
             border-color: var(--accent);
         }
 
-        .nav-card:active {
-            transform: scale(0.96);
-        }
+        .nav-card:active { transform: scale(0.96); }
 
-        .info h3 {
-            margin: 0;
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .info p {
-            margin: 4px 0 0;
-            font-size: 13px;
-            color: var(--text-muted);
-        }
+        .info h3 { margin: 0; font-size: 18px; font-weight: 700; transition: color 0.3s; }
+        .info p { margin: 4px 0 0; font-size: 13px; color: var(--text-muted); }
 
         .icon-box {
             width: 52px;
@@ -106,39 +136,45 @@
 
         .nav-card:hover .icon-box {
             background: var(--accent);
+            color: white;
             transform: rotate(-10deg);
         }
 
-        .nav-card:hover .info h3 {
-            color: var(--accent);
-        }
+        .nav-card:hover .info h3 { color: var(--accent); }
 
-        /* Arrow animation */
-        .arrow {
-            opacity: 0;
-            transform: translateX(-10px);
+        .chevron {
+            color: var(--border);
+            font-size: 20px;
             transition: all 0.3s;
-            color: var(--accent);
-            font-weight: bold;
         }
 
-        .nav-card:hover .arrow {
-            opacity: 1;
-            transform: translateX(0);
+        .nav-card:hover .chevron {
+            color: var(--accent);
+            transform: translateX(5px);
         }
     </style>
 </head>
 <body>
 
+    <!-- Top Arrow Navigation -->
+    <div class="top-nav">
+        <a href="index.html" class="back-link" title="Go Back">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+        </a>
+        <span style="margin-left: 15px; font-weight: 700; font-size: 14px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px;">Back</span>
+    </div>
+
     <div class="container">
         <div class="header-section">
-            <h2>Promotions</h2>
-            <p>Select your cadre to view orders</p>
+            <h2>Promotion Orders</h2>
+            <p>Select your cadre to continue</p>
         </div>
 
         <div class="nav-grid">
             
-            <!-- BUTTON 1: Redirects to circle.html -->
             <a href="circle_cadre_promotion.html" class="nav-card">
                 <div style="display: flex; align-items: center; gap: 15px;">
                     <div class="icon-box">🏢</div>
@@ -147,10 +183,9 @@
                         <p>JE, Sr. Asst, Jr. Asst</p>
                     </div>
                 </div>
-                <div class="arrow">→</div>
+                <div class="chevron">→</div>
             </a>
 
-            <!-- BUTTON 2: Redirects to divisional.html -->
             <a href="divisional.html" class="nav-card">
                 <div style="display: flex; align-items: center; gap: 15px;">
                     <div class="icon-box">🛠️</div>
@@ -159,7 +194,7 @@
                         <p>Mech, Powerman, Asst.</p>
                     </div>
                 </div>
-                <div class="arrow">→</div>
+                <div class="chevron">→</div>
             </a>
 
         </div>
