@@ -1,204 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Promotion Navigation</title>
-    <style>
-        :root {
-            --primary: #1e293b;
-            --accent: #6366f1;
-            --bg: #f8fafc;
-            --card: #ffffff;
-            --border: #e2e8f0;
-            --text-muted: #64748b;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Promotion Navigation</title>
 
-        /* Smooth Opening Animation */
-        @keyframes pageReveal {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+<style>
+:root {
+    --accent: #6366f1;
+}
 
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            margin: 0;
-            background: linear-gradient(135deg, #f0f4ff 0%, #f5f3ff 100%);
-            color: var(--primary);
-            min-height: 100vh;
-            /* Positions content from the top instead of center */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+/* Background */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at top, #1e293b, #020617);
+    color: white;
+}
 
-        /* Top Navigation with Back Arrow */
-        .top-nav {
-            width: 100%;
-            padding: 15px 20px;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+/* Top Bar */
+.top-nav {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.05);
+}
 
-        .back-link {
-            text-decoration: none;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            background: white;
-            border: 1px solid var(--border);
-            transition: all 0.2s;
-        }
+.back-link {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
 
-        .back-link:hover {
-            background: #f1f5f9;
-            transform: translateX(-3px);
-        }
+.back-link:hover {
+    background: var(--accent);
+    transform: scale(1.1);
+}
 
-        .container {
-            width: 100%;
-            max-width: 450px;
-            padding: 30px 20px;
-            /* Triggers the smooth opening animation */
-            animation: pageReveal 0.6s cubic-bezier(0.2, 1, 0.3, 1) forwards;
-        }
+/* Container */
+.container {
+    padding: 20px;
+    animation: fadeUp 0.6s ease;
+}
 
-        .header-section {
-            margin-bottom: 30px;
-        }
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-        .header-section h2 {
-            font-size: 26px;
-            font-weight: 800;
-            margin: 0 0 8px 0;
-            letter-spacing: -0.02em;
-        }
+/* Header */
+h2 {
+    margin: 10px 0;
+    font-size: 26px;
+}
 
-        .header-section p {
-            color: var(--text-muted);
-            margin: 0;
-            font-size: 15px;
-        }
+p {
+    color: #94a3b8;
+}
 
-        /* NAVIGATION BUTTONS */
-        .nav-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+/* Cards */
+.nav-grid {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
 
-        .nav-card {
-            background: var(--card);
-            padding: 24px;
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-        }
+.nav-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(12px);
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+    border: 1px solid rgba(255,255,255,0.08);
+}
 
-        .nav-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.15);
-            border-color: var(--accent);
-        }
+.nav-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(99,102,241,0.3);
+}
 
-        .nav-card:active { transform: scale(0.96); }
+.left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
 
-        .info h3 { margin: 0; font-size: 18px; font-weight: 700; transition: color 0.3s; }
-        .info p { margin: 4px 0 0; font-size: 13px; color: var(--text-muted); }
+.icon {
+    font-size: 24px;
+    width: 50px;
+    height: 50px;
+    background: rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+}
 
-        .icon-box {
-            width: 52px;
-            height: 52px;
-            background: #f1f5f9;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            transition: all 0.3s;
-        }
+.arrow {
+    font-size: 20px;
+    opacity: 0.6;
+}
 
-        .nav-card:hover .icon-box {
-            background: var(--accent);
-            color: white;
-            transform: rotate(-10deg);
-        }
-
-        .nav-card:hover .info h3 { color: var(--accent); }
-
-        .chevron {
-            color: var(--border);
-            font-size: 20px;
-            transition: all 0.3s;
-        }
-
-        .nav-card:hover .chevron {
-            color: var(--accent);
-            transform: translateX(5px);
-        }
-    </style>
+/* Press effect */
+.nav-card:active {
+    transform: scale(0.97);
+}
+</style>
 </head>
+
 <body>
 
-    <!-- Top Arrow Navigation -->
-    <div class="top-nav">
-        <a href="index.html" class="back-link" title="Go Back">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="19" y1="12" x2="5" y2="12"></line>
-                <polyline points="12 19 5 12 12 5"></polyline>
-            </svg>
+<div class="top-nav">
+    <div class="back-link" onclick="goBack()">
+        ←
+    </div>
+</div>
+
+<div class="container">
+    <h2>Promotion Orders</h2>
+    <p>Select your cadre</p>
+
+    <div class="nav-grid">
+
+        <a href="circle_cadre_promotion.html" class="nav-card">
+            <div class="left">
+                <div class="icon">🏢</div>
+                <div>
+                    <b>Circle Cadre</b><br>
+                    <small>JE, Sr. Asst, Jr. Asst</small>
+                </div>
+            </div>
+            <div class="arrow">›</div>
         </a>
-        <span style="margin-left: 15px; font-weight: 700; font-size: 14px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px;">Back</span>
-    </div>
 
-    <div class="container">
-        <div class="header-section">
-            <h2>Promotion Orders</h2>
-            <p>Select your cadre to continue</p>
-        </div>
-
-        <div class="nav-grid">
-            
-            <a href="circle_cadre_promotion.html" class="nav-card">
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <div class="icon-box">🏢</div>
-                    <div class="info">
-                        <h3>Circle Cadre</h3>
-                        <p>JE, Sr. Asst, Jr. Asst</p>
-                    </div>
+        <a href="divisional.html" class="nav-card">
+            <div class="left">
+                <div class="icon">🛠️</div>
+                <div>
+                    <b>Divisional Cadre</b><br>
+                    <small>Mech, Powerman, Asst.</small>
                 </div>
-                <div class="chevron">→</div>
-            </a>
+            </div>
+            <div class="arrow">›</div>
+        </a>
 
-            <a href="divisional.html" class="nav-card">
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <div class="icon-box">🛠️</div>
-                    <div class="info">
-                        <h3>Divisional Cadre</h3>
-                        <p>Mech, Powerman, Asst.</p>
-                    </div>
-                </div>
-                <div class="chevron">→</div>
-            </a>
-
-        </div>
     </div>
+</div>
+
+<script>
+function goBack() {
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = "index.html";
+    }
+}
+</script>
 
 </body>
 </html>
