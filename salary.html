@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Salary Dashboard</title>
+<title>Salary Portal</title>
 
 <style>
-:root {
-    --primary: #6366f1;
-    --bg: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
-    --glass: rgba(255,255,255,0.7);
+:root{
+    --primary:#6366f1;
+    --bg:linear-gradient(135deg,#e6ecff,#dfe7ff,#f0ebff);
 }
 
 /* BODY */
@@ -20,32 +19,31 @@ body{
     min-height:100vh;
     display:flex;
     flex-direction:column;
-    color:#1e293b;
     overflow-x:hidden;
 }
 
-/* 🔥 PAGE ENTRY ANIMATION */
+/* PAGE ANIMATION */
 .page{
+    width:100%;
     opacity:0;
-    transform:translateY(30px) scale(0.98);
-    animation:pageIn 0.5s ease forwards;
+    transform:translateY(30px);
+    animation:pageIn 0.45s ease forwards;
 }
 
 @keyframes pageIn{
     to{
         opacity:1;
-        transform:translateY(0) scale(1);
+        transform:translateY(0);
     }
 }
 
 /* HEADER */
 .header-bar{
+    width:100%;
+    padding:15px;
+    box-sizing:border-box;
     display:flex;
     align-items:center;
-    padding:15px;
-    gap:10px;
-    backdrop-filter:blur(10px);
-    background:var(--bg);
 }
 
 .back-btn{
@@ -56,6 +54,7 @@ body{
     display:flex;
     align-items:center;
     justify-content:center;
+    font-size:20px;
     cursor:pointer;
     box-shadow:0 4px 12px rgba(0,0,0,0.15);
     transition:0.2s;
@@ -67,18 +66,17 @@ body{
 
 /* CONTAINER */
 .container{
-    flex:1;
-    max-width:420px;
     width:100%;
-    margin:auto;
+    max-width:500px;
+    margin:0 auto;
     padding:15px;
+    box-sizing:border-box;
 }
 
 /* TITLE */
 .header{
     text-align:center;
-    margin-top:10px;
-    margin-bottom:15px;
+    margin:10px 0 15px;
 }
 
 .header h1{
@@ -90,32 +88,31 @@ body{
 }
 
 .header p{
-    margin:5px 0 0;
-    color:#666;
     font-size:13px;
+    color:#555;
 }
 
 /* CARD */
 .card{
-    background:var(--glass);
-    backdrop-filter:blur(12px);
+    width:100%;
+    background:white;
     border-radius:22px;
     padding:18px;
     box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
-/* SELECT */
+/* LABEL */
 label{
     font-size:12px;
     font-weight:600;
-    color:#777;
+    color:#666;
 }
 
+/* SELECT */
 select{
     width:100%;
     padding:12px;
-    margin-top:6px;
-    margin-bottom:15px;
+    margin:6px 0 15px;
     border-radius:12px;
     border:1px solid #ddd;
 }
@@ -129,9 +126,9 @@ select{
 
 /* BUTTON */
 .month-btn{
-    padding:16px;
+    padding:15px;
     border-radius:14px;
-    background:white;
+    background:#f5f6ff;
     text-align:center;
     font-weight:600;
     cursor:pointer;
@@ -139,7 +136,7 @@ select{
 }
 
 .month-btn:hover{
-    background:#6366f1;
+    background:var(--primary);
     color:white;
     transform:translateY(-3px);
 }
@@ -148,19 +145,18 @@ select{
     transform:scale(0.92);
 }
 
-/* 🔥 LOADER */
+/* LOADER */
 #loader{
     position:fixed;
     inset:0;
-    background:#fff;
+    background:white;
     display:none;
-    flex-direction:column;
     justify-content:center;
     align-items:center;
     z-index:9999;
 }
 
-/* ORBIT LOADER */
+/* ORBIT */
 .orbit{
     width:60px;
     height:60px;
@@ -174,7 +170,7 @@ select{
     position:absolute;
     width:10px;
     height:10px;
-    background:#6366f1;
+    background:var(--primary);
     border-radius:50%;
     top:-5px;
     left:50%;
@@ -198,6 +194,7 @@ select{
     <div class="back-btn" onclick="goBack()">←</div>
 </div>
 
+<!-- CONTENT -->
 <div class="container">
 
 <div class="header">
@@ -211,7 +208,6 @@ select{
 <select id="year">
     <option value="2026">2026</option>
     <option value="2027">2027</option>
-    <option value="2028">2028</option>
 </select>
 
 <label>Select Month</label>
@@ -246,26 +242,23 @@ select{
 function goBack(){
     document.querySelector(".page").style.opacity="0";
     document.querySelector(".page").style.transform="translateY(20px)";
-    
-    setTimeout(()=>{
-        window.history.back();
-    },300);
+    setTimeout(()=>history.back(),300);
 }
 
-/* OPEN WITH SMOOTH LOADER */
+/* OPEN PAGE */
 function openSalary(month){
 
-    const year=document.getElementById("year").value;
+    let year=document.getElementById("year").value;
 
     localStorage.setItem("selectedYear",year);
     localStorage.setItem("selectedMonth",month);
 
-    const loader=document.getElementById("loader");
+    let loader=document.getElementById("loader");
     loader.style.display="flex";
 
     setTimeout(()=>{
         window.location.href="salary_view.html";
-    },700);
+    },600);
 }
 
 </script>
