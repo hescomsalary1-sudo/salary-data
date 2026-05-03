@@ -1270,8 +1270,16 @@ pointer-events: all;
 </div>
 
 <!-- QUICK INFO BUTTON -->
-<div class="quick-info-btn" onclick="openLastSalary()">
-  Quick Info ➜
+<div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;">
+
+  <div class="quick-info-btn" onclick="openLastSalary()">
+    Quick Info ➜
+  </div>
+
+  <div style="font-size:11px;color:#ddd;">
+    📅 Last Updated:<span id="quickDate">--</span>
+  </div>
+
 </div>
 </div>
 
