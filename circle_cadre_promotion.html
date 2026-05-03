@@ -196,22 +196,15 @@ function goBack() {
     }
 }
 
-/* DOWNLOAD */
-function downloadFile(fileId, name) {
+/* DOWNLOAD (stable method) */
+function downloadFile(url, name) {
     const loader = document.getElementById("loader");
     loader.style.display = "flex";
 
-    let fileName = name.toLowerCase().endsWith(".pdf") ? name : name + ".pdf";
+    // open direct download link (most stable way)
+    window.open(url, "_blank");
 
-    const url = "https://drive.google.com/uc?export=download&id=" + fileId;
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-
+    // hide loader after starting
     setTimeout(() => {
         loader.style.display = "none";
     }, 1200);
@@ -238,7 +231,7 @@ fetch(apiURL)
                 <div class="icon">📄</div>
                 <div class="file-name">${file.name}</div>
             </div>
-            <button class="download-btn" onclick="downloadFile('${file.id}', '${file.name}')">
+            <button class="download-btn" onclick="downloadFile('${file.url}', '${file.name}')">
                 Download
             </button>
         `;
