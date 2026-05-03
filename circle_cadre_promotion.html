@@ -196,18 +196,20 @@ function goBack() {
     }
 }
 
-/* DOWNLOAD (stable method) */
-function downloadFile(url, name) {
+function downloadFile(url) {
     const loader = document.getElementById("loader");
     loader.style.display = "flex";
 
-    // open direct download link (most stable way)
-    window.open(url, "_blank");
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
 
-    // hide loader after starting
     setTimeout(() => {
         loader.style.display = "none";
-    }, 1200);
+    }, 800);
 }
 
 /* FETCH FILES */
