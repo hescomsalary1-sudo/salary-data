@@ -1,271 +1,274 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salary Dashboard</title>
-    <style>
-        :root {
-            --primary: #6366f1;
-            --primary-hover: #4f46e5;
-            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salary Dashboard</title>
 
-        body {
-            margin: 0;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: var(--bg-gradient);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--text-main);
-            background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
-        }
+<style>
+:root {
+    --primary: #6366f1;
+    --bg: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
+    --glass: rgba(255,255,255,0.7);
+}
 
-        /* --- ADDED HEADER BAR --- */
-        .header-bar {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            gap: 15px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-            box-sizing: border-box;
-            background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
-        }
+/* BODY */
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:var(--bg);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    color:#1e293b;
+    overflow-x:hidden;
+}
 
-        .back-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            border: none;
-        }
+/* 🔥 PAGE ENTRY ANIMATION */
+.page{
+    opacity:0;
+    transform:translateY(30px) scale(0.98);
+    animation:pageIn 0.5s ease forwards;
+}
 
-        .header-bar h2 {
-            font-size: 18px;
-            font-weight: 600;
-            margin: 0;
-            color: var(--text-main);
-        }
+@keyframes pageIn{
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
 
-        /* HEADER */
-        .header {
-            margin-top: 40px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+/* HEADER */
+.header-bar{
+    display:flex;
+    align-items:center;
+    padding:15px;
+    gap:10px;
+    backdrop-filter:blur(10px);
+    background:var(--bg);
+}
 
-        .header h1 {
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            margin: 0;
-            background: linear-gradient(to right, #4f46e5, #ec4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+.back-btn{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    transition:0.2s;
+}
 
-        .header p {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-top: 5px;
-        }
+.back-btn:active{
+    transform:scale(0.9);
+}
 
-        /* MAIN CARD */
-        .card {
-            width: 90%;
-            max-width: 400px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 24px;
-            padding: 24px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-        }
+/* CONTAINER */
+.container{
+    flex:1;
+    max-width:420px;
+    width:100%;
+    margin:auto;
+    padding:15px;
+}
 
-        /* CUSTOM SELECT */
-        .select-wrapper {
-            margin-bottom: 25px;
-        }
+/* TITLE */
+.header{
+    text-align:center;
+    margin-top:10px;
+    margin-bottom:15px;
+}
 
-        label {
-            display: block;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            margin-left: 4px;
-        }
+.header h1{
+    margin:0;
+    font-size:26px;
+    background:linear-gradient(to right,#4f46e5,#ec4899);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
 
-        select {
-            width: 100%;
-            padding: 12px 16px;
-            border-radius: 12px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            background: white;
-            font-size: 16px;
-            color: var(--text-main);
-            outline: none;
-            appearance: none;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
+.header p{
+    margin:5px 0 0;
+    color:#666;
+    font-size:13px;
+}
 
-        select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-        }
+/* CARD */
+.card{
+    background:var(--glass);
+    backdrop-filter:blur(12px);
+    border-radius:22px;
+    padding:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
 
-        /* MONTH GRID */
-        .month-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
+/* SELECT */
+label{
+    font-size:12px;
+    font-weight:600;
+    color:#777;
+}
 
-        /* MONTH BUTTON */
-        .month-btn {
-            padding: 18px 10px;
-            border-radius: 16px;
-            background: white;
-            color: var(--text-main);
-            text-align: center;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+select{
+    width:100%;
+    padding:12px;
+    margin-top:6px;
+    margin-bottom:15px;
+    border-radius:12px;
+    border:1px solid #ddd;
+}
 
-        .month-btn:hover {
-            background: var(--primary);
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
-        }
+/* GRID */
+.month-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
 
-        .month-btn:active {
-            transform: scale(0.95);
-        }
+/* BUTTON */
+.month-btn{
+    padding:16px;
+    border-radius:14px;
+    background:white;
+    text-align:center;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.25s;
+}
 
-        /* LOADER / SKELETON */
-        #loader {
-            position: fixed;
-            inset: 0;
-            background: #ffffff;
-            padding: 40px 20px;
-            display: none;
-            flex-direction: column;
-            gap: 20px;
-            z-index: 9999;
-            align-items: center;
-        }
+.month-btn:hover{
+    background:#6366f1;
+    color:white;
+    transform:translateY(-3px);
+}
 
-        .skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            border-radius: 12px;
-        }
+.month-btn:active{
+    transform:scale(0.92);
+}
 
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
+/* 🔥 LOADER */
+#loader{
+    position:fixed;
+    inset:0;
+    background:#fff;
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
 
-        .sk-title { height: 30px; width: 180px; margin-bottom: 20px; }
-        .sk-card { height: 350px; width: 100%; max-width: 400px; border-radius: 24px; }
-    </style>
+/* ORBIT LOADER */
+.orbit{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    border:3px solid rgba(0,0,0,0.1);
+    position:relative;
+}
+
+.orbit::before{
+    content:"";
+    position:absolute;
+    width:10px;
+    height:10px;
+    background:#6366f1;
+    border-radius:50%;
+    top:-5px;
+    left:50%;
+    transform:translateX(-50%);
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+    0%{transform:rotate(0deg) translateX(25px) rotate(0deg);}
+    100%{transform:rotate(360deg) translateX(25px) rotate(-360deg);}
+}
+</style>
 </head>
 
 <body>
 
-    <!-- ADDED HEADER BAR HTML -->
-    <div class="header-bar">
-        <button class="back-btn" onclick="goBack()">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-        </button>
-        <h2>Back</h2>
-    </div>
+<div class="page">
 
-    <div id="loader">
-        <div class="skeleton sk-title"></div>
-        <div class="skeleton sk-card"></div>
-    </div>
+<!-- HEADER -->
+<div class="header-bar">
+    <div class="back-btn" onclick="goBack()">←</div>
+</div>
 
-    <div class="header">
-        <h1>Salary Portal</h1>
-        <p>Select a period to view details</p>
-    </div>
+<div class="container">
 
-    <div class="card">
-        <div class="select-wrapper">
-            <label for="year">Fiscal Year</label>
-            <select id="year">
-                <option value="2026">2026</option>
-                <option value="2027">2027</option>
-                <option value="2028">2028</option>
-            </select>
-        </div>
+<div class="header">
+    <h1>Salary Portal</h1>
+    <p>Select a period to view details</p>
+</div>
 
-        <label>Select Month</label>
-        <div class="month-grid">
-            <div class="month-btn" onclick="openSalary(1)">Jan</div>
-            <div class="month-btn" onclick="openSalary(2)">Feb</div>
-            <div class="month-btn" onclick="openSalary(3)">Mar</div>
-            <div class="month-btn" onclick="openSalary(4)">Apr</div>
-            <div class="month-btn" onclick="openSalary(5)">May</div>
-            <div class="month-btn" onclick="openSalary(6)">Jun</div>
-            <div class="month-btn" onclick="openSalary(7)">Jul</div>
-            <div class="month-btn" onclick="openSalary(8)">Aug</div>
-            <div class="month-btn" onclick="openSalary(9)">Sep</div>
-            <div class="month-btn" onclick="openSalary(10)">Oct</div>
-            <div class="month-btn" onclick="openSalary(11)">Nov</div>
-            <div class="month-btn" onclick="openSalary(12)">Dec</div>
-        </div>
-    </div>
+<div class="card">
 
-    <script>
-        function goBack() {
-            window.history.back();
-        }
+<label>Fiscal Year</label>
+<select id="year">
+    <option value="2026">2026</option>
+    <option value="2027">2027</option>
+    <option value="2028">2028</option>
+</select>
 
-        function openSalary(month) {
-            const year = document.getElementById("year").value;
-            
-            localStorage.setItem("selectedYear", year);
-            localStorage.setItem("selectedMonth", month);
+<label>Select Month</label>
 
-            // Show skeleton with fade in
-            const loader = document.getElementById("loader");
-            loader.style.display = "flex";
-            document.body.style.overflow = "hidden";
+<div class="month-grid">
+    <div class="month-btn" onclick="openSalary(1)">Jan</div>
+    <div class="month-btn" onclick="openSalary(2)">Feb</div>
+    <div class="month-btn" onclick="openSalary(3)">Mar</div>
+    <div class="month-btn" onclick="openSalary(4)">Apr</div>
+    <div class="month-btn" onclick="openSalary(5)">May</div>
+    <div class="month-btn" onclick="openSalary(6)">Jun</div>
+    <div class="month-btn" onclick="openSalary(7)">Jul</div>
+    <div class="month-btn" onclick="openSalary(8)">Aug</div>
+    <div class="month-btn" onclick="openSalary(9)">Sep</div>
+    <div class="month-btn" onclick="openSalary(10)">Oct</div>
+    <div class="month-btn" onclick="openSalary(11)">Nov</div>
+    <div class="month-btn" onclick="openSalary(12)">Dec</div>
+</div>
 
-            setTimeout(() => {
-                window.location.href = "salary_view.html";
-            }, 800);
-        }
-    </script>
+</div>
+</div>
+</div>
+
+<!-- LOADER -->
+<div id="loader">
+    <div class="orbit"></div>
+</div>
+
+<script>
+
+/* BACK */
+function goBack(){
+    document.querySelector(".page").style.opacity="0";
+    document.querySelector(".page").style.transform="translateY(20px)";
+    
+    setTimeout(()=>{
+        window.history.back();
+    },300);
+}
+
+/* OPEN WITH SMOOTH LOADER */
+function openSalary(month){
+
+    const year=document.getElementById("year").value;
+
+    localStorage.setItem("selectedYear",year);
+    localStorage.setItem("selectedMonth",month);
+
+    const loader=document.getElementById("loader");
+    loader.style.display="flex";
+
+    setTimeout(()=>{
+        window.location.href="salary_view.html";
+    },700);
+}
+
+</script>
 
 </body>
 </html>
