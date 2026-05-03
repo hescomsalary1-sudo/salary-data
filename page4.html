@@ -23,7 +23,7 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* HEADER - Updated with Back Button */
+/* HEADER */
 .top {
   padding: 45px 20px 30px;
   background: white;
@@ -39,42 +39,20 @@ body {
 }
 
 .back-btn {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  cursor: pointer;
-  border-radius: 12px;
-  transition: 0.2s;
-  color: var(--text-main);
-}
-
-.back-btn:active {
-  background: rgba(0, 0, 0, 0.05);
-  transform: scale(0.9);
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; cursor: pointer; border-radius: 12px;
+  transition: 0.2s; color: var(--text-main);
 }
 
 .top .icon {
-  width: 40px;
-  height: 40px;
-  background: var(--primary-color);
-  color: white;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  box-shadow: 0 4px 12px rgba(75, 45, 216, 0.2);
+  width: 40px; height: 40px;
+  background: var(--primary-color); color: white;
+  border-radius: 12px; display: flex; align-items: center;
+  justify-content: center; font-size: 20px;
 }
 
-.top h2 {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 700;
-  flex-grow: 1;
-}
+.top h2 { margin: 0; font-size: 20px; font-weight: 700; flex-grow: 1; }
 
 /* CONTENT */
 .content { padding: 20px; }
@@ -86,7 +64,7 @@ body {
   gap: 16px;
 }
 
-/* CARD */
+/* CARD with Spinner Logic */
 .card {
   background: var(--card-bg);
   backdrop-filter: blur(12px);
@@ -97,29 +75,44 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.6);
   box-shadow: 0 12px 24px rgba(149, 157, 165, 0.1);
   cursor: pointer;
+  position: relative; /* For spinner positioning */
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  animation: slideUp 0.5s ease forwards;
-  opacity: 0;
-}
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
+  overflow: hidden;
 }
 
 .card:active { transform: scale(0.94); }
 
-.card span {
-  font-size: 32px;
-  display: block;
-  margin-bottom: 12px;
+.card span { font-size: 32px; display: block; margin-bottom: 12px; transition: 0.3s; }
+.card p { margin: 0; font-size: 13.5px; font-weight: 600; color: var(--text-main); transition: 0.3s; }
+
+/* SPINNER ELEMENT */
+.spinner {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(75, 45, 216, 0.2);
+  border-top: 3px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  z-index: 2;
 }
 
-.card p {
-  margin: 0;
-  font-size: 13.5px;
-  font-weight: 600;
-  color: var(--text-main);
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* LOADING STATE */
+.card.is-loading span, .card.is-loading p {
+  opacity: 0.1;
+  filter: blur(2px);
+}
+.card.is-loading .spinner {
+  display: block;
 }
 
 /* INFO BOX */
@@ -130,20 +123,8 @@ body {
   border-radius: 24px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.04);
 }
-
 .info-box h3 { margin: 0 0 10px; font-size: 16px; color: var(--primary-color); }
 .info-box p { margin: 6px 0; font-size: 13px; color: var(--text-muted); }
-
-/* DARK MODE */
-.dark-mode {
-  background: #000;
-  color: #fff;
-  --text-main: #fff;
-}
-.dark-mode .top { background: #111; color: #fff; }
-.dark-mode .back-btn { color: #fff; }
-.dark-mode .card { background: #1a1a1a; border-color: #333; }
-.dark-mode .info-box { background: #1a1a1a; }
 
 </style>
 </head>
@@ -159,60 +140,95 @@ body {
 <div class="content">
 
 <div class="grid">
-    <div class="card" onclick="openPDF('els_format.pdf')">
+    <div class="card" onclick="openPDF(this, 'els_format.pdf')">
+        <div class="spinner"></div>
         <span>📘</span>
         <p>ELS Format</p>
     </div>
 
-    <div class="card" onclick="openPDF('medical_bill.pdf')">
+    <div class="card" onclick="openPDF(this, 'medical_bill.pdf')">
+        <div class="spinner"></div>
         <span>🏥</span>
         <p>Medical Bill</p>
     </div>
 
-    <div class="card" onclick="openPDF('leave_format.pdf')">
+    <div class="card" onclick="openPDF(this, 'leave_format.pdf')">
+        <div class="spinner"></div>
         <span>📝</span>
         <p>Leave Format</p>
     </div>
 
-    <div class="card" onclick="openPDF('salary_bill.pdf')">
+    <div class="card" onclick="openPDF(this, 'salary_bill.pdf')">
+        <div class="spinner"></div>
         <span>💰</span>
         <p>Salary Bill</p>
     </div>
 
-    <div class="card" onclick="openPDF('cr_format.pdf')">
+    <div class="card" onclick="openPDF(this, '')">
+        <div class="spinner"></div>
         <span>📑</span>
         <p>CR Format</p>
     </div>
 
-    <div class="card" onclick="openPDF('group_pr_format.pdf')">
+    <div class="card" onclick="openPDF(this, '')">
+        <div class="spinner"></div>
         <span>👥</span>
         <p>Group A & B</p>
     </div>
 
-    <div class="card" onclick="openPDF('performance_report.pdf')">
+    <div class="card" onclick="openPDF(this, 'performance_report.pdf')">
+        <div class="spinner"></div>
         <span>📊</span>
         <p>Performance</p>
     </div>
 
-    <div class="card" onclick="openPDF('ta_bill_format.pdf')">
+    <div class="card" onclick="openPDF(this, 'ta_bill_format.pdf')">
+        <div class="spinner"></div>
         <span>🚗</span>
         <p>TA Bill</p>
     </div>
-
 </div>
 
 <div class="info-box">
     <h3>📌 Quick Tips</h3>
-    <p>• Tap any card to open PDF</p>
-    <p>• Use these formats for official work</p>
+    <p>• Tap any card to download PDF</p>
+    <p>• A spinner will appear while the file is being fetched</p>
 </div>
 
 </div>
 
 <script>
-function openPDF(file){
-    const url="https://hescomsalary1-sudo.github.io/salary-data/"+file;
-    window.location.href=url;
+function openPDF(card, file){
+    // Check if file is empty
+    if(!file || file.trim() === ""){
+        alert("No data found for this file.");
+        return;
+    }
+
+    // Start loading animation
+    card.classList.add('is-loading');
+    card.style.pointerEvents = 'none';
+
+    const baseUrl = "https://hescomsalary1-sudo.github.io/salary-data/";
+    const url = baseUrl + file;
+
+    // Create a hidden download link to force .pdf extension
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = file; // Forces browser to keep .pdf extension
+    document.body.appendChild(link);
+
+    // Simulate a small delay so the beautiful spinner is visible
+    setTimeout(() => {
+        link.click();
+        document.body.removeChild(link);
+
+        // Reset the card after download starts
+        setTimeout(() => {
+            card.classList.remove('is-loading');
+            card.style.pointerEvents = 'auto';
+        }, 1500);
+    }, 800);
 }
 
 if(localStorage.getItem("darkMode")==="true"){
