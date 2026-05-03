@@ -791,7 +791,27 @@ async function ELS_MODULE(q, user){
     }
 }
 async function NOMINEE_MODULE(q,u){state.module=null;return "Loading nominee details from secure API...";}
+// 🔥 QUICK INFO DATE UPDATE SYSTEM
+if (q.includes("navaratna")) {
+    state.module = "quickinfo";
+    state.step = "askDate";
+    return "📅 Please enter updated date (example: 03-May-2026)";
+}
 
+if (state.module === "quickinfo" && state.step === "askDate") {
+
+    let enteredDate = q;
+
+    // save in localStorage
+    localStorage.setItem("quickInfoDate", enteredDate);
+
+    // reset state
+    state.module = null;
+    state.step = null;
+
+    return `✅ Updated successfully!<br>
+    📌 Last Updated Date: <b>${enteredDate}</b>`;
+}
 /* ================= 100+ CONVERSATION ENGINE ================= */
 function COMMON_CHAT(q) {
 // SECTION EXTRA (101-200)
