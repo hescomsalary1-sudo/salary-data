@@ -16,16 +16,17 @@ body {
 /* HEADER */
 .header {
     text-align: center;
-    padding: 20px;
+    padding: 25px 15px;
 }
 
 .header h1 {
     margin: 0;
-    font-size: 26px;
+    font-size: 28px;
 }
 
 .header p {
     color: #94a3b8;
+    font-size: 14px;
 }
 
 /* CONTAINER */
@@ -36,11 +37,11 @@ body {
 /* CARD */
 .card {
     background: rgba(255,255,255,0.06);
-    border-radius: 16px;
+    border-radius: 18px;
+    padding: 18px;
     margin-bottom: 18px;
-    overflow: hidden;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     transition: 0.3s;
 }
 
@@ -48,28 +49,34 @@ body {
     transform: translateY(-5px);
 }
 
-/* IMAGE */
-.card img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
+/* ICON */
+.icon {
+    font-size: 28px;
+    margin-bottom: 10px;
 }
 
-/* CONTENT */
-.content {
-    padding: 15px;
-}
-
-.content h3 {
-    margin: 0 0 8px;
+/* TITLE */
+.title {
+    font-size: 18px;
     color: #38bdf8;
+    margin-bottom: 6px;
 }
 
-.content p {
-    margin: 0;
+/* TEXT */
+.text {
     font-size: 14px;
-    line-height: 1.6;
+    line-height: 1.7;
     color: #e2e8f0;
+}
+
+/* LIST */
+ul {
+    padding-left: 18px;
+    margin: 8px 0 0;
+}
+
+li {
+    margin-bottom: 5px;
 }
 </style>
 </head>
@@ -78,48 +85,109 @@ body {
 
 <div class="header">
     <h1>💰 ಹಣ ಉಳಿಸುವಿಕೆ</h1>
-    <p>ನಿಮ್ಮ ಭವಿಷ್ಯಕ್ಕಾಗಿ ಬುದ್ಧಿವಂತ ಯೋಜನೆ</p>
+    <p>ನಿಮ್ಮ ಭವಿಷ್ಯವನ್ನು ಸುರಕ್ಷಿತಗೊಳಿಸುವ ಸರಳ ಮಾರ್ಗಗಳು</p>
 </div>
 
 <div class="container">
 
 <div class="card">
-<img src="https://images.unsplash.com/photo-1604594849809-dfedbc827105">
-<div class="content">
-<h3>📊 ಕಡಿಮೆ ಖರ್ಚು</h3>
-<p>ಆದಾಯಕ್ಕಿಂತ ಕಡಿಮೆ ಖರ್ಚು ಮಾಡಿದರೆ ಮಾತ್ರ ಹಣ ಉಳಿಸಲು ಸಾಧ್ಯ.</p>
+<div class="icon">🎯</div>
+<div class="title">ಹಣ ಉಳಿಸುವುದೇಕೆ?</div>
+<div class="text">
+ಹಣ ಉಳಿಸುವುದು ನಮ್ಮ ಜೀವನದಲ್ಲಿ ಅತ್ಯಂತ ಮುಖ್ಯ. ಇದು:
+<ul>
+<li>ತುರ್ತು ಪರಿಸ್ಥಿತಿಯಲ್ಲಿ ಸಹಾಯ ಮಾಡುತ್ತದೆ</li>
+<li>ಭವಿಷ್ಯವನ್ನು ಸುರಕ್ಷಿತಗೊಳಿಸುತ್ತದೆ</li>
+<li>ಸಾಲದ ಒತ್ತಡವನ್ನು ಕಡಿಮೆ ಮಾಡುತ್ತದೆ</li>
+<li>ನಿಮ್ಮ ಕನಸುಗಳನ್ನು ನಿಜಗೊಳಿಸಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ</li>
+</ul>
 </div>
 </div>
 
 <div class="card">
-<img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f">
-<div class="content">
-<h3>📅 ಬಜೆಟ್</h3>
-<p>ಪ್ರತಿ ತಿಂಗಳು ಖರ್ಚು ಯೋಜನೆ ಮಾಡುವುದು ಅತ್ಯಂತ ಮುಖ್ಯ.</p>
+<div class="icon">💸</div>
+<div class="title">ಆದಾಯಕ್ಕಿಂತ ಕಡಿಮೆ ಖರ್ಚು ಮಾಡಿ</div>
+<div class="text">
+ನೀವು ಗಳಿಸುವ ಹಣಕ್ಕಿಂತ ಕಡಿಮೆ ಖರ್ಚು ಮಾಡಿದರೆ ಮಾತ್ರ ಉಳಿವು ಸಾಧ್ಯ.
+<br><br>
+ಉದಾಹರಣೆ:
+<br>₹20,000 ಆದಾಯ → ₹15,000 ಖರ್ಚು → ₹5,000 ಉಳಿವು
 </div>
 </div>
 
 <div class="card">
-<img src="https://images.unsplash.com/photo-1565372919897-8b9c0cb9b07c">
-<div class="content">
-<h3>🏦 ಬ್ಯಾಂಕ್ ಉಳಿವು</h3>
-<p>FD, RD ಮೂಲಕ ಸುರಕ್ಷಿತವಾಗಿ ಹಣ ಉಳಿಸಬಹುದು.</p>
+<div class="icon">📊</div>
+<div class="title">ಬಜೆಟ್ ತಯಾರಿಸಿ</div>
+<div class="text">
+ಪ್ರತಿ ತಿಂಗಳು ನಿಮ್ಮ ಖರ್ಚುಗಳನ್ನು ಯೋಜನೆ ಮಾಡಿ:
+<ul>
+<li>ಆಹಾರ</li>
+<li>ಮನೆ ಬಾಡಿಗೆ</li>
+<li>ಪ್ರಯಾಣ</li>
+<li>ಉಳಿವು</li>
+</ul>
+ಇದು ಹಣವನ್ನು ನಿಯಂತ್ರಿಸಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ.
 </div>
 </div>
 
 <div class="card">
-<img src="https://images.unsplash.com/photo-1605902711622-cfb43c44367f">
-<div class="content">
-<h3>🚑 ತುರ್ತು ನಿಧಿ</h3>
-<p>ಅಪಾಯ ಸಮಯದಲ್ಲಿ ಬಳಸಲು ಹಣ ಇರಬೇಕು.</p>
+<div class="icon">⚖️</div>
+<div class="title">ಅಗತ್ಯ vs ಆಸೆ</div>
+<div class="text">
+ಎಲ್ಲಾ ಖರ್ಚುಗಳು ಒಂದೇ ತರಹ ಇರಲ್ಲ:
+<ul>
+<li>ಅಗತ್ಯ: ಆಹಾರ, ಮನೆ, ವಿದ್ಯುತ್</li>
+<li>ಆಸೆ: ಹೊಸ ಮೊಬೈಲ್, ಫ್ಯಾನ್ಸಿ ವಸ್ತುಗಳು</li>
+</ul>
+ಮೊದಲು ಅಗತ್ಯಗಳಿಗೆ ಆದ್ಯತೆ ನೀಡಿ.
 </div>
 </div>
 
 <div class="card">
-<img src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f">
-<div class="content">
-<h3>📈 ಹೂಡಿಕೆ</h3>
-<p>SIP ಮತ್ತು ಹೂಡಿಕೆ ಮೂಲಕ ಹಣ ಬೆಳೆಯುತ್ತದೆ.</p>
+<div class="icon">🏦</div>
+<div class="title">ಬ್ಯಾಂಕ್ ಉಳಿವು</div>
+<div class="text">
+ಬ್ಯಾಂಕ್‌ನಲ್ಲಿ ಹಣ ಉಳಿಸುವುದು ಸುರಕ್ಷಿತ:
+<ul>
+<li>Recurring Deposit (RD)</li>
+<li>Fixed Deposit (FD)</li>
+</ul>
+ಇವುಗಳಲ್ಲಿ ಬಡ್ಡಿ ಸಹ ಸಿಗುತ್ತದೆ.
+</div>
+</div>
+
+<div class="card">
+<div class="icon">🚑</div>
+<div class="title">ತುರ್ತು ನಿಧಿ</div>
+<div class="text">
+ಕನಿಷ್ಠ 3–6 ತಿಂಗಳ ಖರ್ಚಿನಷ್ಟು ಹಣ ಉಳಿಸಿ.
+<br>
+ಅಪಘಾತ ಅಥವಾ ಕೆಲಸ ಕಳೆದುಕೊಂಡಾಗ ಇದು ಸಹಾಯ ಮಾಡುತ್ತದೆ.
+</div>
+</div>
+
+<div class="card">
+<div class="icon">📈</div>
+<div class="title">ಹೂಡಿಕೆ (Investment)</div>
+<div class="text">
+ನಿಮ್ಮ ಹಣವನ್ನು ಬೆಳೆಯಲು ಹೂಡಿಕೆ ಮಾಡಿ:
+<ul>
+<li>SIP (Mutual Funds)</li>
+<li>ಚಿನ್ನ (Gold)</li>
+<li>ವಿಮೆ (Insurance)</li>
+</ul>
+</div>
+</div>
+
+<div class="card">
+<div class="icon">⏳</div>
+<div class="title">ಚಿಕ್ಕ ಉಳಿವು → ದೊಡ್ಡ ಫಲ</div>
+<div class="text">
+ಪ್ರತಿ ದಿನ ₹50 ಉಳಿಸಿದರೆ:
+<br>👉 ತಿಂಗಳಿಗೆ ₹1500  
+<br>👉 ವರ್ಷಕ್ಕೆ ₹18,000  
+<br><br>
+ಸಮಯದೊಂದಿಗೆ ಇದು ದೊಡ್ಡ ಮೊತ್ತವಾಗುತ್ತದೆ.
 </div>
 </div>
 
