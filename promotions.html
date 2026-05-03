@@ -226,6 +226,12 @@ function openPage(event, url) {
     }, 500);
 }
 </script>
+<script>
+history.pushState(null, null, location.href);
 
+window.onpopstate = function () {
+  window.location.replace("resources.html");
+};
+</script>
 </body>
 </html>
