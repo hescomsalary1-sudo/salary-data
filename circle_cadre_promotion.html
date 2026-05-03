@@ -4,112 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Circle Cadre Promotion</title>
-
     <style>
-        :root {
-            --primary: #2563eb;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(180deg, #ffffff, #f1f5f9);
-            color: #1e293b;
-        }
-
-        /* BACK BUTTON */
-        .top-nav {
-            padding: 15px;
-        }
-        .back-btn {
-            width: 40px; height: 40px;
-            border-radius: 10px;
-            background: #e2e8f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        /* GRID */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            padding: 10px;
-        }
-
-        .card {
-            background: #fff;
-            border-radius: 16px;
-            padding: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            border: 1px solid #e2e8f0;
-        }
-
-        .icon-box {
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-        }
-
-        h3 {
-            font-size: 12px;
-            margin: 5px 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            text-align: center;
-        }
-
-        /* BUTTON */
-        .download-btn {
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 11px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .download-btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        .spinner {
-            width: 12px; height: 12px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-top-color: #fff;
-            border-radius: 50%;
-            display: none;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .loader {
-            text-align: center;
-            padding: 30px;
-            font-weight: 500;
-        }
+        :root { --primary:#2563eb; }
+        body { margin:0; font-family:'Inter',sans-serif; background:linear-gradient(180deg,#ffffff,#f1f5f9); }
+        .top-nav { padding:15px; }
+        .back-btn { width:40px; height:40px; border-radius:10px; background:#e2e8f0; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+        .grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; padding:10px; }
+        .card { background:#fff; border-radius:16px; padding:12px; box-shadow:0 4px 6px rgba(0,0,0,0.05); display:flex; flex-direction:column; justify-content:space-between; }
+        .icon-box { height:80px; display:flex; align-items:center; justify-content:center; font-size:40px; }
+        h3 { font-size:12px; margin:5px 0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; text-align:center; }
+        .download-btn { background:var(--primary); color:#fff; border:none; padding:10px; border-radius:8px; font-size:11px; display:flex; justify-content:center; align-items:center; gap:6px; cursor:pointer; }
+        .spinner { width:12px; height:12px; border:2px solid rgba(255,255,255,0.3); border-top-color:#fff; border-radius:50%; display:none; animation:spin 0.8s linear infinite; }
+        @keyframes spin { to { transform:rotate(360deg); } }
+        .loader { text-align:center; padding:30px; }
     </style>
 </head>
-
 <body>
 
 <div class="top-nav">
@@ -122,94 +31,63 @@
 <div class="grid" id="grid"></div>
 
 <script>
-    const API = "https://script.google.com/macros/s/AKfycbxmZ9bNMa-_YUz5xo8f7UIbS2pwrv2UKfDjQOtPOKet_OrPiK0Uxxpr3fO-xRRJ_8q4/exec";
+const API = "https://script.google.com/macros/s/AKfycbxmZ9bNMa-_YUz5xo8f7UIbS2pwrv2UKfDjQOtPOKet_OrPiK0Uxxpr3fO-xRRJ_8q4/exec";
 
-    /* BACK */
-    function goBack(){
-        if(history.length > 1) history.back();
-        else location.href = "promotions.html";
-    }
+function goBack(){
+    if(history.length>1) history.back();
+    else location.href="promotions.html";
+}
 
-    /* DOWNLOAD LOGIC (BLOB METHOD) */
-    async function download(btn, fileId, fileName) {
-        const spin = btn.querySelector(".spinner");
-        const text = btn.querySelector(".text");
+function download(btn, fileId) {
+    const spin = btn.querySelector(".spinner");
+    const text = btn.querySelector(".text");
 
-        // UI Updates
-        btn.disabled = true;
-        spin.style.display = "block";
-        text.innerText = "PREPARING...";
+    btn.disabled = true;
+    spin.style.display = "block";
+    text.innerText = "OPENING...";
 
-        const url = `https://drive.google.com/uc?export=download&id=${fileId}`;
+    // This specific URL format helps browsers recognize the file better than 'uc?export=download'
+    const url = `https://drive.google.com/file/d/${fileId}/view?usp=sharing`;
 
-        try {
-            // 1. Fetch the data as a Blob
-            const response = await fetch(url);
-            if (!response.ok) throw new Error('Network response was not ok');
-            
-            const blob = await response.blob();
-            
-            // 2. Create a specific PDF Blob
-            const pdfBlob = new Blob([blob], { type: 'application/pdf' });
-            
-            // 3. Create a download link for the Blob
-            const blobUrl = window.URL.createObjectURL(pdfBlob);
-            const link = document.createElement('a');
-            link.href = blobUrl;
-            
-            // 4. Force the .pdf extension
-            const safeName = fileName.toLowerCase().endsWith('.pdf') ? fileName : fileName + '.pdf';
-            link.download = safeName;
-            
-            document.body.appendChild(link);
-            link.click();
-            
-            // 5. Cleanup
-            document.body.removeChild(link);
-            window.URL.revokeObjectURL(blobUrl);
+    setTimeout(() => {
+        // Open in a new tab. This is the SAFEST way to ensure it stays a PDF.
+        // Google Drive will handle the download interface itself.
+        window.open(url, '_blank');
 
-            text.innerText = "SUCCESS!";
-        } catch (error) {
-            console.error("Download failed:", error);
-            alert("Download failed. Please try again or ensure the file is public.");
-            text.innerText = "ERROR";
-        } finally {
-            setTimeout(() => {
-                btn.disabled = false;
-                spin.style.display = "none";
-                text.innerText = "DOWNLOAD";
-            }, 3000);
-        }
-    }
+        setTimeout(() => {
+            btn.disabled = false;
+            spin.style.display = "none";
+            text.innerText = "DOWNLOAD";
+        }, 2000);
+    }, 500);
+}
 
-    /* LOAD FILES */
-    fetch(API)
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById("loader").style.display = "none";
-        const grid = document.getElementById("grid");
+fetch(API)
+.then(res => res.json())
+.then(data => {
+    document.getElementById("loader").style.display = "none";
+    const grid = document.getElementById("grid");
 
-        data.forEach(file => {
-            const idMatch = file.url.match(/[-\w]{25,}/);
-            const fileId = idMatch ? idMatch[0] : "";
-            const escapedName = file.name.replace(/'/g, "\\'");
+    data.forEach(file => {
+        const idMatch = file.url.match(/[-\w]{25,}/);
+        const fileId = idMatch ? idMatch[0] : "";
 
-            const card = document.createElement("div");
-            card.className = "card";
-            card.innerHTML = `
-                <div class="icon-box">📄</div>
-                <h3 title="${file.name}">${file.name}</h3>
-                <button class="download-btn" onclick="download(this, '${fileId}', '${escapedName}')">
-                    <span class="spinner"></span>
-                    <span class="text">DOWNLOAD</span>
-                </button>
-            `;
-            grid.appendChild(card);
-        });
-    })
-    .catch(() => {
-        document.getElementById("loader").innerText = "Error loading data";
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+            <div class="icon-box">📄</div>
+            <h3>${file.name}</h3>
+            <button class="download-btn" onclick="download(this,'${fileId}')">
+                <span class="spinner"></span>
+                <span class="text">DOWNLOAD</span>
+            </button>
+        `;
+        grid.appendChild(card);
     });
+})
+.catch(() => {
+    document.getElementById("loader").innerText = "Error loading data";
+});
 </script>
 
 </body>
