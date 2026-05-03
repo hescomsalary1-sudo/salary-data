@@ -1,105 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
+<title>Forms & Formats</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Direct Download PDF</title>
+
 <style>
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: #f4f7f6;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
-    }
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-        width: 100%;
-        max-width: 500px;
-    }
-    .card {
-        background: white;
-        padding: 15px;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        text-align: center;
-    }
-    .download-btn {
-        background-color: #2563eb;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: bold;
-        width: 100%;
-        margin-top: 10px;
-    }
-    .download-btn:hover { background-color: #1d4ed8; }
+:root {
+  --primary-color: #4b2dd8;
+  --bg-gradient: linear-gradient(160deg, #f0f3f9 0%, #e8eef6 100%);
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --text-main: #2d3436;
+  --text-muted: #636e72;
+}
+
+body {
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  padding-bottom: 40px;
+  color: var(--text-main);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* HEADER */
+.top {
+  padding: 45px 20px 30px;
+  background: white;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-radius: 0 0 40px 40px;
+  box-shadow: 0 10px 30px rgba(75, 45, 216, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.back-btn {
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; cursor: pointer; border-radius: 12px;
+  transition: 0.2s; color: var(--text-main);
+}
+
+.top .icon {
+  width: 40px; height: 40px;
+  background: var(--primary-color); color: white;
+  border-radius: 12px; display: flex; align-items: center;
+  justify-content: center; font-size: 20px;
+}
+
+.top h2 { margin: 0; font-size: 20px; font-weight: 700; flex-grow: 1; }
+
+/* GRID */
+.content { padding: 20px; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+/* CARD */
+.card {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 24px 16px;
+  border-radius: 24px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 12px 24px rgba(149, 157, 165, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.card:active { transform: scale(0.94); }
+
+.card span { font-size: 32px; display: block; margin-bottom: 12px; }
+.card p { margin: 0; font-size: 13.5px; font-weight: 600; color: var(--text-main); }
+
+/* INFO BOX */
+.info-box {
+  margin-top: 25px;
+  background: white;
+  padding: 20px;
+  border-radius: 24px;
+}
+
+.info-box h3 { margin: 0 0 10px; font-size: 16px; color: var(--primary-color); }
+.info-box p { margin: 6px 0; font-size: 13px; color: var(--text-muted); }
+
 </style>
 </head>
+
 <body>
 
-<h2>📄 Circle Promotion Files</h2>
+<div class="top">
+  <div class="back-btn" onclick="history.back()">❮</div>
+  <div class="icon">📄</div>
+  <h2>Forms & Formats</h2>
+</div>
 
+<div class="content">
 <div class="grid">
-    <!-- Button 1 -->
-    <div class="card">
-        <div>Promotion List 1</div>
-        <button class="download-btn" onclick="startDownload('https://drive.google.com/file/d/1GbQxfKAqHeSfxOeAzOHrYe8hGf4YX2IW/view?usp=sharing')">DOWNLOAD</button>
+    <!-- Replace 'filename.pdf' with your actual direct link or filename -->
+    <div class="card" onclick="openPDF('els_format.pdf')">
+        <span>📘</span>
+        <p>ELS Format</p>
     </div>
 
-    <!-- Button 2 -->
-    <div class="card">
-        <div>Promotion List 2</div>
-        <button class="download-btn" onclick="startDownload('https://example.com/file2.pdf', 'List_2.pdf')">DOWNLOAD</button>
+    <div class="card" onclick="openPDF('medical_bill.pdf')">
+        <span>🏥</span>
+        <p>Medical Bill</p>
     </div>
 
-    <!-- Button 3 -->
-    <div class="card">
-        <div>Promotion List 3</div>
-        <button class="download-btn" onclick="startDownload('', '')">DOWNLOAD</button>
+    <div class="card" onclick="openPDF('leave_format.pdf')">
+        <span>📝</span>
+        <p>Leave Format</p>
     </div>
 
-    <!-- Button 4 -->
-    <div class="card">
-        <div>Promotion List 4</div>
-        <button class="download-btn" onclick="startDownload('', '')">DOWNLOAD</button>
+    <div class="card" onclick="openPDF('salary_bill.pdf')">
+        <span>💰</span>
+        <p>Salary Bill</p>
     </div>
 
-    <!-- Button 5 -->
-    <div class="card">
-        <div>Promotion List 5</div>
-        <button class="download-btn" onclick="startDownload('', '')">DOWNLOAD</button>
+    <!-- Example of an empty file to show "No data found" -->
+    <div class="card" onclick="openPDF('')">
+        <span>📑</span>
+        <p>CR Format</p>
     </div>
 
-    <!-- Button 6 -->
-    <div class="card">
-        <div>Promotion List 6</div>
-        <button class="download-btn" onclick="startDownload('', '')">DOWNLOAD</button>
+    <div class="card" onclick="openPDF('')">
+        <span>👥</span>
+        <p>Group A & B</p>
     </div>
 </div>
 
+<div class="info-box">
+    <h3>📌 Quick Tips</h3>
+    <p>• Tap any card to download PDF</p>
+    <p>• Files will save directly with .pdf extension</p>
+</div>
+</div>
+
 <script>
-function startDownload(url, filename) {
-    // 1. Check if the link is empty
-    if (!url || url === "") {
+function openPDF(file) {
+    // 1. Check if the file/link exists
+    if (!file || file.trim() === "") {
         alert("No data found for this file.");
         return;
     }
 
-    // 2. Create a hidden anchor element
+    // 2. Base URL for your files
+    const baseUrl = "https://hescomsalary1-sudo.github.io/salary-data/";
+    const fullUrl = baseUrl + file;
+
+    // 3. Force download with correct extension
     const link = document.createElement('a');
-    link.href = url;
+    link.href = fullUrl;
     
-    // 3. This 'download' attribute forces the browser to save it as a PDF
-    // It also lets you set the filename manually
-    link.setAttribute('download', filename || 'document.pdf');
+    // This tells the browser to save as PDF, not BIN
+    link.setAttribute('download', file);
     
-    // 4. Append to body, click, and remove
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
