@@ -569,7 +569,12 @@ document.body.style.overflow="auto";
   function closeError(){
 document.getElementById("errorPopup").style.display="none";
 }
+// 🚫 Prevent going back to home after logout
+history.pushState(null, null, location.href);
 
+window.onpopstate = function () {
+    history.go(1);
+};
 </script>
 <!-- ✅ CHANGE PASSWORD BOX -->
 <div id="changeBox">
