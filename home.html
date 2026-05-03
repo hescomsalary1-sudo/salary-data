@@ -1265,6 +1265,10 @@ pointer-events: all;
 <div class="salary-amount">₹<span id="netSalary">--</span></div>
 <div style="font-size:14px;opacity:0.9;">Net Pay</div>
 
+<div style="font-size:12px;color:#ddd;margin-top:5px;">
+📅 Last Updated: <span id="quickDate">--</span>
+</div>
+
 <!-- QUICK INFO BUTTON -->
 <div class="quick-info-btn" onclick="openLastSalary()">
   Quick Info ➜
@@ -2302,6 +2306,18 @@ document.addEventListener("DOMContentLoaded", checkGrievances2);
     window.location.href = url;
   },500);
 }
+
+ function loadQuickInfoDate(){
+    let date = localStorage.getItem("quickInfoDate");
+
+    if(date){
+        document.getElementById("quickDate").innerText = date;
+    }else{
+        document.getElementById("quickDate").innerText = "Not updated";
+    }
+}
+
+loadQuickInfoDate();
 </script>
 
   <!-- GRIEVANCE POPUP -->
