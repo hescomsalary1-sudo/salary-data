@@ -347,23 +347,9 @@ return "";
 
 async function loadSalary(){
 document.getElementById("loader").style.display="flex";
-<div style="font-family:sans-serif;padding:20px">
-
-<div style="text-align:center">
-<h2>HUBLI ELECTRICITY SUPPLY COMPANY LTD.</h2>
-<h4>O & M Division, Sirsi</h4>
-
 <div style="display:flex;justify-content:space-between;margin-top:10px">
 <p><b>Name :</b> ${empName}</p>
 <p><b>Designation :</b> ${empDesignation}</p>
-</div>
-
-<div style="display:flex;justify-content:space-between">
-<p><b>Working Place :</b> ${empPlace}</p>
-<p><b>Month :</b> ${month} ${year}</p>
-</div>
-
-<hr>
 </div>
 let year = localStorage.getItem("selectedYear");
 let month = localStorage.getItem("selectedMonth");
