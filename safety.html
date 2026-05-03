@@ -11,17 +11,17 @@ body {
     font-family: 'Segoe UI', sans-serif;
     background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
     color: black;
-    /* Added padding to body so content doesn't hide behind fixed header */
-    padding-top: 60px;
+    /* Space for fixed header */
+    padding-top: 75px;
 }
 
-/* BACK BUTTON NAVIGATION */
+/* FIXED TOP NAVIGATION WITH HEADER INLINE */
 .top-nav {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 50px;
+    height: 65px;
     background: white;
     display: flex;
     align-items: center;
@@ -29,6 +29,7 @@ body {
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     z-index: 1000;
     box-sizing: border-box;
+    background: linear-gradient(135deg, #ffffff, #f0f4ff);
 }
 
 .back-arrow {
@@ -39,21 +40,25 @@ body {
     cursor: pointer;
     display: flex;
     align-items: center;
+    padding-right: 15px;
 }
 
-/* HEADER */
-.header {
-    text-align: center;
-    padding: 20px;
+.nav-title-group {
+    display: flex;
+    flex-direction: column;
 }
 
-.header h1 {
+.nav-title-group h1 {
     margin: 0;
-    font-size: 26px;
+    font-size: 18px;
+    color: #1a1a1a;
 }
 
-.header p {
+.nav-title-group p {
+    margin: 0;
     color: blue;
+    font-size: 11px;
+    font-weight: 500;
 }
 
 /* CONTAINER */
@@ -63,144 +68,122 @@ body {
 
 /* CARD */
 .card {
-    background: rgba(255,255,255,0.06);
-    border-radius: 16px;
+    background: rgba(255,255,255,0.75);
+    border-radius: 20px;
     margin-bottom: 20px;
-    overflow: hidden;
+    padding: 20px;
     backdrop-filter: blur(10px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255,255,255,0.3);
 }
 
-/* IMAGE */
-.card img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
+.card:active {
+    transform: scale(0.97);
+}
+
+/* ICON BOX */
+.icon-box {
+    font-size: 40px;
+    margin-bottom: 12px;
+    display: block;
 }
 
 /* TEXT */
-.card-content {
-    padding: 15px;
+.card h3 {
+    margin: 0 0 10px;
+    color: #4b2dd8;
+    font-size: 18px;
 }
 
-.card-content h3 {
-    margin: 0 0 8px;
-    color: #38bdf8;
-}
-
-.card-content p {
+.card p {
     margin: 0;
-    font-size: 14px;
-    line-height: 1.5;
-    color: black;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: #333;
+}
+
+.highlight {
+    color: #e11d48;
+    font-weight: bold;
 }
 </style>
 </head>
 
 <body>
 
-<!-- Back Arrow Navigation -->
+<!-- Fixed Top Navigation -->
 <div class="top-nav">
     <div class="back-arrow" onclick="history.back()">❮</div>
-</div>
-
-<div class="header">
-    <h1>⚡ ಲೈನ್ಮನ್ ಸುರಕ್ಷತೆ</h1>
-    <p>ವಿದ್ಯುತ್ ಕೆಲಸ ಮಾಡುವಾಗ ಪಾಲಿಸಬೇಕಾದ ನಿಯಮಗಳು</p>
+    <div class="nav-title-group">
+        <h1>⚡ ಲೈನ್ಮನ್ ಸುರಕ್ಷತೆ</h1>
+        <p>ಜೀವ ರಕ್ಷಣೆಗಾಗಿ ಸುರಕ್ಷತಾ ಕ್ರಮಗಳು</p>
+    </div>
 </div>
 
 <div class="container">
 
     <!-- Safety 1 -->
     <div class="card">
-        <img src="https://images.unsplash.com/photo-1581093588401-22f2c5b8c8c7" alt="Safety Gear">
-        <div class="card-content">
-            <h3>🪖 ಸುರಕ್ಷತಾ ಉಪಕರಣಗಳು</h3>
-            <p>
-                ಲೈನ್ಮನ್ ಕೆಲಸ ಮಾಡುವಾಗ ಹೆಲ್ಮೆಟ್, ಗ್ಲೋವ್ಸ್, ಮತ್ತು ಸೆಫ್ಟಿ ಶೂಸ್ ಧರಿಸಬೇಕು.
-                ಇದು ಅಪಘಾತಗಳನ್ನು ತಪ್ಪಿಸಲು ಸಹಾಯಕ.
-            </p>
-        </div>
+        <span class="icon-box">🪖</span>
+        <h3>ವೈಯಕ್ತಿಕ ರಕ್ಷಣಾ ಸಾಧನಗಳು (PPE)</h3>
+        <p>
+            ಪ್ರತಿ ಬಾರಿ ಕಂಬ ಏರುವ ಮುನ್ನ <b>ISI ಮುದ್ರೆಯಿರುವ ಹೆಲ್ಮೆಟ್</b>, ಎಲೆಕ್ಟ್ರಿಕಲ್ ಗ್ಲೋವ್ಸ್ ಮತ್ತು ರಬ್ಬರ್ ಸೋಲ್ ಇರುವ ಶೂಗಳನ್ನು ಧರಿಸುವುದನ್ನು ಮರೆಯಬೇಡಿ.
+        </p>
     </div>
 
     <!-- Safety 2 -->
     <div class="card">
-        <img src="https://images.unsplash.com/photo-1581090700227-1e8a3b2e7d3d" alt="Electric Work">
-        <div class="card-content">
-            <h3>⚡ ವಿದ್ಯುತ್ ನಿಲ್ಲಿಸಿ ಕೆಲಸ</h3>
-            <p>
-                ಯಾವಾಗಲೂ ವಿದ್ಯುತ್ ಸಂಪರ್ಕವನ್ನು ನಿಲ್ಲಿಸಿ ನಂತರ ಕೆಲಸ ಪ್ರಾರಂಭಿಸಬೇಕು.
-                ಲೈವ್ ಲೈನ್ ಮೇಲೆ ಕೆಲಸ ಮಾಡುವುದು ಅಪಾಯಕಾರಿ.
-            </p>
-        </div>
+        <span class="icon-box">🔒</span>
+        <h3>ಪವರ್ ಕಟ್ ಮತ್ತು ಲಾಕಿಂಗ್</h3>
+        <p>
+            ಲೈನ್ ಆಫ್ ಮಾಡಿದ ನಂತರ <b>LOTO (Lock Out Tag Out)</b> ಪದ್ಧತಿ ಬಳಸಿ. ನೀವು ಕೆಲಸ ಮುಗಿಸುವವರೆಗೆ ಯಾರೂ ಲೈನ್ ಚಾಲನೆ ಮಾಡದಂತೆ ಎಚ್ಚರಿಕೆ ಫಲಕ ಹಾಕಿ.
+        </p>
     </div>
 
     <!-- Safety 3 -->
     <div class="card">
-        <img src="https://images.unsplash.com/photo-1581092335397-9583eb92d232" alt="Team Work">
-        <div class="card-content">
-            <h3>👷 ತಂಡದ ಸಹಕಾರ</h3>
-            <p>
-                ಒಬ್ಬರೇ ಕೆಲಸ ಮಾಡಬಾರದು. ತಂಡದೊಂದಿಗೆ ಕೆಲಸ ಮಾಡುವುದರಿಂದ ಸುರಕ್ಷತೆ ಹೆಚ್ಚುತ್ತದೆ.
-            </p>
-        </div>
+        <span class="icon-box">➰</span>
+        <h3>ಅರ್ಥಿಂಗ್ ಡಿಸ್ಚಾರ್ಜ್ ರೋಡ್</h3>
+        <p>
+            ಲೈನ್ ಆಫ್ ಆದರೂ ಸಹ ಕೆಪಾಸಿಟರ್‌ಗಳಲ್ಲಿ ವಿದ್ಯುತ್ ಉಳಿದಿರಬಹುದು. ಆದ್ದರಿಂದ ಕೆಲಸ ಮಾಡುವ ಜಾಗದಲ್ಲಿ <b>ಡಿಸ್ಚಾರ್ಜ್ ರೋಡ್</b> ಬಳಸಿ ಲೈನ್ ಅನ್ನು ಕಡ್ಡಾಯವಾಗಿ ಅರ್ಥ್ ಮಾಡಿ.
+        </p>
     </div>
 
     <!-- Safety 4 -->
     <div class="card">
-        <img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc" alt="Tools">
-        <div class="card-content">
-            <h3>🛠️ ಸರಿಯಾದ ಉಪಕರಣಗಳು</h3>
-            <p>
-                ಸದಾ ಸರಿಯಾದ ಮತ್ತು ಸುರಕ್ಷಿತ ಉಪಕರಣಗಳನ್ನು ಮಾತ್ರ ಬಳಸಬೇಕು.
-                ಹಾನಿಯಾದ ಉಪಕರಣಗಳನ್ನು ಬಳಸದಿರಿ.
-            </p>
-        </div>
+        <span class="icon-box">🪜</span>
+        <h3>ಏಣಿ ಮತ್ತು ಪಟ್ಟಿಗಳ ತಪಾಸಣೆ</h3>
+        <p>
+            ಹಳೆಯದಾದ ಅಥವಾ ತುಕ್ಕು ಹಿಡಿದ ಏಣಿ ಬಳಸಬೇಡಿ. ಸುರಕ್ಷತಾ ಪಟ್ಟಿ (Safety Belt) ಹರಿದಿದೆಯೇ ಎಂದು ಪ್ರತಿದಿನ ಪರಿಶೀಲಿಸಿ. <span class="highlight">ಸ್ವಲ್ಪ ನಿರ್ಲಕ್ಷ್ಯವೂ ಅಪಾಯಕಾರಿ.</span>
+        </p>
     </div>
 
     <!-- Safety 5 -->
     <div class="card">
-        <img src="https://images.unsplash.com/photo-1581091215367-59ab6b2c1b47" alt="Warning">
-        <div class="card-content">
-            <h3>🚫 ಎಚ್ಚರಿಕೆ ಫಲಕಗಳು</h3>
-            <p>
-                ಕೆಲಸ ನಡೆಯುವ ಸ್ಥಳದಲ್ಲಿ ಎಚ್ಚರಿಕೆ ಫಲಕಗಳನ್ನು ಹಾಕಬೇಕು.
-                ಇದು ಇತರರಿಗೆ ಅಪಾಯವನ್ನು ತಪ್ಪಿಸುತ್ತದೆ.
-            </p>
-        </div>
+        <span class="icon-box">⛈️</span>
+        <h3>ಹವಾಮಾನ ಮತ್ತು ಪರಿಸರ</h3>
+        <p>
+            ಮಳೆ, ಮಿಂಚು ಅಥವಾ ಗುಡುಗು ಇರುವಾಗ ಯಾವುದೇ ಕಾರಣಕ್ಕೂ ಲೈನ್ ಕೆಲಸ ಮಾಡಬೇಡಿ. ಒದ್ದೆಯಾದ ಪರಿಸರದಲ್ಲಿ ವಿದ್ಯುತ್ ಪ್ರವಹಿಸುವ ಸಾಧ್ಯತೆ ಹೆಚ್ಚಿರುತ್ತದೆ.
+        </p>
     </div>
 
     <!-- Safety 6 -->
     <div class="card">
-        <div class="card-content">
-            <h3>ಹವಾಮಾನದ ಮುನ್ನೆಚ್ಚರಿಕೆಗಳು:</h3>
-            <p>
-                ಗುಡುಗು/ಸಿಡಿಲು: ಮಳೆ, ಗುಡುಗು ಅಥವಾ ಸಿಡಿಲು ಇರುವಾಗ ಲೈನ್ ಕೆಲಸ ಮಾಡಬೇಡಿ.
-                ಗಾಳಿ: ಬಲವಾದ ಗಾಳಿ ಬೀಸುವಾಗ ಕಂಬ ಹತ್ತುವುದನ್ನು ತಪ್ಪಿಸಿ.
-            </p>
-        </div>
+        <span class="icon-box">🚑</span>
+        <h3>ತುರ್ತು ಪ್ರಥಮ ಚಿಕಿತ್ಸೆ</h3>
+        <p>
+            ವಿದ್ಯುತ್ ಅವಘಡ ಸಂಭವಿಸಿದರೆ ಗಾಬರಿಯಾಗಬೇಡಿ. ತಕ್ಷಣ ಮೇಲಧಿಕಾರಿಗಳಿಗೆ ತಿಳಿಸಿ ಮತ್ತು ಗಾಯಾಳುವಿಗೆ <b>CPR ಚಿಕಿತ್ಸೆ</b> ನೀಡಿ ಹತ್ತಿರದ ಆಸ್ಪತ್ರೆಗೆ ದಾಖಲಿಸಿ.
+        </p>
     </div>
 
     <!-- Safety 7 -->
     <div class="card">
-        <div class="card-content">
-            <h3>ಕಂಬ ಹತ್ತುವ ಮುನ್ನ (Before Climbing):</h3>
-            <p>
-                ಪರಿಶೀಲನೆ: ಕಂಬವು ಗಟ್ಟಿಯಾಗಿದೆಯೇ ಎಂದು ಪರಿಶೀಲಿಸಿ.
-                ಪರಿಕರಗಳು: ಪಟ್ಟಿಗಳು ಮತ್ತು ಇತರೆ ಪರಿಕರಗಳನ್ನು ಪರೀಕ್ಷಿಸಿ.
-            </p>
-        </div>
-    </div>
-
-    <!-- Safety 8 -->
-    <div class="card">
-        <div class="card-content">
-            <h3>ಮುಖ್ಯ ನಿಯಮಗಳು:</h3>
-            <p>
-                ನೇರ ಸಂಪರ್ಕ: ಎಂದಿಗೂ ಲೈವ್ ಲೈನ್ (Live Line) ಅನ್ನು ನೇರವಾಗಿ ಮುಟ್ಟಬೇಡಿ.
-                ಸಹಾಯ: ಯಾವಾಗಲೂ ಇಬ್ಬರು ಅಥವಾ ಅದಕ್ಕಿಂತ ಹೆಚ್ಚು ಜನರು ಒಟ್ಟಿಗೆ ಕೆಲಸ ಮಾಡಿ.
-            </p>
-        </div>
+        <span class="icon-box">👥</span>
+        <h3>ತಂಡದ ಸಮನ್ವಯ (Team Work)</h3>
+        <p>
+            ಯಾವಾಗಲೂ ಸಹಾಯಕರೊಂದಿಗೆ (Helper) ಕೆಲಸ ಮಾಡಿ. ಒಬ್ಬಂಟಿಯಾಗಿ ಅಪಾಯಕಾರಿ ಕೆಲಸಗಳಿಗೆ ಕೈ ಹಾಕಬೇಡಿ. ಸಂವಹನಕ್ಕಾಗಿ ಸಿಗ್ನಲ್ ಅಥವಾ ಮೊಬೈಲ್ ಬಳಸಿ.
+        </p>
     </div>
 
 </div>
