@@ -21,7 +21,20 @@ border-bottom-left-radius:35px;
 border-bottom-right-radius:35px;
 }
 
-.asdate{font-size:14px;margin-top:5px;opacity:0.9;}
+/* Side-by-Side Header Container */
+.header-container {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Space between arrow and title */
+    margin-bottom: 5px;
+}
+
+.header-container h2 {
+    margin: 0; /* Remove default margins for alignment */
+    font-size: 24px;
+}
+
+.asdate{font-size:14px;margin-top:5px;opacity:0.9; padding-left: 55px;} /* Aligned under title */
 
 .credit-box{
 margin-top:15px;
@@ -110,24 +123,7 @@ padding-left:10px;
 margin:4px 0;
 }
 
-/* FOOTER */
-.footer{
-position:fixed;
-bottom:0;
-width:100%;
-background:white;
-display:flex;
-justify-content:space-around;
-padding:10px 0;
-}
-.footer a{
-text-decoration:none;
-color:#4b2dd8;
-text-align:center;
-}
-
-  /* BACK BUTTON */
-
+/* BACK BUTTON */
 .back-btn{
 width:40px;
 height:40px;
@@ -140,6 +136,7 @@ justify-content:center;
 cursor:pointer;
 box-shadow:0 6px 15px rgba(0,0,0,0.15);
 transition:0.25s;
+flex-shrink: 0; /* Prevent arrow from squishing */
 }
 
 .back-btn:hover{
@@ -161,392 +158,276 @@ transform:translateX(-2px);
 <body>
 
 <div class="top">
-  
-  <!-- BACK BUTTON -->
-  <div class="back-btn" onclick="goBack()">
-    
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path d="M15 18L9 12L15 6" 
-            stroke="#2400b7" 
-            stroke-width="2.5" 
-            stroke-linecap="round" 
-            stroke-linejoin="round"/>
-    </svg>
-
+  <!-- Side-by-Side Wrapper -->
+  <div class="header-container">
+    <div class="back-btn" onclick="goBack()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M15 18L9 12L15 6" 
+              stroke="#2400b7" 
+              stroke-width="2.5" 
+              stroke-linecap="round" 
+              stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h2>Leave Dashboard</h2>
   </div>
-<h2>Leave Dashboard</h2>
-<div class="asdate" id="asOnDate">As on Date: --</div>
+  
+  <div class="asdate" id="asOnDate">As on Date: --</div>
 
-<div class="credit-box">
-<div class="credit-row"><span>Earned Leave</span><span id="elCredit">0</span></div>
-<div class="credit-row"><span>Full Pay Leave</span><span id="fplCredit">0</span></div>
-<div class="credit-row"><span>Casual Leave</span><span id="clCredit">0</span></div>
-</div>
+  <div class="credit-box">
+    <div class="credit-row"><span>Earned Leave</span><span id="elCredit">0</span></div>
+    <div class="credit-row"><span>Full Pay Leave</span><span id="fplCredit">0</span></div>
+    <div class="credit-row"><span>Casual Leave</span><span id="clCredit">0</span></div>
+  </div>
 </div>
 
 <div class="curve-box">
+  <div class="btn-grid">
+    <div class="btn-card active" onclick="filterLeave('EL',this)">Earned Leave</div>
+    <div class="btn-card" onclick="filterLeave('FPL',this)">Full Pay Leave</div>
+    <div class="btn-card" onclick="filterLeave('CL',this)">Casual Leave</div>
+  </div>
 
-<div class="btn-grid">
-<div class="btn-card active" onclick="filterLeave('EL',this)">Earned Leave</div>
-<div class="btn-card" onclick="filterLeave('FPL',this)">Full Pay Leave</div>
-<div class="btn-card" onclick="filterLeave('CL',this)">Casual Leave</div>
+  <div class="section-title">Leave History</div>
+  <div class="list-box" id="leaveContainer"></div>
+
+  <div class="extra-btn" onclick="activateExtra(this); showOtherLeaves()">Other Leaves Taken Details</div>
+  <div class="extra-btn" onclick="activateExtra(this); showELS()">ELS Bills Details</div>
+  <div class="extra-btn" onclick="activateExtra(this); showBalance()">Leave Balance</div>
 </div>
-
-<div class="section-title">Leave History</div>
-<div class="list-box" id="leaveContainer"></div>
-
-<div class="extra-btn" onclick="activateExtra(this); showOtherLeaves()">Other Leaves Taken Details</div>
-<div class="extra-btn" onclick="activateExtra(this); showELS()">ELS Bills Details</div>
-<div class="extra-btn" onclick="activateExtra(this); showBalance()">Leave Balance</div>
-
-</div>
-</div>
-
 
 <script>
-
 let user = localStorage.getItem("currentUser");
 let currentType = "EL";
-
 let elCredit=0,fplCredit=0,clCredit=0;
 let elTaken=0,fplTaken=0,clTaken=0;
-
 let creditCalculated = false;
-
-/* ✅ FIX VARIABLES */
 let asOnDay=1, asOnMonth=1, asOnYear=new Date().getFullYear();
 let dataReady = false;
-
 let elsDaysCurrentYear = 0;
 
-/* LOAD CREDIT */
 async function loadEmployee(){
-
-let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
-let text = await res.text();
-let rows = text.trim().split("\n");
-
-for(let i=1;i<rows.length;i++){
-
-let c = rows[i].split(",");
-
-if(c[0].trim() === user){
-
-elCredit = parseInt(c[3]) || 0;
-fplCredit = parseInt(c[4]) || 0;
-clCredit = parseInt(c[5]) || 0;
-
-document.getElementById("elCredit").innerText = elCredit;
-document.getElementById("fplCredit").innerText = fplCredit;
-document.getElementById("clCredit").innerText = clCredit;
-
-/* PARSE DATE */
-let asDate = c[6] || "--";
-document.getElementById("asOnDate").innerText = "As on Date: " + asDate;
-
-if(asDate !== "--"){
-let parts = asDate.split("-");
-asOnDay = parseInt(parts[0]);
-asOnMonth = parseInt(parts[1]);
-asOnYear = parseInt(parts[2]);
+  let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
+  let text = await res.text();
+  let rows = text.trim().split("\n");
+  for(let i=1;i<rows.length;i++){
+    let c = rows[i].split(",");
+    if(c[0].trim() === user){
+      elCredit = parseInt(c[3]) || 0;
+      fplCredit = parseInt(c[4]) || 0;
+      clCredit = parseInt(c[5]) || 0;
+      document.getElementById("elCredit").innerText = elCredit;
+      document.getElementById("fplCredit").innerText = fplCredit;
+      document.getElementById("clCredit").innerText = clCredit;
+      let asDate = c[6] || "--";
+      document.getElementById("asOnDate").innerText = "As on Date: " + asDate;
+      if(asDate !== "--"){
+        let parts = asDate.split("-");
+        asOnDay = parseInt(parts[0]);
+        asOnMonth = parseInt(parts[1]);
+        asOnYear = parseInt(parts[2]);
+      }
+    }
+  }
 }
 
-}
-}
-
-}
-
-/* BUTTONS */
 function filterLeave(type,el){
-currentType = type;
-
-document.querySelectorAll(".btn-card").forEach(b=>b.classList.remove("active"));
-document.querySelectorAll(".extra-btn").forEach(b=>b.classList.remove("active"));
-
-el.classList.add("active");
-loadAttendance();
+  currentType = type;
+  document.querySelectorAll(".btn-card").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll(".extra-btn").forEach(b=>b.classList.remove("active"));
+  el.classList.add("active");
+  loadAttendance();
 }
 
 function activateExtra(el){
-document.querySelectorAll(".btn-card").forEach(b=>b.classList.remove("active"));
-document.querySelectorAll(".extra-btn").forEach(b=>b.classList.remove("active"));
-el.classList.add("active");
+  document.querySelectorAll(".btn-card").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll(".extra-btn").forEach(b=>b.classList.remove("active"));
+  el.classList.add("active");
 }
 
-/* GROUP */
 function groupRanges(arr){
-if(arr.length===0) return [];
-let res=[];
-let start=arr[0];
-let prev=arr[0];
+  if(arr.length===0) return [];
+  let res=[];
+  let start=arr[0];
+  let prev=arr[0];
+  for(let i=1;i<arr.length;i++){
+    let cur=arr[i];
+    if(cur.day===prev.day+1){
+      prev=cur;
+    }else{
+      res.push({start:start,end:prev,type:start.type});
+      start=cur;
+      prev=cur;
+    }
+  }
+  res.push({start:start,end:prev,type:start.type});
+  return res;
+}
 
-for(let i=1;i<arr.length;i++){
-let cur=arr[i];
-if(cur.day===prev.day+1){
-prev=cur;
-}else{
-res.push({start:start,end:prev,type:start.type});
-start=cur;
-prev=cur;
-}
-}
-res.push({start:start,end:prev,type:start.type});
-return res;
-}
-
-/* LOAD ATTENDANCE */
 async function loadAttendance(){
-
-let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
-let text = await res.text();
-let rows = text.trim().split("\n");
-
-let monthMap={};
-
-elTaken=0;fplTaken=0;clTaken=0;
-
-for(let i=1;i<rows.length;i++){
-
-let c = rows[i].split(",");
-
-if(c[0].trim() !== user) continue;
-
-let year=c[1];
-let month=c[2];
-
-let list=[];
-
-for(let d=3;d<34;d++){
-
-let val=c[d]?.trim();
-if(!val) continue;
-
-let day = d-2;
-
-/* FILTER */
-if(year != asOnYear) continue;
-if(month < asOnMonth) continue;
-if(month == asOnMonth && day < asOnDay) continue;
-
-if(val==="EL") elTaken++;
-if(val==="FPL") fplTaken++;
-if(val==="CL") clTaken++;
-
-if(val===currentType){
-list.push({day,type:val,month,year});
+  let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
+  let text = await res.text();
+  let rows = text.trim().split("\n");
+  let monthMap={};
+  elTaken=0;fplTaken=0;clTaken=0;
+  for(let i=1;i<rows.length;i++){
+    let c = rows[i].split(",");
+    if(c[0].trim() !== user) continue;
+    let year=c[1];
+    let month=c[2];
+    let list=[];
+    for(let d=3;d<34;d++){
+      let val=c[d]?.trim();
+      if(!val) continue;
+      let day = d-2;
+      if(year != asOnYear) continue;
+      if(month < asOnMonth) continue;
+      if(month == asOnMonth && day < asOnDay) continue;
+      if(val==="EL") elTaken++;
+      if(val==="FPL") fplTaken++;
+      if(val==="CL") clTaken++;
+      if(val===currentType){
+        list.push({day,type:val,month,year});
+      }
+    }
+    if(list.length){
+      monthMap[month+"-"+year]=groupRanges(list);
+    }
+  }
+  if(!creditCalculated){
+    let today = new Date();
+    let year = today.getFullYear();
+    let jan1 = new Date(year, 0, 1);
+    let july1 = new Date(year, 6, 1);
+    let finalEL = elCredit;
+    let finalFPL = fplCredit;
+    let finalCL = clCredit;
+    if(today >= jan1 && today < july1){
+      finalEL = elCredit + 15;
+      finalFPL = fplCredit + 5;
+    }
+    if(today >= july1){
+      finalEL = elCredit + 30;
+      finalFPL = fplCredit + 10;
+    }
+    elCredit = finalEL;
+    fplCredit = finalFPL;
+    clCredit = finalCL;
+    document.getElementById("elCredit").innerText = elCredit;
+    document.getElementById("fplCredit").innerText = fplCredit;
+    document.getElementById("clCredit").innerText = clCredit;
+    creditCalculated = true;
+  }
+  renderRanges(monthMap);
 }
 
-}
-
-if(list.length){
-monthMap[month+"-"+year]=groupRanges(list);
-}
-
-}
-
-/* CREDIT */
-if(!creditCalculated){
-
-let today = new Date();
-let year = today.getFullYear();
-
-let jan1 = new Date(year, 0, 1);
-let july1 = new Date(year, 6, 1);
-
-let finalEL = elCredit;
-let finalFPL = fplCredit;
-let finalCL = clCredit;
-
-if(today >= jan1 && today < july1){
-finalEL = elCredit + 15;
-finalFPL = fplCredit + 5;
-}
-
-if(today >= july1){
-finalEL = elCredit + 30;
-finalFPL = fplCredit + 10;
-}
-
-elCredit = finalEL;
-fplCredit = finalFPL;
-clCredit = finalCL;
-
-document.getElementById("elCredit").innerText = elCredit;
-document.getElementById("fplCredit").innerText = fplCredit;
-document.getElementById("clCredit").innerText = clCredit;
-
-creditCalculated = true;
-}
-
-renderRanges(monthMap);
-
-}
-
-/* OTHER LEAVES */
 async function showOtherLeaves(){
-if(!dataReady){ setTimeout(showOtherLeaves,300); return; }
-
-let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
-let text = await res.text();
-let rows = text.trim().split("\n");
-
-let monthMap={};
-
-for(let i=1;i<rows.length;i++){
-
-let c=rows[i].split(",");
-
-if(c[0].trim()!==user) continue;
-
-let year=c[1];
-let month=c[2];
-
-let list=[];
-
-for(let d=3;d<34;d++){
-
-let val=c[d]?.trim();
-if(!val) continue;
-
-let day = d-2;
-
-if(year != asOnYear) continue;
-if(month < asOnMonth) continue;
-if(month == asOnMonth && day < asOnDay) continue;
-
-if(val==="EL"||val==="FPL"||val==="CL"||val==="GH"||val==="P"||val==="A") continue;
-
-list.push({day,type:val,month,year});
-
+  if(!dataReady){ setTimeout(showOtherLeaves,300); return; }
+  let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
+  let text = await res.text();
+  let rows = text.trim().split("\n");
+  let monthMap={};
+  for(let i=1;i<rows.length;i++){
+    let c=rows[i].split(",");
+    if(c[0].trim()!==user) continue;
+    let year=c[1];
+    let month=c[2];
+    let list=[];
+    for(let d=3;d<34;d++){
+      let val=c[d]?.trim();
+      if(!val) continue;
+      let day = d-2;
+      if(year != asOnYear) continue;
+      if(month < asOnMonth) continue;
+      if(month == asOnMonth && day < asOnDay) continue;
+      if(val==="EL"||val==="FPL"||val==="CL"||val==="GH"||val==="P"||val==="A") continue;
+      list.push({day,type:val,month,year});
+    }
+    if(list.length){
+      monthMap[month+"-"+year]=groupRanges(list);
+    }
+  }
+  renderRanges(monthMap);
 }
 
-if(list.length){
-monthMap[month+"-"+year]=groupRanges(list);
-}
-
-}
-
-renderRanges(monthMap);
-}
-
-/* ELS */
 async function showELS(){
-if(!dataReady){ setTimeout(showELS,300); return; }
-
-let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv");
-let text = await res.text();
-let rows = text.trim().split("\n");
-
-let currentYear = asOnYear.toString();
-
-let html="";
-elsDaysCurrentYear = 0;
-
-for(let i=1;i<rows.length;i++){
-
-let c = rows[i].split(",");
-
-if(c[0].trim() === user && c[1].trim() === currentYear){
-
-let days = parseInt(c[6]) || 0;
-elsDaysCurrentYear += days;
-
-html += `<div class="item">• ${c[3]} | Days: ${days} | ${c[4]}</div>`;
-
+  if(!dataReady){ setTimeout(showELS,300); return; }
+  let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv");
+  let text = await res.text();
+  let rows = text.trim().split("\n");
+  let currentYear = asOnYear.toString();
+  let html="";
+  elsDaysCurrentYear = 0;
+  for(let i=1;i<rows.length;i++){
+    let c = rows[i].split(",");
+    if(c[0].trim() === user && c[1].trim() === currentYear){
+      let days = parseInt(c[6]) || 0;
+      elsDaysCurrentYear += days;
+      html += `<div class="item">• ${c[3]} | Days: ${days} | ${c[4]}</div>`;
+    }
+  }
+  document.getElementById("leaveContainer").innerHTML = html || "No ELS Data";
 }
 
-}
-
-document.getElementById("leaveContainer").innerHTML =
-html || "No ELS Data";
-}
-
-/* BALANCE */
 async function showBalance(){
-if(!dataReady){ setTimeout(showBalance,300); return; }
-
-let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv");
-let text = await res.text();
-let rows = text.trim().split("\n");
-
-let currentYear = asOnYear.toString();
-
-let totalELS = 0;
-
-for(let i=1;i<rows.length;i++){
-
-let c = rows[i].split(",");
-
-if(c[0].trim() === user && c[1].trim() === currentYear){
-
-let days = parseInt(c[6]) || 0;
-totalELS += days;
-
-}
-}
-
-let elBalance = elCredit - elTaken - totalELS;
-let fplBalance = fplCredit - fplTaken;
-let clBalance = clCredit - clTaken;
-
-let html = `
-<div class="month">EL DETAILS</div>
-<div class="item">Credit : ${elCredit}</div>
-<div class="item">Taken : ${elTaken}</div>
-<div class="item">ELS Days : ${totalELS}</div>
-<div class="item"><b>Balance : ${elBalance}</b></div>
-
-<br>
-
-<div class="month">FPL DETAILS</div>
-<div class="item">Credit : ${fplCredit}</div>
-<div class="item">Taken : ${fplTaken}</div>
-<div class="item"><b>Balance : ${fplBalance}</b></div>
-
-<br>
-
-<div class="month">CL DETAILS</div>
-<div class="item">Credit : ${clCredit}</div>
-<div class="item">Taken : ${clTaken}</div>
-<div class="item"><b>Balance : ${clBalance}</b></div>
-`;
-
-document.getElementById("leaveContainer").innerHTML = html;
+  if(!dataReady){ setTimeout(showBalance,300); return; }
+  let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv");
+  let text = await res.text();
+  let rows = text.trim().split("\n");
+  let currentYear = asOnYear.toString();
+  let totalELS = 0;
+  for(let i=1;i<rows.length;i++){
+    let c = rows[i].split(",");
+    if(c[0].trim() === user && c[1].trim() === currentYear){
+      let days = parseInt(c[6]) || 0;
+      totalELS += days;
+    }
+  }
+  let elBalance = elCredit - elTaken - totalELS;
+  let fplBalance = fplCredit - fplTaken;
+  let clBalance = clCredit - clTaken;
+  let html = `
+    <div class="month">EL DETAILS</div>
+    <div class="item">Credit : ${elCredit}</div>
+    <div class="item">Taken : ${elTaken}</div>
+    <div class="item">ELS Days : ${totalELS}</div>
+    <div class="item"><b>Balance : ${elBalance}</b></div>
+    <br>
+    <div class="month">FPL DETAILS</div>
+    <div class="item">Credit : ${fplCredit}</div>
+    <div class="item">Taken : ${fplTaken}</div>
+    <div class="item"><b>Balance : ${fplBalance}</b></div>
+    <br>
+    <div class="month">CL DETAILS</div>
+    <div class="item">Credit : ${clCredit}</div>
+    <div class="item">Taken : ${clTaken}</div>
+    <div class="item"><b>Balance : ${clBalance}</b></div>
+  `;
+  document.getElementById("leaveContainer").innerHTML = html;
 }
 
-/* RENDER */
 function renderRanges(map){
-
-let html="";
-
-for(let m in map){
-
-html+=`<div class="month">${m}</div>`;
-
-map[m].forEach(r=>{
-
-let s=("0"+r.start.day).slice(-2);
-let e=("0"+r.end.day).slice(-2);
-
-if(s===e){
-html+=`<div class="item">• ${s}-${r.start.month}-${r.start.year} - ${r.type}</div>`;
-}else{
-html+=`<div class="item">• ${r.type} from ${s}-${r.start.month}-${r.start.year} to ${e}-${r.start.month}-${r.start.year}</div>`;
+  let html="";
+  for(let m in map){
+    html+=`<div class="month">${m}</div>`;
+    map[m].forEach(r=>{
+      let s=("0"+r.start.day).slice(-2);
+      let e=("0"+r.end.day).slice(-2);
+      if(s===e){
+        html+=`<div class="item">• ${s}-${r.start.month}-${r.start.year} - ${r.type}</div>`;
+      }else{
+        html+=`<div class="item">• ${r.type} from ${s}-${r.start.month}-${r.start.year} to ${e}-${r.start.month}-${r.start.year}</div>`;
+      }
+    });
+  }
+  document.getElementById("leaveContainer").innerHTML = html || "No Data found";
 }
 
-});
-
-}
-
-document.getElementById("leaveContainer").innerHTML = html || "No Data found";
-
-}
-
-/* INIT */
 loadEmployee().then(()=>{
-dataReady = true;
-loadAttendance();
+  dataReady = true;
+  loadAttendance();
 });
+
 function goBack(){
   window.history.back();
 }
