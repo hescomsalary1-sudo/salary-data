@@ -151,18 +151,29 @@ function downloadFile(url, name) {
     const loader = document.getElementById("loader");
     loader.style.display = "flex";
 
-    // create hidden link
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = name; // force download
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    // ensure file ends with .pdf
+    let fileName = name.toLowerCase().endsWith(".pdf") ? name : name + ".pdf";
 
-    // stop loader quickly (download started)
-    setTimeout(() => {
+    fetch(url)
+    .then(response => response.blob())
+    .then(blob => {
+        const blobUrl = window.URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = blobUrl;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
+        window.URL.revokeObjectURL(blobUrl);
+
         loader.style.display = "none";
-    }, 800);
+    })
+    .catch(() => {
+        loader.style.display = "none";
+        alert("Download failed");
+    });
 }
 
 /* FETCH FILES */
