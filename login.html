@@ -124,7 +124,7 @@ text-align: center;
     background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    display: none;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -383,7 +383,7 @@ color: white;
 <!-- TOP -->
 <div class="top">
     <div class="illustration">
-        <img src="https://img.freepik.com/premium-vector/man-working-laptop-with-coffee-mug-vector-illustration_1512342-133.jpg?semt=ais_hybrid&w=740&q=80" alt="salary illustration">
+        <img id="loginImage" src="https://img.freepik.com/premium-vector/man-working-laptop-with-coffee-mug-vector-illustration_1512342-133.jpg?semt=ais_hybrid&w=740&q=80" alt="salary illustration">
     </div>
     <h1>Salary Prompt</h1>
     <p>Secure Employee Login</p>
@@ -412,7 +412,24 @@ color: white;
 </div>
 
 <script>
+function showLoader(text = "Securing Session"){
+    const loader = document.getElementById("loader");
+    const txt = document.querySelector(".loader-text");
 
+    loader.style.display = "flex";
+    loader.style.opacity = "1";   // 🔥 FIX
+    txt.innerText = text;
+}
+
+function hideLoader(){
+    const loader = document.getElementById("loader");
+
+    loader.style.opacity = "0";
+
+    setTimeout(()=>{
+        loader.style.display = "none";
+    },400);
+}
 // ✅ LOGIN FUNCTION
 function login(){
 
@@ -431,7 +448,7 @@ if(!deviceId){
   localStorage.setItem("deviceId", deviceId);
 }
 // show loader
-document.getElementById("loader").style.display="flex";
+showLoader("Verifying Credentials...");
 
 let url = "https://script.google.com/macros/s/AKfycbzeO5RppL-lE_62OuL4VQ5FYZiehPMPFsH6NC9X2_i40YEIzXPPjW8-QUH1QpfS1Jg1/exec"
   + "?username=" + user
@@ -467,7 +484,7 @@ if(data.status === "success"){
     }, 1000); // 1 second total for a premium feel
 }else{
 
-document.getElementById("loader").style.display="none"; // hide loader on error
+hideLoader();
 document.getElementById("error").innerText="Invalid Username or Password";
 
 }
@@ -561,20 +578,36 @@ closeBox();
 }
 
 
-// ✅ PAGE LOAD
-window.onload=function(){
-document.getElementById("loader").style.display="none";
-document.body.style.overflow="auto";
-};
+window.addEventListener("load", function(){
+
+    const img = document.getElementById("loginImage");
+    const loader = document.getElementById("loader");
+
+    // If image already cached
+    if (img.complete) {
+        hideLoader();
+    } else {
+        img.onload = hideInitialLoader;
+        img.onerror = hideInitialLoader;
+    }
+
+    function hideInitialLoader(){
+        setTimeout(() => {
+            loader.style.opacity = "0";
+            loader.style.transition = "0.4s ease";
+
+            setTimeout(()=>{
+                loader.style.display = "none";
+                document.body.style.overflow = "auto";
+            }, 400);
+        }, 300); // small delay for smooth UX
+    }
+
+});
   function closeError(){
 document.getElementById("errorPopup").style.display="none";
 }
-// 🚫 Prevent going back to home after logout
-history.pushState(null, null, location.href);
 
-window.onpopstate = function () {
-    history.go(1);
-};
 </script>
 <!-- ✅ CHANGE PASSWORD BOX -->
 <div id="changeBox">
