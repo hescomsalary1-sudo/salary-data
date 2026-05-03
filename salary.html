@@ -25,21 +25,7 @@
             color: var(--text-main);
             background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
         }
-/* CONTAINER */
-.container {
-    flex: 1;
-    width: 100%;
-    max-width: 420px;
-    margin: auto;
-    padding: 15px;
 
-    animation: slideUp 0.4s ease-out;
-}
-
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
         /* --- ADDED HEADER BAR --- */
         .header-bar {
             width: 100%;
@@ -226,7 +212,7 @@
         <div class="skeleton sk-title"></div>
         <div class="skeleton sk-card"></div>
     </div>
-<div class="cantainer">
+
     <div class="header">
         <h1>Salary Portal</h1>
         <p>Select a period to view details</p>
@@ -258,7 +244,7 @@
             <div class="month-btn" onclick="openSalary(12)">Dec</div>
         </div>
     </div>
-</div>
+
     <script>
         function goBack() {
             window.history.back();
