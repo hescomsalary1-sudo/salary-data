@@ -62,6 +62,12 @@
     <h1>No Records Found</h1>
     <p>It will be updated soon</p>
 </div>
+<script>
+history.pushState(null, null, location.href);
 
+window.onpopstate = function () {
+  window.location.replace("resources.html");
+};
+</script>
 </body>
 </html>
