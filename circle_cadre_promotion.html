@@ -14,34 +14,50 @@
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-    background: radial-gradient(circle at top, #1e293b, #020617);
+    background: radial-gradient(circle at top, #0f172a, #020617);
     color: white;
 }
 
-/* TOP NAV */
+/* TOP BAR */
 .top-nav {
     display: flex;
     align-items: center;
     padding: 15px;
-    background: rgba(255,255,255,0.05);
     backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.05);
 }
 
 .back-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
     background: rgba(255,255,255,0.08);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     font-size: 20px;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background: var(--accent);
+    transform: scale(1.1);
 }
 
 /* HEADER */
-h1 {
-    text-align: center;
+.header {
+    padding: 10px 20px;
+}
+
+.header h1 {
+    margin: 5px 0;
+    font-size: 24px;
+}
+
+.header p {
+    color: #94a3b8;
+    margin: 0;
 }
 
 /* CONTAINER */
@@ -52,21 +68,50 @@ h1 {
 /* CARD */
 .file-card {
     background: rgba(255,255,255,0.06);
-    margin: 10px 0;
-    padding: 15px;
-    border-radius: 14px;
+    margin-bottom: 15px;
+    padding: 16px;
+    border-radius: 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    backdrop-filter: blur(12px);
+    transition: 0.3s;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.file-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(99,102,241,0.25);
+}
+
+.left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.file-name {
+    font-size: 14px;
 }
 
 /* BUTTON */
 .download-btn {
-    background: #6366f1;
+    background: var(--accent);
     border: none;
     padding: 8px 14px;
     border-radius: 8px;
-    color: #fff;
+    color: white;
     cursor: pointer;
 }
 
@@ -95,7 +140,7 @@ h1 {
     position: absolute;
     width: 10px;
     height: 10px;
-    background: #6366f1;
+    background: var(--accent);
     border-radius: 50%;
     top: -5px;
     left: 50%;
@@ -128,8 +173,13 @@ h1 {
     <div class="back-btn" onclick="goBack()">←</div>
 </div>
 
-<h1>📄 Circle Cadre Promotion</h1>
+<!-- HEADER -->
+<div class="header">
+    <h1>📄 Circle Cadre Promotion</h1>
+    <p>Download latest promotion orders</p>
+</div>
 
+<!-- FILE LIST -->
 <div class="container" id="fileList">
     <div class="no-data">Loading files...</div>
 </div>
@@ -146,34 +196,25 @@ function goBack() {
     }
 }
 
-/* DOWNLOAD FILE */
-function downloadFile(url, name) {
+/* DOWNLOAD */
+function downloadFile(fileId, name) {
     const loader = document.getElementById("loader");
     loader.style.display = "flex";
 
-    // ensure file ends with .pdf
     let fileName = name.toLowerCase().endsWith(".pdf") ? name : name + ".pdf";
 
-    fetch(url)
-    .then(response => response.blob())
-    .then(blob => {
-        const blobUrl = window.URL.createObjectURL(blob);
+    const url = "https://drive.google.com/uc?export=download&id=" + fileId;
 
-        const a = document.createElement("a");
-        a.href = blobUrl;
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
 
-        window.URL.revokeObjectURL(blobUrl);
-
+    setTimeout(() => {
         loader.style.display = "none";
-    })
-    .catch(() => {
-        loader.style.display = "none";
-        alert("Download failed");
-    });
+    }, 1200);
 }
 
 /* FETCH FILES */
@@ -183,7 +224,7 @@ fetch(apiURL)
     const container = document.getElementById("fileList");
     container.innerHTML = "";
 
-    if (data.length === 0) {
+    if (!data || data.length === 0) {
         container.innerHTML = "<div class='no-data'>No records found</div>";
         return;
     }
@@ -193,8 +234,11 @@ fetch(apiURL)
         card.className = "file-card";
 
         card.innerHTML = `
-            <div>${file.name}</div>
-            <button class="download-btn" onclick="downloadFile('${file.url}', '${file.name}')">
+            <div class="left">
+                <div class="icon">📄</div>
+                <div class="file-name">${file.name}</div>
+            </div>
+            <button class="download-btn" onclick="downloadFile('${file.id}', '${file.name}')">
                 Download
             </button>
         `;
