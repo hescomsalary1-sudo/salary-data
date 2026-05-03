@@ -124,7 +124,7 @@ text-align: center;
     background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    display: none;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -383,7 +383,7 @@ color: white;
 <!-- TOP -->
 <div class="top">
     <div class="illustration">
-        <img src="https://img.freepik.com/premium-vector/man-working-laptop-with-coffee-mug-vector-illustration_1512342-133.jpg?semt=ais_hybrid&w=740&q=80" alt="salary illustration">
+        <img id="loginImage" src="https://img.freepik.com/premium-vector/man-working-laptop-with-coffee-mug-vector-illustration_1512342-133.jpg?semt=ais_hybrid&w=740&q=80" alt="salary illustration">
     </div>
     <h1>Salary Prompt</h1>
     <p>Secure Employee Login</p>
@@ -561,11 +561,32 @@ closeBox();
 }
 
 
-// ✅ PAGE LOAD
-window.onload=function(){
-document.getElementById("loader").style.display="none";
-document.body.style.overflow="auto";
-};
+window.addEventListener("load", function(){
+
+    const img = document.getElementById("loginImage");
+    const loader = document.getElementById("loader");
+
+    // If image already cached
+    if (img.complete) {
+        hideLoader();
+    } else {
+        img.onload = hideLoader;
+        img.onerror = hideLoader; // fallback
+    }
+
+    function hideLoader(){
+        setTimeout(() => {
+            loader.style.opacity = "0";
+            loader.style.transition = "0.4s ease";
+
+            setTimeout(()=>{
+                loader.style.display = "none";
+                document.body.style.overflow = "auto";
+            }, 400);
+        }, 300); // small delay for smooth UX
+    }
+
+});
   function closeError(){
 document.getElementById("errorPopup").style.display="none";
 }
