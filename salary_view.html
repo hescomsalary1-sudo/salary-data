@@ -14,7 +14,34 @@ margin:0;
 background: linear-gradient(135deg, #f7f8fc, #edf5ff);
 padding-bottom:90px;
 }
+/* Smooth Opening Animation */
+@keyframes premiumEntrance {
+    from { 
+        opacity: 0; 
+        transform: translateY(15px); 
+        filter: blur(5px);
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+        filter: blur(0);
+    }
+}
 
+body {
+    /* Apply the animation to the whole page */
+    animation: premiumEntrance 0.7s ease-out forwards;
+    
+    /* Prevents white flash before animation starts */
+    background-color: #f7f8fc; 
+}
+
+/* Optional: Adds a slight stagger to the table results */
+#result {
+    animation: premiumEntrance 1s ease-out forwards;
+    animation-delay: 0.2s;
+    opacity: 0; /* Starts hidden and fades in via animation */
+}
 /* HEADER */
 
 .top{
