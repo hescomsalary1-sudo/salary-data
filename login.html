@@ -412,7 +412,24 @@ color: white;
 </div>
 
 <script>
+function showLoader(text = "Securing Session"){
+    const loader = document.getElementById("loader");
+    const txt = document.querySelector(".loader-text");
 
+    loader.style.display = "flex";
+    loader.style.opacity = "1";   // 🔥 FIX
+    txt.innerText = text;
+}
+
+function hideLoader(){
+    const loader = document.getElementById("loader");
+
+    loader.style.opacity = "0";
+
+    setTimeout(()=>{
+        loader.style.display = "none";
+    },400);
+}
 // ✅ LOGIN FUNCTION
 function login(){
 
@@ -431,7 +448,7 @@ if(!deviceId){
   localStorage.setItem("deviceId", deviceId);
 }
 // show loader
-document.getElementById("loader").style.display="flex";
+showLoader("Verifying Credentials...");
 
 let url = "https://script.google.com/macros/s/AKfycbzeO5RppL-lE_62OuL4VQ5FYZiehPMPFsH6NC9X2_i40YEIzXPPjW8-QUH1QpfS1Jg1/exec"
   + "?username=" + user
@@ -467,7 +484,7 @@ if(data.status === "success"){
     }, 1000); // 1 second total for a premium feel
 }else{
 
-document.getElementById("loader").style.display="none"; // hide loader on error
+hideLoader();
 document.getElementById("error").innerText="Invalid Username or Password";
 
 }
@@ -570,11 +587,11 @@ window.addEventListener("load", function(){
     if (img.complete) {
         hideLoader();
     } else {
-        img.onload = hideLoader;
-        img.onerror = hideLoader; // fallback
+        img.onload = hideInitialLoader;
+        img.onerror = hideInitialLoader;
     }
 
-    function hideLoader(){
+    function hideInitialLoader(){
         setTimeout(() => {
             loader.style.opacity = "0";
             loader.style.transition = "0.4s ease";
