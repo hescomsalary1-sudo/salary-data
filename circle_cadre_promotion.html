@@ -54,15 +54,17 @@ body {
 
 .top h2 { margin: 0; font-size: 20px; font-weight: 700; flex-grow: 1; }
 
-/* GRID */
+/* CONTENT */
 .content { padding: 20px; }
+
+/* GRID */
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
 }
 
-/* CARD */
+/* CARD with Spinner Logic */
 .card {
   background: var(--card-bg);
   backdrop-filter: blur(12px);
@@ -73,13 +75,45 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.6);
   box-shadow: 0 12px 24px rgba(149, 157, 165, 0.1);
   cursor: pointer;
-  transition: all 0.3s ease;
+  position: relative; /* For spinner positioning */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
 }
 
 .card:active { transform: scale(0.94); }
 
-.card span { font-size: 32px; display: block; margin-bottom: 12px; }
-.card p { margin: 0; font-size: 13.5px; font-weight: 600; color: var(--text-main); }
+.card span { font-size: 32px; display: block; margin-bottom: 12px; transition: 0.3s; }
+.card p { margin: 0; font-size: 13.5px; font-weight: 600; color: var(--text-main); transition: 0.3s; }
+
+/* SPINNER ELEMENT */
+.spinner {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(75, 45, 216, 0.2);
+  border-top: 3px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  z-index: 2;
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* LOADING STATE */
+.card.is-loading span, .card.is-loading p {
+  opacity: 0.1;
+  filter: blur(2px);
+}
+.card.is-loading .spinner {
+  display: block;
+}
 
 /* INFO BOX */
 .info-box {
@@ -87,8 +121,8 @@ body {
   background: white;
   padding: 20px;
   border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.04);
 }
-
 .info-box h3 { margin: 0 0 10px; font-size: 16px; color: var(--primary-color); }
 .info-box p { margin: 6px 0; font-size: 13px; color: var(--text-muted); }
 
@@ -104,69 +138,101 @@ body {
 </div>
 
 <div class="content">
+
 <div class="grid">
-    <!-- Replace 'filename.pdf' with your actual direct link or filename -->
-    <div class="card" onclick="openPDF('els_format.pdf')">
+    <div class="card" onclick="openPDF(this, 'els_format.pdf')">
+        <div class="spinner"></div>
         <span>📘</span>
         <p>ELS Format</p>
     </div>
 
-    <div class="card" onclick="openPDF('medical_bill.pdf')">
+    <div class="card" onclick="openPDF(this, 'medical_bill.pdf')">
+        <div class="spinner"></div>
         <span>🏥</span>
         <p>Medical Bill</p>
     </div>
 
-    <div class="card" onclick="openPDF('leave_format.pdf')">
+    <div class="card" onclick="openPDF(this, 'leave_format.pdf')">
+        <div class="spinner"></div>
         <span>📝</span>
         <p>Leave Format</p>
     </div>
 
-    <div class="card" onclick="openPDF('salary_bill.pdf')">
+    <div class="card" onclick="openPDF(this, 'salary_bill.pdf')">
+        <div class="spinner"></div>
         <span>💰</span>
         <p>Salary Bill</p>
     </div>
 
-    <!-- Example of an empty file to show "No data found" -->
-    <div class="card" onclick="openPDF('')">
+    <div class="card" onclick="openPDF(this, '')">
+        <div class="spinner"></div>
         <span>📑</span>
         <p>CR Format</p>
     </div>
 
-    <div class="card" onclick="openPDF('')">
+    <div class="card" onclick="openPDF(this, '')">
+        <div class="spinner"></div>
         <span>👥</span>
         <p>Group A & B</p>
+    </div>
+
+    <div class="card" onclick="openPDF(this, 'performance_report.pdf')">
+        <div class="spinner"></div>
+        <span>📊</span>
+        <p>Performance</p>
+    </div>
+
+    <div class="card" onclick="openPDF(this, 'ta_bill_format.pdf')">
+        <div class="spinner"></div>
+        <span>🚗</span>
+        <p>TA Bill</p>
     </div>
 </div>
 
 <div class="info-box">
     <h3>📌 Quick Tips</h3>
     <p>• Tap any card to download PDF</p>
-    <p>• Files will save directly with .pdf extension</p>
+    <p>• A spinner will appear while the file is being fetched</p>
 </div>
+
 </div>
 
 <script>
-function openPDF(file) {
-    // 1. Check if the file/link exists
-    if (!file || file.trim() === "") {
+function openPDF(card, file){
+    // Check if file is empty
+    if(!file || file.trim() === ""){
         alert("No data found for this file.");
         return;
     }
 
-    // 2. Base URL for your files
-    const baseUrl = "https://hescomsalary1-sudo.github.io/salary-data/";
-    const fullUrl = baseUrl + file;
+    // Start loading animation
+    card.classList.add('is-loading');
+    card.style.pointerEvents = 'none';
 
-    // 3. Force download with correct extension
+    const baseUrl = "https://hescomsalary1-sudo.github.io/salary-data/";
+    const url = baseUrl + file;
+
+    // Create a hidden download link to force .pdf extension
     const link = document.createElement('a');
-    link.href = fullUrl;
-    
-    // This tells the browser to save as PDF, not BIN
-    link.setAttribute('download', file);
-    
+    link.href = url;
+    link.download = file; // Forces browser to keep .pdf extension
     document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+
+    // Simulate a small delay so the beautiful spinner is visible
+    setTimeout(() => {
+        link.click();
+        document.body.removeChild(link);
+
+        // Reset the card after download starts
+        setTimeout(() => {
+            card.classList.remove('is-loading');
+            card.style.pointerEvents = 'auto';
+        }, 1500);
+    }, 800);
+}
+
+if(localStorage.getItem("darkMode")==="true"){
+    document.body.classList.add("dark-mode");
 }
 </script>
 
