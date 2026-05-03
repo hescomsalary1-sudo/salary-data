@@ -6,180 +6,107 @@
 <title>Circle Cadre Promotion</title>
 
 <style>
-:root {
-    --accent: #6366f1;
-}
+:root { --accent:#6366f1; }
 
-/* BODY */
 body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: radial-gradient(circle at top, #0f172a, #020617);
-    color: white;
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:radial-gradient(circle at top,#0f172a,#020617);
+    color:#fff;
 }
 
-/* TOP BAR */
 .top-nav {
-    display: flex;
-    align-items: center;
-    padding: 15px;
-    backdrop-filter: blur(10px);
-    background: rgba(255,255,255,0.05);
+    display:flex;
+    padding:15px;
+    background:rgba(255,255,255,0.05);
 }
 
 .back-btn {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.08);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 20px;
-    transition: 0.3s;
+    width:40px;height:40px;
+    border-radius:10px;
+    background:rgba(255,255,255,0.08);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
 }
 
-.back-btn:hover {
-    background: var(--accent);
-    transform: scale(1.1);
-}
+h1 { text-align:center; }
 
-/* HEADER */
-.header {
-    padding: 10px 20px;
-}
+.container { padding:15px; }
 
-.header h1 {
-    margin: 5px 0;
-    font-size: 24px;
-}
-
-.header p {
-    color: #94a3b8;
-    margin: 0;
-}
-
-/* CONTAINER */
-.container {
-    padding: 15px;
-}
-
-/* CARD */
 .file-card {
-    background: rgba(255,255,255,0.06);
-    margin-bottom: 15px;
-    padding: 16px;
-    border-radius: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    backdrop-filter: blur(12px);
-    transition: 0.3s;
-    border: 1px solid rgba(255,255,255,0.08);
+    background:rgba(255,255,255,0.06);
+    margin:10px 0;
+    padding:15px;
+    border-radius:14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-.file-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 25px rgba(99,102,241,0.25);
-}
-
-.left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.icon {
-    width: 45px;
-    height: 45px;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-}
-
-.file-name {
-    font-size: 14px;
-}
-
-/* BUTTON */
 .download-btn {
-    background: var(--accent);
-    border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
+    background:var(--accent);
+    border:none;
+    padding:8px 14px;
+    border-radius:8px;
+    color:#fff;
+    cursor:pointer;
 }
 
-/* LOADER */
+/* Loader */
 .loader {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: #020617;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:#020617;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
 }
 
 .orbit {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: 3px solid rgba(255,255,255,0.1);
-    position: relative;
+    width:60px;height:60px;
+    border-radius:50%;
+    border:3px solid rgba(255,255,255,0.1);
+    position:relative;
 }
 
 .orbit::before {
-    content: "";
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background: var(--accent);
-    border-radius: 50%;
-    top: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    animation: spin 1s linear infinite;
+    content:"";
+    position:absolute;
+    width:10px;height:10px;
+    background:#6366f1;
+    border-radius:50%;
+    top:-5px;left:50%;
+    transform:translateX(-50%);
+    animation:spin 1s linear infinite;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg) translateX(25px) rotate(0deg); }
-    100% { transform: rotate(360deg) translateX(25px) rotate(-360deg); }
+    0% { transform:rotate(0deg) translateX(25px) rotate(0deg);}
+    100% { transform:rotate(360deg) translateX(25px) rotate(-360deg);}
 }
 
 .no-data {
-    text-align: center;
-    margin-top: 40px;
-    color: #94a3b8;
+    text-align:center;
+    margin-top:40px;
+    color:#94a3b8;
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOADER -->
 <div class="loader" id="loader">
     <div class="orbit"></div>
 </div>
 
-<!-- NAV -->
 <div class="top-nav">
     <div class="back-btn" onclick="goBack()">←</div>
 </div>
 
-<!-- HEADER -->
-<div class="header">
-    <h1>📄 Circle Cadre Promotion</h1>
-    <p>Download latest promotion orders</p>
-</div>
+<h1>📄 Circle Cadre Promotion</h1>
 
-<!-- FILE LIST -->
 <div class="container" id="fileList">
     <div class="no-data">Loading files...</div>
 </div>
@@ -187,63 +114,67 @@ body {
 <script>
 const apiURL = "https://script.google.com/macros/s/AKfycbxmZ9bNMa-_YUz5xo8f7UIbS2pwrv2UKfDjQOtPOKet_OrPiK0Uxxpr3fO-xRRJ_8q4/exec";
 
-/* BACK */
-function goBack() {
-    if (window.history.length > 1) {
-        window.history.back();
-    } else {
-        window.location.href = "promotions.html";
-    }
+function goBack(){
+    if(history.length>1){ history.back(); }
+    else{ location.href="promotions.html"; }
 }
 
-function downloadFile(url) {
+/* FINAL DOWNLOAD FIX */
+function downloadFile(url, name){
     const loader = document.getElementById("loader");
-    loader.style.display = "flex";
+    loader.style.display="flex";
+
+    // Convert to direct file URL (important)
+    let fileId = url.match(/[-\w]{25,}/);
+    if(fileId) fileId = fileId[0];
+
+    const directUrl = "https://drive.google.com/uc?export=download&id=" + fileId;
+
+    // force filename
+    let fileName = name.endsWith(".pdf") ? name : name + ".pdf";
 
     const a = document.createElement("a");
-    a.href = url;
-    a.download = "";
+    a.href = directUrl;
+    a.setAttribute("download", fileName);
     document.body.appendChild(a);
     a.click();
     a.remove();
 
-    setTimeout(() => {
-        loader.style.display = "none";
-    }, 800);
+    setTimeout(()=>{
+        loader.style.display="none";
+    },1000);
 }
 
 /* FETCH FILES */
 fetch(apiURL)
-.then(res => res.json())
-.then(data => {
-    const container = document.getElementById("fileList");
-    container.innerHTML = "";
+.then(res=>res.json())
+.then(data=>{
+    const container=document.getElementById("fileList");
+    container.innerHTML="";
 
-    if (!data || data.length === 0) {
-        container.innerHTML = "<div class='no-data'>No records found</div>";
+    if(!data || data.length===0){
+        container.innerHTML="<div class='no-data'>No records found</div>";
         return;
     }
 
-    data.forEach(file => {
-        const card = document.createElement("div");
-        card.className = "file-card";
+    data.forEach(file=>{
+        const card=document.createElement("div");
+        card.className="file-card";
 
-        card.innerHTML = `
-            <div class="left">
-                <div class="icon">📄</div>
-                <div class="file-name">${file.name}</div>
-            </div>
-            <button class="download-btn" onclick="downloadFile('${file.url}', '${file.name}')">
-                Download
+        card.innerHTML=`
+            <div>${file.name}</div>
+            <button class="download-btn"
+            onclick="downloadFile('${file.url}','${file.name}')">
+            Download
             </button>
         `;
 
         container.appendChild(card);
     });
 })
-.catch(() => {
+.catch(()=>{
     document.getElementById("fileList").innerHTML =
-        "<div class='no-data'>Error loading files</div>";
+    "<div class='no-data'>Error loading files</div>";
 });
 </script>
 
