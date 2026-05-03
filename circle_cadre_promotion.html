@@ -1,134 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download Documents</title>
-    <style>
-        :root {
-            --primary: #2563eb;
-            --bg: #f8fafc;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            margin: 0;
-        }
-
-        h2 { color: #1e293b; margin-bottom: 20px; }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 2 columns */
-            gap: 15px;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .icon { font-size: 30px; }
-
-        .btn-name {
-            font-size: 14px;
-            font-weight: 600;
-            color: #334155;
-        }
-
-        .download-btn {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: background 0.3s;
-        }
-
-        .download-btn:hover {
-            background-color: #1d4ed8;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Direct Download PDF</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f4f7f6;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        width: 100%;
+        max-width: 500px;
+    }
+    .card {
+        background: white;
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+    .download-btn {
+        background-color: #2563eb;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        width: 100%;
+        margin-top: 10px;
+    }
+    .download-btn:hover { background-color: #1d4ed8; }
+</style>
 </head>
 <body>
 
-    <h2>📄 Download Files</h2>
+<h2>📄 Circle Promotion Files</h2>
 
-    <div class="grid-container">
-        <!-- Button 1 -->
-        <div class="card">
-            <div class="icon">📄</div>
-            <div class="btn-name">File One</div>
-            <button class="download-btn" onclick="handleDownload('ID_HERE_1')">DOWNLOAD</button>
-        </div>
-
-        <!-- Button 2 -->
-        <div class="card">
-            <div class="icon">📄</div>
-            <div class="btn-name">File Two</div>
-            <button class="download-btn" onclick="handleDownload('ID_HERE_2')">DOWNLOAD</button>
-        </div>
-
-        <!-- Button 3 -->
-        <div class="card">
-            <div class="icon">📄</div>
-            <div class="btn-name">File Three</div>
-            <button class="download-btn" onclick="handleDownload('')">DOWNLOAD</button>
-        </div>
-
-        <!-- Button 4 -->
-        <div class="card">
-            <div class="icon">📄</div>
-            <div class="btn-name">File Four</div>
-            <button class="download-btn" onclick="handleDownload('')">DOWNLOAD</button>
-        </div>
-
-        <!-- Button 5 -->
-        <div class="card">
-            <div class="icon">📄</div>
-            <div class="btn-name">File Five</div>
-            <button class="download-btn" onclick="handleDownload('')">DOWNLOAD</button>
-        </div>
-
-        <!-- Button 6 -->
-        <div class="card">
-            <div class="icon">📄</div>
-            <div class="btn-name">File Six</div>
-            <button class="download-btn" onclick="handleDownload('')">DOWNLOAD</button>
-        </div>
+<div class="grid">
+    <!-- Button 1 -->
+    <div class="card">
+        <div>Promotion List 1</div>
+        <button class="download-btn" onclick="startDownload('https://example.com/file1.pdf', 'List_1.pdf')">DOWNLOAD</button>
     </div>
 
-    <script>
-        function handleDownload(fileId) {
-            // Check if fileId is empty or not provided
-            if (!fileId || fileId.trim() === "" || fileId === "ID_HERE_1") {
-                alert("No data found for this file.");
-                return;
-            }
+    <!-- Button 2 -->
+    <div class="card">
+        <div>Promotion List 2</div>
+        <button class="download-btn" onclick="startDownload('https://example.com/file2.pdf', 'List_2.pdf')">DOWNLOAD</button>
+    </div>
 
-            // Using the /view URL ensures it opens as a PDF in a new tab 
-            // and downloads with the correct .pdf extension.
-            const url = `https://drive.google.com/file/d/${fileId}/view?usp=sharing`;
-            
-            window.open(url, '_blank');
-        }
-    </script>
+    <!-- Button 3 -->
+    <div class="card">
+        <div>Promotion List 3</div>
+        <button class="download-btn" onclick="startDownload('', '')">DOWNLOAD</button>
+    </div>
+
+    <!-- Button 4 -->
+    <div class="card">
+        <div>Promotion List 4</div>
+        <button class="download-btn" onclick="startDownload('', '')">DOWNLOAD</button>
+    </div>
+
+    <!-- Button 5 -->
+    <div class="card">
+        <div>Promotion List 5</div>
+        <button class="download-btn" onclick="startDownload('', '')">DOWNLOAD</button>
+    </div>
+
+    <!-- Button 6 -->
+    <div class="card">
+        <div>Promotion List 6</div>
+        <button class="download-btn" onclick="startDownload('', '')">DOWNLOAD</button>
+    </div>
+</div>
+
+<script>
+function startDownload(url, filename) {
+    // 1. Check if the link is empty
+    if (!url || url === "") {
+        alert("No data found for this file.");
+        return;
+    }
+
+    // 2. Create a hidden anchor element
+    const link = document.createElement('a');
+    link.href = url;
+    
+    // 3. This 'download' attribute forces the browser to save it as a PDF
+    // It also lets you set the filename manually
+    link.setAttribute('download', filename || 'document.pdf');
+    
+    // 4. Append to body, click, and remove
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+</script>
 
 </body>
 </html>
