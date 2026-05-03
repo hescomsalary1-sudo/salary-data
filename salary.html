@@ -1,231 +1,271 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Salary Portal</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Dashboard</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
 
-<style>
-body{
-    margin:0;
-    font-family:sans-serif;
-    background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    overflow-x:hidden;
-}
+        body {
+            margin: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-main);
+            background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
+        }
 
-/* ✅ SMOOTH OPEN */
-@keyframes slideUp {
-    from {
-        opacity:0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity:1;
-        transform: translateY(0);
-    }
-}
+        /* --- ADDED HEADER BAR --- */
+        .header-bar {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            gap: 15px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            box-sizing: border-box;
+            background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
+        }
 
-/* HEADER */
-.top-bar{
-    width:100%;
-    padding:15px;
-    box-sizing:border-box;
-}
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: none;
+        }
 
-.back-btn{
-    width:40px;
-    height:40px;
-    border-radius:10px;
-    background:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:20px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.1);
-    cursor:pointer;
-}
+        .header-bar h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+            color: var(--text-main);
+        }
 
-.back-btn:active{
-    transform:scale(0.9);
-}
+        /* HEADER */
+        .header {
+            margin-top: 40px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-/* CONTAINER */
-.container{
-    width:100%;
-    max-width:450px;
-    margin:0 auto;
-    padding:15px;
-    box-sizing:border-box;
+        .header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin: 0;
+            background: linear-gradient(to right, #4f46e5, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    animation: slideUp 0.4s ease;
-}
+        .header p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 5px;
+        }
 
-/* TITLE */
-.header{
-    text-align:center;
-    margin-bottom:15px;
-}
+        /* MAIN CARD */
+        .card {
+            width: 90%;
+            max-width: 400px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
 
-.header h1{
-    margin:0;
-    font-size:24px;
-    color:#2400b7;
-}
+        /* CUSTOM SELECT */
+        .select-wrapper {
+            margin-bottom: 25px;
+        }
 
-.header p{
-    font-size:13px;
-    color:#666;
-}
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            margin-left: 4px;
+        }
 
-/* CARD */
-.card{
-    width:100%;
-    background:#fff;
-    border-radius:18px;
-    padding:15px;
-    box-shadow:0 8px 18px rgba(0,0,0,0.08);
-}
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: white;
+            font-size: 16px;
+            color: var(--text-main);
+            outline: none;
+            appearance: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
 
-/* SELECT */
-label{
-    font-size:12px;
-    font-weight:600;
-    color:#555;
-}
+        select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
 
-select{
-    width:100%;
-    padding:10px;
-    margin:6px 0 12px;
-    border-radius:10px;
-    border:1px solid #ddd;
-}
+        /* MONTH GRID */
+        .month-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
 
-/* GRID */
-.month-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-}
+        /* MONTH BUTTON */
+        .month-btn {
+            padding: 18px 10px;
+            border-radius: 16px;
+            background: white;
+            color: var(--text-main);
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-/* BUTTON */
-.month-btn{
-    padding:14px;
-    border-radius:12px;
-    background:#f1efff;
-    text-align:center;
-    font-weight:600;
-    cursor:pointer;
-    transition:0.25s;
-}
+        .month-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+        }
 
-.month-btn:active{
-    transform:scale(0.92);
-    background:#2400b7;
-    color:#fff;
-}
+        .month-btn:active {
+            transform: scale(0.95);
+        }
 
-/* LOADER */
-#loader{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:#fff;
-    display:none;
-    justify-content:center;
-    align-items:center;
-    z-index:9999;
-}
+        /* LOADER / SKELETON */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #ffffff;
+            padding: 40px 20px;
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 9999;
+            align-items: center;
+        }
 
-.loader-circle{
-    width:40px;
-    height:40px;
-    border:4px solid #ddd;
-    border-top:4px solid #2400b7;
-    border-radius:50%;
-    animation:spin 1s linear infinite;
-}
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 12px;
+        }
 
-@keyframes spin{
-    100%{ transform:rotate(360deg); }
-}
-</style>
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .sk-title { height: 30px; width: 180px; margin-bottom: 20px; }
+        .sk-card { height: 350px; width: 100%; max-width: 400px; border-radius: 24px; }
+    </style>
 </head>
 
 <body>
 
-<div class="top-bar">
-    <div class="back-btn" onclick="goBack()">←</div>
-</div>
+    <!-- ADDED HEADER BAR HTML -->
+    <div class="header-bar">
+        <button class="back-btn" onclick="goBack()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+        <h2>Back</h2>
+    </div>
 
-<div class="container">
+    <div id="loader">
+        <div class="skeleton sk-title"></div>
+        <div class="skeleton sk-card"></div>
+    </div>
 
-<div class="header">
-    <h1>Salary Portal</h1>
-    <p>Select month</p>
-</div>
+    <div class="header">
+        <h1>Salary Portal</h1>
+        <p>Select a period to view details</p>
+    </div>
 
-<div class="card">
+    <div class="card">
+        <div class="select-wrapper">
+            <label for="year">Fiscal Year</label>
+            <select id="year">
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+            </select>
+        </div>
 
-<label>Year</label>
-<select id="year">
-    <option value="2026">2026</option>
-    <option value="2027">2027</option>
-</select>
+        <label>Select Month</label>
+        <div class="month-grid">
+            <div class="month-btn" onclick="openSalary(1)">Jan</div>
+            <div class="month-btn" onclick="openSalary(2)">Feb</div>
+            <div class="month-btn" onclick="openSalary(3)">Mar</div>
+            <div class="month-btn" onclick="openSalary(4)">Apr</div>
+            <div class="month-btn" onclick="openSalary(5)">May</div>
+            <div class="month-btn" onclick="openSalary(6)">Jun</div>
+            <div class="month-btn" onclick="openSalary(7)">Jul</div>
+            <div class="month-btn" onclick="openSalary(8)">Aug</div>
+            <div class="month-btn" onclick="openSalary(9)">Sep</div>
+            <div class="month-btn" onclick="openSalary(10)">Oct</div>
+            <div class="month-btn" onclick="openSalary(11)">Nov</div>
+            <div class="month-btn" onclick="openSalary(12)">Dec</div>
+        </div>
+    </div>
 
-<label>Month</label>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
 
-<div class="month-grid">
-    <div class="month-btn" onclick="openSalary(1)">Jan</div>
-    <div class="month-btn" onclick="openSalary(2)">Feb</div>
-    <div class="month-btn" onclick="openSalary(3)">Mar</div>
-    <div class="month-btn" onclick="openSalary(4)">Apr</div>
-    <div class="month-btn" onclick="openSalary(5)">May</div>
-    <div class="month-btn" onclick="openSalary(6)">Jun</div>
-    <div class="month-btn" onclick="openSalary(7)">Jul</div>
-    <div class="month-btn" onclick="openSalary(8)">Aug</div>
-    <div class="month-btn" onclick="openSalary(9)">Sep</div>
-    <div class="month-btn" onclick="openSalary(10)">Oct</div>
-    <div class="month-btn" onclick="openSalary(11)">Nov</div>
-    <div class="month-btn" onclick="openSalary(12)">Dec</div>
-</div>
+        function openSalary(month) {
+            const year = document.getElementById("year").value;
+            
+            localStorage.setItem("selectedYear", year);
+            localStorage.setItem("selectedMonth", month);
 
-</div>
-</div>
+            // Show skeleton with fade in
+            const loader = document.getElementById("loader");
+            loader.style.display = "flex";
+            document.body.style.overflow = "hidden";
 
-<!-- LOADER -->
-<div id="loader">
-    <div class="loader-circle"></div>
-</div>
-
-<script>
-
-/* BACK */
-function goBack(){
-    history.back();
-}
-
-/* OPEN PAGE */
-function openSalary(month){
-
-    let year=document.getElementById("year").value;
-
-    localStorage.setItem("selectedYear",year);
-    localStorage.setItem("selectedMonth",month);
-
-    document.getElementById("loader").style.display="flex";
-
-    setTimeout(()=>{
-        window.location.href="salary_view.html";
-    },500);
-}
-
-</script>
+            setTimeout(() => {
+                window.location.href = "salary_view.html";
+            }, 800);
+        }
+    </script>
 
 </body>
 </html>
