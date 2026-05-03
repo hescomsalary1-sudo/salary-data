@@ -216,5 +216,12 @@
 
         window.onload = loadOfficialDetails;
     </script>
+    <script>
+history.pushState(null, null, location.href);
+
+window.onpopstate = function () {
+  window.location.replace("employee_info.html");
+};
+</script>
 </body>
 </html>
