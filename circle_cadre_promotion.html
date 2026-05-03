@@ -130,43 +130,59 @@
         else location.href = "promotions.html";
     }
 
-    /* DOWNLOAD LOGIC */
-    function download(btn, fileId, fileName) {
+    /* DOWNLOAD LOGIC (BLOB METHOD) */
+    async function download(btn, fileId, fileName) {
         const spin = btn.querySelector(".spinner");
         const text = btn.querySelector(".text");
 
+        // UI Updates
         btn.disabled = true;
         spin.style.display = "block";
-        text.innerText = "WAIT...";
+        text.innerText = "PREPARING...";
 
-        // Construct Google Drive Direct Download URL
         const url = `https://drive.google.com/uc?export=download&id=${fileId}`;
 
-        // Create a temporary hidden link to force PDF extension
-        const link = document.createElement('a');
-        link.href = url;
-        
-        // Ensure the filename ends with .pdf
-        const safeName = fileName.toLowerCase().endsWith('.pdf') ? fileName : fileName + '.pdf';
-        link.setAttribute('download', safeName);
-        link.style.display = 'none';
-        
-        document.body.appendChild(link);
+        try {
+            // 1. Fetch the data as a Blob
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Network response was not ok');
+            
+            const blob = await response.blob();
+            
+            // 2. Create a specific PDF Blob
+            const pdfBlob = new Blob([blob], { type: 'application/pdf' });
+            
+            // 3. Create a download link for the Blob
+            const blobUrl = window.URL.createObjectURL(pdfBlob);
+            const link = document.createElement('a');
+            link.href = blobUrl;
+            
+            // 4. Force the .pdf extension
+            const safeName = fileName.toLowerCase().endsWith('.pdf') ? fileName : fileName + '.pdf';
+            link.download = safeName;
+            
+            document.body.appendChild(link);
+            link.click();
+            
+            // 5. Cleanup
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(blobUrl);
 
-        setTimeout(() => {
-            link.click(); // Trigger the download
-            document.body.removeChild(link); // Clean up
-
-            // Reset button state after a delay
+            text.innerText = "SUCCESS!";
+        } catch (error) {
+            console.error("Download failed:", error);
+            alert("Download failed. Please try again or ensure the file is public.");
+            text.innerText = "ERROR";
+        } finally {
             setTimeout(() => {
                 btn.disabled = false;
                 spin.style.display = "none";
                 text.innerText = "DOWNLOAD";
-            }, 4000);
-        }, 800);
+            }, 3000);
+        }
     }
 
-    /* LOAD FILES FROM API */
+    /* LOAD FILES */
     fetch(API)
     .then(res => res.json())
     .then(data => {
@@ -174,16 +190,12 @@
         const grid = document.getElementById("grid");
 
         data.forEach(file => {
-            // Extract the File ID from the URL provided by the API
             const idMatch = file.url.match(/[-\w]{25,}/);
             const fileId = idMatch ? idMatch[0] : "";
+            const escapedName = file.name.replace(/'/g, "\\'");
 
             const card = document.createElement("div");
             card.className = "card";
-
-            // Escaping single quotes in filenames to prevent JS errors
-            const escapedName = file.name.replace(/'/g, "\\'");
-
             card.innerHTML = `
                 <div class="icon-box">📄</div>
                 <h3 title="${file.name}">${file.name}</h3>
@@ -192,13 +204,11 @@
                     <span class="text">DOWNLOAD</span>
                 </button>
             `;
-
             grid.appendChild(card);
         });
     })
-    .catch(err => {
-        console.error(err);
-        document.getElementById("loader").innerText = "Error loading data. Please check connection.";
+    .catch(() => {
+        document.getElementById("loader").innerText = "Error loading data";
     });
 </script>
 
