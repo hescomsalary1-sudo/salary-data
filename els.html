@@ -1,1 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>ELS Application</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+:root{
+    --primary:#4b2dd8;
+    --bg:#f5f6fb;
+    --white:#fff;
+}
+
+body{
+    margin:0;
+    font-family:Segoe UI;
+    background:var(--bg);
+}
+
+/* HEADER */
+.header{
+    background:var(--primary);
+    color:#fff;
+    padding:15px;
+    text-align:center;
+    font-weight:bold;
+}
+
+/* CARD */
+.card{
+    background:#fff;
+    margin:15px;
+    padding:15px;
+    border-radius:12px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+}
+
+/* TITLE */
+.title{
+    font-weight:700;
+    margin-bottom:10px;
+    color:var(--primary);
+}
+
+/* INPUT */
+input{
+    width:100%;
+    padding:10px;
+    margin:6px 0;
+    border-radius:8px;
+    border:1px solid #ddd;
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:12px;
+    background:var(--primary);
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    padding:10px;
+    border-bottom:1px solid #eee;
+    text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">ELS MODULE</div>
+
+<!-- 1st Container -->
+<div class="card">
+<div class="title">EL Credit Details</div>
+
+<p>Total EL: <b id="totalEL">0</b></p>
+<p>Eligible for EL Surrender: <b id="eligibleEL">0</b></p>
+
+</div>
+
+<!-- 2nd Container -->
+<div class="card">
+<div class="title">ELS Application</div>
+
+<input id="name" placeholder="Employee Name">
+<input id="designation" placeholder="Designation">
+<input id="place" placeholder="Working Place">
+<input id="days" placeholder="ELS Days">
+<input id="period" placeholder="Period">
+
+<button onclick="generatePDF()">Submit & Generate PDF</button>
+
+</div>
+
+<!-- 3rd Container -->
+<div class="card">
+<div class="title">ELS Bill Details</div>
+
+<table id="billTable">
+<thead>
+<tr>
+<th>Year</th>
+<th>Amount</th>
+<th>Period</th>
+<th>Status</th>
+<th>Days</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+</div>
+
+<script>
+
+// USERNAME (set from login)
+const username = localStorage.getItem("username") || "emp1";
+
+// LOAD EL DATA
+async function loadEL(){
+    const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
+    const data = await res.text();
+
+    let rows = data.split("\n");
+
+    rows.slice(1).forEach(r=>{
+        let c = r.split(",");
+        if(c[0]==username){
+
+            let el = parseInt(c[3]) || 0;
+            document.getElementById("totalEL").innerText = el;
+            document.getElementById("eligibleEL").innerText = el - 15;
+        }
+    });
+}
+
+// LOAD EMPLOYEE DETAILS
+async function loadEmp(){
+    const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
+    const data = await res.text();
+
+    let rows = data.split("\n");
+
+    rows.slice(1).forEach(r=>{
+        let c = r.split(",");
+        if(c[0]==username){
+            document.getElementById("name").value = c[1];
+            document.getElementById("designation").value = c[2];
+            document.getElementById("place").value = c[3];
+        }
+    });
+}
+
+// LOAD BILL
+async function loadBills(){
+    const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv");
+    const data = await res.text();
+
+    let rows = data.split("\n");
+    let html="";
+
+    rows.slice(1).forEach(r=>{
+        let c = r.split(",");
+        if(c[0]==username){
+            html+=`<tr>
+            <td>${c[1]}</td>
+            <td>${c[2]}</td>
+            <td>${c[3]}</td>
+            <td>${c[4]}</td>
+            <td>${c[6]}</td>
+            </tr>`;
+        }
+    });
+
+    document.querySelector("#billTable tbody").innerHTML=html;
+}
+
+// PDF GENERATION
+function generatePDF(){
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFontSize(14);
+    doc.text("KPTCL - ELS Application",20,20);
+
+    doc.setFontSize(11);
+
+    doc.text("Name: "+document.getElementById("name").value,20,40);
+    doc.text("Designation: "+document.getElementById("designation").value,20,50);
+    doc.text("Working Place: "+document.getElementById("place").value,20,60);
+    doc.text("ELS Days: "+document.getElementById("days").value,20,70);
+    doc.text("Period: "+document.getElementById("period").value,20,80);
+
+    doc.save("ELS_Application.pdf");
+}
+
+// INIT
+loadEL();
+loadEmp();
+loadBills();
+
+</script>
+
+</body>
+</html>
