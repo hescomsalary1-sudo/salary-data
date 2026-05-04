@@ -14,9 +14,9 @@ body{
     margin:0;
     font-family:'Noto Sans Kannada', sans-serif;
     background:#f5f6fb;
+    overflow-x:hidden;
 }
 
-/* HEADER */
 .header{
     background:#4b2dd8;
     color:#fff;
@@ -25,7 +25,6 @@ body{
     font-weight:bold;
 }
 
-/* CARD */
 .card{
     background:#fff;
     margin:15px;
@@ -34,16 +33,21 @@ body{
     box-shadow:0 4px 15px rgba(0,0,0,0.05);
 }
 
-/* INPUT */
+.title{
+    font-weight:700;
+    color:#4b2dd8;
+    margin-bottom:10px;
+}
+
 input, textarea{
     width:100%;
     border:none;
     border-bottom:1px solid #000;
     padding:6px;
     margin-top:5px;
+    font-size:14px;
 }
 
-/* BUTTON */
 button{
     width:100%;
     padding:12px;
@@ -54,18 +58,38 @@ button{
     margin-top:15px;
 }
 
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:12px;
+}
+th,td{
+    padding:8px;
+    border-bottom:1px solid #ddd;
+    text-align:center;
+}
+
+/* PDF AREA */
+#pdfArea{
+    width:100%;
+    max-width:210mm;
+    padding:10px;
+    margin:auto;
+    background:#fff;
+}
+
 /* LOADER */
 #loader{
+    display:none;
     position:fixed;
     top:0;
     left:0;
     width:100%;
     height:100%;
     background:rgba(255,255,255,0.9);
-    display:none;
+    z-index:9999;
     justify-content:center;
     align-items:center;
-    z-index:9999;
     flex-direction:column;
 }
 
@@ -79,16 +103,7 @@ button{
 }
 
 @keyframes spin{
-    100%{ transform:rotate(360deg); }
-}
-
-/* PDF AREA */
-#pdfArea{
-    width:100%;
-    max-width:210mm;
-    margin:auto;
-    background:#fff;
-    padding:10px;
+    to{ transform:rotate(360deg); }
 }
 </style>
 </head>
@@ -103,63 +118,91 @@ button{
 <p id="loaderText">Loading...</p>
 </div>
 
-<!-- EL DETAILS -->
+<!-- 1st -->
 <div class="card">
+<div class="title">EL Credit Details</div>
 <p>Total EL: <b id="totalEL">0</b></p>
-<p>Eligible: <b id="eligibleEL">0</b></p>
+<p>Eligible for EL Surrender: <b id="eligibleEL">0</b></p>
 
 <button onclick="showELSBox()" style="background:#27ae60;">
 Apply for EL Surrender
 </button>
 
-<div id="elsBox" style="display:none;">
-
-<p style="color:red;">Last Period: <span id="lastPeriod"></span></p>
+<div id="elsBox" style="display:none; margin-top:10px;">
+<p style="color:red;">Last ELS Period: <span id="lastPeriod"></span></p>
 
 <input type="date" id="fromDate">
 <input type="date" id="toDate">
 
 <p>Total Days: <b id="totalDays">0</b></p>
 
-<button onclick="validateDates()">Check</button>
-<button id="proceedBtn" style="display:none;" onclick="openForm()">Proceed</button>
-
+<button onclick="validateDates()" style="background:#2980b9;">Check</button>
+<button id="proceedBtn" onclick="openForm()" style="display:none; background:#8e44ad;">Proceed</button>
 </div>
 </div>
 
-<!-- FORM (HIDDEN INITIALLY) -->
+<!-- 2nd (FORM HIDDEN INITIALLY) -->
 <div class="card" id="formContainer" style="display:none;">
+<div class="title">ELS Application</div>
 
 <div id="pdfArea">
 
-<h3 style="text-align:center;">KPTCL</h3>
+<h3 style="text-align:center;">ಕರ್ನಾಟಕ ವಿದ್ಯುತ್ ಪ್ರಸರಣ ನಿಗಮ ನಿಯಮಿತ</h3>
+<p style="text-align:center;">ಗಳಿಸಿದ ರಜೆ ಸರ್ಪಣೆ ಅರ್ಜಿ</p>
 
-<p>1. Name <input id="name"></p>
-<p>2. Designation <input id="designation"></p>
-<p>3. Place <input id="place"></p>
+<p>1. ಹೆಸರು : <input id="name"></p>
+<p>2. ಹುದ್ದೆ : <input id="designation"></p>
+<p>3. ಕಾರ್ಯನಿರ್ವಹಿಸುವ ಸ್ಥಳ : <input id="place"></p>
+<p>4. ವೇತನ : <input id="salary"></p>
+<p>5. ಸೇವೆ : <input id="service"></p>
 
-<p>7. Period <input id="period"></p>
-<p>8. Days <input id="days"></p>
+<p>6. ರಜೆ ವಿವರ :</p>
+<textarea id="leaveDetails" rows="3"></textarea>
 
-<p>Date <input id="date"></p>
+<p>7. ಅವಧಿ : <input id="period"></p>
+<p>8. ದಿನಗಳು : <input id="days"></p>
+<p>9. ಕಾರಣ : <input id="reason"></p>
+
+<br><br>
+
+<p>ದಿನಾಂಕ : <input id="date"></p>
+
+<br><br>
+
+<p style="text-align:right;">ಸಹಿ</p>
 
 </div>
 
-<button onclick="generatePDF()">Generate PDF</button>
+<button onclick="generatePDF()">Submit & Generate PDF</button>
+</div>
 
+<!-- 3rd -->
+<div class="card">
+<div class="title">ELS Bills</div>
+<table>
+<thead>
+<tr>
+<th>Year</th>
+<th>Amount</th>
+<th>Period</th>
+<th>Status</th>
+<th>Days</th>
+</tr>
+</thead>
+<tbody id="billBody"></tbody>
+</table>
 </div>
 
 <script>
 
 const username = localStorage.getItem("username") || "emp1";
-let lastToDate = null;
+let lastToDate=null;
 
-/* LOADER CONTROL */
-function showLoader(text="Loading..."){
+/* LOADER */
+function showLoader(text){
     loader.style.display="flex";
     loaderText.innerText=text;
 }
-
 function hideLoader(){
     loader.style.display="none";
 }
@@ -169,29 +212,53 @@ async function loadEL(){
     let r=await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
     let t=await r.text();
 
+    let is2H = new Date().getMonth() >= 6;
+
     t.split("\n").slice(1).forEach(x=>{
         let c=x.split(",");
-        if(c[0]==username){
-            let el=parseInt(c[3]||0)+15;
-            totalEL.innerText=el;
-            eligibleEL.innerText=el-15;
+        if(c[0].trim()==username){
+            let base=parseInt(c[3])||0;
+            let total=base+(is2H?30:15);
+            totalEL.innerText=total;
+            eligibleEL.innerText=total-15;
         }
     });
 }
 
-/* EMP LOAD */
+/* EMP */
 async function loadEmp(){
     let r=await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
     let t=await r.text();
 
     t.split("\n").slice(1).forEach(x=>{
         let c=x.split(",");
-        if(c[0]==username){
+        if(c[0].trim()==username){
             name.value=c[1]||"";
             designation.value=c[2]||"";
             place.value=c[3]||"";
         }
     });
+}
+
+/* BILLS */
+async function loadBills(){
+    let r=await fetch("https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv");
+    let t=await r.text();
+
+    let html="";
+    t.split("\n").slice(1).forEach(x=>{
+        let c=x.split(",");
+        if(c[0].trim()==username){
+            html+=`<tr>
+            <td>${c[1]}</td>
+            <td>${c[2]}</td>
+            <td>${c[3]}</td>
+            <td>${c[4]}</td>
+            <td>${c[6]}</td>
+            </tr>`;
+        }
+    });
+    billBody.innerHTML=html;
 }
 
 /* LAST ELS */
@@ -201,23 +268,21 @@ async function loadLastELS(){
 
     t.split("\n").slice(1).forEach(x=>{
         let c=x.split(",");
-        if(c[0]==username && c[3].includes("to")){
+        if(c[0].trim()==username && c[3].includes("to")){
             lastPeriod.innerText=c[3];
-
             let d=c[3].split("to")[1].trim().split(".");
             lastToDate=new Date(d[2],d[1]-1,d[0]);
         }
     });
 }
 
-/* SHOW BOX */
+/* UI */
 function showELSBox(){
     elsBox.style.display="block";
 }
 
 /* VALIDATE */
 function validateDates(){
-
     let f=fromDate.value;
     let t=toDate.value;
 
@@ -226,33 +291,30 @@ function validateDates(){
     let from=new Date(f);
     let to=new Date(t);
 
-    let next=new Date(lastToDate);
-    next.setFullYear(next.getFullYear()+1);
-
-    if(from<next){
-        alert("Not eligible yet");
-        return;
+    if(lastToDate){
+        let next=new Date(lastToDate);
+        next.setFullYear(next.getFullYear()+1);
+        if(from<next){ alert("Not eligible yet"); return; }
     }
 
-    let days=(to-from)/(1000*60*60*24)+1;
+    let daysCount=(to-from)/(1000*60*60*24)+1;
+    if(daysCount<=0){ alert("Invalid"); return; }
 
-    totalDays.innerText=days;
+    totalDays.innerText=daysCount;
     proceedBtn.style.display="block";
 }
 
-/* OPEN FORM WITH LOADER */
+/* OPEN FORM */
 async function openForm(){
 
     showLoader("Loading Application...");
-
-    await new Promise(r=>setTimeout(r,800)); // smooth effect
-
-    formContainer.style.display="block";
 
     await loadEmp();
 
     period.value=fromDate.value+" to "+toDate.value;
     days.value=totalDays.innerText;
+
+    formContainer.style.display="block";
 
     hideLoader();
 }
@@ -263,20 +325,21 @@ async function generatePDF(){
     showLoader("Generating PDF...");
 
     const { jsPDF } = window.jspdf;
-
     const canvas = await html2canvas(pdfArea,{scale:3});
     const img = canvas.toDataURL("image/jpeg");
 
     const pdf = new jsPDF('p','mm','a4');
     pdf.addImage(img,'JPEG',10,10,190,0);
 
-    pdf.save("ELS.pdf");
+    pdf.save("ELS_Form.pdf");
 
     hideLoader();
 }
 
 /* INIT */
 loadEL();
+loadEmp();
+loadBills();
 loadLastELS();
 
 </script>
