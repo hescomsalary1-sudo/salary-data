@@ -4,7 +4,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ELS Module</title>
 
-<!-- LIBRARIES -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -17,7 +16,6 @@ body{
     background:#f5f6fb;
 }
 
-/* HEADER */
 .header{
     background:#4b2dd8;
     color:#fff;
@@ -26,7 +24,6 @@ body{
     font-weight:bold;
 }
 
-/* CARD */
 .card{
     background:#fff;
     margin:12px;
@@ -35,29 +32,24 @@ body{
     box-shadow:0 4px 12px rgba(0,0,0,0.05);
 }
 
-/* TITLE */
 .title{
     font-weight:700;
     color:#4b2dd8;
     margin-bottom:10px;
 }
 
-/* FORM */
 .line-input{
     width:100%;
     border:none;
     border-bottom:1px solid #000;
     padding:8px;
     font-size:16px;
-    box-sizing:border-box;
 }
 
 #elsForm p{
     margin:12px 0;
-    line-height:1.5;
 }
 
-/* BUTTON */
 button{
     width:100%;
     padding:12px;
@@ -66,10 +58,8 @@ button{
     border:none;
     border-radius:10px;
     margin-top:15px;
-    font-weight:bold;
 }
 
-/* TABLE */
 table{
     width:100%;
     border-collapse:collapse;
@@ -80,7 +70,6 @@ th,td{
     text-align:center;
 }
 
-/* HIDDEN PDF TEMPLATE */
 #pdfTemplate{
     position:absolute;
     left:-9999px;
@@ -88,9 +77,6 @@ th,td{
     min-height:297mm;
     padding:15mm;
     background:#fff;
-    color:#000;
-    font-size:14px;
-    line-height:1.8;
 }
 .line{
     border-bottom:1px solid #000;
@@ -104,373 +90,172 @@ th,td{
 
 <div class="header">ELS APPLICATION</div>
 
-<!-- 1st Container -->
-<div class="card" id="formContainer" style="display:none;">
+<!-- EL DETAILS -->
+<div class="card">
 <div class="title">EL Credit Details</div>
-
 <p>Total EL: <b id="totalEL">0</b></p>
 <p>Eligible for EL Surrender: <b id="eligibleEL">0</b></p>
 </div>
 
-<div class="card" id="formContainer" style="display:none;">
+<!-- APPLY BUTTON -->
+<div class="card">
 <button onclick="showELSBox()" style="background:#27ae60;">
 Apply for EL Surrender
 </button>
 
-<div id="elsBox" style="display:none; margin-top:15px;">
+<div id="elsBox" style="display:none;">
 
-<p style="color:red; font-size:13px;">
-Last ELS Period: <span id="lastPeriod">Loading...</span>
-</p>
+<p style="color:red;">Last ELS Period: <span id="lastPeriod"></span></p>
 
-<p>From Date:
-<input type="date" id="fromDate"></p>
-
-<p>To Date:
-<input type="date" id="toDate"></p>
+<input type="date" id="fromDate">
+<input type="date" id="toDate">
 
 <p>Total Days: <b id="totalDays">0</b></p>
 
-<button onclick="validateDates()" style="background:#2980b9;">
-Check Eligibility
-</button>
-
-<button id="proceedBtn" onclick="openForm()" style="display:none; background:#8e44ad;">
-Proceed to Application
-</button>
+<button onclick="validateDates()" style="background:#2980b9;">Check</button>
+<button id="proceedBtn" style="display:none;" onclick="openForm()">Proceed</button>
 
 </div>
-
 </div>
-<!-- 2nd Container -->
-<div class="card">
 
+<!-- FORM -->
+<div class="card" id="formContainer" style="display:none;">
 <div class="title">ELS Application</div>
 
 <div id="elsForm">
-
-<p>1. ಅಧಿಕಾರಿಯ ಹೆಸರು :
-<input id="name" class="line-input"></p>
-
-<p>2.
-<input id="field2" class="line-input"></p>
-
-<p>3. ಹುದ್ದೆ :
-<input id="designation" class="line-input"></p>
-
-<p>4. ಕಾರ್ಯನಿರ್ವಹಿಸುವ ಸ್ಥಳ :
-<input id="place" class="line-input"></p>
-
-<p>5.
-<input id="field5" class="line-input"></p>
-
-<p>6. ವಿವರ :
-<textarea id="field6" class="line-input"></textarea></p>
-
-<p>7.
-<input id="field7" class="line-input"></p>
-
-<p>8.
-<input id="field8" class="line-input"></p>
-
-<p>9.
-<input id="field9" class="line-input"></p>
-
-<p>ದಿನಾಂಕ :
-<input id="date" type="date" class="line-input"></p>
-
+<p>1. ಹೆಸರು <input id="name" class="line-input"></p>
+<p>3. ಹುದ್ದೆ <input id="designation" class="line-input"></p>
+<p>4. ಸ್ಥಳ <input id="place" class="line-input"></p>
+<p>7. <input id="field7" class="line-input"></p>
+<p>8. <input id="field8" class="line-input"></p>
+<p>ದಿನಾಂಕ <input id="date" type="date" class="line-input"></p>
 </div>
 
-<button onclick="generatePDF()">Submit & Generate PDF</button>
-
+<button onclick="generatePDF()">Generate PDF</button>
 </div>
 
-<!-- 3rd Container -->
+<!-- BILL -->
 <div class="card">
-<div class="title">ELS Bill Details</div>
-
+<div class="title">ELS Bills</div>
 <table>
-<thead>
-<tr>
-<th>Year</th>
-<th>Amount</th>
-<th>Period</th>
-<th>Status</th>
-<th>Days</th>
-</tr>
-</thead>
 <tbody id="billBody"></tbody>
 </table>
 </div>
 
-<!-- HIDDEN PDF -->
+<!-- PDF -->
 <div id="pdfTemplate">
-
-<h3 style="text-align:center;">ಕರ್ನಾಟಕ ವಿದ್ಯುತ್ ಪ್ರಸರಣ ನಿಗಮ ನಿಯಮಿತ</h3>
-<p style="text-align:center;">ಗಳಿಸಿದ ರಜೆ ಸರ್ಪಣೆ ಅರ್ಜಿ</p>
-
-<p>1. ಅಧಿಕಾರಿಯ ಹೆಸರು : <span class="line" id="p1"></span></p>
-<p>2. <span class="line" id="p2"></span></p>
-<p>3. ಹುದ್ದೆ : <span class="line" id="p3"></span></p>
-<p>4. ಕಾರ್ಯನಿರ್ವಹಿಸುವ ಸ್ಥಳ : <span class="line" id="p4"></span></p>
-<p>5. <span class="line" id="p5"></span></p>
-
-<p>6. ವಿವರ :</p>
-<p style="border-bottom:1px solid #000;" id="p6"></p>
-
-<p>7. <span class="line" id="p7"></span></p>
-<p>8. <span class="line" id="p8"></span></p>
-<p>9. <span class="line" id="p9"></span></p>
-
-<br><br>
-
-<p>ದಿನಾಂಕ : <span id="pdate"></span></p>
-
-<br><br>
-
-<p style="text-align:right;">ಅಧಿಕಾರಿಯ ಸಹಿ</p>
-
+<p>ಹೆಸರು: <span id="p1"></span></p>
+<p>ಹುದ್ದೆ: <span id="p3"></span></p>
+<p>ಸ್ಥಳ: <span id="p4"></span></p>
+<p>ಅವಧಿ: <span id="p7"></span></p>
+<p>ದಿನಗಳು: <span id="p8"></span></p>
+<p>ದಿನಾಂಕ: <span id="pdate"></span></p>
 </div>
 
 <script>
 
 const username = localStorage.getItem("username") || "emp1";
 
-/* EL CALCULATION */
+/* EL */
 async function loadEL(){
-    const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv?v="+Date.now());
-    const text = await res.text();
-
-    let rows = text.trim().split("\n");
-    let is2H = new Date().getMonth() >= 6;
-
-    rows.slice(1).forEach(r=>{
-        let c = r.split(",");
-        if(c[0].trim() === username){
-
-            let base = parseInt(c[3]) || 0;
-            let total = base + (is2H ? 30 : 15);
-
-            totalEL.innerText = total;
-            eligibleEL.innerText = total - 15;
-        }
-    });
+let r=await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
+let t=await r.text();
+t.split("\n").slice(1).forEach(x=>{
+let c=x.split(",");
+if(c[0]==username){
+let el=parseInt(c[3]||0)+15;
+totalEL.innerText=el;
+eligibleEL.innerText=el-15;
+}});
 }
 
-/* EMPLOYEE LOAD */
+/* EMP */
 async function loadEmp(){
-    try{
-        const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv?v="+Date.now());
-        const text = await res.text();
-
-        let rows = text.trim().split("\n");
-
-        console.log("USERNAME:", username); // debug
-
-        let found = false;
-
-        rows.slice(1).forEach(r=>{
-            let c = r.split(",");
-
-            let user = c[0]?.trim();
-
-            if(user === username){
-
-                console.log("MATCH FOUND:", c);
-
-                document.getElementById("name").value = c[1]?.trim() || "";
-                document.getElementById("designation").value = c[2]?.trim() || "";
-                document.getElementById("place").value = c[3]?.trim() || "";
-
-                found = true;
-            }
-        });
-
-        if(!found){
-            console.log("No matching user in employee.csv");
-        }
-
-    }catch(e){
-        console.error("EMP LOAD ERROR:", e);
-    }
+let r=await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
+let t=await r.text();
+t.split("\n").slice(1).forEach(x=>{
+let c=x.split(",");
+if(c[0]==username){
+name.value=c[1]||"";
+designation.value=c[2]||"";
+place.value=c[3]||"";
+}});
 }
 
-/* BILL LOAD */
-async function loadBills(){
-    const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv?v="+Date.now());
-    const text = await res.text();
+/* LAST ELS */
+let lastToDate=null;
 
-    let rows = text.trim().split("\n");
-    let html="";
-
-    rows.slice(1).forEach(r=>{
-        let c = r.split(",");
-        if(c[0].trim() === username){
-            html+=`<tr>
-            <td>${c[1]}</td>
-            <td>${c[2]}</td>
-            <td>${c[3]}</td>
-            <td>${c[4]}</td>
-            <td>${c[6]}</td>
-            </tr>`;
-        }
-    });
-
-    billBody.innerHTML = html;
-}
-
-/* FILL PDF */
-function fillPDF(){
-
-    document.getElementById("p1").innerText =
-        document.getElementById("name").value || "";
-
-    document.getElementById("p2").innerText =
-        document.getElementById("field2").value || "";
-
-    document.getElementById("p3").innerText =
-        document.getElementById("designation").value || "";
-
-    document.getElementById("p4").innerText =
-        document.getElementById("place").value || "";
-
-    document.getElementById("p5").innerText =
-        document.getElementById("field5").value || "";
-
-    document.getElementById("p6").innerText =
-        document.getElementById("field6").value || "";
-
-    document.getElementById("p7").innerText =
-        document.getElementById("field7").value || "";
-
-    document.getElementById("p8").innerText =
-        document.getElementById("field8").value || "";
-
-    document.getElementById("p9").innerText =
-        document.getElementById("field9").value || "";
-
-    document.getElementById("pdate").innerText =
-        document.getElementById("date").value || "";
-}
-
-/* PDF GENERATION */
-async function generatePDF(){
-
-    fillPDF();
-
-    const { jsPDF } = window.jspdf;
-    const element = document.getElementById("pdfTemplate");
-
-    const canvas = await html2canvas(element,{scale:3});
-
-    const img = canvas.toDataURL("image/jpeg",1);
-
-    const pdf = new jsPDF('p','mm','a4');
-
-    pdf.addImage(img,'JPEG',0,0,210,297);
-
-    pdf.save("ELS_Form.pdf");
-}
-
-/* INIT */
-loadEL();
-loadEmp();
-loadBills();
-
-
-    let lastToDate = null;
-
-/* SHOW BOX */
-function showELSBox(){
-    document.getElementById("elsBox").style.display = "block";
-}
-
-/* LOAD LAST ELS PERIOD */
 async function loadLastELS(){
+let r=await fetch("https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv");
+let t=await r.text();
 
-    const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv?v="+Date.now());
-    const text = await res.text();
+t.split("\n").slice(1).forEach(x=>{
+let c=x.split(",");
+if(c[0]==username && c[3].includes("to")){
+let d=c[3].split("to")[1].trim().split(".");
+lastToDate=new Date(d[2],d[1]-1,d[0]);
+lastPeriod.innerText=c[3];
+}});
+}
 
-    let rows = text.trim().split("\n");
-
-    let last = null;
-
-    rows.slice(1).forEach(r=>{
-        let c = r.split(",");
-
-        if(c[0].trim() === username){
-
-            let period = c[3]; // period column
-
-            // Example: 02.01.2026 to 28.02.2026
-            if(period.includes("to")){
-                let parts = period.split("to");
-                let toDate = parts[1].trim();
-
-                last = toDate;
-            }
-        }
-    });
-
-    if(last){
-        document.getElementById("lastPeriod").innerText = last;
-
-        // convert DD.MM.YYYY → Date
-        let d = last.split(".");
-        lastToDate = new Date(d[2], d[1]-1, d[0]);
-    }else{
-        document.getElementById("lastPeriod").innerText = "No previous record";
-    }
+/* UI */
+function showELSBox(){
+elsBox.style.display="block";
 }
 
 /* VALIDATE */
 function validateDates(){
 
-    let from = new Date(document.getElementById("fromDate").value);
-    let to = new Date(document.getElementById("toDate").value);
+let f=document.getElementById("fromDate").value;
+let t=document.getElementById("toDate").value;
 
-    if(!from || !to){
-        alert("Select dates");
-        return;
-    }
+if(!f||!t){alert("Select dates");return;}
 
-    if(lastToDate){
-        let nextEligible = new Date(lastToDate);
-        nextEligible.setFullYear(nextEligible.getFullYear() + 1);
+let from=new Date(f);
+let to=new Date(t);
 
-        if(from < nextEligible){
-            alert("Not eligible yet. Must be after 1 year from last ELS.");
-            return;
-        }
-    }
+let next=new Date(lastToDate);
+next.setFullYear(next.getFullYear()+1);
 
-    let diff = (to - from) / (1000*60*60*24) + 1;
+if(from<next){alert("Not eligible");return;}
 
-    if(diff <= 0){
-        alert("Invalid date range");
-        return;
-    }
+let d=(to-from)/(1000*60*60*24)+1;
 
-    document.getElementById("totalDays").innerText = diff;
-
-    document.getElementById("proceedBtn").style.display = "block";
+totalDays.innerText=d;
+proceedBtn.style.display="block";
 }
 
 /* OPEN FORM */
 function openForm(){
-    document.getElementById("formContainer").style.display = "block";
+formContainer.style.display="block";
+field7.value=fromDate.value+" to "+toDate.value;
+field8.value=totalDays.innerText;
+}
 
-    // auto fill in form
-    document.getElementById("field7").value =
-        document.getElementById("fromDate").value + " to " +
-        document.getElementById("toDate").value;
+/* PDF */
+async function generatePDF(){
 
-    document.getElementById("field8").value =
-        document.getElementById("totalDays").innerText;
+p1.innerText=name.value;
+p3.innerText=designation.value;
+p4.innerText=place.value;
+p7.innerText=field7.value;
+p8.innerText=field8.value;
+pdate.innerText=date.value;
+
+const { jsPDF } = window.jspdf;
+const canvas = await html2canvas(pdfTemplate,{scale:2});
+const img = canvas.toDataURL("image/jpeg");
+
+const pdf = new jsPDF('p','mm','a4');
+pdf.addImage(img,'JPEG',0,0,210,297);
+pdf.save("ELS.pdf");
 }
 
 /* INIT */
+loadEL();
+loadEmp();
 loadLastELS();
+
 </script>
 
 </body>
