@@ -2,27 +2,25 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ELS Module</title>
 
-<title>ELS Application</title>
-
+<!-- PDF LIB -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-<style>
-:root{
-    --primary:#4b2dd8;
-    --bg:#f5f6fb;
-    --white:#fff;
-}
+<!-- KANNADA FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada&display=swap" rel="stylesheet">
 
+<style>
 body{
     margin:0;
-    font-family:Segoe UI;
-    background:var(--bg);
+    font-family:'Noto Sans Kannada', sans-serif;
+    background:#f5f6fb;
 }
 
 /* HEADER */
 .header{
-    background:var(--primary);
+    background:#4b2dd8;
     color:#fff;
     padding:15px;
     text-align:center;
@@ -41,29 +39,17 @@ body{
 /* TITLE */
 .title{
     font-weight:700;
+    color:#4b2dd8;
     margin-bottom:10px;
-    color:var(--primary);
 }
 
 /* INPUT */
-input{
+input, textarea{
     width:100%;
-    padding:10px;
-    margin:6px 0;
-    border-radius:8px;
-    border:1px solid #ddd;
-}
-
-/* BUTTON */
-button{
-    width:100%;
-    padding:12px;
-    background:var(--primary);
-    color:#fff;
     border:none;
-    border-radius:10px;
-    font-weight:bold;
-    margin-top:10px;
+    border-bottom:1px solid #000;
+    padding:6px;
+    margin-top:5px;
 }
 
 /* TABLE */
@@ -71,18 +57,29 @@ table{
     width:100%;
     border-collapse:collapse;
 }
-
 th,td{
-    padding:10px;
-    border-bottom:1px solid #eee;
+    padding:8px;
+    border-bottom:1px solid #ddd;
     text-align:center;
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:12px;
+    background:#4b2dd8;
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    margin-top:15px;
+    font-weight:bold;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">ELS MODULE</div>
+<div class="header">ELS APPLICATION</div>
 
 <!-- 1st Container -->
 <div class="card">
@@ -90,18 +87,39 @@ th,td{
 
 <p>Total EL: <b id="totalEL">0</b></p>
 <p>Eligible for EL Surrender: <b id="eligibleEL">0</b></p>
-
 </div>
 
 <!-- 2nd Container -->
 <div class="card">
-<div class="title">ELS Application</div>
 
-<input id="name" placeholder="Employee Name">
-<input id="designation" placeholder="Designation">
-<input id="place" placeholder="Working Place">
-<input id="days" placeholder="ELS Days">
-<input id="period" placeholder="Period">
+<div class="title">ELS Application Form</div>
+
+<!-- PDF AREA -->
+<div id="pdfArea" style="background:#fff; padding:10px; color:#000;">
+
+<h3 style="text-align:center;">ಕರ್ನಾಟಕ ವಿದ್ಯುತ್ ಪ್ರಸರಣ ನಿಗಮ ನಿಯಮಿತ</h3>
+<p style="text-align:center;">ಗಳಿಸಿದ ರಜೆ ಸರ್ಪಣೆ ಅರ್ಜಿ</p>
+
+<p>1. ಅಧಿಕಾರಿಯ ಹೆಸರು : <input id="name"></p>
+<p>2. ಹುದ್ದೆ : <input id="designation"></p>
+<p>3. ಕಾರ್ಯನಿರ್ವಹಿಸುವ ಸ್ಥಳ : <input id="place"></p>
+<p>4. ವೇತನ : <input id="salary"></p>
+<p>5. ಸೇವೆ : <input id="service"></p>
+
+<p>6. ರಜೆ ವಿವರ :</p>
+<textarea id="leaveDetails" rows="3"></textarea>
+
+<p>7. ರಜೆ ಅವಧಿ : <input id="period"></p>
+<p>8. ರಜೆ ದಿನಗಳು : <input id="days"></p>
+<p>9. ಕಾರಣ : <input id="reason"></p>
+
+<br>
+
+<p>ದಿನಾಂಕ : <input id="date"></p>
+
+<p style="text-align:right;">ಅಧಿಕಾರಿಯ ಸಹಿ</p>
+
+</div>
 
 <button onclick="generatePDF()">Submit & Generate PDF</button>
 
@@ -111,7 +129,7 @@ th,td{
 <div class="card">
 <div class="title">ELS Bill Details</div>
 
-<table id="billTable">
+<table>
 <thead>
 <tr>
 <th>Year</th>
@@ -121,24 +139,25 @@ th,td{
 <th>Days</th>
 </tr>
 </thead>
-<tbody></tbody>
+<tbody id="billBody"></tbody>
 </table>
 
 </div>
 
 <script>
 
-// USERNAME (set from login)
+// USERNAME
 const username = localStorage.getItem("username") || "emp1";
 
-// LOAD EL DATA
+// LOAD EL DATA (same as leave_report)
 async function loadEL(){
+
     const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv?v="+Date.now());
     const data = await res.text();
 
     let rows = data.split("\n");
 
-    let is2H = new Date().getMonth() >= 6; // same logic
+    let is2H = new Date().getMonth() >= 6;
 
     rows.slice(1).forEach(r=>{
         let c = r.split(",");
@@ -153,9 +172,10 @@ async function loadEL(){
     });
 }
 
-// LOAD EMPLOYEE DETAILS
+// LOAD EMPLOYEE DATA
 async function loadEmp(){
-    const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
+
+    const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv?v="+Date.now());
     const data = await res.text();
 
     let rows = data.split("\n");
@@ -163,16 +183,18 @@ async function loadEmp(){
     rows.slice(1).forEach(r=>{
         let c = r.split(",");
         if(c[0]==username){
-            document.getElementById("name").value = c[1];
-            document.getElementById("designation").value = c[2];
-            document.getElementById("place").value = c[3];
+
+            name.value = c[1];
+            designation.value = c[2];
+            place.value = c[3];
         }
     });
 }
 
-// LOAD BILL
+// LOAD ELS BILLS
 async function loadBills(){
-    const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv");
+
+    const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv?v="+Date.now());
     const data = await res.text();
 
     let rows = data.split("\n");
@@ -181,37 +203,40 @@ async function loadBills(){
     rows.slice(1).forEach(r=>{
         let c = r.split(",");
         if(c[0]==username){
-            html+=`<tr>
-            <td>${c[1]}</td>
-            <td>${c[2]}</td>
-            <td>${c[3]}</td>
-            <td>${c[4]}</td>
-            <td>${c[6]}</td>
+
+            html+=`
+            <tr>
+                <td>${c[1]}</td>
+                <td>${c[2]}</td>
+                <td>${c[3]}</td>
+                <td>${c[4]}</td>
+                <td>${c[6]}</td>
             </tr>`;
         }
     });
 
-    document.querySelector("#billTable tbody").innerHTML=html;
+    document.getElementById("billBody").innerHTML = html;
 }
 
-// PDF GENERATION
-function generatePDF(){
+// GENERATE PDF (EXACT TEMPLATE COPY)
+async function generatePDF(){
 
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
 
-    doc.setFontSize(14);
-    doc.text("KPTCL - ELS Application",20,20);
+    const element = document.getElementById("pdfArea");
 
-    doc.setFontSize(11);
+    const canvas = await html2canvas(element, { scale: 2 });
 
-    doc.text("Name: "+document.getElementById("name").value,20,40);
-    doc.text("Designation: "+document.getElementById("designation").value,20,50);
-    doc.text("Working Place: "+document.getElementById("place").value,20,60);
-    doc.text("ELS Days: "+document.getElementById("days").value,20,70);
-    doc.text("Period: "+document.getElementById("period").value,20,80);
+    const imgData = canvas.toDataURL("image/png");
 
-    doc.save("ELS_Application.pdf");
+    const pdf = new jsPDF('p','mm','a4');
+
+    const imgWidth = 210;
+    const imgHeight = canvas.height * imgWidth / canvas.width;
+
+    pdf.addImage(imgData,'PNG',0,0,imgWidth,imgHeight);
+
+    pdf.save("ELS_Form.pdf");
 }
 
 // INIT
