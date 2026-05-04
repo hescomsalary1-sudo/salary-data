@@ -229,19 +229,40 @@ async function loadEL(){
 
 /* EMPLOYEE LOAD */
 async function loadEmp(){
-    const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv?v="+Date.now());
-    const text = await res.text();
+    try{
+        const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv?v="+Date.now());
+        const text = await res.text();
 
-    let rows = text.trim().split("\n");
+        let rows = text.trim().split("\n");
 
-    rows.slice(1).forEach(r=>{
-        let c = r.split(",");
-        if(c[0].trim() === username){
-            name.value = c[1] || "";
-            designation.value = c[2] || "";
-            place.value = c[3] || "";
+        console.log("USERNAME:", username); // debug
+
+        let found = false;
+
+        rows.slice(1).forEach(r=>{
+            let c = r.split(",");
+
+            let user = c[0]?.trim();
+
+            if(user === username){
+
+                console.log("MATCH FOUND:", c);
+
+                document.getElementById("name").value = c[1]?.trim() || "";
+                document.getElementById("designation").value = c[2]?.trim() || "";
+                document.getElementById("place").value = c[3]?.trim() || "";
+
+                found = true;
+            }
+        });
+
+        if(!found){
+            console.log("No matching user in employee.csv");
         }
-    });
+
+    }catch(e){
+        console.error("EMP LOAD ERROR:", e);
+    }
 }
 
 /* BILL LOAD */
