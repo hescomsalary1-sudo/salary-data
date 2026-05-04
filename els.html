@@ -227,17 +227,35 @@ async function loadEL(){
 
 /* EMP */
 async function loadEmp(){
-    let r=await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
-    let t=await r.text();
 
-    t.split("\n").slice(1).forEach(x=>{
-        let c=x.split(",");
-        if(c[0].trim()==username){
-            name.value=c[1]||"";
-            designation.value=c[2]||"";
-            place.value=c[3]||"";
+    try{
+        const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv?v="+Date.now());
+        const text = await res.text();
+
+        let rows = text.trim().split("\n");
+
+        let found = false;
+
+        rows.slice(1).forEach(r=>{
+            let c = r.split(",");
+
+            if(c[0].trim() === username){
+
+                document.getElementById("name").value = c[1]?.trim() || "";
+                document.getElementById("designation").value = c[2]?.trim() || "";
+                document.getElementById("place").value = c[3]?.trim() || "";
+
+                found = true;
+            }
+        });
+
+        if(!found){
+            console.log("User not found in employee.csv");
         }
-    });
+
+    }catch(e){
+        console.error("EMP LOAD ERROR:", e);
+    }
 }
 
 /* BILLS */
