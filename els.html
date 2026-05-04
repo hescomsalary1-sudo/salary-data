@@ -2,7 +2,8 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ELS Module</title>
+
+<title>ELS Form</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -14,42 +15,31 @@ body{
     margin:0;
     font-family:'Noto Sans Kannada', sans-serif;
     background:#f5f6fb;
-    overflow-x: hidden; /* Prevents side scrolling */
 }
 
-.header{
-    background:#4b2dd8;
-    color:#fff;
-    padding:15px;
-    text-align:center;
-    font-weight:bold;
-}
-
+/* MOBILE CARD */
 .card{
     background:#fff;
-    margin:15px;
+    margin:10px;
     padding:15px;
-    border-radius:12px;
-    box-shadow:0 4px 15px rgba(0,0,0,0.05);
-    overflow: hidden; /* Keeps content inside cards */
+    border-radius:10px;
 }
 
-.title{
-    font-weight:700;
-    color:#4b2dd8;
-    margin-bottom:10px;
+/* FORM ROW */
+.row{
+    margin-bottom:15px;
+    font-size:14px;
 }
 
-input, textarea{
+.line-input{
     width:100%;
     border:none;
     border-bottom:1px solid #000;
     padding:6px;
-    margin-top:5px;
-    font-size:14px;
-    box-sizing: border-box; /* Ensures padding doesn't push width */
+    font-size:15px;
 }
 
+/* BUTTON */
 button{
     width:100%;
     padding:12px;
@@ -57,107 +47,95 @@ button{
     color:#fff;
     border:none;
     border-radius:8px;
-    margin-top:15px;
-    font-weight:bold;
+    margin-top:10px;
 }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-    font-size: 12px; /* Smaller font for mobile tables */
-}
-th,td{
-    padding:8px;
-    border-bottom:1px solid #ddd;
-    text-align:center;
-}
-
-/* MOBILE FIX: Allow the area to shrink on screen but remain A4 for the PDF script */
-#pdfArea{
-    width: 100%;
-    max-width: 210mm; 
-    min-height: auto;
-    padding: 10px; /* Reduced padding for mobile view */
+/* ---------- PDF TEMPLATE ---------- */
+#pdfTemplate{
+    position:absolute;
+    left:-9999px;
+    width:210mm;
+    min-height:297mm;
+    padding:15mm;
     background:#fff;
     color:#000;
-    box-sizing:border-box;
-    margin: 0 auto;
+    font-size:14px;
+    line-height:1.8;
 }
-
-/* Adjustments for horizontal table scrolling if data is too wide */
-.card {
-    overflow-x: auto;
+.line{
+    border-bottom:1px solid #000;
+    display:inline-block;
+    width:70%;
 }
-
 </style>
 </head>
 
 <body>
 
-<div class="header">ELS APPLICATION</div>
-
-<!-- 1st -->
-<div class="card">
-<div class="title">EL Credit Details</div>
-<p>Total EL: <b id="totalEL">0</b></p>
-<p>Eligible for EL Surrender: <b id="eligibleEL">0</b></p>
-</div>
-
-<!-- 2nd -->
 <div class="card">
 
-<div class="title">ELS Application</div>
+<h3 style="text-align:center;">ELS Application</h3>
 
-<div id="pdfArea">
+<div class="row">1. ಹೆಸರು :
+<input id="name" class="line-input"></div>
 
-<h3 style="text-align:center; font-size: 16px;">ಕರ್ನಾಟಕ ವಿದ್ಯುತ್ ಪ್ರಸರಣ ನಿಗಮ ನಿಯಮಿತ</h3>
-<p style="text-align:center;">ಗಳಿಸಿದ ರಜೆ ಸರ್ಪಣೆ ಅರ್ಜಿ</p>
+<div class="row">2. 
+<input id="field2" class="line-input"></div>
 
-<p>1. ಹೆಸರು : <input id="name"></p>
-<p>2. ಹುದ್ದೆ : <input id="designation"></p>
-<p>3. ಕಾರ್ಯನಿರ್ವಹಿಸುವ ಸ್ಥಳ : <input id="place"></p>
-<p>4. ವೇತನ : <input id="salary"></p>
-<p>5. ಸೇವೆ : <input id="service"></p>
+<div class="row">3. ಹುದ್ದೆ :
+<input id="designation" class="line-input"></div>
 
-<p>6. ರಜೆ ವಿವರ :</p>
-<textarea id="leaveDetails" rows="3"></textarea>
+<div class="row">4. ಕಾರ್ಯನಿರ್ವಹಿಸುವ ಸ್ಥಳ :
+<input id="place" class="line-input"></div>
 
-<p>7. ಅವಧಿ : <input id="period"></p>
-<p>8. ದಿನಗಳು : <input id="days"></p>
-<p>9. ಕಾರಣ : <input id="reason"></p>
+<div class="row">5. 
+<input id="field5" class="line-input"></div>
 
-<br><br>
+<div class="row">6. ವಿವರ :
+<textarea id="field6" class="line-input"></textarea></div>
 
-<p>ದಿನಾಂಕ : <input id="date"></p>
+<div class="row">7. 
+<input id="field7" class="line-input"></div>
 
-<br><br>
+<div class="row">8. 
+<input id="field8" class="line-input"></div>
 
-<p style="text-align:right; padding-right: 20px;">ಸಹಿ</p>
+<div class="row">9. 
+<input id="field9" class="line-input"></div>
 
-</div>
+<div class="row">ದಿನಾಂಕ :
+<input id="date" type="date" class="line-input"></div>
 
 <button onclick="generatePDF()">Submit & Generate PDF</button>
 
 </div>
 
-<!-- 3rd -->
-<div class="card">
-<div class="title">ELS Bills</div>
+<!-- EXACT PDF STRUCTURE -->
+<div id="pdfTemplate">
 
-<div style="overflow-x: auto;">
-<table>
-<thead>
-<tr>
-<th>Year</th>
-<th>Amount</th>
-<th>Period</th>
-<th>Status</th>
-<th>Days</th>
-</tr>
-</thead>
-<tbody id="billBody"></tbody>
-</table>
-</div>
+<h3 style="text-align:center;">ಕರ್ನಾಟಕ ವಿದ್ಯುತ್ ಪ್ರಸರಣ ನಿಗಮ ನಿಯಮಿತ</h3>
+<p style="text-align:center;">ಗಳಿಸಿದ ರಜೆ ಸರ್ಪಣೆ ಅರ್ಜಿ</p>
+
+<p>1. ಅಧಿಕಾರಿಯ ಹೆಸರು : <span class="line" id="p1"></span></p>
+<p>2. <span class="line" id="p2"></span></p>
+<p>3. ಹುದ್ದೆ : <span class="line" id="p3"></span></p>
+<p>4. ಕಾರ್ಯನಿರ್ವಹಿಸುವ ಸ್ಥಳ : <span class="line" id="p4"></span></p>
+<p>5. <span class="line" id="p5"></span></p>
+
+<p>6. ವಿವರ :</p>
+<p style="border-bottom:1px solid #000;" id="p6"></p>
+
+<p>7. <span class="line" id="p7"></span></p>
+<p>8. <span class="line" id="p8"></span></p>
+<p>9. <span class="line" id="p9"></span></p>
+
+<br><br>
+
+<p>ದಿನಾಂಕ : <span id="pdate"></span></p>
+
+<br><br>
+
+<p style="text-align:right;">ಅಧಿಕಾರಿಯ ಸಹಿ</p>
 
 </div>
 
@@ -165,126 +143,62 @@ th,td{
 
 const username = localStorage.getItem("username") || "emp1";
 
-/* ---------- EL LOAD ---------- */
-async function loadEL(){
-    const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv?v="+Date.now());
-    const text = await res.text();
-
-    let rows = text.trim().split("\n");
-    let is2H = new Date().getMonth() >= 6;
-
-    rows.slice(1).forEach(r=>{
-        let c = r.split(",");
-        if(c[0].trim() === username){
-
-            let base = parseInt(c[3]) || 0;
-            let total = base + (is2H ? 30 : 15);
-
-            totalEL.innerText = total;
-            eligibleEL.innerText = total - 15;
-        }
-    });
-}
-
-/* ---------- EMP LOAD (FIXED) ---------- */
+/* AUTO LOAD EMPLOYEE */
 async function loadEmp(){
-    try{
-        const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv?v="+Date.now());
-        const text = await res.text();
 
-        let rows = text.trim().split("\n");
-
-        rows.slice(1).forEach(r=>{
-            let c = r.split(",");
-
-            if(c[0].trim() === username){
-
-                document.getElementById("name").value = c[1]?.trim() || "";
-                document.getElementById("designation").value = c[2]?.trim() || "";
-                document.getElementById("place").value = c[3]?.trim() || "";
-            }
-        });
-
-    }catch(e){
-        console.log("Employee load error", e);
-    }
-}
-
-/* ---------- BILLS ---------- */
-async function loadBills(){
-    const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv?v="+Date.now());
+    const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv?v="+Date.now());
     const text = await res.text();
 
     let rows = text.trim().split("\n");
-    let html="";
 
     rows.slice(1).forEach(r=>{
         let c = r.split(",");
 
         if(c[0].trim() === username){
-            html+=`
-            <tr>
-                <td>${c[1]}</td>
-                <td>${c[2]}</td>
-                <td>${c[3]}</td>
-                <td>${c[4]}</td>
-                <td>${c[6]}</td>
-            </tr>`;
+
+            name.value = c[1]?.trim();
+            designation.value = c[2]?.trim();
+            place.value = c[3]?.trim();
         }
     });
-
-    billBody.innerHTML = html;
 }
 
-/* ---------- PERFECT PDF ---------- */
+/* FILL PDF */
+function fillPDF(){
+
+    p1.innerText = name.value;
+    p2.innerText = field2.value;
+    p3.innerText = designation.value;
+    p4.innerText = place.value;
+    p5.innerText = field5.value;
+    p6.innerText = field6.value;
+    p7.innerText = field7.value;
+    p8.innerText = field8.value;
+    p9.innerText = field9.value;
+    pdate.innerText = date.value;
+}
+
+/* PERFECT PDF */
 async function generatePDF(){
 
+    fillPDF();
+
     const { jsPDF } = window.jspdf;
-    const element = document.getElementById("pdfArea");
+    const element = document.getElementById("pdfTemplate");
 
-    // Force width for high quality capture even if screen is small
-    const canvas = await html2canvas(element,{
-        scale: 3,  
-        useCORS: true,
-        windowWidth: 794 // Approx width of A4 in pixels at 96 DPI
-    });
+    const canvas = await html2canvas(element,{scale:3});
 
-    const imgData = canvas.toDataURL("image/jpeg",1.0);
+    const img = canvas.toDataURL("image/jpeg",1);
 
     const pdf = new jsPDF('p','mm','a4');
 
-    const pageWidth = 210;
-    const pageHeight = 297;
-
-    const imgWidth = pageWidth - 20; // margins
-    const imgHeight = canvas.height * imgWidth / canvas.width;
-
-    let position = 10;
-
-    if(imgHeight <= pageHeight){
-        pdf.addImage(imgData,'JPEG',10,position,imgWidth,imgHeight);
-    }else{
-        let heightLeft = imgHeight;
-        let y = 10;
-
-        pdf.addImage(imgData,'JPEG',10,y,imgWidth,imgHeight);
-        heightLeft -= pageHeight;
-
-        while(heightLeft > 0){
-            pdf.addPage();
-            y = heightLeft - imgHeight + 10;
-            pdf.addImage(imgData,'JPEG',10,y,imgWidth,imgHeight);
-            heightLeft -= pageHeight;
-        }
-    }
+    pdf.addImage(img,'JPEG',0,0,210,297);
 
     pdf.save("ELS_Form.pdf");
 }
 
 /* INIT */
-loadEL();
 loadEmp();
-loadBills();
 
 </script>
 
