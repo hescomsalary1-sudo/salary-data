@@ -133,18 +133,22 @@ const username = localStorage.getItem("username") || "emp1";
 
 // LOAD EL DATA
 async function loadEL(){
-    const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
+    const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv?v="+Date.now());
     const data = await res.text();
 
     let rows = data.split("\n");
+
+    let is2H = new Date().getMonth() >= 6; // same logic
 
     rows.slice(1).forEach(r=>{
         let c = r.split(",");
         if(c[0]==username){
 
-            let el = parseInt(c[3]) || 0;
-            document.getElementById("totalEL").innerText = el;
-            document.getElementById("eligibleEL").innerText = el - 15;
+            let baseEL = parseInt(c[3]) || 0;
+            let totalEL = baseEL + (is2H ? 30 : 15);
+
+            document.getElementById("totalEL").innerText = totalEL;
+            document.getElementById("eligibleEL").innerText = totalEL - 15;
         }
     });
 }
