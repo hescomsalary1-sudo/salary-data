@@ -309,12 +309,21 @@ async function openForm(){
 
     showLoader("Loading Application...");
 
+    // show form first
+    formContainer.style.display = "block";
+
+    // small delay for smooth UI
+    await new Promise(r => setTimeout(r, 300));
+
+    // NOW load employee data
     await loadEmp();
 
-    period.value=fromDate.value+" to "+toDate.value;
-    days.value=totalDays.innerText;
+    // fill period & days
+    document.getElementById("period").value =
+        fromDate.value + " to " + toDate.value;
 
-    formContainer.style.display="block";
+    document.getElementById("days").value =
+        totalDays.innerText;
 
     hideLoader();
 }
