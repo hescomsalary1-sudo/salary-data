@@ -13,7 +13,6 @@ background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
 padding-bottom:90px;
 }
 
-  
 /* HEADER */
 .top{
 display:flex;
@@ -235,13 +234,8 @@ window.location.replace("login.html");
 /* REDIRECT FUNCTION */
 function openIncome(type){
 localStorage.setItem("incomeType", type);
-if(type === 'ELS Bills'){
-    window.location.href = "els.html";
-} else {
-    window.location.href = "other_income.html";
+window.location.href = "other_income.html";
 }
-}
-
 function goBack(){
   window.history.back();
 }
