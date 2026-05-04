@@ -2,9 +2,9 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ELS Module</title>
 
-<title>ELS Form</title>
-
+<!-- LIBRARIES -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -17,26 +17,44 @@ body{
     background:#f5f6fb;
 }
 
-/* MOBILE CARD */
+/* HEADER */
+.header{
+    background:#4b2dd8;
+    color:#fff;
+    padding:15px;
+    text-align:center;
+    font-weight:bold;
+}
+
+/* CARD */
 .card{
     background:#fff;
-    margin:10px;
+    margin:12px;
     padding:15px;
-    border-radius:10px;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.05);
 }
 
-/* FORM ROW */
-.row{
-    margin-bottom:15px;
-    font-size:14px;
+/* TITLE */
+.title{
+    font-weight:700;
+    color:#4b2dd8;
+    margin-bottom:10px;
 }
 
+/* FORM */
 .line-input{
     width:100%;
     border:none;
     border-bottom:1px solid #000;
-    padding:6px;
-    font-size:15px;
+    padding:8px;
+    font-size:16px;
+    box-sizing:border-box;
+}
+
+#elsForm p{
+    margin:12px 0;
+    line-height:1.5;
 }
 
 /* BUTTON */
@@ -46,11 +64,23 @@ button{
     background:#4b2dd8;
     color:#fff;
     border:none;
-    border-radius:8px;
-    margin-top:10px;
+    border-radius:10px;
+    margin-top:15px;
+    font-weight:bold;
 }
 
-/* ---------- PDF TEMPLATE ---------- */
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+th,td{
+    padding:8px;
+    border-bottom:1px solid #ddd;
+    text-align:center;
+}
+
+/* HIDDEN PDF TEMPLATE */
 #pdfTemplate{
     position:absolute;
     left:-9999px;
@@ -72,45 +102,78 @@ button{
 
 <body>
 
+<div class="header">ELS APPLICATION</div>
+
+<!-- 1st Container -->
+<div class="card">
+<div class="title">EL Credit Details</div>
+
+<p>Total EL: <b id="totalEL">0</b></p>
+<p>Eligible for EL Surrender: <b id="eligibleEL">0</b></p>
+</div>
+
+<!-- 2nd Container -->
 <div class="card">
 
-<h3 style="text-align:center;">ELS Application</h3>
+<div class="title">ELS Application</div>
 
-<div class="row">1. ಹೆಸರು :
-<input id="name" class="line-input"></div>
+<div id="elsForm">
 
-<div class="row">2. 
-<input id="field2" class="line-input"></div>
+<p>1. ಅಧಿಕಾರಿಯ ಹೆಸರು :
+<input id="name" class="line-input"></p>
 
-<div class="row">3. ಹುದ್ದೆ :
-<input id="designation" class="line-input"></div>
+<p>2.
+<input id="field2" class="line-input"></p>
 
-<div class="row">4. ಕಾರ್ಯನಿರ್ವಹಿಸುವ ಸ್ಥಳ :
-<input id="place" class="line-input"></div>
+<p>3. ಹುದ್ದೆ :
+<input id="designation" class="line-input"></p>
 
-<div class="row">5. 
-<input id="field5" class="line-input"></div>
+<p>4. ಕಾರ್ಯನಿರ್ವಹಿಸುವ ಸ್ಥಳ :
+<input id="place" class="line-input"></p>
 
-<div class="row">6. ವಿವರ :
-<textarea id="field6" class="line-input"></textarea></div>
+<p>5.
+<input id="field5" class="line-input"></p>
 
-<div class="row">7. 
-<input id="field7" class="line-input"></div>
+<p>6. ವಿವರ :
+<textarea id="field6" class="line-input"></textarea></p>
 
-<div class="row">8. 
-<input id="field8" class="line-input"></div>
+<p>7.
+<input id="field7" class="line-input"></p>
 
-<div class="row">9. 
-<input id="field9" class="line-input"></div>
+<p>8.
+<input id="field8" class="line-input"></p>
 
-<div class="row">ದಿನಾಂಕ :
-<input id="date" type="date" class="line-input"></div>
+<p>9.
+<input id="field9" class="line-input"></p>
+
+<p>ದಿನಾಂಕ :
+<input id="date" type="date" class="line-input"></p>
+
+</div>
 
 <button onclick="generatePDF()">Submit & Generate PDF</button>
 
 </div>
 
-<!-- EXACT PDF STRUCTURE -->
+<!-- 3rd Container -->
+<div class="card">
+<div class="title">ELS Bill Details</div>
+
+<table>
+<thead>
+<tr>
+<th>Year</th>
+<th>Amount</th>
+<th>Period</th>
+<th>Status</th>
+<th>Days</th>
+</tr>
+</thead>
+<tbody id="billBody"></tbody>
+</table>
+</div>
+
+<!-- HIDDEN PDF -->
 <div id="pdfTemplate">
 
 <h3 style="text-align:center;">ಕರ್ನಾಟಕ ವಿದ್ಯುತ್ ಪ್ರಸರಣ ನಿಗಮ ನಿಯಮಿತ</h3>
@@ -143,9 +206,29 @@ button{
 
 const username = localStorage.getItem("username") || "emp1";
 
-/* AUTO LOAD EMPLOYEE */
-async function loadEmp(){
+/* EL CALCULATION */
+async function loadEL(){
+    const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv?v="+Date.now());
+    const text = await res.text();
 
+    let rows = text.trim().split("\n");
+    let is2H = new Date().getMonth() >= 6;
+
+    rows.slice(1).forEach(r=>{
+        let c = r.split(",");
+        if(c[0].trim() === username){
+
+            let base = parseInt(c[3]) || 0;
+            let total = base + (is2H ? 30 : 15);
+
+            totalEL.innerText = total;
+            eligibleEL.innerText = total - 15;
+        }
+    });
+}
+
+/* EMPLOYEE LOAD */
+async function loadEmp(){
     const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv?v="+Date.now());
     const text = await res.text();
 
@@ -153,19 +236,40 @@ async function loadEmp(){
 
     rows.slice(1).forEach(r=>{
         let c = r.split(",");
-
         if(c[0].trim() === username){
-
-            name.value = c[1]?.trim();
-            designation.value = c[2]?.trim();
-            place.value = c[3]?.trim();
+            name.value = c[1] || "";
+            designation.value = c[2] || "";
+            place.value = c[3] || "";
         }
     });
 }
 
+/* BILL LOAD */
+async function loadBills(){
+    const res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv?v="+Date.now());
+    const text = await res.text();
+
+    let rows = text.trim().split("\n");
+    let html="";
+
+    rows.slice(1).forEach(r=>{
+        let c = r.split(",");
+        if(c[0].trim() === username){
+            html+=`<tr>
+            <td>${c[1]}</td>
+            <td>${c[2]}</td>
+            <td>${c[3]}</td>
+            <td>${c[4]}</td>
+            <td>${c[6]}</td>
+            </tr>`;
+        }
+    });
+
+    billBody.innerHTML = html;
+}
+
 /* FILL PDF */
 function fillPDF(){
-
     p1.innerText = name.value;
     p2.innerText = field2.value;
     p3.innerText = designation.value;
@@ -178,7 +282,7 @@ function fillPDF(){
     pdate.innerText = date.value;
 }
 
-/* PERFECT PDF */
+/* PDF GENERATION */
 async function generatePDF(){
 
     fillPDF();
@@ -198,7 +302,9 @@ async function generatePDF(){
 }
 
 /* INIT */
+loadEL();
 loadEmp();
+loadBills();
 
 </script>
 
