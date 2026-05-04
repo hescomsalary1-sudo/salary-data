@@ -291,16 +291,36 @@ async function loadBills(){
 
 /* FILL PDF */
 function fillPDF(){
-    p1.innerText = name.value;
-    p2.innerText = field2.value;
-    p3.innerText = designation.value;
-    p4.innerText = place.value;
-    p5.innerText = field5.value;
-    p6.innerText = field6.value;
-    p7.innerText = field7.value;
-    p8.innerText = field8.value;
-    p9.innerText = field9.value;
-    pdate.innerText = date.value;
+
+    document.getElementById("p1").innerText =
+        document.getElementById("name").value || "";
+
+    document.getElementById("p2").innerText =
+        document.getElementById("field2").value || "";
+
+    document.getElementById("p3").innerText =
+        document.getElementById("designation").value || "";
+
+    document.getElementById("p4").innerText =
+        document.getElementById("place").value || "";
+
+    document.getElementById("p5").innerText =
+        document.getElementById("field5").value || "";
+
+    document.getElementById("p6").innerText =
+        document.getElementById("field6").value || "";
+
+    document.getElementById("p7").innerText =
+        document.getElementById("field7").value || "";
+
+    document.getElementById("p8").innerText =
+        document.getElementById("field8").value || "";
+
+    document.getElementById("p9").innerText =
+        document.getElementById("field9").value || "";
+
+    document.getElementById("pdate").innerText =
+        document.getElementById("date").value || "";
 }
 
 /* PDF GENERATION */
