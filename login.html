@@ -364,6 +364,37 @@ color: white;
     /* CHANGE THIS TO BE HIGHER THAN 100000 */
     z-index: 200000; 
 }
+
+    .top h1 {
+    position: absolute;
+    top: 40px; /* Moved slightly down */
+    right: 30px;
+    margin: 0;
+    font-size: 32px; /* Slightly larger */
+    font-weight: 800;
+    z-index: 10;
+    color: #1A45A0; /* Matching the blue in the 3D character's suit */
+    text-shadow: none; /* Removed shadow for a cleaner, modern look */
+}
+
+.top p {
+    position: absolute;
+    top: 80px; /* Adjusted to sit under the new H1 position */
+    right: 30px;
+    margin: 0;
+    font-size: 16px;
+    z-index: 10;
+    color: #D34B32; /* Matching the orange-red used in professional fintech UI */
+    font-weight: 600;
+    text-shadow: none;
+}
+
+.illustration img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Changed from cover to contain to ensure the 3D character isn't cut off */
+    background-color: #f8fbff; /* Soft background match */
+}
 </style>
 </head>
 
@@ -381,9 +412,11 @@ color: white;
 </div>
 
 <!-- TOP -->
+<!-- TOP -->
 <div class="top">
     <div class="illustration">
-        <img id="loginImage" src="https://img.freepik.com/premium-vector/illustration-employee-getting-salary-from-boss_207579-1685.jpg?semt=ais_hybrid&w=740&q=80" alt="salary illustration">
+        <!-- Referencing the specific file provided -->
+        <img id="loginImage" src="image of logo.jpg" alt="Salary Prompt Logo">
     </div>
     <h1>Salary Prompt</h1>
     <p>Secure Employee Login</p>
