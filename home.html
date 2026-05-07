@@ -1393,6 +1393,85 @@ pointer-events: all;
   font-weight:bold;
   color:#2400b7;
 }
+
+ /* CONTAINER */
+.quick-container{
+  background:white;
+  padding:15px;
+  border-radius:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  margin:15px 0;
+}
+
+/* TITLE */
+.quick-title{
+  font-size:14px;
+  font-weight:600;
+  color:#2400b7;
+  margin-bottom:12px;
+}
+
+/* GRID */
+.quick-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+/* SECOND ROW */
+.quick-grid.bottom{
+  grid-template-columns:repeat(2,1fr);
+  margin-top:10px;
+}
+
+/* CARD */
+.quick-card{
+  background:linear-gradient(135deg,#ffffff,#f4f6ff);
+  border-radius:14px;
+  padding:10px;
+  text-align:center;
+  cursor:pointer;
+  box-shadow:0 6px 14px rgba(0,0,0,0.06);
+  transition:0.2s;
+}
+
+.quick-card:active{
+  transform:scale(0.95);
+}
+
+/* BIG CARD */
+.quick-card.wide{
+  padding:14px;
+}
+
+/* ICON */
+.quick-icon{
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  margin:0 auto 6px;
+  font-size:18px;
+}
+
+/* COLORS */
+.blue{background:#4b2dd8;}
+.orange{background:#ff7a18;}
+.green{background:#00c9a7;}
+.pink{background:#ff4e8a;}
+.purple{background:#6a5cff;}
+.indigo{background:#2400b7;}
+
+/* TEXT */
+.quick-card p{
+  margin:0;
+  font-size:12px;
+  font-weight:600;
+  color:#333;
+}
 </style>
 </head>
 
@@ -1584,60 +1663,71 @@ pointer-events: all;
 
 <!-- MAIN BUTTONS -->
 
-<div class="grid-main">
+<!-- QUICK ACTIONS -->
+<div class="quick-container">
 
-<div class="card" onclick="showLoader('accounts.html')">
-<div class="circle">👤</div>
-<p>My Accounts</p>
-</div>
+  <div class="quick-title">⚡ Quick Actions</div>
 
-<div class="card" onclick="showLoader('menu.html')">
-<div class="circle">💰</div>
-<p>Salary</p>
-</div>
+  <!-- ROW 1 (4 buttons) -->
+  <div class="quick-grid">
 
-<div class="card" onclick="showLoader('page3.html')">
-<div class="circle">📅</div>
-<p>Non-salary Income</p>
-</div>
+    <div class="quick-card" onclick="showLoader('accounts.html')">
+      <div class="quick-icon blue">👤</div>
+      <p>My Accounts</p>
+    </div>
 
-<div class="card" onclick="showLoader('page4.html')">
-<div class="circle">📝</div>
-<p>Forms & Formats</p>
-</div>
-</div>
+    <div class="quick-card" onclick="showLoader('menu.html')">
+      <div class="quick-icon orange">💰</div>
+      <p>Salary</p>
+    </div>
 
-<!-- SMALL BUTTONS -->
+    <div class="quick-card" onclick="showLoader('page3.html')">
+      <div class="quick-icon green">📅</div>
+      <p>Income</p>
+    </div>
 
-<div class="grid-small">
+    <div class="quick-card" onclick="showLoader('page4.html')">
+      <div class="quick-icon pink">📝</div>
+      <p>Forms</p>
+    </div>
 
- <div style="position: relative; width: 100%;" onclick="openGrievancePopup2()">
-  <div class="small-card settings">
-    ⚙ Grievance Notification
   </div>
-  <span id="notifBadge" style="
-    position: absolute;
-    top: -5px;
-    right: 5px;
-    background: #ff3d3d;
-    color: white;
-    font-size: 11px;
-    font-weight: bold;
-    min-width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    border: 2px solid white;
-    display: none; 
-    align-items: center;
-    justify-content: center;
-    animation: pulseBadge 2s infinite;
-    box-shadow: 0 4px 10px rgba(255, 61, 61, 0.4);
-    z-index: 10;
-  ">0</span>
-</div>
 
-  <div class="small-card about" onclick="showLoader('page2.html')">
-    ℹ About us
+  <!-- ROW 2 (2 buttons) -->
+  <div class="quick-grid bottom">
+
+    <div style="position:relative;" onclick="openGrievancePopup2()">
+      <div class="quick-card wide">
+        <div class="quick-icon purple">⚙</div>
+        <p>Grievance</p>
+      </div>
+
+      <!-- KEEP YOUR BADGE -->
+      <span id="notifBadge" style="
+        position:absolute;
+        top:-5px;
+        right:10px;
+        background:#ff3d3d;
+        color:white;
+        font-size:11px;
+        font-weight:bold;
+        min-width:20px;
+        height:20px;
+        border-radius:50%;
+        border:2px solid white;
+        display:none;
+        align-items:center;
+        justify-content:center;
+        animation:pulseBadge 2s infinite;
+        z-index:10;
+      ">0</span>
+    </div>
+
+    <div class="quick-card wide" onclick="showLoader('page2.html')">
+      <div class="quick-icon indigo">ℹ</div>
+      <p>About Us</p>
+    </div>
+
   </div>
 
 </div>
