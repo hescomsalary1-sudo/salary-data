@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,95 +9,147 @@
 body{
 font-family:sans-serif;
 margin:0;
-background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
+background: linear-gradient(135deg,#eef2ff,#e0e7ff,#f5f3ff);
 padding-bottom:90px;
 }
-.container {
-    animation: slideUp 0.4s ease-out;
-}
 
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
 /* HEADER */
-
 .top{
-padding:10px;
-background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
-color:#2400b7;
+padding:12px 15px;
 display:flex;
 align-items:center;
 gap:10px;
-border-bottom-left-radius:30px;
-border-bottom-right-radius:30px;
+color:#2400b7;
+background:rgba(255,255,255,0.6);
+backdrop-filter:blur(10px);
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
 }
 
-.top .icon{
-width:35px;
-height:35px;
+.icon{
+width:38px;
+height:38px;
 background:white;
-color:#5e00a3;
 border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
-font-weight:bold;
+font-size:18px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* PROFILE SUMMARY CARD */
+.back-btn{
+width:38px;
+height:38px;
+border-radius:50%;
+background:white;
+display:flex;
+align-items:center;
+justify-content:center;
+box-shadow:0 4px 12px rgba(0,0,0,0.1);
+cursor:pointer;
+}
 
+/* PROFILE CARD */
 .profile-card{
-background: linear-gradient(135deg, #2400b7, #3b1eff);
+background: linear-gradient(135deg,#2400b7,#5b3fff);
 margin:20px;
 padding:20px;
-border-radius:18px;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
+border-radius:20px;
+color:white;
+box-shadow:0 10px 30px rgba(0,0,0,0.25);
+}
+
+.profile-top{
 display:flex;
 align-items:center;
 gap:15px;
-color:white;
 }
 
 .profile-avatar{
-width:55px;
-height:55px;
+width:60px;
+height:60px;
 border-radius:50%;
 background:white;
-color:#5e00a3;
+color:#5b3fff;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:22px;
+font-size:24px;
 font-weight:bold;
-}
-
-.profile-info{
-flex:1;
 }
 
 .profile-name{
 font-weight:bold;
-font-size:16px;
-color:white;
+font-size:18px;
 }
 
 .profile-desg{
 font-size:13px;
-color:#e0e0ff;
-margin-top:3px;
+opacity:0.8;
 }
 
-/* ACCOUNT MENU */
+.edit-btn{
+margin-left:auto;
+background:rgba(255,255,255,0.2);
+padding:6px 12px;
+border-radius:20px;
+font-size:13px;
+}
 
+/* QUICK ACTIONS */
+.quick{
+margin:0 20px 20px;
+background:white;
+border-radius:18px;
+padding:15px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.quick-title{
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.quick-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:10px;
+}
+
+.quick-item{
+text-align:center;
+font-size:12px;
+cursor:pointer;
+}
+
+.quick-icon{
+width:45px;
+height:45px;
+margin:auto;
+border-radius:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+font-size:18px;
+margin-bottom:5px;
+}
+
+.green{background:#22c55e;}
+.blue{background:#3b82f6;}
+.purple{background:#7c3aed;}
+.orange{background:#f59e0b;}
+
+/* MENU */
 .menu{
-padding:0 20px 20px 20px;
+padding:0 20px;
 }
 
 .menu-item{
 background:white;
 border-radius:15px;
-padding:16px;
+padding:15px;
 margin-bottom:12px;
 display:flex;
 align-items:center;
@@ -106,11 +157,10 @@ justify-content:space-between;
 box-shadow:0 4px 10px rgba(0,0,0,0.08);
 cursor:pointer;
 transition:0.2s;
-border-left:4px solid #2400b7;
 }
 
 .menu-item:hover{
-transform:translateY(-2px);
+transform:translateY(-3px);
 }
 
 .menu-left{
@@ -120,31 +170,26 @@ gap:12px;
 }
 
 .menu-icon{
-width:40px;
-height:40px;
+width:42px;
+height:42px;
 border-radius:12px;
-background: linear-gradient(135deg, #2400b7, #3b1eff);
-color:white;
 display:flex;
 align-items:center;
 justify-content:center;
+color:white;
 font-size:18px;
-box-shadow:0 4px 10px rgba(0,0,0,0.15);
 }
 
 .menu-title{
-font-weight:bold;
-color:#5e00a3;
-font-size:15px;
+font-weight:600;
 }
 
 .arrow{
-font-size:18px;
 color:#999;
+font-size:18px;
 }
 
-/* SMALL LOADER */
-
+/* LOADER */
 .loader{
 position:fixed;
 top:0;
@@ -162,125 +207,111 @@ z-index:9999;
 width:30px;
 height:30px;
 border:4px solid #4b2dd8;
-border-top:4px solid #4b2dd8;
+border-top:4px solid transparent;
 border-radius:50%;
 animation:spin 1s linear infinite;
 }
 
 @keyframes spin{
-0%{transform:rotate(0deg);}
 100%{transform:rotate(360deg);}
 }
 
 /* FOOTER */
-
 .footer{
 position:fixed;
 bottom:0;
 width:100%;
-background:#ffffff;
+background:white;
 display:flex;
 justify-content:space-around;
 padding:8px 0;
-box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+box-shadow:0 -3px 15px rgba(0,0,0,0.1);
+border-top-left-radius:20px;
+border-top-right-radius:20px;
 }
 
 .footer a{
 text-decoration:none;
+color:#555;
+font-size:20px;
 display:flex;
 flex-direction:column;
 align-items:center;
-color:#5e00a3;
-font-size:20px;
 }
 
 .footer small{
-font-size:12px;
+font-size:11px;
 margin-top:3px;
-color:#5e00a3;
-font-weight:600;
-}
-/* BACK BUTTON */
-
-/* BACK BUTTON */
-
-.back-btn{
-width:40px;
-height:40px;
-border-radius:50%;
-background:rgba(255,255,255,0.85);
-backdrop-filter: blur(8px);
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-box-shadow:0 6px 15px rgba(0,0,0,0.15);
-transition:0.25s;
 }
 
-.back-btn:hover{
-transform:scale(1.1);
-background:white;
+.active{
+color:#2400b7;
+font-weight:bold;
 }
 
-.back-btn svg{
-transition:0.2s;
-}
-
-.back-btn:hover svg{
-transform:translateX(-2px);
-}
 </style>
 </head>
 
 <body>
 
 <!-- HEADER -->
-
-<!-- HEADER -->
 <div class="top">
-  
-  <!-- BACK BUTTON -->
-  <div class="back-btn" onclick="goBack()">
-    
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path d="M15 18L9 12L15 6" 
-            stroke="#2400b7" 
-            stroke-width="2.5" 
-            stroke-linecap="round" 
-            stroke-linejoin="round"/>
-    </svg>
-
-  </div>
-
-  <div class="icon">👤</div>
-  <h2>My Account</h2>
-
+<div class="back-btn" onclick="goBack()">←</div>
+<div class="icon">👤</div>
+<h2>My Account</h2>
 </div>
 
-
-<!-- PROFILE SUMMARY -->
-<div class="container">
+<!-- PROFILE -->
 <div class="profile-card">
+<div class="profile-top">
 
-<div class="profile-avatar" id="avatar">
-M
-</div>
+<div class="profile-avatar" id="avatar">M</div>
 
-<div class="profile-info">
+<div>
 <div class="profile-name" id="empName">Loading...</div>
 <div class="profile-desg" id="empDesg">Loading...</div>
 </div>
 
+<div class="edit-btn">Edit</div>
+
+</div>
+</div>
+
+<!-- QUICK ACTIONS -->
+<div class="quick">
+<div class="quick-title">Quick Actions</div>
+
+<div class="quick-grid">
+
+<div class="quick-item" onclick="openAttendance()">
+<div class="quick-icon green">✔</div>
+Mark
+</div>
+
+<div class="quick-item" onclick="openLeaves()">
+<div class="quick-icon blue">✎</div>
+Leave
+</div>
+
+<div class="quick-item">
+<div class="quick-icon purple">₹</div>
+Payslip
+</div>
+
+<div class="quick-item">
+<div class="quick-icon orange">⏱</div>
+History
+</div>
+
+</div>
 </div>
 
 <!-- MENU -->
-
 <div class="menu">
 
 <div class="menu-item" onclick="openProfile()">
 <div class="menu-left">
-<div class="menu-icon">📄</div>
+<div class="menu-icon purple">👤</div>
 <div class="menu-title">Profile</div>
 </div>
 <div class="arrow">›</div>
@@ -288,7 +319,7 @@ M
 
 <div class="menu-item" onclick="openAttendance()">
 <div class="menu-left">
-<div class="menu-icon">📅</div>
+<div class="menu-icon blue">📅</div>
 <div class="menu-title">Attendance</div>
 </div>
 <div class="arrow">›</div>
@@ -296,18 +327,23 @@ M
 
 <div class="menu-item" onclick="openLeaves()">
 <div class="menu-left">
-<div class="menu-icon">📝</div>
+<div class="menu-icon green">📝</div>
 <div class="menu-title">My Leaves</div>
 </div>
 <div class="arrow">›</div>
 </div>
+
 </div>
 
-
+<!-- FOOTER -->
+<div class="footer">
+<a href="#"><span>🏠</span><small>Home</small></a>
+<a href="#"><span>📊</span><small>Dashboard</small></a>
+<a href="#"><span>💬</span><small>Messages</small></a>
+<a href="#" class="active"><span>👤</span><small>Account</small></a>
 </div>
 
 <!-- LOADER -->
-
 <div class="loader" id="loader">
 <div class="spinner"></div>
 </div>
@@ -315,61 +351,42 @@ M
 <script>
 
 /* LOGIN CHECK */
-
 let user = localStorage.getItem("currentUser");
 if(!user){
 window.location="login.html";
 }
 
-/* LOAD USER PROFILE FROM GITHUB */
-
+/* LOAD USER PROFILE */
 async function loadUserProfile(){
-
 try{
-
-let response = await fetch(
-"https://hescomsalary1-sudo.github.io/salary-data/employee.csv"
-);
-
+let response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
 let text = await response.text();
 let rows = text.trim().split("\n");
 
 for(let i=1;i<rows.length;i++){
-
 let cols = rows[i].split(",");
-
 if(cols[0]===user){
-
 document.getElementById("empName").innerText = cols[1];
 document.getElementById("empDesg").innerText = cols[2];
-
 document.getElementById("avatar").innerText =
 cols[1].charAt(0).toUpperCase();
-
 return;
-
 }
-
 }
 
 }catch(e){
-
 document.getElementById("empName").innerText = user;
-
 }
-
 }
 
 loadUserProfile();
 
 /* LOADER */
-
 function showLoader(){
 document.getElementById("loader").style.display="flex";
 }
 
 /* NAVIGATION */
-
 function openProfile(){
 showLoader();
 window.location="page1.html";
@@ -385,14 +402,10 @@ showLoader();
 window.location="leaves.html";
 }
 
-function openOthers(){
-showLoader();
-window.location="others.html";
+function goBack(){
+window.history.back();
 }
 
-function goBack(){
-  window.history.back();
-}
 </script>
 
 </body>
