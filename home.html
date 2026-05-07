@@ -1488,47 +1488,25 @@ pointer-events: all;
   </div>
 
 </div>
-<div class="attendance-card-new">
+<div class="att-header">
+  <div class="att-title">📊 Attendance Report</div>
+  <div class="att-date">This Month</div>
+</div>
+<div class="chart-box">
 
-  <!-- HEADER -->
-  <div class="att-top">
-    <div class="att-left">
-      <div class="att-icon">📊</div>
-      <div>
-        <div class="att-title">Attendance</div>
-        <div class="att-sub">This Month</div>
-      </div>
+  <!-- LEFT DONUT -->
+  <div class="donut" id="donutChart">
+    <div class="center">
+      <span id="percentText">0%</span>
     </div>
-
-    <div class="att-percent" id="percentText">0%</div>
   </div>
 
-  <!-- MAIN -->
-  <div class="att-body">
-
-    <!-- DONUT -->
-    <div class="donut-new" id="donutChart"></div>
-
-    <!-- DETAILS -->
-    <div class="att-details">
-
-      <div class="att-row">
-        <span><span class="dot green"></span> Present</span>
-        <b id="presentVal">0%</b>
-      </div>
-
-      <div class="att-row">
-        <span><span class="dot yellow"></span> Leave</span>
-        <b id="leaveVal">0%</b>
-      </div>
-
-      <div class="att-row">
-        <span><span class="dot red"></span> Absent</span>
-        <b id="absentVal">0%</b>
-      </div>
-
-    </div>
-
+  <!-- RIGHT DETAILS -->
+  <div class="legend">
+    <div><span><span class="dot green"></span> Present</span> <b id="presentVal">0%</b></div>
+    <div><span><span class="dot green"></span> Late</span> <b id="lateVal">0%</b></div>
+    <div><span><span class="dot yellow"></span> Leave</span> <b id="leaveVal">0%</b></div>
+    <div><span><span class="dot red"></span> Absent</span> <b id="absentVal">0%</b></div>
   </div>
 
 </div>
@@ -2087,19 +2065,15 @@ document.getElementById("lateVal").parentElement.style.display="none";
 let p1 = presentPer;
 let p2 = p1 + leavePer;
 
-let chart = document.getElementById("donutChart");
+document.getElementById("donutChart").style.background =
+`conic-gradient(
+#4caf50 0% ${p1}%,     /* ✅ Present = GREEN */
+#ffc107 ${p1}% ${p2}%, /* Leave = Yellow */
+#f44336 ${p2}% 100%    /* Absent = Red */
+)`;
 
-if(chart){
-
-  chart.style.background =
-  `conic-gradient(
-    #4caf50 0% ${p1}%,
-    #ffc107 ${p1}% ${p2}%,
-    #f44336 ${p2}% 100%
-  )`;
-
-}else{
-  console.log("donutChart not found ❌");
+}catch(e){
+console.log("Error:", e);
 }
 
 }
