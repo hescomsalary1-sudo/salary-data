@@ -526,6 +526,75 @@ margin-top:3px;
 font-size:26px;
 opacity:0.9;
 }
+
+  .buttons{
+display:grid;
+grid-template-columns:1fr;
+gap:12px;
+padding:15px 12px;
+}
+
+/* BUTTON CARD */
+.btn2{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:14px;
+border-radius:18px;
+background:linear-gradient(145deg,#ffffff,#eef2f7);
+box-shadow:0 6px 15px rgba(0,0,0,0.06);
+cursor:pointer;
+transition:0.2s;
+}
+
+/* PRESS EFFECT */
+.btn2:active{
+transform:scale(0.97);
+}
+
+/* LEFT SECTION */
+.left{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+/* ICON */
+.icon2{
+width:40px;
+height:40px;
+border-radius:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+font-size:16px;
+}
+
+/* COLORS */
+.blue{background:#3b82f6;}
+.purple{background:#7c3aed;}
+.orange{background:#f97316;}
+.green{background:#22c55e;}
+
+/* TEXT */
+.title2{
+font-size:14px;
+font-weight:600;
+color:#111827;
+}
+
+.sub{
+font-size:11px;
+color:#6b7280;
+margin-top:2px;
+}
+
+/* ARROW */
+.arrow{
+font-size:20px;
+color:#9ca3af;
+}
 </style>
 </head>
 
@@ -626,27 +695,51 @@ opacity:0.9;
 
 <div class="buttons">
 
+  <div class="btn2" onclick="showLoader('salary.html')">
+    <div class="left">
+      <div class="icon2 blue">💰</div>
+      <div>
+        <div class="title2">Salary</div>
+        <div class="sub">View salary details</div>
+      </div>
+    </div>
+    <div class="arrow">›</div>
+  </div>
 
-<div class="btn" onclick="showLoader('salary.html')">
-<div class="icon blue-bg">💰</div>
-<p>Salary</p>
-</div>
+  <div class="btn2" onclick="showLoader('reports_menu.html')">
+    <div class="left">
+      <div class="icon2 purple">📊</div>
+      <div>
+        <div class="title2">Reports</div>
+        <div class="sub">Salary reports & history</div>
+      </div>
+    </div>
+    <div class="arrow">›</div>
+  </div>
 
-<div class="btn" onclick="showLoader('reports_menu.html')">
-<div class="icon purple-bg">📊</div>
-<p>Reports</p>
-</div>
+  <div class="btn2" onclick="showLoader('holidays.html')">
+    <div class="left">
+      <div class="icon2 orange">📅</div>
+      <div>
+        <div class="title2">Holiday List</div>
+        <div class="sub">Upcoming holidays</div>
+      </div>
+    </div>
+    <div class="arrow">›</div>
+  </div>
 
-<div class="btn" onclick="showLoader('holidays.html')">
-<div class="icon orange-bg">📅</div>
-<p>Holiday List</p>
-</div>
+  <div class="btn2" onclick="showLoader('assets_liability.html')">
+    <div class="left">
+      <div class="icon2 green">📄</div>
+      <div>
+        <div class="title2">Assets & Liabilities</div>
+        <div class="sub">View your assets</div>
+      </div>
+    </div>
+    <div class="arrow">›</div>
+  </div>
 
-<div class="btn" onclick="showLoader('assets_liability.html')">
-<div class="icon green-bg">📄</div>
-<p>Assets and Liabilities</p>
 </div>
-</div> <!-- ✅ END CONTENT -->
 </div>
 
 <script>
