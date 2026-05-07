@@ -1336,6 +1336,63 @@ pointer-events: all;
 .green{background:#4caf50;}
 .yellow{background:#ffc107;}
 .red{background:#f44336;}
+
+ /* NEW ATTENDANCE CARD */
+.attendance-card{
+  background:linear-gradient(135deg,#ffffff,#f4f6ff);
+  border-radius:20px;
+  padding:15px;
+  margin:15px 0;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* HEADER */
+.att-header-new{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+/* LEFT SIDE */
+.att-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+/* ICON */
+.att-icon{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#2400b7,#6a5cff);
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+}
+
+/* TITLE */
+.att-title{
+  font-size:14px;
+  font-weight:600;
+  color:#2400b7;
+}
+
+/* DATE */
+.att-date{
+  font-size:11px;
+  color:#777;
+}
+
+/* PERCENT RIGHT */
+.att-percent{
+  font-size:18px;
+  font-weight:bold;
+  color:#2400b7;
+}
 </style>
 </head>
 
@@ -1488,25 +1545,39 @@ pointer-events: all;
   </div>
 
 </div>
-<div class="att-header">
-  <div class="att-title">📊 Attendance Report</div>
-  <div class="att-date">This Month</div>
-</div>
-<div class="chart-box">
+<div class="attendance-card">
 
-  <!-- LEFT DONUT -->
-  <div class="donut" id="donutChart">
-    <div class="center">
-      <span id="percentText">0%</span>
+  <!-- HEADER -->
+  <div class="att-header-new">
+    <div class="att-left">
+      <div class="att-icon">📊</div>
+      <div>
+        <div class="att-title">Attendance Report</div>
+        <div class="att-date">This Month</div>
+      </div>
     </div>
+
+    <div class="att-percent" id="percentText">0%</div>
   </div>
 
-  <!-- RIGHT DETAILS -->
-  <div class="legend">
-    <div><span><span class="dot green"></span> Present</span> <b id="presentVal">0%</b></div>
-    <div><span><span class="dot green"></span> Late</span> <b id="lateVal">0%</b></div>
-    <div><span><span class="dot yellow"></span> Leave</span> <b id="leaveVal">0%</b></div>
-    <div><span><span class="dot red"></span> Absent</span> <b id="absentVal">0%</b></div>
+  <!-- BODY -->
+  <div class="chart-box">
+
+    <!-- DONUT (NO CHANGE IN ID) -->
+    <div class="donut" id="donutChart">
+      <div class="center">
+        <span id="percentText">0%</span>
+      </div>
+    </div>
+
+    <!-- LEGEND (NO CHANGE IN IDS) -->
+    <div class="legend">
+      <div><span><span class="dot green"></span> Present</span> <b id="presentVal">0%</b></div>
+      <div><span><span class="dot green"></span> Late</span> <b id="lateVal">0%</b></div>
+      <div><span><span class="dot yellow"></span> Leave</span> <b id="leaveVal">0%</b></div>
+      <div><span><span class="dot red"></span> Absent</span> <b id="absentVal">0%</b></div>
+    </div>
+
   </div>
 
 </div>
