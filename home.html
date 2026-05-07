@@ -1472,6 +1472,25 @@ pointer-events: all;
   font-weight:600;
   color:#333;
 }
+
+ /* GRIEVANCE SPECIAL STYLE */
+.grievance-card{
+  background:linear-gradient(135deg,#fff,#f3f0ff);
+}
+
+/* 🔔 SMALL NOTIFICATION ICON */
+.notif-icon{
+  position:absolute;
+  top:-4px;
+  right:-4px;
+  background:#ff3d3d;
+  color:white;
+  font-size:10px;
+  padding:3px;
+  border-radius:50%;
+  border:2px solid white;
+  animation:pulseBadge 2s infinite;
+}
 </style>
 </head>
 
@@ -1696,32 +1715,41 @@ pointer-events: all;
   <!-- ROW 2 (2 buttons) -->
   <div class="quick-grid bottom">
 
-    <div style="position:relative;" onclick="openGrievancePopup2()">
-      <div class="quick-card wide">
-        <div class="quick-icon purple">⚙</div>
-        <p>Grievance</p>
-      </div>
+<div style="position:relative;" onclick="openGrievancePopup2()">
 
-      <!-- KEEP YOUR BADGE -->
-      <span id="notifBadge" style="
-        position:absolute;
-        top:-5px;
-        right:10px;
-        background:#ff3d3d;
-        color:white;
-        font-size:11px;
-        font-weight:bold;
-        min-width:20px;
-        height:20px;
-        border-radius:50%;
-        border:2px solid white;
-        display:none;
-        align-items:center;
-        justify-content:center;
-        animation:pulseBadge 2s infinite;
-        z-index:10;
-      ">0</span>
+  <div class="quick-card wide grievance-card">
+
+    <div class="quick-icon purple">
+      ⚙
+      <!-- 🔔 NOTIFICATION ICON -->
+      <span class="notif-icon">🔔</span>
     </div>
+
+    <p>Grievance Notification</p>
+
+  </div>
+
+  <!-- EXISTING BADGE (NO CHANGE) -->
+  <span id="notifBadge" style="
+    position:absolute;
+    top:-5px;
+    right:10px;
+    background:#ff3d3d;
+    color:white;
+    font-size:11px;
+    font-weight:bold;
+    min-width:20px;
+    height:20px;
+    border-radius:50%;
+    border:2px solid white;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    animation:pulseBadge 2s infinite;
+    z-index:10;
+  ">0</span>
+
+</div>
 
     <div class="quick-card wide" onclick="showLoader('page2.html')">
       <div class="quick-icon indigo">ℹ</div>
