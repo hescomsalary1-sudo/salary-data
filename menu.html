@@ -443,6 +443,85 @@ transform:translateX(-2px);
   color: #2d3748;
   margin: 0;           /* Reset margins */
 }
+
+  /* SUMMARY ROW */
+.summary{
+display:flex;
+gap:12px;
+margin-top:15px;
+}
+
+/* SMALL CARDS */
+.card{
+flex:1;
+background:#f3f4f6;
+padding:15px;
+border-radius:16px;
+box-shadow:0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* CARD TOP */
+.card-top{
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:8px;
+}
+
+/* ICON BOX */
+.icon-box{
+width:35px;
+height:35px;
+border-radius:10px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:16px;
+color:white;
+}
+
+.blue{background:#3b82f6;}
+.red{background:#ef4444;}
+
+/* TEXT */
+.label{
+font-size:13px;
+color:#666;
+}
+
+.value{
+font-size:20px;
+font-weight:bold;
+color:#111;
+}
+
+/* NET CARD */
+.net-card{
+margin-top:15px;
+background:linear-gradient(135deg,#2b00ff,#5b3fff);
+color:white;
+padding:18px;
+border-radius:20px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+.net-label{
+font-size:14px;
+opacity:0.8;
+}
+
+.net-card h1{
+margin:5px 0 0;
+font-size:28px;
+}
+
+.net-icon{
+font-size:35px;
+opacity:0.9;
+}
 </style>
 </head>
 
@@ -481,25 +560,38 @@ transform:translateX(-2px);
 
 <div class="top2">
 
-<div class="card">
-<div class="grid2">
-<div class="box">
-<h4>Last Month Salary</h4>
-<p class="blue" id="currentSalary">Loading...</p>
+<div class="summary">
+
+  <!-- LAST MONTH SALARY -->
+  <div class="card">
+    <div class="card-top">
+      <div class="icon-box blue">💼</div>
+      <div class="label">Last Month Salary</div>
+    </div>
+    <div class="value" id="lastSalary">₹ 0</div>
+  </div>
+
+  <!-- DEDUCTIONS -->
+  <div class="card">
+    <div class="card-top">
+      <div class="icon-box red">⬇️</div>
+      <div class="label">Deductions</div>
+    </div>
+    <div class="value" id="deduction">₹ 0</div>
+  </div>
+
 </div>
 
-<div class="box">
-<h4>Deductions</h4>
-<p class="red" id="deduction">Loading...</p>
-</div>
-</div>
+<!-- NET SALARY -->
+<div class="net-card">
+  <div class="net-left">
+    <div class="net-label">Net Salary</div>
+    <h1 id="netSalary">₹ 0</h1>
+  </div>
 
-<div class="net">
-<h4>Net Salary:</h4>
-<p class="green" id="netSalary" style="font-size:22px;">Loading...</p>
-</div>
-
-
+  <div class="net-icon">
+    💰
+  </div>
 </div>
 
 <div class="card">
