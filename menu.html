@@ -445,38 +445,39 @@ transform:translateX(-2px);
 }
 
   /* SUMMARY ROW */
+/* ROW */
 .summary{
 display:flex;
-gap:12px;
-margin-top:15px;
+gap:10px;
+margin-top:12px;
 }
 
-/* SMALL CARDS */
+/* CARD */
 .card2{
 flex:1;
-background:#f3f4f6;
-padding:15px;
-border-radius:18px;
-box-shadow:0 6px 15px rgba(0,0,0,0.08);
+padding:12px;
+border-radius:16px;
+background:linear-gradient(145deg,#ffffff,#eef2f7);
+box-shadow:0 4px 10px rgba(0,0,0,0.06);
 }
 
-/* ROW */
-.card-row{
+/* FLEX */
+.row{
 display:flex;
 align-items:center;
-gap:10px;
+gap:8px;
 }
 
 /* ICON */
-.icon-circle{
-width:40px;
-height:40px;
-border-radius:50%;
+.icon{
+width:32px;
+height:32px;
+border-radius:10px;
 display:flex;
 align-items:center;
 justify-content:center;
 color:white;
-font-size:18px;
+font-size:14px;
 }
 
 .purple{background:#6366f1;}
@@ -484,44 +485,45 @@ font-size:18px;
 
 /* TEXT */
 .label{
-font-size:13px;
-color:#666;
+font-size:11px;
+color:#6b7280;
 }
 
 .value{
-font-size:20px;
-font-weight:bold;
-margin-top:3px;
+font-size:16px;
+font-weight:600;
+margin-top:2px;
+color:#111827;
 }
 
 /* NET CARD */
 .net-card{
-margin-top:15px;
-padding:20px;
-border-radius:22px;
-background:linear-gradient(135deg,#2b00ff,#5b3fff);
+margin-top:12px;
+padding:14px;
+border-radius:18px;
+background:linear-gradient(135deg,#2400b7,#4b2dd8);
 color:white;
 display:flex;
 align-items:center;
 justify-content:space-between;
-box-shadow:0 12px 30px rgba(0,0,0,0.25);
+box-shadow:0 8px 20px rgba(36,0,183,0.25);
 }
 
 /* NET TEXT */
 .net-label{
-font-size:14px;
+font-size:12px;
 opacity:0.8;
 }
 
 .net-value{
-font-size:28px;
-font-weight:bold;
-margin-top:5px;
+font-size:22px;
+font-weight:700;
+margin-top:3px;
 }
 
-/* WALLET ICON */
-.wallet-icon{
-font-size:40px;
+/* ICON */
+.net-icon{
+font-size:26px;
 opacity:0.9;
 }
 </style>
@@ -564,21 +566,21 @@ opacity:0.9;
 
 <div class="summary">
 
-  <!-- LAST MONTH SALARY -->
+  <!-- SALARY -->
   <div class="card2">
-    <div class="card-row">
-      <div class="icon-circle purple">💼</div>
+    <div class="row">
+      <div class="icon purple">💼</div>
       <div>
-        <div class="label">Last Month Salary</div>
+        <div class="label">Last Month</div>
         <div class="value" id="currentSalary">₹ 0</div>
       </div>
     </div>
   </div>
 
-  <!-- DEDUCTIONS -->
+  <!-- DEDUCTION -->
   <div class="card2">
-    <div class="card-row">
-      <div class="icon-circle red">⬇️</div>
+    <div class="row">
+      <div class="icon red">⬇</div>
       <div>
         <div class="label">Deductions</div>
         <div class="value" id="deduction">₹ 0</div>
@@ -586,6 +588,15 @@ opacity:0.9;
     </div>
   </div>
 
+</div>
+
+<!-- NET -->
+<div class="net-card">
+  <div>
+    <div class="net-label">Net Salary</div>
+    <div class="net-value" id="netSalary">₹ 0</div>
+  </div>
+  <div class="net-icon">💰</div>
 </div>
 
 <!-- NET SALARY CARD -->
