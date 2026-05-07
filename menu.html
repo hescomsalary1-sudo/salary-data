@@ -793,14 +793,20 @@ bar.setAttribute("data-value","₹ " + v.toLocaleString("en-IN"));
 chart.appendChild(bar);
 });
 
+let svg = document.getElementById("line");
+
 let chartWidth = chart.clientWidth - 20;
 
-let points=values.map((v,i)=>{
+let points = values.map((v,i)=>{
 let x=(i/(values.length-1))*chartWidth + 10;
 let y = 140 - (v / yMax) * 120;
 return `${x},${y}`;
 }).join(" ");
-  values.forEach((v,i)=>{
+  
+svg.appendChild(poly);
+
+// NOW draw dots
+values.forEach((v,i)=>{
 let cx=(i/(values.length-1))*(chart.clientWidth-20)+10;
 let cy = 140 - (v / yMax) * 120;
 
