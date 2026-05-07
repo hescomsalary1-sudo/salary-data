@@ -203,16 +203,7 @@ text-align: center;
     background-repeat: no-repeat;
 }
 
-.illustration img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* Ensures image fills the area without distorting */
-    border-radius: 0; /* Remove radius for a full-screen look */
-}
-/* small animation */
-.illustration img:active{
-transform:scale(0.95);
-}
+
 
   /* CHANGE PASSWORD LOADER */
 /* UPDATED CP LOADER */
@@ -584,31 +575,11 @@ closeBox();
 
 
 window.addEventListener("load", function(){
-
-    const img = document.getElementById("loginImage");
-    const loader = document.getElementById("loader");
-
-    // If image already cached
-    if (img.complete) {
+    setTimeout(() => {
         hideLoader();
-    } else {
-        img.onload = hideInitialLoader;
-        img.onerror = hideInitialLoader;
-    }
-
-    function hideInitialLoader(){
-        setTimeout(() => {
-            loader.style.opacity = "0";
-            loader.style.transition = "0.4s ease";
-
-            setTimeout(()=>{
-                loader.style.display = "none";
-                document.body.style.overflow = "auto";
-            }, 400);
-        }, 300); // small delay for smooth UX
-    }
-
+    }, 500);
 });
+    
   function closeError(){
 document.getElementById("errorPopup").style.display="none";
 }
