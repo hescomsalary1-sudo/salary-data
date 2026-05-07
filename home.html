@@ -1598,15 +1598,40 @@ pointer-events: all;
 }
 
 /* NEWS LIST */
-.news-list{
-  margin-top:15px;
-}
-
+/* NEWS ITEM WITH ICON */
 .news-item{
-  padding:10px 0;
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:12px 0;
   border-bottom:1px solid #eee;
+  position:relative;
 }
 
+/* ICON BEFORE EACH NEWS */
+.news-item::before{
+  content:"📢";
+  flex-shrink:0;
+  width:32px;
+  height:32px;
+  border-radius:10px;
+  background:linear-gradient(135deg,#2400b7,#6a5cff);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  color:white;
+  margin-top:2px;
+}
+
+/* TEXT BLOCK */
+.news-item div:last-child{
+  flex:1;
+  font-size:13px;
+  color:#333;
+}
+
+/* DATE */
 .news-date{
   font-size:11px;
   color:#777;
