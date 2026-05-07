@@ -1491,6 +1491,127 @@ pointer-events: all;
   border:2px solid white;
   animation:pulseBadge 2s infinite;
 }
+
+ /* MAIN CONTAINER */
+.news-container{
+  margin-top:20px;
+  padding:15px;
+  border-radius:22px;
+  background:linear-gradient(135deg,#ffffff,#f4f6ff);
+  box-shadow:0 12px 30px rgba(0,0,0,0.08);
+}
+
+/* HEADER */
+.news-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+.news-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.news-icon{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#2400b7,#6a5cff);
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+}
+
+.news-title{
+  font-size:15px;
+  font-weight:600;
+  color:#2400b7;
+}
+
+.news-sub{
+  font-size:11px;
+  color:#777;
+}
+
+/* SLIDER */
+.slider-container{
+  display:flex;
+  overflow-x:auto;
+  gap:12px;
+  padding:10px 0;
+  scroll-snap-type:x mandatory;
+}
+
+/* CARD */
+.slider-item{
+  flex:0 0 85%;
+  height:150px;
+  border-radius:18px;
+  overflow:hidden;
+  position:relative;
+  scroll-snap-align:center;
+  box-shadow:0 8px 20px rgba(0,0,0,0.12);
+}
+
+/* IMAGE */
+.slider-item img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:0.4s;
+}
+
+/* DARK OVERLAY */
+.slider-overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+}
+
+/* TEXT */
+.slider-text{
+  position:absolute;
+  bottom:15px;
+  left:15px;
+  color:white;
+}
+
+.slider-text h4{
+  margin:0;
+  font-size:15px;
+}
+
+.slider-text p{
+  margin:2px 0 0;
+  font-size:12px;
+  opacity:0.9;
+}
+
+/* CLICK EFFECT */
+.slider-item:active img{
+  transform:scale(1.08);
+}
+
+/* NEWS LIST */
+.news-list{
+  margin-top:15px;
+}
+
+.news-item{
+  padding:10px 0;
+  border-bottom:1px solid #eee;
+}
+
+.news-date{
+  font-size:11px;
+  color:#777;
+  margin-bottom:3px;
+}
 </style>
 </head>
 
@@ -1783,13 +1904,25 @@ pointer-events: all;
   </div>
 </div>
 
-<div class="news-box">
-  <h3>📢 What's New?</h3>
-  
+<div class="news-container">
+
+  <!-- HEADER -->
+  <div class="news-header">
+    <div class="news-left">
+      <div class="news-icon">📢</div>
+      <div>
+        <div class="news-title">What’s New</div>
+        <div class="news-sub">Latest updates & insights</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDER (NO CHANGE IN LOGIC) -->
   <div class="slider-container">
     
     <div class="slider-item" onclick="showLoader('safety.html')">
-      <img src="https://i0.wp.com/complainthub.org/wp-content/uploads/2024/04/HESCOM-Logo.png?fit=720%2C480&ssl=1" alt="Salary">
+      <img src="https://i0.wp.com/complainthub.org/wp-content/uploads/2024/04/HESCOM-Logo.png?fit=720%2C480&ssl=1">
+      <div class="slider-overlay"></div>
       <div class="slider-text">
         <h4>ಲೈನಮ್ಯಾನ್ ಸುರಕ್ಷತೆ</h4>
         <p>Safety directions ➜</p>
@@ -1797,7 +1930,8 @@ pointer-events: all;
     </div>
 
     <div class="slider-item" onclick="showLoader('money_saving.html')">
-      <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=500&q=80" alt="Finance">
+      <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=500&q=80">
+      <div class="slider-overlay"></div>
       <div class="slider-text">
         <h4>ಹಣ ಉಳಿಸುವಿಕೆ</h4>
         <p>Plan your investments ➜</p>
@@ -1805,18 +1939,21 @@ pointer-events: all;
     </div>
 
     <div class="slider-item" onclick="showLoader('work_management.html')">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW4_sqCE1RXrpaiuPsoQAShgM4Z77YtIw7JA&s" alt="PF">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW4_sqCE1RXrpaiuPsoQAShgM4Z77YtIw7JA&s">
+      <div class="slider-overlay"></div>
       <div class="slider-text">
         <h4>ಕೆಲಸದ ನಿರ್ವಹಣೆ</h4>
-        <p>ಸಮಯ ಮತ್ತು ಕೆಲಸ ಮಾರ್ಗಗಳು ➜</p>
+        <p>Work smart ➜</p>
       </div>
     </div>
 
   </div>
 
-  <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+  <!-- NEWS DATA (NO CHANGE) -->
+  <div class="news-list">
+    <div id="newsData">Loading updates...</div>
+  </div>
 
-  <div id="newsData">Loading updates...</div>
 </div>
 
 </div>
