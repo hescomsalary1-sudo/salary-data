@@ -11,7 +11,17 @@ font-family:sans-serif;
 margin:0;
 background: linear-gradient(135deg,#eef2ff,#e0e7ff,#f5f3ff);
 }
+/* PAGE ANIMATION */
+body{
+opacity:0;
+transform:translateY(15px);
+transition:all 0.4s ease;
+}
 
+body.show{
+opacity:1;
+transform:translateY(0);
+}
 /* HEADER */
 .top{
 padding:12px 15px;
@@ -334,7 +344,10 @@ History
 </div>
 
 <script>
-
+/* PAGE LOAD ANIMATION */
+window.onload = function(){
+document.body.classList.add("show");
+};
 /* LOGIN CHECK */
 let user = localStorage.getItem("currentUser");
 if(!user){
