@@ -151,6 +151,51 @@ animation:spin 1s linear infinite;
 flex-direction:row;
 }
 }
+
+  .top-bar{
+  display:flex;
+  align-items:center;
+  padding:15px;
+  gap:10px;
+}
+
+.top-title{
+  font-size:20px;
+  font-weight:700;
+  color:#1e2a4a;
+}
+
+.back-btn{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 5px 12px rgba(0,0,0,0.1);
+  cursor:pointer;
+}
+  .section-title{
+  font-size:15px;
+  font-weight:600;
+  margin-bottom:10px;
+  color:#333;
+}
+  body{
+  animation:fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn{
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
 </style>
 </head>
 
@@ -158,10 +203,17 @@ flex-direction:row;
 
 <div id="loader"><div class="spinner"></div></div>
 
-<div class="top">Salary Overview</div>
+<div class="top-bar">
+
+  <div class="back-btn" onclick="goBack()">⬅</div>
+
+  <div class="top-title">Salary Overview</div>
+
+</div>
 
 <!-- TOP CONTAINER -->
 <div class="container">
+  <h3 class="section-title">Last Month Summary</h3>
 <div class="summary">
 <div class="card">
 Earnings<br><b id="earn">₹0</b>
@@ -179,6 +231,7 @@ Net<br><b id="net">₹0</b>
 
 <!-- PIE + LIST CONTAINER -->
 <div class="container">
+  <h3 class="section-title">Salary Distribution</h3>
 <div class="chart-flex">
 
 <div id="pie" class="pie"></div>
@@ -190,6 +243,7 @@ Net<br><b id="net">₹0</b>
 
 <!-- BUTTON CONTAINER -->
 <div class="container">
+  <h3 class="section-title">Quick Actions</h3>
 <div class="buttons">
 
 <div class="btn" onclick="go('salary.html')">
@@ -309,6 +363,11 @@ loader.style.display="none";
 
 })
 .catch(()=>{ loader.style.display="none"; });
+
+  function goBack(){
+  loader.style.display="flex";
+  setTimeout(()=>{ history.back(); },500);
+}
 </script>
 
 </body>
