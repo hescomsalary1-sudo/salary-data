@@ -207,48 +207,60 @@ if(!row){
 
 function num(v){ return Number(v) || 0 }
 
-/* EARNINGS */
-let earn = 0;
-for(let i=3;i<=19;i++) earn += num(row[i]);
+/* ===== EARNINGS (same as salary.html) ===== */
+let earnings =
+num(row[3]) + num(row[4]) + num(row[5]) + num(row[6]) +
+num(row[7]) + num(row[8]) + num(row[9]) + num(row[10]) +
+num(row[11]) + num(row[12]) + num(row[13]) + num(row[14]) +
+num(row[15]) + num(row[16]) + num(row[17]) + num(row[18]) +
+num(row[19]);
 
-/* DEDUCTIONS */
-let map = [
-["LIC",20],["IT",21],["PT",22],["Society",23],["PLI",24],
-["Union",25],["SC/ST",26],["Rent",27],["Bank",28],
-["Family",29],["Festival",30],["PC10",31],["PC14",32],
-["LWF",33],["Recovery",34],["Other",35]
+/* ===== ALL DEDUCTIONS (EXACT MATCH) ===== */
+let deductionsList = [
+{name:"LIC", value:num(row[20])},
+{name:"Income Tax", value:num(row[21])},
+{name:"Professional Tax", value:num(row[22])},
+{name:"Society", value:num(row[23])},
+{name:"PLI", value:num(row[24])},
+{name:"Union Fund", value:num(row[25])},
+{name:"SC/ST Fund", value:num(row[26])},
+{name:"House Rent", value:num(row[27])},
+{name:"Urban Bank", value:num(row[28])},
+{name:"Family Fund", value:num(row[29])},
+{name:"Festival Advance", value:num(row[30])},
+{name:"PC 10%", value:num(row[31])},
+{name:"PC 14%", value:num(row[32])},
+{name:"LWF", value:num(row[33])},
+{name:"Recovery", value:num(row[34])},
+{name:"Other Deduction", value:num(row[35])}
 ];
 
-let deductions = [];
-map.forEach(d=>{
-  let val = num(row[d[1]]);
-  if(val>0) deductions.push({name:d[0],value:val});
-});
-
-let totalDed = deductions.reduce((a,b)=>a+b.value,0);
-let netVal = earn - totalDed;
+/* 👉 IMPORTANT: DO NOT FILTER (show all items) */
+let totalDed = deductionsList.reduce((a,b)=>a+b.value,0);
+let netVal = earnings - totalDed;
 
 /* UI */
-document.getElementById("earn").innerText = "₹ " + earn;
+document.getElementById("earn").innerText = "₹ " + earnings;
 document.getElementById("ded").innerText = "₹ " + totalDed;
 document.getElementById("net").innerText = netVal;
 
-/* PIE */
+/* ===== PIE DATA ===== */
 let dataArr = [
-{name:"Earnings",value:earn,color:"#00c853"},
-...deductions.map((d,i)=>({
+{name:"Earnings", value:earnings, color:"#00c853"},
+...deductionsList.map((d,i)=>({
   name:d.name,
   value:d.value,
-  color:`hsl(${i*25},70%,50%)`
+  color:`hsl(${i*22},70%,50%)`
 }))
 ];
 
+/* PIE */
 let total = dataArr.reduce((a,b)=>a+b.value,0);
 let angle = 0;
 let grad = [];
 
 dataArr.forEach(d=>{
-  let p = (d.value/total)*100;
+  let p = total>0 ? (d.value/total)*100 : 0;
   grad.push(`${d.color} ${angle}% ${angle+p}%`);
   angle += p;
 });
@@ -256,14 +268,14 @@ dataArr.forEach(d=>{
 document.getElementById("pie").style.background =
   `conic-gradient(${grad.join(",")})`;
 
-/* LEGEND */
+/* LEGEND (ALL ITEMS SHOWN) */
 let html="";
 dataArr.forEach(d=>{
-  html+=`
-  <div class="legend-item">
-    <span><span class="color" style="background:${d.color}"></span>${d.name}</span>
-    <span>₹ ${d.value}</span>
-  </div>`;
+html+=`
+<div class="legend-item">
+<span><span class="color" style="background:${d.color}"></span>${d.name}</span>
+<span>₹ ${d.value}</span>
+</div>`;
 });
 
 document.getElementById("legend").innerHTML = html;
@@ -272,8 +284,8 @@ loader.style.display="none";
 
 })
 .catch(()=>{
-  loader.style.display="none";
-  alert("Error loading data");
+loader.style.display="none";
+alert("Error loading data");
 });
 </script>
 
