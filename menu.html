@@ -102,7 +102,7 @@ background:rgba(255,255,255,0.2);
 font-size:12px;
 }
 
-/* CHART */
+/* BREAKDOWN */
 .card{
 margin:12px;
 background:#f4f7fc;
@@ -111,26 +111,45 @@ padding:15px;
 box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
-.chart{
-position:relative;
-height:180px;
+.section-title{
+text-align:center;
+margin-bottom:15px;
+font-size:16px;
+font-weight:600;
+}
+
+.breakdown{
 display:flex;
-align-items:flex-end;
-gap:8px;
+justify-content:space-around;
+padding:10px 0;
 }
 
-.bar{
-width:14px;
-border-radius:10px;
-background:linear-gradient(to top,#1e63ff,#6ea8ff);
+.break-item{
+display:flex;
+flex-direction:column;
+align-items:center;
 }
 
-.line{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
+.circle{
+width:85px;
+height:85px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+font-size:18px;
+margin-bottom:12px;
+color:white;
+box-shadow:0 8px 20px rgba(0,0,0,0.2);
+}
+
+.green-circle{
+background: linear-gradient(135deg,#00c853,#64dd17);
+}
+
+.red-circle{
+background: linear-gradient(135deg,#ff1744,#ff6d00);
 }
 
 /* BUTTONS */
@@ -201,55 +220,6 @@ animation:spin 1s linear infinite;
 @keyframes spin{
 100%{transform:rotate(360deg);}
 }
-
-  /* TITLE */
-.section-title{
-  text-align:center;
-  margin-bottom:15px;
-  font-size:16px;
-  font-weight:600;
-}
-
-/* CONTAINER */
-.breakdown{
-  display:flex;
-  justify-content:space-around;
-}
-
-/* ITEM */
-.break-item{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
-
-/* CIRCLE */
-.circle{
-  width:80px;
-  height:80px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:bold;
-  font-size:16px;
-  margin-bottom:10px;
-  color:white;
-}
-
-/* COLORS */
-.green-circle{
-  background: linear-gradient(135deg,#00c853,#64dd17);
-}
-
-.red-circle{
-  background: linear-gradient(135deg,#ff1744,#ff6d00);
-}
-
-/* TEXT */
-.break-text{
-  text-align:center;
-}
 </style>
 </head>
 
@@ -293,31 +263,23 @@ animation:spin 1s linear infinite;
 </div>
 
 <div class="card">
-
 <h3 class="section-title">Salary Breakdown</h3>
 
 <div class="breakdown">
 
-  <!-- Earnings -->
-  <div class="break-item">
-    <div class="circle green-circle" id="earnPercent">0%</div>
-    <div class="break-text">
-      <div class="label">Earnings</div>
-      <div class="value" id="earnValue">₹ 0</div>
-    </div>
-  </div>
-
-  <!-- Deductions -->
-  <div class="break-item">
-    <div class="circle red-circle" id="deductPercent">0%</div>
-    <div class="break-text">
-      <div class="label">Deductions</div>
-      <div class="value" id="deductValue">₹ 0</div>
-    </div>
-  </div>
-
+<div class="break-item">
+<div class="circle green-circle" id="earnPercent">0%</div>
+<div class="label">Earnings</div>
+<div class="value" id="earnValue">₹ 0</div>
 </div>
 
+<div class="break-item">
+<div class="circle red-circle" id="deductPercent">0%</div>
+<div class="label">Deductions</div>
+<div class="value" id="deductValue">₹ 0</div>
+</div>
+
+</div>
 </div>
 
 <div class="buttons">
@@ -381,79 +343,42 @@ rows.forEach(r=>{
 let c=r.split(",");
 if(c[0]!==user)return;
 
-let year=+c[1],month=+c[2];
 let earnings=0,deductions=0;
 
 for(let i=3;i<=19;i++) earnings+=+c[i]||0;
 for(let i=20;i<c.length;i++) deductions+=+c[i]||0;
 
-monthly.push({year,month,net:earnings-deductions,earnings,deductions});
+monthly.push({earnings,deductions,net:earnings-deductions});
 });
 
-monthly.sort((a,b)=>(a.year*100+a.month)-(b.year*100+b.month));
-
-let last=monthly.length>=2?monthly[monthly.length-2]:monthly[0];
+let last=monthly[monthly.length-1];
 
 if(last){
 currentSalary.innerText="₹ "+last.earnings;
 deduction.innerText="₹ "+last.deductions;
 netSalary.innerText="₹ "+last.net;
-  document.getElementById("earnValue").innerText = "₹ " + last.earnings;
-document.getElementById("deductValue").innerText = "₹ " + last.deductions;
 
-let total = last.earnings + last.deductions;
+earnValue.innerText="₹ "+last.earnings;
+deductValue.innerText="₹ "+last.deductions;
 
-let earnP = Math.round((last.earnings / total) * 100);
-let deductP = Math.round((last.deductions / total) * 100);
+let total=last.earnings+last.deductions;
 
-document.getElementById("earnPercent").innerText = earnP + "%";
-document.getElementById("deductPercent").innerText = deductP + "%";
+let earnP=0,deductP=0;
+if(total>0){
+earnP=Math.round((last.earnings/total)*100);
+deductP=Math.round((last.deductions/total)*100);
 }
 
-let chart=document.getElementById("chart");
-let line=document.getElementById("line");
-let yAxis=document.getElementById("yAxis");
-let xAxis=document.getElementById("xAxis");
-
-chart.innerHTML="";
-line.innerHTML="";
-yAxis.innerHTML="";
-xAxis.innerHTML="";
-
-let last12=monthly.slice(-12);
-let values=last12.map(m=>m.net);
-
-let max=Math.max(...values);
-let step=25000;
-let yMax=Math.ceil(max/step)*step;
-
-for(let i=yMax;i>=0;i-=step){
-let d=document.createElement("div");
-d.innerText=(i/1000)+"K";
-yAxis.appendChild(d);
+earnPercent.innerText=earnP+"%";
+deductPercent.innerText=deductP+"%";
 }
-
-values.forEach(v=>{
-let bar=document.createElement("div");
-bar.className="bar";
-bar.style.height=(v/yMax)*100+"%";
-chart.appendChild(bar);
-});
-
-let points=values.map((v,i)=>{
-let x=(i/(values.length-1))*300;
-let y=150-(v/yMax)*120;
-return `${x},${y}`;
-}).join(" ");
-
-let poly=document.createElementNS("http://www.w3.org/2000/svg","polyline");
-poly.setAttribute("points",points);
-poly.setAttribute("stroke","#ff9800");
-poly.setAttribute("fill","none");
-
-line.appendChild(poly);
 
 loader.style.display="none";
+
+})
+.catch(()=>{
+loader.style.display="none";
+alert("Failed to load data");
 });
 
 window.goBack=()=>history.back();
