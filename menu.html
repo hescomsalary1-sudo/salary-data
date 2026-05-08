@@ -13,156 +13,103 @@ background: linear-gradient(135deg,#e9efff,#dfe7f5);
 
 /* HEADER */
 .top{
-padding:20px;
-text-align:center;
-font-size:22px;
-font-weight:700;
-color:#1e2a4a;
-}
-
-/* SUMMARY */
-.summary{
-display:flex;
-gap:12px;
-padding:12px;
-}
-
-.card{
-flex:1;
-background:#f4f7fc;
-padding:15px;
-border-radius:20px;
-text-align:center;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-}
-
-.card b{
-font-size:18px;
-color:#111;
-}
-
-/* NET */
-.net{
-margin:12px;
-padding:20px;
-background:linear-gradient(135deg,#1e63ff,#0039cb);
-color:white;
-border-radius:25px;
+padding:18px;
 text-align:center;
 font-size:20px;
-font-weight:600;
-box-shadow:0 15px 40px rgba(0,82,204,0.3);
+font-weight:700;
 }
 
-/* PIE CARD */
-.chart-card{
-margin:12px;
-background:#f4f7fc;
-padding:18px;
-border-radius:25px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-}
-
-/* TITLE */
-.chart-title{
-text-align:center;
-margin-bottom:15px;
-font-size:16px;
-font-weight:600;
-color:#333;
-}
-
-/* FLEX */
+/* FLEX MAIN */
 .chart-flex{
 display:flex;
 gap:15px;
-align-items:center;
+padding:12px;
 }
 
-/* PIE LEFT */
+/* PIE */
 .pie-box{
 flex:1;
 display:flex;
 justify-content:center;
+align-items:center;
 }
 
 .pie{
-width:150px;
-height:150px;
+width:140px;
+height:140px;
 border-radius:50%;
-box-shadow:0 10px 25px rgba(0,0,0,0.1);
 }
 
-/* LEGEND RIGHT */
-.legend{
-flex:1.5;
-font-size:13px;
-max-height:170px;
-overflow-y:auto;
-padding-right:5px;
+/* RIGHT DETAILS */
+.details-box{
+flex:1;
+display:flex;
+flex-direction:column;
+gap:10px;
 }
 
-/* LEGEND ITEMS */
-.legend-item{
+.detail{
+background:#fff;
+padding:10px;
+border-radius:10px;
 display:flex;
 justify-content:space-between;
-align-items:center;
-padding:5px 0;
-border-bottom:1px solid #eee;
+font-size:14px;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }
 
-/* COLOR DOT */
-.color{
-width:12px;
-height:12px;
-border-radius:50%;
-display:inline-block;
-margin-right:6px;
+.net{
+background:#1e63ff;
+color:white;
+font-weight:bold;
+}
+
+/* DEDUCTION LIST */
+.list{
+margin-top:10px;
+font-size:13px;
+max-height:150px;
+overflow:auto;
+}
+
+.item{
+display:flex;
+justify-content:space-between;
+padding:4px 0;
 }
 
 /* BUTTONS */
 .buttons{
-padding:12px;
+padding:10px;
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:12px;
+gap:10px;
 }
 
 .btn{
 background:#f4f7fc;
-padding:16px;
-border-radius:20px;
+padding:14px;
+border-radius:15px;
 display:flex;
 justify-content:space-between;
-align-items:center;
-box-shadow:0 8px 20px rgba(0,0,0,0.08);
+box-shadow:0 5px 12px rgba(0,0,0,0.08);
 cursor:pointer;
-font-weight:600;
-transition:0.2s;
-}
-
-.btn:hover{
-transform:scale(1.03);
-background:#eaf0ff;
 }
 
 /* LOADER */
 #loader{
 position:fixed;
-top:0;
-left:0;
 width:100%;
 height:100%;
 background:rgba(255,255,255,0.7);
 display:flex;
-align-items:center;
 justify-content:center;
-z-index:999;
+align-items:center;
 }
 
 .spinner{
-width:45px;
-height:45px;
+width:40px;
+height:40px;
 border:5px solid #eee;
 border-top:5px solid #1e63ff;
 border-radius:50%;
@@ -176,50 +123,9 @@ animation:spin 1s linear infinite;
 /* MOBILE */
 @media(max-width:600px){
 .chart-flex{
-flex-direction:column;
-}
-.legend{
-width:100%;
+flex-direction:row;
 }
 }
-
-  /* DETAILS RIGHT SIDE */
-.details-box{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  gap:15px;
-  font-size:14px;
-}
-
-.detail-item{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  background:#ffffff;
-  padding:10px 12px;
-  border-radius:12px;
-  box-shadow:0 5px 12px rgba(0,0,0,0.08);
-}
-
-.net-detail{
-  background:linear-gradient(135deg,#1e63ff,#0039cb);
-  color:white;
-  font-weight:bold;
-}
-
-/* DOT COLORS */
-.dot{
-  width:12px;
-  height:12px;
-  border-radius:50%;
-  display:inline-block;
-  margin-right:6px;
-}
-
-.green{background:#00c853;}
-.red{background:#ff1744;}
 </style>
 </head>
 
@@ -229,57 +135,21 @@ width:100%;
 
 <div class="top">Salary Overview</div>
 
-<!-- SUMMARY -->
-<div class="summary">
-  <div class="card">
-    Last Month<br>
-    <b id="earn">₹ 0</b>
-  </div>
-
-  <div class="card">
-    Deductions<br>
-    <b id="ded">₹ 0</b>
-  </div>
-</div>
-
-<!-- NET -->
-<div class="net">
-  Net Salary: ₹ <span id="net">0</span>
-</div>
-
-<!-- PIE -->
-<div class="chart-card">
-
-<h3 class="chart-title">Salary Overview</h3>
-
 <div class="chart-flex">
 
-  <!-- LEFT: PIE -->
-  <div class="pie-box">
-    <div id="pie" class="pie"></div>
-  </div>
+<!-- LEFT PIE -->
+<div class="pie-box">
+<div id="pie" class="pie"></div>
+</div>
 
-  <!-- RIGHT: DETAILS -->
-  <div class="details-box">
+<!-- RIGHT DETAILS -->
+<div class="details-box">
 
-    <div class="detail-item">
-      <span class="dot green"></span>
-      Earnings
-      <b id="earnRight">₹ 0</b>
-    </div>
+<div class="detail">Earnings <b id="earn">₹0</b></div>
+<div class="detail">Deductions <b id="ded">₹0</b></div>
+<div class="detail net">Net <b id="net">₹0</b></div>
 
-    <div class="detail-item">
-      <span class="dot red"></span>
-      Deductions
-      <b id="dedRight">₹ 0</b>
-    </div>
-
-    <div class="detail-item net-detail">
-      Net Salary
-      <b id="netRight">₹ 0</b>
-    </div>
-
-  </div>
+<div class="list" id="list"></div>
 
 </div>
 
@@ -287,132 +157,103 @@ width:100%;
 
 <!-- BUTTONS -->
 <div class="buttons">
-  <div class="btn" onclick="go('salary.html')">Salary ›</div>
-  <div class="btn" onclick="go('reports_menu.html')">Reports ›</div>
-  <div class="btn" onclick="go('holidays.html')">Holidays ›</div>
-  <div class="btn" onclick="go('assets_liability.html')">Assets ›</div>
+<div class="btn" onclick="go('salary.html')">Salary ›</div>
+<div class="btn" onclick="go('reports_menu.html')">Reports ›</div>
+<div class="btn" onclick="go('holidays.html')">Holidays ›</div>
+<div class="btn" onclick="go('assets_liability.html')">Assets ›</div>
 </div>
 
 <script>
-const loader = document.getElementById("loader");
+const loader=document.getElementById("loader");
 
-function go(page){
-  loader.style.display="flex";
-  setTimeout(()=>{ location = page },600);
+function go(p){
+loader.style.display="flex";
+setTimeout(()=>location=p,600);
 }
 
-const user = localStorage.getItem("currentUser");
+let user=localStorage.getItem("currentUser");
 
 /* PREVIOUS MONTH */
-let d = new Date();
+let d=new Date();
 d.setMonth(d.getMonth()-1);
-let year = d.getFullYear().toString();
-let month = String(d.getMonth()+1).padStart(2,"0");
+let year=d.getFullYear();
+let month=String(d.getMonth()+1).padStart(2,"0");
 
 fetch("https://hescomsalary1-sudo.github.io/salary-data/salary%20.csv")
 .then(r=>r.text())
 .then(data=>{
 
-let rows = data.trim().split("\n");
-let row = null;
+let rows=data.trim().split("\n");
+let row=null;
 
 for(let i=1;i<rows.length;i++){
-  let c = rows[i].split(",");
-  if(c[0]===user && c[1]===year && c[2]===month){
-    row = c;
-    break;
-  }
+let c=rows[i].split(",");
+if(c[0]===user && c[1]==year && c[2]==month){
+row=c; break;
+}
 }
 
 if(!row){
-  loader.style.display="none";
-  alert("No data found for previous month");
-  return;
+loader.style.display="none";
+return;
 }
 
-function num(v){ return Number(v) || 0 }
+function num(v){return Number(v)||0}
 
-/* ===== EARNINGS (same as salary.html) ===== */
-let earnings =
-num(row[3]) + num(row[4]) + num(row[5]) + num(row[6]) +
-num(row[7]) + num(row[8]) + num(row[9]) + num(row[10]) +
-num(row[11]) + num(row[12]) + num(row[13]) + num(row[14]) +
-num(row[15]) + num(row[16]) + num(row[17]) + num(row[18]) +
-num(row[19]);
+/* EARNINGS */
+let earn=0;
+for(let i=3;i<=19;i++) earn+=num(row[i]);
 
-/* ===== ALL DEDUCTIONS (EXACT MATCH) ===== */
-let deductionsList = [
-{name:"LIC", value:num(row[20])},
-{name:"Income Tax", value:num(row[21])},
-{name:"Professional Tax", value:num(row[22])},
-{name:"Society", value:num(row[23])},
-{name:"PLI", value:num(row[24])},
-{name:"Union Fund", value:num(row[25])},
-{name:"SC/ST Fund", value:num(row[26])},
-{name:"House Rent", value:num(row[27])},
-{name:"Urban Bank", value:num(row[28])},
-{name:"Family Fund", value:num(row[29])},
-{name:"Festival Advance", value:num(row[30])},
-{name:"PC 10%", value:num(row[31])},
-{name:"PC 14%", value:num(row[32])},
-{name:"LWF", value:num(row[33])},
-{name:"Recovery", value:num(row[34])},
-{name:"Other Deduction", value:num(row[35])}
-].filter(d => d.value > 0);   // ✅ THIS LINE ADDED
-
-/* 👉 IMPORTANT: DO NOT FILTER (show all items) */
-let totalDed = deductionsList.reduce((a,b)=>a+b.value,0);
-let netVal = earnings - totalDed;
-
-/* UI */
-document.getElementById("earn").innerText = "₹ " + earnings;
-document.getElementById("ded").innerText = "₹ " + totalDed;
-document.getElementById("net").innerText = netVal;
-document.getElementById("earnRight").innerText = "₹ " + earnings;
-document.getElementById("dedRight").innerText = "₹ " + totalDed;
-document.getElementById("netRight").innerText = netVal;
-/* ===== PIE DATA ===== */
-let dataArr = [
-{name:"Earnings", value:earnings, color:"#00c853"},
-...deductionsList.map((d,i)=>({
-  name:d.name,
-  value:d.value,
-  color:`hsl(${i*22},70%,50%)`
-}))
+/* DEDUCTIONS */
+let names=[
+"LIC","IT","PT","Society","PLI","Union","SC/ST","Rent",
+"Bank","Family","Festival","PC10","PC14","LWF","Recovery","Other"
 ];
 
+let deductions=[];
+for(let i=20;i<=35;i++){
+let v=num(row[i]);
+if(v>0) deductions.push({name:names[i-20],value:v});
+}
+
+let totalDed=deductions.reduce((a,b)=>a+b.value,0);
+let net=earn-totalDed;
+
+/* UI */
+document.getElementById("earn").innerText="₹"+earn;
+document.getElementById("ded").innerText="₹"+totalDed;
+document.getElementById("net").innerText="₹"+net;
+
 /* PIE */
-let total = dataArr.reduce((a,b)=>a+b.value,0);
-let angle = 0;
-let grad = [];
+let dataArr=[{name:"Earnings",value:earn,color:"#00c853"},
+...deductions.map((d,i)=>({
+name:d.name,value:d.value,color:`hsl(${i*25},70%,50%)`
+}))];
+
+let total=dataArr.reduce((a,b)=>a+b.value,0);
+let angle=0,grad=[];
 
 dataArr.forEach(d=>{
-  let p = total>0 ? (d.value/total)*100 : 0;
-  grad.push(`${d.color} ${angle}% ${angle+p}%`);
-  angle += p;
+let p=(d.value/total)*100;
+grad.push(`${d.color} ${angle}% ${angle+p}%`);
+angle+=p;
 });
 
-document.getElementById("pie").style.background =
-  `conic-gradient(${grad.join(",")})`;
+document.getElementById("pie").style.background=
+`conic-gradient(${grad.join(",")})`;
 
-/* LEGEND (ALL ITEMS SHOWN) */
+/* LIST */
 let html="";
-dataArr.forEach(d=>{
-html+=`
-<div class="legend-item">
-<span><span class="color" style="background:${d.color}"></span>${d.name}</span>
-<span>₹ ${d.value}</span>
-</div>`;
+deductions.forEach(d=>{
+html+=`<div class="item">${d.name}<span>₹${d.value}</span></div>`;
 });
-
-document.getElementById("legend").innerHTML = html;
+document.getElementById("list").innerHTML=html;
 
 loader.style.display="none";
 
 })
 .catch(()=>{
 loader.style.display="none";
-alert("Error loading data");
 });
 </script>
 
