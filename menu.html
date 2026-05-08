@@ -201,6 +201,55 @@ animation:spin 1s linear infinite;
 @keyframes spin{
 100%{transform:rotate(360deg);}
 }
+
+  /* TITLE */
+.section-title{
+  text-align:center;
+  margin-bottom:15px;
+  font-size:16px;
+  font-weight:600;
+}
+
+/* CONTAINER */
+.breakdown{
+  display:flex;
+  justify-content:space-around;
+}
+
+/* ITEM */
+.break-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+/* CIRCLE */
+.circle{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+  font-size:16px;
+  margin-bottom:10px;
+  color:white;
+}
+
+/* COLORS */
+.green-circle{
+  background: linear-gradient(135deg,#00c853,#64dd17);
+}
+
+.red-circle{
+  background: linear-gradient(135deg,#ff1744,#ff6d00);
+}
+
+/* TEXT */
+.break-text{
+  text-align:center;
+}
 </style>
 </head>
 
@@ -244,18 +293,29 @@ animation:spin 1s linear infinite;
 </div>
 
 <div class="card">
-<h3>Salary Growth</h3>
 
-<div style="display:flex;">
-<div id="yAxis" style="width:40px;font-size:10px;"></div>
+<h3 class="section-title">Salary Breakdown</h3>
 
-<div style="flex:1;">
-<div class="chart" id="chart">
-<svg id="line" class="line"></svg>
-</div>
+<div class="breakdown">
 
-<div id="xAxis" style="display:flex;justify-content:space-around;font-size:10px;"></div>
-</div>
+  <!-- Earnings -->
+  <div class="break-item">
+    <div class="circle green-circle" id="earnPercent">0%</div>
+    <div class="break-text">
+      <div class="label">Earnings</div>
+      <div class="value" id="earnValue">₹ 0</div>
+    </div>
+  </div>
+
+  <!-- Deductions -->
+  <div class="break-item">
+    <div class="circle red-circle" id="deductPercent">0%</div>
+    <div class="break-text">
+      <div class="label">Deductions</div>
+      <div class="value" id="deductValue">₹ 0</div>
+    </div>
+  </div>
+
 </div>
 
 </div>
@@ -338,6 +398,16 @@ if(last){
 currentSalary.innerText="₹ "+last.earnings;
 deduction.innerText="₹ "+last.deductions;
 netSalary.innerText="₹ "+last.net;
+  document.getElementById("earnValue").innerText = "₹ " + last.earnings;
+document.getElementById("deductValue").innerText = "₹ " + last.deductions;
+
+let total = last.earnings + last.deductions;
+
+let earnP = Math.round((last.earnings / total) * 100);
+let deductP = Math.round((last.deductions / total) * 100);
+
+document.getElementById("earnPercent").innerText = earnP + "%";
+document.getElementById("deductPercent").innerText = deductP + "%";
 }
 
 let chart=document.getElementById("chart");
