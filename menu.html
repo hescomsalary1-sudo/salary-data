@@ -102,7 +102,7 @@ background:rgba(255,255,255,0.2);
 font-size:12px;
 }
 
-/* BREAKDOWN */
+/* PIE CARD */
 .card{
 margin:12px;
 background:#f4f7fc;
@@ -118,39 +118,42 @@ font-size:16px;
 font-weight:600;
 }
 
-.breakdown{
+.pie-container{
 display:flex;
+align-items:center;
 justify-content:space-around;
-padding:10px 0;
+padding:10px;
 }
 
-.break-item{
+.pie-chart{
+width:120px;
+height:120px;
+border-radius:50%;
+background: conic-gradient(#00c853 50%, #ff1744 50%);
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+.legend{
 display:flex;
 flex-direction:column;
-align-items:center;
+gap:10px;
+font-size:14px;
 }
 
-.circle{
-width:85px;
-height:85px;
-border-radius:50%;
+.legend-item{
 display:flex;
 align-items:center;
-justify-content:center;
-font-weight:bold;
-font-size:18px;
-margin-bottom:12px;
-color:white;
-box-shadow:0 8px 20px rgba(0,0,0,0.2);
+gap:8px;
 }
 
-.green-circle{
-background: linear-gradient(135deg,#00c853,#64dd17);
+.dot{
+width:12px;
+height:12px;
+border-radius:50%;
 }
 
-.red-circle{
-background: linear-gradient(135deg,#ff1744,#ff6d00);
-}
+.green{ background:#00c853; }
+.red{ background:#ff1744; }
 
 /* BUTTONS */
 .buttons{
@@ -188,7 +191,7 @@ color:white;
 .blue{background:#3b82f6;}
 .purple2{background:#7c3aed;}
 .orange{background:#f97316;}
-.green{background:#22c55e;}
+.green2{background:#22c55e;}
 
 .title2{font-weight:600;}
 .sub{font-size:12px;color:#6b7280;}
@@ -262,26 +265,30 @@ animation:spin 1s linear infinite;
 <div style="font-size:50px;">💰</div>
 </div>
 
+<!-- PIE CHART -->
 <div class="card">
-<h3 class="section-title">Salary Breakdown</h3>
+<h3 class="section-title">Salary Distribution</h3>
 
-<div class="breakdown">
+<div class="pie-container">
 
-<div class="break-item">
-<div class="circle green-circle" id="earnPercent">0%</div>
-<div class="label">Earnings</div>
-<div class="value" id="earnValue">₹ 0</div>
+<div class="pie-chart" id="pieChart"></div>
+
+<div class="legend">
+<div class="legend-item">
+<span class="dot green"></span>
+Earnings: <b id="earnValue">₹ 0</b>
 </div>
 
-<div class="break-item">
-<div class="circle red-circle" id="deductPercent">0%</div>
-<div class="label">Deductions</div>
-<div class="value" id="deductValue">₹ 0</div>
-</div>
-
+<div class="legend-item">
+<span class="dot red"></span>
+Deductions: <b id="deductValue">₹ 0</b>
 </div>
 </div>
 
+</div>
+</div>
+
+<!-- BUTTONS -->
 <div class="buttons">
 
 <div class="btn2" onclick="showLoader('salary.html')">
@@ -310,7 +317,7 @@ animation:spin 1s linear infinite;
 
 <div class="btn2" onclick="showLoader('assets_liability.html')">
 <div class="left">
-<div class="icon2 green">📄</div>
+<div class="icon2 green2">📄</div>
 <div><div class="title2">Assets</div><div class="sub">View assets</div></div>
 </div>
 <div class="arrow">›</div>
@@ -363,14 +370,13 @@ deductValue.innerText="₹ "+last.deductions;
 
 let total=last.earnings+last.deductions;
 
-let earnP=0,deductP=0;
+let earnP=50;
 if(total>0){
-earnP=Math.round((last.earnings/total)*100);
-deductP=Math.round((last.deductions/total)*100);
+earnP=(last.earnings/total)*100;
 }
 
-earnPercent.innerText=earnP+"%";
-deductPercent.innerText=deductP+"%";
+let pie=document.getElementById("pieChart");
+pie.style.background=`conic-gradient(#00c853 0% ${earnP}%, #ff1744 ${earnP}% 100%)`;
 }
 
 loader.style.display="none";
