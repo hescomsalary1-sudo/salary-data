@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Salary Overview</title>
+<title>Salary Menu</title>
 
 <style>
 body{
@@ -13,189 +13,92 @@ background: linear-gradient(135deg,#e9efff,#dfe7f5);
 
 /* HEADER */
 .top{
-padding:20px 16px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-}
-
-.top h2{
-margin:0;
+padding:18px;
+text-align:center;
+font-weight:bold;
 font-size:20px;
-font-weight:700;
-color:#1e2a4a;
-}
-
-.icon-btn{
-width:45px;
-height:45px;
-border-radius:50%;
-background:white;
-display:flex;
-align-items:center;
-justify-content:center;
-box-shadow:0 5px 12px rgba(0,0,0,0.1);
 }
 
 /* SUMMARY */
 .summary{
 display:flex;
-gap:12px;
-padding:0 12px;
-}
-
-.card2{
-flex:1;
-padding:16px;
-border-radius:22px;
-background:#f4f7fc;
-display:flex;
-align-items:center;
-gap:12px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-}
-
-.icon{
-width:55px;
-height:55px;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:22px;
-color:white;
-}
-
-.purple{background:linear-gradient(135deg,#4facfe,#0052cc);}
-.red{background:linear-gradient(135deg,#ff4d6d,#ff1744);}
-
-.label{
-font-size:13px;
-color:#6b7280;
-}
-
-.value{
-font-size:18px;
-font-weight:700;
-}
-
-/* NET CARD */
-.net-card{
-margin:12px;
-padding:20px;
-border-radius:25px;
-background: linear-gradient(135deg,#1e63ff,#0039cb);
-color:white;
-display:flex;
-justify-content:space-between;
-align-items:center;
-box-shadow:0 15px 40px rgba(0,82,204,0.4);
-}
-
-.net-label{font-size:14px;}
-.net-value{font-size:32px;font-weight:800;}
-.net-btn{
-margin-top:8px;
-padding:6px 12px;
-border-radius:20px;
-background:rgba(255,255,255,0.2);
-font-size:12px;
-}
-
-/* PIE CARD */
-.card{
-margin:12px;
-background:#f4f7fc;
-border-radius:20px;
-padding:15px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-}
-
-.section-title{
-text-align:center;
-margin-bottom:15px;
-font-size:16px;
-font-weight:600;
-}
-
-.pie-container{
-display:flex;
-align-items:center;
-justify-content:space-around;
+gap:10px;
 padding:10px;
 }
 
-.pie-chart{
-width:120px;
-height:120px;
-border-radius:50%;
-background: conic-gradient(#00c853 50%, #ff1744 50%);
-box-shadow:0 10px 25px rgba(0,0,0,0.1);
+.card{
+flex:1;
+background:#f4f7fc;
+padding:12px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 6px 15px rgba(0,0,0,0.08);
 }
 
+/* NET */
+.net{
+margin:10px;
+padding:18px;
+background:linear-gradient(135deg,#1e63ff,#0039cb);
+color:white;
+border-radius:20px;
+text-align:center;
+font-size:18px;
+}
+
+/* PIE */
+.chart-card{
+margin:10px;
+background:#f4f7fc;
+padding:15px;
+border-radius:20px;
+}
+
+.pie{
+width:150px;
+height:150px;
+border-radius:50%;
+margin:auto;
+}
+
+/* LEGEND */
 .legend{
-display:flex;
-flex-direction:column;
-gap:10px;
-font-size:14px;
+margin-top:10px;
+font-size:13px;
 }
 
 .legend-item{
 display:flex;
-align-items:center;
-gap:8px;
+justify-content:space-between;
+padding:3px 0;
 }
 
-.dot{
+.color{
 width:12px;
 height:12px;
 border-radius:50%;
+display:inline-block;
+margin-right:6px;
 }
-
-.green{ background:#00c853; }
-.red{ background:#ff1744; }
 
 /* BUTTONS */
 .buttons{
-padding:12px;
+padding:10px;
 display:grid;
+grid-template-columns:1fr 1fr;
 gap:10px;
 }
 
-.btn2{
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:16px;
-border-radius:20px;
+.btn{
 background:#f4f7fc;
-box-shadow:0 8px 20px rgba(0,0,0,0.08);
-}
-
-.left{
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-.icon2{
-width:45px;
-height:45px;
+padding:15px;
 border-radius:15px;
 display:flex;
+justify-content:space-between;
 align-items:center;
-justify-content:center;
-color:white;
+box-shadow:0 5px 12px rgba(0,0,0,0.08);
+cursor:pointer;
 }
-
-.blue{background:#3b82f6;}
-.purple2{background:#7c3aed;}
-.orange{background:#f97316;}
-.green2{background:#22c55e;}
-
-.title2{font-weight:600;}
-.sub{font-size:12px;color:#6b7280;}
-.arrow{font-size:20px;color:#9ca3af;}
 
 /* LOADER */
 #loader{
@@ -205,15 +108,15 @@ left:0;
 width:100%;
 height:100%;
 background:rgba(255,255,255,0.7);
-display:none;
-justify-content:center;
+display:flex;
 align-items:center;
-z-index:9999;
+justify-content:center;
+z-index:999;
 }
 
-.loader-spin{
-width:50px;
-height:50px;
+.spinner{
+width:40px;
+height:40px;
 border:5px solid #eee;
 border-top:5px solid #1e63ff;
 border-radius:50%;
@@ -228,180 +131,113 @@ animation:spin 1s linear infinite;
 
 <body>
 
-<div id="loader"><div class="loader-spin"></div></div>
+<div id="loader"><div class="spinner"></div></div>
 
-<div class="top">
-<div class="icon-btn" onclick="goBack()">⬅</div>
-<h2>Salary overview & Growth</h2>
-<div class="icon-btn">🔔</div>
-</div>
+<div class="top">Salary Overview</div>
 
+<!-- SUMMARY -->
 <div class="summary">
-
-<div class="card2">
-<div class="icon purple">💼</div>
-<div>
-<div class="label">Last Month</div>
-<div class="value" id="currentSalary">₹ 0</div>
-</div>
-</div>
-
-<div class="card2">
-<div class="icon red">⬇</div>
-<div>
-<div class="label">Deductions</div>
-<div class="value" id="deduction">₹ 0</div>
-</div>
-</div>
-
-</div>
-
-<div class="net-card">
-<div>
-<div class="net-label">Net Salary</div>
-<div class="net-value" id="netSalary">₹ 0</div>
-<div class="net-btn">Take Home Salary</div>
-</div>
-<div style="font-size:50px;">💰</div>
-</div>
-
-<!-- PIE CHART -->
 <div class="card">
-<h3 class="section-title">Salary Distribution</h3>
-
-<div class="pie-container">
-
-<div class="pie-chart" id="pieChart"></div>
-
-<div class="legend">
-<div class="legend-item">
-<span class="dot green"></span>
-Earnings: <b id="earnValue">₹ 0</b>
+Last Month<br>
+<b id="earn">₹ 0</b>
 </div>
 
-<div class="legend-item">
-<span class="dot red"></span>
-Deductions: <b id="deductValue">₹ 0</b>
+<div class="card">
+Deductions<br>
+<b id="ded">₹ 0</b>
 </div>
 </div>
 
+<!-- NET -->
+<div class="net">
+Net Salary: ₹ <span id="net">0</span>
 </div>
+
+<!-- PIE -->
+<div class="chart-card">
+<h3 style="text-align:center;">Distribution</h3>
+<div id="pie" class="pie"></div>
+<div id="legend" class="legend"></div>
 </div>
 
 <!-- BUTTONS -->
 <div class="buttons">
 
-<div class="btn2" onclick="showLoader('salary.html')">
-<div class="left">
-<div class="icon2 blue">💰</div>
-<div><div class="title2">Salary</div><div class="sub">View salary details</div></div>
-</div>
-<div class="arrow">›</div>
-</div>
-
-<div class="btn2" onclick="showLoader('reports_menu.html')">
-<div class="left">
-<div class="icon2 purple2">📊</div>
-<div><div class="title2">Reports</div><div class="sub">Salary reports</div></div>
-</div>
-<div class="arrow">›</div>
-</div>
-
-<div class="btn2" onclick="showLoader('holidays.html')">
-<div class="left">
-<div class="icon2 orange">📅</div>
-<div><div class="title2">Holiday List</div><div class="sub">Upcoming holidays</div></div>
-</div>
-<div class="arrow">›</div>
-</div>
-
-<div class="btn2" onclick="showLoader('assets_liability.html')">
-<div class="left">
-<div class="icon2 green2">📄</div>
-<div><div class="title2">Assets</div><div class="sub">View assets</div></div>
-</div>
-<div class="arrow">›</div>
-</div>
+<div class="btn" onclick="go('salary.html')">Salary ›</div>
+<div class="btn" onclick="go('reports_menu.html')">Reports ›</div>
+<div class="btn" onclick="go('holidays.html')">Holidays ›</div>
+<div class="btn" onclick="go('assets_liability.html')">Assets ›</div>
 
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function(){
 
-let user = localStorage.getItem("currentUser");
-let year = localStorage.getItem("selectedYear");
-let month = localStorage.getItem("selectedMonth");
-
-if(!user || !year || !month){
-  alert("Please select month/year first");
-  return;
+function go(page){
+document.getElementById("loader").style.display="flex";
+setTimeout(()=>{location=page},600);
 }
 
-month = month.toString().padStart(2,"0");
+let user = localStorage.getItem("currentUser");
 
-let loader = document.getElementById("loader");
-loader.style.display="flex";
+/* PREVIOUS MONTH */
+let d=new Date();
+d.setMonth(d.getMonth()-1);
+let year=d.getFullYear();
+let month=String(d.getMonth()+1).padStart(2,"0");
 
 fetch("https://hescomsalary1-sudo.github.io/salary-data/salary%20.csv")
-.then(res=>res.text())
+.then(r=>r.text())
 .then(data=>{
 
-let rows=data.trim().split("\n");
+let rows=data.split("\n");
 let row=null;
 
-/* ✅ SELECT EXACT MONTH */
 for(let i=1;i<rows.length;i++){
-  let c=rows[i].split(",");
-  if(c[0]===user && c[1]===year && c[2]===month){
-    row=c;
-    break;
-  }
+let c=rows[i].split(",");
+if(c[0]===user && c[1]==year && c[2]==month){
+row=c;
+break;
+}
 }
 
 if(!row){
-  loader.style.display="none";
-  alert("No data found");
-  return;
+loader.style.display="none";
+alert("No data found");
+return;
 }
 
-/* SAFE NUMBER */
-function num(v){ return Number(v) || 0; }
+function num(v){return Number(v)||0}
 
-/* ===== EARNINGS ===== */
-let earnings=0;
-for(let i=3;i<=19;i++) earnings+=num(row[i]);
+/* EARNINGS */
+let earn=0;
+for(let i=3;i<=19;i++) earn+=num(row[i]);
 
-/* ===== DEDUCTIONS ===== */
-let deductions=[
-{name:"LIC", value:num(row[20])},
-{name:"Income Tax", value:num(row[21])},
-{name:"Professional Tax", value:num(row[22])},
-{name:"Society", value:num(row[23])},
-{name:"PLI", value:num(row[24])},
-{name:"Union Fund", value:num(row[25])},
-{name:"SC/ST Fund", value:num(row[26])},
-{name:"House Rent", value:num(row[27])},
-{name:"Urban Bank", value:num(row[28])},
-{name:"Family Fund", value:num(row[29])},
-{name:"Festival Advance", value:num(row[30])},
-{name:"PC 10%", value:num(row[31])},
-{name:"PC 14%", value:num(row[32])},
-{name:"LWF", value:num(row[33])},
-{name:"Recovery", value:num(row[34])},
-{name:"Other", value:num(row[35])}
-].filter(d=>d.value>0);
+/* DEDUCTIONS */
+let list=[
+["LIC",20],["IT",21],["PT",22],["Society",23],["PLI",24],
+["Union",25],["SC/ST",26],["Rent",27],["Bank",28],
+["Family",29],["Festival",30],["PC10",31],["PC14",32],
+["LWF",33],["Recovery",34],["Other",35]
+];
 
-/* TOTAL DEDUCTION */
-let totalDeduction = deductions.reduce((a,b)=>a+b.value,0);
+let deductions=[];
 
-/* UI VALUES */
-currentSalary.innerText="₹ "+earnings;
-deduction.innerText="₹ "+totalDeduction;
-netSalary.innerText="₹ "+(earnings-totalDeduction);
+list.forEach(d=>{
+let val=num(row[d[1]]);
+if(val>0) deductions.push({name:d[0],value:val});
+});
 
-/* ===== PIE DATA ===== */
-let pieData=[
-{name:"Earnings", value:earnings, color:"#00c853"},
+let totalDed=deductions.reduce((a,b)=>a+b.value,0);
+let net=earn-totalDed;
+
+/* UI */
+earn.innerText="₹ "+earn;
+ded.innerText="₹ "+totalDed;
+netSpan.innerText=net;
+
+/* PIE */
+let dataArr=[
+{name:"Earnings",value:earn,color:"#00c853"},
 ...deductions.map((d,i)=>({
 name:d.name,
 value:d.value,
@@ -409,44 +245,34 @@ color:`hsl(${i*25},70%,50%)`
 }))
 ];
 
-/* CREATE PIE */
-let total=pieData.reduce((a,b)=>a+b.value,0);
+let total=dataArr.reduce((a,b)=>a+b.value,0);
 let angle=0;
-let gradient=[];
+let grad=[];
 
-pieData.forEach(d=>{
-let percent=(d.value/total)*100;
-let next=angle+percent;
-gradient.push(`${d.color} ${angle}% ${next}%`);
-angle=next;
+dataArr.forEach(d=>{
+let p=(d.value/total)*100;
+grad.push(`${d.color} ${angle}% ${angle+p}%`);
+angle+=p;
 });
 
-document.getElementById("pieChart").style.background =
-`conic-gradient(${gradient.join(",")})`;
+pie.style.background=`conic-gradient(${grad.join(",")})`;
 
 /* LEGEND */
 let html="";
-pieData.forEach(d=>{
+dataArr.forEach(d=>{
 html+=`
 <div class="legend-item">
-<span class="dot" style="background:${d.color}"></span>
-${d.name}: <b>₹ ${d.value}</b>
+<span><span class="color" style="background:${d.color}"></span>${d.name}</span>
+<span>₹ ${d.value}</span>
 </div>`;
 });
 
-document.querySelector(".legend").innerHTML = html;
+legend.innerHTML=html;
 
 loader.style.display="none";
 
-})
-.catch(()=>{
-loader.style.display="none";
-alert("Error loading data");
 });
 
-window.goBack=()=>history.back();
-
-});
 </script>
 
 </body>
