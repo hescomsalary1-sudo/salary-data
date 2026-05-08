@@ -344,40 +344,88 @@ fetch(url)
 .then(data=>{
 
 let rows=data.trim().split("\n").slice(1);
-let monthly=[];
+let lastRow=null;
 
 rows.forEach(r=>{
 let c=r.split(",");
-if(c[0]!==user)return;
-
-let earnings=0,deductions=0;
-
-for(let i=3;i<=19;i++) earnings+=+c[i]||0;
-for(let i=20;i<c.length;i++) deductions+=+c[i]||0;
-
-monthly.push({earnings,deductions,net:earnings-deductions});
+if(c[0]===user){
+lastRow=c;
+}
 });
 
-let last=monthly[monthly.length-1];
-
-if(last){
-currentSalary.innerText="₹ "+last.earnings;
-deduction.innerText="₹ "+last.deductions;
-netSalary.innerText="₹ "+last.net;
-
-earnValue.innerText="₹ "+last.earnings;
-deductValue.innerText="₹ "+last.deductions;
-
-let total=last.earnings+last.deductions;
-
-let earnP=50;
-if(total>0){
-earnP=(last.earnings/total)*100;
+if(!lastRow){
+loader.style.display="none";
+return;
 }
 
-let pie=document.getElementById("pieChart");
-pie.style.background=`conic-gradient(#00c853 0% ${earnP}%, #ff1744 ${earnP}% 100%)`;
-}
+/* ===== EARNINGS ===== */
+let earnings=0;
+for(let i=3;i<=19;i++) earnings+=+lastRow[i]||0;
+
+/* ===== DEDUCTIONS (INDIVIDUAL ITEMS) ===== */
+let deductions=[
+{name:"LIC", value:+lastRow[20]},
+{name:"Income Tax", value:+lastRow[21]},
+{name:"Professional Tax", value:+lastRow[22]},
+{name:"Society", value:+lastRow[23]},
+{name:"PLI", value:+lastRow[24]},
+{name:"Union Fund", value:+lastRow[25]},
+{name:"SC/ST Fund", value:+lastRow[26]},
+{name:"House Rent", value:+lastRow[27]},
+{name:"Urban Bank", value:+lastRow[28]},
+{name:"Family Fund", value:+lastRow[29]},
+{name:"Festival Advance", value:+lastRow[30]},
+{name:"PC 10%", value:+lastRow[31]},
+{name:"PC 14%", value:+lastRow[32]},
+{name:"LWF", value:+lastRow[33]},
+{name:"Recovery", value:+lastRow[34]},
+{name:"Other", value:+lastRow[35]}
+].filter(d=>d.value>0);
+
+/* ===== UPDATE SUMMARY ===== */
+let totalDeduction = deductions.reduce((a,b)=>a+b.value,0);
+
+currentSalary.innerText="₹ "+earnings;
+deduction.innerText="₹ "+totalDeduction;
+netSalary.innerText="₹ "+(earnings-totalDeduction);
+
+/* ===== PIE DATA ===== */
+let pieData = [
+{name:"Earnings", value:earnings, color:"#00c853"},
+...deductions.map((d,i)=>({
+name:d.name,
+value:d.value,
+color:`hsl(${i*25},70%,50%)`
+}))
+];
+
+/* ===== CREATE PIE ===== */
+let total = pieData.reduce((a,b)=>a+b.value,0);
+let angle=0;
+let gradient=[];
+
+pieData.forEach(d=>{
+let percent = (d.value/total)*100;
+let next = angle + percent;
+gradient.push(`${d.color} ${angle}% ${next}%`);
+angle=next;
+});
+
+document.getElementById("pieChart").style.background =
+`conic-gradient(${gradient.join(",")})`;
+
+/* ===== LEGEND UPDATE ===== */
+let legendHTML="";
+
+pieData.forEach(d=>{
+legendHTML+=`
+<div class="legend-item">
+<span class="dot" style="background:${d.color}"></span>
+${d.name}: <b>₹ ${d.value}</b>
+</div>`;
+});
+
+document.querySelector(".legend").innerHTML = legendHTML;
 
 loader.style.display="none";
 
