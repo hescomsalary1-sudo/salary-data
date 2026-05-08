@@ -5,346 +5,276 @@
 <title>Salary Overview</title>
 
 <style>
-
-/* BODY */
 body{
-  margin:0;
-  font-family:'Segoe UI',sans-serif;
-  background: linear-gradient(135deg,#e9efff,#dfe7f5);
-}
-
-/* CONTAINER */
-.container{
-  padding:15px;
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background: linear-gradient(135deg,#e9efff,#dfe7f5);
 }
 
 /* HEADER */
 .top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:15px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:15px;
 }
 
 .top-title{
-  font-size:22px;
-  font-weight:700;
-  color:#1e2a4a;
+font-size:20px;
+font-weight:700;
 }
 
 .icon-btn{
-  width:45px;
-  height:45px;
-  border-radius:50%;
-  background:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 6px 15px rgba(0,0,0,0.1);
+width:45px;
+height:45px;
+border-radius:50%;
+background:white;
+display:flex;
+align-items:center;
+justify-content:center;
+box-shadow:0 5px 12px rgba(0,0,0,0.1);
 }
 
 /* SUMMARY */
 .summary{
-  display:flex;
-  gap:12px;
+display:flex;
+gap:10px;
+padding:10px;
 }
 
 .card{
-  flex:1;
-  background:#f4f7fc;
-  border-radius:20px;
-  padding:15px;
-  display:flex;
-  gap:12px;
-  align-items:center;
-  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+flex:1;
+background:#f4f7fc;
+border-radius:20px;
+padding:12px;
+display:flex;
+gap:10px;
+align-items:center;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
 
 .icon{
-  width:55px;
-  height:55px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:22px;
-  color:white;
+width:50px;
+height:50px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
 }
 
 .green{background:linear-gradient(135deg,#4facfe,#00c853);}
 .red{background:linear-gradient(135deg,#ff4d6d,#ff1744);}
 
-.card-text h4{
-  margin:0;
-  font-size:13px;
-  color:#6b7280;
-}
-
-.card-text p{
-  margin:5px 0;
-  font-size:18px;
-  font-weight:700;
-}
-
-.small{
-  font-size:12px;
-}
-
-/* NET CARD */
+/* NET */
 .net-card{
-  margin-top:15px;
-  padding:20px;
-  border-radius:25px;
-  background:linear-gradient(135deg,#1e63ff,#0039cb);
-  color:white;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  box-shadow:0 15px 40px rgba(0,82,204,0.4);
+margin:10px;
+padding:20px;
+border-radius:25px;
+background:linear-gradient(135deg,#1e63ff,#0039cb);
+color:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
-.net-value{
-  font-size:30px;
-  font-weight:800;
-}
-
-.net-btn{
-  margin-top:10px;
-  display:inline-block;
-  padding:8px 14px;
-  border-radius:20px;
-  background:rgba(255,255,255,0.2);
-  font-size:12px;
-}
-
-/* CHART CARD */
+/* CHART */
 .chart-card{
-  margin-top:15px;
-  background:#f4f7fc;
-  border-radius:20px;
-  padding:15px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+margin:10px;
+background:#f4f7fc;
+border-radius:20px;
+padding:10px;
+}
+
+.chart{
+height:160px;
+display:flex;
+align-items:flex-end;
+gap:5px;
+position:relative;
+}
+
+.bar{
+width:10px;
+background:blue;
+border-radius:5px;
+}
+
+.line{
+position:absolute;
+width:100%;
+height:100%;
 }
 
 /* BUTTONS */
 .buttons{
-  margin-top:15px;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+padding:10px;
 }
 
 .btn{
-  background:#f4f7fc;
-  padding:15px;
-  border-radius:20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+background:#f4f7fc;
+padding:15px;
+border-radius:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
-.left{
-  display:flex;
-  gap:10px;
-  align-items:center;
+/* LOADER */
+#loader{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(255,255,255,0.7);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:9999;
 }
 
-.icon2{
-  width:45px;
-  height:45px;
-  border-radius:15px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:white;
+.loader-spin{
+width:50px;
+height:50px;
+border:5px solid #eee;
+border-top:5px solid #1e63ff;
+border-radius:50%;
+animation:spin 1s linear infinite;
 }
 
-.blue{background:#3b82f6;}
-.purple{background:#7c3aed;}
-.orange{background:#f97316;}
-.green2{background:#22c55e;}
-
-.title{
-  font-size:14px;
-  font-weight:600;
+@keyframes spin{
+100%{transform:rotate(360deg);}
 }
-
-.sub{
-  font-size:11px;
-  color:#6b7280;
-}
-
-.arrow{
-  font-size:20px;
-  color:#9ca3af;
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- LOADER -->
+<div id="loader">
+<div class="loader-spin"></div>
+</div>
 
 <!-- HEADER -->
 <div class="top">
-  <div class="icon-btn" onclick="goBack()">⬅</div>
-  <div class="top-title">Salary overview & Growth</div>
-  <div class="icon-btn">🔔</div>
+<div class="icon-btn" onclick="goBack()">⬅</div>
+<div class="top-title">Salary overview</div>
+<div class="icon-btn">🔔</div>
 </div>
 
 <!-- SUMMARY -->
 <div class="summary">
+<div class="card">
+<div class="icon green">💼</div>
+<div>
+<div>Last Month</div>
+<div id="currentSalary">₹ 0</div>
+</div>
+</div>
 
-  <div class="card">
-    <div class="icon green">💼</div>
-    <div class="card-text">
-      <h4>Last Month</h4>
-      <p>₹ <span id="currentSalary">0</span></p>
-      <div class="small" style="color:green;">↑ 8.5%</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="icon red">⬇</div>
-    <div class="card-text">
-      <h4>Deductions</h4>
-      <p>₹ <span id="deduction">0</span></p>
-      <div class="small" style="color:red;">↑ 2.1%</div>
-    </div>
-  </div>
-
+<div class="card">
+<div class="icon red">⬇</div>
+<div>
+<div>Deductions</div>
+<div id="deduction">₹ 0</div>
+</div>
+</div>
 </div>
 
 <!-- NET -->
 <div class="net-card">
-  <div>
-    <div>Net Salary</div>
-    <div class="net-value">₹ <span id="netSalary">0</span></div>
-    <div class="net-btn">Take Home Salary</div>
-  </div>
-  <div style="font-size:50px;">💰</div>
+<div>
+<div>Net Salary</div>
+<div id="netSalary">₹ 0</div>
+</div>
+<div>💰</div>
 </div>
 
 <!-- CHART -->
 <div class="chart-card">
-  <h3>Salary Growth</h3>
-  <div id="chart"></div>
+<h3>Salary Growth</h3>
+
+<div style="display:flex;">
+<div id="yAxis" style="width:40px;font-size:10px;"></div>
+
+<div style="flex:1;">
+<div class="chart" id="chart">
+<svg id="line" class="line"></svg>
+</div>
+<div id="xAxis" style="display:flex;justify-content:space-around;font-size:10px;"></div>
+</div>
+
+</div>
 </div>
 
 <!-- BUTTONS -->
 <div class="buttons">
 
-  <div class="btn" onclick="showLoader('salary.html')">
-    <div class="left">
-      <div class="icon2 blue">💰</div>
-      <div>
-        <div class="title">Salary</div>
-        <div class="sub">View salary details</div>
-      </div>
-    </div>
-    <div class="arrow">›</div>
-  </div>
+<div class="btn" onclick="showLoader('salary.html')">
+<span>Salary</span> ›
+</div>
 
-  <div class="btn" onclick="showLoader('reports_menu.html')">
-    <div class="left">
-      <div class="icon2 purple">📊</div>
-      <div>
-        <div class="title">Reports</div>
-        <div class="sub">Salary reports</div>
-      </div>
-    </div>
-    <div class="arrow">›</div>
-  </div>
+<div class="btn" onclick="showLoader('reports_menu.html')">
+<span>Reports</span> ›
+</div>
 
-  <div class="btn" onclick="showLoader('holidays.html')">
-    <div class="left">
-      <div class="icon2 orange">📅</div>
-      <div>
-        <div class="title">Holiday List</div>
-        <div class="sub">Upcoming holidays</div>
-      </div>
-    </div>
-    <div class="arrow">›</div>
-  </div>
+<div class="btn" onclick="showLoader('holidays.html')">
+<span>Holiday</span> ›
+</div>
 
-  <div class="btn" onclick="showLoader('assets_liability.html')">
-    <div class="left">
-      <div class="icon2 green2">📄</div>
-      <div>
-        <div class="title">Assets</div>
-        <div class="sub">View assets</div>
-      </div>
-    </div>
-    <div class="arrow">›</div>
-  </div>
-
+<div class="btn" onclick="showLoader('assets_liability.html')">
+<span>Assets</span> ›
 </div>
 
 </div>
 
-<!-- 🔥 PASTE YOUR OLD SCRIPT HERE (NO CHANGE) -->
 <script>
+document.addEventListener("DOMContentLoaded", function(){
+
 let user = localStorage.getItem("currentUser");
+let loader = document.getElementById("loader");
+if(loader) loader.style.display="flex";
 
-// show loader on page load
-document.getElementById("loader").style.display="flex";
-
-// FIXED URL
 let url = "https://hescomsalary1-sudo.github.io/salary-data/salary%20.csv";
 
 function showLoader(url){
-document.getElementById("loader").style.display="flex";
+if(loader) loader.style.display="flex";
 setTimeout(()=>{ window.location=url },800);
 }
+
+window.showLoader = showLoader;
 
 fetch(url)
 .then(res => res.text())
 .then(data => {
 
 let rows = data.trim().split("\n").slice(1);
-
 let monthly = [];
 
 rows.forEach(r=>{
 let cols = r.split(",");
-
 if(cols[0] !== user) return;
 
 let year = Number(cols[1]);
 let month = Number(cols[2]);
 
 let earnings = 0;
-for(let i=3;i<=19;i++){
-earnings += Number(cols[i]) || 0;
-}
+for(let i=3;i<=19;i++) earnings += Number(cols[i]) || 0;
 
 let deductions = 0;
-for(let i=20;i<cols.length;i++){
-deductions += Number(cols[i])||0;
-}
+for(let i=20;i<cols.length;i++) deductions += Number(cols[i])||0;
 
 let net = earnings - deductions;
-
 monthly.push({year,month,net,earnings,deductions});
 });
 
-monthly.sort((a,b)=>a.year-b.year||a.month-b.month);
+monthly.sort((a,b)=> (a.year*100+a.month)-(b.year*100+b.month));
 
-// sort properly
-monthly.sort((a,b)=>{
-return (a.year*100 + a.month) - (b.year*100 + b.month);
-});
-
-// ✅ get previous month
-let last = null;
-
-if(monthly.length >= 2){
-last = monthly[monthly.length - 2]; // previous month
-}else if(monthly.length === 1){
-last = monthly[0]; // fallback
-}
+let last = monthly.length>=2 ? monthly[monthly.length-2] : monthly[0];
 
 if(last){
 document.getElementById("currentSalary").innerText="₹ "+last.earnings;
@@ -353,58 +283,27 @@ document.getElementById("netSalary").innerText="₹ "+last.net;
 }
 
 let chart=document.getElementById("chart");
-chart.querySelectorAll(".bar").forEach(b=>b.remove());
-document.getElementById("line").innerHTML="";
+let line=document.getElementById("line");
+let yAxis=document.getElementById("yAxis");
+let xAxis=document.getElementById("xAxis");
+
+chart.innerHTML="";
+line.innerHTML="";
+yAxis.innerHTML="";
+xAxis.innerHTML="";
 
 let last12 = monthly.slice(-12);
 let values = last12.map(m=>m.net);
-let months = last12.map(m=>m.month);
-let years = last12.map(m=>m.year);
-            // ✅ AXIS ADD
 
-let names=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-
-/* Y AXIS */
-let step = 25000;
-
-let maxVal = Math.max(...values);
-let yMax = Math.ceil(maxVal/step)*step;
-
-let yAxis=document.getElementById("yAxis");
-yAxis.innerHTML="";
+let max = Math.max(...values);
+let step=25000;
+let yMax = Math.ceil(max/step)*step;
 
 for(let i=yMax;i>=0;i-=step){
 let d=document.createElement("div");
-d.style.height = (160 / (yMax/step)) + "px";
 d.innerText=(i/1000)+"K";
 yAxis.appendChild(d);
 }
-
-yAxis.style.display = "flex";
-yAxis.style.flexDirection = "column";
-yAxis.style.justifyContent = "space-between";
-
-/* X AXIS */
-let xAxis=document.getElementById("xAxis");
-xAxis.innerHTML="";
-
-months.forEach((m,i)=>{
-let d=document.createElement("div");
-
-// ✅ Month + Year
-d.innerHTML = names[m-1] + "<br>" + years[i];
-d.style.textAlign = "center";
-d.style.fontSize = "9px";
-
-// optional: make it smaller
-d.style.textAlign="center";
-d.style.fontSize="9px";
-
-xAxis.appendChild(d);
-});
-
-let max=Math.max(...values);
-
 
 values.forEach(v=>{
 let bar=document.createElement("div");
@@ -413,48 +312,28 @@ bar.style.height=(v/yMax)*100+"%";
 chart.appendChild(bar);
 });
 
-let svg=document.getElementById("line");
-
 let points=values.map((v,i)=>{
-let x=(i/(values.length-1))*280+10;
-let y = 140 - (v / yMax) * 120;
+let x=(i/(values.length-1))*300;
+let y=150-(v/yMax)*120;
 return `${x},${y}`;
 }).join(" ");
 
 let poly=document.createElementNS("http://www.w3.org/2000/svg","polyline");
 poly.setAttribute("points",points);
+poly.setAttribute("stroke","orange");
 poly.setAttribute("fill","none");
-poly.setAttribute("stroke","#f4a300");
-poly.setAttribute("stroke-width","2");
 
-svg.appendChild(poly);
+line.appendChild(poly);
 
-// hide loader
-document.getElementById("loader").style.display="none";
+if(loader) loader.style.display="none";
 
 });
-function goBack(){
-  window.history.back();
+
+window.goBack = function(){
+window.history.back();
 }
 
-   function navigateSmooth(url){
-  document.getElementById("loader").style.display="flex";
-  setTimeout(()=>{
-    window.location.href = url;
-  },500);
-}
-
-  function refreshApp(){
-    // Show the "Middle" loader
-    document.getElementById("loader").style.display = "flex";
-    
-    // Optional: add a slight fade to the content area only
-    document.querySelector('.content').style.opacity = "0.4";
-
-    setTimeout(function(){
-        location.reload(true);
-    }, 1000);
-}
+});
 </script>
 
 </body>
