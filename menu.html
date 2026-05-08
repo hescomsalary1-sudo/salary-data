@@ -17,56 +17,58 @@ padding:18px;
 text-align:center;
 font-size:20px;
 font-weight:700;
+color:#1e2a4a;
 }
 
-/* FLEX MAIN */
+/* COMMON CARD */
+.container{
+margin:12px;
+padding:15px;
+background:#ffffff;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* SUMMARY (TOP) */
+.summary{
+display:flex;
+gap:10px;
+}
+
+.card{
+flex:1;
+text-align:center;
+padding:12px;
+border-radius:15px;
+background:#f4f7fc;
+}
+
+.card b{
+font-size:16px;
+}
+
+.net{
+background:linear-gradient(135deg,#1e63ff,#0039cb);
+color:white;
+}
+
+/* PIE SECTION */
 .chart-flex{
 display:flex;
 gap:15px;
-padding:12px;
-}
-
-/* PIE */
-.pie-box{
-flex:1;
-display:flex;
-justify-content:center;
 align-items:center;
 }
 
+/* PIE */
 .pie{
 width:140px;
 height:140px;
 border-radius:50%;
 }
 
-/* RIGHT DETAILS */
-.details-box{
-flex:1;
-display:flex;
-flex-direction:column;
-gap:10px;
-}
-
-.detail{
-background:#fff;
-padding:10px;
-border-radius:10px;
-display:flex;
-justify-content:space-between;
-font-size:14px;
-box-shadow:0 4px 10px rgba(0,0,0,0.08);
-}
-
-.net{
-background:#1e63ff;
-color:white;
-font-weight:bold;
-}
-
-/* DEDUCTION LIST */
+/* LIST */
 .list{
-margin-top:10px;
+flex:1;
 font-size:13px;
 max-height:150px;
 overflow:auto;
@@ -75,25 +77,48 @@ overflow:auto;
 .item{
 display:flex;
 justify-content:space-between;
-padding:4px 0;
+padding:5px 0;
+border-bottom:1px solid #eee;
 }
 
-/* BUTTONS */
+/* BUTTON GRID */
 .buttons{
-padding:10px;
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:10px;
+gap:12px;
 }
 
 .btn{
-background:#f4f7fc;
+display:flex;
+align-items:center;
+justify-content:space-between;
 padding:14px;
 border-radius:15px;
-display:flex;
-justify-content:space-between;
+background:#f4f7fc;
 box-shadow:0 5px 12px rgba(0,0,0,0.08);
 cursor:pointer;
+}
+
+.icon{
+width:35px;
+height:35px;
+border-radius:10px;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+margin-right:8px;
+}
+
+/* ICON COLORS */
+.blue{background:#3b82f6;}
+.purple{background:#7c3aed;}
+.orange{background:#f97316;}
+.green{background:#22c55e;}
+
+.left{
+display:flex;
+align-items:center;
 }
 
 /* LOADER */
@@ -135,32 +160,63 @@ flex-direction:row;
 
 <div class="top">Salary Overview</div>
 
+<!-- TOP CONTAINER -->
+<div class="container">
+<div class="summary">
+<div class="card">
+Earnings<br><b id="earn">₹0</b>
+</div>
+
+<div class="card">
+Deductions<br><b id="ded">₹0</b>
+</div>
+
+<div class="card net">
+Net<br><b id="net">₹0</b>
+</div>
+</div>
+</div>
+
+<!-- PIE + LIST CONTAINER -->
+<div class="container">
 <div class="chart-flex">
 
-<!-- LEFT PIE -->
-<div class="pie-box">
 <div id="pie" class="pie"></div>
-</div>
 
-<!-- RIGHT DETAILS -->
-<div class="details-box">
-
-<div class="detail">Earnings <b id="earn">₹0</b></div>
-<div class="detail">Deductions <b id="ded">₹0</b></div>
-<div class="detail net">Net <b id="net">₹0</b></div>
-
-<div class="list" id="list"></div>
+<div id="list" class="list"></div>
 
 </div>
-
 </div>
 
-<!-- BUTTONS -->
+<!-- BUTTON CONTAINER -->
+<div class="container">
 <div class="buttons">
-<div class="btn" onclick="go('salary.html')">Salary ›</div>
-<div class="btn" onclick="go('reports_menu.html')">Reports ›</div>
-<div class="btn" onclick="go('holidays.html')">Holidays ›</div>
-<div class="btn" onclick="go('assets_liability.html')">Assets ›</div>
+
+<div class="btn" onclick="go('salary.html')">
+<div class="left">
+<div class="icon blue">💰</div> Salary
+</div> ›
+</div>
+
+<div class="btn" onclick="go('reports_menu.html')">
+<div class="left">
+<div class="icon purple">📊</div> Reports
+</div> ›
+</div>
+
+<div class="btn" onclick="go('holidays.html')">
+<div class="left">
+<div class="icon orange">📅</div> Holidays
+</div> ›
+</div>
+
+<div class="btn" onclick="go('assets_liability.html')">
+<div class="left">
+<div class="icon green">📄</div> Assets
+</div> ›
+</div>
+
+</div>
 </div>
 
 <script>
@@ -193,10 +249,7 @@ row=c; break;
 }
 }
 
-if(!row){
-loader.style.display="none";
-return;
-}
+if(!row){ loader.style.display="none"; return; }
 
 function num(v){return Number(v)||0}
 
@@ -220,15 +273,18 @@ let totalDed=deductions.reduce((a,b)=>a+b.value,0);
 let net=earn-totalDed;
 
 /* UI */
-document.getElementById("earn").innerText="₹"+earn;
-document.getElementById("ded").innerText="₹"+totalDed;
-document.getElementById("net").innerText="₹"+net;
+earnElem=document.getElementById("earn");
+dedElem=document.getElementById("ded");
+netElem=document.getElementById("net");
+
+earnElem.innerText="₹"+earn;
+dedElem.innerText="₹"+totalDed;
+netElem.innerText="₹"+net;
 
 /* PIE */
-let dataArr=[{name:"Earnings",value:earn,color:"#00c853"},
-...deductions.map((d,i)=>({
-name:d.name,value:d.value,color:`hsl(${i*25},70%,50%)`
-}))];
+let dataArr=[{value:earn,color:"#00c853"},
+...deductions.map((d,i)=>({value:d.value,color:`hsl(${i*25},70%,50%)`}))
+];
 
 let total=dataArr.reduce((a,b)=>a+b.value,0);
 let angle=0,grad=[];
@@ -252,9 +308,7 @@ document.getElementById("list").innerHTML=html;
 loader.style.display="none";
 
 })
-.catch(()=>{
-loader.style.display="none";
-});
+.catch(()=>{ loader.style.display="none"; });
 </script>
 
 </body>
