@@ -233,7 +233,7 @@ let deductionsList = [
 {name:"LWF", value:num(row[33])},
 {name:"Recovery", value:num(row[34])},
 {name:"Other Deduction", value:num(row[35])}
-];
+].filter(d => d.value > 0);   // ✅ THIS LINE ADDED
 
 /* 👉 IMPORTANT: DO NOT FILTER (show all items) */
 let totalDed = deductionsList.reduce((a,b)=>a+b.value,0);
