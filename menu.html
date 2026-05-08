@@ -15,8 +15,8 @@ background: linear-gradient(135deg,#e9efff,#dfe7f5);
 .top{
 padding:18px;
 text-align:center;
-font-weight:bold;
 font-size:20px;
+font-weight:700;
 }
 
 /* SUMMARY */
@@ -137,142 +137,144 @@ animation:spin 1s linear infinite;
 
 <!-- SUMMARY -->
 <div class="summary">
-<div class="card">
-Last Month<br>
-<b id="earn">₹ 0</b>
-</div>
+  <div class="card">
+    Last Month<br>
+    <b id="earn">₹ 0</b>
+  </div>
 
-<div class="card">
-Deductions<br>
-<b id="ded">₹ 0</b>
-</div>
+  <div class="card">
+    Deductions<br>
+    <b id="ded">₹ 0</b>
+  </div>
 </div>
 
 <!-- NET -->
 <div class="net">
-Net Salary: ₹ <span id="net">0</span>
+  Net Salary: ₹ <span id="net">0</span>
 </div>
 
 <!-- PIE -->
 <div class="chart-card">
-<h3 style="text-align:center;">Distribution</h3>
-<div id="pie" class="pie"></div>
-<div id="legend" class="legend"></div>
+  <h3 style="text-align:center;">Distribution</h3>
+  <div id="pie" class="pie"></div>
+  <div id="legend" class="legend"></div>
 </div>
 
 <!-- BUTTONS -->
 <div class="buttons">
-
-<div class="btn" onclick="go('salary.html')">Salary ›</div>
-<div class="btn" onclick="go('reports_menu.html')">Reports ›</div>
-<div class="btn" onclick="go('holidays.html')">Holidays ›</div>
-<div class="btn" onclick="go('assets_liability.html')">Assets ›</div>
-
+  <div class="btn" onclick="go('salary.html')">Salary ›</div>
+  <div class="btn" onclick="go('reports_menu.html')">Reports ›</div>
+  <div class="btn" onclick="go('holidays.html')">Holidays ›</div>
+  <div class="btn" onclick="go('assets_liability.html')">Assets ›</div>
 </div>
 
 <script>
+const loader = document.getElementById("loader");
 
 function go(page){
-document.getElementById("loader").style.display="flex";
-setTimeout(()=>{location=page},600);
+  loader.style.display="flex";
+  setTimeout(()=>{ location = page },600);
 }
 
-let user = localStorage.getItem("currentUser");
+const user = localStorage.getItem("currentUser");
 
 /* PREVIOUS MONTH */
-let d=new Date();
+let d = new Date();
 d.setMonth(d.getMonth()-1);
-let year=d.getFullYear();
-let month=String(d.getMonth()+1).padStart(2,"0");
+let year = d.getFullYear().toString();
+let month = String(d.getMonth()+1).padStart(2,"0");
 
 fetch("https://hescomsalary1-sudo.github.io/salary-data/salary%20.csv")
 .then(r=>r.text())
 .then(data=>{
 
-let rows=data.split("\n");
-let row=null;
+let rows = data.trim().split("\n");
+let row = null;
 
 for(let i=1;i<rows.length;i++){
-let c=rows[i].split(",");
-if(c[0]===user && c[1]==year && c[2]==month){
-row=c;
-break;
-}
+  let c = rows[i].split(",");
+  if(c[0]===user && c[1]===year && c[2]===month){
+    row = c;
+    break;
+  }
 }
 
 if(!row){
-loader.style.display="none";
-alert("No data found");
-return;
+  loader.style.display="none";
+  alert("No data found for previous month");
+  return;
 }
 
-function num(v){return Number(v)||0}
+function num(v){ return Number(v) || 0 }
 
 /* EARNINGS */
-let earn=0;
-for(let i=3;i<=19;i++) earn+=num(row[i]);
+let earn = 0;
+for(let i=3;i<=19;i++) earn += num(row[i]);
 
 /* DEDUCTIONS */
-let list=[
+let map = [
 ["LIC",20],["IT",21],["PT",22],["Society",23],["PLI",24],
 ["Union",25],["SC/ST",26],["Rent",27],["Bank",28],
 ["Family",29],["Festival",30],["PC10",31],["PC14",32],
 ["LWF",33],["Recovery",34],["Other",35]
 ];
 
-let deductions=[];
-
-list.forEach(d=>{
-let val=num(row[d[1]]);
-if(val>0) deductions.push({name:d[0],value:val});
+let deductions = [];
+map.forEach(d=>{
+  let val = num(row[d[1]]);
+  if(val>0) deductions.push({name:d[0],value:val});
 });
 
-let totalDed=deductions.reduce((a,b)=>a+b.value,0);
-let net=earn-totalDed;
+let totalDed = deductions.reduce((a,b)=>a+b.value,0);
+let netVal = earn - totalDed;
 
 /* UI */
-earn.innerText="₹ "+earn;
-ded.innerText="₹ "+totalDed;
-netSpan.innerText=net;
+document.getElementById("earn").innerText = "₹ " + earn;
+document.getElementById("ded").innerText = "₹ " + totalDed;
+document.getElementById("net").innerText = netVal;
 
 /* PIE */
-let dataArr=[
+let dataArr = [
 {name:"Earnings",value:earn,color:"#00c853"},
 ...deductions.map((d,i)=>({
-name:d.name,
-value:d.value,
-color:`hsl(${i*25},70%,50%)`
+  name:d.name,
+  value:d.value,
+  color:`hsl(${i*25},70%,50%)`
 }))
 ];
 
-let total=dataArr.reduce((a,b)=>a+b.value,0);
-let angle=0;
-let grad=[];
+let total = dataArr.reduce((a,b)=>a+b.value,0);
+let angle = 0;
+let grad = [];
 
 dataArr.forEach(d=>{
-let p=(d.value/total)*100;
-grad.push(`${d.color} ${angle}% ${angle+p}%`);
-angle+=p;
+  let p = (d.value/total)*100;
+  grad.push(`${d.color} ${angle}% ${angle+p}%`);
+  angle += p;
 });
 
-pie.style.background=`conic-gradient(${grad.join(",")})`;
+document.getElementById("pie").style.background =
+  `conic-gradient(${grad.join(",")})`;
 
 /* LEGEND */
 let html="";
 dataArr.forEach(d=>{
-html+=`
-<div class="legend-item">
-<span><span class="color" style="background:${d.color}"></span>${d.name}</span>
-<span>₹ ${d.value}</span>
-</div>`;
+  html+=`
+  <div class="legend-item">
+    <span><span class="color" style="background:${d.color}"></span>${d.name}</span>
+    <span>₹ ${d.value}</span>
+  </div>`;
 });
 
-legend.innerHTML=html;
+document.getElementById("legend").innerHTML = html;
 
 loader.style.display="none";
 
+})
+.catch(()=>{
+  loader.style.display="none";
+  alert("Error loading data");
 });
-
 </script>
 
 </body>
