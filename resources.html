@@ -352,7 +352,34 @@ transform:scale(1);
 }
 }
 
+/* NEW MODERN SPINNER */
+.loader-container{
+  text-align:center;
+}
 
+.loader-spinner{
+  width:60px;
+  height:60px;
+  border:6px solid rgba(255,255,255,0.6);
+  border-top:6px solid #0d47a1;
+  border-radius:50%;
+  animation:spin 0.8s linear infinite;
+  margin:auto;
+  box-shadow:0 0 15px rgba(13,71,161,0.5);
+}
+
+.loading-text{
+  margin-top:15px;
+  font-size:14px;
+  color:#0d47a1;
+  font-weight:bold;
+  letter-spacing:1px;
+}
+
+/* KEEP ONLY ONE SPIN */
+@keyframes spin{
+  100%{ transform:rotate(360deg); }
+}
 </style>
 </head>
 
@@ -417,13 +444,10 @@ transform:scale(1);
 
 <!-- LOADER -->
 <div id="loader">
-    <div class="fluid-loader">
-        <div class="orbit"></div>
-        <div class="orbit"></div>
-        <div class="orbit"></div>
-        <div class="core"></div>
-    </div>
-    <div class="loader-text">Syncing Secure Data...</div>
+  <div class="loader-container">
+    <div class="loader-spinner"></div>
+    <div class="loading-text">Loading...</div>
+  </div>
 </div>
 
 <script>
