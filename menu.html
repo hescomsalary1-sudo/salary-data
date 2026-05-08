@@ -13,15 +13,17 @@ background: linear-gradient(135deg,#e9efff,#dfe7f5);
 
 /* HEADER */
 .top{
+padding:20px 16px;
 display:flex;
 align-items:center;
 justify-content:space-between;
-padding:15px;
 }
 
-.top-title{
+.top h2{
+margin:0;
 font-size:20px;
 font-weight:700;
+color:#1e2a4a;
 }
 
 .icon-btn{
@@ -38,90 +40,140 @@ box-shadow:0 5px 12px rgba(0,0,0,0.1);
 /* SUMMARY */
 .summary{
 display:flex;
-gap:10px;
-padding:10px;
+gap:12px;
+padding:0 12px;
 }
 
-.card{
+.card2{
 flex:1;
+padding:16px;
+border-radius:22px;
 background:#f4f7fc;
-border-radius:20px;
-padding:12px;
 display:flex;
-gap:10px;
 align-items:center;
-box-shadow:0 8px 20px rgba(0,0,0,0.08);
+gap:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
 .icon{
-width:50px;
-height:50px;
+width:55px;
+height:55px;
 border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
+font-size:22px;
 color:white;
 }
 
-.green{background:linear-gradient(135deg,#4facfe,#00c853);}
+.purple{background:linear-gradient(135deg,#4facfe,#0052cc);}
 .red{background:linear-gradient(135deg,#ff4d6d,#ff1744);}
 
-/* NET */
+.label{
+font-size:13px;
+color:#6b7280;
+}
+
+.value{
+font-size:18px;
+font-weight:700;
+}
+
+/* NET CARD */
 .net-card{
-margin:10px;
+margin:12px;
 padding:20px;
 border-radius:25px;
-background:linear-gradient(135deg,#1e63ff,#0039cb);
+background: linear-gradient(135deg,#1e63ff,#0039cb);
 color:white;
 display:flex;
 justify-content:space-between;
 align-items:center;
+box-shadow:0 15px 40px rgba(0,82,204,0.4);
+}
+
+.net-label{font-size:14px;}
+.net-value{font-size:32px;font-weight:800;}
+.net-btn{
+margin-top:8px;
+padding:6px 12px;
+border-radius:20px;
+background:rgba(255,255,255,0.2);
+font-size:12px;
 }
 
 /* CHART */
-.chart-card{
-margin:10px;
+.card{
+margin:12px;
 background:#f4f7fc;
 border-radius:20px;
-padding:10px;
+padding:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
 .chart{
-height:160px;
+position:relative;
+height:180px;
 display:flex;
 align-items:flex-end;
-gap:5px;
-position:relative;
+gap:8px;
 }
 
 .bar{
-width:10px;
-background:blue;
-border-radius:5px;
+width:14px;
+border-radius:10px;
+background:linear-gradient(to top,#1e63ff,#6ea8ff);
 }
 
 .line{
 position:absolute;
+top:0;
+left:0;
 width:100%;
 height:100%;
 }
 
 /* BUTTONS */
 .buttons{
+padding:12px;
 display:grid;
-grid-template-columns:1fr 1fr;
 gap:10px;
-padding:10px;
 }
 
-.btn{
-background:#f4f7fc;
-padding:15px;
-border-radius:20px;
+.btn2{
 display:flex;
-justify-content:space-between;
 align-items:center;
+justify-content:space-between;
+padding:16px;
+border-radius:20px;
+background:#f4f7fc;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
+
+.left{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.icon2{
+width:45px;
+height:45px;
+border-radius:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+}
+
+.blue{background:#3b82f6;}
+.purple2{background:#7c3aed;}
+.orange{background:#f97316;}
+.green{background:#22c55e;}
+
+.title2{font-weight:600;}
+.sub{font-size:12px;color:#6b7280;}
+.arrow{font-size:20px;color:#9ca3af;}
 
 /* LOADER */
 #loader{
@@ -154,48 +206,44 @@ animation:spin 1s linear infinite;
 
 <body>
 
-<!-- LOADER -->
-<div id="loader">
-<div class="loader-spin"></div>
-</div>
+<div id="loader"><div class="loader-spin"></div></div>
 
-<!-- HEADER -->
 <div class="top">
 <div class="icon-btn" onclick="goBack()">⬅</div>
-<div class="top-title">Salary overview</div>
+<h2>Salary overview & Growth</h2>
 <div class="icon-btn">🔔</div>
 </div>
 
-<!-- SUMMARY -->
 <div class="summary">
-<div class="card">
-<div class="icon green">💼</div>
+
+<div class="card2">
+<div class="icon purple">💼</div>
 <div>
-<div>Last Month</div>
-<div id="currentSalary">₹ 0</div>
+<div class="label">Last Month</div>
+<div class="value" id="currentSalary">₹ 0</div>
 </div>
 </div>
 
-<div class="card">
+<div class="card2">
 <div class="icon red">⬇</div>
 <div>
-<div>Deductions</div>
-<div id="deduction">₹ 0</div>
-</div>
+<div class="label">Deductions</div>
+<div class="value" id="deduction">₹ 0</div>
 </div>
 </div>
 
-<!-- NET -->
+</div>
+
 <div class="net-card">
 <div>
-<div>Net Salary</div>
-<div id="netSalary">₹ 0</div>
+<div class="net-label">Net Salary</div>
+<div class="net-value" id="netSalary">₹ 0</div>
+<div class="net-btn">Take Home Salary</div>
 </div>
-<div>💰</div>
+<div style="font-size:50px;">💰</div>
 </div>
 
-<!-- CHART -->
-<div class="chart-card">
+<div class="card">
 <h3>Salary Growth</h3>
 
 <div style="display:flex;">
@@ -205,29 +253,45 @@ animation:spin 1s linear infinite;
 <div class="chart" id="chart">
 <svg id="line" class="line"></svg>
 </div>
+
 <div id="xAxis" style="display:flex;justify-content:space-around;font-size:10px;"></div>
 </div>
-
-</div>
 </div>
 
-<!-- BUTTONS -->
+</div>
+
 <div class="buttons">
 
-<div class="btn" onclick="showLoader('salary.html')">
-<span>Salary</span> ›
+<div class="btn2" onclick="showLoader('salary.html')">
+<div class="left">
+<div class="icon2 blue">💰</div>
+<div><div class="title2">Salary</div><div class="sub">View salary details</div></div>
+</div>
+<div class="arrow">›</div>
 </div>
 
-<div class="btn" onclick="showLoader('reports_menu.html')">
-<span>Reports</span> ›
+<div class="btn2" onclick="showLoader('reports_menu.html')">
+<div class="left">
+<div class="icon2 purple2">📊</div>
+<div><div class="title2">Reports</div><div class="sub">Salary reports</div></div>
+</div>
+<div class="arrow">›</div>
 </div>
 
-<div class="btn" onclick="showLoader('holidays.html')">
-<span>Holiday</span> ›
+<div class="btn2" onclick="showLoader('holidays.html')">
+<div class="left">
+<div class="icon2 orange">📅</div>
+<div><div class="title2">Holiday List</div><div class="sub">Upcoming holidays</div></div>
+</div>
+<div class="arrow">›</div>
 </div>
 
-<div class="btn" onclick="showLoader('assets_liability.html')">
-<span>Assets</span> ›
+<div class="btn2" onclick="showLoader('assets_liability.html')">
+<div class="left">
+<div class="icon2 green">📄</div>
+<div><div class="title2">Assets</div><div class="sub">View assets</div></div>
+</div>
+<div class="arrow">›</div>
 </div>
 
 </div>
@@ -237,49 +301,43 @@ document.addEventListener("DOMContentLoaded", function(){
 
 let user = localStorage.getItem("currentUser");
 let loader = document.getElementById("loader");
-if(loader) loader.style.display="flex";
+loader.style.display="flex";
 
 let url = "https://hescomsalary1-sudo.github.io/salary-data/salary%20.csv";
 
-function showLoader(url){
-if(loader) loader.style.display="flex";
-setTimeout(()=>{ window.location=url },800);
+window.showLoader=function(u){
+loader.style.display="flex";
+setTimeout(()=>{window.location=u},800);
 }
 
-window.showLoader = showLoader;
-
 fetch(url)
-.then(res => res.text())
-.then(data => {
+.then(res=>res.text())
+.then(data=>{
 
-let rows = data.trim().split("\n").slice(1);
-let monthly = [];
+let rows=data.trim().split("\n").slice(1);
+let monthly=[];
 
 rows.forEach(r=>{
-let cols = r.split(",");
-if(cols[0] !== user) return;
+let c=r.split(",");
+if(c[0]!==user)return;
 
-let year = Number(cols[1]);
-let month = Number(cols[2]);
+let year=+c[1],month=+c[2];
+let earnings=0,deductions=0;
 
-let earnings = 0;
-for(let i=3;i<=19;i++) earnings += Number(cols[i]) || 0;
+for(let i=3;i<=19;i++) earnings+=+c[i]||0;
+for(let i=20;i<c.length;i++) deductions+=+c[i]||0;
 
-let deductions = 0;
-for(let i=20;i<cols.length;i++) deductions += Number(cols[i])||0;
-
-let net = earnings - deductions;
-monthly.push({year,month,net,earnings,deductions});
+monthly.push({year,month,net:earnings-deductions,earnings,deductions});
 });
 
-monthly.sort((a,b)=> (a.year*100+a.month)-(b.year*100+b.month));
+monthly.sort((a,b)=>(a.year*100+a.month)-(b.year*100+b.month));
 
-let last = monthly.length>=2 ? monthly[monthly.length-2] : monthly[0];
+let last=monthly.length>=2?monthly[monthly.length-2]:monthly[0];
 
 if(last){
-document.getElementById("currentSalary").innerText="₹ "+last.earnings;
-document.getElementById("deduction").innerText="₹ "+last.deductions;
-document.getElementById("netSalary").innerText="₹ "+last.net;
+currentSalary.innerText="₹ "+last.earnings;
+deduction.innerText="₹ "+last.deductions;
+netSalary.innerText="₹ "+last.net;
 }
 
 let chart=document.getElementById("chart");
@@ -292,12 +350,12 @@ line.innerHTML="";
 yAxis.innerHTML="";
 xAxis.innerHTML="";
 
-let last12 = monthly.slice(-12);
-let values = last12.map(m=>m.net);
+let last12=monthly.slice(-12);
+let values=last12.map(m=>m.net);
 
-let max = Math.max(...values);
+let max=Math.max(...values);
 let step=25000;
-let yMax = Math.ceil(max/step)*step;
+let yMax=Math.ceil(max/step)*step;
 
 for(let i=yMax;i>=0;i-=step){
 let d=document.createElement("div");
@@ -320,18 +378,15 @@ return `${x},${y}`;
 
 let poly=document.createElementNS("http://www.w3.org/2000/svg","polyline");
 poly.setAttribute("points",points);
-poly.setAttribute("stroke","orange");
+poly.setAttribute("stroke","#ff9800");
 poly.setAttribute("fill","none");
 
 line.appendChild(poly);
 
-if(loader) loader.style.display="none";
-
+loader.style.display="none";
 });
 
-window.goBack = function(){
-window.history.back();
-}
+window.goBack=()=>history.back();
 
 });
 </script>
