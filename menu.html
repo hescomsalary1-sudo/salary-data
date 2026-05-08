@@ -182,6 +182,44 @@ flex-direction:column;
 width:100%;
 }
 }
+
+  /* DETAILS RIGHT SIDE */
+.details-box{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:15px;
+  font-size:14px;
+}
+
+.detail-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#ffffff;
+  padding:10px 12px;
+  border-radius:12px;
+  box-shadow:0 5px 12px rgba(0,0,0,0.08);
+}
+
+.net-detail{
+  background:linear-gradient(135deg,#1e63ff,#0039cb);
+  color:white;
+  font-weight:bold;
+}
+
+/* DOT COLORS */
+.dot{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  display:inline-block;
+  margin-right:6px;
+}
+
+.green{background:#00c853;}
+.red{background:#ff1744;}
 </style>
 </head>
 
@@ -212,7 +250,7 @@ width:100%;
 <!-- PIE -->
 <div class="chart-card">
 
-<h3 class="chart-title">Distribution</h3>
+<h3 class="chart-title">Salary Overview</h3>
 
 <div class="chart-flex">
 
@@ -222,7 +260,26 @@ width:100%;
   </div>
 
   <!-- RIGHT: DETAILS -->
-  <div id="legend" class="legend"></div>
+  <div class="details-box">
+
+    <div class="detail-item">
+      <span class="dot green"></span>
+      Earnings
+      <b id="earnRight">₹ 0</b>
+    </div>
+
+    <div class="detail-item">
+      <span class="dot red"></span>
+      Deductions
+      <b id="dedRight">₹ 0</b>
+    </div>
+
+    <div class="detail-item net-detail">
+      Net Salary
+      <b id="netRight">₹ 0</b>
+    </div>
+
+  </div>
 
 </div>
 
@@ -311,7 +368,9 @@ let netVal = earnings - totalDed;
 document.getElementById("earn").innerText = "₹ " + earnings;
 document.getElementById("ded").innerText = "₹ " + totalDed;
 document.getElementById("net").innerText = netVal;
-
+document.getElementById("earnRight").innerText = "₹ " + earnings;
+document.getElementById("dedRight").innerText = "₹ " + totalDed;
+document.getElementById("netRight").innerText = netVal;
 /* ===== PIE DATA ===== */
 let dataArr = [
 {name:"Earnings", value:earnings, color:"#00c853"},
