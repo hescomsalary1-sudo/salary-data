@@ -89,36 +89,61 @@ gap:12px;
 }
 
 .btn{
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:14px;
-border-radius:15px;
-background:#f4f7fc;
-box-shadow:0 5px 12px rgba(0,0,0,0.08);
-cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px;
+  border-radius:18px;
+  background:#ffffff;
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+  cursor:pointer;
+  transition:0.2s;
 }
 
+.btn:hover{
+  transform:scale(1.03);
+}
+
+/* LEFT SIDE */
+.btn-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+/* ICON */
 .icon{
-width:35px;
-height:35px;
-border-radius:10px;
-display:flex;
-align-items:center;
-justify-content:center;
-color:white;
-margin-right:8px;
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-size:18px;
 }
 
-/* ICON COLORS */
+/* COLORS */
 .blue{background:#3b82f6;}
 .purple{background:#7c3aed;}
 .orange{background:#f97316;}
 .green{background:#22c55e;}
 
-.left{
-display:flex;
-align-items:center;
+/* TEXT */
+.btn-title{
+  font-weight:600;
+  font-size:14px;
+}
+
+.btn-sub{
+  font-size:11px;
+  color:#6b7280;
+}
+
+/* ARROW */
+.arrow{
+  font-size:18px;
+  color:#9ca3af;
 }
 
 /* LOADER */
@@ -196,6 +221,13 @@ flex-direction:row;
     transform:translateY(0);
   }
 }
+  .color-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  display:inline-block;
+  margin-right:6px;
+}
 </style>
 </head>
 
@@ -247,27 +279,47 @@ Net<br><b id="net">₹0</b>
 <div class="buttons">
 
 <div class="btn" onclick="go('salary.html')">
-<div class="left">
-<div class="icon blue">💰</div> Salary
-</div> ›
+  <div class="btn-left">
+    <div class="icon blue">💰</div>
+    <div>
+      <div class="btn-title">Salary</div>
+      <div class="btn-sub">View details</div>
+    </div>
+  </div>
+  <div class="arrow">›</div>
 </div>
 
 <div class="btn" onclick="go('reports_menu.html')">
-<div class="left">
-<div class="icon purple">📊</div> Reports
-</div> ›
+  <div class="btn-left">
+    <div class="icon purple">📊</div>
+    <div>
+      <div class="btn-title">Reports</div>
+      <div class="btn-sub">Monthly reports</div>
+    </div>
+  </div>
+  <div class="arrow">›</div>
 </div>
 
 <div class="btn" onclick="go('holidays.html')">
-<div class="left">
-<div class="icon orange">📅</div> Holidays
-</div> ›
+  <div class="btn-left">
+    <div class="icon orange">📅</div>
+    <div>
+      <div class="btn-title">Holidays</div>
+      <div class="btn-sub">Check list</div>
+    </div>
+  </div>
+  <div class="arrow">›</div>
 </div>
 
 <div class="btn" onclick="go('assets_liability.html')">
-<div class="left">
-<div class="icon green">📄</div> Assets
-</div> ›
+  <div class="btn-left">
+    <div class="icon green">📄</div>
+    <div>
+      <div class="btn-title">Assets</div>
+      <div class="btn-sub">View assets</div>
+    </div>
+  </div>
+  <div class="arrow">›</div>
 </div>
 
 </div>
@@ -355,7 +407,14 @@ document.getElementById("pie").style.background=
 /* LIST */
 let html="";
 deductions.forEach(d=>{
-html+=`<div class="item">${d.name}<span>₹${d.value}</span></div>`;
+html+=`
+<div class="item">
+  <span>
+    <span class="color-dot" style="background:hsl(${i*25},70%,50%)"></span>
+    ${d.name}
+  </span>
+  <span>₹${d.value}</span>
+</div>`;
 });
 document.getElementById("list").innerHTML=html;
 
