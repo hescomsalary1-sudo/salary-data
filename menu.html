@@ -329,68 +329,78 @@ Deductions: <b id="deductValue">₹ 0</b>
 document.addEventListener("DOMContentLoaded", function(){
 
 let user = localStorage.getItem("currentUser");
+let year = localStorage.getItem("selectedYear");
+let month = localStorage.getItem("selectedMonth");
+
+if(!user || !year || !month){
+  alert("Please select month/year first");
+  return;
+}
+
+month = month.toString().padStart(2,"0");
+
 let loader = document.getElementById("loader");
 loader.style.display="flex";
 
-let url = "https://hescomsalary1-sudo.github.io/salary-data/salary%20.csv";
-
-window.showLoader=function(u){
-loader.style.display="flex";
-setTimeout(()=>{window.location=u},800);
-}
-
-fetch(url)
+fetch("https://hescomsalary1-sudo.github.io/salary-data/salary%20.csv")
 .then(res=>res.text())
 .then(data=>{
 
-let rows=data.trim().split("\n").slice(1);
-let lastRow=null;
+let rows=data.trim().split("\n");
+let row=null;
 
-rows.forEach(r=>{
-let c=r.split(",");
-if(c[0]===user){
-lastRow=c;
+/* ✅ SELECT EXACT MONTH */
+for(let i=1;i<rows.length;i++){
+  let c=rows[i].split(",");
+  if(c[0]===user && c[1]===year && c[2]===month){
+    row=c;
+    break;
+  }
 }
-});
 
-if(!lastRow){
-loader.style.display="none";
-return;
+if(!row){
+  loader.style.display="none";
+  alert("No data found");
+  return;
 }
+
+/* SAFE NUMBER */
+function num(v){ return Number(v) || 0; }
 
 /* ===== EARNINGS ===== */
 let earnings=0;
-for(let i=3;i<=19;i++) earnings+=+lastRow[i]||0;
+for(let i=3;i<=19;i++) earnings+=num(row[i]);
 
-/* ===== DEDUCTIONS (INDIVIDUAL ITEMS) ===== */
+/* ===== DEDUCTIONS ===== */
 let deductions=[
-{name:"LIC", value:+lastRow[20]},
-{name:"Income Tax", value:+lastRow[21]},
-{name:"Professional Tax", value:+lastRow[22]},
-{name:"Society", value:+lastRow[23]},
-{name:"PLI", value:+lastRow[24]},
-{name:"Union Fund", value:+lastRow[25]},
-{name:"SC/ST Fund", value:+lastRow[26]},
-{name:"House Rent", value:+lastRow[27]},
-{name:"Urban Bank", value:+lastRow[28]},
-{name:"Family Fund", value:+lastRow[29]},
-{name:"Festival Advance", value:+lastRow[30]},
-{name:"PC 10%", value:+lastRow[31]},
-{name:"PC 14%", value:+lastRow[32]},
-{name:"LWF", value:+lastRow[33]},
-{name:"Recovery", value:+lastRow[34]},
-{name:"Other", value:+lastRow[35]}
+{name:"LIC", value:num(row[20])},
+{name:"Income Tax", value:num(row[21])},
+{name:"Professional Tax", value:num(row[22])},
+{name:"Society", value:num(row[23])},
+{name:"PLI", value:num(row[24])},
+{name:"Union Fund", value:num(row[25])},
+{name:"SC/ST Fund", value:num(row[26])},
+{name:"House Rent", value:num(row[27])},
+{name:"Urban Bank", value:num(row[28])},
+{name:"Family Fund", value:num(row[29])},
+{name:"Festival Advance", value:num(row[30])},
+{name:"PC 10%", value:num(row[31])},
+{name:"PC 14%", value:num(row[32])},
+{name:"LWF", value:num(row[33])},
+{name:"Recovery", value:num(row[34])},
+{name:"Other", value:num(row[35])}
 ].filter(d=>d.value>0);
 
-/* ===== UPDATE SUMMARY ===== */
+/* TOTAL DEDUCTION */
 let totalDeduction = deductions.reduce((a,b)=>a+b.value,0);
 
+/* UI VALUES */
 currentSalary.innerText="₹ "+earnings;
 deduction.innerText="₹ "+totalDeduction;
 netSalary.innerText="₹ "+(earnings-totalDeduction);
 
 /* ===== PIE DATA ===== */
-let pieData = [
+let pieData=[
 {name:"Earnings", value:earnings, color:"#00c853"},
 ...deductions.map((d,i)=>({
 name:d.name,
@@ -399,14 +409,14 @@ color:`hsl(${i*25},70%,50%)`
 }))
 ];
 
-/* ===== CREATE PIE ===== */
-let total = pieData.reduce((a,b)=>a+b.value,0);
+/* CREATE PIE */
+let total=pieData.reduce((a,b)=>a+b.value,0);
 let angle=0;
 let gradient=[];
 
 pieData.forEach(d=>{
-let percent = (d.value/total)*100;
-let next = angle + percent;
+let percent=(d.value/total)*100;
+let next=angle+percent;
 gradient.push(`${d.color} ${angle}% ${next}%`);
 angle=next;
 });
@@ -414,25 +424,24 @@ angle=next;
 document.getElementById("pieChart").style.background =
 `conic-gradient(${gradient.join(",")})`;
 
-/* ===== LEGEND UPDATE ===== */
-let legendHTML="";
-
+/* LEGEND */
+let html="";
 pieData.forEach(d=>{
-legendHTML+=`
+html+=`
 <div class="legend-item">
 <span class="dot" style="background:${d.color}"></span>
 ${d.name}: <b>₹ ${d.value}</b>
 </div>`;
 });
 
-document.querySelector(".legend").innerHTML = legendHTML;
+document.querySelector(".legend").innerHTML = html;
 
 loader.style.display="none";
 
 })
 .catch(()=>{
 loader.style.display="none";
-alert("Failed to load data");
+alert("Error loading data");
 });
 
 window.goBack=()=>history.back();
