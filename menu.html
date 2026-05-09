@@ -388,9 +388,10 @@ dedElem.innerText="₹"+totalDed;
 netElem.innerText="₹"+net;
 
 /* PIE */
-let dataArr=[{value:earn,color:"#00c853"},
-...deductions.map((d,i)=>({value:d.value,color:`hsl(${i*25},70%,50%)`}))
-];
+let dataArr = deductions.map((d,i)=>({
+  value: d.value,
+  color: `hsl(${i*25},70%,50%)`
+}));
 
 let total=dataArr.reduce((a,b)=>a+b.value,0);
 let angle=0,grad=[];
