@@ -20,7 +20,6 @@ align-items:center;
 padding:20px;
 }
 
-/* LEFT HEADER */
 .header-left{
 display:flex;
 align-items:center;
@@ -52,7 +51,7 @@ box-shadow:0 8px 20px rgba(0,0,0,0.08);
 cursor:pointer;
 }
 
-/* RIGHT ICON */
+/* HEADER ICON */
 .header-icon{
 width:75px;
 height:75px;
@@ -83,7 +82,7 @@ from{opacity:0; transform:translateY(10px);}
 to{opacity:1; transform:translateY(0);}
 }
 
-/* CARD */
+/* LIST CARD */
 .list-btn{
 display:flex;
 align-items:center;
@@ -130,7 +129,6 @@ color:white;
 .orange{background:#f59e0b;}
 .red{background:#ef4444;}
 .purple{background:#8b5cf6;}
-.cyan{background:#06b6d4;}
 .gray{background:#64748b;}
 
 /* TEXT */
@@ -208,6 +206,56 @@ font-weight:600;
 100%{transform:rotate(360deg);}
 }
 
+/* ===== ELS SPECIAL BOX ===== */
+.els-box{
+background:linear-gradient(135deg,#4f46e5,#7c3aed);
+border-radius:22px;
+padding:18px;
+color:white;
+margin-bottom:18px;
+box-shadow:0 12px 30px rgba(0,0,0,0.15);
+}
+
+.els-title{
+font-size:18px;
+font-weight:700;
+margin-bottom:12px;
+}
+
+.els-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.els-item{
+background:rgba(255,255,255,0.15);
+border-radius:15px;
+padding:14px;
+display:flex;
+align-items:center;
+gap:10px;
+cursor:pointer;
+transition:0.2s;
+}
+
+.els-item:hover{
+background:rgba(255,255,255,0.25);
+}
+
+.els-item:active{
+transform:scale(0.96);
+}
+
+.els-icon{
+font-size:20px;
+}
+
+.els-text{
+font-size:13px;
+font-weight:600;
+}
+
 </style>
 </head>
 
@@ -223,7 +271,6 @@ font-weight:600;
 
 <!-- HEADER -->
 <div class="top">
-
   <div class="header-left">
     <div class="back-btn" onclick="goBack()">⬅</div>
 
@@ -234,11 +281,41 @@ font-weight:600;
   </div>
 
   <div class="header-icon">💼</div>
-
 </div>
 
 <!-- CONTENT -->
 <div class="content">
+
+<!-- ===== ELS SPECIAL SECTION ===== -->
+<div class="els-box">
+  <div class="els-title">📄 ELS Services</div>
+
+  <div class="els-grid">
+
+    <div class="els-item" onclick="openIncome('ELS Bills')">
+      <div class="els-icon">🧾</div>
+      <div class="els-text">ELS Details</div>
+    </div>
+
+    <div class="els-item" onclick="openIncome('ELS Bills')">
+      <div class="els-icon">📊</div>
+      <div class="els-text">EL Credit Balance</div>
+    </div>
+
+    <div class="els-item" onclick="openIncome('ELS Bills')">
+      <div class="els-icon">📂</div>
+      <div class="els-text">Previous Records</div>
+    </div>
+
+    <div class="els-item" onclick="openIncome('ELS Bills')">
+      <div class="els-icon">✍️</div>
+      <div class="els-text">Apply EL Surrender</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== NORMAL LIST ===== -->
 
 <div class="list-btn" onclick="openIncome('Supplementary Salary')">
   <div class="left">
@@ -295,17 +372,6 @@ font-weight:600;
   <div class="arrow">›</div>
 </div>
 
-<div class="list-btn" onclick="openIncome('ELS Bills')">
-  <div class="left">
-    <div class="icon cyan">📄</div>
-    <div class="text">
-      <b>ELS Bills</b>
-      <span>Earned leave encashment</span>
-    </div>
-  </div>
-  <div class="arrow">›</div>
-</div>
-
 <div class="list-btn" onclick="openIncome('Others')">
   <div class="left">
     <div class="icon gray">📦</div>
@@ -330,7 +396,7 @@ if(!user){
 window.location.replace("login.html");
 }
 
-/* REDIRECT FUNCTION (UNCHANGED LOGIC) */
+/* SAME LOGIC */
 function openIncome(type){
 
 document.getElementById("loader").style.display="flex";
