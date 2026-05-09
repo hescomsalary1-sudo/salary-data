@@ -47,8 +47,13 @@ margin-top:-60px;
 /* CONTACT CARDS */
 .cards{
 display:grid;
-grid-template-columns: repeat(3, 1fr);
+grid-template-columns: repeat(2, 1fr);
 gap:10px;
+}
+
+/* Make 3rd card full width */
+.cards .card:nth-child(3){
+grid-column: span 2;
 }
 
 .card{
