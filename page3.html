@@ -38,7 +38,6 @@ font-size:13px;
 color:#6b7280;
 }
 
-/* BACK BUTTON */
 .back-btn{
 width:42px;
 height:42px;
@@ -56,7 +55,7 @@ cursor:pointer;
 width:75px;
 height:75px;
 border-radius:20px;
-background:linear-gradient(135deg,#7c3aed,#4f46e5);
+background:linear-gradient(135deg,#2563eb,#1d4ed8);
 display:flex;
 align-items:center;
 justify-content:center;
@@ -82,12 +81,12 @@ from{opacity:0; transform:translateY(10px);}
 to{opacity:1; transform:translateY(0);}
 }
 
-/* LIST CARD */
+/* LIST */
 .list-btn{
 display:flex;
 align-items:center;
 justify-content:space-between;
-background:rgba(255,255,255,0.9);
+background:white;
 padding:16px;
 border-radius:20px;
 margin-bottom:14px;
@@ -96,22 +95,15 @@ cursor:pointer;
 transition:0.2s;
 }
 
-.list-btn:hover{
-transform:translateY(-3px);
-}
+.list-btn:hover{ transform:translateY(-3px); }
+.list-btn:active{ transform:scale(0.96); }
 
-.list-btn:active{
-transform:scale(0.96);
-}
-
-/* LEFT */
 .left{
 display:flex;
 align-items:center;
 gap:12px;
 }
 
-/* ICON */
 .icon{
 width:50px;
 height:50px;
@@ -131,12 +123,6 @@ color:white;
 .purple{background:#8b5cf6;}
 .gray{background:#64748b;}
 
-/* TEXT */
-.text{
-display:flex;
-flex-direction:column;
-}
-
 .text b{
 font-size:15px;
 color:#111827;
@@ -147,23 +133,62 @@ font-size:12px;
 color:#6b7280;
 }
 
-/* ARROW */
 .arrow{
 font-size:18px;
 color:#9ca3af;
 }
 
-/* FOOTER */
-.footer{
-text-align:center;
-margin-top:10px;
-font-size:13px;
-color:#6b7280;
+/* ===== ELS BLUE WHITE ===== */
+.els-box{
+background:white;
+border-radius:22px;
+padding:18px;
+margin-bottom:18px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+border:1px solid #e0e7ff;
 }
 
-.footer span{
-color:#4f46e5;
-font-weight:600;
+.els-title{
+font-size:18px;
+font-weight:700;
+color:#1e3a8a;
+margin-bottom:12px;
+}
+
+.els-main-btn{
+display:flex;
+align-items:center;
+gap:12px;
+background:linear-gradient(135deg,#2563eb,#1d4ed8);
+color:white;
+padding:14px;
+border-radius:16px;
+cursor:pointer;
+transition:0.2s;
+}
+
+.els-main-btn:hover{ transform:translateY(-2px); }
+.els-main-btn:active{ transform:scale(0.97); }
+
+.els-btn-icon{
+font-size:22px;
+}
+
+.els-btn-title{
+font-weight:700;
+font-size:15px;
+}
+
+.els-btn-sub{
+font-size:12px;
+opacity:0.85;
+}
+
+.els-desc{
+margin-top:14px;
+font-size:13px;
+color:#475569;
+line-height:1.6;
 }
 
 /* SPINNER */
@@ -178,81 +203,31 @@ display:none;
 align-items:center;
 justify-content:center;
 z-index:9999;
-backdrop-filter:blur(6px);
-}
-
-.loader-container{
-text-align:center;
 }
 
 .loader-spinner{
 width:60px;
 height:60px;
 border:6px solid rgba(0,0,0,0.1);
-border-top:6px solid #4f46e5;
+border-top:6px solid #2563eb;
 border-radius:50%;
 animation:spin 0.8s linear infinite;
-margin:auto;
-}
-
-.loading-text{
-margin-top:12px;
-font-size:13px;
-color:#4f46e5;
-font-weight:600;
 }
 
 @keyframes spin{
 100%{transform:rotate(360deg);}
 }
 
-/* ===== ELS SPECIAL BOX ===== */
-.els-box{
-background:linear-gradient(135deg,#4f46e5,#7c3aed);
-border-radius:22px;
-padding:18px;
-color:white;
-margin-bottom:18px;
-box-shadow:0 12px 30px rgba(0,0,0,0.15);
-}
-
-.els-title{
-font-size:18px;
-font-weight:700;
-margin-bottom:12px;
-}
-
-.els-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-}
-
-.els-item{
-background:rgba(255,255,255,0.15);
-border-radius:15px;
-padding:14px;
-display:flex;
-align-items:center;
-gap:10px;
-cursor:pointer;
-transition:0.2s;
-}
-
-.els-item:hover{
-background:rgba(255,255,255,0.25);
-}
-
-.els-item:active{
-transform:scale(0.96);
-}
-
-.els-icon{
-font-size:20px;
-}
-
-.els-text{
+/* FOOTER */
+.footer{
+text-align:center;
+margin-top:10px;
 font-size:13px;
+color:#6b7280;
+}
+
+.footer span{
+color:#2563eb;
 font-weight:600;
 }
 
@@ -263,14 +238,12 @@ font-weight:600;
 
 <!-- LOADER -->
 <div id="loader">
-  <div class="loader-container">
-    <div class="loader-spinner"></div>
-    <div class="loading-text">Loading...</div>
-  </div>
+  <div class="loader-spinner"></div>
 </div>
 
 <!-- HEADER -->
 <div class="top">
+
   <div class="header-left">
     <div class="back-btn" onclick="goBack()">⬅</div>
 
@@ -281,106 +254,101 @@ font-weight:600;
   </div>
 
   <div class="header-icon">💼</div>
+
 </div>
 
 <!-- CONTENT -->
 <div class="content">
 
-<!-- ===== ELS SPECIAL SECTION ===== -->
+<!-- ELS SECTION -->
 <div class="els-box">
-  <div class="els-title">📄 ELS Services</div>
 
-  <div class="els-grid">
+  <div class="els-title">ELS Services</div>
 
-    <div class="els-item" onclick="openIncome('ELS Bills')">
-      <div class="els-icon">🧾</div>
-      <div class="els-text">ELS Details</div>
+  <div class="els-main-btn" onclick="openIncome('ELS Bills')">
+    <div class="els-btn-icon">📄</div>
+    <div>
+      <div class="els-btn-title">ELS Bills</div>
+      <div class="els-btn-sub">View & manage ELS details</div>
     </div>
-
-    <div class="els-item" onclick="openIncome('ELS Bills')">
-      <div class="els-icon">📊</div>
-      <div class="els-text">EL Credit Balance</div>
-    </div>
-
-    <div class="els-item" onclick="openIncome('ELS Bills')">
-      <div class="els-icon">📂</div>
-      <div class="els-text">Previous Records</div>
-    </div>
-
-    <div class="els-item" onclick="openIncome('ELS Bills')">
-      <div class="els-icon">✍️</div>
-      <div class="els-text">Apply EL Surrender</div>
-    </div>
-
+    <div class="arrow">›</div>
   </div>
+
+  <div class="els-desc">
+    • Check your <b>EL credit balance</b><br>
+    • View <b>previous ELS records</b><br>
+    • Apply for <b>EL surrender</b><br>
+    • Download <b>ELS application form</b>
+  </div>
+
 </div>
 
-<!-- ===== NORMAL LIST ===== -->
+<!-- NORMAL ITEMS -->
 
 <div class="list-btn" onclick="openIncome('Supplementary Salary')">
-  <div class="left">
-    <div class="icon green">₹</div>
-    <div class="text">
-      <b>Supplementary Salary</b>
-      <span>Income from additional salary</span>
-    </div>
-  </div>
-  <div class="arrow">›</div>
+<div class="left">
+<div class="icon green">₹</div>
+<div class="text">
+<b>Supplementary Salary</b>
+<span>Income from additional salary</span>
+</div>
+</div>
+<div class="arrow">›</div>
 </div>
 
 <div class="list-btn" onclick="openIncome('DA Arrears')">
-  <div class="left">
-    <div class="icon blue">📊</div>
-    <div class="text">
-      <b>DA Arrears</b>
-      <span>Dearness allowance arrears</span>
-    </div>
-  </div>
-  <div class="arrow">›</div>
+<div class="left">
+<div class="icon blue">📊</div>
+<div class="text">
+<b>DA Arrears</b>
+<span>Dearness allowance arrears</span>
+</div>
+</div>
+<div class="arrow">›</div>
 </div>
 
 <div class="list-btn" onclick="openIncome('Double Wages')">
-  <div class="left">
-    <div class="icon orange">💰</div>
-    <div class="text">
-      <b>Double Wages</b>
-      <span>Income from double wages</span>
-    </div>
-  </div>
-  <div class="arrow">›</div>
+<div class="left">
+<div class="icon orange">💰</div>
+<div class="text">
+<b>Double Wages</b>
+<span>Income from double wages</span>
+</div>
+</div>
+<div class="arrow">›</div>
 </div>
 
 <div class="list-btn" onclick="openIncome('Medical Bills')">
-  <div class="left">
-    <div class="icon red">🏥</div>
-    <div class="text">
-      <b>Medical Bills</b>
-      <span>Reimbursement for medical bills</span>
-    </div>
-  </div>
-  <div class="arrow">›</div>
+<div class="left">
+<div class="icon red">🏥</div>
+<div class="text">
+<b>Medical Bills</b>
+<span>Reimbursement for medical bills</span>
+</div>
+</div>
+<div class="arrow">›</div>
 </div>
 
 <div class="list-btn" onclick="openIncome('TA Bills')">
-  <div class="left">
-    <div class="icon purple">🚕</div>
-    <div class="text">
-      <b>TA Bills</b>
-      <span>Travel allowance bills</span>
-    </div>
-  </div>
-  <div class="arrow">›</div>
+<div class="left">
+<div class="icon purple">🚕</div>
+<div class="text">
+<b>TA Bills</b>
+<span>Travel allowance bills</span>
+</div>
+</div>
+<div class="arrow">›</div>
 </div>
 
 <div class="list-btn" onclick="openIncome('Others')">
-  <div class="left">
-    <div class="icon gray">📦</div>
-    <div class="text">
-      <b>Others</b>
-      <span>Other miscellaneous income</span>
-    </div>
-  </div>
-  <div class="arrow">›</div>
+<div class="left">
+<div class="icon gray">📦</div>
+<div class="text">
+<b>Others</b>
+<span>Other miscellaneous income</span>
+</div>
+</div>
+<div class="arrow">›</div>
 </div>
 
 <div class="footer">
@@ -396,7 +364,7 @@ if(!user){
 window.location.replace("login.html");
 }
 
-/* SAME LOGIC */
+/* ORIGINAL LOGIC */
 function openIncome(type){
 
 document.getElementById("loader").style.display="flex";
