@@ -653,19 +653,28 @@ function openPage(index, url){
 if(isLoading) return;
 isLoading = true;
 
-// loader
+// show loader
 document.getElementById("loader").style.display = "flex";
 document.body.style.overflow = "hidden";
 
-// active UI
+// ✅ SAFE: only run if .tab exists
 let tabs = document.querySelectorAll(".tab");
-tabs.forEach(t => t.classList.remove("active"));
-tabs[index].classList.add("active");
+if(tabs.length){
+  tabs.forEach(t => t.classList.remove("active"));
+  if(tabs[index]) tabs[index].classList.add("active");
+}
 
 // navigate
 setTimeout(()=>{
-window.location = url;
-}, 700);
+  window.location = url;
+}, 600);
+
+// ✅ FAILSAFE (very important)
+setTimeout(()=>{
+  isLoading = false;
+  document.getElementById("loader").style.display = "none";
+  document.body.style.overflow = "auto";
+}, 3000);
 
 }
 
