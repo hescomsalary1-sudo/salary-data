@@ -411,6 +411,54 @@ transform:scale(0.9);
 @keyframes spin{
   100%{ transform:rotate(360deg); }
 }
+
+  /* 🔥 HERO NOMINATION */
+.hero-card{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:linear-gradient(135deg,#3b1eff,#6a5cff);
+border-radius:22px;
+padding:20px;
+margin-bottom:15px;
+color:white;
+box-shadow:0 15px 35px rgba(59,30,255,0.3);
+cursor:pointer;
+}
+
+.hero-left h2{
+margin:10px 0 5px;
+font-size:22px;
+}
+
+.hero-left p{
+font-size:13px;
+opacity:0.9;
+max-width:200px;
+}
+
+.badge{
+background:rgba(255,255,255,0.2);
+padding:5px 10px;
+border-radius:20px;
+font-size:11px;
+display:inline-block;
+}
+
+.hero-btn{
+margin-top:12px;
+background:white;
+color:#3b1eff;
+padding:8px 14px;
+border-radius:20px;
+font-size:13px;
+font-weight:600;
+display:inline-block;
+}
+
+.hero-img{
+width:110px;
+}
 </style>
 </head>
 
@@ -448,13 +496,25 @@ transform:scale(0.9);
 <div class="tabs">
 
 <!-- NOMINATION -->
-<div class="tab active" onclick="openPage(0,'nomination_form.html')">
-<img src="https://cdn-icons-png.flaticon.com/512/4140/4140037.png">
-<div class="text">
-<h4>Nomination</h4>
-<p>Add your family members and share percentage</p>
-</div>
-<div class="arrow">›</div>
+<!-- 🔥 NEW NOMINATION HERO -->
+<div class="hero-card" onclick="openPage(0,'nomination_form.html')">
+
+  <div class="hero-left">
+    
+    <div class="badge">★ Important</div>
+
+    <h2>Nomination</h2>
+
+    <p>Add your family members and share percentage</p>
+
+    <div class="hero-btn">
+      Get Started →
+    </div>
+
+  </div>
+
+  <img class="hero-img" src="https://cdn-icons-png.flaticon.com/512/4333/4333609.png">
+
 </div>
 
 <!-- OFFICIAL -->
