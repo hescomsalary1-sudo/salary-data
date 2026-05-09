@@ -11,7 +11,6 @@ background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
 padding-bottom:75px;
 }
 
-/* HEADER */
 .top{
 padding:25px 20px 20px 20px;
 background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
@@ -19,9 +18,16 @@ color:#2400b7;
 display:flex;
 justify-content:space-between;
 align-items:center;
+border-bottom-left-radius:0px;
+border-bottom-right-radius:0px;
 }
-
-/* MENU */
+/* LEFT BOX */
+.user-box{
+display:flex;
+align-items:center;
+gap:12px;
+}
+  /* MENU BUTTON */
 .menu-btn{
 width:42px;
 height:42px;
@@ -32,99 +38,378 @@ display:flex;
 align-items:center;
 justify-content:center;
 font-size:20px;
+cursor:pointer;
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* HERO */
-.hero-card{
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:linear-gradient(135deg,#3b1eff,#6a5cff);
-border-radius:22px;
-padding:20px;
-color:white;
-margin:15px;
-box-shadow:0 15px 35px rgba(59,30,255,0.3);
+.menu-btn:active{
+transform:scale(0.9);
 }
 
-.hero-text h2{margin:8px 0;font-size:22px;}
-.hero-text p{font-size:13px;opacity:0.9;}
-
-.badge{
-background:rgba(255,255,255,0.2);
-padding:5px 10px;
-border-radius:20px;
-font-size:11px;
+/* RIGHT ICONS */
+.logout{
+cursor:pointer;
+font-size:22px;
 }
-
-.hero-btn{
-margin-top:12px;
-background:white;
-color:#3b1eff;
-padding:8px 14px;
-border-radius:20px;
-font-size:13px;
-font-weight:600;
-}
-
-.hero-img{width:110px;}
-
-/* CARD */
-.card{
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:white;
-border-radius:20px;
+/* LIST STYLE */
+.tabs{
 padding:15px;
-margin:12px 15px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
-.left{display:flex;align-items:center;gap:12px;}
-
-.icon-box{
-width:55px;height:55px;border-radius:16px;
-display:flex;align-items:center;justify-content:center;
-}
-
-.icon-box img{width:28px;}
-
-.blue{background:#e6ecff;}
-.green{background:#e8f8f0;}
-
-.circle-arrow{
-width:35px;height:35px;border-radius:50%;
-background:#eef2ff;
-display:flex;align-items:center;justify-content:center;
-color:#3b1eff;
-}
-
-/* LOADER (ORIGINAL) */
-#loader{
-position: fixed;
-top: 85px;
-bottom: 70px;
-left: 0;
-width: 100%;
-background: rgba(243, 244, 250, 0.8);
-display: none;
-justify-content: center;
-align-items: center;
-z-index:900;
-}
-
-/* NAVBAR (ORIGINAL) */
-.navbar{
-position:fixed;
-bottom:0;
-width:100%;
-height:75px;
-background:white;
+/* LIST ITEM */
+.tab{
 display:flex;
-justify-content:space-around;
 align-items:center;
-border-radius:30px 30px 0 0;
+gap:15px;
+background:white;
+border-radius:18px;
+padding:15px;
+margin-bottom:12px;
+cursor:pointer;
+transition:0.3s;
+box-shadow:0 6px 15px rgba(0,0,0,0.08);
+}
+
+/* ICON */
+.tab img{
+width:45px;
+height:45px;
+}
+
+/* TEXT AREA */
+.tab .text{
+flex:1;
+}
+
+.tab .text h4{
+margin:0;
+font-size:15px;
+color:#333;
+}
+
+.tab .text p{
+margin:3px 0 0;
+font-size:12px;
+color:#777;
+}
+
+/* ACTIVE */
+.tab.active{
+background:linear-gradient(135deg,#3b1eff,#6a5cff);
+color:white;
+box-shadow:0 10px 25px rgba(59,30,255,0.3);
+}
+
+.tab.active h4,
+.tab.active p{
+color:white;
+}
+
+/* ARROW */
+.arrow{
+font-size:18px;
+color:#999;
+}
+
+/* LOADER */
+/* LOADER BELOW HEADER */
+#loader {
+    position: fixed;
+    top: 85px;  /* Below Fixed Header */
+    bottom: 70px; /* Above Fixed Footer */
+    left: 0;
+    width: 100%;
+    background: rgba(243, 244, 250, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 900;
+}
+
+/* FLUID ORBIT DESIGN */
+.fluid-loader {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.orbit {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #2400b7;
+    border-bottom-color: #00c9a7;
+    animation: rotate-orbit 1.5s linear infinite;
+}
+
+.orbit:nth-child(2) {
+    width: 70%;
+    height: 70%;
+    border-top-color: #6a5cff;
+    border-bottom-color: #ff4e8a;
+    animation-duration: 1s;
+    animation-direction: reverse;
+}
+
+.orbit:nth-child(3) {
+    width: 40%;
+    height: 40%;
+    border-top-color: #00e0b8;
+    border-bottom-color: #2400b7;
+    animation-duration: 2s;
+}
+
+.core {
+    width: 15px;
+    height: 15px;
+    background: #2400b7;
+    border-radius: 50%;
+    box-shadow: 0 0 15px #2400b7, 0 0 30px #00c9a7;
+    animation: pulse-core 1.5s ease-in-out infinite;
+}
+
+/* TEXT STYLE */
+.loader-text {
+    margin-top: 30px;
+    font-weight: 700;
+    color: #2400b7;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+/* ANIMATIONS */
+@keyframes rotate-orbit {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-core {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.3); opacity: 1; }
+}
+
+
+@keyframes shimmer{
+0%{background-position:-400px 0;}
+100%{background-position:400px 0;}
+}
+
+.skeleton{
+height:60px;
+border-radius:12px;
+background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
+background-size:400px 100%;
+animation:shimmer 1.2s infinite;
+}
+
+.navbar{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:75px;
+
+  background:#ffffff;
+
+  /* 🔥 TOP CURVE */
+  border-top-left-radius:30px;
+  border-top-right-radius:30px;
+
+  box-shadow:0 -8px 25px rgba(0,0,0,0.08);
+
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+
+  z-index:1000;
+}
+
+/* NAV ITEM */
+.nav-item{
+  flex:1;
+  text-align:center;
+  position:relative;
+  cursor:pointer;
+}
+
+/* ICON (LINE STYLE) */
+.nav-icon{
+  font-size:22px;
+  color:#9ca3af;
+  transition:0.3s;
+}
+
+/* TEXT */
+.nav-item span{
+  display:block;
+  font-size:11px;
+  color:#9ca3af;
+  margin-top:3px;
+}
+
+/* ACTIVE */
+.nav-item.active .nav-icon{
+  color:#2400b7;
+  transform:translateY(-2px);
+}
+
+.nav-item.active span{
+  color:#2400b7;
+  font-weight:600;
+}
+
+/* TOP INDICATOR */
+.nav-item.active::before{
+  content:"";
+  position:absolute;
+  top:-8px;
+  left:50%;
+  transform:translateX(-50%);
+  width:26px;
+  height:3px;
+  border-radius:10px;
+  background:#2400b7;
+}
+
+/* CLICK */
+.nav-item:active{
+  transform:scale(0.92);
+}
+
+
+  /* CENTER FLOAT BUTTON */
+
+/* Equal spacing */
+.nav-item{
+flex:1;
+text-align:center;
+cursor:pointer;
+}
+
+/* Normal icons */
+.nav-icon{
+font-size:22px;
+color:#9ca3af;
+}
+
+.nav-item span{
+display:block;
+font-size:11px;
+color:#9ca3af;
+}
+
+/* ⭐ CENTER SPECIAL BUTTON */
+.center-item{
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+/* Animated button */
+/* CENTER WRAPPER */
+.center-wrapper{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  transform:translateY(-18px);
+}
+
+/* NEW PREMIUM BUTTON */
+.center-btn{
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  background: blue;
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:26px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.3);
+  animation:float 2s ease-in-out infinite;
+}
+
+/* FLOAT EFFECT */
+@keyframes float{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-6px); }
+}
+
+/* TEXT BELOW BUTTON */
+.center-text{
+  font-size:11px;
+  margin-top:4px;
+  color:#ff3d3d;
+  font-weight:600;
+}
+
+/* 🔥 Animation like GIF */
+@keyframes pulse{
+0%{
+transform:scale(1);
+box-shadow:0 0 0 0 rgba(59,30,255,0.5);
+}
+70%{
+transform:scale(1.1);
+box-shadow:0 0 0 12px rgba(59,30,255,0);
+}
+100%{
+transform:scale(1);
+}
+}
+
+/* Click effect */
+.center-btn:active{
+transform:scale(0.9);
+}
+/* CONTAINER */
+.container {
+   
+    animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+  /* NEW MODERN SPINNER */
+.loader-container{
+  text-align:center;
+}
+
+.loader-spinner{
+  width:60px;
+  height:60px;
+  border:6px solid rgba(255,255,255,0.6);
+  border-top:6px solid #0d47a1;
+  border-radius:50%;
+  animation:spin 0.8s linear infinite;
+  margin:auto;
+  box-shadow:0 0 15px rgba(13,71,161,0.5);
+}
+
+.loading-text{
+  margin-top:15px;
+  font-size:14px;
+  color:#0d47a1;
+  font-weight:bold;
+  letter-spacing:1px;
+}
+
+/* KEEP ONLY ONE SPIN */
+@keyframes spin{
+  100%{ transform:rotate(360deg); }
 }
 </style>
 </head>
@@ -133,80 +418,227 @@ border-radius:30px 30px 0 0;
 
 <!-- HEADER -->
 <div class="top">
-<div style="display:flex;gap:10px;align-items:center;">
-<div class="menu-btn" onclick="openSideNav()">☰</div>
-<div>
-<div style="font-size:13px;">Employee forum</div>
-<strong>Employee info.</strong>
-</div>
+
+<div class="user-box">
+
+  <div style="display:flex;align-items:center;gap:10px;">
+
+    <!-- MENU BUTTON -->
+    <div class="menu-btn" onclick="openSideNav()">☰</div>
+
+    <!-- TEXT -->
+    <div>
+      <div style="font-size:13px;">Employee forum</div>
+      <strong style="font-size:18px;">Employee info.</strong>
+    </div>
+
+  </div>
+
 </div>
 
-<div>
-<span onclick="refreshApp()">🔄</span>
-<span onclick="logout()">🔓</span>
-</div>
+  <div>
+    <span style="font-size:22px;margin-right:10px;cursor:pointer;" onclick="refreshApp()">🔄</span>
+    <span class="logout" onclick="logout()">🔓</span>
+  </div>
+
 </div>
 
-<!-- HERO -->
-<div class="hero-card" onclick="openPage(0,'nomination_form.html')">
-<div class="hero-text">
-<div class="badge">★ Important</div>
-<h2>Nomination</h2>
+<!-- LIST VIEW -->
+  <div class="container">
+<div class="tabs">
+
+<!-- NOMINATION -->
+<div class="tab active" onclick="openPage(0,'nomination_form.html')">
+<img src="https://cdn-icons-png.flaticon.com/512/4140/4140037.png">
+<div class="text">
+<h4>Nomination</h4>
 <p>Add your family members and share percentage</p>
-<div class="hero-btn">Get Started →</div>
 </div>
-<img class="hero-img" src="https://cdn-icons-png.flaticon.com/512/4333/4333609.png">
+<div class="arrow">›</div>
 </div>
 
-<!-- CARDS -->
-<div class="card" onclick="openPage(1,'official_details.html')">
-<div class="left">
-<div class="icon-box blue">
+<!-- OFFICIAL -->
+<div class="tab" onclick="openPage(1,'official_details.html')">
 <img src="https://cdn-icons-png.flaticon.com/512/942/942748.png">
-</div>
-<div>
-<b>Official Details</b>
+<div class="text">
+<h4>Official Details</h4>
 <p>View and update your official employee records</p>
 </div>
-</div>
-<div class="circle-arrow">→</div>
+<div class="arrow">›</div>
 </div>
 
-<div class="card" onclick="openPage(2,'enquiries.html')">
-<div class="left">
-<div class="icon-box green">
+<!-- ENQUIRIES -->
+<div class="tab" onclick="openPage(2,'enquiries.html')">
 <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png">
-</div>
-<div>
-<b>Enquiries</b>
+<div class="text">
+<h4>Enquiries</h4>
 <p>Ask questions or get help from support</p>
 </div>
+<div class="arrow">›</div>
 </div>
-<div class="circle-arrow">→</div>
+</div>
 </div>
 
 <!-- LOADER -->
-<div id="loader"></div>
+<div id="loader">
+  <div class="loader-container">
+    <div class="loader-spinner"></div>
+    <div class="loading-text">Loading...</div>
+  </div>
+</div>
 
 <script>
 
-/* YOUR ORIGINAL LOGIC (UNCHANGED) */
 let isLoading = false;
 
 function openPage(index, url){
+
 if(isLoading) return;
 isLoading = true;
 
-document.getElementById("loader").style.display="flex";
+// loader
+document.getElementById("loader").style.display = "flex";
+document.body.style.overflow = "hidden";
 
+// active UI
+let tabs = document.querySelectorAll(".tab");
+tabs.forEach(t => t.classList.remove("active"));
+tabs[index].classList.add("active");
+
+// navigate
 setTimeout(()=>{
 window.location = url;
-},700);
+}, 700);
+
 }
 
-/* KEEP YOUR OTHER ORIGINAL SCRIPTS BELOW EXACTLY SAME */
+</script>
+  <script>
+function goTab(index, url){
+
+  // ✅ mark navigation as NAV click
+  sessionStorage.setItem("navClick", "true");
+
+  document.getElementById("loader").style.display = "flex";
+  document.body.style.overflow = "hidden";
+
+  setTimeout(function(){
+    window.location.replace(url); // already good
+  }, 700);
+
+}
+</script>
+  <script>
+
+
+// function for active tab
+window.onload = function(){
+
+  let page = location.pathname.split("/").pop();
+
+  let items = document.querySelectorAll(".nav-item");
+
+  items.forEach(item => {
+    let onclick = item.getAttribute("onclick");
+
+    if(onclick && onclick.includes(page)){
+      item.classList.add("active");
+    }
+  });
+
+}
 
 </script>
+  <script>
+history.pushState(null, null, location.href);
 
+window.onpopstate = function () {
+  window.location.replace("home.html");
+};
+</script>
+<div class="navbar" id="navbar">
+
+<div class="nav-item" onclick="goTab(0,'home.html')">
+<div class="nav-icon">🏠</div>
+<span>Home</span>
+</div>
+
+<div class="nav-item" onclick="goTab(1,'forum.html')">
+<div class="nav-icon">💬</div>
+<span>Forum</span>
+</div>
+
+<div class="nav-item center-item" onclick="goTab(99,'info.html')">
+  
+  <div class="center-wrapper">
+    
+    <div class="center-btn">
+      ⚡
+    </div>
+
+    <div class="center-text">Smart Support</div>
+
+  </div>
+
+</div>
+
+<div class="nav-item" onclick="goTab(2,'employee_info.html')">
+<div class="nav-icon">👤</div>
+<span>Employee</span>
+</div>
+
+<div class="nav-item" onclick="goTab(3,'resources.html')">
+<div class="nav-icon">📂</div>
+<span>Resources</span>
+</div>
+
+</div>
+
+  <script>
+(function () {
+
+  const currentPage = location.pathname.split("/").pop();
+
+  // Only apply for navbar pages
+  const navPages = [
+    "home.html",
+    "forum.html",
+    "info.html",
+    "employee_info.html",
+    "resources.html"
+  ];
+
+  if (navPages.includes(currentPage)) {
+
+    history.pushState(null, "", location.href);
+
+    window.onpopstate = function () {
+      window.location.replace("home.html");
+    };
+
+  }
+
+})();
+</script>
+  <script>
+(function () {
+
+  let isNavClick = sessionStorage.getItem("navClick");
+
+  if(isNavClick === "true"){
+
+    // 🔥 CLEAR HISTORY EFFECT
+    history.pushState(null, "", location.href);
+
+    window.onpopstate = function () {
+      window.location.replace("home.html");
+    };
+
+    // remove flag
+    sessionStorage.removeItem("navClick");
+  }
+
+})();
+</script>
 </body>
 </html>
