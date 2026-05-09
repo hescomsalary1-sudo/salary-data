@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Other Incomes</title>
+<title>Other Income</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -9,154 +9,95 @@
 body{
 font-family:'Segoe UI',sans-serif;
 margin:0;
-background: linear-gradient(135deg,#eef2ff,#f3f0ff);
+background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
 padding-bottom:90px;
-animation:fadeIn 0.4s ease;
-}
-
-@keyframes fadeIn{
-from{opacity:0; transform:translateY(10px);}
-to{opacity:1; transform:translateY(0);}
 }
 
 /* HEADER */
-.header{
-padding:20px;
+.top{
 display:flex;
 align-items:center;
 gap:12px;
-}
-
-.back-btn{
-width:42px;
-height:42px;
-border-radius:50%;
-background:white;
-display:flex;
-align-items:center;
-justify-content:center;
-box-shadow:0 8px 20px rgba(0,0,0,0.08);
-cursor:pointer;
-}
-
-.title-box{
-padding:0 20px 10px;
-}
-
-.title-box h1{
-margin:0;
-font-size:26px;
-color:#111827;
-}
-
-.title-box p{
-margin:5px 0 0;
-color:#6b7280;
-font-size:14px;
+padding:18px 15px;
+background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
+color:#2400b7;
+border-radius:0 0 35px 35px;
+font-size:20px;
+font-weight:600;
 }
 
 /* CONTENT */
 .content{
-padding:15px;
+padding:20px;
 }
 
 /* SUMMARY */
 .summary{
 background: linear-gradient(135deg,#6c39ff,#4b2dd8);
 color:white;
-border-radius:18px;
-padding:16px;
+border-radius:15px;
+padding:15px;
 margin-bottom:15px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
+/* BUTTON */
 .download-btn{
 margin-top:12px;
 padding:10px;
 background:white;
 color:#4b2dd8;
-border-radius:12px;
+border-radius:10px;
 text-align:center;
-font-weight:600;
+font-weight:bold;
 cursor:pointer;
 }
 
-/* CARD (NEW DESIGN) */
+/* MODERN CARD */
 .card{
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:rgba(255,255,255,0.9);
-border-radius:20px;
-padding:15px;
+background: rgba(255,255,255,0.85);
+backdrop-filter: blur(10px);
+border-radius:18px;
+padding:18px;
 margin-bottom:14px;
-box-shadow:0 10px 25px rgba(0,0,0,0.06);
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
 animation:fadeUp 0.3s ease;
 }
 
-@keyframes fadeUp{
-from{opacity:0; transform:translateY(10px);}
-to{opacity:1; transform:translateY(0);}
-}
-
-/* LEFT */
-.left{
+/* ROW */
+.row{
 display:flex;
-gap:12px;
+justify-content:space-between;
 align-items:center;
+margin-bottom:10px;
 }
 
-/* ICON */
-.icon{
-width:50px;
-height:50px;
-border-radius:15px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:20px;
-color:white;
+/* LABEL */
+.label{
+color:#888;
+font-size:13px;
 }
 
-/* COLORS */
-.green{background:#22c55e;}
-.blue{background:#3b82f6;}
-.orange{background:#f59e0b;}
-.red{background:#ef4444;}
-.purple{background:#8b5cf6;}
-.cyan{background:#06b6d4;}
-.gray{background:#64748b;}
-
-/* TEXT */
-.text b{
+/* VALUE */
+.value{
+font-weight:600;
 font-size:15px;
-color:#111827;
+color:#333;
 }
 
-.text p{
-margin:2px 0 0;
-font-size:12px;
-color:#6b7280;
-}
-
-/* RIGHT */
-.right{
-text-align:right;
-}
-
-.amount{
-font-size:18px;
+/* AMOUNT SPECIAL */
+.row:first-child .value{
+font-size:20px;
 font-weight:700;
 color:#4b2dd8;
 }
 
+/* STATUS */
 .status{
-margin-top:5px;
-display:inline-block;
-padding:4px 10px;
+padding:5px 12px;
 border-radius:20px;
-font-size:11px;
+font-size:12px;
 color:white;
+font-weight:600;
 }
 
 /* LOADER */
@@ -184,43 +125,61 @@ animation:spin 1s linear infinite;
 100%{transform:rotate(360deg);}
 }
 
-/* FOOTER */
-.footer{
-position:fixed;
-bottom:15px;
-left:0;
-right:0;
-text-align:center;
-font-size:13px;
-color:#6b7280;
+/* CARD ANIMATION */
+@keyframes fadeUp{
+from{opacity:0; transform:translateY(10px);}
+to{opacity:1; transform:translateY(0);}
+}
+/* BACK BUTTON */
+.back-btn{
+width:40px;
+height:40px;
+border-radius:50%;
+background:rgba(255,255,255,0.9);
+backdrop-filter: blur(8px);
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+box-shadow:0 6px 15px rgba(0,0,0,0.15);
+transition:0.25s;
 }
 
-.footer span{
-color:#4f46e5;
-font-weight:600;
+.back-btn:hover{
+transform:scale(1.1);
 }
 
+.back-btn svg{
+transition:0.2s;
+}
+
+.back-btn:hover svg{
+transform:translateX(-2px);
+}
 </style>
 </head>
 
 <body>
 
-<div class="header">
-  <div class="back-btn" onclick="goBack()">⬅</div>
-</div>
+<div class="top">
 
-<div class="title-box">
-  <h1 id="title">Other Income</h1>
-  <p>Select income category</p>
+  <div class="back-btn" onclick="goBack()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <path d="M15 18L9 12L15 6" 
+            stroke="#2400b7" 
+            stroke-width="2.5" 
+            stroke-linecap="round" 
+            stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <div id="title">Other Income</div>
+
 </div>
 
 <div id="loader"><div class="spinner"></div></div>
 
 <div class="content" id="resultBox">Loading...</div>
-
-<div class="footer">
-🛡️ Your data is <span>100% secure</span> and private
-</div>
 
 <script>
 
@@ -265,7 +224,8 @@ loader.style.display="flex";
 let fileName = fileMap[type];
 let output = "";
 
-/* ELS SPECIAL */
+/* ================= ELS SPECIAL ================= */
+
 if(type==="ELS Bills"){
 
 let leaves = await fetch(baseURL+"leaves.csv");
@@ -283,6 +243,7 @@ elCredit = Number(c[3] || 0);
 
 let eligible = elCredit - 15;
 
+/* SUMMARY */
 output += `
 <div class="summary">
 <b>EL Credit:</b> ${elCredit}<br>
@@ -291,14 +252,19 @@ output += `
 <div class="download-btn" onclick="downloadELS()">
 📄 Download ELS Application Form
 </div>
-</div>`;
+
+</div>
+`;
+
 }
 
-/* DATA */
+/* ================= DATA ================= */
+
 let res = await fetch(baseURL+fileName);
 let text = await res.text();
 text = text.replace(/^\uFEFF/, '');
 
+/* EMPTY FILE */
 if(!text || text.trim()===""){
 showNoData();
 return;
@@ -306,6 +272,7 @@ return;
 
 let rows = text.trim().split("\n");
 
+/* NO ROWS */
 if(rows.length<=1){
 showNoData();
 return;
@@ -331,24 +298,36 @@ if(amount && amount.trim()!==""){
 hasAmount=true;
 }
 
-let color = status.toLowerCase()==="paid" ? "#22c55e" : "#ef4444";
+let color = status.toLowerCase()==="paid" ? "#2e7d32" : "#d32f2f";
 
 output += `
 <div class="card">
 
-<div class="left">
-  <div class="icon blue">₹</div>
-  <div class="text">
-    <b>${type}</b>
-    <p>${period} • ${year}</p>
-  </div>
+<div class="row">
+<span class="label">💰 Amount</span>
+<span class="value">₹${amount}</span>
 </div>
 
-<div class="right">
-  <div class="amount">₹${amount}</div>
-  <div class="status" style="background:${color}">
-    ${status}
-  </div>
+<div class="row">
+<span class="label">📅 Year</span>
+<span class="value">${year}</span>
+</div>
+
+<div class="row">
+<span class="label">🗓 Period</span>
+<span class="value">${period}</span>
+</div>
+
+<div class="row">
+<span class="label">📌 Status</span>
+<span class="status" style="background:${color}">
+${status}
+</span>
+</div>
+
+<div class="row">
+<span class="label">📝 Remarks</span>
+<span class="value">${remarks}</span>
 </div>
 
 </div>
@@ -358,6 +337,7 @@ found=true;
 }
 }
 
+/* FINAL CHECK */
 if(!found || !hasAmount){
 showNoData();
 return;
@@ -368,25 +348,42 @@ loader.style.display="none";
 
 }
 
+/* NO DATA UI */
 function showNoData(){
+
 loader.style.display="none";
 
 resultBox.innerHTML = `
-<div style="text-align:center;margin-top:60px;">
-<div style="font-size:60px;">📭</div>
-<h2 style="color:#4b2dd8;">No Records Found</h2>
-<p style="color:#777;">No data available</p>
-</div>`;
+<div style="
+text-align:center;
+margin-top:60px;
+padding:25px;
+background:white;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
+">
+
+<div style="font-size:65px;">📭</div>
+
+<h2 style="color:#4b2dd8;margin:10px 0;">
+No Records Found
+</h2>
+
+<p style="color:#777;font-size:14px;">
+No data available for this category
+</p>
+
+</div>
+`;
 }
 
+/* DOWNLOAD */
 function downloadELS(){
 window.location.href = baseURL + "els_format.pdf";
 }
-
 function goBack(){
-window.history.back();
+  window.history.back();
 }
-
 </script>
 
 </body>
