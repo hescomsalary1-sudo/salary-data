@@ -46,7 +46,8 @@ margin-top:-60px;
 
 /* CONTACT CARDS */
 .cards{
-display:flex;
+display:grid;
+grid-template-columns: repeat(3, 1fr);
 gap:10px;
 }
 
@@ -210,12 +211,16 @@ resize:none;
 /* ===== MOBILE FIX ===== */
 @media(max-width:600px){
 .cards{
-flex-wrap:wrap;
+grid-template-columns: repeat(2, 1fr);
+}
 }
 
 .card{
 flex:1 1 45%;
 }
+}
+  .card{
+min-width:0;
 }
 </style>
 </head>
