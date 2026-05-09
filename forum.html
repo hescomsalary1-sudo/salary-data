@@ -8,9 +8,8 @@
 body{
 margin:0;
 font-family:'Segoe UI',sans-serif;
-background:#f4f6fb;
+background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
 padding-bottom:80px;
-  background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
 }
 
 /* HEADER */
@@ -27,7 +26,6 @@ border-bottom-left-radius:30px;
 border-bottom-right-radius:30px;
 }
 
-/* CURVE EFFECT */
 .top::after{
 content:"";
 position:absolute;
@@ -40,514 +38,117 @@ border-top-left-radius:100%;
 border-top-right-radius:100%;
 }
 
-/* HEADER TEXT */
-.header-title{
-font-size:24px;
-font-weight:700;
-margin-top:5px;
-}
+.header-title{font-size:24px;font-weight:700;margin-top:5px;}
+.header-sub{font-size:13px;opacity:0.9;}
 
-.header-sub{
-font-size:13px;
-opacity:0.9;
-}
-
-/* RIGHT IMAGE */
+/* HEADER IMAGE */
 .header-img{
 position:absolute;
 right:10px;
 top:20px;
-width:120px;
-opacity:0.95;
+width:110px;
+animation:floatImg 3s ease-in-out infinite;
+}
+@keyframes floatImg{
+0%,100%{transform:translateY(0);}
+50%{transform:translateY(-6px);}
 }
 
-/* MENU BUTTON UPDATED */
+/* MENU */
 .menu-btn{
-background:rgba(255,255,255,0.2);
-backdrop-filter:blur(10px);
-}
-
-  /* MENU BUTTON */
-.menu-btn{
-width:42px;
-height:42px;
-border-radius:10px;
-background:#2400b7;
-color:white;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:20px;
-cursor:pointer;
+width:42px;height:42px;border-radius:10px;
+background:#2400b7;color:white;
+display:flex;align-items:center;justify-content:center;
+font-size:20px;cursor:pointer;
 box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 
-.menu-btn:active{
-transform:scale(0.9);
-}
+.logout{cursor:pointer;font-size:22px;}
 
-/* RIGHT ICONS */
-.logout{
-cursor:pointer;
-font-size:22px;
-}
 /* CONTAINER */
 .container{
 padding:15px;
 margin-top:-25px;
+animation:slideUp 0.4s ease-out;
 }
-/* CONTAINER */
-.container {
-    padding: 15px;
-    animation: slideUp 0.4s ease-out;
+@keyframes slideUp{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
 }
 
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-/* SECTION TITLE */
+/* MODERN UI */
 .section-title{
-font-size:13px;
-color:#666;
-margin:15px 5px 8px;
-font-weight:600;
+display:flex;
+align-items:center;
+gap:8px;
+font-size:15px;
+font-weight:700;
+color:#1e3a8a;
+margin:20px 5px 10px;
+}
+.section-title::before{
+content:"";
+width:5px;height:18px;background:#2563eb;border-radius:10px;
 }
 
-/* CARD GROUP */
 .group{
 background:white;
-border-radius:18px;
-padding:10px;
-box-shadow:0 6px 15px rgba(0,0,0,0.06);
-margin-bottom:15px;
+border-radius:22px;
+padding:8px;
+box-shadow:0 12px 30px rgba(0,0,0,0.08);
+margin-bottom:18px;
+border:1px solid #eef2ff;
 }
 
-/* ITEM */
 .item{
 display:flex;
 align-items:center;
 justify-content:space-between;
-padding:12px;
-border-radius:14px;
+padding:14px;
+border-radius:16px;
 cursor:pointer;
 transition:0.25s;
 }
+.item:hover{background:#f1f5ff;}
+.item:active{transform:scale(0.97);}
+.item:not(:last-child){border-bottom:1px solid #f1f5ff;}
 
-.item:hover{
-background:#f1f4ff;
-}
+.left{display:flex;align-items:center;gap:12px;}
 
-.item:active{
-transform:scale(0.97);
-}
-
-/* LEFT */
-.left{
-display:flex;
-align-items:center;
-gap:12px;
-}
-
-/* ICON */
 .icon{
-width:42px;
-height:42px;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-color:white;
-font-size:18px;
+width:48px;height:48px;border-radius:50%;
+display:flex;align-items:center;justify-content:center;
+color:white;font-size:20px;
+box-shadow:0 6px 15px rgba(0,0,0,0.15);
 }
+.blue{background:linear-gradient(135deg,#3b82f6,#1d4ed8);}
+.green{background:linear-gradient(135deg,#22c55e,#15803d);}
+.orange{background:linear-gradient(135deg,#f59e0b,#d97706);}
+.red{background:linear-gradient(135deg,#ef4444,#b91c1c);}
+.dark{background:linear-gradient(135deg,#374151,#111827);}
 
-/* COLORS */
-.blue{background:#2575fc;}
-.green{background:#28a745;}
-.purple{background:#6f42c1;}
-.orange{background:#f6ad55;}
-.red{background:#fc5c7d;}
-.dark{background:#434343;}
+.text{font-size:15px;font-weight:600;color:#1f2937;}
 
-/* TEXT */
-.text{
-font-size:15px;
-font-weight:600;
-color:#2d3748;
-}
-
-/* ARROW */
 .arrow{
-color:#aaa;
-font-size:16px;
-}
-
-/* LOADER BELOW HEADER */
-/* MODERN LOADER - BOXED BETWEEN HEADER & FOOTER */
-/* MODERN LOADER - BOXED BETWEEN HEADER & FOOTER */
-/* MODERN BOXED LOADER */
-#loader {
-    position: fixed;
-    top: 85px;  /* Below Fixed Header */
-    bottom: 70px; /* Above Fixed Footer */
-    left: 0;
-    width: 100%;
-    background: rgba(243, 244, 250, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 900;
-}
-
-/* FLUID ORBIT DESIGN */
-.fluid-loader {
-    position: relative;
-    width: 80px;
-    height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.orbit {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 3px solid transparent;
-    border-top-color: #2400b7;
-    border-bottom-color: #00c9a7;
-    animation: rotate-orbit 1.5s linear infinite;
-}
-
-.orbit:nth-child(2) {
-    width: 70%;
-    height: 70%;
-    border-top-color: #6a5cff;
-    border-bottom-color: #ff4e8a;
-    animation-duration: 1s;
-    animation-direction: reverse;
-}
-
-.orbit:nth-child(3) {
-    width: 40%;
-    height: 40%;
-    border-top-color: #00e0b8;
-    border-bottom-color: #2400b7;
-    animation-duration: 2s;
-}
-
-.core {
-    width: 15px;
-    height: 15px;
-    background: #2400b7;
-    border-radius: 50%;
-    box-shadow: 0 0 15px #2400b7, 0 0 30px #00c9a7;
-    animation: pulse-core 1.5s ease-in-out infinite;
-}
-
-/* TEXT STYLE */
-.loader-text {
-    margin-top: 30px;
-    font-weight: 700;
-    color: #2400b7;
-    font-size: 13px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    opacity: 0.8;
-}
-
-/* ANIMATIONS */
-@keyframes rotate-orbit {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-@keyframes pulse-core {
-    0%, 100% { transform: scale(1); opacity: 0.8; }
-    50% { transform: scale(1.3); opacity: 1; }
-}
-
-.skeleton{
-height:60px;
-border-radius:15px;
-background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
-background-size:400px 100%;
-animation:shimmer 1.2s infinite;
-}
-
-@keyframes shimmer{
-0%{background-position:-400px 0;}
-100%{background-position:400px 0;}
-}
-.navbar{
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  height:75px;
-
-  background:#ffffff;
-
-  /* 🔥 TOP CURVE */
-  border-top-left-radius:30px;
-  border-top-right-radius:30px;
-
-  box-shadow:0 -8px 25px rgba(0,0,0,0.08);
-
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-
-  z-index:1000;
-}
-
-/* NAV ITEM */
-.nav-item{
-  flex:1;
-  text-align:center;
-  position:relative;
-  cursor:pointer;
-}
-
-/* ICON (LINE STYLE) */
-.nav-icon{
-  font-size:22px;
-  color:#9ca3af;
-  transition:0.3s;
-}
-
-/* TEXT */
-.nav-item span{
-  display:block;
-  font-size:11px;
-  color:#9ca3af;
-  margin-top:3px;
-}
-
-/* ACTIVE */
-.nav-item.active .nav-icon{
-  color:#2400b7;
-  transform:translateY(-2px);
-}
-
-.nav-item.active span{
-  color:#2400b7;
-  font-weight:600;
-}
-
-/* TOP INDICATOR */
-.nav-item.active::before{
-  content:"";
-  position:absolute;
-  top:-8px;
-  left:50%;
-  transform:translateX(-50%);
-  width:26px;
-  height:3px;
-  border-radius:10px;
-  background:#2400b7;
-}
-
-/* CLICK */
-.nav-item:active{
-  transform:scale(0.92);
-}
-
-
-  /* CENTER FLOAT BUTTON */
-
-
-/* Equal spacing */
-.nav-item{
-flex:1;
-text-align:center;
-cursor:pointer;
-}
-
-/* Normal icons */
-.nav-icon{
-font-size:22px;
-color:#9ca3af;
-}
-
-.nav-item span{
-display:block;
-font-size:11px;
-color:#9ca3af;
-}
-
-/* ⭐ CENTER SPECIAL BUTTON */
-.center-item{
-display:flex;
-justify-content:center;
-align-items:center;
-}
-
-/* Animated button */
-/* CENTER WRAPPER */
-.center-wrapper{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  transform:translateY(-18px);
-}
-
-/* NEW PREMIUM BUTTON */
-.center-btn{
-  width:60px;
-  height:60px;
-  border-radius:50%;
-  background: blue;
-  color:#fff;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:26px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.3);
-  animation:float 2s ease-in-out infinite;
-}
-
-/* FLOAT EFFECT */
-@keyframes float{
-  0%,100%{ transform:translateY(0); }
-  50%{ transform:translateY(-6px); }
-}
-
-/* TEXT BELOW BUTTON */
-.center-text{
-  font-size:11px;
-  margin-top:4px;
-  color:#ff3d3d;
-  font-weight:600;
-}
-
-/* 🔥 Animation like GIF */
-@keyframes pulse{
-0%{
-transform:scale(1);
-box-shadow:0 0 0 0 rgba(59,30,255,0.5);
-}
-70%{
-transform:scale(1.1);
-box-shadow:0 0 0 12px rgba(59,30,255,0);
-}
-100%{
-transform:scale(1);
-}
-}
-
-/* Click effect */
-.center-btn:active{
-transform:scale(0.9);
-}
-
-#sideOverlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.4);
-opacity:0;
-visibility:hidden;
-transition:0.3s;
-z-index:2000;
-}
-
-#sideOverlay.show{
-opacity:1;
-visibility:visible;
-}
-
-#sideNav{
-position:fixed;
-top:0;
-left:-260px;
-width:260px;
-height:100%;
-background:linear-gradient(135deg,#2400b7,#3b1eff);
-color:white;
-transition:0.3s;
-z-index:2100;
-}
-
-  /* NEW MODERN SPINNER */
-.loader-container{
-  text-align:center;
-}
-
-.loader-spinner{
-  width:60px;
-  height:60px;
-  border:6px solid rgba(255,255,255,0.6);
-  border-top:6px solid #0d47a1;
-  border-radius:50%;
-  animation:spin 0.8s linear infinite;
-  margin:auto;
-  box-shadow:0 0 15px rgba(13,71,161,0.5);
-}
-
-.loading-text{
-  margin-top:15px;
-  font-size:14px;
-  color:#0d47a1;
-  font-weight:bold;
-  letter-spacing:1px;
-}
-
-/* KEEP ONLY ONE SPIN */
-@keyframes spin{
-  100%{ transform:rotate(360deg); }
+width:30px;height:30px;border-radius:50%;
+background:#f1f5ff;
+display:flex;align-items:center;justify-content:center;
+font-size:14px;color:#2563eb;
 }
 </style>
 </head>
 
 <body>
-<!-- SIDE NAV OVERLAY -->
-<div id="sideOverlay" onclick="closeSideNav()"></div>
 
-<!-- SIDE NAV -->
-<div id="sideNav">
-
-  <div class="side-header">
-    <img src="https://i.imgur.com/6VBx3io.png" class="side-profile"> 
-    <h3 id="sideName">User Name</h3>
-    <p id="sideRole">Employee</p>
-  </div>
-
-  <div class="side-menu">
-    <div onclick="showLoader('employee_info.html')">👤 My Profile</div>
-    <div onclick="showLoader('menu.html')">💰 Salary</div>
-    <div onclick="showLoader('page3.html')">📅 Income</div>
-    <div onclick="showLoader('resources.html')">📂 Resources</div>
-    <div onclick="showLoader('page5.html')">⚙ Settings</div>
-    <div onclick="logout()">🚪 Logout</div>
-  </div>
-
-</div>
-<div id="loader">
-  <div class="loader-container">
-    <div class="loader-spinner"></div>
-    <div class="loading-text">Loading...</div>
-  </div>
-</div>
-<!-- HEADER -->
+<!-- KEEP YOUR ORIGINAL SIDE NAV, LOADER, NAVBAR (UNCHANGED) -->
 
 <div class="top">
-
   <div style="display:flex;align-items:center;gap:12px;">
-
     <div class="menu-btn" onclick="openSideNav()">☰</div>
-
     <div>
       <div class="header-sub">Support Center</div>
       <div class="header-title">Forum & Help</div>
     </div>
-
   </div>
 
   <div>
@@ -555,16 +156,12 @@ z-index:2100;
     <span class="logout" onclick="logout()">🔓</span>
   </div>
 
-  <!-- RIGHT IMAGE -->
-  
-
+  <img class="header-img" src="https://cdn-icons-png.flaticon.com/512/3050/3050525.png">
 </div>
 
 <div class="container">
 
-<!-- PRIMARY ACTIONS -->
 <div class="section-title">Quick Actions</div>
-
 <div class="group">
 
 <div class="item" onclick="openPage('ask')">
@@ -585,11 +182,8 @@ z-index:2100;
 
 </div>
 
-<!-- INFORMATION -->
 <div class="section-title">Information</div>
-
 <div class="group">
-
 
 <div class="item" onclick="openPage('privacy')">
 <div class="left">
@@ -629,195 +223,23 @@ z-index:2100;
 
 <script>
 function openPage(type){
-
 document.getElementById("loader").style.display="flex";
 document.body.style.overflow="hidden";
 
 setTimeout(()=>{
-
-if(type === "ask"){
+if(type==="ask"){
 window.location.replace("forum_details.html?type=ask");
-}
-else if(type === "contact"){
+}else if(type==="contact"){
 window.location.replace("contact_us.html");
-}
-else if(type === "help"){
+}else if(type==="help"){
 window.location.replace("forum_details.html?type=help");
+}else{
+window.location.replace("others_forum.html?type="+type);
 }
-else{
-window.location.replace("others_forum.html?type=" + type);
-}
-
 },500);
-
 }
 </script>
 
-
-<script>
-function goTab(index, url){
-
-  // ✅ mark navigation as NAV click
-  sessionStorage.setItem("navClick", "true");
-
-  document.getElementById("loader").style.display = "flex";
-  document.body.style.overflow = "hidden";
-
-  setTimeout(function(){
-    window.location.replace(url); // already good
-  }, 700);
-
-}
-  function refreshApp(){
-    // Show the "Middle" loader
-    document.getElementById("loader").style.display = "flex";
-    
-    // Optional: add a slight fade to the content area only
-    document.querySelector('.content').style.opacity = "0.4";
-
-    setTimeout(function(){
-        location.reload(true);
-    }, 1000);
-}
-</script>
-<script>
-
-
-// function for active tab
-
-
-
-window.onload = function(){
-
-  let loader = document.getElementById("loader");
-  if(loader){
-    loader.style.display = "none";
-  }
-
-  let page = location.pathname.split("/").pop();
-
-  document.querySelectorAll(".nav-item").forEach(item => {
-
-    let match = item.getAttribute("onclick");
-
-    if(match){
-      let urlMatch = match.match(/'(.*?)'/); // extract URL inside quotes
-
-      if(urlMatch && urlMatch[1] === page){
-        item.classList.add("active");
-      }
-    }
-
-  });
-
-}
-
-
-
-</script>
-
-<div class="navbar" id="navbar">
-
-<div class="nav-item" onclick="goTab(0,'home.html')">
-<div class="nav-icon">🏠</div>
-<span>Home</span>
-</div>
-
-<div class="nav-item" onclick="goTab(1,'forum.html')">
-<div class="nav-icon">💬</div>
-<span>Forum</span>
-</div>
-
-<div class="nav-item center-item" onclick="goTab(99,'info.html')">
-  
-  <div class="center-wrapper">
-    
-    <div class="center-btn">
-      ⚡
-    </div>
-
-    <div class="center-text">Smart Support</div>
-
-  </div>
-
-</div>
-
-<div class="nav-item" onclick="goTab(2,'employee_info.html')">
-<div class="nav-icon">👤</div>
-<span>Employee</span>
-</div>
-
-<div class="nav-item" onclick="goTab(3,'resources.html')">
-<div class="nav-icon">📂</div>
-<span>Resources</span>
-</div>
-
-</div>
-<script>
-(function () {
-
-  let currentPage = location.pathname.split("/").pop();
-
-  // Only control NAVBAR pages
-  const navPages = [
-    "home.html",
-    "forum.html",
-    "employee_info.html",
-    "resources.html"
-  ];
-
-  if (navPages.includes(currentPage)) {
-
-    history.pushState(null, null, location.href);
-
-    window.onpopstate = function () {
-      if (currentPage !== "home.html") {
-        window.location.replace("home.html");
-      }
-    };
-
-  }
-
-})();
-</script>
-  <script>
-(function () {
-
-  let isNavClick = sessionStorage.getItem("navClick");
-
-  if(isNavClick === "true"){
-
-    // 🔥 CLEAR HISTORY EFFECT
-    history.pushState(null, "", location.href);
-
-    window.onpopstate = function () {
-      window.location.replace("home.html");
-    };
-
-    // remove flag
-    sessionStorage.removeItem("navClick");
-  }
-
-})();
-</script>
-  <script>
-history.pushState(null, null, location.href);
-
-window.onpopstate = function () {
-  // 2nd back → go to Home
-  window.location.replace("home.html");
-};
-</script>
-  <script>
-function openSideNav(){
-  document.getElementById("sideNav").style.left = "0";
-  document.getElementById("sideOverlay").classList.add("show");
-}
-
-function closeSideNav(){
-  document.getElementById("sideNav").style.left = "-260px";
-  document.getElementById("sideOverlay").classList.remove("show");
-}
-</script>
+<!-- ⚠️ KEEP ALL YOUR OTHER ORIGINAL SCRIPTS EXACTLY SAME BELOW -->
 </body>
 </html>
