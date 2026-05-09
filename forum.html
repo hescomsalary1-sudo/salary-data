@@ -15,25 +15,56 @@ padding-bottom:80px;
 
 /* HEADER */
 .top{
-padding:25px 20px 20px 20px;
-background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
-color:#2400b7;
+position:relative;
+padding:25px 20px 70px;
+background:linear-gradient(135deg,#1d4ed8,#2563eb);
+color:white;
 display:flex;
 justify-content:space-between;
-align-items:center;
-border-bottom-left-radius:0px;
-border-bottom-right-radius:0px;
+align-items:flex-start;
+overflow:hidden;
+border-bottom-left-radius:30px;
+border-bottom-right-radius:30px;
 }
 
-.top h2{
-margin:0;
-font-weight:600;
+/* CURVE EFFECT */
+.top::after{
+content:"";
+position:absolute;
+bottom:-40px;
+left:0;
+width:100%;
+height:80px;
+background:#f4f6fb;
+border-top-left-radius:100%;
+border-top-right-radius:100%;
 }
 
-.top p{
-margin:5px 0 0;
+/* HEADER TEXT */
+.header-title{
+font-size:24px;
+font-weight:700;
+margin-top:5px;
+}
+
+.header-sub{
 font-size:13px;
 opacity:0.9;
+}
+
+/* RIGHT IMAGE */
+.header-img{
+position:absolute;
+right:10px;
+top:20px;
+width:120px;
+opacity:0.95;
+}
+
+/* MENU BUTTON UPDATED */
+.menu-btn{
+background:rgba(255,255,255,0.2);
+backdrop-filter:blur(10px);
 }
 
   /* MENU BUTTON */
@@ -508,27 +539,24 @@ z-index:2100;
 
 <div class="top">
 
-<div class="user-box">
+  <div style="display:flex;align-items:center;gap:12px;">
 
-  <div style="display:flex;align-items:center;gap:10px;">
-
-    <!-- MENU BUTTON -->
     <div class="menu-btn" onclick="openSideNav()">☰</div>
 
-    <!-- TEXT -->
     <div>
-      <div style="font-size:13px;">Support Center</div>
-      <strong style="font-size:18px;">💬 Forum & Help</strong>
+      <div class="header-sub">Support Center</div>
+      <div class="header-title">Forum & Help</div>
     </div>
 
   </div>
 
-</div>
-
   <div>
-    <span style="font-size:22px;margin-right:10px;cursor:pointer;" onclick="refreshApp()">🔄</span>
+    <span style="font-size:20px;margin-right:10px;cursor:pointer;" onclick="refreshApp()">🔄</span>
     <span class="logout" onclick="logout()">🔓</span>
   </div>
+
+  <!-- RIGHT IMAGE -->
+  <img class="header-img" src="https://cdn-icons-png.flaticon.com/512/4712/4712100.png">
 
 </div>
 
