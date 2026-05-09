@@ -406,6 +406,18 @@ document.getElementById("pie").style.background=
 
 /* LIST */
 let html="";
+
+/* ADD EARNINGS FIRST */
+html+=`
+<div class="item">
+  <span>
+    <span class="color-dot" style="background:#00c853"></span>
+    Earnings
+  </span>
+  <span>₹${earn}</span>
+</div>`;
+
+/* THEN DEDUCTIONS */
 deductions.forEach((d,i)=>{
 html+=`
 <div class="item">
@@ -416,6 +428,7 @@ html+=`
   <span>₹${d.value}</span>
 </div>`;
 });
+
 document.getElementById("list").innerHTML=html;
 
 loader.style.display="none";
