@@ -83,30 +83,35 @@ body{
 /* SALARY CARD IMAGE */
 
 .salary-card{
-  width:100%;              /* 🔥 ADD THIS */
-  box-sizing:border-box;   /* 🔥 IMPORTANT */
-  overflow:hidden;         /* 🔥 PREVENT OVERFLOW */
+  width:100%;
+  box-sizing:border-box;
+  overflow:hidden;
 
   background: linear-gradient(135deg, #0f0c29, #2400b7, #302b63);
   color:white;
   border-radius:22px;
-  padding:15px;
+  padding:12px;
+
   display:flex;
   align-items:center;
   justify-content:space-between;
+  gap:10px;   /* 🔥 important */
+
   box-shadow:0 15px 30px rgba(0,0,0,0.2);
-  margin-top:10px;
+  margin-bottom:15px;
 }
 
 .salary-info{
-flex:1;
+  flex:1;
+  min-width:0;   /* 🔥 VERY IMPORTANT */
 }
 
 .salary-card img{
-width:90px;
-height:auto;
+  width:65px;      /* 🔽 reduced */
+  max-width:30%;   /* 🔥 prevents overflow */
+  height:auto;
+  flex-shrink:0;   /* 🔥 don't push layout */
 }
-
 .salary-amount{
 font-size:20px;
 font-weight:bold;
@@ -1729,23 +1734,25 @@ pointer-events: all;
 
 <div class="top">
 
-<div class="user-box">
+  <div class="user-box" style="width:100%;justify-content:space-between;">
 
-  <!-- LEFT -->
-  <div style="display:flex;align-items:center;gap:10px;">
-    <div class="menu-btn" onclick="openSideNav()">☰</div>
+    <!-- LEFT -->
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="menu-btn" onclick="openSideNav()">☰</div>
 
-    <div>
-      <div>Welcome</div>
-      <strong id="empName">Loading...</strong>
-      <div id="empDesg" style="font-size:12px;opacity:0.8;"></div>
+      <div>
+        <div>Welcome</div>
+        <strong id="empName">Loading...</strong>
+        <div id="empDesg" style="font-size:12px;opacity:0.8;"></div>
+      </div>
     </div>
-  </div>
 
-  <!-- RIGHT ICONS -->
-  <div style="display:flex;align-items:center;gap:15px;">
-    <span style="font-size:22px;cursor:pointer;" onclick="refreshApp()">🔄</span>
-    <span class="logout" onclick="logout()">🔓</span>
+    <!-- RIGHT -->
+    <div style="display:flex;align-items:center;gap:15px;">
+      <span style="font-size:22px;cursor:pointer;" onclick="refreshApp()">🔄</span>
+      <span class="logout" onclick="logout()">🔓</span>
+    </div>
+
   </div>
 
 </div>
