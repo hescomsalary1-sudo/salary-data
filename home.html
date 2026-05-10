@@ -1688,7 +1688,32 @@ pointer-events: all;
   border-radius:25px;
   background: linear-gradient(135deg, #2d3fff, #4b5cff);
 }
+.salary-bottom{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-top:6px;
+  gap:10px;
+}
 
+.last-updated{
+  font-size:11px;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+
+.last-updated span:last-child{
+  font-weight:700;
+  color:#00e0b8;
+  font-size:13px;
+}
+
+.quick-info-btn{
+  margin-top:0;   /* 🔥 REMOVE extra gap */
+  white-space:nowrap; /* 🔥 keep in one line */
+}
 </style>
 </head>
 
@@ -1779,19 +1804,17 @@ pointer-events: all;
 <div class="salary-amount">₹<span id="netSalary">--</span></div>
 <div style="font-size:14px;opacity:0.9;">Net Pay</div>
 
-<div style="font-size:11px;">
-  <span style="font-weight:700;color:#fff;">Last Updated:</span>
-  <span id="quickDate" style="
-    font-weight:1000;
-    color:#00e0b8;
-    margin-left:4px;
-   font-size:15px;
-  ">--</span>
-</div>
+<div class="salary-bottom">
 
-<!-- QUICK INFO BUTTON -->
-<div class="quick-info-btn" onclick="openLastSalary()">
-  Quick Info ➜
+  <div class="last-updated">
+    <span>Last Updated:</span>
+    <span id="quickDate">--</span>
+  </div>
+
+  <div class="quick-info-btn" onclick="openLastSalary()">
+    Quick Info ➜
+  </div>
+
 </div>
 </div>
 
