@@ -83,10 +83,14 @@ body{
 /* SALARY CARD IMAGE */
 
 .salary-card{
+  width:100%;              /* 🔥 ADD THIS */
+  box-sizing:border-box;   /* 🔥 IMPORTANT */
+  overflow:hidden;         /* 🔥 PREVENT OVERFLOW */
+
   background: linear-gradient(135deg, #0f0c29, #2400b7, #302b63);
   color:white;
   border-radius:22px;
-  padding:15px;   /* ✅ increased */
+  padding:15px;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -1727,27 +1731,23 @@ pointer-events: all;
 
 <div class="user-box">
 
-<div style="display:flex;align-items:center;gap:10px;">
+  <!-- LEFT -->
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="menu-btn" onclick="openSideNav()">☰</div>
 
-  <!-- MENU BUTTON -->
- <div class="menu-btn" onclick="openSideNav()">☰</div>
+    <div>
+      <div>Welcome</div>
+      <strong id="empName">Loading...</strong>
+      <div id="empDesg" style="font-size:12px;opacity:0.8;"></div>
+    </div>
+  </div>
 
-  <!-- PROFILE -->
+  <!-- RIGHT ICONS -->
+  <div style="display:flex;align-items:center;gap:15px;">
+    <span style="font-size:22px;cursor:pointer;" onclick="refreshApp()">🔄</span>
+    <span class="logout" onclick="logout()">🔓</span>
+  </div>
 
-
-</div>
-
-<div>
-<div>Welcome</div>
-<strong id="empName">Loading...</strong>
-<div id="empDesg" style="font-size:12px;opacity:0.8;"></div>
-</div>
-
-</div>
-
-<div>
-<span style="font-size:22px;margin-right:10px;cursor:pointer;" onclick="refreshApp()">🔄</span>
-<span class="logout" onclick="logout()">🔓</span>
 </div>
 <div class="salary-card">
 
