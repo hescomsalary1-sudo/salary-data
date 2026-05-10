@@ -379,7 +379,21 @@ window.location = url;
       window.location.replace("home.html");
     };
 </script>
+  <script>
+function goTab(index, url){
 
+  // ✅ mark navigation as NAV click
+  sessionStorage.setItem("navClick", "true");
+
+  document.getElementById("loader").style.display = "flex";
+  document.body.style.overflow = "hidden";
+
+  setTimeout(function(){
+    window.location.replace(url); // already good
+  }, 700);
+
+}
+</script>
 <!-- NAVBAR -->
 <div class="navbar">
 
