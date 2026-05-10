@@ -130,9 +130,9 @@ border-radius:10px;
 .group{
 background:white;
 border-radius:22px;
-padding:8px;
+padding:5px;
 box-shadow:0 12px 30px rgba(0,0,0,0.08);
-margin-bottom:18px;
+margin-bottom:10px;
 border:1px solid #eef2ff;
 }
 
@@ -147,7 +147,17 @@ border-radius:16px;
 cursor:pointer;
 transition:0.25s;
 }
+.item h4{
+  margin:0;              /* 🔥 remove default gap */
+  font-size:14px;
+  line-height:1.1;       /* 🔽 tighter */
+}
 
+.item p{
+  margin:2px 0 0;        /* 🔥 small gap from title */
+  font-size:11px;
+  line-height:1.2;       /* 🔽 tighter */
+}
 .item:hover{
 background:#f1f5ff;
 }
