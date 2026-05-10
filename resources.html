@@ -372,6 +372,12 @@ setTimeout(()=>{
 window.location = url;
 },700);
 }
+    // 🔥 CLEAR HISTORY EFFECT
+    history.pushState(null, "", location.href);
+
+    window.onpopstate = function () {
+      window.location.replace("home.html");
+    };
 </script>
 
 <!-- NAVBAR -->
