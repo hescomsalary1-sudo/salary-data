@@ -208,8 +208,8 @@ z-index:1000;
 flex:1;
 text-align:center;
 cursor:pointer;
+position:relative; /* ✅ ADD THIS */
 }
-
 .nav-icon{
 font-size:22px;
 color:#9ca3af;
@@ -253,6 +253,18 @@ margin-top:4px;
 /* CLICK EFFECT */
 .nav-item:active{
 transform:scale(0.9);
+}
+  /* ACTIVE TOP INDICATOR (HIGHLIGHTER) */
+.nav-item.active::before{
+  content:"";
+  position:absolute;
+  top:-8px;
+  left:50%;
+  transform:translateX(-50%);
+  width:26px;
+  height:3px;
+  border-radius:10px;
+  background:#1a2edb;
 }
 </style>
 </head>
