@@ -32,13 +32,15 @@ padding-bottom:75px;
     top: 0;
     left: 0;
     width: 100%;
+    box-sizing: border-box;   /* 🔥 IMPORTANT */
+
     z-index: 1100;
 
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 
-    padding: 15px 20px 25px;
+    padding: 15px 15px 25px;  /* 🔽 reduce side padding */
     height: 220px;
 
     background: linear-gradient(135deg,#0d1b8f,#1a2edb);
@@ -46,8 +48,6 @@ padding-bottom:75px;
 
     border-bottom-left-radius: 35px;
     border-bottom-right-radius: 35px;
-
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 .profile{
 width:55px;
@@ -62,7 +62,14 @@ display:flex;
 align-items:center;
 gap:12px;
 }
+.user-box{
+  display:flex;
+  align-items:center;
+  gap:12px;
 
+  width:100%;
+  box-sizing:border-box;   /* 🔥 VERY IMPORTANT */
+}
 .logout{
 cursor:pointer;
 font-size:22px;
@@ -91,7 +98,7 @@ body{
   color:white;
   border-radius:22px;
   padding:12px;
-
+ max-width:100%; 
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -117,7 +124,9 @@ font-size:20px;
 font-weight:bold;
 margin-top:5px;
 }
-
+*{
+  box-sizing:border-box;
+}
 /* MAIN BUTTON GRID */
 
 /* MAIN BUTTON GRID */
@@ -1748,10 +1757,10 @@ pointer-events: all;
     </div>
 
     <!-- RIGHT -->
-    <div style="display:flex;align-items:center;gap:15px;">
-      <span style="font-size:22px;cursor:pointer;" onclick="refreshApp()">🔄</span>
-      <span class="logout" onclick="logout()">🔓</span>
-    </div>
+    <div style="display:flex;align-items:center;gap:12px;flex-shrink:0;">
+  <span style="font-size:20px;cursor:pointer;" onclick="refreshApp()">🔄</span>
+  <span class="logout" onclick="logout()">🔓</span>
+</div>
 
   
 
