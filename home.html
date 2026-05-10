@@ -24,23 +24,13 @@ padding-bottom:75px;
 }
 /* HEADER */
 
-.top {
-    position: fixed; /* Keep it at the top */
- height: 250px;   /* fix height */
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1100; /* Higher than content and sidebar overlay */
-    box-sizing: border-box; /* Ensures padding doesn't affect width */
-    padding: 15px 20px 25px 20px; /* Adjusted padding for a fixed look */
-    background: linear-gradient(135deg,#0d1b8f,#1a2edb);
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom-left-radius: 0px; /* Slightly smaller radius for fixed header */
-    border-bottom-right-radius: 0px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Optional: adds depth */
+.top{
+position:relative;
+padding:20px;
+background: linear-gradient(135deg,#0d1b8f,#1a2edb);
+color:white;
+border-bottom-left-radius:30px;
+border-bottom-right-radius:30px;
 }
 .top{
   will-change: transform;
@@ -68,8 +58,8 @@ font-size:22px;
 
 
 .content {
-    padding: 20px;
-  
+    padding: 15px;
+  padding-top:0;
     padding-bottom: 90px;
  padding-top: 90px; /* same as header height */
 }
@@ -1658,6 +1648,37 @@ pointer-events: all;
 @keyframes spin{
   100%{ transform:rotate(360deg); }
 }
+
+  .salary-card-new{
+margin-top:20px;
+background:linear-gradient(135deg,#1e2fff,#3b4dff);
+padding:18px;
+border-radius:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+.salary-card-new small{
+font-size:11px;
+opacity:0.8;
+}
+
+.salary-card-new h2{
+margin:6px 0;
+font-size:22px;
+}
+
+.salary-card-new p{
+margin:0;
+font-size:12px;
+opacity:0.9;
+}
+
+.salary-card-new img{
+width:80px;
+}
 </style>
 </head>
 
@@ -1719,30 +1740,43 @@ pointer-events: all;
 
 <div class="top">
 
-<div class="user-box">
+  <!-- HEADER ROW -->
+  <div style="display:flex;justify-content:space-between;align-items:center;">
 
-<div style="display:flex;align-items:center;gap:10px;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="menu-btn" onclick="openSideNav()">☰</div>
 
-  <!-- MENU BUTTON -->
- <div class="menu-btn" onclick="openSideNav()">☰</div>
+      <div>
+        <div style="font-size:13px;opacity:0.8;">Welcome</div>
+        <strong id="empName">Loading...</strong>
+        <div id="empDesg" style="font-size:12px;opacity:0.8;"></div>
+      </div>
+    </div>
 
-  <!-- PROFILE -->
+    <div>
+      <span style="font-size:20px;margin-right:10px;cursor:pointer;" onclick="refreshApp()">🔄</span>
+      <span class="logout" onclick="logout()">🔒</span>
+    </div>
+
+  </div>
 
 
-</div>
+  <!-- 🔥 SALARY CARD INSIDE HEADER -->
+  <div class="salary-card-new">
 
-<div>
-<div>Welcome</div>
-<strong id="empName">Loading...</strong>
-<div id="empDesg" style="font-size:12px;opacity:0.8;"></div>
-</div>
+    <div>
+      <small>LAST MONTH SALARY</small>
+      <h2>₹ <span id="netSalary">--</span></h2>
+      <p>Net Pay</p>
 
-</div>
+      <div class="quick-info-btn" onclick="openLastSalary()">
+        Quick Info →
+      </div>
+    </div>
 
-<div>
-<span style="font-size:22px;margin-right:10px;cursor:pointer;" onclick="refreshApp()">🔄</span>
-<span class="logout" onclick="logout()">🔓</span>
-</div>
+    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135679.png">
+
+  </div>
 
 </div>
 
