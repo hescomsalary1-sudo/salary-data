@@ -528,6 +528,79 @@ z-index:2100;
 @keyframes spin{
   100%{ transform:rotate(360deg); }
 }
+
+  /* GRID FOR QUICK ACTIONS */
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-bottom:15px;
+}
+
+/* ACTION CARD */
+.action-card{
+background:white;
+border-radius:20px;
+padding:15px;
+display:flex;
+align-items:center;
+gap:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+cursor:pointer;
+position:relative;
+}
+
+.action-card h4{
+margin:0;
+font-size:14px;
+}
+
+.action-card p{
+margin:3px 0 0;
+font-size:12px;
+color:#777;
+}
+
+/* ICON COLORS */
+.purple{background:linear-gradient(135deg,#7c3aed,#4f46e5);}
+.green{background:linear-gradient(135deg,#22c55e,#15803d);}
+.orange{background:linear-gradient(135deg,#f59e0b,#d97706);}
+.red{background:linear-gradient(135deg,#ef4444,#b91c1c);}
+.blue{background:linear-gradient(135deg,#3b82f6,#1d4ed8);}
+
+/* SUPPORT BANNER */
+.support-banner{
+margin-top:20px;
+background:linear-gradient(135deg,#4f46e5,#2400b7);
+color:white;
+padding:18px;
+border-radius:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 15px 35px rgba(59,30,255,0.3);
+}
+
+.support-banner h3{
+margin:0;
+font-size:16px;
+}
+
+.support-banner p{
+margin:5px 0 0;
+font-size:12px;
+opacity:0.9;
+}
+
+.support-banner button{
+background:white;
+color:#2400b7;
+border:none;
+padding:10px 14px;
+border-radius:20px;
+font-weight:bold;
+cursor:pointer;
+}
 </style>
 </head>
 
@@ -588,38 +661,46 @@ z-index:2100;
 <div class="container">
 
 <!-- PRIMARY ACTIONS -->
+<!-- QUICK ACTIONS -->
 <div class="section-title">Quick Actions</div>
 
-<div class="group">
+<div class="grid">
 
-<div class="item" onclick="openPage('ask')">
-<div class="left">
-<div class="icon blue">❓</div>
-<div class="text">Ask Questions</div>
-</div>
-<div class="arrow">›</div>
+  <!-- ASK -->
+  <div class="action-card" onclick="openPage('ask')">
+    <div class="icon purple">❓</div>
+    <div>
+      <h4>Ask Questions</h4>
+      <p>Get answers from our community</p>
+    </div>
+    <div class="arrow">›</div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="action-card" onclick="openPage('contact')">
+    <div class="icon green">📞</div>
+    <div>
+      <h4>Contact Us</h4>
+      <p>Reach our support team</p>
+    </div>
+    <div class="arrow">›</div>
+  </div>
+
 </div>
 
-<div class="item" onclick="openPage('contact')">
-<div class="left">
-<div class="icon green">📞</div>
-<div class="text">Contact Us</div>
-</div>
-<div class="arrow">›</div>
-</div>
-
-</div>
 
 <!-- INFORMATION -->
 <div class="section-title">Information</div>
 
 <div class="group">
 
-
 <div class="item" onclick="openPage('privacy')">
 <div class="left">
-<div class="icon dark">🔒</div>
-<div class="text">Privacy Policy</div>
+<div class="icon purple">🔒</div>
+<div>
+<h4>Privacy Policy</h4>
+<p>Learn how we protect your data</p>
+</div>
 </div>
 <div class="arrow">›</div>
 </div>
@@ -627,7 +708,10 @@ z-index:2100;
 <div class="item" onclick="openPage('terms')">
 <div class="left">
 <div class="icon orange">📜</div>
-<div class="text">Terms & Conditions</div>
+<div>
+<h4>Terms & Conditions</h4>
+<p>Read our terms and conditions</p>
+</div>
 </div>
 <div class="arrow">›</div>
 </div>
@@ -635,7 +719,10 @@ z-index:2100;
 <div class="item" onclick="openPage('copyright')">
 <div class="left">
 <div class="icon red">©</div>
-<div class="text">Copyright Policy</div>
+<div>
+<h4>Copyright Policy</h4>
+<p>Understand our copyright terms</p>
+</div>
 </div>
 <div class="arrow">›</div>
 </div>
@@ -643,10 +730,26 @@ z-index:2100;
 <div class="item" onclick="openPage('org')">
 <div class="left">
 <div class="icon blue">🏢</div>
-<div class="text">Organization Chart</div>
+<div>
+<h4>Organization Chart</h4>
+<p>Explore our organization structure</p>
+</div>
 </div>
 <div class="arrow">›</div>
 </div>
+
+</div>
+
+
+<!-- SUPPORT BANNER -->
+<div class="support-banner">
+
+  <div>
+    <h3>Can’t find what you need?</h3>
+    <p>Our support team is ready to help you.</p>
+  </div>
+
+  <button onclick="openPage('contact')">Contact Us →</button>
 
 </div>
 
