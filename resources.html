@@ -128,7 +128,11 @@ transition:0.3s;
 .item:hover{
 transform:translateY(-3px);
 }
-
+.center-item{
+display:flex;
+justify-content:center;
+align-items:center;
+}
 /* ICON BOX */
 .icon-box{
 width:45px;
@@ -230,25 +234,30 @@ font-weight:600;
 
 /* CENTER BUTTON */
 .center-wrapper{
-transform:translateY(-18px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  transform:translateY(-18px);
 }
-
 .center-btn{
-width:60px;
-height:60px;
-border-radius:50%;
-background:#1a2edb;
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:26px;
-box-shadow:0 8px 20px rgba(0,0,0,0.3);
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  background: blue;
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:26px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.3);
+  animation:float 2s ease-in-out infinite;
 }
 
 .center-text{
-font-size:11px;
-margin-top:4px;
+  font-size:11px;
+  margin-top:4px;
+  color:#ff3d3d;
+  font-weight:600;
 }
 
 /* CLICK EFFECT */
@@ -266,6 +275,12 @@ transform:scale(0.9);
   border-radius:10px;
   background:#1a2edb;
 }
+  /* FLOAT EFFECT */
+@keyframes float{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-6px); }
+}
+
 </style>
 </head>
 
