@@ -16,9 +16,9 @@ padding-bottom:75px;
 
 .content {
     padding: 15px;
-    padding-top:280px;   /* 🔥 FIX */
+    padding-top: 260px; /* Header height (250px) + 10px margin */
     padding-bottom: 90px;
-    animation: slideUp 0.4s ease;
+    /* Remove slideUp animation if the shaking persists during initial load */
 }
   @keyframes slideUp {
   from { opacity: 0; transform: translateY(20px); }
@@ -27,30 +27,32 @@ padding-bottom:75px;
 /* HEADER */
 
 .top {
-  position: fixed;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     box-sizing: border-box;
-gap:12px;
+    gap: 12px;
     z-index: 1100;
-
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-
     padding: 15px 15px 8px;
 
-    min-height: 220px;   /* 🔥 FIX */
-    height: auto;        /* 🔥 FIX */
-    overflow: visible;   /* 🔥 FIX */
+    /* --- FIXES START HERE --- */
+    height: 250px;           /* Set a FIXED height instead of auto */
+    overflow: hidden;        /* Prevents internal elements from pushing the box */
+    
+    /* Hardware Acceleration: Forces the GPU to handle this layer */
+    transform: translate3d(0, 0, 0); 
+    backface-visibility: hidden;
+    will-change: transform;
+    /* ------------------------ */
 
     background: linear-gradient(135deg,#0d1b8f,#1a2edb);
     color: white;
-
     border-bottom-left-radius: 35px;
     border-bottom-right-radius: 35px;
-    
 }
 .profile{
 width:55px;
