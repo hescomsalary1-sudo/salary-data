@@ -76,7 +76,6 @@ body{
   padding:15px;
   display:flex;
   align-items:center;
-  justify-content:flex-start;
   gap:12px;
   box-shadow:0 10px 20px rgba(0,0,0,0.05);
   cursor:pointer;
@@ -87,7 +86,7 @@ body{
 .card:active{transform:scale(.95)}
 
 .icon{
-  font-size:24px;
+  font-size:22px;
   min-width:40px;
   height:40px;
   display:flex;
@@ -103,6 +102,7 @@ body{
 
 .text h3{
   font-size:14px;
+  margin:0;
 }
 
 /* SPINNER */
@@ -125,7 +125,7 @@ body{
 
 .card.loading .spinner{display:block}
 .card.loading .icon,
-.card.loading h3{
+.card.loading .text{
   opacity:.2;
 }
 
@@ -152,7 +152,6 @@ body{
   <h1>Forms & Formats</h1>
   <p>Access and download important documents</p>
 
-  <!-- SVG WAVE -->
   <div class="wave">
     <svg viewBox="0 0 500 150" preserveAspectRatio="none">
       <path d="M0,80 C150,150 350,0 500,80 L500,150 L0,150 Z"
@@ -170,57 +169,49 @@ body{
     <div class="card" onclick="openPDF(this,'els_format.pdf')">
       <div class="spinner"></div>
       <div class="icon">📘</div>
-      <div class="text"></div>
-      <h3>ELS Format</h3>
+      <div class="text"><h3>ELS Format</h3></div>
     </div>
 
     <div class="card" onclick="openPDF(this,'medical_bill.pdf')">
       <div class="spinner"></div>
       <div class="icon">🏥</div>
-      <div class="text"></div>
-      <h3>Medical Bill</h3>
+      <div class="text"><h3>Medical Bill</h3></div>
     </div>
 
     <div class="card" onclick="openPDF(this,'leave_format.pdf')">
       <div class="spinner"></div>
       <div class="icon">📝</div>
-      <div class="text"></div>
-      <h3>Leave Format</h3>
+      <div class="text"><h3>Leave Format</h3></div>
     </div>
 
     <div class="card" onclick="openPDF(this,'salary_bill.pdf')">
       <div class="spinner"></div>
       <div class="icon">💰</div>
-      <div class="text"></div>
-      <h3>Salary Bill</h3>
+      <div class="text"><h3>Salary Bill</h3></div>
     </div>
 
     <div class="card" onclick="openPDF(this,'')">
       <div class="spinner"></div>
       <div class="icon">📋</div>
-      <div class="text"></div>
-      <h3>CR Format</h3>
+      <div class="text"><h3>CR Format</h3></div>
     </div>
 
     <div class="card" onclick="openPDF(this,'performance_report.pdf')">
       <div class="spinner"></div>
       <div class="icon">👥</div>
-      <div class="text"></div>
-      <h3>Group A & B</h3>
+      <div class="text"><h3>Group A & B</h3></div>
     </div>
 
     <div class="card" onclick="openPDF(this,'performance_report.pdf')">
       <div class="spinner"></div>
       <div class="icon">📊</div>
-      <div class="text"></div>
-      <h3>Performance</h3>
+      <div class="text"><h3>Performance</h3></div>
     </div>
 
     <div class="card" onclick="openPDF(this,'ta_bill_format.pdf')">
       <div class="spinner"></div>
       <div class="icon">🚗</div>
-      <div class="text"></div>
-      <h3>TA Bill</h3>
+      <div class="text"><h3>TA Bill</h3></div>
     </div>
 
   </div>
@@ -234,7 +225,7 @@ body{
 
 </div>
 
-<!-- SCRIPT -->
+<!-- SCRIPT (UNCHANGED) -->
 <script>
 function openPDF(card,file){
 
