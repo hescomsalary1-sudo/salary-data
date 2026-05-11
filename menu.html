@@ -657,7 +657,7 @@ let month=String(d.getMonth()+1).padStart(2,"0");
 fetch("https://hescomsalary1-sudo.github.io/salary-data/salary%20.csv")
 .then(r=>r.text())
 .then(data=>{
-
+let headers = rows[0].split(",").map(h => h.trim());
 let rows=data.trim().split("\n");
 let row=null;
 
