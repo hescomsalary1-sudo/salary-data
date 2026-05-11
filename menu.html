@@ -638,6 +638,7 @@ flex-direction:row;
 </div>
 
 <script>
+  console.log("User:", user);
 const loader=document.getElementById("loader");
 
 function go(p){
@@ -662,12 +663,22 @@ let row=null;
 
 for(let i=1;i<rows.length;i++){
 let c=rows[i].split(",");
-if(c[0]===user && c[1]==year && c[2]==month){
+if(
+  c[0].trim() === user &&
+  c[1].trim() == year &&
+  c[2].trim() == month
+){
 row=c; break;
 }
 }
 
-if(!row){ loader.style.display="none"; return; }
+if(!row){
+  document.getElementById("earn").innerText = "₹0";
+  document.getElementById("ded").innerText = "₹0";
+  document.getElementById("net").innerText = "₹0";
+  loader.style.display="none";
+  return;
+}
 
 function num(v){return Number(v)||0}
 
