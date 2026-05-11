@@ -116,13 +116,31 @@ gap:12px;
 .icon{
   width:42px;
   height:42px;
-  border-radius:12px;
+  border-radius:50%;
   display:flex;
   align-items:center;
   justify-content:center;
-  color:white;
-  font-size:18px;
+  margin:0 auto 10px;
 }
+
+.material-icons{
+  font-size:20px;
+}
+
+.blue{
+  background:#e0edff;
+  color:#1e63ff;
+}
+
+.red-bg{
+  background:#ffe4e4;
+  color:#ef4444;
+}
+
+.white{
+  background:rgba(255,255,255,0.2);
+  color:white;
+}}
 
 /* COLORS */
 .blue{background:#3b82f6;}
@@ -260,6 +278,75 @@ flex-direction:row;
 .white{
   background:rgba(255,255,255,0.2);
   color:white;
+}
+  /* ===== SUMMARY FIX ===== */
+
+.summary-container{
+  margin:15px;
+  padding:18px;
+  background:#ffffff;
+  border-radius:22px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.summary-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+.summary-header h3{
+  margin:0;
+  font-size:18px;
+  color:#1e2a4a;
+}
+
+.view{
+  font-size:14px;
+  color:#3b82f6;
+}
+
+/* cards row */
+.summary-cards{
+  display:flex;
+  gap:12px;
+}
+
+/* override old card */
+.summary-cards .card{
+  flex:1;
+  padding:15px;
+  border-radius:16px;
+  text-align:center;
+  background:#f3f6fc;
+}
+
+/* net card */
+.summary-cards .net{
+  background:linear-gradient(135deg,#1e63ff,#0039cb);
+  color:white;
+}
+
+/* text */
+.title{
+  font-size:13px;
+  margin-top:5px;
+  color:#555;
+}
+
+.net .title{
+  color:#dbeafe;
+}
+
+.amount{
+  font-size:18px;
+  font-weight:700;
+  margin-top:5px;
+}
+
+.red-text{
+  color:#ef4444;
 }
 </style>
 </head>
