@@ -229,6 +229,38 @@ flex-direction:row;
   display:inline-block;
   margin-right:6px;
 }
+
+  .icon{
+  width:42px;
+  height:42px;
+  margin:auto;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:10px;
+}
+
+/* ICON SIZE */
+.material-icons{
+  font-size:20px;
+}
+
+/* COLORS */
+.blue{
+  background:#e0edff;
+  color:#1e63ff;
+}
+
+.red-bg{
+  background:#ffe4e4;
+  color:#ef4444;
+}
+
+.white{
+  background:rgba(255,255,255,0.2);
+  color:white;
+}
 </style>
 </head>
 
@@ -245,21 +277,44 @@ flex-direction:row;
 </div>
 
 <!-- TOP CONTAINER -->
-<div class="container">
-  <h3 class="section-title">Last Month Summary</h3>
-<div class="summary">
-<div class="card">
-Earnings<br><b id="earn">₹0</b>
-</div>
+<div class="summary-container">
 
-<div class="card">
-Deductions<br><b id="ded">₹0</b>
-</div>
+  <div class="summary-header">
+    <h3>Last Month Summary</h3>
+    <span class="view">View Details →</span>
+  </div>
 
-<div class="card net">
-Net<br><b id="net">₹0</b>
-</div>
-</div>
+  <div class="summary-cards">
+
+    <!-- Earnings -->
+    <div class="card light">
+      <div class="icon blue">
+        <span class="material-icons">account_balance_wallet</span>
+      </div>
+      <div class="title">Earnings</div>
+      <div class="amount" id="earn">₹39,000</div>
+    </div>
+
+    <!-- Deductions -->
+    <div class="card light">
+      <div class="icon red-bg">
+        <span class="material-icons">south</span>
+      </div>
+      <div class="title">Deductions</div>
+      <div class="amount red-text" id="ded">₹22,650</div>
+    </div>
+
+    <!-- Net Salary -->
+    <div class="card net">
+      <div class="icon white">
+        <span class="material-icons">account_balance_wallet</span>
+      </div>
+      <div class="title">Net Salary</div>
+      <div class="amount" id="net">₹16,350</div>
+    </div>
+
+  </div>
+
 </div>
 
 <!-- PIE + LIST CONTAINER -->
