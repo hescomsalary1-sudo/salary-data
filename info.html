@@ -225,12 +225,22 @@ body.no-scroll {
   </div>
 
   <!-- WAVE -->
-  <div class="wave">
-    <svg viewBox="0 0 500 150" preserveAspectRatio="none">
-      <path d="M0,80 C150,150 350,0 500,80 L500,150 L0,150 Z"
-        style="background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);"></path>
-    </svg>
-  </div>
+<div class="wave">
+  <svg viewBox="0 0 500 150" preserveAspectRatio="none">
+
+    <defs>
+      <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#e6ecff"/>
+        <stop offset="50%" stop-color="#dfe7ff"/>
+        <stop offset="100%" stop-color="#f0ebff"/>
+      </linearGradient>
+    </defs>
+
+    <path d="M0,80 C150,150 350,0 500,80 L500,150 L0,150 Z"
+      fill="url(#waveGradient)"></path>
+
+  </svg>
+</div>
 
 </div>
 
