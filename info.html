@@ -153,12 +153,86 @@ body.no-scroll {
     overflow: hidden;
     height: 100vh;
 }
+
+    /* NEW HEADER */
+.header{
+  position:relative;
+  background:linear-gradient(135deg,#2400b7,#5f2cff);
+  color:white;
+  padding:20px 15px 70px;
+}
+
+/* TOP ROW */
+.header-top{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+/* BACK BUTTON */
+.back{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:white;
+  color:#2400b7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  cursor:pointer;
+}
+
+/* TITLE */
+.title{
+  font-weight:bold;
+  font-size:18px;
+}
+
+.title p{
+  margin:2px 0 0;
+  font-size:12px;
+  opacity:.85;
+}
+
+/* WAVE */
+.wave{
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:70px;
+}
+
+.wave svg{
+  width:100%;
+  height:100%;
+}
 </style>
 </head>
 
 <body>
 
-<div id="header">💬 Welcome to Smart Support</div>
+<div class="header">
+
+  <div class="header-top">
+    <div class="back" onclick="history.back()">❮</div>
+
+    <div class="title">
+      💬 Smart Support
+      <p>Ask anything about salary, leave & more</p>
+    </div>
+  </div>
+
+  <!-- WAVE -->
+  <div class="wave">
+    <svg viewBox="0 0 500 150" preserveAspectRatio="none">
+      <path d="M0,80 C150,150 350,0 500,80 L500,150 L0,150 Z"
+        style="fill:#eef2f7;"></path>
+    </svg>
+  </div>
+
+</div>
 
 <div id="chat-container"></div>
 
