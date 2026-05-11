@@ -638,7 +638,7 @@ flex-direction:row;
 </div>
 
 <script>
-  console.log("User:", user);
+  
 const loader=document.getElementById("loader");
 
 function go(p){
@@ -647,7 +647,7 @@ setTimeout(()=>location=p,600);
 }
 
 let user=localStorage.getItem("currentUser");
-
+console.log("User:", user);
 /* PREVIOUS MONTH */
 let d=new Date();
 d.setMonth(d.getMonth()-1);
@@ -725,8 +725,13 @@ grad.push(`${d.color} ${angle}% ${angle+p}%`);
 angle+=p;
 });
 
-document.getElementById("pie").style.background=
-`conic-gradient(${grad.join(",")})`;
+if(total > 0){
+  document.getElementById("pie").style.background =
+  `conic-gradient(${grad.join(",")})`;
+}else{
+  document.getElementById("pie").style.background =
+  "#e5e7eb"; // empty state
+}
 
 /* LIST */
 let html="";
