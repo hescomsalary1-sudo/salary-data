@@ -12,61 +12,85 @@ body{
   background:#f4f7fb;
 }
 
-/* HEADER */
+/* HEADER WITH WAVE */
 .header{
+  position:relative;
   background:linear-gradient(135deg,#0f4bd9,#1e74ff);
   color:white;
-  padding:20px;
-  border-bottom-left-radius:40px;
-  border-bottom-right-radius:40px;
+  padding:20px 20px 80px;
 }
 
-.menu{
+.back{
   width:40px;height:40px;
-  border-radius:50%;
   background:white;
   color:#1e74ff;
+  border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  font-size:20px;
+  font-size:18px;
+  cursor:pointer;
 }
 
-.header h1{margin-top:15px;font-size:26px;}
-.header p{font-size:14px;margin-top:5px;opacity:.9}
+.header h1{
+  margin-top:15px;
+  font-size:26px;
+}
+
+.header p{
+  font-size:14px;
+  opacity:.9;
+  margin-top:5px;
+}
+
+/* WAVE */
+.wave{
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:80px;
+}
+
+.wave svg{
+  width:100%;
+  height:100%;
+  display:block;
+}
 
 /* CONTENT */
-.container{padding:15px;margin-top:10px}
+.container{
+  padding:15px;
+  margin-top:-50px;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+}
 
 /* CARD */
 .card{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
   background:white;
-  padding:15px;
-  border-radius:18px;
-  margin-bottom:15px;
+  border-radius:20px;
+  padding:20px 10px;
+  text-align:center;
   box-shadow:0 10px 20px rgba(0,0,0,0.05);
   cursor:pointer;
   position:relative;
   overflow:hidden;
 }
 
-.card:active{transform:scale(.96)}
-
-.left{display:flex;align-items:center;gap:12px}
+.card:active{transform:scale(.95)}
 
 .icon{
-  width:50px;height:50px;
-  border-radius:15px;
-  background:linear-gradient(135deg,#dbe8ff,#ffffff);
-  display:flex;align-items:center;justify-content:center;
-  font-size:22px;
+  font-size:28px;
+  margin-bottom:10px;
 }
 
-.text h3{font-size:16px}
-.text p{font-size:12px;color:#666}
-
-.arrow{font-size:18px;color:#aaa}
+.card h3{
+  font-size:14px;
+}
 
 /* SPINNER */
 .spinner{
@@ -74,7 +98,7 @@ body{
   position:absolute;
   top:50%;left:50%;
   transform:translate(-50%,-50%);
-  width:28px;height:28px;
+  width:26px;height:26px;
   border:3px solid rgba(0,0,0,0.1);
   border-top:3px solid #1e74ff;
   border-radius:50%;
@@ -87,41 +111,21 @@ body{
 }
 
 .card.loading .spinner{display:block}
-.card.loading .left,
-.card.loading .arrow{
+.card.loading .icon,
+.card.loading h3{
   opacity:.2;
 }
 
 /* TIPS */
 .tips{
+  margin-top:20px;
   background:linear-gradient(135deg,#e8f0ff,#ffffff);
   padding:15px;
   border-radius:20px;
-  margin-top:20px;
 }
 
 .tips h3{color:#1e74ff;margin-bottom:8px}
 .tips p{font-size:13px;color:#555}
-
-/* BOTTOM NAV */
-.bottom{
-  position:fixed;
-  bottom:0;
-  width:100%;
-  background:white;
-  display:flex;
-  justify-content:space-around;
-  padding:10px 0;
-  box-shadow:0 -5px 20px rgba(0,0,0,0.05);
-}
-
-.bottom div{
-  text-align:center;
-  font-size:12px;
-  color:#777;
-}
-
-.bottom .active{color:#1e74ff}
 </style>
 </head>
 
@@ -129,109 +133,75 @@ body{
 
 <!-- HEADER -->
 <div class="header">
-  <div class="menu">☰</div>
+
+  <div class="back" onclick="history.back()">❮</div>
+
   <h1>Forms & Formats</h1>
-  <p>Access and download important documents in one place</p>
+  <p>Access and download important documents</p>
+
+  <!-- SVG WAVE -->
+  <div class="wave">
+    <svg viewBox="0 0 500 150" preserveAspectRatio="none">
+      <path d="M0,80 C150,150 350,0 500,80 L500,150 L0,150 Z"
+        style="stroke:none; fill:#f4f7fb;"></path>
+    </svg>
+  </div>
+
 </div>
 
 <!-- CONTENT -->
 <div class="container">
 
-  <!-- CARD -->
-  <div class="card" onclick="openPDF(this,'els_format.pdf')">
-    <div class="spinner"></div>
-    <div class="left">
+  <div class="grid">
+
+    <div class="card" onclick="openPDF(this,'els_format.pdf')">
+      <div class="spinner"></div>
       <div class="icon">📘</div>
-      <div class="text">
-        <h3>ELS Format</h3>
-        <p>Employee Leave Settlement</p>
-      </div>
+      <h3>ELS Format</h3>
     </div>
-    <div class="arrow">›</div>
-  </div>
 
-  <div class="card" onclick="openPDF(this,'medical_bill.pdf')">
-    <div class="spinner"></div>
-    <div class="left">
+    <div class="card" onclick="openPDF(this,'medical_bill.pdf')">
+      <div class="spinner"></div>
       <div class="icon">🏥</div>
-      <div class="text">
-        <h3>Medical Bill</h3>
-        <p>Healthcare Reimbursement</p>
-      </div>
+      <h3>Medical Bill</h3>
     </div>
-    <div class="arrow">›</div>
-  </div>
 
-  <div class="card" onclick="openPDF(this,'leave_format.pdf')">
-    <div class="spinner"></div>
-    <div class="left">
+    <div class="card" onclick="openPDF(this,'leave_format.pdf')">
+      <div class="spinner"></div>
       <div class="icon">📝</div>
-      <div class="text">
-        <h3>Leave Format</h3>
-        <p>Official Leave Application</p>
-      </div>
+      <h3>Leave Format</h3>
     </div>
-    <div class="arrow">›</div>
-  </div>
 
-  <div class="card" onclick="openPDF(this,'salary_bill.pdf')">
-    <div class="spinner"></div>
-    <div class="left">
+    <div class="card" onclick="openPDF(this,'salary_bill.pdf')">
+      <div class="spinner"></div>
       <div class="icon">💰</div>
-      <div class="text">
-        <h3>Salary Bill</h3>
-        <p>Salary Slip Format</p>
-      </div>
+      <h3>Salary Bill</h3>
     </div>
-    <div class="arrow">›</div>
-  </div>
 
-  <div class="card" onclick="openPDF(this,'')">
-    <div class="spinner"></div>
-    <div class="left">
+    <div class="card" onclick="openPDF(this,'')">
+      <div class="spinner"></div>
       <div class="icon">📋</div>
-      <div class="text">
-        <h3>CR Format</h3>
-        <p>Credit Report Format</p>
-      </div>
+      <h3>CR Format</h3>
     </div>
-    <div class="arrow">›</div>
-  </div>
 
-  <div class="card" onclick="openPDF(this,'performance_report.pdf')">
-    <div class="spinner"></div>
-    <div class="left">
+    <div class="card" onclick="openPDF(this,'performance_report.pdf')">
+      <div class="spinner"></div>
       <div class="icon">👥</div>
-      <div class="text">
-        <h3>Group A & B</h3>
-        <p>Group Documents</p>
-      </div>
+      <h3>Group A & B</h3>
     </div>
-    <div class="arrow">›</div>
-  </div>
 
-  <div class="card" onclick="openPDF(this,'performance_report.pdf')">
-    <div class="spinner"></div>
-    <div class="left">
+    <div class="card" onclick="openPDF(this,'performance_report.pdf')">
+      <div class="spinner"></div>
       <div class="icon">📊</div>
-      <div class="text">
-        <h3>Performance</h3>
-        <p>Performance Report</p>
-      </div>
+      <h3>Performance</h3>
     </div>
-    <div class="arrow">›</div>
-  </div>
 
-  <div class="card" onclick="openPDF(this,'ta_bill_format.pdf')">
-    <div class="spinner"></div>
-    <div class="left">
+    <div class="card" onclick="openPDF(this,'ta_bill_format.pdf')">
+      <div class="spinner"></div>
       <div class="icon">🚗</div>
-      <div class="text">
-        <h3>TA Bill</h3>
-        <p>Travel Allowance Bill</p>
-      </div>
+      <h3>TA Bill</h3>
     </div>
-    <div class="arrow">›</div>
+
   </div>
 
   <!-- TIPS -->
@@ -243,19 +213,12 @@ body{
 
 </div>
 
-<!-- BOTTOM -->
-<div class="bottom">
-  <div class="active">🏠<br>Home</div>
-  <div>⬇️<br>Downloads</div>
-  <div>⚙️<br>Settings</div>
-</div>
-
 <!-- SCRIPT -->
 <script>
 function openPDF(card,file){
 
   if(!file || file.trim()===""){
-    alert("No data found for this file");
+    alert("No data found");
     return;
   }
 
