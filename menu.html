@@ -689,26 +689,32 @@ let earn=0;
 for(let i=3;i<=19;i++) earn+=num(row[i]);
 
 /* DEDUCTIONS */
-let names=[
+let names = [
 "LIC","IT","PT","Society","PLI","Union","SC/ST","Rent",
 "Bank","Family","Festival","PC10","PC14","LWF","Recovery","Other"
 ];
 
-let deductions=[];
+let deductions = [];
 
-for(let i=20;i<=35;i++){
-  let raw = row[i];
-  let v = parseFloat(raw?.toString().trim()) || 0;
+names.forEach(name => {
 
-  console.log(names[i-20], raw, v); // debug
+  let index = headers.findIndex(h => h.toLowerCase() === name.toLowerCase());
 
-  if(v !== 0){
-    deductions.push({
-      name:names[i-20],
-      value:v
-    });
+  if(index !== -1){
+    let raw = row[index];
+    let v = parseFloat(raw?.toString().trim()) || 0;
+
+    console.log(name, index, raw, v); // debug
+
+    if(v !== 0){
+      deductions.push({
+        name: name,
+        value: v
+      });
+    }
   }
-}
+
+});
 
 let totalDed=deductions.reduce((a,b)=>a+b.value,0);
 let net=earn-totalDed;
