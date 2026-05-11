@@ -71,61 +71,85 @@ body{
 
 /* CARD */
 .card{
-  background:white;
-  border-radius:20px;
-  padding:15px;
+  background: linear-gradient(145deg,#f5f7fb,#e9edf5);
+  border-radius:22px;
+  padding:18px;
   display:flex;
   align-items:center;
-  gap:12px;
-  box-shadow:0 10px 20px rgba(0,0,0,0.05);
+  justify-content:space-between;
+  box-shadow:
+    8px 8px 20px rgba(0,0,0,0.05),
+    -8px -8px 20px rgba(255,255,255,0.8);
   cursor:pointer;
   position:relative;
   overflow:hidden;
 }
 
 .card:active{transform:scale(.95)}
+.left{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
 
+/* ICON */
 .icon{
-  font-size:22px;
-  min-width:40px;
-  height:40px;
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  background:linear-gradient(145deg,#e6ecf7,#ffffff);
   display:flex;
   align-items:center;
   justify-content:center;
-  background:#eef3ff;
-  border-radius:12px;
+  font-size:24px;
+  box-shadow:
+    inset 4px 4px 8px rgba(0,0,0,0.05),
+    inset -4px -4px 8px rgba(255,255,255,0.8);
 }
 
-.text{
-  text-align:left;
-}
-
+/* TEXT */
 .text h3{
-  font-size:14px;
+  font-size:16px;
   margin:0;
+  font-weight:600;
 }
 
+.text p{
+  font-size:13px;
+  color:#6c757d;
+  margin-top:4px;
+}
+.arrow{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:#e6f0ff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  color:#2d6cdf;
+}
 /* SPINNER */
 .spinner{
   display:none;
   position:absolute;
   top:50%;left:50%;
   transform:translate(-50%,-50%);
-  width:26px;height:26px;
+  width:28px;height:28px;
   border:3px solid rgba(0,0,0,0.1);
-  border-top:3px solid #1e74ff;
+  border-top:3px solid #2d6cdf;
   border-radius:50%;
   animation:spin .8s linear infinite;
 }
-
 @keyframes spin{
   0%{transform:translate(-50%,-50%) rotate(0)}
   100%{transform:translate(-50%,-50%) rotate(360deg)}
 }
 
 .card.loading .spinner{display:block}
-.card.loading .icon,
-.card.loading .text{
+.card.loading .left,
+.card.loading .arrow{
   opacity:.2;
 }
 
@@ -165,54 +189,100 @@ body{
 <div class="container">
 
   <div class="grid">
+  <div class="card" onclick="openPDF(this,'els_format.pdf')">
+  <div class="spinner"></div>
+  <div class="left">
+    <div class="icon">📘</div>
+    <div class="text">
+      <h3>ELS Format</h3>
+      <p>Employee Leave Settlement</p>
+    </div>
+  </div>
+  <div class="arrow">›</div>
+</div>
 
     <div class="card" onclick="openPDF(this,'els_format.pdf')">
-      <div class="spinner"></div>
-      <div class="icon">📘</div>
-      <div class="text"><h3>ELS Format</h3></div>
+  <div class="spinner"></div>
+  <div class="left">
+    <div class="icon">📘</div>
+    <div class="text">
+      <h3>ELS Format</h3>
+      <p>Employee Leave Settlement</p>
     </div>
+  </div>
+  <div class="arrow">›</div>
+</div>
 
-    <div class="card" onclick="openPDF(this,'medical_bill.pdf')">
-      <div class="spinner"></div>
-      <div class="icon">🏥</div>
-      <div class="text"><h3>Medical Bill</h3></div>
+  <div class="card" onclick="openPDF(this,'els_format.pdf')">
+  <div class="spinner"></div>
+  <div class="left">
+    <div class="icon">📘</div>
+    <div class="text">
+      <h3>ELS Format</h3>
+      <p>Employee Leave Settlement</p>
     </div>
+  </div>
+  <div class="arrow">›</div>
+</div>
 
-    <div class="card" onclick="openPDF(this,'leave_format.pdf')">
-      <div class="spinner"></div>
-      <div class="icon">📝</div>
-      <div class="text"><h3>Leave Format</h3></div>
+  <div class="card" onclick="openPDF(this,'els_format.pdf')">
+  <div class="spinner"></div>
+  <div class="left">
+    <div class="icon">📘</div>
+    <div class="text">
+      <h3>ELS Format</h3>
+      <p>Employee Leave Settlement</p>
     </div>
+  </div>
+  <div class="arrow">›</div>
+</div>
 
-    <div class="card" onclick="openPDF(this,'salary_bill.pdf')">
-      <div class="spinner"></div>
-      <div class="icon">💰</div>
-      <div class="text"><h3>Salary Bill</h3></div>
+   <div class="card" onclick="openPDF(this,'els_format.pdf')">
+  <div class="spinner"></div>
+  <div class="left">
+    <div class="icon">📘</div>
+    <div class="text">
+      <h3>ELS Format</h3>
+      <p>Employee Leave Settlement</p>
     </div>
+  </div>
+  <div class="arrow">›</div>
+</div>
 
-    <div class="card" onclick="openPDF(this,'')">
-      <div class="spinner"></div>
-      <div class="icon">📋</div>
-      <div class="text"><h3>CR Format</h3></div>
+ <div class="card" onclick="openPDF(this,'els_format.pdf')">
+  <div class="spinner"></div>
+  <div class="left">
+    <div class="icon">📘</div>
+    <div class="text">
+      <h3>ELS Format</h3>
+      <p>Employee Leave Settlement</p>
     </div>
+  </div>
+  <div class="arrow">›</div>
+</div>
 
-    <div class="card" onclick="openPDF(this,'performance_report.pdf')">
-      <div class="spinner"></div>
-      <div class="icon">👥</div>
-      <div class="text"><h3>Group A & B</h3></div>
+ <div class="card" onclick="openPDF(this,'els_format.pdf')">
+  <div class="spinner"></div>
+  <div class="left">
+    <div class="icon">📘</div>
+    <div class="text">
+      <h3>ELS Format</h3>
+      <p>Employee Leave Settlement</p>
     </div>
-
-    <div class="card" onclick="openPDF(this,'performance_report.pdf')">
-      <div class="spinner"></div>
-      <div class="icon">📊</div>
-      <div class="text"><h3>Performance</h3></div>
+  </div>
+  <div class="arrow">›</div>
+</div>
+   <div class="card" onclick="openPDF(this,'els_format.pdf')">
+  <div class="spinner"></div>
+  <div class="left">
+    <div class="icon">📘</div>
+    <div class="text">
+      <h3>ELS Format</h3>
+      <p>Employee Leave Settlement</p>
     </div>
-
-    <div class="card" onclick="openPDF(this,'ta_bill_format.pdf')">
-      <div class="spinner"></div>
-      <div class="icon">🚗</div>
-      <div class="text"><h3>TA Bill</h3></div>
-    </div>
+  </div>
+  <div class="arrow">›</div>
+</div>
 
   </div>
 
