@@ -689,22 +689,22 @@ let earn=0;
 for(let i=3;i<=19;i++) earn+=num(row[i]);
 
 /* DEDUCTIONS */
-let names = [
-"LIC","IT","PT","Society","PLI","Union","SC/ST","Rent",
-"Bank","Family","Festival","PC10","PC14","LWF","Recovery","Other"
-];
+let rows = data.trim().split("\n");
+let headers = rows[0].split(",").map(h => h.trim());
 
 let deductions = [];
 
 names.forEach(name => {
 
-  let index = headers.findIndex(h => h.toLowerCase() === name.toLowerCase());
+  let index = headers.findIndex(h => 
+    h.toLowerCase().includes(name.toLowerCase())
+  );
 
   if(index !== -1){
     let raw = row[index];
     let v = parseFloat(raw?.toString().trim()) || 0;
 
-    console.log(name, index, raw, v); // debug
+    console.log(name, index, raw, v);
 
     if(v !== 0){
       deductions.push({
