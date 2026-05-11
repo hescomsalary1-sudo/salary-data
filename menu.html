@@ -656,122 +656,107 @@ let month=String(d.getMonth()+1).padStart(2,"0");
 
 fetch("https://hescomsalary1-sudo.github.io/salary-data/salary%20.csv")
 .then(r=>r.text())
-.then(data=>{
-let headers = rows[0].split(",").map(h => h.trim());
-let rows=data.trim().split("\n");
-let row=null;
+.then(data => {
 
-for(let i=1;i<rows.length;i++){
-let c=rows[i].split(",");
-if(
-  c[0].trim() === user &&
-  c[1].trim() == year &&
-  c[2].trim() == month
-){
-row=c; break;
-}
-}
+  let rows = data.trim().split("\n");
+  let headers = rows[0].split(",").map(h => h.trim());
 
-if(!row){
-  document.getElementById("earn").innerText = "₹0";
-  document.getElementById("ded").innerText = "₹0";
-  document.getElementById("net").innerText = "₹0";
-  loader.style.display="none";
-  return;
-}
+  let row = null;
 
-function num(v){
-  return parseFloat(v?.toString().trim()) || 0;
-}
+  for(let i=1;i<rows.length;i++){
+    let c = rows[i].split(",");
 
-/* EARNINGS */
-let earn=0;
-for(let i=3;i<=19;i++) earn+=num(row[i]);
-
-/* DEDUCTIONS */
-let rows = data.trim().split("\n");
-let headers = rows[0].split(",").map(h => h.trim());
-
-let deductions = [];
-
-names.forEach(name => {
-
-  let index = headers.findIndex(h => 
-    h.toLowerCase().includes(name.toLowerCase())
-  );
-
-  if(index !== -1){
-    let raw = row[index];
-    let v = parseFloat(raw?.toString().trim()) || 0;
-
-    console.log(name, index, raw, v);
-
-    if(v !== 0){
-      deductions.push({
-        name: name,
-        value: v
-      });
+    if(
+      c[0].trim() === user &&
+      c[1].trim() == year &&
+      c[2].trim() == month
+    ){
+      row = c;
+      break;
     }
   }
 
-});
+  if(!row){
+    document.getElementById("earn").innerText = "₹0";
+    document.getElementById("ded").innerText = "₹0";
+    document.getElementById("net").innerText = "₹0";
+    loader.style.display="none";
+    return;
+  }
 
-let totalDed=deductions.reduce((a,b)=>a+b.value,0);
-let net=earn-totalDed;
+  function num(v){
+    return parseFloat(v?.toString().trim()) || 0;
+  }
 
-/* UI */
-earnElem=document.getElementById("earn");
-dedElem=document.getElementById("ded");
-netElem=document.getElementById("net");
+  /* EARNINGS */
+  let earn = 0;
+  for(let i=3;i<=19;i++) earn += num(row[i]);
 
-earnElem.innerText="₹"+earn;
-dedElem.innerText="₹"+totalDed;
-netElem.innerText="₹"+net;
+  /* DEDUCTIONS */
+  let names = [
+    "LIC","IT","PT","Society","PLI","Union","SC/ST","Rent",
+    "Bank","Family","Festival","PC10","PC14","LWF","Recovery","Other"
+  ];
 
-/* PIE */
-let dataArr = deductions.map((d,i)=>({
-  value: d.value,
-  color: `hsl(${i*25},70%,50%)`
-}));
+  let deductions = [];
 
-let total=dataArr.reduce((a,b)=>a+b.value,0);
-let angle=0,grad=[];
+  names.forEach(name => {
 
-dataArr.forEach(d=>{
-let p=(d.value/total)*100;
-grad.push(`${d.color} ${angle}% ${angle+p}%`);
-angle+=p;
-});
+    let index = headers.findIndex(h =>
+      h.toLowerCase().includes(name.toLowerCase())
+    );
 
-if(total > 0){
+    if(index !== -1){
+      let v = num(row[index]);
+
+      if(v !== 0){
+        deductions.push({
+          name: name,
+          value: v
+        });
+      }
+    }
+
+  });
+
+  let totalDed = deductions.reduce((a,b)=>a+b.value,0);
+  let net = earn - totalDed;
+
+  /* UI */
+  document.getElementById("earn").innerText = "₹"+earn;
+  document.getElementById("ded").innerText = "₹"+totalDed;
+  document.getElementById("net").innerText = "₹"+net;
+
+  /* PIE */
+  let angle=0,grad=[];
+
+  deductions.forEach((d,i)=>{
+    let p = (d.value/totalDed)*100;
+    let color = `hsl(${i*25},70%,50%)`;
+    grad.push(`${color} ${angle}% ${angle+p}%`);
+    angle += p;
+  });
+
   document.getElementById("pie").style.background =
-  `conic-gradient(${grad.join(",")})`;
-}else{
-  document.getElementById("pie").style.background =
-  "#e5e7eb"; // empty state
-}
+    totalDed > 0 ? `conic-gradient(${grad.join(",")})` : "#e5e7eb";
 
-/* LIST */
-let html="";
+  /* LIST */
+  let html="";
+  deductions.forEach((d,i)=>{
+    html+=`
+    <div class="item">
+      <span>
+        <span class="color-dot" style="background:hsl(${i*25},70%,50%)"></span>
+        ${d.name}
+      </span>
+      <span>₹${d.value}</span>
+    </div>`;
+  });
 
-/* ADD EARNINGS FIRST */
+  document.getElementById("list").innerHTML = html;
+  document.getElementById("totalDed").innerText = "₹"+totalDed;
 
-
-/* THEN DEDUCTIONS */
-deductions.forEach((d,i)=>{
-html+=`
-<div class="item">
-  <span>
-    <span class="color-dot" style="background:hsl(${i*25},70%,50%)"></span>
-    ${d.name}
-  </span>
-  <span>₹${d.value}</span>
-</div>`;
-});
-
-document.getElementById("list").innerHTML=html;
-document.getElementById("totalDed").innerText = "₹" + totalDed;
-loader.style.display="none";
+  loader.style.display="none";
 
 })
 .catch(()=>{ loader.style.display="none"; });
