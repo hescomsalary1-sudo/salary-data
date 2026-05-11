@@ -351,24 +351,34 @@ flex-direction:row;
 
   /* ===== PREMIUM HEADER ===== */
 
+/* HEADER */
 .header{
   position:relative;
   background: linear-gradient(135deg,#1e63ff,#4aa3ff);
   color:white;
-  padding:20px 15px 70px;
+  padding:15px 15px 60px;
   border-bottom-left-radius:30px;
   border-bottom-right-radius:30px;
   overflow:hidden;
 }
 
+/* TOP ROW */
 .header-top{
   display:flex;
+  align-items:center;
   justify-content:space-between;
 }
 
+/* TITLE CENTER */
+.header-title{
+  font-size:20px;
+  font-weight:700;
+}
+
+/* BUTTON */
 .circle-btn{
-  width:42px;
-  height:42px;
+  width:40px;
+  height:40px;
   border-radius:50%;
   background:rgba(255,255,255,0.2);
   display:flex;
@@ -376,23 +386,10 @@ flex-direction:row;
   justify-content:center;
 }
 
-.header-text{
-  margin-top:20px;
-}
-
-.hello{
-  font-size:16px;
-  opacity:0.9;
-}
-
-.main-title{
-  font-size:26px;
-  font-weight:700;
-  margin:5px 0;
-}
-
+/* SUBTEXT */
 .subtitle{
-  font-size:14px;
+  margin-top:10px;
+  font-size:13px;
   opacity:0.9;
 }
 
@@ -406,7 +403,7 @@ flex-direction:row;
 }
 
 .wave path{
-  fill:#e9efff; /* match your body bg */
+  fill:#e9efff;
 }
 </style>
 </head>
@@ -417,22 +414,25 @@ flex-direction:row;
 
 <div class="header">
 
+  <!-- TOP ROW -->
   <div class="header-top">
-    <div class="circle-btn">
-      <span class="material-icons">menu</span>
+    
+    <div class="circle-btn" onclick="goBack()">
+      <span class="material-icons">arrow_back</span>
     </div>
+
+    <div class="header-title">Salary Overview</div>
 
     <div class="circle-btn">
       <span class="material-icons">calendar_today</span>
     </div>
+
   </div>
 
-  <div class="header-text">
-    <div class="hello">Hello 👋</div>
-    <div class="main-title">Salary Overview</div>
-    <div class="subtitle">Here’s your last month summary</div>
-  </div>
+  <!-- SUBTEXT -->
+  <div class="subtitle">Here’s your last month summary</div>
 
+  <!-- WAVE -->
   <svg class="wave" viewBox="0 0 500 150" preserveAspectRatio="none">
     <path d="M0,80 C150,150 350,0 500,80 L500,150 L0,150 Z"></path>
   </svg>
