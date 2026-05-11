@@ -73,8 +73,11 @@ body{
 .card{
   background:white;
   border-radius:20px;
-  padding:20px 10px;
-  text-align:center;
+  padding:15px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:12px;
   box-shadow:0 10px 20px rgba(0,0,0,0.05);
   cursor:pointer;
   position:relative;
@@ -84,11 +87,21 @@ body{
 .card:active{transform:scale(.95)}
 
 .icon{
-  font-size:28px;
-  margin-bottom:10px;
+  font-size:24px;
+  min-width:40px;
+  height:40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#eef3ff;
+  border-radius:12px;
 }
 
-.card h3{
+.text{
+  text-align:left;
+}
+
+.text h3{
   font-size:14px;
 }
 
@@ -157,48 +170,56 @@ body{
     <div class="card" onclick="openPDF(this,'els_format.pdf')">
       <div class="spinner"></div>
       <div class="icon">📘</div>
+      <div class="text"></div>
       <h3>ELS Format</h3>
     </div>
 
     <div class="card" onclick="openPDF(this,'medical_bill.pdf')">
       <div class="spinner"></div>
       <div class="icon">🏥</div>
+      <div class="text"></div>
       <h3>Medical Bill</h3>
     </div>
 
     <div class="card" onclick="openPDF(this,'leave_format.pdf')">
       <div class="spinner"></div>
       <div class="icon">📝</div>
+      <div class="text"></div>
       <h3>Leave Format</h3>
     </div>
 
     <div class="card" onclick="openPDF(this,'salary_bill.pdf')">
       <div class="spinner"></div>
       <div class="icon">💰</div>
+      <div class="text"></div>
       <h3>Salary Bill</h3>
     </div>
 
     <div class="card" onclick="openPDF(this,'')">
       <div class="spinner"></div>
       <div class="icon">📋</div>
+      <div class="text"></div>
       <h3>CR Format</h3>
     </div>
 
     <div class="card" onclick="openPDF(this,'performance_report.pdf')">
       <div class="spinner"></div>
       <div class="icon">👥</div>
+      <div class="text"></div>
       <h3>Group A & B</h3>
     </div>
 
     <div class="card" onclick="openPDF(this,'performance_report.pdf')">
       <div class="spinner"></div>
       <div class="icon">📊</div>
+      <div class="text"></div>
       <h3>Performance</h3>
     </div>
 
     <div class="card" onclick="openPDF(this,'ta_bill_format.pdf')">
       <div class="spinner"></div>
       <div class="icon">🚗</div>
+      <div class="text"></div>
       <h3>TA Bill</h3>
     </div>
 
