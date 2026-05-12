@@ -69,17 +69,25 @@ border-radius:50%;
 
 /* LIST */
 .list{
-flex:1;
-font-size:13px;
-max-height:150px;
-overflow:auto;
+  flex:1;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  max-height:none;
+  overflow:visible;
+  font-size:11px;
 }
 
 .item{
-display:flex;
-justify-content:space-between;
-padding:5px 0;
-border-bottom:1px solid #eee;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:6px 8px;
+  border-radius:10px;
+  background:#f3f6fc;
+  border:none;
+  width:32%;
+  font-size:10px;
 }
 
 /* BUTTON GRID */
