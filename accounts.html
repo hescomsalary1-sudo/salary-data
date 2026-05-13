@@ -281,8 +281,8 @@ animation:spin 1s linear infinite;
 <div class="profile-card">
 
 <div class="profile-top">
-<div class="avatar" id="avatar">
-M
+<div class="avatar">
+<span id="avatarText">M</span>
 <div class="status-dot"></div>
 </div>
 
@@ -385,7 +385,7 @@ document.getElementById("empDesg").innerText = cols[2];
 document.getElementById("empEmail").innerText = cols[3] || "Not Available";
 document.getElementById("empMobile").innerText = cols[4] || "Not Available";
 
-document.getElementById("avatar").innerText =
+document.getElementById("avatarText").innerText =
 cols[1].charAt(0).toUpperCase();
 
 return;
