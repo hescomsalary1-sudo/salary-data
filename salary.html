@@ -349,15 +349,23 @@ el.classList.add("active");
 
 function showList(e){
 document.getElementById("circleView").style.display="none";
-let list=document.getElementById("listView");
-list.style.display="block";
 
+let list = document.getElementById("listView");
+list.style.display = "block";
+
+// ✅ clear previous
+list.innerHTML = "";
+
+// ✅ generate all months properly
+months.forEach((m,i)=>{
 list.innerHTML += `
 <div class="list-item" onclick="handleListClick(${i+1}, this)">
 <span>${m}</span>
 <span>›</span>
 </div>`;
+});
 
+// toggle active button
 document.querySelectorAll(".toggle button").forEach(b=>b.classList.remove("active"));
 e.target.classList.add("active");
 }
