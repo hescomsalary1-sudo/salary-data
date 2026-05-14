@@ -11,7 +11,6 @@ body{
 margin:0;
 font-family:sans-serif;
 background:linear-gradient(135deg,#eef2ff,#ffffff);
-color:#1e293b;
 }
 
 /* HEADER */
@@ -21,10 +20,8 @@ background:linear-gradient(135deg,#2d0cff,#5f3bff);
 color:white;
 border-bottom-left-radius:30px;
 border-bottom-right-radius:30px;
-position:relative;
 }
 
-/* BACK BUTTON */
 .back-btn{
 width:42px;
 height:42px;
@@ -37,73 +34,53 @@ cursor:pointer;
 margin-bottom:10px;
 }
 
-.hero h1{
-margin:10px 0 5px;
-font-size:26px;
-}
-
-.hero p{
-margin:0;
-opacity:0.85;
-}
-
-/* FLOAT ₹ */
-.rupee{
-position:absolute;
-right:20px;
-bottom:-20px;
-background:#ffb020;
-color:white;
-width:50px;
-height:50px;
-border-radius:50%;
+/* TOGGLE */
+.toggle{
 display:flex;
-align-items:center;
-justify-content:center;
-font-size:22px;
-box-shadow:0 5px 15px rgba(0,0,0,0.2);
+gap:10px;
+margin:15px;
 }
 
-/* YEAR + SUMMARY */
-.rowCards{
-display:flex;
-gap:12px;
-padding:15px;
-}
-
-.card{
+.toggle button{
 flex:1;
-background:white;
-padding:15px;
-border-radius:15px;
-box-shadow:0 5px 15px rgba(0,0,0,0.06);
-}
-
-.cardTitle{
-font-weight:700;
-margin-bottom:10px;
-color:#2d0cff;
-}
-
-select{
-width:100%;
 padding:10px;
-border-radius:10px;
-border:1px solid #ddd;
+border:none;
+border-radius:20px;
+background:#e5e9ff;
+cursor:pointer;
 }
 
-/* MONTH SECTION */
-.monthSection{
+.toggle .active{
+background:#2d0cff;
+color:white;
+}
+
+/* CARD */
+.card{
 margin:15px;
 background:white;
 border-radius:20px;
 padding:15px;
-box-shadow:0 8px 25px rgba(0,0,0,0.05);
-text-align:center;
 }
 
-.monthSection h3{
+/* CENTER */
+.center{
+text-align:center;
+margin:15px 0;
+}
+
+.center h2{
 color:#2d0cff;
+margin:0;
+}
+
+.center button{
+margin-top:10px;
+padding:10px 16px;
+border:none;
+background:#2d0cff;
+color:white;
+border-radius:20px;
 }
 
 /* CIRCLE */
@@ -112,32 +89,26 @@ position:relative;
 width:300px;
 height:300px;
 margin:20px auto;
-border-radius:50%;
 }
 
-/* MONTH BUTTONS */
 .month{
 position:absolute;
-width:52px;
-height:52px;
+width:50px;
+height:50px;
 background:#f1f4ff;
 border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
 cursor:pointer;
-font-size:12px;
-box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }
 
-/* ACTIVE (JAN like image) */
-.month.m1{
-background:linear-gradient(135deg,#2d0cff,#5f3bff);
+.month.active{
+background:#2d0cff;
 color:white;
-transform:translate(-50%,-50%) scale(1.1);
 }
 
-/* POSITIONS */
+/* POSITION */
 .m1{top:0;left:50%;transform:translate(-50%,-50%);}
 .m2{top:20%;right:0;}
 .m3{top:50%;right:-10px;}
@@ -151,38 +122,22 @@ transform:translate(-50%,-50%) scale(1.1);
 .m11{bottom:10%;right:20%;}
 .m12{bottom:10%;left:20%;}
 
-/* CENTER */
-.center{
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-text-align:center;
+/* LIST VIEW */
+.list{
+display:none;
+padding:10px;
 }
 
-.center h2{
-margin:0;
-font-size:18px;
-color:#2d0cff;
-}
-
-.center p{
-font-size:12px;
-color:#666;
-}
-
-.center button{
-margin-top:10px;
-padding:10px 16px;
-border:none;
-background:linear-gradient(135deg,#2d0cff,#5f3bff);
-color:white;
-border-radius:25px;
+.list-item{
+background:white;
+padding:12px;
+margin-bottom:10px;
+border-radius:12px;
+display:flex;
+justify-content:space-between;
 cursor:pointer;
-box-shadow:0 6px 15px rgba(0,0,0,0.15);
 }
 
-/* LOADER */
 #loader{
 display:none;
 position:fixed;
@@ -190,20 +145,18 @@ inset:0;
 background:white;
 justify-content:center;
 align-items:center;
-z-index:9999;
 }
 
 .spinner{
-width:45px;
-height:45px;
-border:6px solid #eee;
-border-top:6px solid #2d0cff;
+width:40px;
+height:40px;
+border:5px solid #eee;
+border-top:5px solid #2d0cff;
 border-radius:50%;
 animation:spin 1s linear infinite;
 }
 
 @keyframes spin{
-0%{transform:rotate(0deg);}
 100%{transform:rotate(360deg);}
 }
 
@@ -212,67 +165,53 @@ animation:spin 1s linear infinite;
 
 <body>
 
-<!-- HEADER -->
 <div class="hero">
 
 <div class="back-btn" onclick="goBack()">
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-<path d="M15 18L9 12L15 6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+<svg width="20" height="20" viewBox="0 0 24 24">
+<path d="M15 18L9 12L15 6" stroke="white" stroke-width="2"/>
 </svg>
 </div>
 
-<h1>Salary Portal</h1>
-<p>View your salary details and payslips</p>
-
-<div class="rupee">₹</div>
+<h2>Salary Portal</h2>
+<p>Select month to view salary</p>
 
 </div>
 
-<!-- YEAR -->
-<div class="rowCards">
+<!-- TOGGLE -->
+<div class="toggle">
+<button class="active" onclick="showCircle()">Calendar</button>
+<button onclick="showList()">List</button>
+</div>
 
+<!-- MAIN CARD -->
 <div class="card">
-<div class="cardTitle">Select Year</div>
-<select id="year">
-<option value="2026">2026</option>
-<option value="2027">2027</option>
-</select>
-</div>
-
-<div class="card">
-<div class="cardTitle">Year Summary</div>
-<p>Overview of your earnings and deductions</p>
-</div>
-
-</div>
-
-<!-- MONTH -->
-<div class="monthSection">
-
-<h3>Select Month</h3>
-
-<div class="circle">
 
 <div class="center">
-<h2>January 2026</h2>
-<p>View your salary details, payslip and more</p>
-<button onclick="openSalary(1)">View Details →</button>
+<h2 id="monthText">January 2026</h2>
+<button onclick="openSalary(selectedMonth)">View Details</button>
 </div>
 
-<div class="month m1" onclick="openSalary(1)">Jan</div>
-<div class="month m2" onclick="openSalary(2)">Feb</div>
-<div class="month m3" onclick="openSalary(3)">Mar</div>
-<div class="month m4" onclick="openSalary(4)">Apr</div>
-<div class="month m5" onclick="openSalary(5)">May</div>
-<div class="month m6" onclick="openSalary(6)">Jun</div>
-<div class="month m7" onclick="openSalary(7)">Jul</div>
-<div class="month m8" onclick="openSalary(8)">Aug</div>
-<div class="month m9" onclick="openSalary(9)">Sep</div>
-<div class="month m10" onclick="openSalary(10)">Oct</div>
-<div class="month m11" onclick="openSalary(11)">Nov</div>
-<div class="month m12" onclick="openSalary(12)">Dec</div>
+<!-- CIRCLE -->
+<div id="circleView" class="circle">
+
+<div class="month m1 active" onclick="selectMonth(1,this)">Jan</div>
+<div class="month m2" onclick="selectMonth(2,this)">Feb</div>
+<div class="month m3" onclick="selectMonth(3,this)">Mar</div>
+<div class="month m4" onclick="selectMonth(4,this)">Apr</div>
+<div class="month m5" onclick="selectMonth(5,this)">May</div>
+<div class="month m6" onclick="selectMonth(6,this)">Jun</div>
+<div class="month m7" onclick="selectMonth(7,this)">Jul</div>
+<div class="month m8" onclick="selectMonth(8,this)">Aug</div>
+<div class="month m9" onclick="selectMonth(9,this)">Sep</div>
+<div class="month m10" onclick="selectMonth(10,this)">Oct</div>
+<div class="month m11" onclick="selectMonth(11,this)">Nov</div>
+<div class="month m12" onclick="selectMonth(12,this)">Dec</div>
 
 </div>
+
+<!-- LIST VIEW -->
+<div id="listView" class="list"></div>
 
 </div>
 
@@ -283,20 +222,65 @@ animation:spin 1s linear infinite;
 
 <script>
 
+let selectedMonth = 1;
+
+const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+/* SELECT MONTH */
+function selectMonth(m,el){
+selectedMonth = m;
+
+document.getElementById("monthText").innerText = months[m-1] + " 2026";
+
+/* active remove */
+document.querySelectorAll(".month").forEach(x=>x.classList.remove("active"));
+el.classList.add("active");
+}
+
+/* LIST VIEW */
+function showList(){
+document.getElementById("circleView").style.display="none";
+let list = document.getElementById("listView");
+list.style.display="block";
+
+list.innerHTML = "";
+
+months.forEach((m,i)=>{
+list.innerHTML += `
+<div class="list-item" onclick="selectMonth(${i+1});openSalary(${i+1})">
+<span>${m}</span>
+<span>›</span>
+</div>`;
+});
+
+/* toggle active */
+document.querySelectorAll(".toggle button").forEach(b=>b.classList.remove("active"));
+event.target.classList.add("active");
+}
+
+/* CIRCLE VIEW */
+function showCircle(){
+document.getElementById("circleView").style.display="block";
+document.getElementById("listView").style.display="none";
+
+document.querySelectorAll(".toggle button").forEach(b=>b.classList.remove("active"));
+event.target.classList.add("active");
+}
+
+/* BACK */
 function goBack(){
 window.history.back();
 }
 
+/* SAME LOGIC */
 function openSalary(month){
-const year = document.getElementById("year").value;
-
-localStorage.setItem("selectedYear", year);
-localStorage.setItem("selectedMonth", month);
+localStorage.setItem("selectedYear","2026");
+localStorage.setItem("selectedMonth",month);
 
 document.getElementById("loader").style.display="flex";
 
-setTimeout(function(){
-window.location.href="salary_view.html";
+setTimeout(()=>{
+window.location="salary_view.html";
 },700);
 }
 
