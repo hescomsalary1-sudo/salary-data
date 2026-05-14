@@ -242,14 +242,33 @@ animation:spin 1s linear infinite;
 }
 
 @keyframes spin{100%{transform:rotate(360deg);}}
-
+.back-btn{
+width:42px;
+height:42px;
+border-radius:50%;
+background:white;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+box-shadow:0 5px 12px rgba(0,0,0,0.1);
+margin-bottom:10px;
+}
 </style>
 </head>
 
 <body>
 
 <div class="hero">
-<div class="menu">☰</div>
+<div class="back-btn" onclick="goBack()">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+<path d="M15 18L9 12L15 6"
+stroke="#2d0cff"
+stroke-width="2.5"
+stroke-linecap="round"
+stroke-linejoin="round"/>
+</svg>
+</div>
 <h1>Salary Portal</h1>
 <p>View your salary details and payslips</p>
 <div class="rupee">₹</div>
@@ -430,6 +449,10 @@ el.classList.add("active");
 
 // open page
 openSalary(m);
+}
+
+  function goBack(){
+window.history.back();
 }
 </script>
 
