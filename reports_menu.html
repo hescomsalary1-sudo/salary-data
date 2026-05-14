@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Reports Menu</title>
+<title>Reports Center</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -9,99 +9,171 @@
 body{
 font-family:sans-serif;
 margin:0;
-background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
-padding-bottom:90px;
+background:#f5f7ff;
 }
 
 /* HEADER */
 
 .top{
 padding:25px 20px;
-background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
-color:#2400b7;
-display:flex;
-align-items:center;
-gap:12px;
-border-bottom-left-radius:35px;
-border-bottom-right-radius:35px;
-}
-
-.top .icon{
-width:40px;
-height:40px;
-background:white;
-color:#6c39ff;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:18px;
-font-weight:bold;
+background:linear-gradient(135deg,#2d0cff,#5f3bff);
+color:white;
+border-bottom-left-radius:30px;
+border-bottom-right-radius:30px;
 }
 
 .top h2{
-margin:0;
-font-size:20px;
+margin:10px 0 0;
+font-size:22px;
 }
 
-.menuGrid{
-display:flex;
-flex-direction:column;
-gap:16px;
-padding:20px;
+.top p{
+margin:5px 0 0;
+font-size:13px;
+opacity:0.8;
 }
 
-.menuCard{
-display:flex;
-align-items:center;
-gap:16px;
+/* BACK BUTTON */
+
+.back-btn{
+width:38px;
+height:38px;
+border-radius:50%;
 background:white;
-padding:18px;
-border-radius:18px;
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
-cursor:pointer;
-transition:0.25s;
-}
-
-.menuCard:hover{
-transform:translateY(-3px);
-box-shadow:0 10px 20px rgba(0,0,0,0.12);
-}
-
-.menuCard:active{
-transform:scale(0.97);
-}
-
-.menuIcon{
-font-size:26px;
-width:48px;
-height:48px;
-background: linear-gradient(135deg, #2400b7, #3b1eff);
-color:white;
-border-radius:12px;
 display:flex;
 align-items:center;
 justify-content:center;
-flex-shrink:0;
+cursor:pointer;
 }
 
-.menuText{
+.back-btn svg{
+stroke:#2d0cff;
+}
+
+/* MAIN CARD */
+
+.mainCard{
+margin:20px;
+background:white;
+border-radius:20px;
+box-shadow:0 8px 25px rgba(0,0,0,0.08);
+overflow:hidden;
+display:flex;
+}
+
+/* LEFT ADMIN PANEL */
+
+.adminPanel{
+width:40%;
+background:linear-gradient(135deg,#2d0cff,#5f3bff);
+color:white;
+padding:20px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+}
+
+.adminPanel h3{
+margin:10px 0;
+}
+
+.badge{
+background:rgba(255,255,255,0.2);
+padding:5px 10px;
+border-radius:20px;
+font-size:12px;
+display:inline-block;
+margin-bottom:10px;
+}
+
+/* RIGHT LIST */
+
+.rightList{
+width:60%;
+padding:15px;
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.listItem{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:12px;
+border-radius:12px;
+background:#f5f7ff;
+cursor:pointer;
+}
+
+.listLeft{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.iconBox{
+width:40px;
+height:40px;
+border-radius:10px;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+font-size:18px;
+}
+
+.purple{background:#7a5cff;}
+.blue{background:#3aa0ff;}
+.green{background:#35c76f;}
+.orange{background:#ffa726;}
+
+.listText{
 display:flex;
 flex-direction:column;
 }
 
-.menuTitle{
-font-size:15px;
+.title{
+font-size:14px;
+font-weight:600;
+}
+
+.sub{
+font-size:11px;
+color:#777;
+}
+
+.arrow{
+color:#999;
+font-size:18px;
+}
+
+/* EMPLOYEE SECTION */
+
+.empBox{
+margin:20px;
+padding:15px;
+background:#f7fffb;
+border-radius:20px;
+}
+
+.empTitle{
 font-weight:700;
-color:#333;
+color:#1ba94c;
 }
 
-.menuSub{
-font-size:12px;
-color:#888;
+.empCard{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:white;
+padding:12px;
+border-radius:12px;
+margin-top:10px;
+cursor:pointer;
 }
 
-/* LOADER */
+/* LOADER + POPUP SAME */
 
 #loader{
 display:none;
@@ -130,8 +202,6 @@ animation:spin 1s linear infinite;
 100%{transform:rotate(360deg);}
 }
 
-/* POPUP */
-
 .popup{
 display:none;
 position:fixed;
@@ -151,12 +221,6 @@ padding:25px;
 border-radius:15px;
 text-align:center;
 width:260px;
-box-shadow:0 6px 20px rgba(0,0,0,0.3);
-}
-
-.popupBox h3{
-margin-top:0;
-color:#6c39ff;
 }
 
 .popupBtn{
@@ -166,215 +230,105 @@ border:none;
 background:#6c39ff;
 color:white;
 border-radius:8px;
-cursor:pointer;
 }
 
-/* FOOTER */
-
-.footer{
-position:fixed;
-bottom:0;
-width:100%;
-background:#ffffff;
-display:flex;
-justify-content:space-around;
-padding:8px 0;
-box-shadow:0 -2px 10px rgba(0,0,0,0.1);
-}
-
-.footer a{
-text-decoration:none;
-display:flex;
-flex-direction:column;
-align-items:center;
-color:#6c39ff;
-font-size:20px;
-}
-
-.footer small{
-font-size:12px;
-margin-top:3px;
-color:#6c39ff;
-font-weight:600;
-}
-/* ADMIN BOX */
-
-.adminBox{
-margin:20px;
-padding:15px;
-background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
-border-radius:20px;
-box-shadow:0 8px 25px rgba(0,0,0,0.08);
-}
-
-/* TITLE */
-
-.adminTitle{
-margin:0 0 12px 5px;
-color:#6c39ff;
-font-size:15px;
-font-weight:700;
-}
-
-/* GRID */
-
-.adminGrid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:15px;
-}
-
-/* CARD */
-
-.adminCard{
-background: linear-gradient(135deg, #2400b7, #3b1eff);
-color:white;
-border-radius:18px;
-padding:18px;
-text-align:center;
-font-size:13px;
-font-weight:600;
-cursor:pointer;
-transition:0.3s;
-}
-
-.adminCard div{
-font-size:26px;
-margin-bottom:8px;
-}
-
-.adminCard:hover{
-transform:translateY(-4px);
-box-shadow:0 12px 25px rgba(0,0,0,0.2);
-}
-
-.adminCard:active{
-transform:scale(0.95);
-}
-
-/* SECTION TITLE */
-
-.sectionTitle{
-padding:0 20px;
-font-size:14px;
-color:#444;
-margin-top:10px;
-}
-
-  /* BACK BUTTON */
-
-.back-btn{
-width:40px;
-height:40px;
-border-radius:50%;
-background:rgba(255,255,255,0.85);
-backdrop-filter: blur(8px);
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-box-shadow:0 6px 15px rgba(0,0,0,0.15);
-transition:0.25s;
-}
-
-.back-btn:hover{
-transform:scale(1.1);
-background:white;
-}
-
-.back-btn svg{
-transition:0.2s;
-}
-
-.back-btn:hover svg{
-transform:translateX(-2px);
-}
 </style>
 </head>
 
 <body>
 
 <div class="top">
-  
-  <!-- BACK BUTTON -->
-  <div class="back-btn" onclick="goBack()">
-    
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path d="M15 18L9 12L15 6" 
-            stroke="#2400b7" 
-            stroke-width="2.5" 
-            stroke-linecap="round" 
-            stroke-linejoin="round"/>
-    </svg>
 
-  </div>
-<div class="icon">📊</div>
+<div class="back-btn" onclick="goBack()">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+<path d="M15 18L9 12L15 6" stroke-width="2.5" stroke-linecap="round"/>
+</svg>
+</div>
+
 <h2>Reports Center</h2>
-</div>
-
-<div class="menuGrid">
-
-<!-- ================= ADMIN SECTION ================= -->
-
-<div class="adminBox">
-
-<h3 class="adminTitle">👨‍💼 Admin Reports</h3>
-
-<div class="adminGrid">
-
-<div class="adminCard" onclick="adminCheck('master_reports.html')">
-<div>🧠</div>
-<p>Master Reports</p>
-</div>
-
-<div class="adminCard" onclick="adminCheck('reports.html')">
-<div>📊</div>
-<p>Post Status</p>
-</div>
-
-<div class="adminCard" onclick="adminCheck('sc_st_reports.html')">
-<div>📋</div>
-<p>SC/ST</p>
-</div>
-
-<div class="adminCard" onclick="adminCheck('retirement_reports.html')">
-<div>👴</div>
-<p>Retirement</p>
-</div>
+<p>All your reports. One place.</p>
 
 </div>
 
+<!-- ADMIN + MASTER SECTION -->
+
+<div class="mainCard">
+
+<div class="adminPanel">
+<h3>Admin Reports</h3>
+<div class="badge">🔒 Restricted Access</div>
+<p style="font-size:12px;">Only authorized admins can access</p>
 </div>
 
-<!-- ================= EMPLOYEE SECTION ================= -->
+<div class="rightList">
 
-<h3 class="sectionTitle">👨‍💻 Employee Reports</h3>
-
-<div class="menuCard" onclick="openPage('salary_reports.html')">
-<div class="menuIcon">💰</div>
-<div class="menuText">
-<div class="menuTitle">Salary Report</div>
-<div class="menuSub">Monthly salary records</div>
+<div class="listItem" onclick="adminCheck('master_reports.html')">
+<div class="listLeft">
+<div class="iconBox purple">🧠</div>
+<div class="listText">
+<div class="title">Master Reports</div>
+<div class="sub">Overview of master data</div>
 </div>
 </div>
-
-
-
-<div class="menuCard" onclick="openPage('other_reports.html')">
-<div class="menuIcon">📁</div>
-<div class="menuText">
-<div class="menuTitle">Other Reports</div>
-<div class="menuSub">Additional reports</div>
-</div>
+<div class="arrow">›</div>
 </div>
 
+<div class="listItem" onclick="adminCheck('reports.html')">
+<div class="listLeft">
+<div class="iconBox blue">📊</div>
+<div class="listText">
+<div class="title">Post Status</div>
+<div class="sub">Track post status</div>
+</div>
+</div>
+<div class="arrow">›</div>
 </div>
 
-<div id="loader">
-<div class="spinner"></div>
+<div class="listItem" onclick="adminCheck('sc_st_reports.html')">
+<div class="listLeft">
+<div class="iconBox green">📋</div>
+<div class="listText">
+<div class="title">SC/ST Reports</div>
+<div class="sub">Category reports</div>
+</div>
+</div>
+<div class="arrow">›</div>
 </div>
 
-<!-- POPUP -->
+<div class="listItem" onclick="adminCheck('retirement_reports.html')">
+<div class="listLeft">
+<div class="iconBox orange">👴</div>
+<div class="listText">
+<div class="title">Retirement</div>
+<div class="sub">Retirement analytics</div>
+</div>
+</div>
+<div class="arrow">›</div>
+</div>
+
+</div>
+
+</div>
+
+<!-- EMPLOYEE -->
+
+<div class="empBox">
+
+<div class="empTitle">Employee Reports</div>
+
+<div class="empCard" onclick="openPage('salary_reports.html')">
+<span>💰 Salary Report</span>
+<span>›</span>
+</div>
+
+<div class="empCard" onclick="openPage('other_reports.html')">
+<span>📁 Other Reports</span>
+<span>›</span>
+</div>
+
+</div>
+
+<div id="loader"><div class="spinner"></div></div>
 
 <div id="popup" class="popup">
 <div class="popupBox">
@@ -384,55 +338,37 @@ transform:translateX(-2px);
 </div>
 </div>
 
-
-
 <script>
 
-/* ADMIN CHECK */
+/* SAME SCRIPT - NO CHANGE */
 
 function adminCheck(page){
-
 let role = localStorage.getItem("role");
 let user = localStorage.getItem("currentUser");
-
 let allowedUsers = ["emp1"];  
 
 if(role === "admin" || allowedUsers.includes(user)){
-
 openPage(page);
-
 }else{
-
 document.getElementById("popup").style.display="flex";
-
 }
-
 }
-
-/* OPEN PAGE */
 
 function openPage(page){
-
 document.getElementById("loader").style.display="flex";
-
 setTimeout(function(){
-
 window.location = page;
-
 },700);
-
 }
-
-/* CLOSE POPUP */
 
 function closePopup(){
-
 document.getElementById("popup").style.display="none";
+}
 
-}
 function goBack(){
-  window.history.back();
+window.history.back();
 }
+
 </script>
 
 </body>
