@@ -348,10 +348,11 @@ document.getElementById("circleView").style.display="none";
 let list=document.getElementById("listView");
 list.style.display="block";
 
-list.innerHTML="";
-months.forEach((m,i)=>{
-list.innerHTML+=`<div class="list-item" onclick="selectMonth(${i+1});openSalary(${i+1})">${m} <span>›</span></div>`;
-});
+list.innerHTML += `
+<div class="list-item" onclick="handleListClick(${i+1}, this)">
+<span>${m}</span>
+<span>›</span>
+</div>`;
 
 document.querySelectorAll(".toggle button").forEach(b=>b.classList.remove("active"));
 e.target.classList.add("active");
