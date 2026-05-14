@@ -328,10 +328,9 @@ let selectedMonth = 1;
 
 const months=["January","February","March","April","May","June","July","August","September","October","November","December"];
 
-function selectMonth(m,el){
+function selectMonth(m, el){
 selectedMonth = m;
 
-// ✅ SAVE selection
 localStorage.setItem("selectedMonth", m);
 
 let year = document.getElementById("year").value;
@@ -339,8 +338,13 @@ let year = document.getElementById("year").value;
 document.getElementById("monthText").innerText =
 months[m-1] + " " + year;
 
+// remove all active
 document.querySelectorAll(".month").forEach(x=>x.classList.remove("active"));
+
+// only add if element exists (circle view)
+if(el){
 el.classList.add("active");
+}
 }
 
 function showList(e){
@@ -410,6 +414,19 @@ monthElements[selectedMonth-1].classList.add("active");
 }
 
 };
+
+  function handleListClick(m, el){
+
+// update selection properly
+selectMonth(m);
+
+// highlight in list
+document.querySelectorAll(".list-item").forEach(x=>x.classList.remove("active"));
+el.classList.add("active");
+
+// open page
+openSalary(m);
+}
 </script>
 
 </body>
