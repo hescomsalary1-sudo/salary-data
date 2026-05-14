@@ -275,16 +275,38 @@ background:#6c39ff;
 color:white;
 border-radius:8px;
 }
-
+.back-btn{
+width:42px;
+height:42px;
+border-radius:50%;
+background:rgba(255,255,255,0.2);
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+margin-bottom:10px;
+}
 </style>
 </head>
 
 <body>
 
 <div class="top">
-<div class="menuIconTop">☰</div>
+
+<!-- BACK BUTTON -->
+<div class="back-btn" onclick="goBack()">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <path d="M15 18L9 12L15 6"
+      stroke="white"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"/>
+  </svg>
+</div>
+
 <h1>Reports Center</h1>
 <p>All your reports. One place.</p>
+
 </div>
 
 <!-- ADMIN + LIST -->
@@ -410,7 +432,9 @@ window.location = page;
 function closePopup(){
 document.getElementById("popup").style.display="none";
 }
-
+function goBack(){
+  window.history.back();
+}
 </script>
 
 </body>
