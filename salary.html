@@ -254,6 +254,17 @@ cursor:pointer;
 box-shadow:0 5px 12px rgba(0,0,0,0.1);
 margin-bottom:10px;
 }
+
+  /* CONTAINER */
+.container {
+    padding: 15px;
+    animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 </style>
 </head>
 
@@ -273,7 +284,7 @@ stroke-linejoin="round"/>
 <p>View your salary details and payslips</p>
 <div class="rupee">₹</div>
 </div>
-
+<div class="container">
 <div class="row">
 <div class="card">
 <h4>Select Year</h4>
@@ -334,7 +345,7 @@ stroke-linejoin="round"/>
 <strong>Secure. Private. Reliable.</strong>
 <p>Your salary data is encrypted.</p>
 </div>
-
+</div>
 <div id="loader"><div class="spinner"></div></div>
 
 <script>
