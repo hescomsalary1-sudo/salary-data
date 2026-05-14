@@ -331,13 +331,14 @@ const months=["January","February","March","April","May","June","July","August",
 function selectMonth(m,el){
 selectedMonth = m;
 
-// ✅ get selected year dynamically
+// ✅ SAVE selection
+localStorage.setItem("selectedMonth", m);
+
 let year = document.getElementById("year").value;
 
-// update center text
-document.getElementById("monthText").innerText = months[m-1] + " " + year;
+document.getElementById("monthText").innerText =
+months[m-1] + " " + year;
 
-// active UI
 document.querySelectorAll(".month").forEach(x=>x.classList.remove("active"));
 el.classList.add("active");
 }
@@ -382,6 +383,32 @@ let year = document.getElementById("year").value;
 document.getElementById("monthText").innerText =
 months[selectedMonth-1] + " " + year;
 }
+  window.onload = function(){
+
+let savedMonth = localStorage.getItem("selectedMonth");
+let savedYear = localStorage.getItem("selectedYear");
+
+// ✅ restore year
+if(savedYear){
+document.getElementById("year").value = savedYear;
+}
+
+// default month = 1 if not found
+selectedMonth = savedMonth ? parseInt(savedMonth) : 1;
+
+// update UI text
+document.getElementById("monthText").innerText =
+months[selectedMonth-1] + " " + document.getElementById("year").value;
+
+// highlight correct month
+let monthElements = document.querySelectorAll(".month");
+monthElements.forEach(x=>x.classList.remove("active"));
+
+if(monthElements[selectedMonth-1]){
+monthElements[selectedMonth-1].classList.add("active");
+}
+
+};
 </script>
 
 </body>
