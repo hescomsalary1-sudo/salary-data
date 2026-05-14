@@ -7,115 +7,123 @@
 <style>
 
 body{
-font-family:sans-serif;
 margin:0;
-background:#f5f7ff;
+font-family:sans-serif;
+background:#f3f5ff;
 }
 
 /* HEADER */
 
 .top{
-padding:25px 20px;
+padding:20px;
 background:linear-gradient(135deg,#2d0cff,#5f3bff);
 color:white;
 border-bottom-left-radius:30px;
 border-bottom-right-radius:30px;
 }
 
-.top h2{
-margin:10px 0 0;
-font-size:22px;
-}
-
-.top p{
-margin:5px 0 0;
-font-size:13px;
-opacity:0.8;
-}
-
-/* BACK BUTTON */
-
-.back-btn{
-width:38px;
-height:38px;
+.menuIconTop{
+width:42px;
+height:42px;
 border-radius:50%;
-background:white;
+background:rgba(255,255,255,0.2);
 display:flex;
 align-items:center;
 justify-content:center;
-cursor:pointer;
+font-size:20px;
 }
 
-.back-btn svg{
-stroke:#2d0cff;
+.top h1{
+margin:15px 0 5px;
+font-size:26px;
+}
+
+.top p{
+margin:0;
+font-size:14px;
+opacity:0.85;
 }
 
 /* MAIN CARD */
 
 .mainCard{
 margin:20px;
-background:white;
-border-radius:20px;
-box-shadow:0 8px 25px rgba(0,0,0,0.08);
-overflow:hidden;
+background:#f7f8ff;
+border-radius:22px;
 display:flex;
+overflow:hidden;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
 }
 
 /* LEFT ADMIN PANEL */
 
 .adminPanel{
-width:40%;
-background:linear-gradient(135deg,#2d0cff,#5f3bff);
+width:38%;
+background:linear-gradient(160deg,#1c0099,#4b2bff);
 color:white;
 padding:20px;
 display:flex;
 flex-direction:column;
 justify-content:center;
+border-top-right-radius:60px;
+border-bottom-right-radius:60px;
 }
 
 .adminPanel h3{
-margin:10px 0;
+margin:15px 0 10px;
+font-size:18px;
+}
+
+.lock{
+font-size:40px;
+margin-bottom:10px;
 }
 
 .badge{
 background:rgba(255,255,255,0.2);
-padding:5px 10px;
+padding:6px 12px;
 border-radius:20px;
 font-size:12px;
 display:inline-block;
 margin-bottom:10px;
 }
 
+.adminPanel p{
+font-size:12px;
+opacity:0.85;
+}
+
 /* RIGHT LIST */
 
 .rightList{
-width:60%;
+width:62%;
 padding:15px;
 display:flex;
 flex-direction:column;
-gap:12px;
+gap:14px;
 }
 
 .listItem{
 display:flex;
 align-items:center;
 justify-content:space-between;
+background:white;
 padding:12px;
-border-radius:12px;
-background:#f5f7ff;
+border-radius:14px;
+box-shadow:0 5px 15px rgba(0,0,0,0.05);
 cursor:pointer;
 }
 
-.listLeft{
+.leftPart{
 display:flex;
 align-items:center;
 gap:12px;
 }
 
 .iconBox{
-width:40px;
-height:40px;
-border-radius:10px;
+width:42px;
+height:42px;
+border-radius:12px;
 display:flex;
 align-items:center;
 justify-content:center;
@@ -123,12 +131,12 @@ color:white;
 font-size:18px;
 }
 
-.purple{background:#7a5cff;}
+.purple{background:#7c5cff;}
 .blue{background:#3aa0ff;}
-.green{background:#35c76f;}
+.green{background:#36c76e;}
 .orange{background:#ffa726;}
 
-.listText{
+.text{
 display:flex;
 flex-direction:column;
 }
@@ -144,23 +152,58 @@ color:#777;
 }
 
 .arrow{
-color:#999;
 font-size:18px;
+color:#aaa;
 }
 
 /* EMPLOYEE SECTION */
 
-.empBox{
+.empSection{
 margin:20px;
+background:#f6fffa;
+border-radius:22px;
 padding:15px;
-background:#f7fffb;
-border-radius:20px;
+box-shadow:0 8px 25px rgba(0,0,0,0.05);
+}
+
+.empTop{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.empIcon{
+width:70px;
+height:70px;
+border-radius:50%;
+background:#e4f7ec;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:28px;
+color:#1db954;
 }
 
 .empTitle{
+font-size:18px;
+color:#1db954;
 font-weight:700;
-color:#1ba94c;
 }
+
+.empSub{
+font-size:12px;
+color:#666;
+}
+
+/* divider */
+
+.divider{
+margin:15px 0;
+height:1px;
+background:#ddd;
+}
+
+/* employee cards */
 
 .empCard{
 display:flex;
@@ -169,11 +212,12 @@ align-items:center;
 background:white;
 padding:12px;
 border-radius:12px;
-margin-top:10px;
+margin-bottom:10px;
 cursor:pointer;
+box-shadow:0 4px 12px rgba(0,0,0,0.05);
 }
 
-/* LOADER + POPUP SAME */
+/* LOADER + POPUP (UNCHANGED) */
 
 #loader{
 display:none;
@@ -238,69 +282,63 @@ border-radius:8px;
 <body>
 
 <div class="top">
-
-<div class="back-btn" onclick="goBack()">
-<svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-<path d="M15 18L9 12L15 6" stroke-width="2.5" stroke-linecap="round"/>
-</svg>
-</div>
-
-<h2>Reports Center</h2>
+<div class="menuIconTop">☰</div>
+<h1>Reports Center</h1>
 <p>All your reports. One place.</p>
-
 </div>
 
-<!-- ADMIN + MASTER SECTION -->
+<!-- ADMIN + LIST -->
 
 <div class="mainCard">
 
 <div class="adminPanel">
+<div class="lock">🔒</div>
 <h3>Admin Reports</h3>
-<div class="badge">🔒 Restricted Access</div>
-<p style="font-size:12px;">Only authorized admins can access</p>
+<div class="badge">Restricted Access</div>
+<p>Confidential reports for authorized administrators only.</p>
 </div>
 
 <div class="rightList">
 
 <div class="listItem" onclick="adminCheck('master_reports.html')">
-<div class="listLeft">
+<div class="leftPart">
 <div class="iconBox purple">🧠</div>
-<div class="listText">
+<div class="text">
 <div class="title">Master Reports</div>
-<div class="sub">Overview of master data</div>
+<div class="sub">Complete overview of master data</div>
 </div>
 </div>
 <div class="arrow">›</div>
 </div>
 
 <div class="listItem" onclick="adminCheck('reports.html')">
-<div class="listLeft">
+<div class="leftPart">
 <div class="iconBox blue">📊</div>
-<div class="listText">
+<div class="text">
 <div class="title">Post Status</div>
-<div class="sub">Track post status</div>
+<div class="sub">Track and analyze post status</div>
 </div>
 </div>
 <div class="arrow">›</div>
 </div>
 
 <div class="listItem" onclick="adminCheck('sc_st_reports.html')">
-<div class="listLeft">
+<div class="leftPart">
 <div class="iconBox green">📋</div>
-<div class="listText">
+<div class="text">
 <div class="title">SC/ST Reports</div>
-<div class="sub">Category reports</div>
+<div class="sub">Category-wise detailed reports</div>
 </div>
 </div>
 <div class="arrow">›</div>
 </div>
 
 <div class="listItem" onclick="adminCheck('retirement_reports.html')">
-<div class="listLeft">
+<div class="leftPart">
 <div class="iconBox orange">👴</div>
-<div class="listText">
+<div class="text">
 <div class="title">Retirement</div>
-<div class="sub">Retirement analytics</div>
+<div class="sub">Retirement summary and analytics</div>
 </div>
 </div>
 <div class="arrow">›</div>
@@ -312,9 +350,17 @@ border-radius:8px;
 
 <!-- EMPLOYEE -->
 
-<div class="empBox">
+<div class="empSection">
 
+<div class="empTop">
+<div class="empIcon">👥</div>
+<div>
 <div class="empTitle">Employee Reports</div>
+<div class="empSub">Reports available to all employees</div>
+</div>
+</div>
+
+<div class="divider"></div>
 
 <div class="empCard" onclick="openPage('salary_reports.html')">
 <span>💰 Salary Report</span>
@@ -363,10 +409,6 @@ window.location = page;
 
 function closePopup(){
 document.getElementById("popup").style.display="none";
-}
-
-function goBack(){
-window.history.back();
 }
 
 </script>
