@@ -258,7 +258,7 @@ animation:spin 1s linear infinite;
 <div class="card">
 <h4>Select Year</h4>
 <p>Choose a year</p>
-<select id="year">
+<select id="year" onchange="updateYear()">
 <option>2026</option>
 <option>2027</option>
 </select>
@@ -329,8 +329,15 @@ let selectedMonth = 1;
 const months=["January","February","March","April","May","June","July","August","September","October","November","December"];
 
 function selectMonth(m,el){
-selectedMonth=m;
-document.getElementById("monthText").innerText=months[m-1]+" 2026";
+selectedMonth = m;
+
+// ✅ get selected year dynamically
+let year = document.getElementById("year").value;
+
+// update center text
+document.getElementById("monthText").innerText = months[m-1] + " " + year;
+
+// active UI
 document.querySelectorAll(".month").forEach(x=>x.classList.remove("active"));
 el.classList.add("active");
 }
@@ -368,7 +375,13 @@ setTimeout(()=>{
 window.location="salary_view.html";
 },700);
 }
+function updateYear(){
+let year = document.getElementById("year").value;
 
+// keep selected month, only update year
+document.getElementById("monthText").innerText =
+months[selectedMonth-1] + " " + year;
+}
 </script>
 
 </body>
