@@ -312,13 +312,20 @@ margin-bottom:10px;
     font-size:13px;
     opacity:0.85;
 }
+ .top-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
 </style>
 </head>
 
 <body>
 
-<div class="top-bar">
-    
+<div class="top">
+
+  <div class="top-row">
+    <!-- BACK BUTTON -->
     <div class="back-btn" onclick="goBack()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
         <path d="M15 18L9 12L15 6"
@@ -329,10 +336,10 @@ margin-bottom:10px;
       </svg>
     </div>
 
-    <div class="title-group">
-        <h1>Reports Center</h1>
-        <p>All your reports. One place.</p>
-    </div>
+    <h1>Reports Center</h1>
+  </div>
+
+  <p>All your reports. One place.</p>
 
 </div>
 <div class="container">
