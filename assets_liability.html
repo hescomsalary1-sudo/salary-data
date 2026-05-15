@@ -298,6 +298,24 @@ body{
   color:#777;
   text-align:center;
 }
+
+  .back-btn{
+  position:absolute;
+  top:20px;
+  left:15px;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  backdrop-filter: blur(6px);
+}
+  .hero{
+  position:relative; /* REQUIRED for arrow positioning */
+}
 </style>
 </head>
 
@@ -305,12 +323,25 @@ body{
 <div id="loader"><div class="spinner"></div></div>
 
 <div class="hero">
+
+  <!-- BACK BUTTON -->
+  <div class="back-btn" onclick="goBack()">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path d="M15 18L9 12L15 6"
+        stroke="white"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+    </svg>
+  </div>
+
   <div class="hero-text">
     <h1>Assets & Liability</h1>
     <p>Financial Data Summary</p>
   </div>
 
   <div class="hero-img">📊</div>
+
 </div>
 
 <div class="content">
