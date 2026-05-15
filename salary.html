@@ -350,6 +350,93 @@ margin-bottom:10px;
     from{opacity:0; transform:translateY(20px);}
     to{opacity:1; transform:translateY(0);}
 }
+
+  .secure-banner{
+    margin:15px;
+    padding:18px;
+    border-radius:20px;
+    background: linear-gradient(135deg,#f5f7ff,#eef1ff);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    overflow:hidden;
+}
+
+/* LEFT */
+.secure-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.shield{
+    position:relative;
+    width:55px;
+    height:55px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#5f3bff,#2d0cff);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    color:white;
+}
+
+.tick{
+    position:absolute;
+    bottom:-5px;
+    right:-5px;
+    background:#22c55e;
+    color:white;
+    font-size:10px;
+    padding:4px;
+    border-radius:50%;
+}
+
+.secure-text h3{
+    margin:0;
+    font-size:15px;
+}
+
+.secure-text p{
+    margin:0;
+    font-size:12px;
+    color:#666;
+}
+
+/* RIGHT SIDE (illustration style) */
+.secure-right{
+    position:relative;
+    width:120px;
+    height:70px;
+    background:linear-gradient(135deg,#c7d2ff,#a5b4fc);
+    border-radius:12px;
+}
+
+/* fake browser bar */
+.browser-bar{
+    height:10px;
+    background:#dbe1ff;
+    border-radius:12px 12px 0 0;
+}
+
+/* password dots */
+.password{
+    width:60%;
+    height:8px;
+    background:#ffffffaa;
+    border-radius:10px;
+    margin:15px auto 0;
+}
+
+/* lock icon */
+.lock{
+    position:absolute;
+    right:8px;
+    bottom:8px;
+    font-size:20px;
+}
 </style>
 </head>
 
@@ -431,31 +518,26 @@ margin-bottom:10px;
 
 
 
-<div class="security-card">
-    
-    <div class="sec-header">
-        <div class="lock-icon">🔒</div>
-        <div>
-            <h3>Secure & Private</h3>
-            <p>Your data is fully protected</p>
+<div class="secure-banner">
+
+    <!-- LEFT SIDE -->
+    <div class="secure-left">
+        <div class="shield">
+            🛡️
+            <span class="tick">✔</span>
+        </div>
+
+        <div class="secure-text">
+            <h3>Secure. Private. Reliable.</h3>
+            <p>Your salary information is 100% safe and encrypted.</p>
         </div>
     </div>
 
-    <div class="sec-features">
-        <div class="feature">
-            <span>🔐</span>
-            <p>End-to-End Encryption</p>
-        </div>
-
-        <div class="feature">
-            <span>🛡️</span>
-            <p>Safe Storage</p>
-        </div>
-
-        <div class="feature">
-            <span>👁️‍🗨️</span>
-            <p>Privacy First</p>
-        </div>
+    <!-- RIGHT SIDE -->
+    <div class="secure-right">
+        <div class="browser-bar"></div>
+        <div class="password"></div>
+        <div class="lock">🔒</div>
     </div>
 
 </div>
