@@ -202,15 +202,69 @@ animation:spin 1s linear infinite;
 0%{transform:rotate(0deg);}
 100%{transform:rotate(360deg);}
 }
+/* HEADER LAYOUT */
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px;
+background:linear-gradient(135deg,#6a5cff,#4b2dd8);
+color:white;
+border-bottom-left-radius:30px;
+border-bottom-right-radius:30px;
+}
 
+/* LEFT SIDE */
+.header-left{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.top h2{
+margin:0;
+font-size:22px;
+}
+
+/* DOWNLOAD BUTTON (MATCH IMAGE) */
+.download-btn{
+background:linear-gradient(135deg,#7a5cff,#4b2dd8);
+color:white;
+border:none;
+padding:12px 18px;
+border-radius:14px;
+font-size:14px;
+font-weight:600;
+display:flex;
+align-items:center;
+gap:6px;
+box-shadow:0 8px 20px rgba(0,0,0,0.2);
+cursor:pointer;
+transition:0.2s;
+}
+
+.download-btn:active{
+transform:scale(0.95);
+}
 </style>
 </head>
 
 <body>
 
 <div class="top">
-<div class="icon">₹</div>
-<h2>Monthly Salary</h2>
+
+<div class="header-left">
+  <div class="icon">₹</div>
+  <div>
+    <h2>Monthly Salary</h2>
+    <div id="selectedInfo"></div>
+  </div>
+</div>
+
+<button class="download-btn" onclick="downloadPDF()">
+  📄 Download PDF
+</button>
+
 </div>
 
 <div class="content">
@@ -219,7 +273,7 @@ animation:spin 1s linear infinite;
 
 <div class="action-buttons" id="pdfButtons" style="display:none;">
 
-<button onclick="downloadPDF()">📄 Download PDF</button>
+
 </div>
 
 </div>
