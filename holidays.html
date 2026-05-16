@@ -11,16 +11,22 @@ body{
 margin:0;
 font-family:'Segoe UI',sans-serif;
 background:linear-gradient(135deg,#eef2ff,#f6f7ff);
+padding-top: 110px; /* IMPORTANT */
 }
 
 /* ===== HEADER ===== */
 .header{
+position: fixed;   /* ADD THIS */
+top: 0;
+left: 0;
+width: 100%;
+z-index: 1000;
+
 background:linear-gradient(135deg,#6a5cff,#4b2dd8);
 padding:25px 18px 40px;
 color:white;
 border-bottom-left-radius:40px;
 border-bottom-right-radius:40px;
-position:relative;
 }
 
 .header h1{
