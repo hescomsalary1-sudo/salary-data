@@ -320,6 +320,17 @@ body{
   .hero{
   position:relative; /* REQUIRED for arrow positioning */
 }
+
+  /* CONTAINER */
+.container {
+    padding: 15px;
+    animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 </style>
 </head>
 
@@ -347,7 +358,7 @@ body{
   <div class="hero-img">📊</div>
 
 </div>
-
+<div class="container">
 <div class="content">
 <div class="filter-card-modern">
 
@@ -387,7 +398,7 @@ body{
 
   <div id="summaryBox"></div>
 </div>
-
+</div>
 <script>
 // Logic remains identical to your original to preserve data integrity
 let user = localStorage.getItem("currentUser");
