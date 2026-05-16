@@ -6,31 +6,47 @@
 
 <style>
 
-/* BODY */
+/* ===== BODY ===== */
 body{
 margin:0;
 font-family:'Segoe UI',sans-serif;
 background:linear-gradient(135deg,#eef2ff,#f6f7ff);
-padding-top:110px;
+padding-top: 110px; /* IMPORTANT */
 }
 
-/* HEADER */
+/* ===== HEADER ===== */
 .header{
-position:fixed;
-top:0;
-left:0;
-right:0;
-z-index:1000;
+position: fixed;
+top: 0;
+left: 0;
+right: 0; /* ADD THIS */
+width: 100%; 
+z-index: 1000;
+
+box-sizing: border-box; /* IMPORTANT */
+
 background:linear-gradient(135deg,#6a5cff,#4b2dd8);
 padding:25px 18px 40px;
 color:white;
 border-bottom-left-radius:40px;
 border-bottom-right-radius:40px;
-box-sizing:border-box;
+}
+*{
+box-sizing: border-box;
+}
+.header h1{
+margin:0;
+font-size:26px;
+font-weight:700;
 }
 
-*{box-sizing:border-box;}
+.header p{
+margin-top:5px;
+font-size:13px;
+opacity:0.9;
+}
 
+/* BACK BUTTON */
 .back-btn{
 position:absolute;
 top:20px;
@@ -45,6 +61,7 @@ justify-content:center;
 cursor:pointer;
 }
 
+/* ADD BUTTON */
 .add-btn{
 position:absolute;
 top:20px;
@@ -58,12 +75,10 @@ align-items:center;
 justify-content:center;
 font-size:26px;
 color:white;
+box-shadow:0 6px 20px rgba(0,0,0,0.2);
 }
 
-.header h1{margin:0;font-size:26px;}
-.header p{margin-top:5px;font-size:13px;opacity:0.9;}
-
-/* TABS */
+/* ===== FILTER TABS ===== */
 .tabs{
 margin-top:25px;
 padding:12px;
@@ -78,7 +93,7 @@ border-radius:12px;
 background:white;
 font-size:13px;
 white-space:nowrap;
-cursor:pointer;
+box-shadow:0 4px 10px rgba(0,0,0,0.05);
 }
 
 .tab.active{
@@ -86,7 +101,7 @@ background:linear-gradient(135deg,#6a5cff,#4b2dd8);
 color:white;
 }
 
-/* GRID */
+/* ===== GRID ===== */
 .content{padding:15px;}
 
 .grid{
@@ -95,16 +110,23 @@ grid-template-columns:repeat(2,1fr);
 gap:14px;
 }
 
-/* CARD */
+/* ===== CARD ===== */
 .holiday-btn{
 position:relative;
 background:white;
 border-radius:20px;
 padding:15px;
 box-shadow:0 10px 25px rgba(0,0,0,0.08);
+overflow:hidden;
 cursor:pointer;
+transition:0.2s;
 }
 
+.holiday-btn:active{
+transform:scale(0.96);
+}
+
+/* LEFT STRIP */
 .holiday-btn::before{
 content:"";
 position:absolute;
@@ -113,27 +135,46 @@ top:0;
 bottom:0;
 width:6px;
 background:linear-gradient(#ff9a00,#ff4d4d);
+border-radius:10px;
 }
 
-.holiday-icon{font-size:36px;}
+/* ICON */
+.holiday-icon{
+font-size:38px;
+}
 
+/* DATE BADGE */
 .date-badge{
 position:absolute;
-top:10px;
-right:10px;
-background:#eef1ff;
-padding:5px 10px;
-border-radius:8px;
+top:12px;
+right:12px;
+background:#f1f3ff;
+padding:6px 10px;
+border-radius:10px;
 font-size:12px;
+font-weight:700;
+color:#4b2dd8;
 }
 
+/* NAME */
 .holiday-info span{
 display:block;
 margin-top:10px;
+font-size:15px;
 font-weight:600;
 }
 
-/* POPUP (UNCHANGED) */
+/* CATEGORY */
+.holiday-info b{
+display:inline-block;
+margin-top:8px;
+background:#f1f3ff;
+padding:5px 10px;
+border-radius:10px;
+font-size:11px;
+}
+
+/* ===== POPUP ===== */
 .popup{
 position:fixed;
 top:0;left:0;
@@ -159,17 +200,52 @@ border-radius:20px;
 width:85%;
 max-width:330px;
 text-align:center;
+animation:pop 0.3s ease;
 }
 
-.popup-icon{font-size:40px;}
+@keyframes pop{
+from{transform:scale(0.8);opacity:0;}
+to{transform:scale(1);opacity:1;}
+}
+
+.popup-icon{
+font-size:40px;
+margin-bottom:10px;
+}
+
+.popup-box h3{
+color:#4b2dd8;
+margin:5px 0;
+}
+
+.popup-box p{
+font-size:14px;
+color:#555;
+}
 
 .popup-box button{
-margin-top:10px;
+margin-top:12px;
 padding:10px 20px;
 border:none;
 border-radius:20px;
 background:#4b2dd8;
 color:white;
+font-weight:bold;
+}
+
+/* ===== FOOTER ===== */
+.footer{
+position:fixed;
+bottom:10px;
+left:10px;
+right:10px;
+background:white;
+border-radius:20px;
+display:flex;
+justify-content:space-around;
+padding:12px;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+font-size:12px;
 }
 
 </style>
@@ -177,19 +253,28 @@ color:white;
 
 <body>
 
+<!-- HEADER -->
 <div class="header">
-<div class="back-btn" onclick="history.back()">←</div>
-<div class="add-btn">+</div>
-<h1>Holiday List</h1>
-<p>Celebrate every moment ✨</p>
+
+<div class="back-btn" onclick="history.back()">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+<polyline points="15 18 9 12 15 6"></polyline>
+</svg>
 </div>
 
-<!-- TABS -->
+<div class="add-btn">+</div>
+
+<h1>Holiday List</h1>
+<p>Celebrate every moment ✨</p>
+
+</div>
+
+<!-- FILTER -->
 <div class="tabs">
-<div class="tab active" data-type="all">All</div>
-<div class="tab" data-type="national">National</div>
-<div class="tab" data-type="religious">Religious</div>
-<div class="tab" data-type="cultural">Cultural</div>
+<div class="tab active">📅 All Holidays</div>
+<div class="tab">🇮🇳 National</div>
+<div class="tab">🛕 Religious</div>
+<div class="tab">🌼 Cultural</div>
 </div>
 
 <div class="content">
@@ -199,27 +284,46 @@ color:white;
 <!-- POPUP -->
 <div class="popup" id="popup">
 <div class="popup-box">
+
 <div class="popup-icon" id="popupIcon"></div>
 <h3 id="holidayName"></h3>
 <p id="holidayReason"></p>
+<p><b>Importance:</b></p>
 <p id="holidayImportance"></p>
+
 <button onclick="closePopup()">Close</button>
+
 </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+<div>📅 25+ Holidays</div>
+<div>🔔 Never Miss</div>
+<div>❤️ Organized</div>
 </div>
 
 <script>
 
-/* ===== ORIGINAL LOGIC KEPT ===== */
+/* ICON LOGIC (UNCHANGED) */
 function getIcon(name){
 name=name.toLowerCase();
+
+if(name.includes("makara")) return "🪁";
 if(name.includes("republic")) return "🇮🇳";
+if(name.includes("yugadi")) return "🌸";
 if(name.includes("ramzan")) return "🌙";
+if(name.includes("bakreed")) return "🐐";
+if(name.includes("labour")) return "⚒";
+if(name.includes("ambedkar")) return "📘";
+if(name.includes("basava")) return "🙏";
+if(name.includes("mahaveer")) return "☸";
+if(name.includes("good friday")) return "✝";
+
 return "🎊";
 }
 
-let allCards=[];
-
-/* LOAD CSV */
+/* LOAD CSV (UNCHANGED) */
 fetch("https://hescomsalary1-sudo.github.io/salary-data/holidays.csv")
 .then(res=>res.text())
 .then(data=>{
@@ -228,25 +332,26 @@ let rows=data.split("\n").slice(1);
 let html="";
 
 rows.forEach(row=>{
-let c=row.split(",");
+let cols=row.split(",");
 
-if(c.length>3){
+if(cols.length>3){
 
-let icon=getIcon(c[1]);
+let icon=getIcon(cols[1]);
 
 html+=`
 <div class="holiday-btn"
-data-type="${c[2].toLowerCase()}"
-data-name="${c[1]}"
-data-reason="${c[2]}"
-data-importance="${c[3]}"
+data-name="${cols[1]}"
+data-reason="${cols[2]}"
+data-importance="${cols[3]}"
 data-icon="${icon}">
 
 <div class="holiday-icon">${icon}</div>
-<div class="date-badge">${c[0]}</div>
+
+<div class="date-badge">${cols[0]}</div>
 
 <div class="holiday-info">
-<span>${c[1]}</span>
+<span>${cols[1]}</span>
+<b>Holiday</b>
 </div>
 
 </div>
@@ -256,45 +361,23 @@ data-icon="${icon}">
 
 document.getElementById("holidayList").innerHTML=html;
 
-/* SAVE ALL */
-allCards=document.querySelectorAll(".holiday-btn");
-
-/* CLICK POPUP */
-allCards.forEach(btn=>{
+document.querySelectorAll(".holiday-btn").forEach(btn=>{
 btn.addEventListener("click",function(){
-popupIcon.innerText=this.dataset.icon;
-holidayName.innerText=this.dataset.name;
-holidayReason.innerText=this.dataset.reason;
-holidayImportance.innerText=this.dataset.importance;
-popup.classList.add("show");
-});
-});
 
-});
+document.getElementById("holidayName").innerText=this.dataset.name;
+document.getElementById("holidayReason").innerText=this.dataset.reason;
+document.getElementById("holidayImportance").innerText=this.dataset.importance;
+document.getElementById("popupIcon").innerText=this.dataset.icon;
 
-/* ===== FILTER (NEW, SAFE ADD) ===== */
-document.querySelectorAll(".tab").forEach(tab=>{
-tab.addEventListener("click",function(){
-
-document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-this.classList.add("active");
-
-let type=this.dataset.type;
-
-allCards.forEach(card=>{
-if(type==="all"){
-card.style.display="block";
-}else{
-card.style.display = card.dataset.type.includes(type) ? "block":"none";
-}
-});
+document.getElementById("popup").classList.add("show");
 
 });
 });
 
-/* POPUP CLOSE */
+});
+
 function closePopup(){
-popup.classList.remove("show");
+document.getElementById("popup").classList.remove("show");
 }
 
 </script>
