@@ -117,9 +117,26 @@ th,td{
 
 /* Top bar layout */
 .topBar{
+    position:relative;
     display:flex;
-    justify-content:space-between;
     align-items:center;
+    justify-content:center;
+}
+
+/* Back button stays left */
+.backBtn{
+    position:absolute;
+    left:0;
+    font-size:22px;
+    cursor:pointer;
+}
+
+/* Title perfectly centered */
+.titleText{
+    font-size:18px;
+    font-weight:600;
+    text-align:center;
+    width:100%;
 }
 
 /* Icons */
