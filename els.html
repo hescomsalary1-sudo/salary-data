@@ -197,6 +197,17 @@ th,td{
     font-size:14px;
     outline:none;
 }
+
+    /* CONTAINER */
+.container {
+    padding: 15px;
+    animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 </style>
 </head>
 
@@ -219,6 +230,7 @@ th,td{
 </div>
 
 <!-- 1st -->
+  <div class="container">  
 <div class="card">
 <div class="title">EL Credit Overview</div>
 
@@ -345,7 +357,7 @@ Apply for EL Surrender
 <tbody id="billBody"></tbody>
 </table>
 </div>
-
+</div>
 <script>
 
 const username = localStorage.getItem("username") || "emp1";
