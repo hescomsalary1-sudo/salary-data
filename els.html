@@ -105,12 +105,53 @@ th,td{
 @keyframes spin{
     to{ transform:rotate(360deg); }
 }
+
+    .topHeader{
+    background:linear-gradient(135deg,#2b2db8,#5f2eea);
+    color:#fff;
+    padding:20px 15px 60px;
+    border-bottom-left-radius:25px;
+    border-bottom-right-radius:25px;
+    position:relative;
+}
+
+/* Top bar layout */
+.topBar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+/* Icons */
+.menu, .bell{
+    font-size:22px;
+    opacity:0.9;
+}
+
+/* Title */
+.titleText{
+    font-size:18px;
+    font-weight:600;
+}
+
+/* Move first card upward (overlapping effect like image) */
+.card:first-of-type{
+    margin-top:-40px;
+}
 </style>
 </head>
 
 <body>
 
-<div class="header">ELS APPLICATION</div>
+<div class="topHeader">
+
+    <div class="topBar">
+        <div class="backBtn" onclick="goBack()">←</div>
+        <div class="titleText">ELS APPLICATION</div>
+        <div class="bell">🔔</div>
+    </div>
+
+</div>
 
 <!-- LOADER -->
 <div id="loader">
@@ -477,6 +518,9 @@ function showPopup(msg){
 
 function closePopup(){
     popup.style.display = "none";
+}
+    function goBack(){
+    window.history.back();
 }
 </script>
 <div id="popup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:9999; justify-content:center; align-items:center;">
