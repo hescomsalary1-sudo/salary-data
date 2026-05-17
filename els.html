@@ -155,6 +155,48 @@ th,td{
 .card:first-of-type{
     margin-top:-40px;
 }
+
+    .dateRow{
+    display:flex;
+    gap:12px;
+    margin-top:12px;
+}
+
+.dateBox{
+    flex:1;
+}
+
+.dateBox label{
+    font-size:13px;
+    color:#666;
+    margin-bottom:5px;
+    display:block;
+}
+
+/* Input container */
+.dateInput{
+    display:flex;
+    align-items:center;
+    background:#f1f5ff;
+    padding:10px;
+    border-radius:12px;
+    border:1px solid #e0e7ff;
+}
+
+/* Icon */
+.dateInput span{
+    margin-right:8px;
+    font-size:16px;
+}
+
+/* Input */
+.dateInput input{
+    border:none;
+    background:none;
+    width:100%;
+    font-size:14px;
+    outline:none;
+}
 </style>
 </head>
 
@@ -225,8 +267,25 @@ Apply for EL Surrender
 <div id="elsBox" style="display:none; margin-top:10px;">
 <p style="color:red;">Last ELS Period: <span id="lastPeriod"></span></p>
 
-<input type="date" id="fromDate">
-<input type="date" id="toDate">
+<div class="dateRow">
+
+    <div class="dateBox">
+        <label>From Date</label>
+        <div class="dateInput">
+            <span>📅</span>
+            <input type="date" id="fromDate">
+        </div>
+    </div>
+
+    <div class="dateBox">
+        <label>To Date</label>
+        <div class="dateInput">
+            <span>📅</span>
+            <input type="date" id="toDate">
+        </div>
+    </div>
+
+</div>
 
 <p>Total Days: <b id="totalDays">0</b></p>
 <p id="validationMsg" style="display:none; font-size:13px; margin-top:5px;"></p>
