@@ -120,11 +120,47 @@ th,td{
 
 <!-- 1st -->
 <div class="card">
-<div class="title">EL Credit Details</div>
-<p>Total EL: <b id="totalEL">0</b></p>
-<p>Eligible for EL Surrender: <b id="eligibleEL">0</b></p>
+<div class="title">EL Credit Overview</div>
 
-<button onclick="showELSBox()" style="background:#27ae60;">
+<div style="display:flex; gap:12px; margin-top:12px;">
+
+    <!-- TOTAL EL -->
+    <div style="
+        flex:1;
+        background:linear-gradient(135deg,#ede9fe,#f5f3ff);
+        border-radius:16px;
+        padding:15px;
+        box-shadow:0 6px 15px rgba(0,0,0,0.05);
+    ">
+        <div style="font-size:13px; color:#666;">Total EL</div>
+        <div style="font-size:30px; font-weight:bold; color:#4b2dd8;" id="totalEL">0</div>
+    </div>
+
+    <!-- ELIGIBLE -->
+    <div style="
+        flex:1;
+        background:linear-gradient(135deg,#e6f9f0,#ecfdf5);
+        border-radius:16px;
+        padding:15px;
+        box-shadow:0 6px 15px rgba(0,0,0,0.05);
+    ">
+        <div style="font-size:13px; color:#666;">Eligible for EL Surrender</div>
+        <div style="font-size:30px; font-weight:bold; color:#16a34a;" id="eligibleEL">0</div>
+    </div>
+
+</div>
+
+<button onclick="showELSBox()" style="
+    background:linear-gradient(135deg,#16a34a,#15803d);
+    color:#fff;
+    border:none;
+    width:100%;
+    padding:14px;
+    border-radius:12px;
+    margin-top:15px;
+    font-size:15px;
+    font-weight:500;
+">
 Apply for EL Surrender
 </button>
 
