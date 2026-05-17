@@ -2,108 +2,148 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ELS Module</title>
+<title>ELS Application</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 body{
     margin:0;
-    font-family:'Noto Sans Kannada', sans-serif;
-    background:#f5f6fb;
-    overflow-x:hidden;
+    font-family:'Poppins', sans-serif;
+    background:#f4f6fb;
 }
 
+/* HEADER */
 .header{
-    background:#4b2dd8;
+    background:linear-gradient(135deg,#3f2b96,#6a11cb);
     color:#fff;
-    padding:15px;
+    padding:18px;
     text-align:center;
-    font-weight:bold;
+    font-size:18px;
+    font-weight:600;
+    position:sticky;
+    top:0;
 }
 
+/* CARD */
 .card{
     background:#fff;
     margin:15px;
-    padding:15px;
-    border-radius:12px;
-    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+    padding:18px;
+    border-radius:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.05);
 }
 
+/* TITLE */
 .title{
-    font-weight:700;
-    color:#4b2dd8;
+    font-weight:600;
+    font-size:16px;
     margin-bottom:10px;
 }
 
-input, textarea{
-    width:100%;
-    border:none;
-    border-bottom:1px solid #000;
-    padding:6px;
-    margin-top:5px;
-    font-size:14px;
+/* FLEX */
+.row{
+    display:flex;
+    gap:10px;
 }
 
-button{
-    width:100%;
-    padding:12px;
-    background:#4b2dd8;
-    color:#fff;
-    border:none;
-    border-radius:8px;
-    margin-top:15px;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    font-size:12px;
-}
-th,td{
-    padding:8px;
-    border-bottom:1px solid #ddd;
+/* STAT BOX */
+.stat{
+    flex:1;
+    padding:15px;
+    border-radius:14px;
+    background:#f1f3ff;
     text-align:center;
 }
 
-/* PDF AREA */
-#pdfArea{
+.stat.green{
+    background:#e9f8ef;
+}
+
+.stat h2{
+    margin:5px 0 0;
+    color:#3f2b96;
+}
+
+/* BUTTON */
+.btn{
     width:100%;
-    max-width:210mm;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    font-size:15px;
+    margin-top:12px;
+    cursor:pointer;
+}
+
+.btn-green{
+    background:#16a34a;
+    color:#fff;
+}
+
+.btn-blue{
+    background:linear-gradient(135deg,#2563eb,#1e40af);
+    color:#fff;
+}
+
+/* PERIOD */
+.period{
+    background:#fdecec;
+    padding:12px;
+    border-radius:10px;
+    margin-top:12px;
+    color:#e11d48;
+    font-weight:500;
+}
+
+/* DATE INPUT */
+.inputBox{
+    flex:1;
+    background:#f8fafc;
     padding:10px;
-    margin:auto;
-    background:#fff;
+    border-radius:10px;
 }
 
-/* LOADER */
-#loader{
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
+input{
     width:100%;
-    height:100%;
-    background:rgba(255,255,255,0.9);
-    z-index:9999;
-    justify-content:center;
+    border:none;
+    background:none;
+    font-size:14px;
+}
+
+/* TOTAL DAYS */
+.totalBox{
+    display:flex;
+    justify-content:space-between;
     align-items:center;
-    flex-direction:column;
+    margin-top:10px;
 }
 
-.spinner{
-    width:40px;
-    height:40px;
-    border:4px solid #ddd;
-    border-top:4px solid #4b2dd8;
-    border-radius:50%;
-    animation:spin 1s linear infinite;
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
 }
 
-@keyframes spin{
-    to{ transform:rotate(360deg); }
+th{
+    background:#eef2ff;
+    padding:10px;
+    font-size:12px;
+}
+
+td{
+    padding:10px;
+    text-align:center;
+    border-bottom:1px solid #eee;
+}
+
+.status{
+    background:#dcfce7;
+    color:#16a34a;
+    padding:4px 10px;
+    border-radius:10px;
+    font-size:12px;
 }
 </style>
 </head>
@@ -112,73 +152,56 @@ th,td{
 
 <div class="header">ELS APPLICATION</div>
 
-<!-- LOADER -->
-<div id="loader">
-<div class="spinner"></div>
-<p id="loaderText">Loading...</p>
+<!-- CARD 1 -->
+<div class="card">
+<div class="title">EL Credit Overview</div>
+
+<div class="row">
+    <div class="stat">
+        <div>Total EL</div>
+        <h2 id="totalEL">0</h2>
+    </div>
+
+    <div class="stat green">
+        <div>Eligible</div>
+        <h2 id="eligibleEL">0</h2>
+    </div>
 </div>
 
-<!-- 1st -->
-<div class="card">
-<div class="title">EL Credit Details</div>
-<p>Total EL: <b id="totalEL">0</b></p>
-<p>Eligible for EL Surrender: <b id="eligibleEL">0</b></p>
-
-<button onclick="showELSBox()" style="background:#27ae60;">
+<button class="btn btn-green" onclick="showELSBox()">
 Apply for EL Surrender
 </button>
 
-<div id="elsBox" style="display:none; margin-top:10px;">
-<p style="color:red;">Last ELS Period: <span id="lastPeriod"></span></p>
+<div id="elsBox" style="display:none">
 
-<input type="date" id="fromDate">
-<input type="date" id="toDate">
+<div class="period">
+Last ELS Period: <span id="lastPeriod"></span>
+</div>
 
-<p>Total Days: <b id="totalDays">0</b></p>
-<p id="validationMsg" style="display:none; font-size:13px; margin-top:5px;"></p>
-<button onclick="validateDates()" style="background:#2980b9;">Check</button>
-<button id="proceedBtn" onclick="openForm()" style="display:none; background:#8e44ad;">Proceed</button>
+<div class="row">
+    <div class="inputBox">
+        <label>From</label>
+        <input type="date" id="fromDate">
+    </div>
+
+    <div class="inputBox">
+        <label>To</label>
+        <input type="date" id="toDate">
+    </div>
+</div>
+
+<div class="totalBox">
+    <div>Total Days: <b id="totalDays">0</b></div>
+    <button class="btn btn-blue" onclick="validateDates()">Check</button>
+</div>
+
 </div>
 </div>
 
-<!-- 2nd (FORM HIDDEN INITIALLY) -->
-<div class="card" id="formContainer" style="display:none;">
-<div class="title">ELS Application</div>
-
-<div id="pdfArea">
-
-<h3 style="text-align:center;">ಕರ್ನಾಟಕ ವಿದ್ಯುತ್ ಪ್ರಸರಣ ನಿಗಮ ನಿಯಮಿತ</h3>
-<p style="text-align:center;">ಗಳಿಸಿದ ರಜೆ ಸರ್ಪಣೆ ಅರ್ಜಿ</p>
-
-<p>1. ಹೆಸರು : <input id="name"></p>
-<p>2. ಹುದ್ದೆ : <input id="designation"></p>
-<p>3. ಕಾರ್ಯನಿರ್ವಹಿಸುವ ಸ್ಥಳ : <input id="place"></p>
-<p>4. ವೇತನ : <input id="salary"></p>
-<p>5. ಸೇವೆ : <input id="service"></p>
-
-<p>6. ರಜೆ ವಿವರ :</p>
-<textarea id="leaveDetails" rows="3"></textarea>
-
-<p>7. ಅವಧಿ : <input id="period"></p>
-<p>8. ದಿನಗಳು : <input id="days"></p>
-<p>9. ಕಾರಣ : <input id="reason"></p>
-
-<br><br>
-
-<p>ದಿನಾಂಕ : <input id="date"></p>
-
-<br><br>
-
-<p style="text-align:right;">ಸಹಿ</p>
-
-</div>
-
-<button onclick="generatePDF()">Submit & Generate PDF</button>
-</div>
-
-<!-- 3rd -->
+<!-- CARD 2 -->
 <div class="card">
 <div class="title">ELS Bills</div>
+
 <table>
 <thead>
 <tr>
@@ -189,7 +212,9 @@ Apply for EL Surrender
 <th>Days</th>
 </tr>
 </thead>
+
 <tbody id="billBody"></tbody>
+
 </table>
 </div>
 
@@ -442,14 +467,8 @@ function showPopup(msg){
 function closePopup(){
     popup.style.display = "none";
 }
-</script>
-<div id="popup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:9999; justify-content:center; align-items:center;">
-    
-    <div style="background:#fff; padding:20px; border-radius:12px; width:80%; max-width:300px; text-align:center;">
-        <p id="popupText" style="margin-bottom:15px; font-weight:600;"></p>
-        <button onclick="closePopup()" style="background:#4b2dd8;">OK</button>
-    </div>
 
-</div>
+</script>
+
 </body>
 </html>
