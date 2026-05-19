@@ -1,4 +1,4 @@
 username,year,amount,period,status,remarks,ELS_days,group
 emp1,2026,5000,02.01.2026 to 28.02.2026,Paid,ELS,15,A
-emp2,2026,3000,02.01.2025 to 28.02.2025,Pending,Paid,30,C
+emp2,2026,3000,02.01.2025 to 28.02.2025,Paid,ELS,30,C
 emp27,2026,5000,02.01.2026 to 28.02.2026,Paid,ELS,30,B
