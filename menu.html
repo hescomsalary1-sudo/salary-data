@@ -10,6 +10,7 @@ body{
 margin:0;
 font-family:'Segoe UI',sans-serif;
 background: linear-gradient(135deg,#e9efff,#dfe7f5);
+  overflow-x:hidden;
 }
 
 /* HEADER */
@@ -500,16 +501,20 @@ flex-direction:row;
   display:inline-block;
   margin-right:6px;
 }
+
+  .main-content{
+    display:none;
+}
 </style>
 </head>
 
 <body>
 
-<div id="loader" style="display:none;">
+<div id="loader" style="display:flex;">
   <div class="spinner"></div>
 </div>
 
-
+<div class="main-content">
 <div class="header">
   <!-- TOP ROW -->
   <div class="header-top">
@@ -653,7 +658,7 @@ flex-direction:row;
 
 </div>
 </div>
-
+</div>
 <script>
   
 const loader=document.getElementById("loader");
@@ -783,8 +788,16 @@ fetch("https://hescomsalary1-sudo.github.io/salary-data/salary%20.csv")
   setTimeout(()=>{ history.back(); },500);
 }
 
-  window.addEventListener("load", () => {
-  loader.style.display = "none";
+window.addEventListener("load", () => {
+
+  setTimeout(()=>{
+
+    loader.style.display = "none";
+
+    document.querySelector(".main-content").style.display = "block";
+
+  },300);
+
 });
 </script>
 
