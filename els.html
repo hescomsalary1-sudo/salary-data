@@ -105,161 +105,12 @@ th,td{
 @keyframes spin{
     to{ transform:rotate(360deg); }
 }
-
-   .topHeader{
-    background: linear-gradient(135deg,#0d1b8f,#1a2edb);
-    color:white;
-    padding:20px 15px 40px;
-    border-bottom-left-radius:30px;
-    border-bottom-right-radius:30px;
-    position:relative;
-    box-shadow:0 8px 25px rgba(0,0,0,0.15);
-    overflow:hidden;
-}
-
-/* subtle glow effect */
-.topHeader::after{
-    content:"";
-    position:absolute;
-    width:200px;
-    height:200px;
-    background:rgba(255,255,255,0.1);
-    border-radius:50%;
-    top:-50px;
-    right:-50px;
-}
-
-/* Top bar */
-.topBar{
-    position:relative;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-/* Back button */
-.backBtn{
-    position:absolute;
-    left:0;
-    font-size:22px;
-    cursor:pointer;
-    background:rgba(255,255,255,0.15);
-    padding:6px 10px;
-    border-radius:10px;
-    backdrop-filter:blur(5px);
-}
-
-/* Right icons */
-.headerIcons{
-    position:absolute;
-    right:0;
-    display:flex;
-    gap:10px;
-}
-
-.iconBtn{
-    background:rgba(255,255,255,0.15);
-    padding:6px 10px;
-    border-radius:10px;
-    font-size:18px;
-    backdrop-filter:blur(5px);
-}
-
-/* Title */
-.titleText{
-    font-size:20px;
-    font-weight:700;
-    letter-spacing:0.5px;
-}
-
-/* Subtitle */
-.subText{
-    text-align:center;
-    font-size:12px;
-    opacity:0.85;
-    margin-top:5px;
-}
-/* Icons */
-.menu, .bell{
-    font-size:22px;
-    opacity:0.9;
-}
-
-/* Title */
-.titleText{
-    font-size:18px;
-    font-weight:600;
-}
-
-/* Move first card upward (overlapping effect like image) */
-.card:first-of-type{
-    margin-top:-40px;
-}
-
-    .dateRow{
-    display:flex;
-    gap:12px;
-    margin-top:12px;
-}
-
-.dateBox{
-    flex:1;
-}
-
-.dateBox label{
-    font-size:13px;
-    color:#666;
-    margin-bottom:5px;
-    display:block;
-}
-
-/* Input container */
-.dateInput{
-    display:flex;
-    align-items:center;
-    background:#f1f5ff;
-    padding:10px;
-    border-radius:12px;
-    border:1px solid #e0e7ff;
-}
-
-/* Icon */
-.dateInput span{
-    margin-right:8px;
-    font-size:16px;
-}
-
-/* Input */
-.dateInput input{
-    border:none;
-    background:none;
-    width:100%;
-    font-size:14px;
-    outline:none;
-}
-
-    /* CONTAINER */
-
 </style>
 </head>
 
 <body>
 
-<div class="topHeader">
-
-    <div class="topBar">
-        <div class="backBtn" onclick="goBack()">←</div>
-
-        <div class="titleText">ELS APPLICATION</div>
-
-        <div class="headerIcons">
-            
-        </div>
-    </div>
-
-    <div class="subText">Employee Leave Surrender System</div>
-
-</div>
+<div class="header">ELS APPLICATION</div>
 
 <!-- LOADER -->
 <div id="loader">
@@ -268,74 +119,20 @@ th,td{
 </div>
 
 <!-- 1st -->
-  
 <div class="card">
-<div class="title">EL Credit Overview</div>
+<div class="title">EL Credit Details</div>
+<p>Total EL: <b id="totalEL">0</b></p>
+<p>Eligible for EL Surrender: <b id="eligibleEL">0</b></p>
 
-<div style="display:flex; gap:12px; margin-top:12px;">
-
-    <!-- TOTAL EL -->
-    <div style="
-        flex:1;
-        background:linear-gradient(135deg,#ede9fe,#f5f3ff);
-        border-radius:16px;
-        padding:15px;
-        box-shadow:0 6px 15px rgba(0,0,0,0.05);
-    ">
-        <div style="font-size:13px; color:#666;">Total EL</div>
-        <div style="font-size:30px; font-weight:bold; color:#4b2dd8;" id="totalEL">0</div>
-    </div>
-
-    <!-- ELIGIBLE -->
-    <div style="
-        flex:1;
-        background:linear-gradient(135deg,#e6f9f0,#ecfdf5);
-        border-radius:16px;
-        padding:15px;
-        box-shadow:0 6px 15px rgba(0,0,0,0.05);
-    ">
-        <div style="font-size:13px; color:#666;">Eligible for EL Surrender</div>
-        <div style="font-size:30px; font-weight:bold; color:#16a34a;" id="eligibleEL">0</div>
-    </div>
-
-</div>
-
-<button onclick="showELSBox()" style="
-    background:linear-gradient(135deg,#16a34a,#15803d);
-    color:#fff;
-    border:none;
-    width:100%;
-    padding:14px;
-    border-radius:12px;
-    margin-top:15px;
-    font-size:15px;
-    font-weight:500;
-">
+<button onclick="showELSBox()" style="background:#27ae60;">
 Apply for EL Surrender
 </button>
 
 <div id="elsBox" style="display:none; margin-top:10px;">
 <p style="color:red;">Last ELS Period: <span id="lastPeriod"></span></p>
 
-<div class="dateRow">
-
-    <div class="dateBox">
-        <label>From Date</label>
-        <div class="dateInput">
-            <span>📅</span>
-            <input type="date" id="fromDate">
-        </div>
-    </div>
-
-    <div class="dateBox">
-        <label>To Date</label>
-        <div class="dateInput">
-            <span>📅</span>
-            <input type="date" id="toDate">
-        </div>
-    </div>
-
-</div>
+<input type="date" id="fromDate">
+<input type="date" id="toDate">
 
 <p>Total Days: <b id="totalDays">0</b></p>
 <p id="validationMsg" style="display:none; font-size:13px; margin-top:5px;"></p>
@@ -345,7 +142,7 @@ Apply for EL Surrender
 </div>
 
 <!-- 2nd (FORM HIDDEN INITIALLY) -->
-<div class="" id="formContainer" style="display:none;">
+<div class="card" id="formContainer" style="display:none;">
 <div class="title">ELS Application</div>
 
 <div id="pdfArea">
@@ -397,7 +194,7 @@ Apply for EL Surrender
 </div>
 
 <script>
-let empGroup = "";
+
 const username = localStorage.getItem("username") || "emp1";
 let lastToDate=null;
 
@@ -489,14 +286,8 @@ async function loadLastELS(){
 
     t.split("\n").slice(1).forEach(x=>{
         let c=x.split(",");
-
         if(c[0].trim()==username && c[3].includes("to")){
-
             lastPeriod.innerText=c[3];
-
-            // ✅ capture GROUP (assume last column OR adjust index if needed)
-            empGroup = c[7]?.trim();  // <-- adjust if group column position different
-
             let d=c[3].split("to")[1].trim().split(".");
             lastToDate=new Date(d[2],d[1]-1,d[0]);
         }
@@ -525,45 +316,6 @@ function validateDates(){
     let from = new Date(f);
     let to = new Date(t);
 
-    let daysCount = (to - from) / (1000*60*60*24) + 1;
-
-    if(daysCount <= 0){
-        showPopup("Invalid date range");
-        return;
-    }
-
-    // =========================
-    // 🔵 GROUP A / B LOGIC
-    // =========================
-    if(empGroup === "A" || empGroup === "B"){
-
-        if(lastToDate){
-            let lastYear = lastToDate.getFullYear();
-            let newYear = from.getFullYear();
-
-            // ❌ same calendar year not allowed
-            if(lastYear === newYear){
-                showPopup("Already taken ELS in this year");
-                return;
-            }
-        }
-
-        // ❌ max 15 days
-        if(daysCount > 15){
-            totalDays.innerHTML = `<span style="color:red;">${daysCount}</span>`;
-            showPopup("Maximum 15 days allowed for Group A/B");
-            return;
-        }
-
-        // ✅ VALID
-        totalDays.innerHTML = `<span style="color:green;">${daysCount}</span>`;
-        proceedBtn.style.display = "block";
-        return;
-    }
-
-    // =========================
-    // 🔵 OLD LOGIC (OTHERS)
-    // =========================
     if(lastToDate){
         let next = new Date(lastToDate);
         next.setFullYear(next.getFullYear()+1);
@@ -574,9 +326,19 @@ function validateDates(){
         }
     }
 
+    let daysCount = (to - from) / (1000*60*60*24) + 1;
+
+    if(daysCount <= 0){
+        showPopup("Invalid date range");
+        return;
+    }
+
     // ❌ LESS THAN 30
     if(daysCount < 30){
         totalDays.innerHTML = `<span style="color:red;">${daysCount}</span>`;
+        validationMsg.innerHTML = "Minimum 30 days required";
+        validationMsg.style.color = "red";
+        validationMsg.style.display = "block";
         showPopup("Minimum 30 days required");
         return;
     }
@@ -584,12 +346,16 @@ function validateDates(){
     // ❌ MORE THAN 60
     if(daysCount > 60){
         totalDays.innerHTML = `<span style="color:red;">${daysCount}</span>`;
+        validationMsg.innerHTML = "Maximum 60 days allowed";
+        validationMsg.style.color = "red";
+        validationMsg.style.display = "block";
         showPopup("Maximum 60 days allowed");
         return;
     }
 
     // ✅ VALID
     totalDays.innerHTML = `<span style="color:green;">${daysCount}</span>`;
+    validationMsg.style.display = "none";
     proceedBtn.style.display = "block";
 }
 
@@ -675,9 +441,6 @@ function showPopup(msg){
 
 function closePopup(){
     popup.style.display = "none";
-}
-    function goBack(){
-    window.history.back();
 }
 </script>
 <div id="popup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:9999; justify-content:center; align-items:center;">
