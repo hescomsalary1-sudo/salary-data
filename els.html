@@ -195,7 +195,10 @@ Apply for EL Surrender
 
 <script>
 
-const username = localStorage.getItem("username") || "emp1";
+const username =
+    localStorage.getItem("currentUser") ||
+    localStorage.getItem("username") ||
+    "emp1";
 let lastToDate=null;
 
 /* LOADER */
