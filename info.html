@@ -13,19 +13,74 @@ body {
     min-height: 100vh;
 }
 
-/* HEADER */
-#header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 55px;
-    background: #2400b7;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    z-index: 1000;
+/* PREMIUM TOP DESIGN */
+.topHero{
+    position:relative;
+    background:linear-gradient(135deg,#2d00d7,#4c00ff);
+    min-height:240px;
+    overflow:hidden;
+    color:white;
+}
+
+/* DOTS */
+.topHero::before{
+    content:"";
+    position:absolute;
+    left:20px;
+    top:50px;
+    width:80px;
+    height:80px;
+    background-image:radial-gradient(rgba(255,255,255,0.15) 2px, transparent 2px);
+    background-size:14px 14px;
+}
+
+/* CONTENT */
+.heroContent{
+    padding:70px 25px 0;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    position:relative;
+    z-index:2;
+}
+
+/* BOT ICON */
+.botIcon{
+    width:95px;
+    height:95px;
+    border-radius:50%;
+    background:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 12px 30px rgba(0,0,0,0.2);
+    flex-shrink:0;
+}
+
+.botIcon img{
+    width:58px;
+    height:58px;
+}
+
+/* TITLE */
+.heroText{
+    font-size:28px;
+    font-weight:700;
+    line-height:1.2;
+}
+
+/* CURVE */
+.heroWave{
+    position:absolute;
+    bottom:-2px;
+    left:0;
+    width:100%;
+}
+
+.heroWave svg{
+    display:block;
+    width:100%;
+    height:120px;
 }
 
 /* CHAT */
@@ -158,7 +213,28 @@ body.no-scroll {
 
 <body>
 
-<div id="header">💬 Welcome to Smart Support</div>
+<div class="topHero">
+
+    <div class="heroContent">
+
+        <div class="botIcon">
+            <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png">
+        </div>
+
+        <div class="heroText">
+            Welcome to Smart Support
+        </div>
+
+    </div>
+
+    <div class="heroWave">
+        <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path fill="#f3f4fa"
+            d="M0,224L80,218.7C160,213,320,203,480,186.7C640,171,800,149,960,149.3C1120,149,1280,171,1360,181.3L1440,192L1440,320L0,320Z"></path>
+        </svg>
+    </div>
+
+</div>
 
 <div id="chat-container"></div>
 
