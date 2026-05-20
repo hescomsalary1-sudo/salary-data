@@ -19,43 +19,64 @@ color:#111827;
 padding-bottom:40px;
 }
 
-/* TOP HEADER */
+/* FIXED TOP PROFILE */
 
-.top{
-height:85px;
-background:linear-gradient(135deg,#2d0cc8,#5f2dff);
-padding:18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-position:relative;
+.fixed-top{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+z-index:999;
+background:linear-gradient(135deg,#2d0cc8,#6a38ff);
+border-bottom-left-radius:34px;
+border-bottom-right-radius:34px;
 overflow:hidden;
+box-shadow:0 10px 30px rgba(76,37,255,0.30);
 }
 
-.top::before{
+.fixed-top::before{
 content:"";
 position:absolute;
-width:280px;
-height:280px;
-background:rgba(255,255,255,0.05);
+width:320px;
+height:320px;
+background:rgba(255,255,255,0.06);
 border-radius:50%;
 right:-120px;
-top:-80px;
+top:-100px;
+}
+
+.fixed-top::after{
+content:"";
+position:absolute;
+width:260px;
+height:260px;
+background:rgba(255,255,255,0.04);
+border-radius:50%;
+left:-120px;
+bottom:-140px;
+}
+
+.topbar{
+padding:18px 18px 10px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:relative;
+z-index:2;
 }
 
 .top-left{
 display:flex;
 align-items:center;
-gap:12px;
-z-index:2;
+gap:14px;
 }
 
 .back-btn{
-width:44px;
-height:44px;
+width:46px;
+height:46px;
 border-radius:16px;
-background:rgba(255,255,255,0.12);
-backdrop-filter:blur(10px);
+background:rgba(255,255,255,0.14);
+backdrop-filter:blur(12px);
 display:flex;
 align-items:center;
 justify-content:center;
@@ -66,71 +87,42 @@ cursor:pointer;
 transform:scale(0.95);
 }
 
-.top-title{
-color:#fff;
-}
-
 .top-title h2{
-font-size:26px;
+font-size:18px;
 font-weight:800;
+color:#fff;
 margin-bottom:2px;
 }
 
 .top-title p{
-font-size:14px;
-opacity:0.85;
+font-size:13px;
+color:rgba(255,255,255,0.85);
 }
 
 .edit-btn{
-width:44px;
-height:44px;
+width:46px;
+height:46px;
 border-radius:16px;
-background:rgba(255,255,255,0.12);
+background:rgba(255,255,255,0.14);
 display:flex;
 align-items:center;
 justify-content:center;
-color:#fff;
 font-size:20px;
-z-index:2;
-}
-
-/* CONTENT */
-
-.content{
-padding:16px;
-margin-top:-10px;
-}
-
-/* PROFILE HEADER */
-
-.profile-card{
-background:linear-gradient(135deg,#2d0cc8,#6a38ff);
-border-radius:30px;
-padding:22px;
-position:relative;
-overflow:hidden;
 color:#fff;
-box-shadow:0 12px 30px rgba(71,32,255,0.25);
-margin-bottom:18px;
 }
 
-.profile-card::before{
-content:"";
-position:absolute;
-width:320px;
-height:320px;
-background:rgba(255,255,255,0.05);
-border-radius:50%;
-right:-150px;
-bottom:-160px;
+/* PROFILE */
+
+.profile-section{
+padding:10px 20px 24px;
+position:relative;
+z-index:2;
 }
 
 .profile-top{
 display:flex;
-gap:18px;
+gap:16px;
 align-items:center;
-position:relative;
-z-index:2;
 }
 
 .avatar-wrap{
@@ -138,8 +130,8 @@ position:relative;
 }
 
 .avatar{
-width:110px;
-height:110px;
+width:100px;
+height:100px;
 border-radius:50%;
 background:#fff;
 display:flex;
@@ -147,15 +139,15 @@ align-items:center;
 justify-content:center;
 font-size:42px;
 font-weight:800;
-color:#3b1eff;
-border:5px solid rgba(255,255,255,0.25);
-box-shadow:0 10px 20px rgba(0,0,0,0.15);
+color:#4c25ff;
+border:5px solid rgba(255,255,255,0.22);
+box-shadow:0 10px 20px rgba(0,0,0,0.18);
 }
 
 .camera{
 position:absolute;
-bottom:0;
 right:0;
+bottom:0;
 width:36px;
 height:36px;
 border-radius:50%;
@@ -163,20 +155,21 @@ background:#fff;
 display:flex;
 align-items:center;
 justify-content:center;
-color:#5b2eff;
 font-size:16px;
+color:#5b2eff;
 font-weight:700;
 }
 
 .profile-info{
 flex:1;
+color:#fff;
 }
 
 .profile-name{
 font-size:30px;
 font-weight:800;
-margin-bottom:8px;
 line-height:1.1;
+margin-bottom:12px;
 }
 
 .emp-id{
@@ -184,9 +177,9 @@ display:inline-flex;
 align-items:center;
 gap:8px;
 background:rgba(255,255,255,0.12);
-padding:10px 14px;
+padding:10px 16px;
 border-radius:14px;
-font-size:15px;
+font-size:14px;
 margin-bottom:12px;
 backdrop-filter:blur(10px);
 }
@@ -196,26 +189,25 @@ display:inline-flex;
 align-items:center;
 gap:8px;
 background:rgba(255,255,255,0.12);
-padding:10px 14px;
+padding:10px 16px;
 border-radius:14px;
 font-size:14px;
-font-weight:600;
+font-weight:700;
 }
 
-.active-dot{
+.dot{
 width:10px;
 height:10px;
-background:#22c55e;
 border-radius:50%;
+background:#22c55e;
 }
 
-.profile-contact{
+.contact-grid{
 margin-top:18px;
 display:grid;
 grid-template-columns:1fr;
-gap:10px;
-position:relative;
-z-index:2;
+gap:12px;
+color:#fff;
 }
 
 .contact-item{
@@ -223,7 +215,12 @@ display:flex;
 align-items:center;
 gap:12px;
 font-size:15px;
-opacity:0.95;
+}
+
+/* PAGE CONTENT */
+
+.content{
+padding:380px 16px 30px;
 }
 
 /* HIGHLIGHTS */
@@ -232,8 +229,8 @@ opacity:0.95;
 background:#fff;
 border-radius:28px;
 padding:18px;
-margin-bottom:18px;
 box-shadow:0 10px 30px rgba(15,23,42,0.06);
+margin-bottom:20px;
 }
 
 .highlight-head{
@@ -246,7 +243,6 @@ margin-bottom:18px;
 .highlight-head h3{
 font-size:24px;
 font-weight:800;
-color:#111827;
 }
 
 .updated{
@@ -264,15 +260,16 @@ gap:14px;
 border-radius:24px;
 padding:18px;
 display:flex;
-gap:14px;
 align-items:center;
+gap:14px;
+min-width:0;
 }
 
-.highlight-box.purple{
-background:#f3efff;
+.purple{
+background:#f4efff;
 }
 
-.highlight-box.green{
+.green{
 background:#eefcf1;
 }
 
@@ -284,7 +281,6 @@ display:flex;
 align-items:center;
 justify-content:center;
 font-size:28px;
-font-weight:700;
 color:#fff;
 flex-shrink:0;
 }
@@ -294,25 +290,29 @@ background:linear-gradient(135deg,#5825ff,#7c4dff);
 }
 
 .green .icon-circle{
-background:linear-gradient(135deg,#16c75f,#1db954);
+background:linear-gradient(135deg,#14c85a,#18b955);
+}
+
+.highlight-content{
+min-width:0;
 }
 
 .highlight-content label{
-font-size:15px;
-font-weight:600;
-color:#4b5563;
 display:block;
-margin-bottom:6px;
+font-size:14px;
+font-weight:700;
+margin-bottom:5px;
+color:#6b7280;
 }
 
 .highlight-content h2{
-font-size:26px;
+font-size:22px;
 font-weight:800;
-margin-bottom:6px;
+word-break:break-word;
 }
 
 .purple h2{
-color:#4f2dff;
+color:#5825ff;
 }
 
 .green h2{
@@ -320,8 +320,9 @@ color:#16a34a;
 }
 
 .highlight-content p{
-font-size:14px;
-font-weight:600;
+margin-top:4px;
+font-size:13px;
+font-weight:700;
 }
 
 .purple p{
@@ -332,52 +333,52 @@ color:#6d28d9;
 color:#16a34a;
 }
 
-/* SECTION */
+/* SECTION TITLE */
 
 .section-title{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin:18px 4px 16px;
+margin:20px 4px 14px;
 }
 
 .section-title h3{
 font-size:28px;
 font-weight:800;
-color:#111827;
 }
 
 .section-title span{
 font-size:15px;
 font-weight:700;
-color:#4f2dff;
+color:#5825ff;
 }
 
 /* TABS */
 
 .tabs{
-background:#fff;
-border-radius:24px;
 display:grid;
 grid-template-columns:1fr 1fr 1fr;
-overflow:hidden;
-box-shadow:0 10px 30px rgba(15,23,42,0.06);
+gap:10px;
 margin-bottom:16px;
 }
 
 .tab{
+background:#fff;
 padding:18px 10px;
+border-radius:22px;
 text-align:center;
-font-weight:700;
 font-size:15px;
+font-weight:700;
 color:#6b7280;
-border-bottom:3px solid transparent;
+cursor:pointer;
+box-shadow:0 10px 25px rgba(15,23,42,0.05);
+transition:0.2s;
 }
 
 .tab.active{
-color:#4f2dff;
-border-bottom:3px solid #4f2dff;
-background:#faf8ff;
+background:linear-gradient(135deg,#5825ff,#7346ff);
+color:#fff;
+transform:translateY(-2px);
 }
 
 /* DETAILS CARD */
@@ -415,10 +416,9 @@ color:#fff;
 }
 
 .details-head h4{
-font-size:30px;
+font-size:28px;
 font-weight:800;
 margin-bottom:4px;
-color:#111827;
 }
 
 .details-head p{
@@ -429,10 +429,10 @@ color:#6b7280;
 .view-btn{
 padding:10px 16px;
 border-radius:14px;
-background:#f4f1ff;
-color:#4f2dff;
-font-weight:700;
+background:#f3efff;
+color:#5825ff;
 font-size:14px;
+font-weight:700;
 }
 
 .info-row{
@@ -469,36 +469,47 @@ color:#fff;
 
 .dark-mode .highlight-card,
 .dark-mode .details-card,
-.dark-mode .tabs{
+.dark-mode .tab{
 background:#1e293b;
 }
 
 .dark-mode .info-value,
-.dark-mode .details-head h4,
 .dark-mode .section-title h3,
-.dark-mode .highlight-head h3{
+.dark-mode .highlight-head h3,
+.dark-mode .details-head h4{
 color:#fff;
 }
 
+.dark-mode .tab{
+color:#cbd5e1;
+}
+
+.dark-mode .tab.active{
+background:linear-gradient(135deg,#5825ff,#7346ff);
+}
+
+/* MOBILE */
+
 @media(max-width:700px){
 
-.profile-top{
-flex-direction:column;
-align-items:flex-start;
+.content{
+padding-top:390px;
 }
 
 .highlight-grid{
-grid-template-columns:1fr;
+grid-template-columns:1fr 1fr;
+}
+
+.profile-top{
+align-items:flex-start;
 }
 
 .profile-name{
-font-size:26px;
+font-size:25px;
 }
 
-.details-head{
-flex-direction:column;
-align-items:flex-start;
-gap:14px;
+.highlight-content h2{
+font-size:18px;
 }
 
 .info-row{
@@ -510,6 +521,12 @@ gap:6px;
 text-align:left;
 }
 
+.details-head{
+flex-direction:column;
+align-items:flex-start;
+gap:14px;
+}
+
 }
 
 </style>
@@ -517,7 +534,9 @@ text-align:left;
 
 <body>
 
-<div class="top">
+<div class="fixed-top">
+
+<div class="topbar">
 
 <div class="top-left">
 
@@ -538,8 +557,14 @@ text-align:left;
 
 </div>
 
+<div id="profileHeader"></div>
+
+</div>
+
 <div class="content">
+
 <div id="data"></div>
+
 </div>
 
 <script>
@@ -551,19 +576,23 @@ window.location="login.html";
 }
 
 function parseDate(dateStr){
+
 if(!dateStr) return null;
 
 let parts = dateStr.split("-");
 
 if(parts.length === 3){
+
 let day = parseInt(parts[0]);
 let month = parseInt(parts[1]) - 1;
 let year = parseInt(parts[2]);
 
 return new Date(year, month, day);
+
 }
 
 return new Date(dateStr);
+
 }
 
 function calculateService(joinDate){
@@ -589,6 +618,7 @@ months += 12;
 }
 
 return years+"Y "+months+"M "+days+"D";
+
 }
 
 function retirementCountdown(retDate){
@@ -614,6 +644,24 @@ months += 12;
 }
 
 return years+"Y "+months+"M "+days+"D";
+
+}
+
+/* TAB SWITCH */
+
+function openTab(tab){
+
+document.querySelectorAll(".tab").forEach(btn=>{
+btn.classList.remove("active");
+});
+
+document.querySelectorAll(".tab-content").forEach(box=>{
+box.style.display="none";
+});
+
+document.getElementById(tab+"Btn").classList.add("active");
+document.getElementById(tab).style.display="block";
+
 }
 
 async function loadProfile(){
@@ -634,9 +682,11 @@ let service = calculateService(cols[18]);
 
 let retirement = retirementCountdown(cols[6]);
 
-document.getElementById("data").innerHTML = `
+/* FIXED PROFILE */
 
-<div class="profile-card">
+document.getElementById("profileHeader").innerHTML = `
+
+<div class="profile-section">
 
 <div class="profile-top">
 
@@ -653,8 +703,10 @@ document.getElementById("data").innerHTML = `
 Employee ID : ${cols[0]}
 </div>
 
+<br>
+
 <div class="active">
-<div class="active-dot"></div>
+<div class="dot"></div>
 Active Employee
 </div>
 
@@ -662,7 +714,7 @@ Active Employee
 
 </div>
 
-<div class="profile-contact">
+<div class="contact-grid">
 
 <div class="contact-item">
 📧 ${cols[8]}
@@ -680,14 +732,17 @@ Active Employee
 
 </div>
 
+`;
+
+/* MAIN CONTENT */
+
+document.getElementById("data").innerHTML = `
 
 <div class="highlight-card">
 
 <div class="highlight-head">
 <h3>Key Highlights</h3>
-<div class="updated">
-Last updated: Today
-</div>
+<div class="updated">Last updated : Today</div>
 </div>
 
 <div class="highlight-grid">
@@ -729,28 +784,30 @@ Last updated: Today
 
 <div class="tabs">
 
-<div class="tab active">
+<div class="tab active" id="basicBtn" onclick="openTab('basic')">
 👤 Basic Info
 </div>
 
-<div class="tab">
+<div class="tab" id="personalBtn" onclick="openTab('personal')">
 🧾 Personal Info
 </div>
 
-<div class="tab">
+<div class="tab" id="serviceBtn" onclick="openTab('service')">
 💼 Service Details
 </div>
 
 </div>
 
 
-<div class="details-card">
+<!-- BASIC -->
+
+<div class="details-card tab-content" id="basic">
 
 <div class="details-head">
 
 <div class="details-left">
 
-<div class="details-icon">🪪</div>
+<div class="details-icon">👤</div>
 
 <div>
 <h4>Basic Information</h4>
@@ -763,7 +820,6 @@ Last updated: Today
 
 </div>
 
-
 <div class="info-row">
 <div class="info-label">Full Name</div>
 <div class="info-value">${cols[1]}</div>
@@ -775,23 +831,42 @@ Last updated: Today
 </div>
 
 <div class="info-row">
-<div class="info-label">Department</div>
-<div class="info-value">${cols[16]}</div>
-</div>
-
-<div class="info-row">
 <div class="info-label">Designation</div>
 <div class="info-value">${cols[23]}</div>
 </div>
 
 <div class="info-row">
-<div class="info-label">Date of Joining</div>
-<div class="info-value">${cols[18]}</div>
+<div class="info-label">Work Location</div>
+<div class="info-value">${cols[3]}</div>
 </div>
 
 <div class="info-row">
-<div class="info-label">Work Location</div>
-<div class="info-value">${cols[3]}</div>
+<div class="info-label">District</div>
+<div class="info-value">${cols[16]}</div>
+</div>
+
+</div>
+
+
+<!-- PERSONAL -->
+
+<div class="details-card tab-content" id="personal" style="display:none;">
+
+<div class="details-head">
+
+<div class="details-left">
+
+<div class="details-icon">🧾</div>
+
+<div>
+<h4>Personal Information</h4>
+<p>Employee personal details</p>
+</div>
+
+</div>
+
+<div class="view-btn">View All</div>
+
 </div>
 
 <div class="info-row">
@@ -810,8 +885,62 @@ Last updated: Today
 </div>
 
 <div class="info-row">
+<div class="info-label">Marital Status</div>
+<div class="info-value">${cols[11]}</div>
+</div>
+
+<div class="info-row">
+<div class="info-label">Qualification</div>
+<div class="info-value">${cols[12]}</div>
+</div>
+
+</div>
+
+
+<!-- SERVICE -->
+
+<div class="details-card tab-content" id="service" style="display:none;">
+
+<div class="details-head">
+
+<div class="details-left">
+
+<div class="details-icon">💼</div>
+
+<div>
+<h4>Service Details</h4>
+<p>Official service information</p>
+</div>
+
+</div>
+
+<div class="view-btn">View All</div>
+
+</div>
+
+<div class="info-row">
+<div class="info-label">Joining Date</div>
+<div class="info-value">${cols[18]}</div>
+</div>
+
+<div class="info-row">
+<div class="info-label">Joining Designation</div>
+<div class="info-value">${cols[19]}</div>
+</div>
+
+<div class="info-row">
 <div class="info-label">Retirement Date</div>
 <div class="info-value">${cols[6]}</div>
+</div>
+
+<div class="info-row">
+<div class="info-label">Pension Type</div>
+<div class="info-value">${cols[26]}</div>
+</div>
+
+<div class="info-row">
+<div class="info-label">Working From</div>
+<div class="info-value">${cols[28]}</div>
 </div>
 
 </div>
@@ -819,7 +948,9 @@ Last updated: Today
 `;
 
 return;
+
 }
+
 }
 
 document.getElementById("data").innerHTML="User not found.";
