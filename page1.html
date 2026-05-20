@@ -223,99 +223,208 @@ font-size:15px;
 padding:380px 16px 30px;
 }
 
-/* HIGHLIGHTS */
+
+
+/* MODERN HIGHLIGHTS */
+
+.highlight-card{
+background:transparent;
+margin-bottom:22px;
+}
 
 .highlight-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:10px;
+gap:12px;
 width:100%;
-overflow:hidden;
 }
 
 .highlight-box{
-border-radius:20px;
-padding:12px;
-display:flex;
-align-items:center;
-gap:10px;
-min-width:0;
+position:relative;
 overflow:hidden;
+border-radius:28px;
+padding:18px 14px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+min-height:170px;
+backdrop-filter:blur(14px);
+box-shadow:
+0 12px 30px rgba(0,0,0,0.08),
+inset 0 1px 0 rgba(255,255,255,0.3);
+transition:0.25s ease;
+}
+
+.highlight-box:active{
+transform:scale(0.98);
+}
+
+.highlight-box::before{
+content:"";
+position:absolute;
+width:140px;
+height:140px;
+border-radius:50%;
+top:-70px;
+right:-50px;
+background:rgba(255,255,255,0.12);
+}
+
+.highlight-box::after{
+content:"";
+position:absolute;
+width:90px;
+height:90px;
+border-radius:50%;
+bottom:-40px;
+left:-30px;
+background:rgba(255,255,255,0.08);
+}
+
+/* SERVICE CARD */
+
+.purple{
+background:
+linear-gradient(135deg,
+#4520ff 0%,
+#693bff 55%,
+#8b5dff 100%);
+color:#fff;
+}
+
+/* RETIREMENT CARD */
+
+.green{
+background:
+linear-gradient(135deg,
+#0fa958 0%,
+#14c767 55%,
+#29dd7d 100%);
+color:#fff;
+}
+
+.highlight-top{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+position:relative;
+z-index:2;
 }
 
 .icon-circle{
-width:52px;
-height:52px;
-border-radius:50%;
+width:56px;
+height:56px;
+border-radius:20px;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:22px;
-color:#fff;
+font-size:26px;
+background:rgba(255,255,255,0.18);
+backdrop-filter:blur(10px);
+box-shadow:
+inset 0 1px 0 rgba(255,255,255,0.25),
+0 8px 20px rgba(0,0,0,0.12);
 flex-shrink:0;
 }
 
+.highlight-badge{
+padding:6px 10px;
+border-radius:999px;
+font-size:10px;
+font-weight:700;
+background:rgba(255,255,255,0.14);
+backdrop-filter:blur(10px);
+letter-spacing:0.5px;
+}
+
 .highlight-content{
-flex:1;
-min-width:0;
-overflow:hidden;
+position:relative;
+z-index:2;
+margin-top:18px;
 }
 
 .highlight-content label{
 display:block;
-font-size:11px;
+font-size:12px;
 font-weight:700;
-margin-bottom:4px;
-color:#6b7280;
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis;
+opacity:0.85;
+margin-bottom:8px;
+letter-spacing:0.3px;
 }
 
 .highlight-content h2{
-font-size:15px;
+font-size:20px;
 font-weight:800;
 line-height:1.2;
 word-break:break-word;
-overflow-wrap:break-word;
 }
 
 .highlight-content p{
-margin-top:4px;
-font-size:11px;
-font-weight:700;
-line-height:1.2;
-word-break:break-word;
+margin-top:8px;
+font-size:12px;
+font-weight:600;
+opacity:0.92;
 }
+
+.highlight-line{
+width:100%;
+height:5px;
+border-radius:999px;
+background:rgba(255,255,255,0.18);
+margin-top:14px;
+overflow:hidden;
+position:relative;
+z-index:2;
+}
+
+.highlight-line span{
+display:block;
+height:100%;
+border-radius:999px;
+background:#fff;
+opacity:0.9;
+}
+
+/* MOBILE */
 
 @media(max-width:420px){
 
 .highlight-grid{
-gap:8px;
+gap:10px;
 }
 
 .highlight-box{
-padding:10px;
-gap:8px;
-border-radius:18px;
+padding:14px 12px;
+min-height:150px;
+border-radius:24px;
 }
 
 .icon-circle{
-width:46px;
-height:46px;
-font-size:20px;
+width:48px;
+height:48px;
+font-size:22px;
+border-radius:16px;
 }
 
-.highlight-content h2{
-font-size:13px;
+.highlight-content{
+margin-top:14px;
 }
 
 .highlight-content label{
-font-size:10px;
+font-size:11px;
+}
+
+.highlight-content h2{
+font-size:15px;
 }
 
 .highlight-content p{
 font-size:10px;
+}
+
+.highlight-badge{
+font-size:9px;
+padding:5px 8px;
 }
 
 }
@@ -727,30 +836,62 @@ document.getElementById("data").innerHTML = `
 
 <div class="highlight-card">
 
-
-
 <div class="highlight-grid">
 
 <div class="highlight-box purple">
 
+<div class="highlight-top">
+
 <div class="icon-circle">⏳</div>
 
-<div class="highlight-content">
-<label>Service Length</label>
-<h2>${service}</h2>
-<p>Completed Service</p>
+<div class="highlight-badge">
+SERVICE
 </div>
 
 </div>
+
+<div class="highlight-content">
+
+<label>Service Length</label>
+
+<h2>${service}</h2>
+
+<p>Total completed service period</p>
+
+<div class="highlight-line">
+<span style="width:75%"></span>
+</div>
+
+</div>
+
+</div>
+
+
 
 <div class="highlight-box green">
 
+<div class="highlight-top">
+
 <div class="icon-circle">🏁</div>
 
+<div class="highlight-badge">
+RETIREMENT
+</div>
+
+</div>
+
 <div class="highlight-content">
+
 <label>Retirement In</label>
+
 <h2>${retirement}</h2>
-<p>Remaining Service</p>
+
+<p>Remaining service duration</p>
+
+<div class="highlight-line">
+<span style="width:55%"></span>
+</div>
+
 </div>
 
 </div>
