@@ -19,7 +19,7 @@ color:#111827;
 padding-bottom:40px;
 }
 
-/* FIXED TOP PROFILE */
+/* TOP SECTION */
 
 .fixed-top{
 position:fixed;
@@ -28,218 +28,174 @@ left:0;
 width:100%;
 z-index:999;
 background:linear-gradient(135deg,#0d1b8f,#1a2edb);
-border-bottom-left-radius:34px;
-border-bottom-right-radius:34px;
+border-bottom-left-radius:30px;
+border-bottom-right-radius:30px;
 overflow:hidden;
-box-shadow:0 10px 30px rgba(76,37,255,0.30);
+box-shadow:0 10px 25px rgba(76,37,255,0.25);
 }
 
 .fixed-top::before{
 content:"";
 position:absolute;
-width:320px;
-height:320px;
-background:rgba(255,255,255,0.06);
+width:280px;
+height:280px;
 border-radius:50%;
+background:rgba(255,255,255,0.05);
 right:-120px;
-top:-100px;
+top:-120px;
 }
 
 .fixed-top::after{
 content:"";
 position:absolute;
-width:260px;
-height:260px;
-background:rgba(255,255,255,0.04);
+width:220px;
+height:220px;
 border-radius:50%;
-left:-120px;
-bottom:-140px;
+background:rgba(255,255,255,0.04);
+left:-100px;
+bottom:-120px;
 }
 
 .topbar{
-padding:18px 18px 10px;
-display:flex;
-justify-content:space-between;
-align-items:center;
+padding:16px;
 position:relative;
 z-index:2;
 }
 
-.top-left{
-display:flex;
-align-items:center;
-gap:14px;
-}
-
 .back-btn{
-width:46px;
-height:46px;
-border-radius:16px;
+width:42px;
+height:42px;
+border-radius:14px;
 background:rgba(255,255,255,0.14);
-backdrop-filter:blur(12px);
 display:flex;
 align-items:center;
 justify-content:center;
+backdrop-filter:blur(10px);
 cursor:pointer;
-}
-
-.back-btn:active{
-transform:scale(0.95);
-}
-
-.top-title h2{
-font-size:18px;
-font-weight:800;
-color:#fff;
-margin-bottom:2px;
-}
-
-.top-title p{
-font-size:13px;
-color:rgba(255,255,255,0.85);
 }
 
 /* PROFILE */
 
 .profile-section{
-padding:10px 18px 14px;
+padding:0 16px 14px;
 position:relative;
 z-index:2;
 }
 
-.profile-top{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px;
+.profile-main-name{
+font-size:22px;
+font-weight:800;
+color:#fff;
+margin-bottom:12px;
+line-height:1.2;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
 }
 
-.profile-left{
+.profile-sub-details{
 display:flex;
 align-items:center;
 gap:12px;
-min-width:0;
 }
 
 .avatar{
-width:56px;
-height:56px;
+width:54px;
+height:54px;
 border-radius:50%;
 background:#fff;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:30px;
+font-size:24px;
 font-weight:800;
 color:#4c25ff;
-border:4px solid rgba(255,255,255,0.22);
-box-shadow:0 10px 20px rgba(0,0,0,0.18);
+border:3px solid rgba(255,255,255,0.20);
+box-shadow:0 8px 18px rgba(0,0,0,0.18);
 flex-shrink:0;
 }
 
-.profile-info{
-min-width:0;
-color:#fff;
-}
-
-.profile-name{
-font-size:8px;
-font-weight:800;
-line-height:1.1;
-margin-bottom:2px;
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis;
-max-width:140px;
-}
-
-.profile-right{
+.profile-basic{
 display:flex;
 flex-direction:column;
-justify-content:center;
-gap:6px;
-padding-left:5px;
-border-left:1px solid rgba(255,255,255,0.18);
+gap:4px;
 min-width:0;
 }
 
 .contact-item{
 display:flex;
 align-items:center;
-gap:7px;
-font-size:12px;
+gap:6px;
+font-size:11px;
+font-weight:600;
 color:#fff;
 white-space:nowrap;
 overflow:hidden;
 text-overflow:ellipsis;
-max-width:140px;
 }
 
-/* PAGE CONTENT */
+/* CONTENT */
 
 .content{
-padding:160px 16px 24px;
+padding:145px 14px 20px;
 }
 
-/* MODERN HIGHLIGHTS */
+/* HIGHLIGHT SECTION */
 
 .highlight-card{
-background:transparent;
 margin-bottom:12px;
 }
 
 .highlight-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:10px;
-width:100%;
+gap:8px;
 }
 
 .highlight-box{
 position:relative;
 overflow:hidden;
-border-radius:24px;
-padding:14px 12px;
+border-radius:20px;
+padding:12px 11px;
 display:flex;
 flex-direction:column;
 justify-content:space-between;
-min-height:138px;
+min-height:118px;
 backdrop-filter:blur(14px);
 box-shadow:
-0 10px 24px rgba(0,0,0,0.08),
-inset 0 1px 0 rgba(255,255,255,0.3);
-transition:0.25s ease;
+0 8px 18px rgba(0,0,0,0.08),
+inset 0 1px 0 rgba(255,255,255,0.25);
 }
 
 .highlight-box::before{
 content:"";
 position:absolute;
-width:140px;
-height:140px;
+width:120px;
+height:120px;
 border-radius:50%;
-top:-70px;
+top:-60px;
 right:-50px;
-background:rgba(255,255,255,0.12);
+background:rgba(255,255,255,0.10);
 }
 
 .highlight-box::after{
 content:"";
 position:absolute;
-width:90px;
-height:90px;
+width:80px;
+height:80px;
 border-radius:50%;
-bottom:-40px;
-left:-30px;
+bottom:-35px;
+left:-25px;
 background:rgba(255,255,255,0.08);
 }
 
 .purple{
-background:linear-gradient(135deg,#4520ff 0%,#693bff 55%,#8b5dff 100%);
+background:linear-gradient(135deg,#4520ff,#693bff,#8b5dff);
 color:#fff;
 }
 
 .green{
-background:linear-gradient(135deg,#0fa958 0%,#14c767 55%,#29dd7d 100%);
+background:linear-gradient(135deg,#0fa958,#14c767,#29dd7d);
 color:#fff;
 }
 
@@ -252,59 +208,57 @@ z-index:2;
 }
 
 .icon-circle{
-width:46px;
-height:46px;
-border-radius:16px;
+width:40px;
+height:40px;
+border-radius:14px;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:20px;
+font-size:18px;
 background:rgba(255,255,255,0.18);
-backdrop-filter:blur(10px);
 }
 
 .highlight-badge{
-padding:6px 10px;
+padding:5px 8px;
 border-radius:999px;
-font-size:10px;
+font-size:9px;
 font-weight:700;
 background:rgba(255,255,255,0.14);
 }
 
 .highlight-content{
+margin-top:8px;
 position:relative;
 z-index:2;
-margin-top:12px;
 }
 
 .highlight-content label{
 display:block;
-font-size:12px;
+font-size:10px;
 font-weight:700;
-opacity:0.85;
-margin-bottom:8px;
+opacity:0.88;
+margin-bottom:6px;
 }
 
 .highlight-content h2{
-font-size:17px;
+font-size:15px;
 font-weight:800;
 line-height:1.2;
-word-break:break-word;
 }
 
 .highlight-content p{
-margin-top:5px;
-font-size:10px;
+margin-top:4px;
+font-size:9px;
 font-weight:600;
 opacity:0.92;
 }
 
 .highlight-line{
 width:100%;
-height:5px;
+height:4px;
 border-radius:999px;
 background:rgba(255,255,255,0.18);
-margin-top:14px;
+margin-top:10px;
 overflow:hidden;
 }
 
@@ -315,17 +269,14 @@ border-radius:999px;
 background:#fff;
 }
 
-/* SECTION TITLE */
+/* TITLE */
 
 .section-title{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin:20px 4px 14px;
+margin:16px 2px 10px;
 }
 
 .section-title h3{
-font-size:28px;
+font-size:20px;
 font-weight:800;
 }
 
@@ -334,88 +285,86 @@ font-weight:800;
 .tabs{
 display:grid;
 grid-template-columns:1fr 1fr 1fr;
-gap:10px;
-margin-bottom:16px;
+gap:8px;
+margin-bottom:12px;
 }
 
 .tab{
 background:#fff;
-padding:18px 10px;
-border-radius:22px;
+padding:13px 6px;
+border-radius:18px;
 text-align:center;
-font-size:15px;
+font-size:12px;
 font-weight:700;
 color:#6b7280;
 cursor:pointer;
-box-shadow:0 10px 25px rgba(15,23,42,0.05);
-transition:0.2s;
+box-shadow:0 6px 18px rgba(15,23,42,0.05);
 }
 
 .tab.active{
 background:linear-gradient(135deg,#5825ff,#7346ff);
 color:#fff;
-transform:translateY(-2px);
 }
 
 /* DETAILS CARD */
 
 .details-card{
 background:#fff;
-border-radius:28px;
-padding:22px;
-box-shadow:0 10px 30px rgba(15,23,42,0.06);
+border-radius:22px;
+padding:16px;
+box-shadow:0 8px 24px rgba(15,23,42,0.06);
 }
 
 .details-head{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:18px;
+margin-bottom:14px;
 }
 
 .details-left{
 display:flex;
-gap:14px;
+gap:10px;
 align-items:center;
 }
 
 .details-icon{
-width:58px;
-height:58px;
-border-radius:18px;
+width:46px;
+height:46px;
+border-radius:14px;
 background:linear-gradient(135deg,#5825ff,#7c4dff);
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:24px;
+font-size:20px;
 color:#fff;
 }
 
 .details-head h4{
-font-size:28px;
+font-size:20px;
 font-weight:800;
-margin-bottom:4px;
+margin-bottom:2px;
 }
 
 .details-head p{
-font-size:14px;
+font-size:11px;
 color:#6b7280;
 }
 
 .view-btn{
-padding:10px 16px;
-border-radius:14px;
+padding:8px 12px;
+border-radius:12px;
 background:#f3efff;
 color:#5825ff;
-font-size:14px;
+font-size:11px;
 font-weight:700;
 }
 
 .info-row{
 display:flex;
 justify-content:space-between;
-gap:20px;
-padding:16px 0;
+gap:12px;
+padding:12px 0;
 border-top:1px solid #eef2f7;
 }
 
@@ -424,16 +373,17 @@ border-top:none;
 }
 
 .info-label{
-font-size:15px;
+font-size:13px;
 font-weight:600;
 color:#6b7280;
 }
 
 .info-value{
-font-size:15px;
+font-size:13px;
 font-weight:700;
 color:#111827;
 text-align:right;
+word-break:break-word;
 }
 
 /* DARK MODE */
@@ -463,41 +413,22 @@ color:#cbd5e1;
 @media(max-width:700px){
 
 .content{
-padding-top:155px;
-}
-
-.profile-top{
-gap:8px;
-}
-
-.profile-name{
-font-size:18px;
-max-width:110px;
-}
-
-.profile-right{
-padding-left:8px;
-gap:5px;
-}
-
-.contact-item{
-font-size:11px;
-max-width:110px;
-}
-
-.info-row{
-flex-direction:column;
-gap:6px;
-}
-
-.info-value{
-text-align:left;
+padding-top:145px;
 }
 
 .details-head{
 flex-direction:column;
 align-items:flex-start;
-gap:14px;
+gap:10px;
+}
+
+.info-row{
+flex-direction:column;
+gap:4px;
+}
+
+.info-value{
+text-align:left;
 }
 
 }
@@ -511,19 +442,10 @@ gap:14px;
 
 <div class="topbar">
 
-<div class="top-left">
-
 <div class="back-btn" onclick="goBack()">
 <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
 <path d="M15 18L9 12L15 6" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
-</div>
-
-<div class="top-title">
-<h2>My Profile</h2>
-<p>Your information at a glance</p>
-</div>
-
 </div>
 
 </div>
@@ -533,9 +455,7 @@ gap:14px;
 </div>
 
 <div class="content">
-
 <div id="data"></div>
-
 </div>
 
 <script>
@@ -648,34 +568,23 @@ let cols = rows[i].split(",");
 if(cols[0].trim() === user.trim()){
 
 let service = calculateService(cols[18]);
-
 let retirement = retirementCountdown(cols[6]);
-
-/* TOP PROFILE */
 
 document.getElementById("profileHeader").innerHTML = `
 
 <div class="profile-section">
 
-<div class="profile-top">
+<div class="profile-main-name">
+${cols[1]}
+</div>
 
-<div class="profile-left">
+<div class="profile-sub-details">
 
 <div class="avatar">
 ${cols[1].charAt(0)}
 </div>
 
-<div class="profile-info">
-
-<div class="profile-name">
-${cols[1]}
-</div>
-
-</div>
-
-</div>
-
-<div class="profile-right">
+<div class="profile-basic">
 
 <div class="contact-item">
 📧 ${cols[8]}
@@ -696,8 +605,6 @@ ${cols[1]}
 </div>
 
 `;
-
-/* MAIN CONTENT */
 
 document.getElementById("data").innerHTML = `
 
@@ -785,8 +692,6 @@ RETIREMENT
 
 </div>
 
-<!-- BASIC -->
-
 <div class="details-card tab-content" id="basic">
 
 <div class="details-head">
@@ -833,8 +738,6 @@ RETIREMENT
 
 </div>
 
-<!-- PERSONAL -->
-
 <div class="details-card tab-content" id="personal" style="display:none;">
 
 <div class="details-head">
@@ -880,8 +783,6 @@ RETIREMENT
 </div>
 
 </div>
-
-<!-- SERVICE -->
 
 <div class="details-card tab-content" id="service" style="display:none;">
 
