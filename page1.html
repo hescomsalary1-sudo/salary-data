@@ -59,6 +59,7 @@ bottom:-140px;
 .topbar{
 padding:18px 18px 10px;
 display:flex;
+justify-content:space-between;
 align-items:center;
 position:relative;
 z-index:2;
@@ -101,7 +102,7 @@ color:rgba(255,255,255,0.85);
 /* PROFILE */
 
 .profile-section{
-padding:10px 18px 16px;
+padding:10px 18px 14px;
 position:relative;
 z-index:2;
 }
@@ -109,32 +110,35 @@ z-index:2;
 .profile-top{
 display:flex;
 align-items:center;
-gap:12px;
+justify-content:space-between;
+gap:10px;
 }
 
 .profile-left{
 display:flex;
 align-items:center;
 gap:12px;
-flex-shrink:0;
+min-width:0;
 }
 
 .avatar{
-width:78px;
-height:78px;
+width:76px;
+height:76px;
 border-radius:50%;
 background:#fff;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:32px;
+font-size:30px;
 font-weight:800;
 color:#4c25ff;
 border:4px solid rgba(255,255,255,0.22);
 box-shadow:0 10px 20px rgba(0,0,0,0.18);
+flex-shrink:0;
 }
 
 .profile-info{
+min-width:0;
 color:#fff;
 }
 
@@ -143,6 +147,10 @@ font-size:20px;
 font-weight:800;
 line-height:1.1;
 margin-bottom:2px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+max-width:140px;
 }
 
 .profile-right{
@@ -152,28 +160,31 @@ justify-content:center;
 gap:6px;
 padding-left:10px;
 border-left:1px solid rgba(255,255,255,0.18);
+min-width:0;
 }
 
 .contact-item{
 display:flex;
 align-items:center;
-gap:8px;
-font-size:13px;
+gap:7px;
+font-size:12px;
 color:#fff;
 white-space:nowrap;
 overflow:hidden;
 text-overflow:ellipsis;
+max-width:140px;
 }
 
 /* PAGE CONTENT */
 
 .content{
-padding:210px 16px 24px;
+padding:220px 16px 24px;
 }
 
-/* HIGHLIGHT */
+/* MODERN HIGHLIGHTS */
 
 .highlight-card{
+background:transparent;
 margin-bottom:12px;
 }
 
@@ -181,6 +192,7 @@ margin-bottom:12px;
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:10px;
+width:100%;
 }
 
 .highlight-box{
@@ -196,6 +208,7 @@ backdrop-filter:blur(14px);
 box-shadow:
 0 10px 24px rgba(0,0,0,0.08),
 inset 0 1px 0 rgba(255,255,255,0.3);
+transition:0.25s ease;
 }
 
 .highlight-box::before{
@@ -276,6 +289,7 @@ margin-bottom:8px;
 font-size:17px;
 font-weight:800;
 line-height:1.2;
+word-break:break-word;
 }
 
 .highlight-content p{
@@ -305,6 +319,7 @@ background:#fff;
 
 .section-title{
 display:flex;
+justify-content:space-between;
 align-items:center;
 margin:20px 4px 14px;
 }
@@ -333,14 +348,16 @@ font-weight:700;
 color:#6b7280;
 cursor:pointer;
 box-shadow:0 10px 25px rgba(15,23,42,0.05);
+transition:0.2s;
 }
 
 .tab.active{
 background:linear-gradient(135deg,#5825ff,#7346ff);
 color:#fff;
+transform:translateY(-2px);
 }
 
-/* DETAILS */
+/* DETAILS CARD */
 
 .details-card{
 background:#fff;
@@ -419,25 +436,53 @@ color:#111827;
 text-align:right;
 }
 
+/* DARK MODE */
+
+.dark-mode{
+background:#0f172a;
+color:#fff;
+}
+
+.dark-mode .details-card,
+.dark-mode .tab{
+background:#1e293b;
+}
+
+.dark-mode .info-value,
+.dark-mode .section-title h3,
+.dark-mode .details-head h4{
+color:#fff;
+}
+
+.dark-mode .tab{
+color:#cbd5e1;
+}
+
 /* MOBILE */
 
 @media(max-width:700px){
 
 .content{
-padding-top:240px;
+padding-top:235px;
 }
 
 .profile-top{
-gap:10px;
-}
-
-.profile-right{
-padding-left:8px;
-gap:6px;
+gap:8px;
 }
 
 .profile-name{
 font-size:18px;
+max-width:110px;
+}
+
+.profile-right{
+padding-left:8px;
+gap:5px;
+}
+
+.contact-item{
+font-size:11px;
+max-width:110px;
 }
 
 .info-row{
@@ -606,6 +651,8 @@ let service = calculateService(cols[18]);
 
 let retirement = retirementCountdown(cols[6]);
 
+/* TOP PROFILE */
+
 document.getElementById("profileHeader").innerHTML = `
 
 <div class="profile-section">
@@ -614,10 +661,16 @@ document.getElementById("profileHeader").innerHTML = `
 
 <div class="profile-left">
 
-<div class="avatar">${cols[1].charAt(0)}</div>
+<div class="avatar">
+${cols[1].charAt(0)}
+</div>
 
 <div class="profile-info">
-<div class="profile-name">${cols[1]}</div>
+
+<div class="profile-name">
+${cols[1]}
+</div>
+
 </div>
 
 </div>
@@ -643,6 +696,8 @@ document.getElementById("profileHeader").innerHTML = `
 </div>
 
 `;
+
+/* MAIN CONTENT */
 
 document.getElementById("data").innerHTML = `
 
@@ -710,6 +765,170 @@ RETIREMENT
 
 </div>
 
+<div class="section-title">
+<h3>Profile Information</h3>
+</div>
+
+<div class="tabs">
+
+<div class="tab active" id="basicBtn" onclick="openTab('basic')">
+👤 Basic Info
+</div>
+
+<div class="tab" id="personalBtn" onclick="openTab('personal')">
+🧾 Personal Info
+</div>
+
+<div class="tab" id="serviceBtn" onclick="openTab('service')">
+💼 Service Details
+</div>
+
+</div>
+
+<!-- BASIC -->
+
+<div class="details-card tab-content" id="basic">
+
+<div class="details-head">
+
+<div class="details-left">
+
+<div class="details-icon">👤</div>
+
+<div>
+<h4>Basic Information</h4>
+<p>Primary work related information</p>
+</div>
+
+</div>
+
+<div class="view-btn">View All</div>
+
+</div>
+
+<div class="info-row">
+<div class="info-label">Full Name</div>
+<div class="info-value">${cols[1]}</div>
+</div>
+
+<div class="info-row">
+<div class="info-label">Employee ID</div>
+<div class="info-value">${cols[0]}</div>
+</div>
+
+<div class="info-row">
+<div class="info-label">Designation</div>
+<div class="info-value">${cols[23]}</div>
+</div>
+
+<div class="info-row">
+<div class="info-label">Work Location</div>
+<div class="info-value">${cols[3]}</div>
+</div>
+
+<div class="info-row">
+<div class="info-label">District</div>
+<div class="info-value">${cols[16]}</div>
+</div>
+
+</div>
+
+<!-- PERSONAL -->
+
+<div class="details-card tab-content" id="personal" style="display:none;">
+
+<div class="details-head">
+
+<div class="details-left">
+
+<div class="details-icon">🧾</div>
+
+<div>
+<h4>Personal Information</h4>
+<p>Employee personal details</p>
+</div>
+
+</div>
+
+<div class="view-btn">View All</div>
+
+</div>
+
+<div class="info-row">
+<div class="info-label">Mobile Number</div>
+<div class="info-value">${cols[4]}</div>
+</div>
+
+<div class="info-row">
+<div class="info-label">Email Address</div>
+<div class="info-value">${cols[8]}</div>
+</div>
+
+<div class="info-row">
+<div class="info-label">Date of Birth</div>
+<div class="info-value">${cols[5]}</div>
+</div>
+
+<div class="info-row">
+<div class="info-label">Marital Status</div>
+<div class="info-value">${cols[11]}</div>
+</div>
+
+<div class="info-row">
+<div class="info-label">Qualification</div>
+<div class="info-value">${cols[12]}</div>
+</div>
+
+</div>
+
+<!-- SERVICE -->
+
+<div class="details-card tab-content" id="service" style="display:none;">
+
+<div class="details-head">
+
+<div class="details-left">
+
+<div class="details-icon">💼</div>
+
+<div>
+<h4>Service Details</h4>
+<p>Official service information</p>
+</div>
+
+</div>
+
+<div class="view-btn">View All</div>
+
+</div>
+
+<div class="info-row">
+<div class="info-label">Joining Date</div>
+<div class="info-value">${cols[18]}</div>
+</div>
+
+<div class="info-row">
+<div class="info-label">Joining Designation</div>
+<div class="info-value">${cols[19]}</div>
+</div>
+
+<div class="info-row">
+<div class="info-label">Retirement Date</div>
+<div class="info-value">${cols[6]}</div>
+</div>
+
+<div class="info-row">
+<div class="info-label">Pension Type</div>
+<div class="info-value">${cols[26]}</div>
+</div>
+
+<div class="info-row">
+<div class="info-label">Working From</div>
+<div class="info-value">${cols[28]}</div>
+</div>
+
+</div>
+
 `;
 
 return;
@@ -723,6 +942,10 @@ document.getElementById("data").innerHTML="User not found.";
 }
 
 loadProfile();
+
+if(localStorage.getItem("darkMode")==="true"){
+document.body.classList.add("dark-mode");
+}
 
 function goBack(){
 window.history.back();
