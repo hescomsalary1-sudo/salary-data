@@ -56,10 +56,19 @@ left:-100px;
 bottom:-120px;
 }
 
-.topbar{
-padding:16px;
+/* PROFILE */
+
+.profile-section{
+padding:16px 16px 14px;
 position:relative;
 z-index:2;
+}
+
+.profile-header-row{
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom:12px;
 }
 
 .back-btn{
@@ -72,31 +81,7 @@ align-items:center;
 justify-content:center;
 backdrop-filter:blur(10px);
 cursor:pointer;
-}
-
-/* PROFILE */
-
-.profile-section{
-padding:0 16px 14px;
-position:relative;
-z-index:2;
-}
-
-.profile-main-name{
-font-size:22px;
-font-weight:800;
-color:#fff;
-margin-bottom:12px;
-line-height:1.2;
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis;
-}
-
-.profile-sub-details{
-display:flex;
-align-items:center;
-gap:12px;
+flex-shrink:0;
 }
 
 .avatar{
@@ -113,6 +98,21 @@ color:#4c25ff;
 border:3px solid rgba(255,255,255,0.20);
 box-shadow:0 8px 18px rgba(0,0,0,0.18);
 flex-shrink:0;
+}
+
+.profile-main-name{
+font-size:20px;
+font-weight:800;
+color:#fff;
+line-height:1.2;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+flex:1;
+}
+
+.profile-sub-details{
+padding-left:108px;
 }
 
 .profile-basic{
@@ -137,7 +137,7 @@ text-overflow:ellipsis;
 /* CONTENT */
 
 .content{
-padding:145px 14px 20px;
+padding:160px 14px 20px;
 }
 
 /* HIGHLIGHT SECTION */
@@ -313,6 +313,7 @@ background:#fff;
 border-radius:22px;
 padding:16px;
 box-shadow:0 8px 24px rgba(15,23,42,0.06);
+margin-bottom:12px;
 }
 
 .details-head{
@@ -413,7 +414,15 @@ color:#cbd5e1;
 @media(max-width:700px){
 
 .content{
-padding-top:145px;
+padding-top:165px;
+}
+
+.profile-main-name{
+font-size:18px;
+}
+
+.profile-sub-details{
+padding-left:108px;
 }
 
 .details-head{
@@ -439,19 +448,7 @@ text-align:left;
 <body>
 
 <div class="fixed-top">
-
-<div class="topbar">
-
-<div class="back-btn" onclick="goBack()">
-<svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-<path d="M15 18L9 12L15 6" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-</div>
-
-</div>
-
 <div id="profileHeader"></div>
-
 </div>
 
 <div class="content">
@@ -574,15 +571,25 @@ document.getElementById("profileHeader").innerHTML = `
 
 <div class="profile-section">
 
-<div class="profile-main-name">
-${cols[1]}
-</div>
+<div class="profile-header-row">
 
-<div class="profile-sub-details">
+<div class="back-btn" onclick="goBack()">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+<path d="M15 18L9 12L15 6" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</div>
 
 <div class="avatar">
 ${cols[1].charAt(0)}
 </div>
+
+<div class="profile-main-name">
+${cols[1]}
+</div>
+
+</div>
+
+<div class="profile-sub-details">
 
 <div class="profile-basic">
 
