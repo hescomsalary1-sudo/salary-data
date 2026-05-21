@@ -113,25 +113,33 @@ color:#fff;
 
 /* PROFILE */
 
-.profile-section{
-padding:10px 20px 24px;
-position:relative;
-z-index:2;
-}
-
 .profile-top{
 display:flex;
-gap:16px;
 align-items:center;
+justify-content:space-between;
+gap:18px;
 }
 
-.avatar-wrap{
-position:relative;
+.profile-left{
+display:flex;
+align-items:center;
+gap:16px;
+flex:1;
+min-width:0;
+}
+
+.profile-right{
+flex:1;
+display:grid;
+grid-template-columns:1fr;
+gap:14px;
+padding-left:20px;
+border-left:1px solid rgba(255,255,255,0.18);
 }
 
 .avatar{
-width:78px;
-height:78px;
+width:82px;
+height:82px;
 border-radius:50%;
 background:#fff;
 display:flex;
@@ -143,12 +151,13 @@ color:#4c25ff;
 border:4px solid rgba(255,255,255,0.22);
 box-shadow:0 10px 20px rgba(0,0,0,0.18);
 }
+
 .camera{
 position:absolute;
-right:0;
-bottom:0;
-width:28px;
-height:28px;
+right:-2px;
+bottom:-2px;
+width:30px;
+height:30px;
 border-radius:50%;
 background:#fff;
 display:flex;
@@ -159,115 +168,64 @@ color:#5b2eff;
 font-weight:700;
 }
 
-.profile-info{
-flex:1;
-color:#fff;
-}
-.top-badges{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-align-items:center;
-margin-top:6px;
+.profile-name{
+font-size:28px;
+font-weight:800;
+line-height:1.1;
+margin-bottom:10px;
 }
 
-.contact-grid{
-margin-top:18px;
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
+.top-badges{
+display:flex;
+align-items:center;
 gap:10px;
-color:#fff;
+flex-wrap:wrap;
+margin-top:8px;
+}
+
+.emp-id,
+.active{
+display:flex;
+align-items:center;
+gap:8px;
+background:rgba(255,255,255,0.12);
+padding:10px 14px;
+border-radius:14px;
+font-size:13px;
+backdrop-filter:blur(10px);
+white-space:nowrap;
 }
 
 .contact-item{
 display:flex;
 align-items:center;
-gap:6px;
-font-size:12px;
-background:rgba(255,255,255,0.10);
-padding:10px 8px;
-border-radius:14px;
-backdrop-filter:blur(10px);
-overflow:hidden;
+gap:10px;
+font-size:14px;
+color:#fff;
 white-space:nowrap;
+overflow:hidden;
 text-overflow:ellipsis;
 }
 
 @media(max-width:700px){
 
-.contact-grid{
-grid-template-columns:1fr 1fr;
+.profile-top{
+flex-direction:column;
+align-items:flex-start;
 }
 
-}
-
-@media(max-width:480px){
-
-.contact-grid{
+.profile-right{
+width:100%;
+border-left:none;
+padding-left:0;
+padding-top:10px;
 grid-template-columns:1fr;
 }
 
-.top-badges{
-gap:8px;
-}
-
-.emp-id,
-.active{
-font-size:12px;
-padding:8px 12px;
-}
-
-}
 .profile-name{
-font-size:30px;
-font-weight:800;
-line-height:1.1;
-margin-bottom:12px;
+font-size:24px;
 }
 
-.emp-id{
-display:inline-flex;
-align-items:center;
-gap:8px;
-background:rgba(255,255,255,0.12);
-padding:10px 16px;
-border-radius:14px;
-font-size:14px;
-margin-bottom:12px;
-backdrop-filter:blur(10px);
-}
-
-.active{
-display:inline-flex;
-align-items:center;
-gap:8px;
-background:rgba(255,255,255,0.12);
-padding:10px 16px;
-border-radius:14px;
-font-size:14px;
-font-weight:700;
-}
-
-.dot{
-width:10px;
-height:10px;
-border-radius:50%;
-background:#22c55e;
-}
-
-.contact-grid{
-margin-top:18px;
-display:grid;
-grid-template-columns:1fr;
-gap:12px;
-color:#fff;
-}
-
-.contact-item{
-display:flex;
-align-items:center;
-gap:12px;
-font-size:15px;
 }
 
 /* PAGE CONTENT */
@@ -839,6 +797,8 @@ document.getElementById("profileHeader").innerHTML = `
 
 <div class="profile-top">
 
+<div class="profile-left">
+
 <div class="avatar-wrap">
 <div class="avatar">${cols[1].charAt(0)}</div>
 <div class="camera">📷</div>
@@ -861,7 +821,11 @@ Active Employee
 
 </div>
 
-<div class="contact-grid">
+</div>
+
+</div>
+
+<div class="profile-right">
 
 <div class="contact-item">
 📧 ${cols[8]}
@@ -873,6 +837,8 @@ Active Employee
 
 <div class="contact-item">
 📍 ${cols[3]}
+</div>
+
 </div>
 
 </div>
