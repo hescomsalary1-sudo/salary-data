@@ -112,7 +112,11 @@ color:#fff;
 }
 
 /* PROFILE */
-
+.profile-section{
+padding:10px 20px 24px;
+position:relative;
+z-index:2;
+}
 .profile-top{
 display:flex;
 align-items:center;
@@ -210,24 +214,43 @@ text-overflow:ellipsis;
 @media(max-width:700px){
 
 .profile-top{
-flex-direction:column;
-align-items:flex-start;
+display:grid;
+grid-template-columns:88px 1fr;
+gap:14px;
+align-items:start;
+}
+
+.profile-left{
+display:contents;
 }
 
 .profile-right{
-width:100%;
+grid-column:2;
 border-left:none;
 padding-left:0;
-padding-top:10px;
-grid-template-columns:1fr;
+padding-top:4px;
+gap:10px;
 }
 
 .profile-name{
-font-size:24px;
+font-size:22px;
+}
+
+.contact-item{
+font-size:13px;
+}
+
+.emp-id,
+.active{
+font-size:12px;
+padding:8px 12px;
 }
 
 }
-
+.profile-info{
+min-width:0;
+color:#fff;
+}
 /* PAGE CONTENT */
 
 .content{
