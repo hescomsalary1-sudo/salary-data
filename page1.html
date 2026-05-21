@@ -120,23 +120,22 @@ z-index:2;
 .profile-top{
 display:flex;
 align-items:center;
-justify-content:space-between;
-gap:8px;
+justify-content:flex-start;
+gap:10px;
 }
 .profile-left{
 display:flex;
 align-items:center;
-gap:16px;
-flex:1;
-min-width:0;
+gap:12px;
+flex:0 0 auto;
+min-width:auto;
 }
 
 .profile-right{
-flex:1;
 display:grid;
 grid-template-columns:1fr;
-gap:10px;
-padding-left:12px;
+gap:8px;
+padding-left:8px;
 border-left:1px solid rgba(255,255,255,0.18);
 }
 
@@ -172,10 +171,11 @@ font-weight:700;
 }
 
 .profile-name{
-font-size:28px;
+font-size:22px;
 font-weight:800;
 line-height:1.1;
-margin-bottom:10px;
+margin-bottom:4px;
+white-space:nowrap;
 }
 
 .top-badges{
