@@ -1,212 +1,700 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Seniority</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-body{
-font-family:sans-serif;
+
+*{
 margin:0;
-background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
-padding-bottom:75px;
+padding:0;
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
 
-.top{
-padding:25px 20px 5px 20px;
-background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
-color:#2400b7;
+body{
+font-family:'Poppins',sans-serif;
+background:linear-gradient(135deg,#f6f7ff,#eef1ff,#f8f5ff);
+min-height:100vh;
+padding-bottom:30px;
+overflow-x:hidden;
+}
+
+/* STATUS SAFE SPACE */
+.top-space{
+height:10px;
+}
+
+/* HEADER */
+.header{
+padding:22px 18px 10px;
+position:relative;
+overflow:hidden;
+}
+
+.header::before{
+content:"";
+position:absolute;
+top:-80px;
+right:-80px;
+width:220px;
+height:220px;
+background:radial-gradient(circle,#8f7dff33 0%,transparent 70%);
+}
+
+.header-flex{
 display:flex;
 justify-content:space-between;
-align-items:center;
-border-bottom-left-radius:60px;
-border-bottom-right-radius:60px;
+align-items:flex-start;
+gap:15px;
 }
 
-/* SECTION CONTAINER */
-.section{
-background:white;
-margin:15px;
-padding:15px;
-border-radius:18px;
-box-shadow:0 6px 15px rgba(0,0,0,0.08);
-}
-
-/* TITLE */
-.section h3{
-margin:0 0 10px;
-font-size:16px;
-color:#333;
-}
-
-/* LIST ITEM */
-.item{
-display:flex;
-align-items:center;
-gap:12px;
-padding:12px;
-border-radius:12px;
-cursor:pointer;
-transition:0.2s;
-}
-
-.item:hover{
-background:#f4f6fb;
-}
-
-/* ICON */
-.icon{
-width:45px;
-height:45px;
-border-radius:12px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:20px;
-color:white;
-}
-
-/* DIFFERENT COLORS */
-.mech{background:#ff7a18;}
-.power{background:#3b1eff;}
-.assist{background:#28a745;}
-.junior{background:#ff4d4d;}
-
-/* TEXT */
-.text{
+.left-side{
 flex:1;
 }
 
-.text h4{
-margin:0;
+.top-row{
+display:flex;
+align-items:center;
+gap:14px;
+margin-bottom:14px;
+}
+
+.menu-btn{
+width:54px;
+height:54px;
+border-radius:18px;
+background:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+box-shadow:0 10px 25px rgba(85,90,160,0.12);
+font-size:25px;
+color:#5b54ff;
+}
+
+.chart-box{
+width:58px;
+height:58px;
+border-radius:18px;
+background:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+box-shadow:0 10px 25px rgba(85,90,160,0.12);
+position:relative;
+overflow:hidden;
+}
+
+.chart{
+display:flex;
+align-items:flex-end;
+gap:4px;
+height:32px;
+}
+
+.chart span{
+width:7px;
+border-radius:10px;
+}
+
+.chart span:nth-child(1){
+height:24px;
+background:#95d600;
+}
+
+.chart span:nth-child(2){
+height:14px;
+background:#ff4b4b;
+}
+
+.chart span:nth-child(3){
+height:30px;
+background:#3b82ff;
+}
+
+.title{
+font-size:26px;
+font-weight:700;
+color:#11154b;
+line-height:1.1;
+margin-bottom:8px;
+}
+
+.subtitle{
 font-size:14px;
-}
-
-.text p{
-margin:2px 0 0;
-font-size:12px;
-color:#777;
-}
-
-/* ARROW */
-.arrow{
-font-size:18px;
-color:#999;
-}
-
-/* INFO BOX */
-.info-box{
-text-align:center;
-font-size:20px;
-color:red;
-padding:15px;
+color:#666c8f;
 line-height:1.5;
+max-width:220px;
+}
+
+/* SHIELD */
+.shield-wrap{
+width:160px;
+display:flex;
+justify-content:center;
+align-items:center;
+position:relative;
+}
+
+.shield-platform{
+position:absolute;
+bottom:0;
+width:110px;
+height:24px;
+background:linear-gradient(180deg,#8d7fff,#5b54ff);
+border-radius:50%;
+filter:blur(1px);
+opacity:0.35;
+}
+
+.shield{
+width:120px;
+height:120px;
+background:linear-gradient(180deg,#9d8cff,#7167ff);
+clip-path:polygon(50% 0%,90% 18%,90% 55%,50% 100%,10% 55%,10% 18%);
+position:relative;
+box-shadow:0 18px 30px rgba(111,104,255,0.35);
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.shield::before{
+content:"⭐";
+font-size:38px;
+position:absolute;
+color:#ffd84d;
+}
+
+/* CARD */
+.section{
+background:#fff;
+margin:14px 16px;
+border-radius:30px;
+padding:18px;
+box-shadow:0 8px 30px rgba(88,96,160,0.08);
+animation:fadeUp .4s ease;
+}
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(15px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+/* SECTION HEADER */
+.section-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:18px;
+}
+
+.section-left{
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.section-icon{
+width:56px;
+height:56px;
+border-radius:18px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:25px;
+color:#fff;
+flex-shrink:0;
+}
+
+.purple{
+background:linear-gradient(135deg,#7e6bff,#4f46ff);
+}
+
+.orange{
+background:linear-gradient(135deg,#ffb347,#ff7700);
+}
+
+.section-title{
+font-size:16px;
+font-weight:700;
+color:#11154b;
+margin-bottom:4px;
+}
+
+.section-sub{
+font-size:13px;
+color:#6f7594;
+line-height:1.4;
+}
+
+.view-btn{
+height:44px;
+padding:0 18px;
+border-radius:22px;
+border:2px solid #c8bcff;
+background:#fff;
+display:flex;
+align-items:center;
+gap:8px;
+font-size:14px;
+font-weight:600;
+color:#6554ff;
+}
+
+/* LIST */
+.list{
+display:flex;
+flex-direction:column;
+gap:14px;
+}
+
+/* ITEM */
+.item{
+display:flex;
+align-items:center;
+gap:14px;
+padding:14px;
+border-radius:22px;
+position:relative;
+overflow:hidden;
+background:#fff;
+border:1px solid #f0f1fb;
+box-shadow:0 5px 15px rgba(91,84,255,0.04);
+transition:.2s;
+}
+
+.item:active{
+transform:scale(.98);
+}
+
+.item::after{
+content:"";
+position:absolute;
+right:-45px;
+top:0;
+width:120px;
+height:100%;
+border-radius:100px;
+}
+
+.orange-bg::after{
+background:#fff4ec;
+}
+
+.blue-bg::after{
+background:#eff3ff;
+}
+
+.green-bg::after{
+background:#effcf2;
+}
+
+.pink-bg::after{
+background:#fff1f6;
+}
+
+.left-line{
+position:absolute;
+left:0;
+top:0;
+width:5px;
+height:100%;
+border-radius:20px;
+}
+
+.orange-line{
+background:#ff7a00;
+}
+
+.blue-line{
+background:#4d5dff;
+}
+
+.green-line{
+background:#1ec85d;
+}
+
+.pink-line{
+background:#ff3f84;
+}
+
+.item-icon{
+width:74px;
+height:74px;
+border-radius:20px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:38px;
+color:#fff;
+position:relative;
+z-index:2;
+flex-shrink:0;
+box-shadow:0 10px 20px rgba(0,0,0,0.08);
+}
+
+.orange-icon{
+background:linear-gradient(135deg,#ffbb55,#ff7300);
+}
+
+.blue-icon{
+background:linear-gradient(135deg,#6b7cff,#3129ff);
+}
+
+.green-icon{
+background:linear-gradient(135deg,#45e787,#00a93f);
+}
+
+.pink-icon{
+background:linear-gradient(135deg,#ff71b0,#ff1d63);
+}
+
+.item-text{
+flex:1;
+position:relative;
+z-index:2;
+}
+
+.item-text h4{
+font-size:16px;
+font-weight:700;
+color:#11154b;
+margin-bottom:5px;
+}
+
+.item-text p{
+font-size:13px;
+color:#6f7594;
+line-height:1.4;
+}
+
+.arrow{
+width:44px;
+height:44px;
+border-radius:50%;
+background:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:28px;
+position:relative;
+z-index:2;
+box-shadow:0 4px 10px rgba(0,0,0,0.05);
+}
+
+.arrow.orange{
+color:#ff7a00;
+}
+
+.arrow.blue{
+color:#4d5dff;
+}
+
+.arrow.green{
+color:#14b84c;
+}
+
+.arrow.pink{
+color:#ff3f84;
+}
+
+/* ALERT BOX */
+.alert-box{
+margin-top:14px;
+border:2px dashed #ffb26b;
+border-radius:26px;
+padding:18px;
+display:flex;
+align-items:center;
+gap:16px;
+background:#fffaf6;
+position:relative;
+overflow:hidden;
+}
+
+.alert-icon{
+width:72px;
+height:72px;
+border-radius:50%;
+background:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:38px;
+color:#ff7a00;
+box-shadow:0 5px 15px rgba(255,122,0,0.15);
+flex-shrink:0;
+}
+
+.alert-text h3{
+font-size:16px;
+font-weight:700;
+color:#d95800;
+margin-bottom:5px;
+}
+
+.alert-text p{
+font-size:14px;
+color:#777;
+line-height:1.5;
+}
+
+.dots{
+position:absolute;
+right:16px;
+bottom:16px;
+display:grid;
+grid-template-columns:repeat(4,6px);
+gap:6px;
+opacity:.3;
+}
+
+.dots span{
+width:6px;
+height:6px;
+background:#ffb26b;
+border-radius:50%;
 }
 
 /* LOADER */
 #loader{
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#f4f6fb;
+inset:0;
+background:#f6f7ff;
 display:none;
 flex-direction:column;
-gap:15px;
+gap:16px;
 padding:20px;
 z-index:9999;
 }
 
 .skeleton{
-height:60px;
-border-radius:12px;
-background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
-animation:shimmer 1.2s infinite;
+height:90px;
+border-radius:24px;
+background:linear-gradient(90deg,#ececff 25%,#dcdfff 50%,#ececff 75%);
+background-size:400% 100%;
+animation:shimmer 1s infinite linear;
 }
 
 @keyframes shimmer{
-0%{background-position:-400px 0;}
-100%{background-position:400px 0;}
+0%{
+background-position:100% 0;
+}
+100%{
+background-position:-100% 0;
+}
 }
 
-      /* CONTAINER */
-.container {
-   
-    animation: slideUp 0.4s ease-out;
-}
-
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
 </style>
 </head>
 
 <body>
 
-<div class="top">
-<h2>📊 Seniority</h2>
+<div class="top-space"></div>
+
+<!-- HEADER -->
+<div class="header">
+
+<div class="header-flex">
+
+<div class="left-side">
+
+<div class="top-row">
+
+<div class="menu-btn">☰</div>
+
+<div class="chart-box">
+<div class="chart">
+<span></span>
+<span></span>
+<span></span>
+</div>
+</div>
+
+</div>
+
+<div class="title">Seniority</div>
+
+<div class="subtitle">
+Explore divisional and circle level seniority
+</div>
+
+</div>
+
+<div class="shield-wrap">
+
+<div class="shield"></div>
+<div class="shield-platform"></div>
+
+</div>
+
+</div>
+
 </div>
 
 <!-- SECTION 1 -->
-      <div class="container">
 <div class="section">
-<h3>Divisional Cadre Seniority</h3>
 
-<div class="item" onclick="openPage('mech.gr-2.html')">
-<div class="icon mech">⚙️</div>
-<div class="text">
+<div class="section-header">
+
+<div class="section-left">
+
+<div class="section-icon purple">👥</div>
+
+<div>
+<div class="section-title">
+Divisional Cadre Seniority
+</div>
+
+<div class="section-sub">
+View seniority for divisional cadre groups
+</div>
+</div>
+
+</div>
+
+<div class="view-btn">
+View All ›
+</div>
+
+</div>
+
+<div class="list">
+
+<!-- ITEM 1 -->
+<div class="item orange-bg" onclick="openPage('mech.gr-2.html')">
+
+<div class="left-line orange-line"></div>
+
+<div class="item-icon orange-icon">⚙️</div>
+
+<div class="item-text">
 <h4>Mech.Gr-2</h4>
 <p>Mechanical group employees</p>
 </div>
-<div class="arrow">›</div>
+
+<div class="arrow orange">›</div>
+
 </div>
 
-<div class="item" onclick="openPage('powerman.html')">
-<div class="icon power">⚡</div>
-<div class="text">
+<!-- ITEM 2 -->
+<div class="item blue-bg" onclick="openPage('powerman.html')">
+
+<div class="left-line blue-line"></div>
+
+<div class="item-icon blue-icon">⚡</div>
+
+<div class="item-text">
 <h4>Powerman</h4>
 <p>Electrical maintenance staff</p>
 </div>
-<div class="arrow">›</div>
+
+<div class="arrow blue">›</div>
+
 </div>
 
-<div class="item" onclick="openPage('assistant_powerman.html')">
-<div class="icon assist">🛠️</div>
-<div class="text">
+<!-- ITEM 3 -->
+<div class="item green-bg" onclick="openPage('assistant_powerman.html')">
+
+<div class="left-line green-line"></div>
+
+<div class="item-icon green-icon">🛠️</div>
+
+<div class="item-text">
 <h4>Assistant Powerman</h4>
 <p>Assistant level staff</p>
 </div>
-<div class="arrow">›</div>
+
+<div class="arrow green">›</div>
+
 </div>
 
-<div class="item" onclick="openPage('junior_powerman.html')">
-<div class="icon junior">👷</div>
-<div class="text">
+<!-- ITEM 4 -->
+<div class="item pink-bg" onclick="openPage('junior_powerman.html')">
+
+<div class="left-line pink-line"></div>
+
+<div class="item-icon pink-icon">👷</div>
+
+<div class="item-text">
 <h4>Junior Powerman</h4>
 <p>Entry level workforce</p>
 </div>
-<div class="arrow">›</div>
+
+<div class="arrow pink">›</div>
+
+</div>
+
 </div>
 
 </div>
 
 <!-- SECTION 2 -->
 <div class="section">
-<h3>Circle Level Seniority</h3>
 
-<div class="info-box">
-⚠️ Circle level seniority is not available.<br>
-It will be updated here in future.
+<div class="section-header">
+
+<div class="section-left">
+
+<div class="section-icon orange">👥</div>
+
+<div>
+<div class="section-title">
+Circle Level Seniority
+</div>
+
+<div class="section-sub">
+View seniority for circle level employees
 </div>
 </div>
+
+</div>
+
+<div style="font-size:40px;">👥</div>
+
+</div>
+
+<div class="alert-box">
+
+<div class="alert-icon">⚠️</div>
+
+<div class="alert-text">
+<h3>Circle level seniority is not available.</h3>
+<p>It will be updated here in future.</p>
+</div>
+
+<div class="dots">
+<span></span><span></span><span></span><span></span>
+<span></span><span></span><span></span><span></span>
+<span></span><span></span><span></span><span></span>
+<span></span><span></span><span></span><span></span>
+</div>
+
+</div>
+
 </div>
 
 <!-- LOADER -->
 <div id="loader">
+
 <div class="skeleton"></div>
 <div class="skeleton"></div>
 <div class="skeleton"></div>
+<div class="skeleton"></div>
+
 </div>
 
 <script>
@@ -216,26 +704,28 @@ let isLoading = false;
 function openPage(url){
 
 if(isLoading) return;
+
 isLoading = true;
 
-// show loader
-document.getElementById("loader").style.display="flex";
-document.body.style.overflow="hidden";
+document.getElementById("loader").style.display = "flex";
 
-// navigate
+document.body.style.overflow = "hidden";
+
 setTimeout(()=>{
 window.location = url;
 },600);
 
 }
 
-</script>
-<script>
+/* BACK */
+
 history.pushState(null, null, location.href);
 
 window.onpopstate = function () {
-  window.location.replace("resources.html");
+window.location.replace("resources.html");
 };
+
 </script>
+
 </body>
 </html>
