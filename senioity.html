@@ -67,7 +67,7 @@ gap:8px;
 margin-bottom:8px;
 }
 
-.menu-btn{
+.back-btn{
 width:42px;
 height:42px;
 border-radius:14px;
@@ -76,8 +76,37 @@ display:flex;
 align-items:center;
 justify-content:center;
 box-shadow:0 6px 16px rgba(85,90,160,0.10);
-font-size:20px;
+font-size:28px;
+font-weight:600;
 color:#5b54ff;
+flex-shrink:0;
+}
+
+.header-text{
+display:flex;
+flex-direction:column;
+justify-content:center;
+}
+
+.top-row{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.title{
+font-size:20px;
+font-weight:700;
+color:white;
+line-height:1.1;
+margin-bottom:3px;
+}
+
+.subtitle{
+font-size:12px;
+color:white;
+line-height:1.4;
+max-width:220px;
 }
 
 .chart-box{
@@ -525,27 +554,25 @@ background-position:-100% 0;
 
 <!-- HEADER -->
 
+<!-- HEADER -->
+
 <div class="header">
 
 <div class="header-flex">
+
+<!-- LEFT SIDE -->
 
 <div class="left-side">
 
 <div class="top-row">
 
-<div class="menu-btn">☰</div>
+<!-- BACK BUTTON -->
 
-<div class="chart-box">
+<div class="back-btn" onclick="history.back()">‹</div>
 
-<div class="chart">
-<span></span>
-<span></span>
-<span></span>
-</div>
+<!-- TITLE AREA -->
 
-</div>
-
-</div>
+<div class="header-text">
 
 <div class="title">Seniority</div>
 
@@ -554,6 +581,12 @@ Explore divisional and circle level seniority
 </div>
 
 </div>
+
+</div>
+
+</div>
+
+<!-- RIGHT SHIELD -->
 
 <div class="shield-wrap">
 
