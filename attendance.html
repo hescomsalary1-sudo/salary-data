@@ -6,11 +6,18 @@
 
 <style>
 
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
+}
+
 body{
 font-family:'Segoe UI',sans-serif;
-margin:0;
 background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
 padding-bottom:90px;
+overflow-x:hidden;
 }
 
 /* HEADER */
@@ -44,18 +51,16 @@ background:rgba(255,255,255,0.7);
 backdrop-filter:blur(12px);
 margin:18px;
 padding:18px;
-border-radius:18px;
+border-radius:24px;
 box-shadow:0 10px 30px rgba(0,0,0,0.08);
-}
-.container {
-    
-    animation: slideUp 0.4s ease-out;
+animation: slideUp 0.4s ease-out;
 }
 
 @keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
 }
+
 /* INPUT */
 .row{
 display:flex;
@@ -95,71 +100,155 @@ text-align:center;
 box-shadow:0 6px 15px rgba(0,0,0,0.1);
 }
 
-.sumCount{font-size:22px;font-weight:bold;}
-
-.presentCard{background:#22c55e;}
-.leaveCard{background:#facc15;color:#333;}
-.absentCard{background:#ef4444;}
-.holidayCard{background:#3b82f6;}
-
-/* LIST */
-.attCard{
-margin:12px;
-padding:14px;
-border-radius:16px;
-background:white;
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
-display:flex;
-justify-content:space-between;
-align-items:center;
-position:relative;
+.sumCount{
+font-size:22px;
+font-weight:bold;
 }
 
-/* LEFT COLOR STRIP */
-.attCard::before{
+.presentCard{
+background:#22c55e;
+}
+
+.leaveCard{
+background:#facc15;
+color:#333;
+}
+
+.absentCard{
+background:#ef4444;
+}
+
+.holidayCard{
+background:#3b82f6;
+}
+
+/* MODERN ATTENDANCE GRID */
+
+#attendanceList{
+margin:18px;
+padding:18px;
+background:rgba(255,255,255,0.72);
+backdrop-filter:blur(12px);
+border-radius:28px;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+display:grid;
+grid-template-columns:repeat(6,1fr);
+gap:10px;
+position:relative;
+overflow:hidden;
+}
+
+/* LEFT PURPLE STRIP */
+
+#attendanceList::before{
 content:"";
 position:absolute;
 left:0;
+top:30px;
+bottom:30px;
+width:10px;
+border-radius:20px;
+background:linear-gradient(180deg,#2400c8,#512dff);
+}
+
+/* DAY CARD */
+
+.attCard{
+background:linear-gradient(145deg,#ffffff,#ececff);
+border-radius:18px;
+padding:14px 4px;
+text-align:center;
+position:relative;
+overflow:hidden;
+min-height:95px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+box-shadow:
+0 6px 15px rgba(80,90,180,0.08),
+inset 0 1px 0 rgba(255,255,255,0.8);
+border:1px solid rgba(255,255,255,0.9);
+animation:fadeUp .35s ease;
+}
+
+/* TOP COLOR LINE */
+
+.attCard::before{
+content:"";
+position:absolute;
 top:0;
-height:100%;
-width:5px;
-border-radius:10px;
+left:0;
+width:100%;
+height:4px;
+border-radius:20px;
+}
+
+/* STATUS COLORS */
+
+.presentCardBar::before{
+background:#00b13c;
+}
+
+.absentCardBar::before{
+background:#ff2a2a;
+}
+
+.leaveCardBar::before{
+background:#f5a000;
+}
+
+.holidayCardBar::before{
+background:#2647ff;
+}
+
+/* DATE */
+
+.attDate{
+font-size:22px;
+font-weight:700;
+line-height:1;
+margin-bottom:10px;
+}
+
+/* TYPE */
+
+.attType{
+font-size:17px;
+font-weight:700;
+line-height:1.2;
+}
+
+/* HIDE OLD BADGE */
+
+.attStatus{
+display:none;
 }
 
 /* COLORS */
-.presentCardBar::before{background:#22c55e;}
-.absentCardBar::before{background:#ef4444;}
-.leaveCardBar::before{background:#facc15;}
-.holidayCardBar::before{background:#3b82f6;}
 
-/* TEXT */
-.attDate{
-font-size:14px;
-font-weight:600;
-color:#111;
+.presentCardBar .attDate,
+.presentCardBar .attType{
+color:#008f2e;
 }
 
-.attType{
-font-size:12px;
-color:#666;
-margin-top:3px;
+.absentCardBar .attDate,
+.absentCardBar .attType{
+color:#ff1f1f;
 }
 
-/* STATUS CHIP */
-.attStatus{
-padding:6px 12px;
-border-radius:20px;
-font-size:12px;
-font-weight:600;
+.leaveCardBar .attDate,
+.leaveCardBar .attType{
+color:#f0a000;
 }
 
-.badge-present{background:#dcfce7;color:#166534;}
-.badge-absent{background:#fee2e2;color:#991b1b;}
-.badge-leave{background:#fef9c3;color:#854d0e;}
-.badge-holiday{background:#dbeafe;color:#1e40af;}
-.badge-other{background:#e5e7eb;color:#374151;}
+.holidayCardBar .attDate,
+.holidayCardBar .attType{
+color:#2040ff;
+}
 
 /* PAGINATION */
+
 .pagination{
 display:none;
 justify-content:center;
@@ -176,13 +265,18 @@ border:none;
 }
 
 /* LOADING */
+
 .loadingBg,.popupBg{
 position:fixed;
-top:0;left:0;width:100%;height:100%;
+top:0;
+left:0;
+width:100%;
+height:100%;
 background:rgba(0,0,0,0.4);
 display:none;
 align-items:center;
 justify-content:center;
+z-index:999;
 }
 
 .loaderBox,.popup{
@@ -191,6 +285,7 @@ padding:25px;
 border-radius:15px;
 text-align:center;
 }
+
 /* BACK BUTTON */
 
 .back-btn{
@@ -219,54 +314,129 @@ transition:0.2s;
 .back-btn:hover svg{
 transform:translateX(-2px);
 }
+
+/* ANIMATION */
+
+@keyframes fadeUp{
+
+from{
+opacity:0;
+transform:translateY(10px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+/* MOBILE */
+
+@media(max-width:480px){
+
+#attendanceList{
+gap:8px;
+padding:16px;
+border-radius:24px;
+}
+
+.attCard{
+min-height:88px;
+padding:12px 3px;
+border-radius:16px;
+}
+
+.attDate{
+font-size:18px;
+}
+
+.attType{
+font-size:15px;
+}
+
+}
+
 </style>
 </head>
 
 <body>
 
-
 <div class="top">
-  
-  <!-- BACK BUTTON -->
-  <div class="back-btn" onclick="goBack()">
-    
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path d="M15 18L9 12L15 6" 
-            stroke="#2400b7" 
-            stroke-width="2.5" 
-            stroke-linecap="round" 
-            stroke-linejoin="round"/>
-    </svg>
 
-  </div>
+<!-- BACK BUTTON -->
+
+<div class="back-btn" onclick="goBack()">
+
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+<path d="M15 18L9 12L15 6"
+stroke="#2400b7"
+stroke-width="2.5"
+stroke-linecap="round"
+stroke-linejoin="round"/>
+</svg>
+
+</div>
+
 <div class="icon">📅</div>
+
 <h2>Attendance</h2>
+
 </div>
 
 <div class="container">
 
 <div class="row">
+
 <select id="year">
 <option value="">Year</option>
-<option>2024</option><option>2025</option><option>2026</option>
+<option>2024</option>
+<option>2025</option>
+<option>2026</option>
 </select>
 
 <select id="month">
 <option value="">Month</option>
-<option>Jan</option><option>Feb</option><option>Mar</option>
-<option>Apr</option><option>May</option><option>Jun</option>
-<option>Jul</option><option>Aug</option><option>Sep</option>
-<option>Oct</option><option>Nov</option><option>Dec</option>
+<option>Jan</option>
+<option>Feb</option>
+<option>Mar</option>
+<option>Apr</option>
+<option>May</option>
+<option>Jun</option>
+<option>Jul</option>
+<option>Aug</option>
+<option>Sep</option>
+<option>Oct</option>
+<option>Nov</option>
+<option>Dec</option>
 </select>
+
 </div>
 
 <button onclick="searchAttendance()">Search</button>
 
 <div class="summaryCards">
-<div class="summaryCard presentCard"><div id="presentCount" class="sumCount">0</div>Present</div>
-<div class="summaryCard leaveCard"><div id="leaveCount" class="sumCount">0</div>Leave</div>
-<div class="summaryCard absentCard"><div id="absentCount" class="sumCount">0</div>Absent</div>
-<div class="summaryCard holidayCard"><div id="holidayWork" class="sumCount">0</div>Holiday Work</div>
+
+<div class="summaryCard presentCard">
+<div id="presentCount" class="sumCount">0</div>
+Present
+</div>
+
+<div class="summaryCard leaveCard">
+<div id="leaveCount" class="sumCount">0</div>
+Leave
+</div>
+
+<div class="summaryCard absentCard">
+<div id="absentCount" class="sumCount">0</div>
+Absent
+</div>
+
+<div class="summaryCard holidayCard">
+<div id="holidayWork" class="sumCount">0</div>
+Holiday Work
+</div>
+
 </div>
 
 </div>
@@ -294,46 +464,76 @@ transform:translateX(-2px);
 let user=localStorage.getItem("currentUser");
 if(!user){window.location="login.html";}
 
-let allRows=[],page=0,perPage=10;
+let allRows=[],page=0,perPage=31;
 
-function closePopup(){document.getElementById("popupBg").style.display="none";}
+function closePopup(){
+document.getElementById("popupBg").style.display="none";
+}
 
 function renderPage(){
+
 let start=page*perPage,end=start+perPage;
 let html="";
-for(let i=start;i<end&&i<allRows.length;i++){html+=allRows[i];}
+
+for(let i=start;i<end&&i<allRows.length;i++){
+html+=allRows[i];
+}
+
 document.getElementById("attendanceList").innerHTML=html;
 }
 
-function nextPage(){if((page+1)*perPage<allRows.length){page++;renderPage();}}
-function prevPage(){if(page>0){page--;renderPage();}}
+function nextPage(){
+if((page+1)*perPage<allRows.length){
+page++;
+renderPage();
+}
+}
+
+function prevPage(){
+if(page>0){
+page--;
+renderPage();
+}
+}
 
 function searchAttendance(){
 
 document.getElementById("loadingBg").style.display="flex";
-page=0;allRows=[];
+
+page=0;
+allRows=[];
 
 let year=document.getElementById("year").value.trim();
 let month=document.getElementById("month").value.trim();
 
 Promise.all([
+
 fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv").then(r=>r.text()),
+
 fetch("https://hescomsalary1-sudo.github.io/salary-data/holidays.csv").then(r=>r.text())
+
 ]).then(([attendanceData,holidayData])=>{
 
 document.getElementById("loadingBg").style.display="none";
 
 let holidayMap={};
+
 holidayData.trim().split("\n").slice(1).forEach(r=>{
+
 let c=r.split(",");
 holidayMap[c[0].trim()]=c[1];
+
 });
 
 let rows=attendanceData.trim().split("\n");
 
 let present=0,leave=0,absent=0,holidayWork=0;
 
-let monthNumber={Jan:"01",Feb:"02",Mar:"03",Apr:"04",May:"05",Jun:"06",Jul:"07",Aug:"08",Sep:"09",Oct:"10",Nov:"11",Dec:"12"};
+let monthNumber={
+Jan:"01",Feb:"02",Mar:"03",Apr:"04",
+May:"05",Jun:"06",Jul:"07",Aug:"08",
+Sep:"09",Oct:"10",Nov:"11",Dec:"12"
+};
 
 for(let i=1;i<rows.length;i++){
 
@@ -344,15 +544,19 @@ if(col[0]===user && col[1]===year && col[2]===month){
 for(let d=0;d<31;d++){
 
 let code=col[3+d]?.trim();
+
 if(!code) continue;
 
 let day=("0"+(d+1)).slice(-2);
+
 let fullDate=`${day}-${monthNumber[month]}-${year}`;
 
 let status="",type="-",badge="",bar="";
 
 /* HOLIDAY */
+
 let isHolidayCSV=holidayMap[fullDate];
+
 let isHolidayCode=(code==="GH"||code==="CH"||code==="WH"||code==="MCL");
 
 if(isHolidayCSV || isHolidayCode){
@@ -360,7 +564,8 @@ if(isHolidayCSV || isHolidayCode){
 let holidayName=holidayMap[fullDate] || "Holiday";
 
 if(code==="P"){
-status="Holiday Work";holidayWork++;
+status="Holiday Work";
+holidayWork++;
 }else{
 status="Holiday";
 }
@@ -371,20 +576,44 @@ bar="holidayCardBar";
 
 }else{
 
-if(code==="P"){status="Present";present++;badge="badge-present";bar="presentCardBar";}
-else if(code==="A"){status="Absent";absent++;badge="badge-absent";bar="absentCardBar";}
-else{status="Leave";leave++;badge="badge-leave";bar="leaveCardBar";type=code;}
+if(code==="P"){
+status="Present";
+present++;
+badge="badge-present";
+bar="presentCardBar";
+type="P";
+}
+
+else if(code==="A"){
+status="Absent";
+absent++;
+badge="badge-absent";
+bar="absentCardBar";
+type="A";
+}
+
+else{
+status="Leave";
+leave++;
+badge="badge-leave";
+bar="leaveCardBar";
+type=code;
+}
 
 }
 
 allRows.push(`
+
 <div class="attCard ${bar}">
-  <div>
-    <div class="attDate">${fullDate}</div>
-    <div class="attType">${type}</div>
-  </div>
-  <div class="attStatus ${badge}">${status}</div>
+
+<div class="attDate">${d+1}</div>
+
+<div class="attType">${type}</div>
+
+<div class="attStatus ${badge}">${status}</div>
+
 </div>
+
 `);
 
 }
@@ -399,11 +628,17 @@ document.getElementById("absentCount").innerText=absent;
 document.getElementById("holidayWork").innerText=holidayWork;
 
 if(allRows.length===0){
+
 document.getElementById("popupBg").style.display="flex";
+
 }else{
-document.getElementById("attendanceList").style.display="block";
-document.getElementById("pagination").style.display="flex";
+
+document.getElementById("attendanceList").style.display="grid";
+
+document.getElementById("pagination").style.display="none";
+
 renderPage();
+
 }
 
 });
@@ -411,8 +646,9 @@ renderPage();
 }
 
 function goBack(){
-  window.history.back();
+window.history.back();
 }
+
 </script>
 
 </body>
