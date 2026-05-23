@@ -243,10 +243,12 @@ gap:10px;
 /* DAY CARD */
 
 
+/* SMALL PREMIUM DAY CARD */
+
 .attCard{
-border-radius:22px;
-padding:14px 4px;
-min-height:95px;
+border-radius:18px;
+padding:10px 3px;
+min-height:76px;
 display:flex;
 flex-direction:column;
 justify-content:center;
@@ -255,7 +257,7 @@ position:relative;
 overflow:hidden;
 border:1px solid rgba(255,255,255,0.9);
 box-shadow:
-0 8px 18px rgba(80,90,180,0.08),
+0 6px 14px rgba(80,90,180,0.08),
 inset 0 1px 0 rgba(255,255,255,0.7);
 animation:fadeUp .35s ease;
 backdrop-filter:blur(10px);
@@ -279,7 +281,7 @@ background:linear-gradient(145deg,#fff8e8,#ffe8b5);
 background:linear-gradient(145deg,#eef3ff,#dce7ff);
 }
 
-/* TOP COLOR LINE */
+/* TOP LINE */
 
 .attCard::before{
 content:"";
@@ -287,11 +289,9 @@ position:absolute;
 top:0;
 left:0;
 width:100%;
-height:5px;
+height:4px;
 border-radius:20px;
 }
-
-/* TOP LINE COLORS */
 
 .presentCardBar::before{
 background:#16a34a;
@@ -309,7 +309,7 @@ background:#f59e0b;
 background:#2563eb;
 }
 
-/* GLOW EFFECT */
+/* GLOW */
 
 .presentCardBar::after,
 .absentCardBar::after,
@@ -317,12 +317,12 @@ background:#2563eb;
 .holidayCardBar::after{
 content:"";
 position:absolute;
-top:-20px;
-right:-20px;
-width:70px;
-height:70px;
+top:-18px;
+right:-18px;
+width:55px;
+height:55px;
 border-radius:50%;
-opacity:.18;
+opacity:.15;
 }
 
 .presentCardBar::after{
@@ -344,9 +344,9 @@ background:#2563eb;
 /* DATE */
 
 .attDate{
-font-size:22px;
+font-size:18px;
 font-weight:800;
-margin-bottom:10px;
+margin-bottom:7px;
 line-height:1;
 position:relative;
 z-index:2;
@@ -355,7 +355,7 @@ z-index:2;
 /* TYPE */
 
 .attType{
-font-size:17px;
+font-size:13px;
 font-weight:700;
 position:relative;
 z-index:2;
