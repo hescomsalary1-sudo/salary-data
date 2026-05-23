@@ -16,7 +16,7 @@ box-sizing:border-box;
 body{
 font-family:'Segoe UI',sans-serif;
 background:linear-gradient(135deg,#e6ecff,#dfe7ff,#f0ebff);
-padding-bottom:90px;
+padding-bottom:70px;
 overflow-x:hidden;
 color:#111827;
 }
@@ -24,47 +24,48 @@ color:#111827;
 /* HEADER */
 
 .top{
-padding:12px 14px;
-background: linear-gradient(135deg,#0d1b8f,#1a2edb);
+padding:10px 12px;
+background:linear-gradient(135deg,#0d1b8f,#1a2edb);
 display:flex;
 align-items:center;
-gap:12px;
-border-bottom-left-radius:26px;
-border-bottom-right-radius:26px;
-box-shadow:0 10px 25px rgba(0,0,0,0.12);
-color: white;
+gap:10px;
+border-bottom-left-radius:22px;
+border-bottom-right-radius:22px;
+box-shadow:0 6px 18px rgba(0,0,0,0.10);
+color:white;
 }
 
 .icon{
-width:42px;
-height:42px;
+width:36px;
+height:36px;
 background:white;
 color:#4f46e5;
-border-radius:50%;
+border-radius:12px;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:20px;
-box-shadow:0 6px 14px rgba(0,0,0,0.10);
+font-size:16px;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }
 
 .top h2{
-font-size:22px;
+font-size:18px;
 color:white;
+font-weight:700;
 }
 
 /* BACK BUTTON */
 
 .back-btn{
-width:42px;
-height:42px;
-border-radius:50%;
+width:36px;
+height:36px;
+border-radius:12px;
 background:rgba(255,255,255,0.92);
 display:flex;
 align-items:center;
 justify-content:center;
 cursor:pointer;
-box-shadow:0 6px 15px rgba(0,0,0,0.15);
+box-shadow:0 4px 10px rgba(0,0,0,0.10);
 transition:.2s;
 flex-shrink:0;
 }
@@ -78,10 +79,10 @@ transform:scale(.94);
 .container{
 background:rgba(255,255,255,0.72);
 backdrop-filter:blur(14px);
-margin:18px;
-padding:18px;
-border-radius:28px;
-box-shadow:0 12px 30px rgba(0,0,0,0.08);
+margin:14px;
+padding:14px;
+border-radius:22px;
+box-shadow:0 8px 22px rgba(0,0,0,0.06);
 animation:slideUp .4s ease;
 }
 
@@ -98,17 +99,17 @@ transform:translateY(0);
 
 .row{
 display:flex;
-gap:10px;
+gap:8px;
 }
 
 select,button{
 width:100%;
-padding:12px;
-margin-top:10px;
-border-radius:14px;
+padding:10px;
+margin-top:8px;
+border-radius:12px;
 border:none;
 background:#f1f5f9;
-font-size:14px;
+font-size:13px;
 font-weight:600;
 outline:none;
 }
@@ -123,16 +124,16 @@ color:white;
 .summaryCards{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:12px;
-margin-top:16px;
+gap:10px;
+margin-top:14px;
 }
 
 .summaryCard{
-padding:16px;
-border-radius:20px;
+padding:12px;
+border-radius:16px;
 color:white;
 text-align:center;
-box-shadow:0 8px 18px rgba(0,0,0,0.10);
+box-shadow:0 5px 14px rgba(0,0,0,0.08);
 position:relative;
 overflow:hidden;
 }
@@ -140,18 +141,18 @@ overflow:hidden;
 .summaryCard::before{
 content:"";
 position:absolute;
-right:-20px;
-top:-20px;
-width:80px;
-height:80px;
-background:rgba(255,255,255,0.15);
+right:-18px;
+top:-18px;
+width:65px;
+height:65px;
+background:rgba(255,255,255,0.14);
 border-radius:50%;
 }
 
 .sumCount{
-font-size:24px;
+font-size:19px;
 font-weight:800;
-margin-bottom:5px;
+margin-bottom:3px;
 }
 
 .presentCard{
@@ -174,12 +175,12 @@ background:linear-gradient(135deg,#2563eb,#3b82f6);
 /* ATTENDANCE WRAPPER */
 
 .attendanceWrapper{
-margin:18px;
-padding:20px;
+margin:14px;
+padding:14px;
 background:rgba(255,255,255,0.75);
 backdrop-filter:blur(14px);
-border-radius:30px;
-box-shadow:0 12px 30px rgba(0,0,0,0.08);
+border-radius:24px;
+box-shadow:0 8px 24px rgba(0,0,0,0.06);
 position:relative;
 overflow:hidden;
 display:none;
@@ -189,9 +190,9 @@ display:none;
 content:"";
 position:absolute;
 left:0;
-top:35px;
-bottom:35px;
-width:10px;
+top:25px;
+bottom:25px;
+width:7px;
 border-radius:20px;
 background:linear-gradient(180deg,#2400c8,#5b39ff);
 }
@@ -201,55 +202,52 @@ background:linear-gradient(180deg,#2400c8,#5b39ff);
 .attendanceHeading{
 display:flex;
 align-items:center;
-gap:12px;
-margin-bottom:18px;
-padding-bottom:14px;
-border-bottom:2px solid #e5e7eb;
+gap:10px;
+margin-bottom:14px;
+padding-bottom:12px;
+border-bottom:1px solid #e5e7eb;
 }
 
 .attendanceHeadingIcon{
-width:50px;
-height:50px;
-border-radius:18px;
+width:42px;
+height:42px;
+border-radius:14px;
 background:linear-gradient(135deg,#2400c8,#5b39ff);
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:24px;
+font-size:20px;
 color:white;
-box-shadow:0 8px 16px rgba(91,57,255,0.25);
+box-shadow:0 6px 14px rgba(91,57,255,0.20);
 }
 
 .attendanceTitle{
-font-size:26px;
+font-size:20px;
 font-weight:800;
 color:#2400b7;
 line-height:1.1;
 }
 
 .attendanceSub{
-font-size:13px;
+font-size:11px;
 color:#6b7280;
-margin-top:3px;
+margin-top:2px;
 }
 
 /* GRID */
 
 #attendanceList{
 display:grid;
-grid-template-columns:repeat(6,1fr);
-gap:10px;
+grid-template-columns:repeat(6,minmax(0,1fr));
+gap:7px;
 }
-
-/* DAY CARD */
-
 
 /* SMALL PREMIUM DAY CARD */
 
 .attCard{
-border-radius:18px;
-padding:10px 3px;
-min-height:76px;
+border-radius:15px;
+padding:8px 2px;
+min-height:66px;
 display:flex;
 flex-direction:column;
 justify-content:center;
@@ -258,7 +256,7 @@ position:relative;
 overflow:hidden;
 border:1px solid rgba(255,255,255,0.9);
 box-shadow:
-0 6px 14px rgba(80,90,180,0.08),
+0 4px 10px rgba(80,90,180,0.06),
 inset 0 1px 0 rgba(255,255,255,0.7);
 animation:fadeUp .35s ease;
 backdrop-filter:blur(10px);
@@ -345,9 +343,9 @@ background:#2563eb;
 /* DATE */
 
 .attDate{
-font-size:18px;
+font-size:15px;
 font-weight:800;
-margin-bottom:7px;
+margin-bottom:5px;
 line-height:1;
 position:relative;
 z-index:2;
@@ -356,7 +354,7 @@ z-index:2;
 /* TYPE */
 
 .attType{
-font-size:13px;
+font-size:11px;
 font-weight:700;
 position:relative;
 z-index:2;
@@ -387,17 +385,17 @@ color:#1d4ed8;
 /* SUMMARY TABLE */
 
 .summaryTable{
-margin-top:24px;
-border-radius:24px;
+margin-top:18px;
+border-radius:18px;
 overflow:hidden;
 background:white;
-box-shadow:0 8px 18px rgba(0,0,0,0.06);
+box-shadow:0 5px 14px rgba(0,0,0,0.05);
 border:1px solid #eef2ff;
 }
 
 .summaryTableHeader{
-padding:16px 18px;
-font-size:18px;
+padding:13px 16px;
+font-size:15px;
 font-weight:800;
 background:linear-gradient(135deg,#2400c8,#5b39ff);
 color:white;
@@ -407,9 +405,9 @@ color:white;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:16px 18px;
+padding:12px 15px;
 border-bottom:1px solid #f1f5f9;
-font-size:15px;
+font-size:13px;
 font-weight:700;
 }
 
@@ -424,8 +422,8 @@ gap:10px;
 }
 
 .dot{
-width:12px;
-height:12px;
+width:10px;
+height:10px;
 border-radius:50%;
 }
 
@@ -451,12 +449,12 @@ background:#2563eb;
 display:none;
 justify-content:center;
 gap:15px;
-margin:20px;
+margin:18px;
 }
 
 .pageBtn{
-padding:10px 18px;
-border-radius:12px;
+padding:8px 16px;
+border-radius:10px;
 background:#4f46e5;
 color:white;
 border:none;
@@ -479,8 +477,8 @@ z-index:999;
 
 .loaderBox,.popup{
 background:white;
-padding:25px;
-border-radius:18px;
+padding:22px;
+border-radius:16px;
 text-align:center;
 }
 
@@ -502,34 +500,34 @@ transform:translateY(0);
 @media(max-width:480px){
 
 .attendanceWrapper{
-padding:16px;
-border-radius:26px;
+padding:12px;
+border-radius:22px;
 }
 
 #attendanceList{
-gap:8px;
+gap:6px;
 }
 
 .attCard{
-min-height:84px;
-border-radius:18px;
+min-height:62px;
+border-radius:14px;
 }
 
 .attDate{
-font-size:18px;
+font-size:14px;
 }
 
 .attType{
-font-size:14px;
+font-size:10px;
 }
 
 .attendanceTitle{
-font-size:22px;
+font-size:18px;
 }
 
 .summaryRow{
-padding:14px 16px;
-font-size:14px;
+padding:11px 14px;
+font-size:12px;
 }
 
 }
@@ -616,8 +614,6 @@ Holiday Work
 
 </div>
 
-<!-- ATTENDANCE SECTION -->
-
 <div class="attendanceWrapper" id="attendanceWrapper">
 
 <div class="attendanceHeading">
@@ -639,8 +635,6 @@ Monthly attendance overview
 </div>
 
 <div id="attendanceList"></div>
-
-<!-- SUMMARY TABLE -->
 
 <div class="summaryTable">
 
