@@ -505,14 +505,14 @@ RS
 
 <div>
 
-<div class="profileName" id="empName">Rahul Sharma</div>
+<div class="profileName" id="empName">Loading...</div>
 
-<div class="empId" id="empCode">EMP001</div>
+<div class="empId" id="empCode">----</div>
 
 <div class="profileInfo">
-<span>Manager</span>
+<span id="designation">----</span>
 <div class="blueDot"></div>
-<span>Sales Department</span>
+<span id="workPlace">----</span>
 </div>
 
 </div>
@@ -779,6 +779,77 @@ stroke-dasharray="87,100"/>
 
 <script>
 
+let currentUser = localStorage.getItem("currentUser");
+
+if(!currentUser){
+window.location = "login.html";
+}
+
+/* USER DATA FETCH */
+
+async function loadUserProfile(){
+
+try{
+
+const response = await fetch(
+"https://hescomsalary1-sudo.github.io/salary-data/employees.csv"
+);
+
+const data = await response.text();
+
+const rows = data.trim().split("\n");
+
+for(let i=1;i<rows.length;i++){
+
+let col = rows[i].split(",");
+
+let userId = col[0]?.trim();
+
+if(userId === currentUser){
+
+let name = col[1]?.trim() || "Employee";
+let empId = col[0]?.trim() || "--";
+let designation = col[2]?.trim() || "--";
+let workPlace = col[3]?.trim() || "--";
+
+document.getElementById("empName").innerText = name;
+
+document.getElementById("empCode").innerText = empId;
+
+document.getElementById("designation").innerText = designation;
+
+document.getElementById("workPlace").innerText = workPlace;
+
+/* Avatar Initial */
+
+let initials = name
+.split(" ")
+.map(v => v[0])
+.join("")
+.substring(0,2)
+.toUpperCase();
+
+document.querySelector(".avatar").innerHTML = `
+${initials}
+<div class="onlineDot"></div>
+`;
+
+break;
+
+}
+
+}
+
+}catch(e){
+
+console.log("Profile Load Error",e);
+
+}
+
+}
+
+/* ATTENDANCE DATA */
+
 const attendanceData = {
 6:"P",
 7:"P",
@@ -824,6 +895,7 @@ const grid = document.getElementById("calendarGrid");
 grid.innerHTML = "";
 
 const firstDay = new Date(year,month,1).getDay();
+
 const daysInMonth = new Date(year,month+1,0).getDate();
 
 const prevMonthDays = new Date(year,month,0).getDate();
@@ -843,6 +915,7 @@ for(let day=1; day<=daysInMonth; day++){
 let status = attendanceData[day] || "";
 
 let badge = "";
+
 let selectedClass = "";
 
 if(day === 29){
@@ -922,9 +995,12 @@ generateCalendar(currentMonth,currentYear);
 
 }
 
+/* LOAD */
+
+loadUserProfile();
+
 generateCalendar(currentMonth,currentYear);
 
 </script>
-
 </body>
 </html>
