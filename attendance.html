@@ -803,14 +803,19 @@ for(let i=1;i<rows.length;i++){
 
 let col = rows[i].split(",");
 
-let userId = col[0]?.trim();
+let userId = col[0]?.trim().replace(/"/g,'');
 
-if(userId === currentUser){
+if(userId.toLowerCase() === currentUser.toLowerCase()){
+
+let empId = col[0]?.trim() || "--";
 
 let name = col[1]?.trim() || "Employee";
-let empId = col[0]?.trim() || "--";
-let designation = col[2]?.trim() || "--";
-let workPlace = col[3]?.trim() || "--";
+
+/* FIXED COLUMN INDEX */
+
+let designation = col[5]?.trim() || "--";
+
+let workPlace = col[6]?.trim() || "--";
 
 document.getElementById("empName").innerText = name;
 
