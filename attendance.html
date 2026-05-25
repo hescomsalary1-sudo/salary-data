@@ -445,7 +445,9 @@ font-size:17px;
 }
 
 }
-
+.absent{
+background:#ef4444;
+}
 </style>
 </head>
 
@@ -909,9 +911,11 @@ let found = false;
 
 let attendanceData = {};
 
+/* COUNTS */
+
 let present = 0;
+let absent = 0;
 let leave = 0;
-let half = 0;
 let weekoff = 0;
 
 /* LOOP CSV */
@@ -926,8 +930,6 @@ let csvYear = cols[1]?.trim();
 
 let csvMonth = cols[2]?.trim();
 
-/* MATCH USER + MONTH + YEAR */
-
 if(
 empId === currentUser &&
 csvYear == year &&
@@ -936,7 +938,7 @@ csvMonth === monthShort[monthName]
 
 found = true;
 
-/* DAY LOOP */
+/* DAYS */
 
 for(let day=1; day<=31; day++){
 
@@ -944,9 +946,11 @@ let status = cols[day+2]?.trim();
 
 if(!status) continue;
 
+/* SAVE EXACT STATUS */
+
 attendanceData[day] = status;
 
-/* COUNTS */
+/* SUMMARY COUNTS */
 
 if(status === "P"){
 
@@ -954,11 +958,20 @@ present++;
 
 }
 
+else if(status === "A"){
+
+absent++;
+
+}
+
 else if(
 status === "CL" ||
-status === "SL" ||
-status === "EL" ||
-status === "L"
+status === "FPL" ||
+status === "IL" ||
+status === "MDL" ||
+status === "ML" ||
+status === "PL" ||
+status === "SPL"
 ){
 
 leave++;
@@ -966,18 +979,8 @@ leave++;
 }
 
 else if(
-status === "HD" ||
-status === "H"
-){
-
-half++;
-
-}
-
-else if(
-status === "WO" ||
-status === "WH" ||
-status === "GH"
+status === "GH" ||
+status === "WH"
 ){
 
 weekoff++;
@@ -992,9 +995,7 @@ break;
 
 }
 
-/* =========================================================
-   SUMMARY UPDATE
-========================================================= */
+/* SUMMARY UPDATE */
 
 document.getElementById("presentCount").innerText =
 present;
@@ -1003,14 +1004,12 @@ document.getElementById("leaveCount").innerText =
 leave;
 
 document.getElementById("halfCount").innerText =
-half;
+absent;
 
 document.getElementById("weekOffCount").innerText =
 weekoff;
 
-/* =========================================================
-   NO DATA
-========================================================= */
+/* NO DATA */
 
 if(!found){
 
@@ -1038,9 +1037,7 @@ return;
 
 }
 
-/* =========================================================
-   GENERATE CALENDAR
-========================================================= */
+/* CALENDAR */
 
 generateCalendar(
 monthName,
@@ -1076,44 +1073,30 @@ document.getElementById("calendarGrid");
 
 grid.innerHTML = "";
 
-/* FIRST DAY */
-
 const firstDay =
 new Date(year,monthIndex,1).getDay();
-
-/* DAYS IN MONTH */
 
 const daysInMonth =
 new Date(year,monthIndex+1,0).getDate();
 
-/* PREVIOUS MONTH DAYS */
-
 const prevMonthDays =
 new Date(year,monthIndex,0).getDate();
 
-/* =========================================================
-   PREVIOUS MONTH
-========================================================= */
+/* PREVIOUS DAYS */
 
 for(let i=firstDay-1;i>=0;i--){
 
 grid.innerHTML += `
-
 <div class="day">
-
 <div class="dayNum dim">
 ${prevMonthDays-i}
 </div>
-
 </div>
-
 `;
 
 }
 
-/* =========================================================
-   CURRENT MONTH DAYS
-========================================================= */
+/* CURRENT DAYS */
 
 for(let day=1; day<=daysInMonth; day++){
 
@@ -1121,7 +1104,7 @@ let status = attendanceData[day] || "";
 
 let badgeClass = "";
 
-/* STATUS COLORS */
+/* COLORS */
 
 if(status === "P"){
 
@@ -1129,11 +1112,20 @@ badgeClass = "present";
 
 }
 
+else if(status === "A"){
+
+badgeClass = "absent";
+
+}
+
 else if(
 status === "CL" ||
-status === "SL" ||
-status === "EL" ||
-status === "L"
+status === "FPL" ||
+status === "IL" ||
+status === "MDL" ||
+status === "ML" ||
+status === "PL" ||
+status === "SPL"
 ){
 
 badgeClass = "leave";
@@ -1141,18 +1133,8 @@ badgeClass = "leave";
 }
 
 else if(
-status === "HD" ||
-status === "H"
-){
-
-badgeClass = "half";
-
-}
-
-else if(
-status === "WO" ||
-status === "WH" ||
-status === "GH"
+status === "GH" ||
+status === "WH"
 ){
 
 badgeClass = "weekoff";
@@ -1183,9 +1165,7 @@ ${status}
 
 }
 
-/* =========================================================
-   NEXT MONTH DAYS
-========================================================= */
+/* NEXT DAYS */
 
 let totalCells = firstDay + daysInMonth;
 
@@ -1194,15 +1174,11 @@ let nextDays = 42-totalCells;
 for(let i=1;i<=nextDays;i++){
 
 grid.innerHTML += `
-
 <div class="day">
-
 <div class="dayNum dim">
 ${i}
 </div>
-
 </div>
-
 `;
 
 }
