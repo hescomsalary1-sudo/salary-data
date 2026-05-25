@@ -813,8 +813,11 @@ November:"Nov",
 December:"Dec"
 };
 
-let currentMonth = 0;
-let currentYear = 2026;
+let today = new Date();
+
+let currentMonth = today.getMonth();
+
+let currentYear = today.getFullYear();
 
 /* =========================================================
    LOAD USER PROFILE
@@ -1220,14 +1223,7 @@ currentMonth = 11;
 
 currentYear--;
 
-if(currentYear < 2026){
 
-currentYear = 2026;
-currentMonth = 0;
-
-return;
-
-}
 
 }
 
