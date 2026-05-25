@@ -779,13 +779,46 @@ stroke-dasharray="87,100"/>
 
 <script>
 
+/* =========================================================
+   LOGIN CHECK
+========================================================= */
+
 let currentUser = localStorage.getItem("currentUser");
 
 if(!currentUser){
 window.location = "login.html";
 }
 
-/* USER DATA FETCH */
+/* =========================================================
+   MONTHS
+========================================================= */
+
+const months = [
+"January","February","March","April","May","June",
+"July","August","September","October","November","December"
+];
+
+const monthShort = {
+January:"Jan",
+February:"Feb",
+March:"Mar",
+April:"Apr",
+May:"May",
+June:"Jun",
+July:"Jul",
+August:"Aug",
+September:"Sep",
+October:"Oct",
+November:"Nov",
+December:"Dec"
+};
+
+let currentMonth = 0;
+let currentYear = 2026;
+
+/* =========================================================
+   LOAD USER PROFILE
+========================================================= */
 
 async function loadUserProfile(){
 
@@ -803,21 +836,31 @@ for(let i=1;i<rows.length;i++){
 
 let cols = rows[i].split(",");
 
-if(cols[0] === currentUser){
+if(cols[0]?.trim() === currentUser){
 
-document.getElementById("empName").innerText = cols[1];
+/* NAME */
 
-document.getElementById("designation").innerText = cols[2];
+document.getElementById("empName").innerText =
+cols[1] || "Employee";
+
+/* DESIGNATION */
+
+document.getElementById("designation").innerText =
+cols[2] || "Not Available";
+
+/* WORK PLACE */
 
 document.getElementById("workPlace").innerText =
 cols[3] || "Not Available";
+
+/* EMP ID */
 
 document.getElementById("empCode").innerText =
 cols[0] || "--";
 
 /* AVATAR */
 
-let initials = cols[1]
+let initials = (cols[1] || "E")
 .split(" ")
 .map(v=>v.charAt(0))
 .join("")
@@ -829,7 +872,7 @@ ${initials}
 <div class="onlineDot"></div>
 `;
 
-return;
+break;
 
 }
 
@@ -837,118 +880,309 @@ return;
 
 }catch(e){
 
-document.getElementById("empName").innerText = currentUser;
-
-console.log(e);
+console.log("PROFILE ERROR",e);
 
 }
 
 }
 
-/* ATTENDANCE DATA */
+/* =========================================================
+   LOAD ATTENDANCE
+========================================================= */
 
-const attendanceData = {
-6:"P",
-7:"P",
-8:"P",
-9:"P",
-10:"L",
-13:"P",
-14:"H",
-15:"P",
-16:"P",
-17:"P",
-18:"WO",
-19:"WO",
-20:"P",
-21:"P",
-22:"P",
-23:"L",
-24:"P",
-25:"WO",
-26:"WO",
-27:"P",
-28:"P",
-29:"P",
-30:"P",
-31:"P"
-};
+async function loadAttendance(monthName,year){
 
-let currentMonth = 4;
-let currentYear = 2024;
+try{
 
-const months = [
-"January","February","March","April","May","June",
-"July","August","September","October","November","December"
-];
+let response = await fetch(
+"https://hescomsalary1-sudo.github.io/salary-data/attendance.csv"
+);
 
-function generateCalendar(month,year){
+let text = await response.text();
+
+let rows = text.trim().split("\n");
+
+let found = false;
+
+let attendanceData = {};
+
+let present = 0;
+let leave = 0;
+let half = 0;
+let weekoff = 0;
+
+/* LOOP CSV */
+
+for(let i=1;i<rows.length;i++){
+
+let cols = rows[i].split(",");
+
+let empId = cols[0]?.trim();
+
+let csvYear = cols[1]?.trim();
+
+let csvMonth = cols[2]?.trim();
+
+/* MATCH USER + MONTH + YEAR */
+
+if(
+empId === currentUser &&
+csvYear == year &&
+csvMonth === monthShort[monthName]
+){
+
+found = true;
+
+/* DAY LOOP */
+
+for(let day=1; day<=31; day++){
+
+let status = cols[day+2]?.trim();
+
+if(!status) continue;
+
+attendanceData[day] = status;
+
+/* COUNTS */
+
+if(status === "P"){
+
+present++;
+
+}
+
+else if(
+status === "CL" ||
+status === "SL" ||
+status === "EL" ||
+status === "L"
+){
+
+leave++;
+
+}
+
+else if(
+status === "HD" ||
+status === "H"
+){
+
+half++;
+
+}
+
+else if(
+status === "WO" ||
+status === "WH" ||
+status === "GH"
+){
+
+weekoff++;
+
+}
+
+}
+
+break;
+
+}
+
+}
+
+/* =========================================================
+   SUMMARY UPDATE
+========================================================= */
+
+document.getElementById("presentCount").innerText =
+present;
+
+document.getElementById("leaveCount").innerText =
+leave;
+
+document.getElementById("halfCount").innerText =
+half;
+
+document.getElementById("weekOffCount").innerText =
+weekoff;
+
+/* =========================================================
+   NO DATA
+========================================================= */
+
+if(!found){
 
 document.getElementById("monthTitle").innerText =
-months[month] + " " + year;
+monthName + " " + year;
 
-const grid = document.getElementById("calendarGrid");
+document.getElementById("calendarGrid").innerHTML = `
+
+<div style="
+grid-column:span 7;
+padding:55px 10px;
+text-align:center;
+font-size:15px;
+font-weight:600;
+color:#7a819f;
+">
+
+No attendance available for this month
+
+</div>
+
+`;
+
+return;
+
+}
+
+/* =========================================================
+   GENERATE CALENDAR
+========================================================= */
+
+generateCalendar(
+monthName,
+year,
+attendanceData
+);
+
+}catch(e){
+
+console.log("ATTENDANCE ERROR",e);
+
+}
+
+}
+
+/* =========================================================
+   GENERATE CALENDAR
+========================================================= */
+
+function generateCalendar(
+monthName,
+year,
+attendanceData
+){
+
+let monthIndex = months.indexOf(monthName);
+
+document.getElementById("monthTitle").innerText =
+monthName + " " + year;
+
+const grid =
+document.getElementById("calendarGrid");
 
 grid.innerHTML = "";
 
-const firstDay = new Date(year,month,1).getDay();
+/* FIRST DAY */
 
-const daysInMonth = new Date(year,month+1,0).getDate();
+const firstDay =
+new Date(year,monthIndex,1).getDay();
 
-const prevMonthDays = new Date(year,month,0).getDate();
+/* DAYS IN MONTH */
+
+const daysInMonth =
+new Date(year,monthIndex+1,0).getDate();
+
+/* PREVIOUS MONTH DAYS */
+
+const prevMonthDays =
+new Date(year,monthIndex,0).getDate();
+
+/* =========================================================
+   PREVIOUS MONTH
+========================================================= */
 
 for(let i=firstDay-1;i>=0;i--){
 
 grid.innerHTML += `
+
 <div class="day">
-<div class="dayNum dim">${prevMonthDays-i}</div>
+
+<div class="dayNum dim">
+${prevMonthDays-i}
 </div>
+
+</div>
+
 `;
 
 }
+
+/* =========================================================
+   CURRENT MONTH DAYS
+========================================================= */
 
 for(let day=1; day<=daysInMonth; day++){
 
 let status = attendanceData[day] || "";
 
-let badge = "";
-
-let selectedClass = "";
-
-if(day === 29){
-
-selectedClass = "selected";
-
-badge = `
-<div class="${selectedClass}">
-<div>${day}</div>
-<div class="statusBadge">P</div>
-</div>
-`;
-
-}else{
-
 let badgeClass = "";
 
-if(status === "P") badgeClass = "present";
-if(status === "L") badgeClass = "leave";
-if(status === "H") badgeClass = "half";
-if(status === "WO") badgeClass = "weekoff";
+/* STATUS COLORS */
 
-badge = `
-<div class="dayNum">${day}</div>
-${status ? `<div class="statusBadge ${badgeClass}">${status}</div>` : ""}
-`;
+if(status === "P"){
+
+badgeClass = "present";
 
 }
+
+else if(
+status === "CL" ||
+status === "SL" ||
+status === "EL" ||
+status === "L"
+){
+
+badgeClass = "leave";
+
+}
+
+else if(
+status === "HD" ||
+status === "H"
+){
+
+badgeClass = "half";
+
+}
+
+else if(
+status === "WO" ||
+status === "WH" ||
+status === "GH"
+){
+
+badgeClass = "weekoff";
+
+}
+
+/* CARD */
 
 grid.innerHTML += `
+
 <div class="day">
-${badge}
+
+<div class="dayNum">
+${day}
 </div>
+
+${status ? `
+
+<div class="statusBadge ${badgeClass}">
+${status}
+</div>
+
+` : ""}
+
+</div>
+
 `;
 
 }
+
+/* =========================================================
+   NEXT MONTH DAYS
+========================================================= */
 
 let totalCells = firstDay + daysInMonth;
 
@@ -957,46 +1191,85 @@ let nextDays = 42-totalCells;
 for(let i=1;i<=nextDays;i++){
 
 grid.innerHTML += `
+
 <div class="day">
-<div class="dayNum dim">${i}</div>
+
+<div class="dayNum dim">
+${i}
 </div>
+
+</div>
+
 `;
 
 }
 
 }
 
+/* =========================================================
+   PREVIOUS MONTH
+========================================================= */
+
 function prevMonth(){
 
 currentMonth--;
 
 if(currentMonth < 0){
+
 currentMonth = 11;
+
 currentYear--;
+
+if(currentYear < 2026){
+
+currentYear = 2026;
+currentMonth = 0;
+
+return;
+
 }
 
-generateCalendar(currentMonth,currentYear);
+}
+
+loadAttendance(
+months[currentMonth],
+currentYear
+);
 
 }
+
+/* =========================================================
+   NEXT MONTH
+========================================================= */
 
 function nextMonth(){
 
 currentMonth++;
 
 if(currentMonth > 11){
+
 currentMonth = 0;
 currentYear++;
-}
-
-generateCalendar(currentMonth,currentYear);
 
 }
 
-/* LOAD */
+loadAttendance(
+months[currentMonth],
+currentYear
+);
+
+}
+
+/* =========================================================
+   INITIAL LOAD
+========================================================= */
 
 loadUserProfile();
 
-generateCalendar(currentMonth,currentYear);
+loadAttendance(
+months[currentMonth],
+currentYear
+);
 
 </script>
 </body>
