@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
 <title>My Attendance</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
@@ -18,468 +18,430 @@ box-sizing:border-box;
 }
 
 body{
-font-family:'Segoe UI',sans-serif;
-background:#f3f7ff;
+font-family:'Poppins',sans-serif;
+background:#f4f7ff;
+color:#0b1b55;
 overflow-x:hidden;
-color:#0f172a;
+padding-bottom:30px;
 }
 
 /* TOP HEADER */
 
-.topHeader{
-height:250px;
-background:linear-gradient(135deg,#0047ff,#0033cc);
-border-bottom-left-radius:34px;
-border-bottom-right-radius:34px;
-padding:20px 20px 0;
+.topSection{
+background:linear-gradient(135deg,#0057ff,#003fd9);
+padding:18px 22px 105px;
+border-bottom-left-radius:28px;
+border-bottom-right-radius:28px;
 position:relative;
 overflow:hidden;
 }
 
-.topHeader::before{
+.topSection::before{
 content:"";
 position:absolute;
-width:280px;
-height:280px;
+right:-70px;
+top:-70px;
+width:220px;
+height:220px;
+background:rgba(255,255,255,0.08);
 border-radius:50%;
-background:rgba(255,255,255,0.05);
-right:-120px;
-top:-100px;
+}
+
+.statusBar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:28px;
+color:#fff;
+font-size:18px;
+font-weight:600;
 }
 
 .headerRow{
 display:flex;
 align-items:center;
 justify-content:space-between;
-color:white;
 }
 
-.menuBtn,
-.calendarBtn{
+.iconBtn{
 width:42px;
 height:42px;
 border-radius:14px;
+background:rgba(255,255,255,0.16);
+backdrop-filter:blur(10px);
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:20px;
-background:rgba(255,255,255,0.12);
-backdrop-filter:blur(10px);
 }
 
-.pageTitle{
+.title{
 font-size:20px;
 font-weight:700;
+color:white;
 }
 
 /* PROFILE CARD */
 
 .profileCard{
-margin:-95px 16px 16px;
-background:white;
-border-radius:28px;
+margin:-72px 18px 18px;
+background:#fff;
+border-radius:26px;
 padding:20px;
 display:flex;
 align-items:center;
 gap:16px;
-box-shadow:0 12px 30px rgba(0,0,0,0.08);
+box-shadow:0 10px 28px rgba(0,0,0,0.08);
 position:relative;
-z-index:2;
+z-index:10;
 }
 
 .avatar{
-width:82px;
-height:82px;
+width:86px;
+height:86px;
 border-radius:50%;
-background:linear-gradient(135deg,#0057ff,#0033cc);
+background:linear-gradient(135deg,#0057ff,#0c38d9);
 display:flex;
 align-items:center;
 justify-content:center;
 font-size:34px;
 font-weight:700;
-color:white;
+color:#fff;
 position:relative;
 flex-shrink:0;
 }
 
 .onlineDot{
+position:absolute;
+right:4px;
+bottom:5px;
 width:18px;
 height:18px;
-background:#22c55e;
-border:3px solid white;
 border-radius:50%;
-position:absolute;
-bottom:4px;
-right:2px;
+background:#1ecb59;
+border:3px solid #fff;
 }
 
-.profileInfo h2{
-font-size:18px;
-font-weight:800;
-margin-bottom:4px;
+.profileName{
+font-size:20px;
+font-weight:700;
+margin-bottom:3px;
 }
 
 .empId{
 font-size:14px;
-color:#64748b;
-margin-bottom:10px;
+color:#7a819f;
+margin-bottom:8px;
 }
 
-.roleRow{
+.profileInfo{
 display:flex;
 align-items:center;
-gap:12px;
+gap:10px;
 font-size:14px;
-color:#475569;
+color:#67718d;
 flex-wrap:wrap;
 }
 
-.roleRow i{
-color:#0047ff;
+.blueDot{
+width:6px;
+height:6px;
+border-radius:50%;
+background:#0057ff;
 }
 
-/* SUMMARY */
+/* STATS */
 
-.summaryGrid{
+.statsCard{
+background:#fff;
+margin:0 18px 18px;
+border-radius:26px;
+padding:12px 0;
 display:grid;
 grid-template-columns:repeat(4,1fr);
-gap:12px;
-padding:0 16px;
-margin-bottom:16px;
+box-shadow:0 8px 22px rgba(0,0,0,0.06);
 }
 
-.summaryCard{
-background:white;
-border-radius:24px;
-padding:18px 8px;
+.statItem{
 text-align:center;
-box-shadow:0 8px 24px rgba(0,0,0,0.06);
+padding:10px 5px;
+position:relative;
 }
 
-.summaryIcon{
-width:52px;
-height:52px;
+.statItem:not(:last-child)::after{
+content:"";
+position:absolute;
+right:0;
+top:15px;
+width:1px;
+height:72%;
+background:#edf0fa;
+}
+
+.statIcon{
+width:58px;
+height:58px;
 border-radius:18px;
+background:#f2f6ff;
 display:flex;
 align-items:center;
 justify-content:center;
-margin:auto;
-font-size:22px;
-margin-bottom:12px;
+margin:0 auto 12px;
 }
 
-.presentIcon{
-background:#e8f1ff;
-color:#0047ff;
-}
-
-.leaveIcon{
-background:#fff4e6;
-color:#ff8a00;
-}
-
-.halfIcon{
-background:#f2ebff;
-color:#7c3aed;
-}
-
-.weekoffIcon{
-background:#edf2ff;
-color:#64748b;
-}
-
-.summaryCard h3{
-font-size:14px;
+.statLabel{
+font-size:13px;
 font-weight:600;
-margin-bottom:10px;
+margin-bottom:6px;
 }
 
-.summaryCard p{
-font-size:18px;
-font-weight:800;
-color:#0047ff;
+.statValue{
+font-size:26px;
+font-weight:700;
+color:#0057ff;
 }
 
-/* CALENDAR CARD */
+/* CALENDAR */
 
 .calendarCard{
-margin:0 16px 18px;
-background:white;
-border-radius:30px;
-padding:18px;
-box-shadow:0 10px 28px rgba(0,0,0,0.06);
+background:#fff;
+margin:0 18px 18px;
+border-radius:28px;
+padding:20px 18px;
+box-shadow:0 8px 24px rgba(0,0,0,0.06);
 }
 
-.calendarTop{
+.calendarHeader{
 display:flex;
 align-items:center;
 justify-content:space-between;
-margin-bottom:24px;
+margin-bottom:18px;
+}
+
+.monthTitle{
+font-size:20px;
+font-weight:700;
 }
 
 .arrowBtn{
 width:42px;
 height:42px;
-border-radius:16px;
-background:#eef4ff;
+border:none;
+border-radius:14px;
+background:#f1f5ff;
 display:flex;
 align-items:center;
 justify-content:center;
-color:#0047ff;
-font-size:18px;
+cursor:pointer;
 }
 
-.monthTitle{
-font-size:20px;
-font-weight:800;
-color:#0f172a;
-}
-
-.weekDays,
-.daysGrid{
+.weekNames{
 display:grid;
 grid-template-columns:repeat(7,1fr);
+margin-bottom:8px;
+}
+
+.weekNames div{
 text-align:center;
+font-size:13px;
+font-weight:600;
+padding:8px 0;
 }
 
-.weekDays{
-margin-bottom:18px;
-font-size:15px;
-font-weight:700;
-color:#0f172a;
+.sun,.sat{
+color:#0057ff;
 }
 
-.weekDays div:first-child,
-.weekDays div:last-child{
-color:#0047ff;
-}
-
-.daysGrid{
-gap:18px 0;
+.calendarGrid{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:10px 0;
 }
 
 .day{
-position:relative;
-height:56px;
+height:70px;
 display:flex;
 flex-direction:column;
 align-items:center;
-justify-content:center;
-font-size:17px;
-font-weight:700;
+justify-content:flex-start;
+position:relative;
 }
 
-.day span{
-position:absolute;
-bottom:2px;
+.dayNum{
+font-size:15px;
+font-weight:600;
+margin-bottom:7px;
+}
+
+.dim{
+color:#c3c7d6;
+}
+
+.statusBadge{
+min-width:26px;
+height:26px;
+padding:0 6px;
+border-radius:50px;
+display:flex;
+align-items:center;
+justify-content:center;
 font-size:12px;
 font-weight:700;
-padding:2px 6px;
-border-radius:30px;
 color:white;
 }
 
 .present{
-background:#16a34a;
+background:#16b34b;
 }
 
 .leave{
-background:#ff8a00;
+background:#ff8800;
 }
 
 .half{
-background:#7c3aed;
+background:#0057ff;
 }
 
 .weekoff{
-background:#64748b;
+background:#8b90a6;
 }
 
-.activeDay{
-width:48px;
-height:48px;
+.selected{
+width:52px;
+height:52px;
 border-radius:50%;
 background:#0057ff;
-color:white;
 display:flex;
+flex-direction:column;
 align-items:center;
 justify-content:center;
-margin:auto;
-position:relative;
+color:white;
 }
 
-.activeDay span{
-bottom:-10px;
+.selected .statusBadge{
+margin-top:3px;
+background:#17bf53;
 }
-
-/* LEGEND */
 
 .legend{
 margin-top:20px;
-border:1px solid #edf2ff;
-border-radius:20px;
-padding:14px 12px;
+border:1px solid #edf0fa;
+border-radius:22px;
+padding:12px 10px;
 display:flex;
-justify-content:space-around;
+justify-content:space-between;
+gap:8px;
 flex-wrap:wrap;
-gap:12px;
 }
 
 .legendItem{
 display:flex;
 align-items:center;
-gap:7px;
-font-size:14px;
+gap:8px;
+font-size:13px;
 font-weight:600;
-color:#475569;
+color:#66708d;
 }
 
-.legendDot{
-width:24px;
-height:24px;
-border-radius:8px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:12px;
-font-weight:700;
-color:white;
-}
+/* SUMMARY */
 
-/* SUMMARY OVERVIEW */
-
-.overviewCard{
-margin:0 16px 20px;
-background:white;
+.summaryCard{
+background:#fff;
+margin:0 18px;
 border-radius:28px;
-padding:20px;
-box-shadow:0 10px 28px rgba(0,0,0,0.06);
+padding:22px 18px;
+box-shadow:0 8px 24px rgba(0,0,0,0.06);
 }
 
-.overviewTop{
+.summaryTop{
 display:flex;
 align-items:center;
 justify-content:space-between;
-margin-bottom:20px;
+margin-bottom:22px;
 }
 
-.overviewTitle{
+.summaryTitle{
 display:flex;
 align-items:center;
-gap:10px;
-font-size:18px;
-font-weight:800;
-}
-
-.overviewTitle i{
-color:#0047ff;
-}
-
-.overviewMonth{
-font-size:16px;
+gap:12px;
+font-size:20px;
 font-weight:700;
-color:#0047ff;
 }
 
-.overviewGrid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
-}
-
-.overviewItem{
-background:#f8fbff;
-border-radius:22px;
-padding:18px;
-text-align:center;
-border:1px solid #edf2ff;
-}
-
-.overviewItemIcon{
-width:58px;
-height:58px;
-border-radius:20px;
-background:#eaf1ff;
+.summaryMonth{
 display:flex;
 align-items:center;
-justify-content:center;
-margin:auto;
-margin-bottom:14px;
-font-size:24px;
-color:#0047ff;
-}
-
-.overviewItem h4{
-font-size:14px;
-color:#64748b;
-margin-bottom:10px;
+gap:5px;
+color:#0057ff;
 font-weight:600;
-}
-
-.overviewItem p{
-font-size:18px;
-font-weight:800;
-color:#0047ff;
-}
-
-/* MOBILE */
-
-@media(max-width:480px){
-
-.topHeader{
-height:220px;
-}
-
-.profileCard{
-padding:18px;
-border-radius:26px;
-}
-
-.avatar{
-width:76px;
-height:76px;
-font-size:30px;
+font-size:15px;
 }
 
 .summaryGrid{
-gap:10px;
+display:grid;
+grid-template-columns:1fr 1fr;
+border-top:1px solid #edf0fa;
+border-left:1px solid #edf0fa;
 }
 
-.summaryCard{
-padding:16px 6px;
-border-radius:22px;
+.summaryItem{
+padding:18px 14px;
+border-right:1px solid #edf0fa;
+border-bottom:1px solid #edf0fa;
+display:flex;
+align-items:center;
+gap:14px;
 }
 
 .summaryIcon{
-width:48px;
-height:48px;
-font-size:20px;
+width:60px;
+height:60px;
+border-radius:50%;
+background:#f3f6ff;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-shrink:0;
 }
 
-.summaryCard h3{
-font-size:13px;
+.summaryLabel{
+font-size:14px;
+color:#67718d;
+margin-bottom:4px;
 }
 
-.summaryCard p{
-font-size:17px;
+.summaryValue{
+font-size:18px;
+font-weight:700;
+color:#0057ff;
 }
 
-.calendarCard{
-padding:16px;
-border-radius:28px;
+@media(max-width:480px){
+
+.profileName{
+font-size:18px;
+}
+
+.avatar{
+width:78px;
+height:78px;
+font-size:30px;
+}
+
+.statValue{
+font-size:22px;
 }
 
 .day{
-font-size:16px;
-height:52px;
+height:64px;
 }
 
-.legend{
-padding:12px 10px;
+.summaryItem{
+padding:15px 10px;
+gap:10px;
 }
 
-.overviewCard{
-padding:18px;
+.summaryValue{
+font-size:17px;
 }
 
 }
@@ -491,20 +453,41 @@ padding:18px;
 
 <!-- TOP -->
 
-<div class="topHeader">
+<div class="topSection">
+
+<div class="statusBar">
+<div>9:41</div>
+
+<div style="display:flex;gap:6px;align-items:center;">
+<div style="width:18px;height:10px;border:2px solid #fff;border-radius:3px;position:relative;">
+<div style="position:absolute;right:-4px;top:2px;width:2px;height:4px;background:#fff;border-radius:2px;"></div>
+</div>
+</div>
+</div>
 
 <div class="headerRow">
 
-<div class="menuBtn">
-<i class="fa-solid fa-bars"></i>
+<div class="iconBtn">
+
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+<path d="M4 7H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M4 12H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M4 17H20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+</svg>
+
 </div>
 
-<div class="pageTitle">
-My Attendance
-</div>
+<div class="title">My Attendance</div>
 
-<div class="calendarBtn">
-<i class="fa-regular fa-calendar"></i>
+<div class="iconBtn">
+
+<svg width="23" height="23" viewBox="0 0 24 24" fill="none">
+<rect x="3" y="5" width="18" height="16" rx="3" stroke="white" stroke-width="2"/>
+<path d="M8 3V7" stroke="white" stroke-width="2" stroke-linecap="round"/>
+<path d="M16 3V7" stroke="white" stroke-width="2" stroke-linecap="round"/>
+<path d="M3 10H21" stroke="white" stroke-width="2"/>
+</svg>
+
 </div>
 
 </div>
@@ -520,81 +503,90 @@ RS
 <div class="onlineDot"></div>
 </div>
 
+<div>
+
+<div class="profileName" id="empName">Rahul Sharma</div>
+
+<div class="empId" id="empCode">EMP001</div>
+
 <div class="profileInfo">
-
-<h2>Rahul Sharma</h2>
-
-<div class="empId">
-EMP001
-</div>
-
-<div class="roleRow">
-
-<div>
-<i class="fa-solid fa-briefcase"></i>
-Manager
-</div>
-
-<div>
-<i class="fa-solid fa-users"></i>
-Sales Department
+<span>Manager</span>
+<div class="blueDot"></div>
+<span>Sales Department</span>
 </div>
 
 </div>
 
 </div>
 
-</div>
+<!-- STATS -->
 
-<!-- SUMMARY -->
+<div class="statsCard">
 
-<div class="summaryGrid">
+<div class="statItem">
 
-<div class="summaryCard">
+<div class="statIcon">
 
-<div class="summaryIcon presentIcon">
-<i class="fa-regular fa-calendar-check"></i>
-</div>
-
-<h3>Present</h3>
-
-<p>20</p>
-
-</div>
-
-<div class="summaryCard">
-
-<div class="summaryIcon leaveIcon">
-<i class="fa-regular fa-clock"></i>
-</div>
-
-<h3>Leave</h3>
-
-<p>2</p>
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+<rect x="3" y="4" width="18" height="18" rx="3" stroke="#0057ff" stroke-width="2"/>
+<path d="M8 2V6" stroke="#0057ff" stroke-width="2" stroke-linecap="round"/>
+<path d="M16 2V6" stroke="#0057ff" stroke-width="2" stroke-linecap="round"/>
+<path d="M8 12L11 15L16 10" stroke="#0057ff" stroke-width="2" stroke-linecap="round"/>
+</svg>
 
 </div>
 
-<div class="summaryCard">
-
-<div class="summaryIcon halfIcon">
-<i class="fa-solid fa-h"></i>
-</div>
-
-<h3>Half Day</h3>
-
-<p>1</p>
+<div class="statLabel">Present</div>
+<div class="statValue" id="presentCount">20</div>
 
 </div>
 
-<div class="summaryCard">
+<div class="statItem">
 
-<div class="summaryIcon weekoffIcon">
-WO
+<div class="statIcon">
+
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+<circle cx="12" cy="12" r="9" stroke="#0057ff" stroke-width="2"/>
+<path d="M12 7V12L15 15" stroke="#0057ff" stroke-width="2" stroke-linecap="round"/>
+</svg>
+
 </div>
 
-<h3>Week Off</h3>
+<div class="statLabel">Leave</div>
+<div class="statValue" id="leaveCount">2</div>
 
-<p>8</p>
+</div>
+
+<div class="statItem">
+
+<div class="statIcon">
+
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+<rect x="4" y="4" width="16" height="16" rx="3" stroke="#0057ff" stroke-width="2"/>
+<path d="M9 4V20" stroke="#0057ff" stroke-width="2"/>
+<path d="M15 4V20" stroke="#0057ff" stroke-width="2"/>
+</svg>
+
+</div>
+
+<div class="statLabel">Half Day</div>
+<div class="statValue" id="halfCount">1</div>
+
+</div>
+
+<div class="statItem">
+
+<div class="statIcon">
+
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+<rect x="3" y="5" width="18" height="14" rx="3" stroke="#0057ff" stroke-width="2"/>
+<path d="M7 9H17" stroke="#0057ff" stroke-width="2"/>
+</svg>
+
+</div>
+
+<div class="statLabel">Week Off</div>
+<div class="statValue" id="weekOffCount">8</div>
 
 </div>
 
@@ -604,194 +596,59 @@ WO
 
 <div class="calendarCard">
 
-<div class="calendarTop">
+<div class="calendarHeader">
 
-<div class="arrowBtn">
-<i class="fa-solid fa-chevron-left"></i>
+<button class="arrowBtn" onclick="prevMonth()">
+
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+<path d="M15 18L9 12L15 6" stroke="#0b1b55" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+</button>
+
+<div class="monthTitle" id="monthTitle">May 2024</div>
+
+<button class="arrowBtn" onclick="nextMonth()">
+
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+<path d="M9 18L15 12L9 6" stroke="#0b1b55" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+</button>
+
 </div>
 
-<div class="monthTitle">
-May 2024
-</div>
-
-<div class="arrowBtn">
-<i class="fa-solid fa-chevron-right"></i>
-</div>
-
-</div>
-
-<div class="weekDays">
-<div>Sun</div>
+<div class="weekNames">
+<div class="sun">Sun</div>
 <div>Mon</div>
 <div>Tue</div>
 <div>Wed</div>
 <div>Thu</div>
 <div>Fri</div>
-<div>Sat</div>
+<div class="sat">Sat</div>
 </div>
 
-<div class="daysGrid">
-
-<div class="day" style="opacity:.35;">28</div>
-<div class="day" style="opacity:.35;">29</div>
-<div class="day" style="opacity:.35;">30</div>
-
-<div class="day">1</div>
-<div class="day">2</div>
-<div class="day">3</div>
-<div class="day">4</div>
-
-<div class="day">5</div>
-
-<div class="day">
-6
-<span class="present">P</span>
-</div>
-
-<div class="day">
-7
-<span class="present">P</span>
-</div>
-
-<div class="day">
-8
-<span class="present">P</span>
-</div>
-
-<div class="day">
-9
-<span class="present">P</span>
-</div>
-
-<div class="day">
-10
-<span class="leave">L</span>
-</div>
-
-<div class="day">11</div>
-
-<div class="day">12</div>
-
-<div class="day">
-13
-<span class="present">P</span>
-</div>
-
-<div class="day">
-14
-<span class="half">H</span>
-</div>
-
-<div class="day">
-15
-<span class="present">P</span>
-</div>
-
-<div class="day">
-16
-<span class="present">P</span>
-</div>
-
-<div class="day">
-17
-<span class="present">P</span>
-</div>
-
-<div class="day">
-18
-<span class="weekoff">WO</span>
-</div>
-
-<div class="day">
-19
-<span class="weekoff">WO</span>
-</div>
-
-<div class="day">
-20
-<span class="present">P</span>
-</div>
-
-<div class="day">
-21
-<span class="present">P</span>
-</div>
-
-<div class="day">
-22
-<span class="present">P</span>
-</div>
-
-<div class="day">
-23
-<span class="leave">L</span>
-</div>
-
-<div class="day">
-24
-<span class="present">P</span>
-</div>
-
-<div class="day">
-25
-<span class="weekoff">WO</span>
-</div>
-
-<div class="day">
-26
-<span class="weekoff">WO</span>
-</div>
-
-<div class="day">
-27
-<span class="present">P</span>
-</div>
-
-<div class="day">
-28
-<span class="present">P</span>
-</div>
-
-<div class="day">
-<div class="activeDay">
-29
-<span class="present">P</span>
-</div>
-</div>
-
-<div class="day">
-30
-<span class="present">P</span>
-</div>
-
-<div class="day">
-31
-<span class="present">P</span>
-</div>
-
-<div class="day" style="opacity:.35;">1</div>
-
-</div>
+<div class="calendarGrid" id="calendarGrid"></div>
 
 <div class="legend">
 
 <div class="legendItem">
-<div class="legendDot present">P</div>
+<div class="statusBadge present">P</div>
 Present
 </div>
 
 <div class="legendItem">
-<div class="legendDot leave">L</div>
+<div class="statusBadge leave">L</div>
 Leave
 </div>
 
 <div class="legendItem">
-<div class="legendDot half">H</div>
+<div class="statusBadge half">H</div>
 Half Day
 </div>
 
 <div class="legendItem">
-<div class="legendDot weekoff">WO</div>
+<div class="statusBadge weekoff">WO</div>
 Week Off
 </div>
 
@@ -799,76 +656,275 @@ Week Off
 
 </div>
 
-<!-- OVERVIEW -->
+<!-- SUMMARY -->
 
-<div class="overviewCard">
+<div class="summaryCard">
 
-<div class="overviewTop">
+<div class="summaryTop">
 
-<div class="overviewTitle">
-<i class="fa-solid fa-chart-simple"></i>
+<div class="summaryTitle">
+
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+<rect x="3" y="10" width="4" height="10" rx="2" fill="#0057ff"/>
+<rect x="10" y="4" width="4" height="16" rx="2" fill="#0057ff"/>
+<rect x="17" y="7" width="4" height="13" rx="2" fill="#0057ff"/>
+</svg>
+
 Attendance Summary
+
 </div>
 
-<div class="overviewMonth">
+<div class="summaryMonth">
 This Month
-</div>
 
-</div>
-
-<div class="overviewGrid">
-
-<div class="overviewItem">
-
-<div class="overviewItemIcon">
-<i class="fa-solid fa-chart-pie"></i>
-</div>
-
-<h4>Attendance %</h4>
-
-<p>87%</p>
-
-</div>
-
-<div class="overviewItem">
-
-<div class="overviewItemIcon">
-<i class="fa-regular fa-calendar-check"></i>
-</div>
-
-<h4>Total Working Days</h4>
-
-<p>23 / 31</p>
-
-</div>
-
-<div class="overviewItem">
-
-<div class="overviewItemIcon">
-<i class="fa-regular fa-clock"></i>
-</div>
-
-<h4>Total Hours</h4>
-
-<p>207h 15m</p>
-
-</div>
-
-<div class="overviewItem">
-
-<div class="overviewItemIcon">
-<i class="fa-solid fa-chart-column"></i>
-</div>
-
-<h4>Avg. Daily Hours</h4>
-
-<p>8h 59m</p>
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+<path d="M6 9L12 15L18 9" stroke="#0057ff" stroke-width="2.4" stroke-linecap="round"/>
+</svg>
 
 </div>
 
 </div>
 
+<div class="summaryGrid">
+
+<div class="summaryItem">
+
+<div class="summaryIcon">
+
+<svg width="54" height="54" viewBox="0 0 36 36">
+<path d="M18 2
+a 16 16 0 1 1 0 32
+a 16 16 0 1 1 0 -32"
+fill="none"
+stroke="#dce6ff"
+stroke-width="6"/>
+
+<path d="M18 2
+a 16 16 0 1 1 0 32"
+fill="none"
+stroke="#0057ff"
+stroke-width="6"
+stroke-dasharray="87,100"/>
+</svg>
+
 </div>
+
+<div>
+<div class="summaryLabel">Attendance %</div>
+<div class="summaryValue">87%</div>
+</div>
+
+</div>
+
+<div class="summaryItem">
+
+<div class="summaryIcon">
+
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+<rect x="3" y="4" width="18" height="18" rx="3" stroke="#0057ff" stroke-width="2"/>
+<path d="M8 2V6" stroke="#0057ff" stroke-width="2" stroke-linecap="round"/>
+<path d="M16 2V6" stroke="#0057ff" stroke-width="2" stroke-linecap="round"/>
+<path d="M8 12L11 15L16 10" stroke="#0057ff" stroke-width="2" stroke-linecap="round"/>
+</svg>
+
+</div>
+
+<div>
+<div class="summaryLabel">Total Working Days</div>
+<div class="summaryValue">23 / 31</div>
+</div>
+
+</div>
+
+<div class="summaryItem">
+
+<div class="summaryIcon">
+
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+<circle cx="12" cy="12" r="9" stroke="#0057ff" stroke-width="2"/>
+<path d="M12 7V12L15 15" stroke="#0057ff" stroke-width="2" stroke-linecap="round"/>
+</svg>
+
+</div>
+
+<div>
+<div class="summaryLabel">Total Hours</div>
+<div class="summaryValue">207h 15m</div>
+</div>
+
+</div>
+
+<div class="summaryItem">
+
+<div class="summaryIcon">
+
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+<rect x="3" y="10" width="4" height="10" rx="2" fill="#0057ff"/>
+<rect x="10" y="4" width="4" height="16" rx="2" fill="#0057ff"/>
+<rect x="17" y="7" width="4" height="13" rx="2" fill="#0057ff"/>
+</svg>
+
+</div>
+
+<div>
+<div class="summaryLabel">Avg. Daily Hours</div>
+<div class="summaryValue">8h 59m</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const attendanceData = {
+6:"P",
+7:"P",
+8:"P",
+9:"P",
+10:"L",
+13:"P",
+14:"H",
+15:"P",
+16:"P",
+17:"P",
+18:"WO",
+19:"WO",
+20:"P",
+21:"P",
+22:"P",
+23:"L",
+24:"P",
+25:"WO",
+26:"WO",
+27:"P",
+28:"P",
+29:"P",
+30:"P",
+31:"P"
+};
+
+let currentMonth = 4;
+let currentYear = 2024;
+
+const months = [
+"January","February","March","April","May","June",
+"July","August","September","October","November","December"
+];
+
+function generateCalendar(month,year){
+
+document.getElementById("monthTitle").innerText =
+months[month] + " " + year;
+
+const grid = document.getElementById("calendarGrid");
+
+grid.innerHTML = "";
+
+const firstDay = new Date(year,month,1).getDay();
+const daysInMonth = new Date(year,month+1,0).getDate();
+
+const prevMonthDays = new Date(year,month,0).getDate();
+
+for(let i=firstDay-1;i>=0;i--){
+
+grid.innerHTML += `
+<div class="day">
+<div class="dayNum dim">${prevMonthDays-i}</div>
+</div>
+`;
+
+}
+
+for(let day=1; day<=daysInMonth; day++){
+
+let status = attendanceData[day] || "";
+
+let badge = "";
+let selectedClass = "";
+
+if(day === 29){
+
+selectedClass = "selected";
+
+badge = `
+<div class="${selectedClass}">
+<div>${day}</div>
+<div class="statusBadge">P</div>
+</div>
+`;
+
+}else{
+
+let badgeClass = "";
+
+if(status === "P") badgeClass = "present";
+if(status === "L") badgeClass = "leave";
+if(status === "H") badgeClass = "half";
+if(status === "WO") badgeClass = "weekoff";
+
+badge = `
+<div class="dayNum">${day}</div>
+${status ? `<div class="statusBadge ${badgeClass}">${status}</div>` : ""}
+`;
+
+}
+
+grid.innerHTML += `
+<div class="day">
+${badge}
+</div>
+`;
+
+}
+
+let totalCells = firstDay + daysInMonth;
+
+let nextDays = 42-totalCells;
+
+for(let i=1;i<=nextDays;i++){
+
+grid.innerHTML += `
+<div class="day">
+<div class="dayNum dim">${i}</div>
+</div>
+`;
+
+}
+
+}
+
+function prevMonth(){
+
+currentMonth--;
+
+if(currentMonth < 0){
+currentMonth = 11;
+currentYear--;
+}
+
+generateCalendar(currentMonth,currentYear);
+
+}
+
+function nextMonth(){
+
+currentMonth++;
+
+if(currentMonth > 11){
+currentMonth = 0;
+currentYear++;
+}
+
+generateCalendar(currentMonth,currentYear);
+
+}
+
+generateCalendar(currentMonth,currentYear);
+
+</script>
 
 </body>
 </html>
