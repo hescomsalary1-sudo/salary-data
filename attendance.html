@@ -967,6 +967,7 @@ absent++;
 else if(
 
 status === "CL" ||
+status === "EL" ||
 status === "FPL" ||
 status === "IL" ||
 status === "MDL" ||
@@ -974,9 +975,7 @@ status === "ML" ||
 status === "PL" ||
 status === "SPL"
 ){
-
 leave++;
-
 }
 
 else if(
@@ -1121,6 +1120,7 @@ badgeClass = "absent";
 
 else if(
 status === "CL" ||
+status === "EL" ||
 status === "FPL" ||
 status === "IL" ||
 status === "MDL" ||
@@ -1128,11 +1128,8 @@ status === "ML" ||
 status === "PL" ||
 status === "SPL"
 ){
-
 badgeClass = "leave";
-
 }
-
 else if(
 status === "GH" ||
 status === "WH"
