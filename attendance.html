@@ -687,7 +687,7 @@ This Month
 
 </div>
 
-<div class="summaryGrid">
+<div class="summaryGrid" id="summaryGrid">
 
 <div class="summaryItem">
 
@@ -822,6 +822,56 @@ let currentMonth = today.getMonth();
 let currentYear = today.getFullYear();
 
 /* =========================================================
+   STATUS DETAILS
+========================================================= */
+
+const leaveStatuses = [
+"CL","EL","FPL","IL","MDL","ML","PL","SPL"
+];
+
+const weekoffStatuses = [
+"GH","WH"
+];
+
+const statusColors = {
+
+P:"#16b34b",
+A:"#ef4444",
+
+CL:"#ff8800",
+EL:"#ff8800",
+FPL:"#ff8800",
+IL:"#ff8800",
+MDL:"#ff8800",
+ML:"#ff8800",
+PL:"#ff8800",
+SPL:"#ff8800",
+
+GH:"#8b90a6",
+WH:"#8b90a6"
+
+};
+
+const statusNames = {
+
+P:"Present",
+A:"Absent",
+
+CL:"Casual Leave",
+EL:"Earn Leave",
+FPL:"Full Pay Leave",
+IL:"Injury Leave",
+MDL:"Medical Leave",
+ML:"Maternity Leave",
+PL:"Paternity Leave",
+SPL:"Special Leave",
+
+GH:"Government Holiday",
+WH:"Week Off"
+
+};
+
+/* =========================================================
    LOAD USER PROFILE
 ========================================================= */
 
@@ -843,27 +893,17 @@ let cols = rows[i].split(",");
 
 if(cols[0]?.trim() === currentUser){
 
-/* NAME */
-
 document.getElementById("empName").innerText =
 cols[1] || "Employee";
-
-/* DESIGNATION */
 
 document.getElementById("designation").innerText =
 cols[2] || "Not Available";
 
-/* WORK PLACE */
-
 document.getElementById("workPlace").innerText =
 cols[3] || "Not Available";
 
-/* EMP ID */
-
 document.getElementById("empCode").innerText =
 cols[0] || "--";
-
-/* AVATAR */
 
 let initials = (cols[1] || "E")
 .split(" ")
@@ -911,12 +951,12 @@ let found = false;
 
 let attendanceData = {};
 
-/* COUNTS */
-
 let present = 0;
 let absent = 0;
 let leave = 0;
 let weekoff = 0;
+
+let statusCounts = {};
 
 /* LOOP CSV */
 
@@ -946,11 +986,16 @@ let status = cols[day+2]?.trim();
 
 if(!status) continue;
 
-/* SAVE EXACT STATUS */
+/* SAVE STATUS */
 
 attendanceData[day] = status;
 
-/* SUMMARY COUNTS */
+/* DYNAMIC COUNTS */
+
+statusCounts[status] =
+(statusCounts[status] || 0) + 1;
+
+/* TOP COUNTS */
 
 if(status === "P"){
 
@@ -964,24 +1009,13 @@ absent++;
 
 }
 
-else if(
+else if(leaveStatuses.includes(status)){
 
-status === "CL" ||
-status === "EL" ||
-status === "FPL" ||
-status === "IL" ||
-status === "MDL" ||
-status === "ML" ||
-status === "PL" ||
-status === "SPL"
-){
 leave++;
+
 }
 
-else if(
-status === "GH" ||
-status === "WH"
-){
+else if(weekoffStatuses.includes(status)){
 
 weekoff++;
 
@@ -995,7 +1029,7 @@ break;
 
 }
 
-/* SUMMARY UPDATE */
+/* TOP SUMMARY */
 
 document.getElementById("presentCount").innerText =
 present;
@@ -1008,6 +1042,61 @@ absent;
 
 document.getElementById("weekOffCount").innerText =
 weekoff;
+
+/* DYNAMIC SUMMARY CARD */
+
+let summaryHTML = "";
+
+for(let key in statusCounts){
+
+summaryHTML += `
+
+<div class="summaryItem">
+
+<div class="summaryIcon"
+style="
+background:${statusColors[key] || '#0057ff'}20;
+">
+
+<div style="
+width:42px;
+height:42px;
+border-radius:50%;
+background:${statusColors[key] || '#0057ff'};
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:13px;
+font-weight:700;
+color:white;
+">
+
+${key}
+
+</div>
+
+</div>
+
+<div>
+
+<div class="summaryLabel">
+${statusNames[key] || key}
+</div>
+
+<div class="summaryValue">
+${statusCounts[key]}
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+document.getElementById("summaryGrid").innerHTML =
+summaryHTML;
 
 /* NO DATA */
 
@@ -1033,11 +1122,13 @@ No attendance available for this month
 
 `;
 
+document.getElementById("summaryGrid").innerHTML = "";
+
 return;
 
 }
 
-/* CALENDAR */
+/* GENERATE CALENDAR */
 
 generateCalendar(
 monthName,
@@ -1104,7 +1195,7 @@ let status = attendanceData[day] || "";
 
 let badgeClass = "";
 
-/* COLORS */
+/* STATUS COLORS */
 
 if(status === "P"){
 
@@ -1118,28 +1209,19 @@ badgeClass = "absent";
 
 }
 
-else if(
-status === "CL" ||
-status === "EL" ||
-status === "FPL" ||
-status === "IL" ||
-status === "MDL" ||
-status === "ML" ||
-status === "PL" ||
-status === "SPL"
-){
+else if(leaveStatuses.includes(status)){
+
 badgeClass = "leave";
+
 }
-else if(
-status === "GH" ||
-status === "WH"
-){
+
+else if(weekoffStatuses.includes(status)){
 
 badgeClass = "weekoff";
 
 }
 
-/* CARD */
+/* DAY CARD */
 
 grid.innerHTML += `
 
@@ -1163,7 +1245,7 @@ ${status}
 
 }
 
-/* NEXT DAYS */
+/* NEXT MONTH DAYS */
 
 let totalCells = firstDay + daysInMonth;
 
@@ -1194,10 +1276,7 @@ currentMonth--;
 if(currentMonth < 0){
 
 currentMonth = 11;
-
 currentYear--;
-
-
 
 }
 
