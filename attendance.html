@@ -25,7 +25,7 @@ overflow-x:hidden;
 padding-bottom:30px;
 }
 
-/* TOP HEADER */
+/* TOP */
 
 .topSection{
 background:linear-gradient(135deg,#0057ff,#003fd9);
@@ -45,16 +45,6 @@ width:220px;
 height:220px;
 background:rgba(255,255,255,0.08);
 border-radius:50%;
-}
-
-.statusBar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:28px;
-color:#fff;
-font-size:18px;
-font-weight:600;
 }
 
 .headerRow{
@@ -80,13 +70,13 @@ font-weight:700;
 color:white;
 }
 
-/* PROFILE CARD */
+/* PROFILE */
 
 .profileCard{
 margin:-72px 18px 18px;
 background:#fff;
 border-radius:26px;
-padding:20px;
+padding:18px;
 display:flex;
 align-items:center;
 gap:16px;
@@ -96,14 +86,14 @@ z-index:10;
 }
 
 .avatar{
-width:86px;
-height:86px;
+width:82px;
+height:82px;
 border-radius:50%;
 background:linear-gradient(135deg,#0057ff,#0c38d9);
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:34px;
+font-size:32px;
 font-weight:700;
 color:#fff;
 position:relative;
@@ -128,7 +118,7 @@ margin-bottom:3px;
 }
 
 .empId{
-font-size:14px;
+font-size:13px;
 color:#7a819f;
 margin-bottom:8px;
 }
@@ -137,7 +127,7 @@ margin-bottom:8px;
 display:flex;
 align-items:center;
 gap:10px;
-font-size:14px;
+font-size:13px;
 color:#67718d;
 flex-wrap:wrap;
 }
@@ -149,64 +139,13 @@ border-radius:50%;
 background:#0057ff;
 }
 
-/* STATS */
-
-.statsCard{
-background:#fff;
-margin:0 18px 18px;
-border-radius:26px;
-padding:12px 0;
-display:grid;
-grid-template-columns:repeat(4,1fr);
-box-shadow:0 8px 22px rgba(0,0,0,0.06);
-}
-
-.statItem{
-text-align:center;
-padding:10px 5px;
-position:relative;
-}
-
-.statItem:not(:last-child)::after{
-content:"";
-position:absolute;
-right:0;
-top:15px;
-width:1px;
-height:72%;
-background:#edf0fa;
-}
-
-.statIcon{
-width:58px;
-height:58px;
-border-radius:18px;
-background:#f2f6ff;
-display:flex;
-align-items:center;
-justify-content:center;
-margin:0 auto 12px;
-}
-
-.statLabel{
-font-size:13px;
-font-weight:600;
-margin-bottom:6px;
-}
-
-.statValue{
-font-size:26px;
-font-weight:700;
-color:#0057ff;
-}
-
 /* CALENDAR */
 
 .calendarCard{
 background:#fff;
 margin:0 18px 18px;
 border-radius:28px;
-padding:20px 18px;
+padding:20px 16px;
 box-shadow:0 8px 24px rgba(0,0,0,0.06);
 }
 
@@ -223,8 +162,8 @@ font-weight:700;
 }
 
 .arrowBtn{
-width:42px;
-height:42px;
+width:40px;
+height:40px;
 border:none;
 border-radius:14px;
 background:#f1f5ff;
@@ -242,7 +181,7 @@ margin-bottom:8px;
 
 .weekNames div{
 text-align:center;
-font-size:13px;
+font-size:12px;
 font-weight:600;
 padding:8px 0;
 }
@@ -258,16 +197,15 @@ gap:10px 0;
 }
 
 .day{
-height:70px;
+height:62px;
 display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:flex-start;
-position:relative;
 }
 
 .dayNum{
-font-size:15px;
+font-size:14px;
 font-weight:600;
 margin-bottom:7px;
 }
@@ -278,13 +216,13 @@ color:#c3c7d6;
 
 .statusBadge{
 min-width:26px;
-height:26px;
+height:24px;
 padding:0 6px;
 border-radius:50px;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:12px;
+font-size:11px;
 font-weight:700;
 color:white;
 }
@@ -297,49 +235,12 @@ background:#16b34b;
 background:#ff8800;
 }
 
-.half{
-background:#0057ff;
-}
-
 .weekoff{
 background:#8b90a6;
 }
 
-.selected{
-width:52px;
-height:52px;
-border-radius:50%;
-background:#0057ff;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-color:white;
-}
-
-.selected .statusBadge{
-margin-top:3px;
-background:#17bf53;
-}
-
-.legend{
-margin-top:20px;
-border:1px solid #edf0fa;
-border-radius:22px;
-padding:12px 10px;
-display:flex;
-justify-content:space-between;
-gap:8px;
-flex-wrap:wrap;
-}
-
-.legendItem{
-display:flex;
-align-items:center;
-gap:8px;
-font-size:13px;
-font-weight:600;
-color:#66708d;
+.absent{
+background:#ef4444;
 }
 
 /* SUMMARY */
@@ -348,7 +249,7 @@ color:#66708d;
 background:#fff;
 margin:0 18px;
 border-radius:28px;
-padding:22px 18px;
+padding:18px 14px;
 box-shadow:0 8px 24px rgba(0,0,0,0.06);
 }
 
@@ -356,14 +257,14 @@ box-shadow:0 8px 24px rgba(0,0,0,0.06);
 display:flex;
 align-items:center;
 justify-content:space-between;
-margin-bottom:22px;
+margin-bottom:18px;
 }
 
 .summaryTitle{
 display:flex;
 align-items:center;
-gap:12px;
-font-size:20px;
+gap:10px;
+font-size:18px;
 font-weight:700;
 }
 
@@ -373,7 +274,7 @@ align-items:center;
 gap:5px;
 color:#0057ff;
 font-weight:600;
-font-size:15px;
+font-size:14px;
 }
 
 .summaryGrid{
@@ -381,7 +282,6 @@ display:grid;
 grid-template-columns:repeat(4,1fr);
 border-top:1px solid #edf0fa;
 border-left:1px solid #edf0fa;
-gap:0;
 }
 
 .summaryItem{
@@ -394,64 +294,57 @@ align-items:center;
 justify-content:center;
 gap:6px;
 text-align:center;
-min-height:100px;
+min-height:95px;
 }
 
 .summaryIcon{
 width:40px;
 height:40px;
 border-radius:50%;
-background:#f3f6ff;
 display:flex;
 align-items:center;
 justify-content:center;
-flex-shrink:0;
 }
+
 .summaryLabel{
 font-size:10px;
 color:#67718d;
 line-height:1.2;
 }
+
 .summaryValue{
 font-size:15px;
 font-weight:700;
 color:#0057ff;
-margin-top:2px;
 }
 
 @media(max-width:480px){
+
+.profileCard{
+padding:16px;
+}
+
+.avatar{
+width:74px;
+height:74px;
+font-size:28px;
+}
 
 .profileName{
 font-size:18px;
 }
 
-.avatar{
-width:78px;
-height:78px;
-font-size:30px;
-}
-
-.statValue{
-font-size:22px;
-}
-
 .day{
-height:64px;
+height:58px;
 }
 
 .summaryItem{
-padding:15px 10px;
-gap:10px;
-}
-
-.summaryValue{
-font-size:17px;
+min-height:88px;
+padding:8px 4px;
 }
 
 }
-.absent{
-background:#ef4444;
-}
+
 </style>
 </head>
 
@@ -460,7 +353,6 @@ background:#ef4444;
 <!-- TOP -->
 
 <div class="topSection">
-
 
 <div class="headerRow">
 
@@ -516,79 +408,6 @@ RS
 
 </div>
 
-<!-- STATS -->
-<div class="statsCard">
-
-<div class="statItem">
-
-<div class="statIcon">
-
-<svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-<rect x="3" y="4" width="18" height="18" rx="3" stroke="#0057ff" stroke-width="2"/>
-<path d="M8 2V6" stroke="#0057ff" stroke-width="2" stroke-linecap="round"/>
-<path d="M16 2V6" stroke="#0057ff" stroke-width="2" stroke-linecap="round"/>
-<path d="M8 12L11 15L16 10" stroke="#0057ff" stroke-width="2" stroke-linecap="round"/>
-</svg>
-
-</div>
-
-<div class="statLabel">Present</div>
-<div class="statValue" id="presentCount">20</div>
-
-</div>
-
-<div class="statItem">
-
-<div class="statIcon">
-
-<svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-<circle cx="12" cy="12" r="9" stroke="#0057ff" stroke-width="2"/>
-<path d="M12 7V12L15 15" stroke="#0057ff" stroke-width="2" stroke-linecap="round"/>
-</svg>
-
-</div>
-
-<div class="statLabel">Leave</div>
-<div class="statValue" id="leaveCount">2</div>
-
-</div>
-
-<div class="statItem">
-
-<div class="statIcon">
-
-<svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-<rect x="4" y="4" width="16" height="16" rx="3" stroke="#0057ff" stroke-width="2"/>
-<path d="M9 4V20" stroke="#0057ff" stroke-width="2"/>
-<path d="M15 4V20" stroke="#0057ff" stroke-width="2"/>
-</svg>
-
-</div>
-
-<div class="statLabel">Half Day</div>
-<div class="statValue" id="halfCount">1</div>
-
-</div>
-
-<div class="statItem">
-
-<div class="statIcon">
-
-<svg width="30" height="30" viewBox="0 0 24 24" fill="none">
-<rect x="3" y="5" width="18" height="14" rx="3" stroke="#0057ff" stroke-width="2"/>
-<path d="M7 9H17" stroke="#0057ff" stroke-width="2"/>
-</svg>
-
-</div>
-
-<div class="statLabel">Week Off</div>
-<div class="statValue" id="weekOffCount">8</div>
-
-</div>
-
-</div>
-
-
 <!-- CALENDAR -->
 
 <div class="calendarCard">
@@ -627,8 +446,6 @@ RS
 
 <div class="calendarGrid" id="calendarGrid"></div>
 
-
-
 </div>
 
 <!-- SUMMARY -->
@@ -639,7 +456,7 @@ RS
 
 <div class="summaryTitle">
 
-<svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
 <rect x="3" y="10" width="4" height="10" rx="2" fill="#0057ff"/>
 <rect x="10" y="4" width="4" height="16" rx="2" fill="#0057ff"/>
 <rect x="17" y="7" width="4" height="13" rx="2" fill="#0057ff"/>
@@ -651,104 +468,11 @@ Attendance Summary
 
 <div class="summaryMonth">
 This Month
-
-<svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-<path d="M6 9L12 15L18 9" stroke="#0057ff" stroke-width="2.4" stroke-linecap="round"/>
-</svg>
-
 </div>
 
 </div>
 
-<div class="summaryGrid" id="summaryGrid">
-
-<div class="summaryItem">
-
-<div class="summaryIcon">
-
-<svg width="54" height="54" viewBox="0 0 36 36">
-<path d="M18 2
-a 16 16 0 1 1 0 32
-a 16 16 0 1 1 0 -32"
-fill="none"
-stroke="#dce6ff"
-stroke-width="6"/>
-
-<path d="M18 2
-a 16 16 0 1 1 0 32"
-fill="none"
-stroke="#0057ff"
-stroke-width="6"
-stroke-dasharray="87,100"/>
-</svg>
-
-</div>
-
-<div>
-<div class="summaryLabel">Attendance %</div>
-<div class="summaryValue">87%</div>
-</div>
-
-</div>
-
-<div class="summaryItem">
-
-<div class="summaryIcon">
-
-<svg width="30" height="30" viewBox="0 0 24 24" fill="none">
-<rect x="3" y="4" width="18" height="18" rx="3" stroke="#0057ff" stroke-width="2"/>
-<path d="M8 2V6" stroke="#0057ff" stroke-width="2" stroke-linecap="round"/>
-<path d="M16 2V6" stroke="#0057ff" stroke-width="2" stroke-linecap="round"/>
-<path d="M8 12L11 15L16 10" stroke="#0057ff" stroke-width="2" stroke-linecap="round"/>
-</svg>
-
-</div>
-
-<div>
-<div class="summaryLabel">Total Working Days</div>
-<div class="summaryValue">23 / 31</div>
-</div>
-
-</div>
-
-<div class="summaryItem">
-
-<div class="summaryIcon">
-
-<svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-<circle cx="12" cy="12" r="9" stroke="#0057ff" stroke-width="2"/>
-<path d="M12 7V12L15 15" stroke="#0057ff" stroke-width="2" stroke-linecap="round"/>
-</svg>
-
-</div>
-
-<div>
-<div class="summaryLabel">Total Hours</div>
-<div class="summaryValue">207h 15m</div>
-</div>
-
-</div>
-
-<div class="summaryItem">
-
-<div class="summaryIcon">
-
-<svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-<rect x="3" y="10" width="4" height="10" rx="2" fill="#0057ff"/>
-<rect x="10" y="4" width="4" height="16" rx="2" fill="#0057ff"/>
-<rect x="17" y="7" width="4" height="13" rx="2" fill="#0057ff"/>
-</svg>
-
-</div>
-
-<div>
-<div class="summaryLabel">Avg. Daily Hours</div>
-<div class="summaryValue">8h 59m</div>
-</div>
-
-</div>
-
-</div>
+<div class="summaryGrid" id="summaryGrid"></div>
 
 </div>
 
@@ -924,14 +648,7 @@ let found = false;
 
 let attendanceData = {};
 
-let present = 0;
-let absent = 0;
-let leave = 0;
-let weekoff = 0;
-
 let statusCounts = {};
-
-/* LOOP CSV */
 
 for(let i=1;i<rows.length;i++){
 
@@ -951,48 +668,16 @@ csvMonth === monthShort[monthName]
 
 found = true;
 
-/* DAYS */
-
 for(let day=1; day<=31; day++){
 
 let status = cols[day+2]?.trim();
 
 if(!status) continue;
 
-/* SAVE STATUS */
-
 attendanceData[day] = status;
-
-/* DYNAMIC COUNTS */
 
 statusCounts[status] =
 (statusCounts[status] || 0) + 1;
-
-/* TOP COUNTS */
-
-if(status === "P"){
-
-present++;
-
-}
-
-else if(status === "A"){
-
-absent++;
-
-}
-
-else if(leaveStatuses.includes(status)){
-
-leave++;
-
-}
-
-else if(weekoffStatuses.includes(status)){
-
-weekoff++;
-
-}
 
 }
 
@@ -1002,21 +687,7 @@ break;
 
 }
 
-/* TOP SUMMARY */
-
-document.getElementById("presentCount").innerText =
-present;
-
-document.getElementById("leaveCount").innerText =
-leave;
-
-document.getElementById("halfCount").innerText =
-absent;
-
-document.getElementById("weekOffCount").innerText =
-weekoff;
-
-/* DYNAMIC SUMMARY CARD */
+/* SUMMARY */
 
 let summaryHTML = "";
 
@@ -1079,7 +750,6 @@ document.getElementById("monthTitle").innerText =
 monthName + " " + year;
 
 document.getElementById("calendarGrid").innerHTML = `
-
 <div style="
 grid-column:span 7;
 padding:55px 10px;
@@ -1088,20 +758,15 @@ font-size:15px;
 font-weight:600;
 color:#7a819f;
 ">
-
 No attendance available for this month
-
 </div>
-
 `;
-
-document.getElementById("summaryGrid").innerHTML = "";
 
 return;
 
 }
 
-/* GENERATE CALENDAR */
+/* CALENDAR */
 
 generateCalendar(
 monthName,
@@ -1168,8 +833,6 @@ let status = attendanceData[day] || "";
 
 let badgeClass = "";
 
-/* STATUS COLORS */
-
 if(status === "P"){
 
 badgeClass = "present";
@@ -1194,8 +857,6 @@ badgeClass = "weekoff";
 
 }
 
-/* DAY CARD */
-
 grid.innerHTML += `
 
 <div class="day">
@@ -1205,11 +866,9 @@ ${day}
 </div>
 
 ${status ? `
-
 <div class="statusBadge ${badgeClass}">
 ${status}
 </div>
-
 ` : ""}
 
 </div>
@@ -1218,7 +877,7 @@ ${status}
 
 }
 
-/* NEXT MONTH DAYS */
+/* NEXT DAYS */
 
 let totalCells = firstDay + daysInMonth;
 
@@ -1239,7 +898,7 @@ ${i}
 }
 
 /* =========================================================
-   PREVIOUS MONTH
+   MONTH NAVIGATION
 ========================================================= */
 
 function prevMonth(){
@@ -1259,10 +918,6 @@ currentYear
 );
 
 }
-
-/* =========================================================
-   NEXT MONTH
-========================================================= */
 
 function nextMonth(){
 
@@ -1294,5 +949,6 @@ currentYear
 );
 
 </script>
+
 </body>
 </html>
