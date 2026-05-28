@@ -12,23 +12,24 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
 
 body{
 font-family:'Poppins',sans-serif;
-background:#f4f7ff;
-color:#1a1a1a;
-padding-bottom:120px;
+background:#f3f6ff;
 overflow-x:hidden;
+padding-bottom:120px;
+color:#1d1d1d;
 }
 
 /* TOP SECTION */
 
 .top-section{
-background:linear-gradient(135deg,#081c6b,#2457ff,#5b86ff);
-padding:25px 18px 95px;
-border-bottom-left-radius:35px;
-border-bottom-right-radius:35px;
+background:linear-gradient(135deg,#071c6d,#2457ff,#5f87ff);
+padding:24px 18px 100px;
+border-bottom-left-radius:38px;
+border-bottom-right-radius:38px;
 position:relative;
 overflow:hidden;
 }
@@ -40,19 +41,19 @@ width:220px;
 height:220px;
 background:rgba(255,255,255,0.08);
 border-radius:50%;
-top:-80px;
-right:-60px;
+top:-90px;
+right:-70px;
 }
 
 .top-section::after{
 content:'';
 position:absolute;
-width:150px;
-height:150px;
-background:rgba(255,255,255,0.06);
+width:180px;
+height:180px;
+background:rgba(255,255,255,0.05);
 border-radius:50%;
-bottom:-50px;
-left:-40px;
+bottom:-70px;
+left:-60px;
 }
 
 /* HEADER */
@@ -60,23 +61,23 @@ left:-40px;
 .header{
 display:flex;
 align-items:center;
-gap:15px;
+gap:14px;
 position:relative;
 z-index:2;
 }
 
 .back-btn{
-width:42px;
-height:42px;
-border-radius:14px;
-background:rgba(255,255,255,0.18);
-backdrop-filter:blur(10px);
+width:44px;
+height:44px;
+border-radius:15px;
+background:rgba(255,255,255,0.16);
+backdrop-filter:blur(12px);
 display:flex;
 align-items:center;
 justify-content:center;
 cursor:pointer;
-transition:0.3s;
-box-shadow:0 6px 15px rgba(0,0,0,0.15);
+box-shadow:0 8px 18px rgba(0,0,0,0.18);
+transition:0.25s;
 }
 
 .back-btn:active{
@@ -84,18 +85,17 @@ transform:scale(0.95);
 }
 
 .page-title{
-color:white;
 font-size:24px;
 font-weight:700;
-letter-spacing:0.5px;
+color:white;
+letter-spacing:0.4px;
 }
 
 .asdate{
 margin-top:12px;
 margin-left:58px;
-color:rgba(255,255,255,0.85);
 font-size:13px;
-font-weight:400;
+color:rgba(255,255,255,0.85);
 position:relative;
 z-index:2;
 }
@@ -105,19 +105,19 @@ z-index:2;
 .credit-card{
 margin-top:25px;
 background:rgba(255,255,255,0.15);
-backdrop-filter:blur(14px);
-border:1px solid rgba(255,255,255,0.15);
-padding:20px;
-border-radius:28px;
+backdrop-filter:blur(16px);
+padding:22px;
+border-radius:30px;
 position:relative;
 z-index:2;
-box-shadow:0 10px 35px rgba(0,0,0,0.15);
+border:1px solid rgba(255,255,255,0.15);
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
 }
 
 .credit-title{
-color:white;
 font-size:18px;
 font-weight:600;
+color:white;
 margin-bottom:18px;
 }
 
@@ -128,38 +128,36 @@ gap:12px;
 }
 
 .credit-box{
-background:rgba(255,255,255,0.14);
-padding:14px 10px;
-border-radius:18px;
+background:rgba(255,255,255,0.12);
+border-radius:20px;
+padding:16px 10px;
 text-align:center;
 }
 
-.credit-box span{
-display:block;
-}
-
 .credit-label{
+display:block;
 font-size:12px;
-color:rgba(255,255,255,0.8);
+color:rgba(255,255,255,0.85);
 margin-bottom:8px;
+line-height:1.4;
 }
 
 .credit-value{
-font-size:24px;
+font-size:25px;
 font-weight:700;
 color:white;
 }
 
-/* MAIN CONTENT */
+/* MAIN */
 
 .main{
-margin-top:-60px;
+margin-top:-65px;
 padding:0 16px;
 position:relative;
 z-index:5;
 }
 
-/* FILTER CARDS */
+/* FILTER */
 
 .filter-grid{
 display:grid;
@@ -169,15 +167,15 @@ gap:12px;
 
 .filter-card{
 background:white;
-padding:16px 10px;
-border-radius:22px;
+padding:18px 10px;
+border-radius:24px;
 text-align:center;
 font-size:13px;
 font-weight:600;
 color:#2457ff;
-box-shadow:0 8px 25px rgba(0,0,0,0.08);
 cursor:pointer;
-transition:0.3s;
+box-shadow:0 8px 25px rgba(0,0,0,0.08);
+transition:0.25s;
 border:2px solid transparent;
 }
 
@@ -185,46 +183,78 @@ border:2px solid transparent;
 background:linear-gradient(135deg,#2457ff,#0a2ea8);
 color:white;
 transform:translateY(-2px);
-box-shadow:0 10px 25px rgba(36,87,255,0.35);
+box-shadow:0 10px 24px rgba(36,87,255,0.35);
 }
 
 /* SECTION */
 
 .section{
-margin-top:22px;
-}
-
-.section-head{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:15px;
+margin-top:24px;
 }
 
 .section-title{
-font-size:20px;
+font-size:21px;
 font-weight:700;
-color:#1b2a5a;
+color:#1f2e63;
+margin-bottom:16px;
+padding-left:4px;
 }
 
+/* HISTORY CARD */
+
 .history-card{
-background:white;
-border-radius:28px;
+background:linear-gradient(180deg,#ffffff,#f9fbff);
+border-radius:30px;
 padding:20px;
-box-shadow:0 8px 25px rgba(0,0,0,0.08);
-min-height:250px;
+box-shadow:
+0 10px 30px rgba(0,0,0,0.06),
+0 2px 8px rgba(36,87,255,0.04);
+min-height:260px;
+position:relative;
+overflow:hidden;
+border:1px solid rgba(36,87,255,0.08);
+}
+
+.history-card::before{
+content:'';
+position:absolute;
+width:180px;
+height:180px;
+background:radial-gradient(circle,rgba(36,87,255,0.08),transparent 70%);
+top:-60px;
+right:-60px;
+border-radius:50%;
+}
+
+.history-card::after{
+content:'';
+position:absolute;
+width:140px;
+height:140px;
+background:radial-gradient(circle,rgba(91,134,255,0.08),transparent 70%);
+bottom:-50px;
+left:-50px;
+border-radius:50%;
 }
 
 /* MONTH */
 
 .month{
-font-size:16px;
+display:inline-flex;
+align-items:center;
+gap:8px;
+padding:12px 18px;
+background:linear-gradient(135deg,#2457ff,#0a2ea8);
+color:white;
+font-size:14px;
 font-weight:700;
-color:#2457ff;
-margin-top:18px;
-margin-bottom:12px;
-padding-bottom:8px;
-border-bottom:1px solid #edf1ff;
+border-radius:18px;
+margin-top:20px;
+margin-bottom:16px;
+letter-spacing:0.4px;
+box-shadow:0 8px 18px rgba(36,87,255,0.25);
+position:relative;
+z-index:2;
 }
 
 .month:first-child{
@@ -234,15 +264,69 @@ margin-top:0;
 /* ITEM */
 
 .item{
-background:#f6f8ff;
-padding:14px;
-border-radius:16px;
+position:relative;
+background:white;
+padding:16px 16px 16px 58px;
+border-radius:24px;
+margin-bottom:15px;
+box-shadow:
+0 8px 20px rgba(0,0,0,0.05),
+0 2px 6px rgba(0,0,0,0.03);
+border:1px solid rgba(36,87,255,0.08);
+overflow:hidden;
+transition:0.25s;
+z-index:2;
+}
+
+.item:active{
+transform:scale(0.98);
+}
+
+.item::before{
+content:'';
+position:absolute;
+left:25px;
+top:0;
+width:3px;
+height:100%;
+background:linear-gradient(180deg,#2457ff,#7fa0ff);
+opacity:0.25;
+}
+
+.item::after{
+content:'';
+position:absolute;
+left:14px;
+top:18px;
+width:24px;
+height:24px;
+border-radius:50%;
+background:linear-gradient(135deg,#2457ff,#0a2ea8);
+box-shadow:
+0 0 0 5px rgba(36,87,255,0.10),
+0 6px 14px rgba(36,87,255,0.25);
+}
+
+.leave-badge{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+padding:6px 13px;
+border-radius:30px;
+background:linear-gradient(135deg,#2457ff,#0a2ea8);
+color:white;
+font-size:11px;
+font-weight:700;
+letter-spacing:0.5px;
 margin-bottom:10px;
+box-shadow:0 5px 12px rgba(36,87,255,0.2);
+}
+
+.leave-date{
 font-size:14px;
-font-weight:500;
-color:#2f2f2f;
-line-height:1.5;
-border-left:4px solid #2457ff;
+font-weight:600;
+line-height:1.7;
+color:#2a3353;
 }
 
 /* EXTRA BUTTONS */
@@ -256,23 +340,24 @@ gap:14px;
 
 .extra-btn{
 background:white;
-padding:17px;
-border-radius:22px;
+padding:18px;
+border-radius:24px;
+display:flex;
+align-items:center;
+justify-content:space-between;
 font-size:15px;
 font-weight:600;
 color:#2457ff;
-box-shadow:0 8px 25px rgba(0,0,0,0.08);
-display:flex;
-justify-content:space-between;
-align-items:center;
 cursor:pointer;
-transition:0.3s;
+box-shadow:0 8px 25px rgba(0,0,0,0.08);
+transition:0.25s;
 }
 
 .extra-btn.active{
 background:linear-gradient(135deg,#2457ff,#0a2ea8);
 color:white;
 transform:translateY(-2px);
+box-shadow:0 10px 24px rgba(36,87,255,0.3);
 }
 
 .extra-btn svg{
@@ -283,11 +368,22 @@ height:18px;
 /* NO DATA */
 
 .no-data{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
 text-align:center;
-padding:40px 15px;
+padding:55px 20px;
+color:#7c84a5;
 font-size:15px;
 font-weight:500;
-color:#7b7b7b;
+}
+
+.no-data::before{
+content:'📅';
+font-size:48px;
+margin-bottom:12px;
+opacity:0.7;
 }
 
 /* MOBILE */
@@ -314,6 +410,7 @@ grid-template-columns:1fr;
 <div class="header">
 
 <div class="back-btn" onclick="goBack()">
+
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
 <path d="M15 18L9 12L15 6"
 stroke="white"
@@ -321,17 +418,24 @@ stroke-width="2.7"
 stroke-linecap="round"
 stroke-linejoin="round"/>
 </svg>
-</div>
-
-<div class="page-title">Leave Dashboard</div>
 
 </div>
 
-<div class="asdate" id="asOnDate">As on Date : --</div>
+<div class="page-title">
+Leave Dashboard
+</div>
+
+</div>
+
+<div class="asdate" id="asOnDate">
+As on Date : --
+</div>
 
 <div class="credit-card">
 
-<div class="credit-title">Leave Credits</div>
+<div class="credit-title">
+Leave Credits
+</div>
 
 <div class="credit-grid">
 
@@ -376,17 +480,19 @@ Casual Leave
 
 <div class="section">
 
-<div class="section-head">
-<div class="section-title">Leave History</div>
+<div class="section-title">
+Leave History
 </div>
 
-<div class="history-card" id="leaveContainer"></div>
+<div class="history-card" id="leaveContainer">
+</div>
 
 </div>
 
 <div class="extra-section">
 
 <div class="extra-btn" onclick="activateExtra(this); showOtherLeaves()">
+
 <span>Other Leaves Taken Details</span>
 
 <svg fill="none" viewBox="0 0 24 24">
@@ -396,9 +502,11 @@ stroke-width="2.5"
 stroke-linecap="round"
 stroke-linejoin="round"/>
 </svg>
+
 </div>
 
 <div class="extra-btn" onclick="activateExtra(this); showELS()">
+
 <span>ELS Bills Details</span>
 
 <svg fill="none" viewBox="0 0 24 24">
@@ -408,9 +516,11 @@ stroke-width="2.5"
 stroke-linecap="round"
 stroke-linejoin="round"/>
 </svg>
+
 </div>
 
 <div class="extra-btn" onclick="activateExtra(this); showBalance()">
+
 <span>Leave Balance</span>
 
 <svg fill="none" viewBox="0 0 24 24">
@@ -420,6 +530,7 @@ stroke-width="2.5"
 stroke-linecap="round"
 stroke-linejoin="round"/>
 </svg>
+
 </div>
 
 </div>
@@ -430,17 +541,24 @@ stroke-linejoin="round"/>
 
 let user = localStorage.getItem("currentUser");
 let currentType = "EL";
+
 let elCredit=0,fplCredit=0,clCredit=0;
 let elTaken=0,fplTaken=0,clTaken=0;
+
 let creditCalculated = false;
+
 let asOnDay=1, asOnMonth=1, asOnYear=new Date().getFullYear();
+
 let dataReady = false;
+
 let elsDaysCurrentYear = 0;
 
 async function loadEmployee(){
 
 let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/leaves.csv");
+
 let text = await res.text();
+
 let rows = text.trim().split("\n");
 
 for(let i=1;i<rows.length;i++){
@@ -504,6 +622,7 @@ function groupRanges(arr){
 if(arr.length===0) return [];
 
 let res=[];
+
 let start=arr[0];
 let prev=arr[0];
 
@@ -518,6 +637,7 @@ prev=cur;
 }else{
 
 res.push({start:start,end:prev,type:start.type});
+
 start=cur;
 prev=cur;
 
@@ -534,6 +654,7 @@ return res;
 async function loadAttendance(){
 
 let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
+
 let text = await res.text();
 
 let rows = text.trim().split("\n");
@@ -593,8 +714,8 @@ let today = new Date();
 
 let year = today.getFullYear();
 
-let jan1 = new Date(year, 0, 1);
-let july1 = new Date(year, 6, 1);
+let jan1 = new Date(year,0,1);
+let july1 = new Date(year,6,1);
 
 let finalEL = elCredit;
 let finalFPL = fplCredit;
@@ -635,11 +756,13 @@ async function showOtherLeaves(){
 if(!dataReady){
 
 setTimeout(showOtherLeaves,300);
+
 return;
 
 }
 
 let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv");
+
 let text = await res.text();
 
 let rows = text.trim().split("\n");
@@ -692,11 +815,13 @@ async function showELS(){
 if(!dataReady){
 
 setTimeout(showELS,300);
+
 return;
 
 }
 
 let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv");
+
 let text = await res.text();
 
 let rows = text.trim().split("\n");
@@ -719,7 +844,11 @@ elsDaysCurrentYear += days;
 
 html += `
 <div class="item">
-${c[3]} | Days : ${days} | ${c[4]}
+<div class="leave-badge">ELS</div>
+<div class="leave-date">
+${c[3]} | Days : ${days}<br>
+${c[4]}
+</div>
 </div>
 `;
 
@@ -727,7 +856,8 @@ ${c[3]} | Days : ${days} | ${c[4]}
 
 }
 
-document.getElementById("leaveContainer").innerHTML = html || `<div class="no-data">No ELS Data</div>`;
+document.getElementById("leaveContainer").innerHTML =
+html || `<div class="no-data">No ELS Data</div>`;
 
 }
 
@@ -736,11 +866,13 @@ async function showBalance(){
 if(!dataReady){
 
 setTimeout(showBalance,300);
+
 return;
 
 }
 
 let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/els_bills.csv");
+
 let text = await res.text();
 
 let rows = text.trim().split("\n");
@@ -769,24 +901,36 @@ let clBalance = clCredit - clTaken;
 
 let html = `
 
-<div class="month">EL DETAILS</div>
+<div class="month">📘 EL DETAILS</div>
 
-<div class="item">Credit : ${elCredit}</div>
-<div class="item">Taken : ${elTaken}</div>
-<div class="item">ELS Days : ${totalELS}</div>
-<div class="item"><b>Balance : ${elBalance}</b></div>
+<div class="item">
+<div class="leave-date">
+Credit : ${elCredit}<br>
+Taken : ${elTaken}<br>
+ELS Days : ${totalELS}<br>
+<b>Balance : ${elBalance}</b>
+</div>
+</div>
 
-<div class="month">FPL DETAILS</div>
+<div class="month">📗 FPL DETAILS</div>
 
-<div class="item">Credit : ${fplCredit}</div>
-<div class="item">Taken : ${fplTaken}</div>
-<div class="item"><b>Balance : ${fplBalance}</b></div>
+<div class="item">
+<div class="leave-date">
+Credit : ${fplCredit}<br>
+Taken : ${fplTaken}<br>
+<b>Balance : ${fplBalance}</b>
+</div>
+</div>
 
-<div class="month">CL DETAILS</div>
+<div class="month">📙 CL DETAILS</div>
 
-<div class="item">Credit : ${clCredit}</div>
-<div class="item">Taken : ${clTaken}</div>
-<div class="item"><b>Balance : ${clBalance}</b></div>
+<div class="item">
+<div class="leave-date">
+Credit : ${clCredit}<br>
+Taken : ${clTaken}<br>
+<b>Balance : ${clBalance}</b>
+</div>
+</div>
 
 `;
 
@@ -800,7 +944,11 @@ let html="";
 
 for(let m in map){
 
-html+=`<div class="month">${m}</div>`;
+html += `
+<div class="month">
+📅 ${m}
+</div>
+`;
 
 map[m].forEach(r=>{
 
@@ -809,17 +957,34 @@ let e=("0"+r.end.day).slice(-2);
 
 if(s===e){
 
-html+=`
+html += `
 <div class="item">
-${s}-${r.start.month}-${r.start.year} - ${r.type}
+
+<div class="leave-badge">
+${r.type}
+</div>
+
+<div class="leave-date">
+${s}-${r.start.month}-${r.start.year}
+</div>
+
 </div>
 `;
 
 }else{
 
-html+=`
+html += `
 <div class="item">
-${r.type} from ${s}-${r.start.month}-${r.start.year} to ${e}-${r.start.month}-${r.start.year}
+
+<div class="leave-badge">
+${r.type}
+</div>
+
+<div class="leave-date">
+From ${s}-${r.start.month}-${r.start.year}<br>
+To ${e}-${r.start.month}-${r.start.year}
+</div>
+
 </div>
 `;
 
@@ -830,13 +995,14 @@ ${r.type} from ${s}-${r.start.month}-${r.start.year} to ${e}-${r.start.month}-${
 }
 
 document.getElementById("leaveContainer").innerHTML =
-html || `<div class="no-data">No Data Found</div>`;
+html || `<div class="no-data">No Leave Records Found</div>`;
 
 }
 
 loadEmployee().then(()=>{
 
 dataReady = true;
+
 loadAttendance();
 
 });
