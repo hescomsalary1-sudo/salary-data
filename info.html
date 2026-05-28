@@ -129,8 +129,8 @@ button { background: #2400b7; color: white; border: none; padding: 0 20px; margi
     position: fixed;
     bottom: 90px;
     right: 20px;
-    width: 55px;
-    height: 55px;
+    width: 58px;
+    height: 58px;
     background: linear-gradient(135deg, #2400b7, #5f2cff);
     color: white;
     font-size: 24px;
@@ -138,27 +138,25 @@ button { background: #2400b7; color: white; border: none; padding: 0 20px; margi
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.28);
     cursor: pointer;
     z-index: 9999;
-    transition: 0.3s;
 }
-
 #helpBtn:hover {
     transform: scale(1.1);
 }
 
 /* POPUP BACKGROUND */
-#helpPopup {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    display: none;
-    align-items: flex-end;
-    z-index: 9999;
+#helpPopup{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    background:white;
+    z-index:99999;
+    display:none;
+    flex-direction:column;
+    overflow:hidden;
 }
 
 /* POPUP BOX */
@@ -176,32 +174,57 @@ button { background: #2400b7; color: white; border: none; padding: 0 20px; margi
 
 
 /* HEADER */
-.help-header {
-    padding: 15px;
-    background: #2400b7;
-    color: white;
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
+.help-header{
+    background:linear-gradient(135deg,#0d1b8f,#1a2edb);
+    color:white;
+    padding:18px;
+    font-size:18px;
+    font-weight:700;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 4px 12px rgba(0,0,0,0.12);
 }
+
 
 /* BODY */
-.help-body {
-    flex: 1;
-    overflow-y: auto;
-    padding: 15px; /* Ensure there is padding for the cards inside */
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain; /* ADD THIS: Stops the 'refresh' pull on the background */
+.help-body{
+    flex:1;
+    overflow-y:auto;
+    padding:16px;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior:none;
+    background:#f4f7ff;
 }
 /* CARD */
-.card {
-    background: #f5f5f5;
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+.card{
+    background:white;
+    padding:16px;
+    margin-bottom:14px;
+    border-radius:18px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    line-height:1.6;
+    border:1px solid rgba(0,0,0,0.04);
 }
-
+    .close-help{
+    margin:16px;
+    height:55px;
+    border:none;
+    border-radius:18px;
+    background:linear-gradient(135deg,#ff2b2b,#d80000);
+    color:white;
+    font-size:17px;
+    font-weight:700;
+    box-shadow:0 8px 18px rgba(255,0,0,0.25);
+    flex-shrink:0;
+}
+/* NO BACKGROUND SCROLL */
+body.no-scroll{
+    overflow:hidden;
+    height:100vh;
+    touch-action:none;
+}
 /* ANIMATION */
 @keyframes slideUp {
     from { transform: translateY(100%); }
@@ -1060,52 +1083,59 @@ window.onpopstate = function () { window.location.replace("home.html"); };
 <div id="helpBtn" onclick="toggleHelp()">❓</div>
 
 <!-- HELP POPUP -->
+<!-- FLOATING HELP BUTTON -->
+<div id="helpBtn" onclick="toggleHelp()">❓</div>
+
+<!-- HELP POPUP -->
 <div id="helpPopup">
-    <div class="help-content">
-        <div class="help-header">
-            💡 Help & Commands
-            <span onclick="toggleHelp()">✖</span>
+
+    <div class="help-header">
+        💡 Help & Commands
+    </div>
+
+    <div class="help-body">
+
+        <div class="card">
+            <b>💰 Salary Module</b><br>
+            salary, pay, earnings, income, basic, hra, da, cca, tax, income tax, lic, deduction, professional tax, net salary, payslip
         </div>
 
-        <div class="help-body">
+        <div class="card">
+            <b>📊 Attendance Module</b><br>
+            attendance, present, absent, leave, holiday, working days, monthly attendance, daily attendance
+        </div>
 
-    <div class="card">
-        <b>💰 Salary Module</b><br>
-        salary, pay, earnings, income, basic, hra, da, cca, tax, income tax, lic, deduction, professional tax, net salary, payslip
+        <div class="card">
+            <b>📅 Leave Module</b><br>
+            leave, leave balance, el, cl, fpl, leave credits, earned leave, casual leave
+        </div>
+
+        <div class="card">
+            <b>👤 Profile Module</b><br>
+            profile, name, mobile, phone, email, dob, birth date, retirement, designation, joining date, district, qualification, category, caste, religion, gender, pan, pin, marital status, pension
+        </div>
+
+        <div class="card">
+            <b>⚖️ Legal Module</b><br>
+            legal, case, court, notice, discipline, absence, negligence, violation, inquiry, criminal case, writ petition
+        </div>
+
+        <div class="card">
+            <b>💵 ELS Bills Module</b><br>
+            els, els bill, els amount, els status, earned leave salary, bill status, paid els, pending els, els days
+        </div>
+
+        <div class="card">
+            <b>💬 General Chat</b><br>
+            hi, hello, hey, help, features, joke, time, date, how are you, what can you do, thanks, bye
+        </div>
+
     </div>
 
-    <div class="card">
-        <b>📊 Attendance Module</b><br>
-        attendance, present, absent, leave, holiday, working days, monthly attendance, daily attendance
-    </div>
+    <button class="close-help" onclick="toggleHelp()">
+        CLOSE
+    </button>
 
-    <div class="card">
-        <b>📅 Leave Module</b><br>
-        leave, leave balance, el, cl, fpl, leave credits, earned leave, casual leave
-    </div>
-
-    <div class="card">
-        <b>👤 Profile Module</b><br>
-        profile, name, mobile, phone, email, dob, birth date, retirement, designation, joining date, district, qualification, category, caste, religion, gender, pan, pin, marital status, pension
-    </div>
-
-    <div class="card">
-        <b>⚖️ Legal Module</b><br>
-        legal, case, court, notice, discipline, absence, negligence, violation, inquiry, criminal case, writ petition
-    </div>
-
-    <div class="card">
-        <b>💵 ELS Bills Module</b><br>
-        els, els bill, els amount, els status, earned leave salary, bill status, paid els, pending els, els days
-    </div>
-
-    <div class="card">
-        <b>💬 General Chat</b><br>
-        hi, hello, hey, help, features, joke, time, date, how are you, what can you do, thanks, bye
-    </div>
-
-</div>
-    </div>
 </div>
 </body>
 </html>
