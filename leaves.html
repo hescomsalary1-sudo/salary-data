@@ -17,17 +17,17 @@ box-sizing:border-box;
 
 body{
 font-family:'Poppins',sans-serif;
-background:#f3f6ff;
+background:#eef3ff;
 overflow-x:hidden;
 padding-bottom:120px;
-color:#1d1d1d;
+color:#1b1b1b;
 }
 
 /* TOP SECTION */
 
 .top-section{
-background:linear-gradient(135deg,#071c6d,#2457ff,#5f87ff);
-padding:24px 18px 100px;
+background:linear-gradient(135deg,#061a68,#2457ff,#6a8cff);
+padding:24px 18px 105px;
 border-bottom-left-radius:38px;
 border-bottom-right-radius:38px;
 position:relative;
@@ -37,23 +37,23 @@ overflow:hidden;
 .top-section::before{
 content:'';
 position:absolute;
-width:220px;
-height:220px;
+width:230px;
+height:230px;
 background:rgba(255,255,255,0.08);
 border-radius:50%;
-top:-90px;
+top:-100px;
 right:-70px;
 }
 
 .top-section::after{
 content:'';
 position:absolute;
-width:180px;
-height:180px;
-background:rgba(255,255,255,0.05);
+width:170px;
+height:170px;
+background:rgba(255,255,255,0.06);
 border-radius:50%;
 bottom:-70px;
-left:-60px;
+left:-50px;
 }
 
 /* HEADER */
@@ -67,16 +67,16 @@ z-index:2;
 }
 
 .back-btn{
-width:44px;
-height:44px;
-border-radius:15px;
-background:rgba(255,255,255,0.16);
-backdrop-filter:blur(12px);
+width:45px;
+height:45px;
+border-radius:16px;
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(14px);
 display:flex;
 align-items:center;
 justify-content:center;
 cursor:pointer;
-box-shadow:0 8px 18px rgba(0,0,0,0.18);
+box-shadow:0 8px 20px rgba(0,0,0,0.18);
 transition:0.25s;
 }
 
@@ -88,14 +88,14 @@ transform:scale(0.95);
 font-size:24px;
 font-weight:700;
 color:white;
-letter-spacing:0.4px;
+letter-spacing:0.5px;
 }
 
 .asdate{
 margin-top:12px;
 margin-left:58px;
 font-size:13px;
-color:rgba(255,255,255,0.85);
+color:rgba(255,255,255,0.88);
 position:relative;
 z-index:2;
 }
@@ -103,7 +103,7 @@ z-index:2;
 /* CREDIT CARD */
 
 .credit-card{
-margin-top:25px;
+margin-top:24px;
 background:rgba(255,255,255,0.15);
 backdrop-filter:blur(16px);
 padding:22px;
@@ -111,7 +111,7 @@ border-radius:30px;
 position:relative;
 z-index:2;
 border:1px solid rgba(255,255,255,0.15);
-box-shadow:0 10px 30px rgba(0,0,0,0.15);
+box-shadow:0 12px 30px rgba(0,0,0,0.15);
 }
 
 .credit-title{
@@ -129,7 +129,7 @@ gap:12px;
 
 .credit-box{
 background:rgba(255,255,255,0.12);
-border-radius:20px;
+border-radius:22px;
 padding:16px 10px;
 text-align:center;
 }
@@ -137,9 +137,9 @@ text-align:center;
 .credit-label{
 display:block;
 font-size:12px;
+line-height:1.4;
 color:rgba(255,255,255,0.85);
 margin-bottom:8px;
-line-height:1.4;
 }
 
 .credit-value{
@@ -174,16 +174,15 @@ font-size:13px;
 font-weight:600;
 color:#2457ff;
 cursor:pointer;
-box-shadow:0 8px 25px rgba(0,0,0,0.08);
+box-shadow:0 10px 24px rgba(0,0,0,0.08);
 transition:0.25s;
-border:2px solid transparent;
 }
 
 .filter-card.active{
 background:linear-gradient(135deg,#2457ff,#0a2ea8);
 color:white;
 transform:translateY(-2px);
-box-shadow:0 10px 24px rgba(36,87,255,0.35);
+box-shadow:0 10px 25px rgba(36,87,255,0.35);
 }
 
 /* SECTION */
@@ -193,140 +192,137 @@ margin-top:24px;
 }
 
 .section-title{
-font-size:21px;
+font-size:22px;
 font-weight:700;
-color:#1f2e63;
-margin-bottom:16px;
+color:#1b2d67;
+margin-bottom:18px;
 padding-left:4px;
 }
 
 /* HISTORY CARD */
 
 .history-card{
-background:linear-gradient(180deg,#ffffff,#f9fbff);
-border-radius:30px;
-padding:20px;
+background:white;
+border-radius:34px;
+padding:22px 18px;
 box-shadow:
-0 10px 30px rgba(0,0,0,0.06),
-0 2px 8px rgba(36,87,255,0.04);
+0 10px 35px rgba(0,0,0,0.06),
+0 2px 8px rgba(0,0,0,0.03);
 min-height:260px;
 position:relative;
 overflow:hidden;
-border:1px solid rgba(36,87,255,0.08);
-}
-
-.history-card::before{
-content:'';
-position:absolute;
-width:180px;
-height:180px;
-background:radial-gradient(circle,rgba(36,87,255,0.08),transparent 70%);
-top:-60px;
-right:-60px;
-border-radius:50%;
-}
-
-.history-card::after{
-content:'';
-position:absolute;
-width:140px;
-height:140px;
-background:radial-gradient(circle,rgba(91,134,255,0.08),transparent 70%);
-bottom:-50px;
-left:-50px;
-border-radius:50%;
 }
 
 /* MONTH */
 
 .month{
-display:inline-flex;
+display:flex;
 align-items:center;
-gap:8px;
-padding:12px 18px;
-background:linear-gradient(135deg,#2457ff,#0a2ea8);
-color:white;
-font-size:14px;
+gap:10px;
+font-size:15px;
 font-weight:700;
-border-radius:18px;
-margin-top:20px;
-margin-bottom:16px;
-letter-spacing:0.4px;
-box-shadow:0 8px 18px rgba(36,87,255,0.25);
-position:relative;
-z-index:2;
+color:#2457ff;
+margin:22px 0 16px;
+padding-left:6px;
 }
 
 .month:first-child{
 margin-top:0;
 }
 
-/* ITEM */
+.month::before{
+content:'';
+width:14px;
+height:14px;
+border-radius:50%;
+background:linear-gradient(135deg,#2457ff,#0a2ea8);
+box-shadow:0 0 0 6px rgba(36,87,255,0.12);
+}
+
+/* NEW PREMIUM LEAVE HISTORY DESIGN */
 
 .item{
 position:relative;
-background:white;
-padding:16px 16px 16px 58px;
-border-radius:24px;
-margin-bottom:15px;
-box-shadow:
-0 8px 20px rgba(0,0,0,0.05),
-0 2px 6px rgba(0,0,0,0.03);
+background:linear-gradient(135deg,#ffffff,#f7f9ff);
+border-radius:28px;
+padding:18px;
+margin-bottom:16px;
 border:1px solid rgba(36,87,255,0.08);
+box-shadow:
+0 8px 24px rgba(0,0,0,0.05),
+0 2px 6px rgba(0,0,0,0.03);
 overflow:hidden;
 transition:0.25s;
-z-index:2;
 }
 
 .item:active{
 transform:scale(0.98);
 }
 
+/* TOP COLOR LINE */
+
 .item::before{
 content:'';
 position:absolute;
-left:25px;
 top:0;
-width:3px;
-height:100%;
-background:linear-gradient(180deg,#2457ff,#7fa0ff);
-opacity:0.25;
+left:0;
+width:100%;
+height:5px;
+background:linear-gradient(90deg,#2457ff,#6d8eff,#2457ff);
 }
 
-.item::after{
-content:'';
-position:absolute;
-left:14px;
-top:18px;
-width:24px;
-height:24px;
-border-radius:50%;
+/* FLOAT ICON */
+
+.leave-icon{
+width:48px;
+height:48px;
+border-radius:18px;
 background:linear-gradient(135deg,#2457ff,#0a2ea8);
-box-shadow:
-0 0 0 5px rgba(36,87,255,0.10),
-0 6px 14px rgba(36,87,255,0.25);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:20px;
+color:white;
+box-shadow:0 10px 22px rgba(36,87,255,0.25);
+flex-shrink:0;
+}
+
+.leave-flex{
+display:flex;
+align-items:flex-start;
+gap:14px;
+}
+
+.leave-details{
+flex:1;
 }
 
 .leave-badge{
 display:inline-flex;
 align-items:center;
 justify-content:center;
-padding:6px 13px;
+padding:7px 14px;
 border-radius:30px;
-background:linear-gradient(135deg,#2457ff,#0a2ea8);
-color:white;
+background:rgba(36,87,255,0.10);
+color:#2457ff;
 font-size:11px;
 font-weight:700;
 letter-spacing:0.5px;
 margin-bottom:10px;
-box-shadow:0 5px 12px rgba(36,87,255,0.2);
 }
 
 .leave-date{
-font-size:14px;
+font-size:15px;
 font-weight:600;
+color:#1f2a4d;
 line-height:1.7;
-color:#2a3353;
+}
+
+.leave-sub{
+margin-top:8px;
+font-size:12px;
+color:#8a93b2;
+font-weight:500;
 }
 
 /* EXTRA BUTTONS */
@@ -349,7 +345,7 @@ font-size:15px;
 font-weight:600;
 color:#2457ff;
 cursor:pointer;
-box-shadow:0 8px 25px rgba(0,0,0,0.08);
+box-shadow:0 10px 24px rgba(0,0,0,0.08);
 transition:0.25s;
 }
 
@@ -357,7 +353,7 @@ transition:0.25s;
 background:linear-gradient(135deg,#2457ff,#0a2ea8);
 color:white;
 transform:translateY(-2px);
-box-shadow:0 10px 24px rgba(36,87,255,0.3);
+box-shadow:0 10px 24px rgba(36,87,255,0.32);
 }
 
 .extra-btn svg{
@@ -365,7 +361,7 @@ width:18px;
 height:18px;
 }
 
-/* NO DATA */
+/* EMPTY */
 
 .no-data{
 display:flex;
@@ -373,17 +369,16 @@ flex-direction:column;
 align-items:center;
 justify-content:center;
 text-align:center;
-padding:55px 20px;
-color:#7c84a5;
+padding:60px 20px;
+color:#8c95b5;
 font-size:15px;
 font-weight:500;
 }
 
 .no-data::before{
-content:'📅';
-font-size:48px;
-margin-bottom:12px;
-opacity:0.7;
+content:'🗂️';
+font-size:52px;
+margin-bottom:14px;
 }
 
 /* MOBILE */
@@ -396,6 +391,16 @@ grid-template-columns:1fr;
 
 .filter-grid{
 grid-template-columns:1fr;
+}
+
+.leave-flex{
+flex-direction:column;
+}
+
+.leave-icon{
+width:42px;
+height:42px;
+font-size:18px;
 }
 
 }
@@ -484,8 +489,7 @@ Casual Leave
 Leave History
 </div>
 
-<div class="history-card" id="leaveContainer">
-</div>
+<div class="history-card" id="leaveContainer"></div>
 
 </div>
 
@@ -844,11 +848,27 @@ elsDaysCurrentYear += days;
 
 html += `
 <div class="item">
+
+<div class="leave-flex">
+
+<div class="leave-icon">💳</div>
+
+<div class="leave-details">
+
 <div class="leave-badge">ELS</div>
+
 <div class="leave-date">
-${c[3]} | Days : ${days}<br>
+${c[3]} | Days : ${days}
+</div>
+
+<div class="leave-sub">
 ${c[4]}
 </div>
+
+</div>
+
+</div>
+
 </div>
 `;
 
@@ -901,35 +921,71 @@ let clBalance = clCredit - clTaken;
 
 let html = `
 
-<div class="month">📘 EL DETAILS</div>
+<div class="month">EL DETAILS</div>
 
 <div class="item">
+
+<div class="leave-flex">
+
+<div class="leave-icon">📘</div>
+
+<div class="leave-details">
+
 <div class="leave-date">
 Credit : ${elCredit}<br>
 Taken : ${elTaken}<br>
 ELS Days : ${totalELS}<br>
 <b>Balance : ${elBalance}</b>
 </div>
+
 </div>
 
-<div class="month">📗 FPL DETAILS</div>
+</div>
+
+</div>
+
+<div class="month">FPL DETAILS</div>
 
 <div class="item">
+
+<div class="leave-flex">
+
+<div class="leave-icon">📗</div>
+
+<div class="leave-details">
+
 <div class="leave-date">
 Credit : ${fplCredit}<br>
 Taken : ${fplTaken}<br>
 <b>Balance : ${fplBalance}</b>
 </div>
+
 </div>
 
-<div class="month">📙 CL DETAILS</div>
+</div>
+
+</div>
+
+<div class="month">CL DETAILS</div>
 
 <div class="item">
+
+<div class="leave-flex">
+
+<div class="leave-icon">📙</div>
+
+<div class="leave-details">
+
 <div class="leave-date">
 Credit : ${clCredit}<br>
 Taken : ${clTaken}<br>
 <b>Balance : ${clBalance}</b>
 </div>
+
+</div>
+
+</div>
+
 </div>
 
 `;
@@ -946,7 +1002,7 @@ for(let m in map){
 
 html += `
 <div class="month">
-📅 ${m}
+${m}
 </div>
 `;
 
@@ -960,12 +1016,26 @@ if(s===e){
 html += `
 <div class="item">
 
+<div class="leave-flex">
+
+<div class="leave-icon">🗓️</div>
+
+<div class="leave-details">
+
 <div class="leave-badge">
 ${r.type}
 </div>
 
 <div class="leave-date">
 ${s}-${r.start.month}-${r.start.year}
+</div>
+
+<div class="leave-sub">
+Single Day Leave
+</div>
+
+</div>
+
 </div>
 
 </div>
@@ -976,13 +1046,26 @@ ${s}-${r.start.month}-${r.start.year}
 html += `
 <div class="item">
 
+<div class="leave-flex">
+
+<div class="leave-icon">📅</div>
+
+<div class="leave-details">
+
 <div class="leave-badge">
 ${r.type}
 </div>
 
 <div class="leave-date">
-From ${s}-${r.start.month}-${r.start.year}<br>
+${s}-${r.start.month}-${r.start.year}
+</div>
+
+<div class="leave-sub">
 To ${e}-${r.start.month}-${r.start.year}
+</div>
+
+</div>
+
 </div>
 
 </div>
