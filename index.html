@@ -18,34 +18,33 @@ body{
     font-family:'Segoe UI',sans-serif;
     height:100vh;
     overflow:hidden;
-    background:
-    linear-gradient(180deg,#d7d8ff 0%,#fff2ec 50%,#2400b7 100%);
+    background:linear-gradient(180deg,#d7d8ff 0%,#fff2ec 55%,#2400b7 100%);
 }
 
-/* TOP DECORATION */
+/* Decorations */
 
 .top-leaves{
     position:absolute;
-    top:-20px;
-    left:-20px;
-    font-size:70px;
-    opacity:.25;
+    top:-10px;
+    left:-10px;
+    font-size:50px;
+    opacity:.18;
     color:#3d20d8;
 }
 
 .top-dots{
     position:absolute;
-    right:25px;
-    top:80px;
-    width:120px;
-    height:120px;
+    right:20px;
+    top:60px;
+    width:80px;
+    height:80px;
     background:
-    radial-gradient(#9f86ff 20%,transparent 22%);
-    background-size:12px 12px;
-    opacity:.35;
+    radial-gradient(#9f86ff 18%,transparent 20%);
+    background-size:10px 10px;
+    opacity:.30;
 }
 
-/* MAIN */
+/* Main Container */
 
 .container{
     position:relative;
@@ -54,10 +53,10 @@ body{
     flex-direction:column;
     align-items:center;
     text-align:center;
-    padding-top:60px;
+    padding-top:35px;
 }
 
-/* LOGO */
+/* Logo */
 
 .logo-box{
     position:relative;
@@ -65,9 +64,9 @@ body{
 
 .orbit{
     position:absolute;
-    width:180px;
-    height:180px;
-    border:2px dashed rgba(130,90,255,.5);
+    width:140px;
+    height:140px;
+    border:1.5px dashed rgba(130,90,255,.5);
     border-radius:50%;
     top:50%;
     left:50%;
@@ -76,146 +75,139 @@ body{
 }
 
 .logo{
-    width:130px;
-    height:130px;
+    width:100px;
+    height:100px;
 
-    background:
-    linear-gradient(145deg,#2400b7,#4b2dd8);
+    background:linear-gradient(145deg,#2400b7,#4b2dd8);
 
-    border-radius:35px;
+    border-radius:28px;
 
     display:flex;
     justify-content:center;
     align-items:center;
 
     color:white;
-    font-size:70px;
+    font-size:55px;
     font-weight:bold;
 
     box-shadow:
-    0 0 0 5px rgba(255,220,130,.7),
-    0 0 30px rgba(90,50,255,.45);
+    0 0 0 4px rgba(255,220,130,.7),
+    0 0 20px rgba(90,50,255,.35);
 
     animation:pulse 2s infinite;
 }
 
-/* TITLE */
+/* Title */
 
 h1{
-    margin-top:25px;
-    font-size:52px;
+    margin-top:18px;
+    font-size:40px;
     color:#2100a8;
 }
 
 .subtitle{
-    font-size:18px;
+    font-size:15px;
     color:#1e2085;
-    margin-top:6px;
+    margin-top:4px;
 }
 
-/* WELCOME CARD */
+/* Welcome Card */
 
 .card{
+    width:88%;
+    max-width:500px;
 
-    width:85%;
-    max-width:600px;
-
-    margin-top:25px;
+    margin-top:18px;
 
     background:rgba(255,255,255,.92);
 
-    border-radius:30px;
+    border-radius:24px;
 
-    padding:25px 20px;
+    padding:18px 16px;
 
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
 .card h2{
-    font-size:24px;
+    font-size:20px;
     color:#241d88;
 }
 
 .card p{
-    font-size:18px;
+    font-size:15px;
     color:#241d88;
-    margin-top:8px;
+    margin-top:5px;
 }
 
 .hescom{
-    font-size:58px;
+    font-size:42px;
     font-weight:800;
     color:#4c28e0;
-    margin:8px 0;
+    margin:5px 0;
 }
 
-/* FEATURES */
+/* Features */
 
 .features{
-
     width:100%;
 
     margin-top:auto;
 
-    padding:0 15px 120px;
+    padding:0 12px 95px;
 
     display:grid;
 
     grid-template-columns:repeat(4,1fr);
 
-    gap:10px;
+    gap:8px;
 }
 
 .feature{
-
-    background:
-    rgba(80,50,220,.25);
+    background:rgba(80,50,220,.25);
 
     backdrop-filter:blur(10px);
 
-    border-radius:18px;
+    border-radius:14px;
 
     color:white;
 
-    padding:12px 6px;
+    padding:10px 4px;
 
-    min-height:95px;
+    min-height:78px;
 }
 
 .feature .icon{
-    font-size:28px;
+    font-size:22px;
 }
 
 .feature .title{
-    margin-top:6px;
-    font-size:14px;
+    margin-top:4px;
+    font-size:11px;
     font-weight:600;
 }
 
 .feature .kn{
-    font-size:11px;
-    margin-top:3px;
+    font-size:9px;
+    margin-top:2px;
 }
 
-/* LOADER */
+/* Loader */
 
 .loader{
-
     position:absolute;
 
-    bottom:60px;
+    bottom:48px;
 
     left:50%;
 
     transform:translateX(-50%);
 
-    width:48px;
-
-    height:48px;
+    width:38px;
+    height:38px;
 
     border-radius:50%;
 
-    border:4px solid rgba(255,255,255,.4);
+    border:3px solid rgba(255,255,255,.4);
 
     border-top-color:#7f5bff;
 
@@ -223,10 +215,9 @@ h1{
 }
 
 .loading-text{
-
     position:absolute;
 
-    bottom:18px;
+    bottom:12px;
 
     width:100%;
 
@@ -236,16 +227,16 @@ h1{
 }
 
 .loading-text h3{
-    font-size:18px;
+    font-size:15px;
     font-weight:500;
 }
 
 .loading-text p{
-    font-size:14px;
+    font-size:12px;
     font-style:italic;
 }
 
-/* ANIMATIONS */
+/* Animations */
 
 @keyframes spin{
     to{
@@ -260,34 +251,64 @@ h1{
 }
 
 @keyframes pulse{
-
     50%{
-        transform:scale(1.05);
+        transform:scale(1.04);
     }
 }
 
-/* SMALL PHONES */
+/* Small Phones */
 
 @media(max-width:400px){
 
-    h1{
-        font-size:42px;
+    .container{
+        padding-top:28px;
     }
 
-    .subtitle{
-        font-size:15px;
-    }
-
-    .hescom{
+    .logo{
+        width:90px;
+        height:90px;
         font-size:48px;
     }
 
+    .orbit{
+        width:125px;
+        height:125px;
+    }
+
+    h1{
+        font-size:34px;
+    }
+
+    .subtitle{
+        font-size:13px;
+    }
+
+    .hescom{
+        font-size:36px;
+    }
+
+    .card h2{
+        font-size:18px;
+    }
+
+    .card p{
+        font-size:13px;
+    }
+
+    .feature{
+        min-height:72px;
+    }
+
+    .feature .icon{
+        font-size:20px;
+    }
+
     .feature .title{
-        font-size:12px;
+        font-size:10px;
     }
 
     .feature .kn{
-        font-size:10px;
+        font-size:8px;
     }
 }
 
@@ -303,13 +324,11 @@ h1{
 <div class="container">
 
     <div class="logo-box">
-
         <div class="orbit"></div>
 
         <div class="logo">
             ₹
         </div>
-
     </div>
 
     <h1>Salary Prompt</h1>
@@ -330,7 +349,7 @@ h1{
 
         <p>ಶಿರಸಿ</p>
 
-        <p style="margin-top:15px;">
+        <p style="margin-top:10px;">
             ನಾವು ಜನರಿಗೆ - ನಮ್ಮ ಹೆಮ್ಮೆಗೆ
         </p>
 
