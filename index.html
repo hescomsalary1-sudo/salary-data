@@ -1,1 +1,70 @@
-<!DOCTYPE html><html><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Salary Prompt</title><style>body{margin:0;height:100vh;display:flex;align-items:center;justify-content:center;font-family:Segoe UI,sans-serif;background:linear-gradient(180deg,#dff2ff,#8fc8ff 38%,#3578ff 72%,#0b2f8d 100%)}.c{text-align:center;color:#fff}.l{width:100px;height:100px;margin:auto;border-radius:28px;background:linear-gradient(145deg,#0b52ff,#38a5ff);display:flex;align-items:center;justify-content:center;font-size:56px;font-weight:bold;box-shadow:0 0 25px rgba(0,0,0,.2)}.card{margin-top:20px;padding:20px;border-radius:20px;background:rgba(255,255,255,.18);backdrop-filter:blur(10px)}.f{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:20px}.b{background:rgba(255,255,255,.15);padding:10px;border-radius:12px;font-size:11px}.loader{margin:24px auto 8px;width:36px;height:36px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:s 1s linear infinite}@keyframes s{to{transform:rotate(360deg)}}</style></head><body><div class='c'><div class='l'>₹</div><h1>Salary Prompt</h1><div>Smart &amp; Secure Salary Management</div><div class='card'><h2>ಸ್ವಾಗತ!</h2><div>ಕಾರ್ಯ ಮತ್ತು ಪಾಲನಾ ವಿಭಾಗ</div><h1>ಹೆಸ್ಕಾಂ</h1><div>ಶಿರಸಿ</div><div>ನಾವು ಜನರಿಗೆ - ನಮ್ಮ ಹೆಮ್ಮೆಗೆ</div></div><div class='f'><div class='b'>🛡️<br>Secure</div><div class='b'>🤝<br>Reliable</div><div class='b'>📈<br>Efficient</div><div class='b'>👥<br>Employee First</div></div><div class='loader'></div><div>Loading...<br><small>Empowering Every Employee</small></div></div><script>setTimeout(function(){window.location.href='login.html';},3000);</script></body></html>
+
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Salary Prompt</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+height:100vh;overflow:hidden;font-family:'Segoe UI',sans-serif;
+background:radial-gradient(circle at top,#2b7fff 0%,#1649d8 25%,#0d2f9b 55%,#071c6a 80%,#020d38 100%);
+position:relative}
+.bg1,.bg2{position:absolute;border-radius:50%;background:rgba(255,255,255,.08);filter:blur(2px)}
+.bg1{width:260px;height:260px;left:-80px;top:-80px}
+.bg2{width:220px;height:220px;right:-60px;top:90px}
+.container{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;text-align:center;padding:36px 14px 0}
+.logoWrap{position:relative}
+.ring{position:absolute;inset:-18px;border:2px dashed rgba(255,255,255,.25);border-radius:50%;animation:spinRing 18s linear infinite}
+.logo{width:105px;height:105px;border-radius:30px;background:linear-gradient(145deg,#0b45d8,#1368ff,#3fa4ff);display:flex;align-items:center;justify-content:center;color:#fff;font-size:56px;font-weight:700;box-shadow:0 0 0 4px rgba(255,255,255,.15),0 0 35px rgba(77,180,255,.45);animation:pulse 2s infinite}
+h1{margin-top:18px;font-size:38px;color:#fff;text-shadow:0 5px 15px rgba(0,0,0,.3)}
+.sub{margin-top:5px;color:#d7e9ff;font-size:15px}
+.card{width:90%;max-width:500px;margin-top:18px;padding:20px;background:rgba(18,50,130,.45);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.12);border-radius:24px;color:#fff;box-shadow:0 15px 35px rgba(0,0,0,.35)}
+.card h2{font-size:20px}
+.card p{font-size:15px;color:#d7e9ff;margin-top:6px}
+.big{font-size:44px;font-weight:800;color:#fff;margin:6px 0}
+.features{margin-top:auto;width:100%;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 10px 92px}
+.f{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(12px);border-radius:14px;padding:10px 4px;color:#fff}
+.f .i{font-size:22px}.f b{display:block;font-size:11px;margin-top:4px}.f span{font-size:9px;color:#d7e9ff}
+.loader{position:absolute;bottom:50px;left:50%;transform:translateX(-50%);width:40px;height:40px;border-radius:50%;border:3px solid rgba(255,255,255,.18);border-top-color:#4db4ff;animation:spin 1s linear infinite}
+.loading{position:absolute;bottom:12px;width:100%;text-align:center;color:#d8ebff}
+.loading h3{font-size:15px;font-weight:500}.loading p{font-size:12px;font-style:italic}
+@keyframes spin{to{transform:translateX(-50%) rotate(360deg)}}
+@keyframes spinRing{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{transform:scale(1.05)}}
+@media(max-width:400px){
+.logo{width:90px;height:90px;font-size:48px}
+h1{font-size:32px}.sub{font-size:13px}.big{font-size:36px}
+.card h2{font-size:18px}.card p{font-size:13px}
+.f .i{font-size:18px}.f b{font-size:10px}.f span{font-size:8px}
+}
+</style>
+</head>
+<body>
+<div class="bg1"></div><div class="bg2"></div>
+<div class="container">
+<div class="logoWrap"><div class="ring"></div><div class="logo">₹</div></div>
+<h1>Salary Prompt</h1>
+<div class="sub">Smart &amp; Secure Salary Management</div>
+<div class="card">
+<h2>ಸ್ವಾಗತ!</h2>
+<p>ಕಾರ್ಯ ಮತ್ತು ಪಾಲನಾ ವಿಭಾಗ</p>
+<div class="big">ಹೆಸ್ಕಾಂ</div>
+<p>ಶಿರಸಿ</p>
+<p style="margin-top:10px">ನಾವು ಜನರಿಗೆ - ನಮ್ಮ ಹೆಮ್ಮೆಗೆ</p>
+</div>
+<div class="features">
+<div class="f"><div class="i">🛡️</div><b>Secure</b><span>ಸುರಕ್ಷತೆ</span></div>
+<div class="f"><div class="i">🤝</div><b>Reliable</b><span>ವಿಶ್ವಾಸಾರ್ಹ</span></div>
+<div class="f"><div class="i">📈</div><b>Efficient</b><span>ದಕ್ಷತೆ</span></div>
+<div class="f"><div class="i">👥</div><b>Employee First</b><span>ಕೇಂದ್ರಬಿಂದು</span></div>
+</div>
+<div class="loader"></div>
+<div class="loading"><h3>Loading...</h3><p>Empowering Every Employee</p></div>
+</div>
+<script>
+setTimeout(function(){window.location.href="login.html";},3000);
+</script>
+</body>
+</html>
