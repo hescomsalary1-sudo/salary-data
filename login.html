@@ -5,28 +5,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* --- MODERN GLOBAL STYLES --- */
+/* --- PREMIUM GLOBAL DESIGN SYSTEM --- */
 :root {
     --primary: #3b1eff;
     --primary-dark: #2400b7;
     --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    --card-bg: rgba(255, 255, 255, 0.95);
+    --card-bg: rgba(255, 255, 255, 0.92);
+    --glass-accent: rgba(255, 255, 255, 0.6);
     --text-main: #0f172a;
     --text-muted: #64748b;
     --error: #ef4444;
     --success: #10b981;
-    --radius: 12px;
+    --radius: 16px;
 }
 
 body {
     margin: 0;
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg-gradient);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     color: var(--text-main);
     justify-content: space-between;
+    overflow-x: hidden;
 }
 
 /* --- SPLIT TOP ILLUSTRATION --- */
@@ -36,7 +38,6 @@ body {
     height: 38vh;
     overflow: hidden;
     margin: 0;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .illustration {
@@ -62,83 +63,86 @@ body {
     z-index: 2;
 }
 
-/* --- MAIN CONTAINER ASSEMBLY --- */
+/* --- MAIN CONTAINER --- */
 .bottom {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 24px;
     flex-grow: 1;
     z-index: 3;
-    margin-top: -40px; /* Pulls login box slightly over the illustration blend */
+    margin-top: -50px;
 }
 
+/* --- PREMIUM GLASSMORPHISM CARD --- */
 .login-box {
     width: 100%;
     max-width: 360px;
     background: var(--card-bg);
-    padding: 35px 30px;
+    padding: 40px 32px;
     border-radius: var(--radius);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
+    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.08), 0 10px 20px -5px rgba(15, 23, 42, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     box-sizing: border-box;
 }
 
-/* --- INFO ICONS ROW --- */
+/* --- REFINED ULTRA-PREMIUM INFO ROW --- */
 .info-container {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: center;
+    gap: 8px;
     width: 100%;
     max-width: 360px;
     margin-top: 24px;
-    padding: 0 10px;
     box-sizing: border-box;
+    animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    animation-delay: 0.2s;
 }
 
 .info-item {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    text-align: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 30px;
+    background: var(--glass-accent);
+    border: 1px solid rgba(255, 255, 255, 0.7);
     color: var(--text-muted);
-    font-size: 11px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    transition: all 0.25s ease;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.02);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     cursor: default;
 }
 
-.info-item:hover {
-    color: var(--primary);
-    transform: translateY(-2px);
-}
-
-.info-icon-circle {
-    width: 36px;
-    height: 36px;
+.info-dot {
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(226, 232, 240, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 16px;
-    margin-bottom: 6px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    transition: all 0.25s ease;
+    background: var(--primary);
+    box-shadow: 0 0 8px var(--primary);
+    transition: transform 0.3s ease;
 }
 
-.info-item:hover .info-icon-circle {
-    background: #fff;
-    border-color: var(--primary);
-    box-shadow: 0 10px 15px -3px rgba(59, 30, 255, 0.1);
+.info-item:hover {
+    color: var(--text-main);
+    background: #ffffff;
+    border-color: rgba(59, 30, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(59, 30, 255, 0.1);
 }
 
-/* --- MODERN INPUTS --- */
+.info-item:hover .info-dot {
+    transform: scale(1.5);
+}
+
+/* --- PREMIUM TEXT INPUTS --- */
 .input-group {
     margin-bottom: 20px;
     position: relative;
@@ -146,12 +150,13 @@ body {
 
 input {
     width: 100%;
-    padding: 14px 16px;
-    border: 1.5px solid #cbd5e1;
+    padding: 15px 16px;
+    border: 1.5px solid #e2e8f0;
     outline: none;
     font-size: 15px;
+    font-weight: 500;
     background: #f8fafc;
-    border-radius: 8px;
+    border-radius: 10px;
     box-sizing: border-box;
     transition: all 0.25s ease;
     color: var(--text-main);
@@ -164,18 +169,20 @@ input::placeholder {
 input:focus {
     border-color: var(--primary);
     background: #fff;
-    box-shadow: 0 0 0 4px rgba(59, 30, 255, 0.1);
+    box-shadow: 0 0 0 4px rgba(59, 30, 255, 0.08);
 }
 
 .toggle-password {
     position: absolute;
-    right: 14px;
+    right: 16px;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 12px;
+    font-weight: 700;
     color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     user-select: none;
     transition: color 0.2s;
 }
@@ -184,24 +191,24 @@ input:focus {
     color: var(--primary-dark);
 }
 
-/* --- BUTTONS --- */
+/* --- ACTION BUTTONS --- */
 button {
     width: 100%;
-    padding: 14px;
+    padding: 15px;
     border: none;
     background: linear-gradient(135deg, var(--primary-dark), var(--primary));
     color: white;
     font-size: 15px;
     font-weight: 600;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 6px -1px rgba(59, 30, 255, 0.2);
+    transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 12px rgba(59, 30, 255, 0.2);
 }
 
 button:hover {
     transform: translateY(-1px);
-    box-shadow: 0 10px 15px -3px rgba(59, 30, 255, 0.3);
+    box-shadow: 0 12px 20px -3px rgba(59, 30, 255, 0.35);
 }
 
 button:active {
@@ -220,7 +227,7 @@ button + button {
 }
 
 .change-btn:hover {
-    background: rgba(59, 30, 255, 0.05);
+    background: rgba(59, 30, 255, 0.04);
     color: var(--primary-dark);
     border-color: var(--primary-dark);
     box-shadow: none;
@@ -231,12 +238,13 @@ button + button {
 #error {
     color: var(--error);
     font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 15px;
+    font-weight: 600;
+    margin-bottom: 16px;
     text-align: center;
-    background: rgba(239, 68, 68, 0.1);
-    padding: 10px;
-    border-radius: 6px;
+    background: rgba(239, 68, 68, 0.08);
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 3px solid var(--error);
     display: none;
 }
 #error:not(:empty) {
@@ -250,9 +258,9 @@ button + button {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(15, 23, 42, 0.3);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background: rgba(15, 23, 42, 0.35);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -345,7 +353,7 @@ button + button {
     100%{transform:rotate(360deg);}
 }
 
-/* --- MODAL DIALOGS (POP-UPS) --- */
+/* --- MODAL POP-UPS --- */
 #changeBox, #successPopup, #errorPopup {
     display: none;
     position: fixed;
@@ -362,44 +370,44 @@ button + button {
 
 .change-box-content, .popup-content {
     background: #ffffff;
-    padding: 35px 30px;
+    padding: 40px 32px;
     border-radius: var(--radius);
     width: 100%;
-    max-width: 320px;
+    max-width: 340px;
     box-sizing: border-box;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.3);
     text-align: center;
-    animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes slideIn {
-    from { transform: translateY(-20px); opacity: 0; }
+@keyframes slideUpFade {
+    from { transform: translateY(20px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
 
 @keyframes pop {
-    from { transform: scale(0.9); opacity: 0; }
+    from { transform: scale(0.92); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
 
 .change-box-content h3 {
-    margin: 0 0 20px 0;
+    margin: 0 0 24px 0;
     color: var(--text-main);
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 22px;
+    font-weight: 700;
 }
 
 .change-box-content input {
-    margin-bottom: 15px;
+    margin-bottom: 16px;
     background: #f1f5f9;
 }
 
 .cancel-link {
     display: inline-block;
-    margin-top: 16px;
+    margin-top: 18px;
     color: var(--text-muted);
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     transition: color 0.2s;
 }
@@ -467,15 +475,15 @@ button + button {
 
     <div class="info-container">
         <div class="info-item">
-            <div class="info-icon-circle">🛡️</div>
-            <span>Secure</span>
+            <div class="info-dot"></div>
+            <span>Secure SSL</span>
         </div>
         <div class="info-item">
-            <div class="info-icon-circle">📊</div>
-            <span>Payroll</span>
+            <div class="info-dot"></div>
+            <span>E-Payroll</span>
         </div>
         <div class="info-item">
-            <div class="info-icon-circle">💬</div>
+            <div class="info-dot"></div>
             <span>Support</span>
         </div>
     </div>
@@ -499,19 +507,19 @@ button + button {
 
 <div id="successPopup">
     <div class="popup-content" style="animation: pop 0.3s ease;">
-        <div style="font-size: 46px; color: var(--success); margin-bottom: 10px;">✔</div>
-        <h3 style="margin: 5px 0; font-size: 20px;">Success</h3>
-        <p style="color: var(--text-muted); margin: 5px 0 20px 0; font-size: 14px;">Password Updated Successfully</p>
+        <div style="font-size: 48px; color: var(--success); margin-bottom: 12px;">✔</div>
+        <h3 style="margin: 5px 0; font-size: 22px; font-weight:700;">Success</h3>
+        <p style="color: var(--text-muted); margin: 6px 0 24px 0; font-size: 14px;">Password Updated Successfully</p>
         <button onclick="closeSuccess()">OK</button>
     </div>
 </div>
 
 <div id="errorPopup">
     <div class="popup-content" style="animation: pop 0.3s ease;">
-        <div style="font-size: 46px; color: var(--error); margin-bottom: 10px;">✖</div>
-        <h3 style="margin: 5px 0; color: var(--error); font-size: 20px;">Error</h3>
-        <p id="errorText" style="color: var(--text-muted); margin: 5px 0 20px 0; font-size: 14px;">Invalid Details</p>
-        <button onclick="closeError()" style="background: var(--error); box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.2);">OK</button>
+        <div style="font-size: 48px; color: var(--error); margin-bottom: 12px;">✖</div>
+        <h3 style="margin: 5px 0; color: var(--error); font-size: 22px; font-weight:700;">Error</h3>
+        <p id="errorText" style="color: var(--text-muted); margin: 6px 0 24px 0; font-size: 14px;">Invalid Details</p>
+        <button onclick="closeError()" style="background: var(--error); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);">OK</button>
     </div>
 </div> 
 
@@ -590,7 +598,7 @@ if(data.status === "success"){
 
     setTimeout(function(){
         window.location = "home.html";
-    }, 1000); // 1 second total for a premium feel
+    }, 1000); 
 }else{
 
 hideLoader();
