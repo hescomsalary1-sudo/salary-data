@@ -1,43 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="kn">
 <head>
 <title>Salary Prompt - Login</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* --- PREMIUM GLOBAL DESIGN SYSTEM --- */
+/* --- PREMIUM FLASH-SCREEN MATCHED DESIGN SYSTEM --- */
 :root {
-    --primary: #3b1eff;
-    --primary-dark: #2400b7;
-    --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    --card-bg: rgba(255, 255, 255, 0.92);
-    --glass-accent: rgba(255, 255, 255, 0.6);
-    --text-main: #0f172a;
-    --text-muted: #64748b;
-    --error: #ef4444;
-    --success: #10b981;
-    --radius: 16px;
+    --primary-blue: #1368ff;
+    --accent-blue: #4db4ff;
+    --bg-gradient: radial-gradient(circle at top, #2b7fff 0%, #1649d8 25%, #0d2f9b 55%, #071c6a 80%, #020d38 100%);
+    --card-bg: rgba(18, 50, 130, 0.45);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --text-light: #ffffff;
+    --text-muted: #d7e9ff;
+    --error: #ff4d4d;
+    --success: #00e676;
+    --radius: 24px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    margin: 0;
     font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg-gradient);
+    min-height: 100vh;
+    color: var(--text-light);
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    color: var(--text-main);
     justify-content: space-between;
     overflow-x: hidden;
+    position: relative;
 }
 
-/* --- SPLIT TOP ILLUSTRATION --- */
+/* --- AMBIENT BACKGROUND ORBS --- */
+.bg1, .bg2 {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .05);
+    filter: blur(4px);
+    pointer-events: none;
+    z-index: 1;
+}
+.bg1 { width: 260px; height: 260px; left: -80px; top: -80px; }
+.bg2 { width: 220px; height: 220px; right: -60px; top: 90px; }
+
+/* --- TOP SPLIT BRANDING AREA --- */
 .top {
     position: relative;
     width: 100%;
-    height: 38vh;
-    overflow: hidden;
-    margin: 0;
+    height: 32vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    padding-top: 20px;
 }
 
 .illustration {
@@ -50,126 +72,108 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    opacity: 0.15; /* Elegant overlay blending into the blue background */
 }
 
-.top::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 80px;
-    background: linear-gradient(to bottom, rgba(248,250,252,0) 0%, rgba(248,250,252,1) 100%);
-    z-index: 2;
-}
-
-/* --- MAIN CONTAINER --- */
+/* --- BOTTOM DESIGN WORKSPACE --- */
 .bottom {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    padding: 24px;
+    padding: 0 20px;
     flex-grow: 1;
-    z-index: 3;
-    margin-top: -50px;
+    z-index: 2;
 }
 
-/* --- PREMIUM GLASSMORPHISM CARD --- */
+/* --- PREMIUM BLUR LOGIN BOX --- */
 .login-box {
     width: 100%;
-    max-width: 360px;
+    max-width: 420px;
     background: var(--card-bg);
-    padding: 40px 32px;
+    padding: 35px 25px;
     border-radius: var(--radius);
-    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.08), 0 10px 20px -5px rgba(15, 23, 42, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 15px 35px rgba(0,0,0,.35);
+    border: 1px solid var(--glass-border);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    box-sizing: border-box;
 }
 
-/* --- REFINED ULTRA-PREMIUM INFO ROW --- */
-.info-container {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
+/* --- FLASH SCREEN IDENTICAL FEATURES GRID --- */
+.features {
     width: 100%;
-    max-width: 360px;
-    margin-top: 24px;
-    box-sizing: border-box;
-    animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
-    animation-delay: 0.2s;
+    max-width: 420px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 25px;
+    margin-bottom: 35px;
 }
 
-.info-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 14px;
-    border-radius: 30px;
-    background: var(--glass-accent);
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    color: var(--text-muted);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.02);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+.f {
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 14px;
+    padding: 12px 4px;
+    color: var(--text-light);
+    text-align: center;
+    transition: all 0.3s ease;
     cursor: default;
 }
 
-.info-dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--primary);
-    box-shadow: 0 0 8px var(--primary);
-    transition: transform 0.3s ease;
+.f:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-3px);
+    border-color: var(--accent-blue);
 }
 
-.info-item:hover {
-    color: var(--text-main);
-    background: #ffffff;
-    border-color: rgba(59, 30, 255, 0.3);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px -5px rgba(59, 30, 255, 0.1);
+.f .i {
+    font-size: 22px;
 }
 
-.info-item:hover .info-dot {
-    transform: scale(1.5);
+.f b {
+    display: block;
+    font-size: 11px;
+    margin-top: 4px;
+    font-weight: 600;
 }
 
-/* --- PREMIUM TEXT INPUTS --- */
+.f span {
+    display: block;
+    font-size: 9px;
+    color: var(--text-muted);
+    margin-top: 1px;
+}
+
+/* --- REFINED INPUT FIELDS --- */
 .input-group {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
     position: relative;
 }
 
 input {
     width: 100%;
-    padding: 15px 16px;
-    border: 1.5px solid #e2e8f0;
+    padding: 14px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     outline: none;
     font-size: 15px;
-    font-weight: 500;
-    background: #f8fafc;
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 12px;
     box-sizing: border-box;
     transition: all 0.25s ease;
-    color: var(--text-main);
+    color: var(--text-light);
 }
 
 input::placeholder {
-    color: #94a3b8;
+    color: rgba(215, 233, 255, 0.6);
 }
 
 input:focus {
-    border-color: var(--primary);
-    background: #fff;
-    box-shadow: 0 0 0 4px rgba(59, 30, 255, 0.08);
+    border-color: var(--accent-blue);
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 12px rgba(77, 180, 255, 0.2);
 }
 
 .toggle-password {
@@ -180,39 +184,38 @@ input:focus {
     cursor: pointer;
     font-size: 12px;
     font-weight: 700;
-    color: var(--primary);
+    color: var(--accent-blue);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     user-select: none;
-    transition: color 0.2s;
 }
 
 .toggle-password:hover {
-    color: var(--primary-dark);
+    color: var(--text-light);
 }
 
-/* --- ACTION BUTTONS --- */
+/* --- HIGH-END BUTTONS --- */
 button {
     width: 100%;
-    padding: 15px;
+    padding: 14px;
     border: none;
-    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    background: linear-gradient(145deg, #0b45d8, #1368ff, #3fa4ff);
     color: white;
     font-size: 15px;
     font-weight: 600;
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
-    box-shadow: 0 4px 12px rgba(59, 30, 255, 0.2);
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 15px rgba(19, 104, 255, 0.3);
 }
 
 button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 12px 20px -3px rgba(59, 30, 255, 0.35);
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(77, 180, 255, 0.45);
 }
 
 button:active {
-    transform: translateY(1px);
+    transform: scale(0.99);
 }
 
 button + button {
@@ -221,17 +224,15 @@ button + button {
 
 .change-btn {
     background: transparent;
-    color: var(--primary);
-    border: 1.5px solid var(--primary);
+    color: var(--text-light);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     box-shadow: none;
 }
 
 .change-btn:hover {
-    background: rgba(59, 30, 255, 0.04);
-    color: var(--primary-dark);
-    border-color: var(--primary-dark);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--accent-blue);
     box-shadow: none;
-    transform: none;
 }
 
 /* --- ALERTS & ERRORS --- */
@@ -241,10 +242,10 @@ button + button {
     font-weight: 600;
     margin-bottom: 16px;
     text-align: center;
-    background: rgba(239, 68, 68, 0.08);
-    padding: 12px;
+    background: rgba(255, 77, 77, 0.12);
+    padding: 10px;
     border-radius: 8px;
-    border-left: 3px solid var(--error);
+    border: 1px solid rgba(255, 77, 77, 0.2);
     display: none;
 }
 #error:not(:empty) {
@@ -258,7 +259,7 @@ button + button {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(15, 23, 42, 0.35);
+    background: rgba(2, 13, 56, 0.7);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     display: flex;
@@ -285,14 +286,14 @@ button + button {
     width: 100%;
     height: 100%;
     border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-    background: linear-gradient(135deg, var(--primary-dark), var(--primary), #00d2ff);
+    background: linear-gradient(135deg, #0b45d8, #3fa4ff, #00d2ff);
     opacity: 0.6;
     animation: morph 3s linear infinite;
 }
 
 .morph-spinner::after {
     animation-delay: -1.5s;
-    background: linear-gradient(135deg, #00c9a7, var(--primary));
+    background: linear-gradient(135deg, #00c9a7, #1368ff);
     opacity: 0.4;
 }
 
@@ -315,7 +316,6 @@ button + button {
     font-size: 14px;
     letter-spacing: 2px;
     text-transform: uppercase;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 @keyframes morph {
@@ -324,36 +324,7 @@ button + button {
     100% { transform: rotate(360deg) scale(1); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
 }
 
-/* --- CHANGE PASSWORD LOADER --- */
-#cpLoader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(15, 23, 42, 0.6); 
-    backdrop-filter: blur(4px);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 250000; 
-}
-
-.cp-spinner {
-    width: 50px;
-    height: 50px;
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    border-top: 4px solid #ffffff;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin{
-    0%{transform:rotate(0deg);}
-    100%{transform:rotate(360deg);}
-}
-
-/* --- MODAL POP-UPS --- */
+/* --- MODAL DESIGN SYSTEM --- */
 #changeBox, #successPopup, #errorPopup {
     display: none;
     position: fixed;
@@ -361,21 +332,22 @@ button + button {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(8px);
+    background: rgba(2, 13, 56, 0.6);
+    backdrop-filter: blur(12px);
     justify-content: center;
     align-items: center;
     z-index: 200000;
 }
 
 .change-box-content, .popup-content {
-    background: #ffffff;
-    padding: 40px 32px;
+    background: #0d2f9b;
+    padding: 35px 25px;
     border-radius: var(--radius);
     width: 100%;
     max-width: 340px;
     box-sizing: border-box;
-    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.3);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--glass-border);
     text-align: center;
     animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
@@ -391,15 +363,14 @@ button + button {
 }
 
 .change-box-content h3 {
-    margin: 0 0 24px 0;
-    color: var(--text-main);
+    margin: 0 0 20px 0;
+    color: var(--text-light);
     font-size: 22px;
-    font-weight: 700;
 }
 
 .change-box-content input {
     margin-bottom: 16px;
-    background: #f1f5f9;
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .cancel-link {
@@ -407,27 +378,46 @@ button + button {
     margin-top: 18px;
     color: var(--text-muted);
     font-size: 14px;
-    font-weight: 600;
     cursor: pointer;
-    transition: color 0.2s;
+    text-decoration: underline;
 }
 
-.cancel-link:hover {
-    color: var(--text-main);
+/* --- INTERIM CHANGE PASSSWORD SPINNER --- */
+#cpLoader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(2, 13, 56, 0.7); 
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 250000; 
 }
 
-/* --- MODERN WAVE FOOTER --- */
+.cp-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top: 4px solid var(--accent-blue);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* --- MATCHING SPLASH WAVE DECORATION --- */
 .footer-blue {
     width: 100%;
-    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
     position: relative;
-    height: 80px;
-    margin-top: 40px;
+    height: 60px;
+    z-index: 2;
 }
 
 .footer-wave {
     position: absolute;
-    top: -45px;
+    bottom: 0;
     left: 0;
     width: 100%;
     line-height: 0;
@@ -436,27 +426,31 @@ button + button {
 .footer-wave svg {
     display: block;
     width: 100%;
-    height: 46px;
+    height: 60px;
+}
+
+@media(max-width: 400px) {
+    .features { margin-bottom: 20px; }
+    .f .i { font-size: 18px; }
+    .f b { font-size: 10px; }
+    .f span { font-size: 8px; }
 }
 </style>
 </head>
 
 <body>
+<div class="bg1"></div><div class="bg2"></div>
 
-<div id="loader">
-    <div class="morph-spinner">
-        <div class="inner-core">
-             <span style="font-size: 12px;">⚡</span>
-        </div>
-    </div>
-    <div class="loader-text">Securing Session</div>
-</div>
-
+<!-- TOP BRANDING CONTAINER -->
 <div class="top">
     <div class="illustration"></div>
+    <div style="font-size: 42px; font-weight: 700; color: #fff; text-shadow: 0 5px 15px rgba(0,0,0,.3); z-index: 3;">₹</div>
+    <div style="margin-top: 5px; color: #fff; font-size: 24px; font-weight: 600; text-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index:3;">Salary Prompt</div>
 </div>
 
+<!-- WORKSPACE CONTAINER -->
 <div class="bottom">
+    <!-- MASTER LOGIN BOX -->
     <div class="login-box">
         <div id="error"></div>
 
@@ -473,22 +467,30 @@ button + button {
         <button class="change-btn" onclick="openChangePassword()">🔐 Change Password</button>
     </div>
 
-    <div class="info-container">
-        <div class="info-item">
-            <div class="info-dot"></div>
-            <span>Secure SSL</span>
-        </div>
-        <div class="info-item">
-            <div class="info-dot"></div>
-            <span>E-Payroll</span>
-        </div>
-        <div class="info-item">
-            <div class="info-dot"></div>
-            <span>Support</span>
-        </div>
+    <!-- FLASH SCREEN CORE COMPLIANT ATTRIBUTES GRID -->
+    <div class="features">
+        <div class="f"><div class="i">🛡️</div><b>Secure</b><span>ಸುರಕ್ಷತೆ</span></div>
+        <div class="f"><div class="i">🤝</div><b>Reliable</b><span>ವಿಶ್ವಾಸಾರ್ಹ</span></div>
+        <div class="f"><div class="i">📈</div><b>Efficient</b><span>ದಕ್ಷತೆ</span></div>
+        <div class="f"><div class="i">👥</div><b>Employee First</b><span>ಕೇಂದ್ರಬಿಂದು</span></div>
     </div>
 </div>
 
+<!-- RUNTIME LOADERS -->
+<div id="loader">
+    <div class="morph-spinner">
+        <div class="inner-core">
+             <span style="font-size: 12px;">⚡</span>
+        </div>
+    </div>
+    <div class="loader-text">Securing Session</div>
+</div>
+
+<div id="cpLoader">
+  <div class="cp-spinner"></div>
+</div>
+
+<!-- MODAL WORKSPACE ARCHITECTURE -->
 <div id="changeBox">
     <div class="change-box-content">
         <h3>Update Password</h3>
@@ -501,14 +503,10 @@ button + button {
     </div>
 </div>
 
-<div id="cpLoader">
-  <div class="cp-spinner"></div>
-</div>
-
 <div id="successPopup">
     <div class="popup-content" style="animation: pop 0.3s ease;">
         <div style="font-size: 48px; color: var(--success); margin-bottom: 12px;">✔</div>
-        <h3 style="margin: 5px 0; font-size: 22px; font-weight:700;">Success</h3>
+        <h3 style="margin: 5px 0; font-size: 22px;">Success</h3>
         <p style="color: var(--text-muted); margin: 6px 0 24px 0; font-size: 14px;">Password Updated Successfully</p>
         <button onclick="closeSuccess()">OK</button>
     </div>
@@ -517,16 +515,17 @@ button + button {
 <div id="errorPopup">
     <div class="popup-content" style="animation: pop 0.3s ease;">
         <div style="font-size: 48px; color: var(--error); margin-bottom: 12px;">✖</div>
-        <h3 style="margin: 5px 0; color: var(--error); font-size: 22px; font-weight:700;">Error</h3>
+        <h3 style="margin: 5px 0; color: var(--error); font-size: 22px;">Error</h3>
         <p id="errorText" style="color: var(--text-muted); margin: 6px 0 24px 0; font-size: 14px;">Invalid Details</p>
-        <button onclick="closeError()" style="background: var(--error); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);">OK</button>
+        <button onclick="closeError()" style="background: var(--error);">OK</button>
     </div>
 </div> 
 
+<!-- DECORATIVE WAVE BASE -->
 <div class="footer-blue">
     <div class="footer-wave">
         <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
-            <path fill="#2400b7" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,144C672,139,768,181,864,202.7C960,224,1056,224,1152,197.3C1248,171,1344,117,1392,90.7L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            <path fill="rgba(255,255,255,0.04)" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,144C672,139,768,181,864,202.7C960,224,1056,224,1152,197.3C1248,171,1344,117,1392,90.7L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
         </svg>
     </div>
 </div>
@@ -550,6 +549,7 @@ function hideLoader(){
         loader.style.display = "none";
     },400);
 }
+
 // ✅ LOGIN FUNCTION
 function login(){
 
@@ -612,13 +612,11 @@ document.getElementById("error").innerText="Server Error";
 });
 }
 
-
 // ✅ TOGGLE PASSWORD
 function togglePassword(){
 let passField=document.getElementById("password");
 passField.type = passField.type === "password" ? "text" : "password";
 }
-
 
 // ✅ OPEN CHANGE PASSWORD
 function openChangePassword(){
@@ -630,7 +628,6 @@ function openChangePassword(){
 function closeBox(){
 document.getElementById("changeBox").style.display="none";
 }
-
 
 // ✅ CHANGE PASSWORD FUNCTION
 function changePassword(){
@@ -686,13 +683,11 @@ function changePassword(){
     });
 }
 
-
 // ✅ CLOSE SUCCESS POPUP
 function closeSuccess(){
 document.getElementById("successPopup").style.display="none";
 closeBox();
 }
-
 
 window.addEventListener("load", function(){
     setTimeout(() => {
