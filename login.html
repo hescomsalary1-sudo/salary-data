@@ -2,7 +2,7 @@
 <html lang="kn">
 <head>
 <title>Salary Prompt - Login</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <style>
 /* --- PREMIUM FLASH-SCREEN MATCHED DESIGN SYSTEM --- */
@@ -23,17 +23,22 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Stops horizontal & vertical scrolling page wiggle */
 }
 
 body {
     font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg-gradient);
-    min-height: 100vh;
     color: var(--text-light);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    overflow-x: hidden;
     position: relative;
 }
 
@@ -53,13 +58,13 @@ body {
 .top {
     position: relative;
     width: 100%;
-    height: 32vh;
+    height: 28vh; /* Reduced height to stop forcing content out of screen bounds */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     z-index: 2;
-    padding-top: 20px;
+    padding-top: 10px;
 }
 
 .illustration {
@@ -72,14 +77,14 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 0.15; /* Elegant overlay blending into the blue background */
+    opacity: 0.15;
 }
 
-/* --- BOTTOM DESIGN WORKSPACE --- */
+/* --- BOTTOM WORKSPACE BOUNDED CONTAINER --- */
 .bottom {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     padding: 0 20px;
     flex-grow: 1;
@@ -91,7 +96,7 @@ body {
     width: 100%;
     max-width: 420px;
     background: var(--card-bg);
-    padding: 35px 25px;
+    padding: 30px 24px; /* Slight size refactor for dynamic mobile layout sizing */
     border-radius: var(--radius);
     box-shadow: 0 15px 35px rgba(0,0,0,.35);
     border: 1px solid var(--glass-border);
@@ -106,8 +111,8 @@ body {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 8px;
-    margin-top: 25px;
-    margin-bottom: 35px;
+    margin-top: 20px;
+    margin-bottom: 20px; /* Locked down space metrics */
 }
 
 .f {
@@ -116,7 +121,7 @@ body {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-radius: 14px;
-    padding: 12px 4px;
+    padding: 10px 2px;
     color: var(--text-light);
     text-align: center;
     transition: all 0.3s ease;
@@ -125,12 +130,12 @@ body {
 
 .f:hover {
     background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-3px);
+    transform: translateY(-2px);
     border-color: var(--accent-blue);
 }
 
 .f .i {
-    font-size: 22px;
+    font-size: 20px;
 }
 
 .f b {
@@ -149,7 +154,7 @@ body {
 
 /* --- REFINED INPUT FIELDS --- */
 .input-group {
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     position: relative;
 }
 
@@ -210,7 +215,7 @@ button {
 }
 
 button:hover {
-    transform: scale(1.02);
+    transform: scale(1.01);
     box-shadow: 0 8px 25px rgba(77, 180, 255, 0.45);
 }
 
@@ -411,7 +416,7 @@ button + button {
 .footer-blue {
     width: 100%;
     position: relative;
-    height: 60px;
+    height: 40px; /* Reduced to balance vertical layout budget */
     z-index: 2;
 }
 
@@ -426,14 +431,16 @@ button + button {
 .footer-wave svg {
     display: block;
     width: 100%;
-    height: 60px;
+    height: 40px;
 }
 
 @media(max-width: 400px) {
-    .features { margin-bottom: 20px; }
+    .top { height: 26vh; }
+    .features { margin-bottom: 15px; margin-top: 15px; }
     .f .i { font-size: 18px; }
     .f b { font-size: 10px; }
     .f span { font-size: 8px; }
+    .login-box { padding: 24px 20px; }
 }
 </style>
 </head>
@@ -441,16 +448,13 @@ button + button {
 <body>
 <div class="bg1"></div><div class="bg2"></div>
 
-<!-- TOP BRANDING CONTAINER -->
 <div class="top">
     <div class="illustration"></div>
     <div style="font-size: 42px; font-weight: 700; color: #fff; text-shadow: 0 5px 15px rgba(0,0,0,.3); z-index: 3;">₹</div>
     <div style="margin-top: 5px; color: #fff; font-size: 24px; font-weight: 600; text-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index:3;">Salary Prompt</div>
 </div>
 
-<!-- WORKSPACE CONTAINER -->
 <div class="bottom">
-    <!-- MASTER LOGIN BOX -->
     <div class="login-box">
         <div id="error"></div>
 
@@ -467,7 +471,6 @@ button + button {
         <button class="change-btn" onclick="openChangePassword()">🔐 Change Password</button>
     </div>
 
-    <!-- FLASH SCREEN CORE COMPLIANT ATTRIBUTES GRID -->
     <div class="features">
         <div class="f"><div class="i">🛡️</div><b>Secure</b><span>ಸುರಕ್ಷತೆ</span></div>
         <div class="f"><div class="i">🤝</div><b>Reliable</b><span>ವಿಶ್ವಾಸಾರ್ಹ</span></div>
@@ -476,7 +479,6 @@ button + button {
     </div>
 </div>
 
-<!-- RUNTIME LOADERS -->
 <div id="loader">
     <div class="morph-spinner">
         <div class="inner-core">
@@ -490,7 +492,6 @@ button + button {
   <div class="cp-spinner"></div>
 </div>
 
-<!-- MODAL WORKSPACE ARCHITECTURE -->
 <div id="changeBox">
     <div class="change-box-content">
         <h3>Update Password</h3>
@@ -521,7 +522,6 @@ button + button {
     </div>
 </div> 
 
-<!-- DECORATIVE WAVE BASE -->
 <div class="footer-blue">
     <div class="footer-wave">
         <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
@@ -626,6 +626,7 @@ function openChangePassword(){
 
 // ✅ CLOSE CHANGE PASSWORD
 function closeBox(){
+document.getElementById("changeBox").style.none;
 document.getElementById("changeBox").style.display="none";
 }
 
