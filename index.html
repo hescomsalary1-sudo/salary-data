@@ -7,12 +7,8 @@
 <style>
 /* --- PREMIUM REFINED DESIGN SYSTEM --- */
 :root {
-    --primary-gradient: radial-gradient(circle at 50% 0%, #1e6eff 0%, #0c3fc2 35%, #062280 70%, #020d35 100%);
-    --card-glass: rgba(255, 255, 255, 0.06);
-    --border-glass: rgba(255, 255, 255, 0.12);
+    --primary-gradient: radial-gradient(circle at 50% 50%, #1e6eff 0%, #0c3fc2 35%, #062280 70%, #020d35 100%);
     --accent-blue: #4db4ff;
-    --text-primary: #ffffff;
-    --text-muted: #d7e9ff;
 }
 
 * {
@@ -29,11 +25,10 @@ html, body {
 }
 
 body {
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--primary-gradient);
-    color: var(--text-primary);
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     position: relative;
 }
 
@@ -48,46 +43,41 @@ body {
 .bg1 {
     width: 450px;
     height: 450px;
-    left: -150px;
-    top: -150px;
+    left: -100px;
+    top: -100px;
     animation: ambientFloat 8s ease-in-out infinite alternate;
 }
 .bg2 {
     width: 350px;
     height: 350px;
     right: -100px;
-    top: 20%;
+    bottom: -100px;
     animation: ambientFloat 12s ease-in-out infinite alternate-reverse;
 }
 
-/* --- APP MASTER CONTAINER --- */
+/* --- CENTRAL BRAND ARCHITECTURE --- */
 .container {
     position: relative;
     z-index: 2;
-    height: 100%;
-    width: 100%;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    text-align: center;
-    padding: 40px 20px 30px;
+    justify-content: center;
 }
 
-/* --- DUAL ROTATING LOGO TRACK --- */
 .logoWrap {
     position: relative;
-    margin-top: 10px;
 }
 
+/* --- RUNNING INNER DASHED TRACK --- */
 .ring {
     position: absolute;
     inset: -15px;
-    border: 1.5px dashed rgba(255, 255, 255, 0.2);
+    border: 1.5px dashed rgba(255, 255, 255, 0.25);
     border-radius: 50%;
     animation: spinRing 24s linear infinite;
 }
 
+/* --- PREMIUM STATIONARY OUTER TRACK --- */
 .ring-outer {
     position: absolute;
     inset: -22px;
@@ -95,6 +85,7 @@ body {
     border-radius: 50%;
 }
 
+/* --- INDEPENDENT WAVE RE Reveal LOGO --- */
 .logo {
     width: 100px;
     height: 100px;
@@ -108,154 +99,10 @@ body {
     font-weight: 700;
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2), 0 15px 35px rgba(19, 104, 255, 0.4);
     animation: floatingPulse 3s ease-in-out infinite;
-}
-
-/* --- TYPOGRAPHY HEADER SYSTEM --- */
-h1 {
-    margin-top: 20px;
-    font-size: 36px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    color: var(--text-primary);
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-}
-
-.sub {
-    margin-top: 6px;
-    color: var(--text-muted);
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-    opacity: 0.9;
-}
-
-/* --- GLASSMORPHIC CORE BRAND CARD --- */
-.card {
-    width: 100%;
-    max-width: 380px;
-    margin-top: 24px;
-    padding: 24px 20px;
-    background: var(--card-glass);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--border-glass);
-    border-radius: 24px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.card h2 {
-    font-size: 19px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-}
-
-.card p {
-    font-size: 14px;
-    color: var(--text-muted);
-    margin-top: 6px;
-}
-
-.big {
-    font-size: 42px;
-    font-weight: 800;
-    color: var(--text-primary);
-    margin: 8px 0;
-    letter-spacing: 1px;
-    background: linear-gradient(180deg, #ffffff 0%, #e2eeff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-/* --- SEAMLESS FOOTER SEGMENTATION --- */
-.bottom-wrapper {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: auto;
-}
-
-/* --- GRID FEATURES COMPLIANCE --- */
-.features {
-    width: 100%;
-    max-width: 400px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    padding: 0 5px;
-    margin-bottom: 30px;
-}
-
-.f {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 16px;
-    padding: 12px 2px;
-    transition: all 0.3s ease;
-}
-
-.f .i {
-    font-size: 20px;
-    margin-bottom: 2px;
-}
-
-.f b {
-    display: block;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-.f span {
-    display: block;
-    font-size: 9px;
-    color: var(--text-muted);
-    margin-top: 2px;
-}
-
-/* --- MINIMAL ACTIVE LOADER TRACK --- */
-.loader-zone {
-    position: relative;
-    height: 90px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.loader {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 3.5px solid rgba(255, 255, 255, 0.1);
-    border-top-color: var(--accent-blue);
-    animation: spin 0.9s cubic-bezier(0.5, 0.1, 0.4, 0.9) infinite;
-    margin-bottom: 12px;
-}
-
-.loading h3 {
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: #ffffff;
-}
-
-.loading p {
-    font-size: 11px;
-    color: var(--text-muted);
-    font-style: italic;
-    margin-top: 2px;
-    opacity: 0.8;
+    user-select: none;
 }
 
 /* --- HIGH-END KEYFRAME SYSTEMS --- */
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
 @keyframes spinRing {
     to { transform: rotate(360deg); }
 }
@@ -271,21 +118,11 @@ h1 {
     100% { transform: translate(30px, 20px) scale(1.1); }
 }
 
-/* --- RESPONSIBLE DYNAMIC BREAKPOINTS --- */
+/* --- OPTIMIZATION BREAKPOINT --- */
 @media(max-width: 400px){
-    .container { padding: 30px 14px 20px; }
     .logo { width: 85px; height: 85px; font-size: 44px; border-radius: 24px; }
-    h1 { font-size: 30px; }
-    .sub { font-size: 13px; }
-    .big { font-size: 36px; }
-    .card { padding: 20px 16px; margin-top: 16px; }
-    .card h2 { font-size: 17px; }
-    .features { margin-bottom: 20px; }
-    .f { padding: 10px 2px; border-radius: 12px; }
-    .f .i { font-size: 18px; }
-    .f b { font-size: 10px; }
-    .f span { font-size: 8px; }
-    .loader-zone { height: 80px; }
+    .ring { inset: -12px; }
+    .ring-outer { inset: -18px; }
 }
 </style>
 </head>
@@ -295,41 +132,10 @@ h1 {
 <div class="bg2"></div>
 
 <div class="container">
-    <!-- BRAND ELEMENT HOISTING -->
-    <div class="brand-header">
-        <div class="logoWrap">
-            <div class="ring-outer"></div>
-            <div class="ring"></div>
-            <div class="logo">&#8377;</div>
-        </div>
-        <h1>Salary Prompt</h1>
-        <div class="sub">Smart &amp; Secure Salary Management</div>
-    </div>
-
-    <!-- CORE IDENTITY WINDOW -->
-    <div class="card">
-        <h2>ಸ್ವಾಗತ!</h2>
-        <p>ಕಾರ್ಯ ಮತ್ತು ಪಾಲನಾ ವಿಭಾಗ</p>
-        <div class="big">ಹೆಸ್ಕಾಂ</div>
-        <p>ಶಿರಸಿ</p>
-    </div>
-
-    <!-- UTILITY FOOTER COMPONENT BASE -->
-    <div class="bottom-wrapper">
-        <div class="features">
-            <div class="f"><div class="i">🛡️</div><b>Secure</b><span>ಸುರಕ್ಷತೆ</span></div>
-            <div class="f"><div class="i">🤝</div><b>Reliable</b><span>ವಿಶ್ವಾಸಾರ್ಹ</span></div>
-            <div class="f"><div class="i">📈</div><b>Efficient</b><span>ದಕ್ಷತೆ</span></div>
-            <div class="f"><div class="i">👥</div><b>Employee First</b><span>ಕೇಂದ್ರಬಿಂದು</span></div>
-        </div>
-
-        <div class="loader-zone">
-            <div class="loader"></div>
-            <div class="loading">
-                <h3>Loading...</h3>
-                <p>Empowering Every Employee</p>
-            </div>
-        </div>
+    <div class="logoWrap">
+        <div class="ring-outer"></div>
+        <div class="ring"></div>
+        <div class="logo">&#8377;</div>
     </div>
 </div>
 
