@@ -5,142 +5,198 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+/* --- MODERN GLOBAL STYLES --- */
+:root {
+    --primary: #3b1eff;
+    --primary-dark: #2400b7;
+    --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --error: #ef4444;
+    --success: #10b981;
+    --radius: 12px;
+}
+
 body {
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(to bottom, #F5F8FD, #E9EFF7);
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    background: var(--bg-gradient);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    color: var(--text-main);
+    justify-content: space-between;
 }
 
-/* TOP */
+/* --- SPLIT TOP ILLUSTRATION --- */
 .top {
     position: relative;
     width: 100%;
-    height: 50vh; /* 50% of the screen height */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    height: 38vh;
     overflow: hidden;
     margin: 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
-.top p {
+.illustration {
     position: absolute;
-    top: 55px; /* Positioned directly under h1 */
-    right: 27px;
-    margin: 0;
-    font-size: 14px;
-    z-index: 10;
-    color: red;
-    opacity: 0.9;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://hescomsalary1-sudo.github.io/salary-data/COVER_IMAGE2.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-.top h1 {
-    position: absolute;
-    top: 20px;
-    right: 27px;
-    margin: 0;
-    font-size: 28px;
-    letter-spacing: 1px;
-    z-index: 10;
-    color: blue;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-}
 .top::after {
     content: "";
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 120px;
-
-    /* 🔥 Smooth fade into background */
-    background: linear-gradient(
-        to bottom,
-        rgba(245,248,253,0) 0%,
-        rgba(245,248,253,0.8) 60%,
-        #F5F8FD 100%
-    );
-
+    height: 80px;
+    background: linear-gradient(to bottom, rgba(248,250,252,0) 0%, rgba(248,250,252,1) 100%);
     z-index: 2;
 }
 
-
-/* LOGIN */
+/* --- LOGIN CONTAINER --- */
 .bottom {
     display: flex;
     justify-content: center;
-    padding-bottom: 40px;
-    
+    align-items: center;
+    padding: 20px;
+    flex-grow: 1;
+    z-index: 3;
+    margin-top: -40px; /* Pulls login box slightly over the illustration blend */
 }
 
 .login-box {
-width: 85%;
-max-width: 320px;
+    width: 100%;
+    max-width: 360px;
+    background: var(--card-bg);
+    padding: 35px 30px;
+    border-radius: var(--radius);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
 }
 
+/* --- MODERN INPUTS --- */
 .input-group {
-margin-bottom: 25px;
-position: relative;
+    margin-bottom: 20px;
+    position: relative;
 }
 
 input {
-width: 100%;
-padding: 10px 0;
-border: none;
-border-bottom: 2px solid #ccc;
-outline: none;
-font-size: 14px;
-    background: linear-gradient(to bottom, #F5F8FD, #E9EFF7);
+    width: 100%;
+    padding: 14px 16px;
+    border: 1.5px solid #cbd5e1;
+    outline: none;
+    font-size: 15px;
+    background: #f8fafc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: all 0.25s ease;
+    color: var(--text-main);
+}
+
+input::placeholder {
+    color: #94a3b8;
 }
 
 input:focus {
-border-bottom: 2px solid #5e00a3;
+    border-color: var(--primary);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(59, 30, 255, 0.1);
 }
 
 .toggle-password {
-position: absolute;
-right: 0;
-top: 10px;
-cursor: pointer;
-font-size: 13px;
-color: #5e00a3;
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary);
+    user-select: none;
+    transition: color 0.2s;
 }
 
+.toggle-password:hover {
+    color: var(--primary-dark);
+}
+
+/* --- BUTTONS --- */
 button {
-width: 100%;
-padding: 12px;
-border: none;
-background: linear-gradient(135deg, #2400b7, #3b1eff);
-color: white;
-font-size: 15px;
-border-radius: 25px;
-cursor: pointer;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(59, 30, 255, 0.2);
 }
 
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgba(59, 30, 255, 0.3);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+button + button {
+    margin-top: 12px;
+}
+
+.change-btn {
+    background: transparent;
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
+    box-shadow: none;
+}
+
+.change-btn:hover {
+    background: rgba(59, 30, 255, 0.05);
+    color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    box-shadow: none;
+    transform: none;
+}
+
+/* --- ALERTS & ERRORS --- */
 #error {
-color: red;
-font-size: 13px;
-margin-bottom: 15px;
-text-align: center;
+    color: var(--error);
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    text-align: center;
+    background: rgba(239, 68, 68, 0.1);
+    padding: 10px;
+    border-radius: 6px;
+    display: none; /* Controlled dynamically by text status hidden natively */
+}
+#error:not(:empty) {
+    display: block;
 }
 
-/* ✅ SKELETON LOADER */
-
-/* ✅ MODERN GLASS LOADER */
-/* ✅ PREMIUM MORPHING GLASS LOADER */
+/* --- PREMIUM MORPHING GLASS LOADER --- */
 #loader {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(15, 23, 42, 0.3);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     display: flex;
@@ -148,9 +204,9 @@ text-align: center;
     justify-content: center;
     align-items: center;
     z-index: 999999;
+    transition: opacity 0.4s ease;
 }
 
-/* THE MORPHING LIQUID SPINNER */
 .morph-spinner {
     width: 100px;
     height: 100px;
@@ -167,14 +223,14 @@ text-align: center;
     width: 100%;
     height: 100%;
     border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-    background: linear-gradient(135deg, #2400b7, #3b1eff, #00d2ff);
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary), #00d2ff);
     opacity: 0.6;
     animation: morph 3s linear infinite;
 }
 
 .morph-spinner::after {
     animation-delay: -1.5s;
-    background: linear-gradient(135deg, #00c9a7, #3b1eff);
+    background: linear-gradient(135deg, #00c9a7, var(--primary));
     opacity: 0.4;
 }
 
@@ -190,104 +246,126 @@ text-align: center;
     align-items: center;
 }
 
-/* TEXT STYLE */
 .loader-text {
     margin-top: 40px;
-    font-weight: 800;
-    color: #2400b7;
-    font-size: 13px;
-    letter-spacing: 3px;
+    font-weight: 700;
+    color: white;
+    font-size: 14px;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    text-shadow: 0 0 10px rgba(36, 0, 183, 0.1);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-/* KEYFRAMES */
 @keyframes morph {
     0% { transform: rotate(0deg) scale(1); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
     50% { transform: rotate(180deg) scale(1.1); border-radius: 70% 30% 30% 70% / 50% 60% 40% 60%; }
     100% { transform: rotate(360deg) scale(1); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
 }
-.illustration {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
 
-    background-image: url("https://hescomsalary1-sudo.github.io/salary-data/COVER_IMAGE2.png");
-    background-size: cover;        /* fills screen */
-    background-position: center;   /* center alignment */
-    background-repeat: no-repeat;
-}
-
-
-
-  /* CHANGE PASSWORD LOADER */
-/* UPDATED CP LOADER */
+/* --- CHANGE PASSWORD LOADER --- */
 #cpLoader {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    /* Darker semi-transparent background to hide the form while loading */
-    background: rgba(0, 0, 0, 0.6); 
+    background: rgba(15, 23, 42, 0.6); 
+    backdrop-filter: blur(4px);
     display: none;
     justify-content: center;
     align-items: center;
-    /* This must be higher than #changeBox's 100000 */
-    z-index: 200000; 
+    z-index: 250000; 
 }
 
 .cp-spinner {
-    width: 60px;
-    height: 60px;
-    border: 6px solid rgba(255, 255, 255, 0.3);
-    border-top: 6px solid #ffffff; /* White spinner looks better on dark background */
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #ffffff;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
+    animation: spin 0.8s linear infinite;
 }
 
 @keyframes spin{
-0%{transform:rotate(0deg);}
-100%{transform:rotate(360deg);}
-}
-  @keyframes pop{
-from{transform:scale(0.8);opacity:0;}
-to{transform:scale(1);opacity:1;}
+    0%{transform:rotate(0deg);}
+    100%{transform:rotate(360deg);}
 }
 
-  button + button{
-margin-top: 12px;
-}
-
-  .change-btn{
-background: transparent;
-color: #3b1eff;
-border: 2px solid #3b1eff;
-border-radius: 25px;
-font-weight: 500;
-transition: 0.3s;
-}
-
-.change-btn:hover{
-background: #3b1eff;
-color: white;
-}
-/* NEW BLUE SECTION FOR BOTTOM */
-/* Update this section */
-.footer-blue {
-    flex-grow: 1;
-    background: linear-gradient(135deg, #2400b7, #3b1eff);
+/* --- MODAL DIALOGS (POP-UPS) --- */
+#changeBox, #successPopup, #errorPopup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    margin-top: 60px; /* Increased margin to make room for the wave */
-    position: relative; /* Required for wave positioning */
+    height: 100%;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(8px);
+    justify-content: center;
+    align-items: center;
+    z-index: 200000;
 }
 
-/* Add this new section */
+.change-box-content, .popup-content {
+    background: #ffffff;
+    padding: 35px 30px;
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 320px;
+    box-sizing: border-box;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pop {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.change-box-content h3 {
+    margin: 0 0 20px 0;
+    color: var(--text-main);
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.change-box-content input {
+    margin-bottom: 15px;
+    background: #f1f5f9;
+}
+
+.cancel-link {
+    display: inline-block;
+    margin-top: 16px;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.cancel-link:hover {
+    color: var(--text-main);
+}
+
+/* --- MODERN WAVE FOOTER --- */
+.footer-blue {
+    width: 100%;
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    position: relative;
+    height: 80px;
+    margin-top: 40px;
+}
+
 .footer-wave {
     position: absolute;
-    top: -59px; /* Pulls the wave above the blue block */
+    top: -45px;
     left: 0;
     width: 100%;
     line-height: 0;
@@ -296,132 +374,84 @@ color: white;
 .footer-wave svg {
     display: block;
     width: 100%;
-    height: 60px;
-}
-
-.bottom {
-    display: flex;
-    justify-content: center;
-    padding: 30px 0; /* Space between half-screen image and inputs */
-    background: transparent;
-}
-  
-
-    /* Modern Backdrop with Blur */
-#changeBox {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(15, 23, 42, 0.7); /* Deep elegant blue-grey overlay */
-    backdrop-filter: blur(8px); /* Blurs the login page behind the popup */
-    justify-content: center;
-    align-items: center;
-    z-index: 100000;
-}
-
-/* Beautiful Modal Design */
-.change-box-content {
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 20px;
-    width: 320px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    text-align: center;
-    
-    /* Animation: Slides down and fades in */
-    animation: slideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-
-@keyframes slideIn {
-    from { transform: translateY(-30px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-.change-box-content h3 {
-    margin: 0 0 20px 0;
-    color: #2400b7;
-    font-size: 22px;
-}
-
-/* Styled inputs for the popup */
-.change-box-content input {
-    background: #f1f5f9;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    padding: 12px;
-    margin-bottom: 15px;
-    box-sizing: border-box;
-}
-
-.cancel-link {
-    display: block;
-    margin-top: 15px;
-    color: #64748b;
-    font-size: 14px;
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-    /* Update both the success and error popup styles */
-#successPopup, #errorPopup {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7); /* Darker overlay */
-    justify-content: center;
-    align-items: center;
-    /* CHANGE THIS TO BE HIGHER THAN 100000 */
-    z-index: 200000; 
+    height: 46px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ✅ PREMIUM MORPHING LOADER -->
 <div id="loader">
     <div class="morph-spinner">
         <div class="inner-core">
-             <!-- Optional small icon inside -->
-             <span style="font-size: 10px;">⚡</span>
+             <span style="font-size: 12px;">⚡</span>
         </div>
     </div>
     <div class="loader-text">Securing Session</div>
 </div>
 
-<!-- TOP -->
 <div class="top">
     <div class="illustration"></div>
-    
-   
 </div>
 
-<!-- LOGIN -->
 <div class="bottom">
-<div class="login-box">
+    <div class="login-box">
+        <div id="error"></div>
 
-<div id="error"></div>
+        <div class="input-group">
+            <input type="text" id="username" placeholder="Username">
+        </div>
 
-<div class="input-group">
-<input type="text" id="username" placeholder="Username">
+        <div class="input-group">
+            <input type="password" id="password" placeholder="Password">
+            <span class="toggle-password" onclick="togglePassword()">View</span>
+        </div>
+
+        <button onclick="login()">Login</button>
+        <button class="change-btn" onclick="openChangePassword()">🔐 Change Password</button>
+    </div>
 </div>
 
-<div class="input-group">
-<input type="password" id="password" placeholder="Password">
-<span class="toggle-password" onclick="togglePassword()">View</span>
+<div id="changeBox">
+    <div class="change-box-content">
+        <h3>Update Password</h3>
+        <input id="cp_user" placeholder="Username">
+        <input id="old_pass" type="password" placeholder="Old Password">
+        <input id="new_pass" type="password" placeholder="New Password">
+
+        <button onclick="changePassword()">Save New Password</button>
+        <span class="cancel-link" onclick="closeBox()">Cancel</span>
+    </div>
 </div>
 
-<button onclick="login()">Login</button>
-  <button class="change-btn" onclick="openChangePassword()">
-🔐 Change Password
-</button>
+<div id="cpLoader">
+  <div class="cp-spinner"></div>
 </div>
+
+<div id="successPopup">
+    <div class="popup-content" style="animation: pop 0.3s ease;">
+        <div style="font-size: 46px; color: var(--success); margin-bottom: 10px;">✔</div>
+        <h3 style="margin: 5px 0; font-size: 20px;">Success</h3>
+        <p style="color: var(--text-muted); margin: 5px 0 20px 0; font-size: 14px;">Password Updated Successfully</p>
+        <button onclick="closeSuccess()">OK</button>
+    </div>
+</div>
+
+<div id="errorPopup">
+    <div class="popup-content" style="animation: pop 0.3s ease;">
+        <div style="font-size: 46px; color: var(--error); margin-bottom: 10px;">✖</div>
+        <h3 style="margin: 5px 0; color: var(--error); font-size: 20px;">Error</h3>
+        <p id="errorText" style="color: var(--text-muted); margin: 5px 0 20px 0; font-size: 14px;">Invalid Details</p>
+        <button onclick="closeError()" style="background: var(--error); box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.2);">OK</button>
+    </div>
+</div> 
+
+<div class="footer-blue">
+    <div class="footer-wave">
+        <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path fill="#2400b7" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,144C672,139,768,181,864,202.7C960,224,1056,224,1152,197.3C1248,171,1344,117,1392,90.7L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+    </div>
 </div>
 
 <script>
@@ -600,55 +630,6 @@ window.addEventListener("load", function(){
   function closeError(){
 document.getElementById("errorPopup").style.display="none";
 }
-
 </script>
-<!-- ✅ CHANGE PASSWORD BOX -->
-<div id="changeBox">
-    <div class="change-box-content">
-        <h3>Update Password</h3>
-
-        <input id="cp_user" placeholder="Username">
-        <input id="old_pass" type="password" placeholder="Old Password">
-        <input id="new_pass" type="password" placeholder="New Password">
-
-        <button onclick="changePassword()">Save New Password</button>
-        <span class="cancel-link" onclick="closeBox()">Cancel</span>
-    </div>
-</div>
-
-<!-- ✅ LOADER -->
-<div id="cpLoader">
-  <div class="cp-spinner"></div>
-</div>
-
-<!-- ✅ SUCCESS POPUP -->
-<div id="successPopup">
-<div style="background:white;padding:25px;border-radius:15px;width:280px;text-align:center;animation:pop 0.3s ease;">
-  <div style="font-size:40px;color:green;">✔</div>
-  <h3 style="margin:10px 0;">Success</h3>
-  <p>Password Updated Successfully</p>
-
-  <button onclick="closeSuccess()" style="margin-top:10px;">OK</button>
-
-</div>
-</div>
-
- <div id="errorPopup">
-  <div style="background:white;padding:25px;border-radius:15px;width:280px;text-align:center;animation:pop 0.3s ease;">
-  <div style="font-size:40px;color:red;">✖</div>
-  <h3 style="margin:10px 0;color:red;">Error</h3>
-  <p id="errorText">Invalid Details</p>
-
-  <button onclick="closeError()" style="margin-top:10px;background:red;">OK</button>
-
-</div>
-</div> 
-  <div class="footer-blue">
-    <div class="footer-wave">
-        <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
-            <path fill="#2400b7" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,144C672,139,768,181,864,202.7C960,224,1056,224,1152,197.3C1248,171,1344,117,1392,90.7L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-        </svg>
-    </div>
-</div>
 </body>
 </html>
