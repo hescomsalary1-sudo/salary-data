@@ -629,60 +629,84 @@ window.onload = function() {
     return;
   }
 
-  loadAllTCData();
+  loadAllTCDataFast();
 };
 
-async function loadAllTCData() {
-  showLoader("Fetching Arrears Data (> ₹500)...");
-  const over500List = [];
+async function loadAllTCDataFast() {
+  showLoader("Fetching TC lists...");
 
-  for (let t = 0; t < tcList.length; t++) {
-    const currentTC = tcList[t];
-    loaderText.textContent = `Fetching TC (${t + 1}/${tcList.length}): ${currentTC}...`;
+  try {
+    // 1. Fetch all TC RR lists in parallel
+    const tcPromises = tcList.map(tc => 
+      fetch(`${API_URL}?action=rr&tc=${encodeURIComponent(tc)}`)
+        .then(res => res.json())
+        .then(data => ({ tc, data }))
+        .catch(() => ({ tc, data: null }))
+    );
 
-    try {
-      // 1. Fetch RR List for current TC
-      const rrRes = await fetch(`${API_URL}?action=rr&tc=${encodeURIComponent(currentTC)}`);
-      const rrData = await rrRes.json();
+    const tcResults = await Promise.all(tcPromises);
 
-      if (rrData.status === "success" && rrData.rrList && rrData.rrList.length > 0) {
-        
-        // 2. Fetch each consumer details and filter CB > 500
-        for (let i = 0; i < rrData.rrList.length; i++) {
-          const rrno = rrData.rrList[i].rrno;
-
-          try {
-            const consRes = await fetch(`${API_URL}?action=consumer&rrno=${encodeURIComponent(rrno)}`);
-            const consData = await consRes.json();
-
-            if (consData.status === "success" && consData.consumer) {
-              const c = consData.consumer;
-              const cbVal = parseAmount(getVal(c, ["CB", "Closing Balance", "CB Amount", "BALANCE"]));
-
-              if (cbVal > 500) {
-                over500List.push({
-                  tc: currentTC,
-                  rrno: getVal(c, ["RR No", "RRNO"]) || rrno,
-                  name: getVal(c, ["Name", "Consumer Name", "NAME"]) || "N/A",
-                  cb: cbVal,
-                  fullData: c
-                });
-              }
-            }
-          } catch (e) {
-            console.error("Error loading RR:", rrno, e);
-          }
-        }
+    // Collect all RR numbers mapped to their TCs
+    let allRRItems = [];
+    tcResults.forEach(item => {
+      if (item.data && item.data.status === "success" && item.data.rrList) {
+        item.data.rrList.forEach(r => {
+          allRRItems.push({ tc: item.tc, rrno: r.rrno });
+        });
       }
-    } catch (err) {
-      console.error("Error loading TC:", currentTC, err);
-    }
-  }
+    });
 
-  hideLoader();
-  currentConsumerList = over500List;
-  document.getElementById("totalOver500").textContent = over500List.length.toLocaleString('en-IN');
-  renderConsumerList(over500List);
+    if (allRRItems.length === 0) {
+      hideLoader();
+      dataContainer.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">✅</div>
+          <div>No RR numbers found for your TCs.</div>
+        </div>`;
+      return;
+    }
+
+    showLoader(`Parallel loading ${allRRItems.length} consumers...`);
+
+    // 2. Fetch all consumer details in PARALLEL (Fastest possible speed)
+    const consumerPromises = allRRItems.map(item => 
+      fetch(`${API_URL}?action=consumer&rrno=${encodeURIComponent(item.rrno)}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.status === "success" && data.consumer) {
+            const c = data.consumer;
+            const cbVal = parseAmount(getVal(c, ["CB", "Closing Balance", "CB Amount", "BALANCE"]));
+
+            if (cbVal > 500) {
+              return {
+                tc: item.tc,
+                rrno: getVal(c, ["RR No", "RRNO"]) || item.rrno,
+                name: getVal(c, ["Name", "Consumer Name", "NAME"]) || "N/A",
+                cb: cbVal,
+                fullData: c
+              };
+            }
+          }
+          return null;
+        })
+        .catch(() => null)
+    );
+
+    const consumerResults = await Promise.all(consumerPromises);
+    
+    // Filter out nulls (CB <= 500 or failed fetches)
+    const over500List = consumerResults.filter(item => item !== null);
+
+    hideLoader();
+    currentConsumerList = over500List;
+    document.getElementById("totalOver500").textContent = over500List.length.toLocaleString('en-IN');
+    renderConsumerList(over500List);
+
+  } catch (err) {
+    hideLoader();
+    console.error("Error fetching data:", err);
+    alert("Error fetching arrears data.");
+  }
 }
 
 // Render Summary Containers One-By-One
