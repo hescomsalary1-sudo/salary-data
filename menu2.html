@@ -158,7 +158,7 @@ body {
   text-shadow: 0 2px 8px rgba(56, 189, 248, 0.3);
 }
 
-/* Grid Layout */
+/* Menu Navigation Grid */
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -250,7 +250,7 @@ body {
 .card-4 { border-top: 3px solid #c084fc; }
 .card-4 .card-icon { background: rgba(192, 132, 252, 0.15); color: #c084fc; }
 
-/* Tariff Container */
+/* Tariff Summary Container */
 .tariff-container {
   margin-top: 20px;
   background: rgba(15, 23, 42, 0.75);
@@ -345,7 +345,7 @@ body {
 }
 
 .tariff-table-wrapper {
-  max-height: 280px;
+  max-height: 290px;
   overflow-y: auto;
   overflow-x: auto;
   border-radius: 12px;
@@ -405,9 +405,10 @@ body {
 .count-text {
   text-align: center;
   color: #cbd5e1;
+  font-weight: 600;
 }
 
-/* Page Loader */
+/* Loader */
 #page-loader {
   display: none;
   position: fixed;
@@ -578,7 +579,7 @@ body {
           </tr>
         </thead>
         <tbody id="tariffTableBody">
-          <!-- Dynamic Tariff Data Rows -->
+          <!-- Dynamic Tariff Balance Rows -->
         </tbody>
       </table>
     </div>
@@ -596,15 +597,14 @@ body {
 </div>
 
 <script>
-// 1. Retrieve session values
+// 1. Session Retrieval
 const lmName = sessionStorage.getItem("lmName") || "Lineman";
 const currentMpin = String(sessionStorage.getItem("mpin") || sessionStorage.getItem("tcCode") || "1234").trim();
 
 document.getElementById("lmNameDisplay").textContent = lmName;
 
 /**
- * 2. M-PIN to TC Allocation Mapping Matrix
- * Maps M-PINs to single or multiple allocated Transformer Codes (TCs).
+ * 2. M-PIN to Allocated TC Matrix Mapping
  */
 const mpinTcMapping = {
   "1234": ["1234", "TC-1234", "101", "102"], 
@@ -613,26 +613,20 @@ const mpinTcMapping = {
 };
 
 /**
- * 3. Expanded Fallback Master Sheet Dataset covering diverse HESCOM Tariffs:
- * LT-1, LT-2A, LT-2B, LT-3, LT-4, LT-5, LT-6, LT-7, BJ/KJ
+ * 3. Master Sheet Fallback Data matching your full column header structure:
+ * SlNo, RR No, Cust Name, Address, Mobile No, Tariff, Area Name, RD, SL, OB, Demand, Interest, Coll, Adj Amount, CB, TC, Pole Name, LM Name
  */
 const fallbackMasterSheet = [
-  { SlNo: 1, RRNo: "SDP-01", CustName: "Ramesh Naik", Tariff: "LT-2A", CB: 4500, TC: "1234" },
-  { SlNo: 2, RRNo: "SDP-02", CustName: "Ganesh Hegde", Tariff: "LT-2A(i)", CB: 2300, TC: "1234" },
-  { SlNo: 3, RRNo: "SDP-03", CustName: "Suresh Bhat", Tariff: "LT-3A", CB: 15400, TC: "1234" },
-  { SlNo: 4, RRNo: "SDP-04", CustName: "Kavita Rao", Tariff: "LT-5", CB: 28900, TC: "1234" },
-  { SlNo: 5, RRNo: "SDP-05", CustName: "Narayana P", Tariff: "BJ/KJ", CB: 1200, TC: "1234" },
-  { SlNo: 6, RRNo: "SDP-06", CustName: "Manjunath S", Tariff: "LT-1", CB: 850, TC: "1234" },
-  { SlNo: 7, RRNo: "SDP-07", CustName: "Anand Kumar", Tariff: "LT-2B", CB: 6200, TC: "1234" },
-  { SlNo: 8, RRNo: "SDP-08", CustName: "Mahabaleshwar", Tariff: "LT-6", CB: 11400, TC: "1234" },
-  { SlNo: 9, RRNo: "SDP-09", CustName: "Sharada Rice Mill", Tariff: "LT-5B", CB: 43000, TC: "1234" },
-  { SlNo: 10, RRNo: "SDP-10", CustName: "Gram Panchayat Streetlight", Tariff: "LT-7", CB: 18500, TC: "1234" },
-  { SlNo: 11, RRNo: "SDP-11", CustName: "Prakash Agro", Tariff: "LT-4", CB: 3100, TC: "101" },
-  { SlNo: 12, RRNo: "SDP-12", CustName: "Subraya", Tariff: "LT-2A", CB: 1900, TC: "102" }
+  { SlNo: 1, "RR No": "SDP-01", "Cust Name": "Ramesh Naik", Address: "Siddapur", "Mobile No": "9876543210", Tariff: "LT-1", "Area Name": "Town", RD: "RD1", SL: "SL1", OB: 1000, Demand: 500, Interest: 0, Coll: 1000, "Adj Amount": 0, CB: 500, TC: "1234", "Pole Name": "P1", "LM Name": "Nagaraj" },
+  { SlNo: 2, "RR No": "SDP-02", "Cust Name": "Ganesh Hegde", Address: "Siddapur", "Mobile No": "9876543211", Tariff: "LT-2-U", "Area Name": "Town", RD: "RD1", SL: "SL1", OB: 2000, Demand: 1500, Interest: 0, Coll: 1000, "Adj Amount": 0, CB: 2500, TC: "1234", "Pole Name": "P2", "LM Name": "Nagaraj" },
+  { SlNo: 3, "RR No": "SDP-03", "Cust Name": "Suresh Bhat", Address: "Siddapur", "Mobile No": "9876543212", Tariff: "LT-2-U", "Area Name": "Town", RD: "RD1", SL: "SL2", OB: 0, Demand: 1800, Interest: 0, Coll: 0, "Adj Amount": 0, CB: 1800, TC: "1234", "Pole Name": "P3", "LM Name": "Nagaraj" },
+  { SlNo: 4, "RR No": "SDP-04", "Cust Name": "Kavita Rao", Address: "Kondli", "Mobile No": "9876543213", Tariff: "LT-3(a)-U", "Area Name": "Suburbs", RD: "RD2", SL: "SL1", OB: 5000, Demand: 7500, Interest: 0, Coll: 2000, "Adj Amount": 0, CB: 10500, TC: "1234", "Pole Name": "P4", "LM Name": "Nagaraj" },
+  { SlNo: 5, "RR No": "SDP-05", "Cust Name": "Sharada Enterprises", Address: "Main Road", "Mobile No": "9876543214", Tariff: "LT-5U(DBT)", "Area Name": "Ind Area", RD: "RD3", SL: "SL1", OB: 12000, Demand: 15000, Interest: 500, Coll: 10000, "Adj Amount": 0, CB: 17500, TC: "1234", "Pole Name": "P5", "LM Name": "Nagaraj" },
+  { SlNo: 6, "RR No": "SDP-06", "Cust Name": "Anand Kumar", Address: "Main Road", "Mobile No": "9876543215", Tariff: "LT-5U(DBT)", "Area Name": "Ind Area", RD: "RD3", SL: "SL2", OB: 8000, Demand: 6000, Interest: 0, Coll: 5000, "Adj Amount": 0, CB: 9000, TC: "1234", "Pole Name": "P6", "LM Name": "Nagaraj" }
 ];
 
 /**
- * Normalizes strings by removing extra spaces and leading zeros for robust matching
+ * String normalizer for flexible TC matching
  */
 function normalizeString(val) {
   if (val === null || val === undefined) return "";
@@ -640,33 +634,32 @@ function normalizeString(val) {
 }
 
 /**
- * Normalizes Tariff names (e.g. cleans up extra spaces, uppercase conversion)
+ * Standardizes Tariff String Names (e.g., LT-1, LT-2-U, LT-3(a)-U, LT-5U(DBT))
  */
 function cleanTariffName(tariffRaw) {
   if (!tariffRaw) return "UNSPECIFIED";
   let t = String(tariffRaw).trim().toUpperCase();
-  // Standardize common naming variations
-  t = t.replace(/\s+/g, ' ');
+  t = t.replace(/\s+/g, ' '); // Clean multiple spaces
   return t;
 }
 
 /**
- * Reads Master Sheet, matches TCs linked to M-PIN, and dynamically aggregates all Tariffs
+ * Reads Master Sheet dataset and dynamically sums CB & Counts per Tariff for mapped TCs
  */
 function processMasterSheetData() {
-  // Determine allocated TCs for the logged-in M-PIN
+  // Determine allocated TCs linked to current M-PIN
   let allocatedTCs = mpinTcMapping[currentMpin];
   
   if (!allocatedTCs || allocatedTCs.length === 0) {
     allocatedTCs = [currentMpin];
   }
 
-  // Display allocated TCs in UI Header
+  // Display allocated TCs in Header Badge
   document.getElementById("tcCodeDisplay").textContent = `TC: ${allocatedTCs.slice(0, 2).join(",")}${allocatedTCs.length > 2 ? '...' : ''}`;
 
   const normalizedAllocatedTCs = allocatedTCs.map(tc => normalizeString(tc));
 
-  // Retrieve Master Data from Session Storage or Fallback
+  // Get data from Session Storage or fallback dataset
   let sheetRows = [];
   try {
     const sessionData = sessionStorage.getItem("masterSheetData");
@@ -674,30 +667,31 @@ function processMasterSheetData() {
       sheetRows = JSON.parse(sessionData);
     }
   } catch (e) {
-    console.warn("Could not parse sessionStorage masterSheetData, falling back to local dataset.", e);
+    console.warn("Error reading sessionStorage masterSheetData:", e);
   }
 
   if (!sheetRows || sheetRows.length === 0) {
     sheetRows = fallbackMasterSheet;
   }
 
-  // Filter rows matching ANY allocated TC
+  // Filter rows belonging to current M-PIN's TCs
   const filteredRows = sheetRows.filter(row => {
-    const rowTC = normalizeString(row.TC);
+    // Check both row.TC and row["TC"]
+    const rowTC = normalizeString(row.TC || row["TC"]);
     return normalizedAllocatedTCs.includes(rowTC);
   });
 
-  // Dynamic Aggregation Map for ALL Tariffs
+  // Aggregation Map for Dynamic Tariffs
   const tariffMap = {};
   let overallInstallations = 0;
   let overallCB = 0;
 
   filteredRows.forEach(row => {
-    // Read & Clean Tariff Name
-    const tariff = cleanTariffName(row.Tariff);
+    // Read Tariff name (handles both row.Tariff or row["Tariff"])
+    const tariff = cleanTariffName(row.Tariff || row["Tariff"]);
     
-    // Parse Closing Balance safely (handles commas, nulls, negative numbers)
-    const rawCB = String(row.CB || 0).replace(/,/g, '');
+    // Safely parse CB value (handles commas, missing values, numbers)
+    const rawCB = String(row.CB || row["CB"] || 0).replace(/,/g, '');
     const closingBalance = parseFloat(rawCB) || 0;
 
     if (!tariffMap[tariff]) {
@@ -718,7 +712,7 @@ function processMasterSheetData() {
   const tariffKeys = Object.keys(tariffMap);
 
   if (tariffKeys.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#94a3b8; padding:16px;">No records found for allocated TCs (${allocatedTCs.join(", ")})</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#94a3b8; padding:16px;">No records found for TC (${allocatedTCs.join(", ")})</td></tr>`;
   } else {
     // Sort Tariffs alphabetically for clean display
     tariffKeys.sort().forEach(tariff => {
@@ -738,7 +732,7 @@ function processMasterSheetData() {
   document.getElementById("totalBalanceAmt").textContent = `₹ ${Math.round(overallCB).toLocaleString('en-IN')}`;
 }
 
-// Execute Processor
+// Execute on load
 processMasterSheetData();
 
 function handleNavigation(event, targetUrl) {
