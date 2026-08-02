@@ -28,7 +28,6 @@ body {
   position: relative;
 }
 
-/* Ambient Background Accent Spheres */
 .bg-glow-1 {
   position: absolute;
   top: -100px;
@@ -51,7 +50,6 @@ body {
   z-index: 0;
 }
 
-/* Header Navbar */
 .navbar {
   position: sticky;
   top: 0;
@@ -133,7 +131,6 @@ body {
   border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
-/* Container */
 .container {
   width: 100%;
   max-width: 520px;
@@ -143,7 +140,6 @@ body {
   z-index: 10;
 }
 
-/* Summary Banner */
 .info-card {
   background: linear-gradient(135deg, rgba(30, 27, 75, 0.6), rgba(15, 23, 42, 0.8));
   backdrop-filter: blur(12px);
@@ -156,7 +152,7 @@ body {
   align-items: center;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
   margin-bottom: 16px;
-  animation: fadeInDown 0.4s ease forwards;
+  animation: fadeInDown 0.3s ease forwards;
 }
 
 .info-item label {
@@ -175,7 +171,6 @@ body {
   text-shadow: 0 2px 8px rgba(244, 63, 94, 0.3);
 }
 
-/* Filter Control Box */
 .controls-card {
   background: rgba(15, 23, 42, 0.7);
   backdrop-filter: blur(14px);
@@ -185,7 +180,7 @@ body {
   padding: 14px;
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
   margin-bottom: 20px;
-  animation: fadeInUp 0.4s ease forwards;
+  animation: fadeInUp 0.3s ease forwards;
 }
 
 .form-group label {
@@ -220,7 +215,6 @@ input::placeholder {
   color: #64748b;
 }
 
-/* Consumer Summary Cards List */
 .data-container {
   display: flex;
   flex-direction: column;
@@ -241,13 +235,11 @@ input::placeholder {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: all 0.2s ease;
-  animation: fadeInUp 0.3s ease forwards;
 }
 
 .consumer-summary-card:active {
   transform: scale(0.98);
   background: rgba(30, 41, 59, 0.9);
-  border-color: rgba(244, 63, 94, 0.5);
 }
 
 .card-left {
@@ -330,13 +322,6 @@ input::placeholder {
   font-size: 0.85rem;
 }
 
-.empty-state-icon {
-  font-size: 2rem;
-  margin-bottom: 8px;
-  opacity: 0.7;
-}
-
-/* Modal Popup for Full Consumer Details */
 .modal-overlay {
   display: none;
   position: fixed;
@@ -347,7 +332,6 @@ input::placeholder {
   z-index: 200;
   justify-content: center;
   align-items: flex-end;
-  padding: 0;
 }
 
 .modal-content {
@@ -360,8 +344,7 @@ input::placeholder {
   max-height: 80vh;
   display: flex;
   flex-direction: column;
-  animation: slideUp 0.3s ease forwards;
-  box-shadow: 0 -10px 40px rgba(0,0,0,0.6);
+  animation: slideUp 0.25s ease forwards;
 }
 
 .modal-header {
@@ -430,7 +413,6 @@ input::placeholder {
   word-break: break-word;
 }
 
-/* Spinner Overlay */
 #loader-overlay {
   display: none;
   position: fixed;
@@ -460,41 +442,10 @@ input::placeholder {
   animation: spin 0.8s linear infinite;
 }
 
-.spinner-inner {
-  position: absolute;
-  top: 6px;
-  left: 6px;
-  width: 24px;
-  height: 24px;
-  border: 3px solid rgba(255, 255, 255, 0.1);
-  border-bottom-color: #818cf8;
-  border-radius: 50%;
-  animation: spin-reverse 0.5s linear infinite;
-}
-
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-@keyframes spin-reverse { 0% { transform: rotate(360deg); } 100% { transform: rotate(0deg); } }
-
-#loader-text {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #f43f5e;
-}
-
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
-
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
@@ -502,16 +453,13 @@ input::placeholder {
 <div class="bg-glow-1"></div>
 <div class="bg-glow-2"></div>
 
-<!-- Fullscreen Spinner Overlay -->
 <div id="loader-overlay">
   <div class="spinner-container">
     <div class="spinner-outer"></div>
-    <div class="spinner-inner"></div>
   </div>
-  <div id="loader-text">Loading Arrears (> ₹500)...</div>
+  <div id="loader-text" style="color: #f43f5e; font-weight: 600; font-size: 0.85rem;">Fast Loading Arrears...</div>
 </div>
 
-<!-- Header Navbar -->
 <div class="navbar">
   <div class="nav-brand">
     <div class="brand-badge">💰</div>
@@ -527,8 +475,6 @@ input::placeholder {
 </div>
 
 <div class="container">
-
-  <!-- Summary Banner -->
   <div class="info-card">
     <div class="info-item">
       <label>LM Name</label>
@@ -540,7 +486,6 @@ input::placeholder {
     </div>
   </div>
 
-  <!-- Filter Search Input Box -->
   <div class="controls-card">
     <div class="form-group">
       <label for="searchBox">Filter List</label>
@@ -548,17 +493,9 @@ input::placeholder {
     </div>
   </div>
 
-  <!-- One-by-One Container List -->
-  <div id="dataContainer" class="data-container">
-    <div class="empty-state">
-      <div class="empty-state-icon">📋</div>
-      <div>Loading consumers with balance > ₹500...</div>
-    </div>
-  </div>
-
+  <div id="dataContainer" class="data-container"></div>
 </div>
 
-<!-- Full Consumer Details Modal -->
 <div id="consumerModal" class="modal-overlay">
   <div class="modal-content">
     <div class="modal-header">
@@ -568,9 +505,7 @@ input::placeholder {
       </div>
       <button class="btn-close-modal" onclick="closeModal()">✕</button>
     </div>
-    <div class="modal-body" id="modalBody">
-      <!-- Dynamic Details Rows -->
-    </div>
+    <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
 
@@ -578,9 +513,9 @@ input::placeholder {
 const API_URL = "https://script.google.com/macros/s/AKfycbxzt8aQteGxi3fB6xR9o3Ca8PcBstiE5z8bsAekwOo5UP7_d9j12n956TGxWX0bC3d70A/exec";
 
 const lmName = sessionStorage.getItem("lmName");
-const tcList = JSON.parse(sessionStorage.getItem("tcList") || "[]");
+const userMpin = sessionStorage.getItem("mpin");
 
-if (!lmName) { 
+if (!lmName || !userMpin) { 
   alert("Session expired. Please log in again."); 
   location.href = "login2.html"; 
 }
@@ -590,113 +525,62 @@ document.getElementById("lmName").textContent = lmName;
 const searchBox = document.getElementById("searchBox");
 const dataContainer = document.getElementById("dataContainer");
 const loaderOverlay = document.getElementById("loader-overlay");
-const loaderText = document.getElementById("loader-text");
 
 let currentConsumerList = [];
 
-function showLoader(msg = "Loading...") {
-  loaderText.textContent = msg;
-  loaderOverlay.style.display = "flex";
-}
+function showLoader() { loaderOverlay.style.display = "flex"; }
+function hideLoader() { loaderOverlay.style.display = "none"; }
 
-function hideLoader() {
-  loaderOverlay.style.display = "none";
-}
+// Immediate Load Handler
+window.onload = async function() {
+  const cachedData = sessionStorage.getItem("cachedMpinArrears");
 
-// Helper: Extract value safely from object
-function getVal(obj, keys) {
-  for (let k of keys) {
-    if (obj[k] !== undefined && obj[k] !== null && obj[k] !== "") return obj[k];
+  if (cachedData) {
+    // 1. Instant display from background-preloaded cache
+    currentConsumerList = JSON.parse(cachedData);
+    updateUI(currentConsumerList);
+  } else {
+    // 2. Fallback: Fast single-batch API call
+    await fetchSingleBatchArrears();
   }
-  return "";
-}
-
-// Helper: Parse Closing Balance safely
-function parseAmount(val) {
-  if (!val) return 0;
-  const cleaned = String(val).replace(/,/g, '').trim();
-  return parseFloat(cleaned) || 0;
-}
-
-// Auto Load All TC Arrears on Page Load
-window.onload = function() {
-  if (!tcList || tcList.length === 0) {
-    dataContainer.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state-icon">⚠️</div>
-        <div>No Transformer Codes (TC) found for this LM.</div>
-      </div>`;
-    return;
-  }
-
-  loadAllTCData();
 };
 
-async function loadAllTCData() {
-  showLoader("Fetching Arrears Data (> ₹500)...");
-  const over500List = [];
+async function fetchSingleBatchArrears() {
+  showLoader();
+  try {
+    const res = await fetch(`${API_URL}?action=getMpinArrears&mpin=${encodeURIComponent(userMpin)}`);
+    const data = await res.json();
 
-  for (let t = 0; t < tcList.length; t++) {
-    const currentTC = tcList[t];
-    loaderText.textContent = `Fetching TC (${t + 1}/${tcList.length}): ${currentTC}...`;
-
-    try {
-      // 1. Fetch RR List for current TC
-      const rrRes = await fetch(`${API_URL}?action=rr&tc=${encodeURIComponent(currentTC)}`);
-      const rrData = await rrRes.json();
-
-      if (rrData.status === "success" && rrData.rrList && rrData.rrList.length > 0) {
-        
-        // 2. Fetch each consumer details and filter CB > 500
-        for (let i = 0; i < rrData.rrList.length; i++) {
-          const rrno = rrData.rrList[i].rrno;
-
-          try {
-            const consRes = await fetch(`${API_URL}?action=consumer&rrno=${encodeURIComponent(rrno)}`);
-            const consData = await consRes.json();
-
-            if (consData.status === "success" && consData.consumer) {
-              const c = consData.consumer;
-              const cbVal = parseAmount(getVal(c, ["CB", "Closing Balance", "CB Amount", "BALANCE"]));
-
-              if (cbVal > 500) {
-                over500List.push({
-                  tc: currentTC,
-                  rrno: getVal(c, ["RR No", "RRNO"]) || rrno,
-                  name: getVal(c, ["Name", "Consumer Name", "NAME"]) || "N/A",
-                  cb: cbVal,
-                  fullData: c
-                });
-              }
-            }
-          } catch (e) {
-            console.error("Error loading RR:", rrno, e);
-          }
-        }
-      }
-    } catch (err) {
-      console.error("Error loading TC:", currentTC, err);
+    if (data.status === "success" && Array.isArray(data.arrears)) {
+      currentConsumerList = data.arrears;
+      sessionStorage.setItem("cachedMpinArrears", JSON.stringify(currentConsumerList));
+      updateUI(currentConsumerList);
+    } else {
+      showEmptyState("No consumers found with arrears > ₹500.");
     }
+  } catch (err) {
+    console.error(err);
+    showEmptyState("Failed to retrieve arrears data.");
+  } finally {
+    hideLoader();
   }
-
-  hideLoader();
-  currentConsumerList = over500List;
-  document.getElementById("totalOver500").textContent = over500List.length.toLocaleString('en-IN');
-  renderConsumerList(over500List);
 }
 
-// Render Summary Containers One-By-One
+function updateUI(list) {
+  document.getElementById("totalOver500").textContent = list.length.toLocaleString('en-IN');
+  renderConsumerList(list);
+}
+
 function renderConsumerList(list) {
   dataContainer.innerHTML = "";
 
   if (list.length === 0) {
-    dataContainer.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state-icon">✅</div>
-        <div>No consumers found with Closing Balance > ₹500.</div>
-      </div>`;
+    showEmptyState("No consumers found with Closing Balance > ₹500.");
     return;
   }
+
+  // Fragment batch-DOM creation for fast rendering
+  const fragment = document.createDocumentFragment();
 
   list.forEach((item, index) => {
     const card = document.createElement("div");
@@ -718,12 +602,20 @@ function renderConsumerList(list) {
         <div class="arrow-icon">➔</div>
       </div>
     `;
-
-    dataContainer.appendChild(card);
+    fragment.appendChild(card);
   });
+
+  dataContainer.appendChild(fragment);
 }
 
-// Modal View Functions
+function showEmptyState(msg) {
+  dataContainer.innerHTML = `
+    <div class="empty-state">
+      <div style="font-size: 1.8rem; margin-bottom: 6px;">📋</div>
+      <div>${msg}</div>
+    </div>`;
+}
+
 function openModal(index) {
   const item = currentConsumerList[index];
   if (!item) return;
@@ -734,7 +626,6 @@ function openModal(index) {
   const modalBody = document.getElementById("modalBody");
   modalBody.innerHTML = "";
 
-  // Insert TC code info row first
   const tcRow = document.createElement("div");
   tcRow.className = "detail-row";
   tcRow.innerHTML = `
@@ -743,8 +634,7 @@ function openModal(index) {
   `;
   modalBody.appendChild(tcRow);
 
-  // Remaining Details
-  Object.keys(item.fullData).forEach(key => {
+  Object.keys(item.fullData || {}).forEach(key => {
     let val = item.fullData[key];
     if (val === null || val === undefined || val === "") val = "-";
 
@@ -764,7 +654,6 @@ function closeModal() {
   document.getElementById("consumerModal").style.display = "none";
 }
 
-// Dynamic Search Box Filter
 searchBox.onkeyup = function () {
   const term = this.value.toUpperCase().trim();
   const cards = document.querySelectorAll(".consumer-summary-card");
@@ -776,11 +665,8 @@ searchBox.onkeyup = function () {
 };
 
 function logout() {
-  showLoader("Logging out...");
-  setTimeout(() => {
-    sessionStorage.clear();
-    location.href = "login2.html";
-  }, 250);
+  sessionStorage.clear();
+  location.href = "login2.html";
 }
 </script>
 </body>
