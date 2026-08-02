@@ -28,6 +28,7 @@ body {
   position: relative;
 }
 
+/* Ambient Background Accent Spheres */
 .bg-glow-1 {
   position: absolute;
   top: -100px;
@@ -50,6 +51,7 @@ body {
   z-index: 0;
 }
 
+/* Header Navbar */
 .navbar {
   position: sticky;
   top: 0;
@@ -131,6 +133,7 @@ body {
   border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
+/* Container */
 .container {
   width: 100%;
   max-width: 520px;
@@ -140,6 +143,7 @@ body {
   z-index: 10;
 }
 
+/* Summary Banner */
 .info-card {
   background: linear-gradient(135deg, rgba(30, 27, 75, 0.6), rgba(15, 23, 42, 0.8));
   backdrop-filter: blur(12px);
@@ -171,6 +175,7 @@ body {
   text-shadow: 0 2px 8px rgba(244, 63, 94, 0.3);
 }
 
+/* Filter Control Box */
 .controls-card {
   background: rgba(15, 23, 42, 0.7);
   backdrop-filter: blur(14px);
@@ -215,6 +220,7 @@ input::placeholder {
   color: #64748b;
 }
 
+/* Consumer Summary Cards List */
 .data-container {
   display: flex;
   flex-direction: column;
@@ -330,6 +336,7 @@ input::placeholder {
   opacity: 0.7;
 }
 
+/* Modal Popup for Full Consumer Details */
 .modal-overlay {
   display: none;
   position: fixed;
@@ -423,6 +430,7 @@ input::placeholder {
   word-break: break-word;
 }
 
+/* Spinner Overlay */
 #loader-overlay {
   display: none;
   position: fixed;
@@ -494,6 +502,7 @@ input::placeholder {
 <div class="bg-glow-1"></div>
 <div class="bg-glow-2"></div>
 
+<!-- Fullscreen Spinner Overlay -->
 <div id="loader-overlay">
   <div class="spinner-container">
     <div class="spinner-outer"></div>
@@ -502,6 +511,7 @@ input::placeholder {
   <div id="loader-text">Loading Arrears (> ₹500)...</div>
 </div>
 
+<!-- Header Navbar -->
 <div class="navbar">
   <div class="nav-brand">
     <div class="brand-badge">💰</div>
@@ -517,6 +527,8 @@ input::placeholder {
 </div>
 
 <div class="container">
+
+  <!-- Summary Banner -->
   <div class="info-card">
     <div class="info-item">
       <label>LM Name</label>
@@ -528,6 +540,7 @@ input::placeholder {
     </div>
   </div>
 
+  <!-- Filter Search Input Box -->
   <div class="controls-card">
     <div class="form-group">
       <label for="searchBox">Filter List</label>
@@ -535,14 +548,17 @@ input::placeholder {
     </div>
   </div>
 
+  <!-- One-by-One Container List -->
   <div id="dataContainer" class="data-container">
     <div class="empty-state">
       <div class="empty-state-icon">📋</div>
-      <div>Loading consumers...</div>
+      <div>Loading consumers with balance > ₹500...</div>
     </div>
   </div>
+
 </div>
 
+<!-- Full Consumer Details Modal -->
 <div id="consumerModal" class="modal-overlay">
   <div class="modal-content">
     <div class="modal-header">
@@ -552,7 +568,9 @@ input::placeholder {
       </div>
       <button class="btn-close-modal" onclick="closeModal()">✕</button>
     </div>
-    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-body" id="modalBody">
+      <!-- Dynamic Details Rows -->
+    </div>
   </div>
 </div>
 
@@ -560,8 +578,7 @@ input::placeholder {
 const API_URL = "https://script.google.com/macros/s/AKfycbxzt8aQteGxi3fB6xR9o3Ca8PcBstiE5z8bsAekwOo5UP7_d9j12n956TGxWX0bC3d70A/exec";
 
 const lmName = sessionStorage.getItem("lmName");
-const userMpin = sessionStorage.getItem("mpin");
-let rawTcList = JSON.parse(sessionStorage.getItem("tcList") || "[]");
+const tcList = JSON.parse(sessionStorage.getItem("tcList") || "[]");
 
 if (!lmName) { 
   alert("Session expired. Please log in again."); 
@@ -586,6 +603,7 @@ function hideLoader() {
   loaderOverlay.style.display = "none";
 }
 
+// Helper: Extract value safely from object
 function getVal(obj, keys) {
   for (let k of keys) {
     if (obj[k] !== undefined && obj[k] !== null && obj[k] !== "") return obj[k];
@@ -593,114 +611,81 @@ function getVal(obj, keys) {
   return "";
 }
 
+// Helper: Parse Closing Balance safely
 function parseAmount(val) {
   if (!val) return 0;
   const cleaned = String(val).replace(/,/g, '').trim();
   return parseFloat(cleaned) || 0;
 }
 
-// Check preloaded cache first for instant render
-window.onload = async function() {
-  const cachedData = sessionStorage.getItem("cachedArrearsData");
-  
-  if (cachedData) {
-    // Instant render from preloaded background session
-    currentConsumerList = JSON.parse(cachedData);
-    document.getElementById("totalOver500").textContent = currentConsumerList.length.toLocaleString('en-IN');
-    renderConsumerList(currentConsumerList);
-  } else {
-    // Fallback if user opened page before background fetch completed
-    fetchLiveData();
-  }
-};
-
-async function fetchLiveData() {
-  let userTCs = rawTcList;
-
-  if (!userTCs || userTCs.length === 0) {
-    if (userMpin) {
-      try {
-        showLoader("Fetching assigned TCs...");
-        const res = await fetch(`${API_URL}?action=getTCs&mpin=${encodeURIComponent(userMpin)}`);
-        const data = await res.json();
-        if (data.status === "success" && data.tcList) {
-          userTCs = data.tcList;
-          sessionStorage.setItem("tcList", JSON.stringify(userTCs));
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  }
-
-  if (!userTCs || userTCs.length === 0) {
+// Auto Load All TC Arrears on Page Load
+window.onload = function() {
+  if (!tcList || tcList.length === 0) {
     dataContainer.innerHTML = `
       <div class="empty-state">
         <div class="empty-state-icon">⚠️</div>
-        <div>No TCs assigned to your MPIN/Account.</div>
+        <div>No Transformer Codes (TC) found for this LM.</div>
       </div>`;
     return;
   }
 
-  showLoader("Fetching arrears data...");
+  loadAllTCData();
+};
 
-  try {
-    const tcPromises = userTCs.map(tc => 
-      fetch(`${API_URL}?action=rr&tc=${encodeURIComponent(tc)}`)
-        .then(res => res.json())
-        .then(data => ({ tc, data }))
-        .catch(() => ({ tc, data: null }))
-    );
+async function loadAllTCData() {
+  showLoader("Fetching Arrears Data (> ₹500)...");
+  const over500List = [];
 
-    const tcResults = await Promise.all(tcPromises);
-    let allRRItems = [];
+  for (let t = 0; t < tcList.length; t++) {
+    const currentTC = tcList[t];
+    loaderText.textContent = `Fetching TC (${t + 1}/${tcList.length}): ${currentTC}...`;
 
-    tcResults.forEach(item => {
-      if (item.data && item.data.status === "success" && item.data.rrList) {
-        item.data.rrList.forEach(r => {
-          allRRItems.push({ tc: item.tc, rrno: r.rrno });
-        });
-      }
-    });
+    try {
+      // 1. Fetch RR List for current TC
+      const rrRes = await fetch(`${API_URL}?action=rr&tc=${encodeURIComponent(currentTC)}`);
+      const rrData = await rrRes.json();
 
-    const consumerPromises = allRRItems.map(item => 
-      fetch(`${API_URL}?action=consumer&rrno=${encodeURIComponent(item.rrno)}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data && data.status === "success" && data.consumer) {
-            const c = data.consumer;
-            const cbVal = parseAmount(getVal(c, ["CB", "Closing Balance", "CB Amount", "BALANCE"]));
+      if (rrData.status === "success" && rrData.rrList && rrData.rrList.length > 0) {
+        
+        // 2. Fetch each consumer details and filter CB > 500
+        for (let i = 0; i < rrData.rrList.length; i++) {
+          const rrno = rrData.rrList[i].rrno;
 
-            if (cbVal > 500) {
-              return {
-                tc: item.tc,
-                rrno: getVal(c, ["RR No", "RRNO"]) || item.rrno,
-                name: getVal(c, ["Name", "Consumer Name", "NAME"]) || "N/A",
-                cb: cbVal,
-                fullData: c
-              };
+          try {
+            const consRes = await fetch(`${API_URL}?action=consumer&rrno=${encodeURIComponent(rrno)}`);
+            const consData = await consRes.json();
+
+            if (consData.status === "success" && consData.consumer) {
+              const c = consData.consumer;
+              const cbVal = parseAmount(getVal(c, ["CB", "Closing Balance", "CB Amount", "BALANCE"]));
+
+              if (cbVal > 500) {
+                over500List.push({
+                  tc: currentTC,
+                  rrno: getVal(c, ["RR No", "RRNO"]) || rrno,
+                  name: getVal(c, ["Name", "Consumer Name", "NAME"]) || "N/A",
+                  cb: cbVal,
+                  fullData: c
+                });
+              }
             }
+          } catch (e) {
+            console.error("Error loading RR:", rrno, e);
           }
-          return null;
-        })
-        .catch(() => null)
-    );
-
-    const over500List = (await Promise.all(consumerPromises)).filter(Boolean);
-
-    // Save fetched result into cache
-    sessionStorage.setItem("cachedArrearsData", JSON.stringify(over500List));
-    
-    hideLoader();
-    currentConsumerList = over500List;
-    document.getElementById("totalOver500").textContent = over500List.length.toLocaleString('en-IN');
-    renderConsumerList(over500List);
-  } catch (err) {
-    hideLoader();
-    alert("Error loading data.");
+        }
+      }
+    } catch (err) {
+      console.error("Error loading TC:", currentTC, err);
+    }
   }
+
+  hideLoader();
+  currentConsumerList = over500List;
+  document.getElementById("totalOver500").textContent = over500List.length.toLocaleString('en-IN');
+  renderConsumerList(over500List);
 }
 
+// Render Summary Containers One-By-One
 function renderConsumerList(list) {
   dataContainer.innerHTML = "";
 
@@ -708,7 +693,7 @@ function renderConsumerList(list) {
     dataContainer.innerHTML = `
       <div class="empty-state">
         <div class="empty-state-icon">✅</div>
-        <div>No consumers found with Closing Balance > ₹500 in your TCs.</div>
+        <div>No consumers found with Closing Balance > ₹500.</div>
       </div>`;
     return;
   }
@@ -738,6 +723,7 @@ function renderConsumerList(list) {
   });
 }
 
+// Modal View Functions
 function openModal(index) {
   const item = currentConsumerList[index];
   if (!item) return;
@@ -748,6 +734,7 @@ function openModal(index) {
   const modalBody = document.getElementById("modalBody");
   modalBody.innerHTML = "";
 
+  // Insert TC code info row first
   const tcRow = document.createElement("div");
   tcRow.className = "detail-row";
   tcRow.innerHTML = `
@@ -756,6 +743,7 @@ function openModal(index) {
   `;
   modalBody.appendChild(tcRow);
 
+  // Remaining Details
   Object.keys(item.fullData).forEach(key => {
     let val = item.fullData[key];
     if (val === null || val === undefined || val === "") val = "-";
@@ -776,6 +764,7 @@ function closeModal() {
   document.getElementById("consumerModal").style.display = "none";
 }
 
+// Dynamic Search Box Filter
 searchBox.onkeyup = function () {
   const term = this.value.toUpperCase().trim();
   const cards = document.querySelectorAll(".consumer-summary-card");
