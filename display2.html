@@ -518,7 +518,7 @@ async function fetchSingleBatchArrears() {
   } catch (err) {
     console.error(err);
     showEmptyState("Failed to retrieve arrears data.");
-  } finally {
+  } stroke {
     hideLoader();
   }
 }
@@ -538,6 +538,19 @@ function renderConsumerList(list) {
 
   const fragment = document.createDocumentFragment();
 
+  // List of key names to exclude when rendering grid items
+  const excludedKeys = [
+    "RR NO", 
+    "RRNO", 
+    "SLNO", 
+    "COLUMN_5", 
+    "AREA NAME", 
+    "RD", 
+    "SL", 
+    "POLE NAME", 
+    "LM NAME"
+  ];
+
   list.forEach((item, index) => {
     const cardWrapper = document.createElement("div");
     cardWrapper.className = "consumer-card-wrapper";
@@ -552,6 +565,14 @@ function renderConsumerList(list) {
     `;
 
     Object.keys(item.fullData || {}).forEach(key => {
+      // Normalize key to uppercase for case-insensitive matching
+      const normalizedKey = key.trim().toUpperCase();
+
+      // Skip the field if it is in the exclusion list
+      if (excludedKeys.includes(normalizedKey)) {
+        return;
+      }
+
       let val = item.fullData[key];
       if (val === null || val === undefined || val === "") val = "-";
       
