@@ -108,7 +108,7 @@ function login() {
         sessionStorage.setItem("mpin", mpin);
         sessionStorage.setItem("lmName", data.lmName);
         sessionStorage.setItem("tcList", JSON.stringify(data.tcList));
-        window.location.href = "display.html";
+        window.location.href = "menu2.html"; // Redirects to menu2.html now
       } else {
         document.getElementById("error").innerHTML = data.message;
       }
