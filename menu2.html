@@ -614,7 +614,7 @@ body {
 
 <script>
 // Google Sheets Configuration
-const GOOGLE_SHEET_ID = "YOUR_GOOGLE_SHEET_ID_HERE"; // <-- Put Google Sheet ID here
+const GOOGLE_SHEET_ID = "1irEWggFO5v9xn_ekeUNtgXI6JAHMK4E5PsKiJN3pgcc";
 const GOOGLE_SHEET_NAME = "master";
 
 // User Session
@@ -675,7 +675,7 @@ function parseCSV(csvText) {
 }
 
 async function fetchMasterSheetFromGoogle() {
-  const csvUrl = `https://docs.google.com/spreadsheets/d/${1irEWggFO5v9xn_ekeUNtgXI6JAHMK4E5PsKiJN3pgcc}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(master)}`;
+  const csvUrl = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(GOOGLE_SHEET_NAME)}`;
   
   try {
     const response = await fetch(csvUrl);
