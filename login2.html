@@ -309,6 +309,92 @@ document.getElementById("mpin").addEventListener("keypress", function(e) {
     login();
   }
 });
+
+
+
+  // Place inside your successful login block in login2.html
+async function prefetchUserData(mpin, rawTcList) {
+  try {
+    const API_URL = "https://script.google.com/macros/s/AKfycbxzt8aQteGxi3fB6xR9o3Ca8PcBstiE5z8bsAekwOo5UP7_d9j12n956TGxWX0bC3d70A/exec";
+    
+    // 1. Fetch user TCs if not provided
+    let tcs = rawTcList;
+    if (!tcs || tcs.length === 0) {
+      const tcRes = await fetch(`${API_URL}?action=getTCs&mpin=${encodeURIComponent(mpin)}`);
+      const tcData = await tcRes.json();
+      if (tcData.status === "success") {
+        tcs = tcData.tcList;
+        sessionStorage.setItem("tcList", JSON.stringify(tcs));
+      }
+    }
+
+    if (!tcs || tcs.length === 0) return;
+
+    // 2. Fetch all RR List entries for user TCs
+    const tcPromises = tcs.map(tc =>
+      fetch(`${API_URL}?action=rr&tc=${encodeURIComponent(tc)}`)
+        .then(res => res.json())
+        .then(data => ({ tc, data }))
+        .catch(() => ({ tc, data: null }))
+    );
+
+    const tcResults = await Promise.all(tcPromises);
+    let allRRItems = [];
+    tcResults.forEach(item => {
+      if (item.data && item.data.status === "success" && item.data.rrList) {
+        item.data.rrList.forEach(r => {
+          allRRItems.push({ tc: item.tc, rrno: r.rrno });
+        });
+      }
+    });
+
+    // 3. Parallel fetch consumer details and filter CB > 500
+    const consumerPromises = allRRItems.map(item =>
+      fetch(`${API_URL}?action=consumer&rrno=${encodeURIComponent(item.rrno)}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.status === "success" && data.consumer) {
+            const c = data.consumer;
+            const cbRaw = c["CB"] || c["Closing Balance"] || c["CB Amount"] || c["BALANCE"] || "0";
+            const cbVal = parseFloat(String(cbRaw).replace(/,/g, '').trim()) || 0;
+
+            if (cbVal > 500) {
+              return {
+                tc: item.tc,
+                rrno: c["RR No"] || c["RRNO"] || item.rrno,
+                name: c["Name"] || c["Consumer Name"] || c["NAME"] || "N/A",
+                cb: cbVal,
+                fullData: c
+              };
+            }
+          }
+          return null;
+        })
+        .catch(() => null)
+    );
+
+    const over500List = (await Promise.all(consumerPromises)).filter(Boolean);
+
+    // Save preloaded data into sessionStorage
+    sessionStorage.setItem("cachedArrearsData", JSON.stringify(over500List));
+    sessionStorage.setItem("arrearsLoaded", "true");
+  } catch (err) {
+    console.error("Background prefetch failed:", err);
+  }
+}
+
+// Example usage on Login Success:
+function onLoginSuccess(loginResponse) {
+  sessionStorage.setItem("lmName", loginResponse.lmName);
+  sessionStorage.setItem("mpin", userMpin);
+  sessionStorage.setItem("tcList", JSON.stringify(loginResponse.tcList || []));
+  
+  // Start prefetching in background (fire & forget)
+  prefetchUserData(userMpin, loginResponse.tcList);
+
+  // Navigate immediately
+  location.href = "menu2.html";
+}
 </script>
 
 </body>
