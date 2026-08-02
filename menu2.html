@@ -158,7 +158,7 @@ body {
   text-shadow: 0 2px 8px rgba(56, 189, 248, 0.3);
 }
 
-/* Menu Navigation Grid */
+/* Menu Grid */
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -408,9 +408,9 @@ body {
   font-weight: 600;
 }
 
-/* Loader */
+/* Page Loader */
 #page-loader {
-  display: none;
+  display: flex;
   position: fixed;
   inset: 0;
   background: rgba(2, 6, 23, 0.85);
@@ -579,7 +579,7 @@ body {
           </tr>
         </thead>
         <tbody id="tariffTableBody">
-          <!-- Dynamic Tariff Balance Rows -->
+          <!-- Dynamic Tariff Rows -->
         </tbody>
       </table>
     </div>
@@ -593,19 +593,22 @@ body {
     <div class="spinner-outer"></div>
     <div class="spinner-inner"></div>
   </div>
-  <div class="loader-text">Loading Details...</div>
+  <div class="loader-text" id="loaderText">Fetching Google Sheet Master Data...</div>
 </div>
 
 <script>
-// 1. Session Retrieval
+// 1. SETTINGS & GOOGLE SHEET CONFIGURATION
+// Replace with your Google Sheet ID (Must be shared as "Anyone with link can view")
+const GOOGLE_SHEET_ID = "YOUR_GOOGLE_SHEET_ID_HERE"; 
+const GOOGLE_SHEET_NAME = "master";
+
+// Session Variables
 const lmName = sessionStorage.getItem("lmName") || "Lineman";
 const currentMpin = String(sessionStorage.getItem("mpin") || sessionStorage.getItem("tcCode") || "1234").trim();
 
 document.getElementById("lmNameDisplay").textContent = lmName;
 
-/**
- * 2. M-PIN to Allocated TC Matrix Mapping
- */
+// M-PIN to TC Allocation Matrix
 const mpinTcMapping = {
   "1234": ["1234", "TC-1234", "101", "102"], 
   "1001": ["1001", "501", "502"],
@@ -613,20 +616,7 @@ const mpinTcMapping = {
 };
 
 /**
- * 3. Master Sheet Fallback Data matching your full column header structure:
- * SlNo, RR No, Cust Name, Address, Mobile No, Tariff, Area Name, RD, SL, OB, Demand, Interest, Coll, Adj Amount, CB, TC, Pole Name, LM Name
- */
-const fallbackMasterSheet = [
-  { SlNo: 1, "RR No": "SDP-01", "Cust Name": "Ramesh Naik", Address: "Siddapur", "Mobile No": "9876543210", Tariff: "LT-1", "Area Name": "Town", RD: "RD1", SL: "SL1", OB: 1000, Demand: 500, Interest: 0, Coll: 1000, "Adj Amount": 0, CB: 500, TC: "1234", "Pole Name": "P1", "LM Name": "Nagaraj" },
-  { SlNo: 2, "RR No": "SDP-02", "Cust Name": "Ganesh Hegde", Address: "Siddapur", "Mobile No": "9876543211", Tariff: "LT-2-U", "Area Name": "Town", RD: "RD1", SL: "SL1", OB: 2000, Demand: 1500, Interest: 0, Coll: 1000, "Adj Amount": 0, CB: 2500, TC: "1234", "Pole Name": "P2", "LM Name": "Nagaraj" },
-  { SlNo: 3, "RR No": "SDP-03", "Cust Name": "Suresh Bhat", Address: "Siddapur", "Mobile No": "9876543212", Tariff: "LT-2-U", "Area Name": "Town", RD: "RD1", SL: "SL2", OB: 0, Demand: 1800, Interest: 0, Coll: 0, "Adj Amount": 0, CB: 1800, TC: "1234", "Pole Name": "P3", "LM Name": "Nagaraj" },
-  { SlNo: 4, "RR No": "SDP-04", "Cust Name": "Kavita Rao", Address: "Kondli", "Mobile No": "9876543213", Tariff: "LT-3(a)-U", "Area Name": "Suburbs", RD: "RD2", SL: "SL1", OB: 5000, Demand: 7500, Interest: 0, Coll: 2000, "Adj Amount": 0, CB: 10500, TC: "1234", "Pole Name": "P4", "LM Name": "Nagaraj" },
-  { SlNo: 5, "RR No": "SDP-05", "Cust Name": "Sharada Enterprises", Address: "Main Road", "Mobile No": "9876543214", Tariff: "LT-5U(DBT)", "Area Name": "Ind Area", RD: "RD3", SL: "SL1", OB: 12000, Demand: 15000, Interest: 500, Coll: 10000, "Adj Amount": 0, CB: 17500, TC: "1234", "Pole Name": "P5", "LM Name": "Nagaraj" },
-  { SlNo: 6, "RR No": "SDP-06", "Cust Name": "Anand Kumar", Address: "Main Road", "Mobile No": "9876543215", Tariff: "LT-5U(DBT)", "Area Name": "Ind Area", RD: "RD3", SL: "SL2", OB: 8000, Demand: 6000, Interest: 0, Coll: 5000, "Adj Amount": 0, CB: 9000, TC: "1234", "Pole Name": "P6", "LM Name": "Nagaraj" }
-];
-
-/**
- * String normalizer for flexible TC matching
+ * Utility to normalize strings for robust matching
  */
 function normalizeString(val) {
   if (val === null || val === undefined) return "";
@@ -634,64 +624,128 @@ function normalizeString(val) {
 }
 
 /**
- * Standardizes Tariff String Names (e.g., LT-1, LT-2-U, LT-3(a)-U, LT-5U(DBT))
+ * Utility to standardize tariff names
  */
 function cleanTariffName(tariffRaw) {
   if (!tariffRaw) return "UNSPECIFIED";
-  let t = String(tariffRaw).trim().toUpperCase();
-  t = t.replace(/\s+/g, ' '); // Clean multiple spaces
-  return t;
+  return String(tariffRaw).trim().toUpperCase().replace(/\s+/g, ' ');
 }
 
 /**
- * Reads Master Sheet dataset and dynamically sums CB & Counts per Tariff for mapped TCs
+ * Converts Google Sheet CSV text response into JSON Objects array
  */
-function processMasterSheetData() {
-  // Determine allocated TCs linked to current M-PIN
-  let allocatedTCs = mpinTcMapping[currentMpin];
-  
-  if (!allocatedTCs || allocatedTCs.length === 0) {
-    allocatedTCs = [currentMpin];
+function parseCSV(csvText) {
+  const lines = csvText.split(/\r\n|\n/);
+  if (lines.length === 0) return [];
+
+  // Helper to parse CSV row supporting quoted strings
+  const parseRow = (rowStr) => {
+    const matches = [];
+    let match;
+    const re = /(?:\"([^\"]*)\")|([^,]+)/g;
+    while ((match = re.exec(rowStr)) !== null) {
+      matches.push(match[1] || match[2] || "");
+    }
+    return matches;
+  };
+
+  const headers = parseRow(lines[0]).map(h => h.trim());
+  const result = [];
+
+  for (let i = 1; i < lines.length; i++) {
+    if (!lines[i].trim()) continue;
+    const row = parseRow(lines[i]);
+    const obj = {};
+    headers.forEach((header, index) => {
+      obj[header] = row[index] !== undefined ? row[index].trim() : "";
+    });
+    result.push(obj);
   }
+  return result;
+}
 
-  // Display allocated TCs in Header Badge
+/**
+ * Reads Google Sheet CSV endpoint directly
+ */
+async function fetchMasterSheetFromGoogle() {
+  const csvUrl = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(GOOGLE_SHEET_NAME)}`;
+  
+  try {
+    const response = await fetch(csvUrl);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const csvData = await response.text();
+    const parsedData = parseCSV(csvData);
+    
+    // Save to SessionStorage for fast performance across displays
+    if (parsedData && parsedData.length > 0) {
+      sessionStorage.setItem("masterSheetData", JSON.stringify(parsedData));
+    }
+    return parsedData;
+  } catch (error) {
+    console.error("Failed to fetch Google Sheet data directly:", error);
+    
+    // Fallback: Check if cached in sessionStorage
+    const cached = sessionStorage.getItem("masterSheetData");
+    if (cached) {
+      console.log("Using cached sessionStorage Master Data");
+      return JSON.parse(cached);
+    }
+    return [];
+  }
+}
+
+/**
+ * Flexible field value extractor handling multiple header naming variations
+ */
+function getFieldValue(row, possibleNames) {
+  for (let name of possibleNames) {
+    if (row[name] !== undefined) return row[name];
+  }
+  // Case-insensitive fallback
+  const keys = Object.keys(row);
+  for (let name of possibleNames) {
+    const targetKey = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const foundKey = keys.find(k => k.toLowerCase().replace(/[^a-z0-9]/g, '') === targetKey);
+    if (foundKey) return row[foundKey];
+  }
+  return "";
+}
+
+/**
+ * Main Processing Engine
+ */
+async function loadAndProcessTariffData() {
+  const loader = document.getElementById("page-loader");
+  const loaderText = document.getElementById("loaderText");
+  loader.style.display = "flex";
+  loaderText.textContent = "Loading Master Sheet from Google...";
+
+  let allocatedTCs = mpinTcMapping[currentMpin] || [currentMpin];
   document.getElementById("tcCodeDisplay").textContent = `TC: ${allocatedTCs.slice(0, 2).join(",")}${allocatedTCs.length > 2 ? '...' : ''}`;
-
+  
   const normalizedAllocatedTCs = allocatedTCs.map(tc => normalizeString(tc));
 
-  // Get data from Session Storage or fallback dataset
-  let sheetRows = [];
-  try {
-    const sessionData = sessionStorage.getItem("masterSheetData");
-    if (sessionData) {
-      sheetRows = JSON.parse(sessionData);
-    }
-  } catch (e) {
-    console.warn("Error reading sessionStorage masterSheetData:", e);
-  }
+  // Retrieve Live Data from Google Sheet
+  const masterRows = await fetchMasterSheetFromGoogle();
 
-  if (!sheetRows || sheetRows.length === 0) {
-    sheetRows = fallbackMasterSheet;
-  }
-
-  // Filter rows belonging to current M-PIN's TCs
-  const filteredRows = sheetRows.filter(row => {
-    // Check both row.TC and row["TC"]
-    const rowTC = normalizeString(row.TC || row["TC"]);
+  // Filter Rows by Logged-In TCs
+  const filteredRows = masterRows.filter(row => {
+    const rowTC = normalizeString(getFieldValue(row, ["TC", "TC Code", "TC_Code"]));
     return normalizedAllocatedTCs.includes(rowTC);
   });
 
-  // Aggregation Map for Dynamic Tariffs
+  // Dynamic Tariff Aggregation
   const tariffMap = {};
-  let overallInstallations = 0;
-  let overallCB = 0;
+  let totalInstallationsCount = 0;
+  let totalClosingBalanceAmt = 0;
 
   filteredRows.forEach(row => {
-    // Read Tariff name (handles both row.Tariff or row["Tariff"])
-    const tariff = cleanTariffName(row.Tariff || row["Tariff"]);
-    
-    // Safely parse CB value (handles commas, missing values, numbers)
-    const rawCB = String(row.CB || row["CB"] || 0).replace(/,/g, '');
+    const rawTariff = getFieldValue(row, ["Tariff", "TARIFF", "Tariff Name"]);
+    const tariff = cleanTariffName(rawTariff);
+
+    const rawCB = String(getFieldValue(row, ["CB", "Closing Balance", "CB Amount"])).replace(/,/g, '');
     const closingBalance = parseFloat(rawCB) || 0;
 
     if (!tariffMap[tariff]) {
@@ -701,8 +755,8 @@ function processMasterSheetData() {
     tariffMap[tariff].count += 1;
     tariffMap[tariff].totalCB += closingBalance;
 
-    overallInstallations += 1;
-    overallCB += closingBalance;
+    totalInstallationsCount += 1;
+    totalClosingBalanceAmt += closingBalance;
   });
 
   // Render Table Rows
@@ -712,9 +766,8 @@ function processMasterSheetData() {
   const tariffKeys = Object.keys(tariffMap);
 
   if (tariffKeys.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#94a3b8; padding:16px;">No records found for TC (${allocatedTCs.join(", ")})</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#94a3b8; padding:16px;">No records found for allocated TC (${allocatedTCs.join(", ")})</td></tr>`;
   } else {
-    // Sort Tariffs alphabetically for clean display
     tariffKeys.sort().forEach(tariff => {
       const { count, totalCB } = tariffMap[tariff];
       const tr = document.createElement("tr");
@@ -727,17 +780,21 @@ function processMasterSheetData() {
     });
   }
 
-  // Render Overall Totals
-  document.getElementById("totalInstallations").textContent = overallInstallations.toLocaleString('en-IN');
-  document.getElementById("totalBalanceAmt").textContent = `₹ ${Math.round(overallCB).toLocaleString('en-IN')}`;
+  // Render Totals
+  document.getElementById("totalInstallations").textContent = totalInstallationsCount.toLocaleString('en-IN');
+  document.getElementById("totalBalanceAmt").textContent = `₹ ${Math.round(totalClosingBalanceAmt).toLocaleString('en-IN')}`;
+
+  // Hide Loader
+  loader.style.display = "none";
 }
 
-// Execute on load
-processMasterSheetData();
+// Trigger Execution
+loadAndProcessTariffData();
 
 function handleNavigation(event, targetUrl) {
   event.preventDefault();
   document.getElementById("page-loader").style.display = "flex";
+  document.getElementById("loaderText").textContent = "Loading Details...";
   setTimeout(() => {
     window.location.href = targetUrl;
   }, 250);
@@ -745,7 +802,7 @@ function handleNavigation(event, targetUrl) {
 
 function logout() {
   document.getElementById("page-loader").style.display = "flex";
-  document.querySelector(".loader-text").textContent = "Logging out...";
+  document.getElementById("loaderText").textContent = "Logging out...";
   setTimeout(() => {
     sessionStorage.clear();
     location.href = "login2.html";
