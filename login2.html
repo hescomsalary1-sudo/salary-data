@@ -1,88 +1,203 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LM Login</title>
+<title>LM Login - HESCOM Siddapur</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: 'Noto Sans Kannada', 'Poppins', sans-serif;
 }
+
 body {
-  background: linear-gradient(135deg, #1565C0, #42A5F5);
-  height: 100vh;
+  background: radial-gradient(circle at top left, #1e3c72, #2a5298, #0f172a);
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
 }
-.login-box {
-  width: 350px;
-  background: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-}
-h2 {
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
+  padding: 35px 28px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.2);
   text-align: center;
-  margin-bottom: 25px;
-  color: #1565C0;
+  transition: transform 0.3s ease;
 }
+
+/* Header Section */
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  background: linear-gradient(135deg, #1565C0, #0D47A1);
+  color: #fff;
+  border-radius: 14px;
+  font-size: 26px;
+  margin-bottom: 16px;
+  box-shadow: 0 6px 15px rgba(21, 101, 192, 0.35);
+}
+
+.kannada-header {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.sub-header {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1565C0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+  margin-bottom: 24px;
+}
+
+/* Form Controls */
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
 input {
   width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  margin-bottom: 20px;
+  padding: 14px 16px;
+  font-size: 15px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
   outline: none;
+  background-color: #f8fafc;
+  transition: all 0.25s ease;
+  text-align: center;
+  letter-spacing: 2px;
 }
+
 input:focus {
   border-color: #1565C0;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(21, 101, 192, 0.12);
 }
+
 button {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   font-size: 16px;
-  background: #1565C0;
+  font-weight: 600;
+  background: linear-gradient(135deg, #1565C0, #0D47A1);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 12px;
   cursor: pointer;
+  box-shadow: 0 8px 18px rgba(21, 101, 192, 0.3);
+  transition: all 0.25s ease;
 }
+
 button:hover {
-  background: #0D47A1;
+  background: linear-gradient(135deg, #0D47A1, #0a367c);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 22px rgba(21, 101, 192, 0.4);
 }
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Modern Loader */
 #loader {
   display: none;
-  text-align: center;
-  margin-top: 15px;
-  color: #1565C0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
 }
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3.5px solid #e2e8f0;
+  border-top: 3.5px solid #1565C0;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loader-text {
+  font-size: 0.85rem;
+  color: #1565C0;
+  font-weight: 600;
+}
+
+/* Error Message */
 #error {
   margin-top: 15px;
-  color: red;
-  text-align: center;
-  font-weight: bold;
+  color: #e53e3e;
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-height: 20px;
 }
+
+/* Footer */
 .footer {
-  margin-top: 20px;
-  text-align: center;
-  font-size: 13px;
-  color: #666;
+  margin-top: 25px;
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
 }
 </style>
 </head>
 <body>
 
-<div class="login-box">
-  <h2>LM LOGIN</h2>
-  <input type="password" id="mpin" placeholder="Enter M_PIN">
+<div class="login-card">
+  <div class="header-badge">⚡</div>
+  
+  <!-- Kannada Header -->
+  <div class="kannada-header">
+    ಕಾರ್ಯ ಮತ್ತು ಪಾಲನಾ ಶಾಖೆ<br>
+    ಸಿದ್ದಾಪುರ ಪಟ್ಟಣ, ಹೆಸ್ಕಾಂ, ಸಿದ್ದಾಪುರ
+  </div>
+  
+  <div class="sub-header">LM Login</div>
+
+  <div class="divider"></div>
+
+  <div class="input-group">
+    <input type="password" id="mpin" placeholder="Enter M_PIN" maxlength="10" autocomplete="off">
+  </div>
+  
   <button onclick="login()">LOGIN</button>
-  <div id="loader">Please wait...</div>
+  
+  <!-- Modern Animated Loader -->
+  <div id="loader">
+    <div class="spinner"></div>
+    <div class="loader-text">Verifying credentials...</div>
+  </div>
+  
   <div id="error"></div>
+  
   <div class="footer">Powered by Google Sheets</div>
 </div>
 
@@ -97,7 +212,7 @@ function login() {
     return;
   }
 
-  document.getElementById("loader").style.display = "block";
+  document.getElementById("loader").style.display = "flex";
   document.getElementById("error").innerHTML = "";
 
   fetch(API_URL + "?action=login&mpin=" + encodeURIComponent(mpin))
@@ -108,7 +223,7 @@ function login() {
         sessionStorage.setItem("mpin", mpin);
         sessionStorage.setItem("lmName", data.lmName);
         sessionStorage.setItem("tcList", JSON.stringify(data.tcList));
-        window.location.href = "menu2.html"; // Redirects to menu2.html now
+        window.location.href = "menu2.html"; // Redirects to menu2.html
       } else {
         document.getElementById("error").innerHTML = data.message;
       }
