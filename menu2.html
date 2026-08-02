@@ -553,7 +553,7 @@ body {
 
   </div>
 
-  <!-- Tariff Wise Balance Container for logged-in TC -->
+  <!-- Tariff Wise Balance Container for Logged-In TC/MPIN -->
   <div class="tariff-container">
     <div class="tariff-header">
       <div class="tariff-title-group">
@@ -571,7 +571,7 @@ body {
         <strong id="totalInstallations">0</strong>
       </div>
       <div class="summary-box highlight">
-        <span>Total Balance</span>
+        <span>Total CB (₹)</span>
         <strong id="totalBalanceAmt">₹ 0</strong>
       </div>
     </div>
@@ -580,13 +580,13 @@ body {
       <table class="tariff-table">
         <thead>
           <tr>
-            <th>Tariff Category</th>
+            <th>Tariff</th>
             <th style="text-align: center;">Count</th>
-            <th style="text-align: right;">Balance (₹)</th>
+            <th style="text-align: right;">Total CB (₹)</th>
           </tr>
         </thead>
         <tbody id="tariffTableBody">
-          <!-- Dynamic Tariff Data Rows Will Render Here -->
+          <!-- Dynamic Tariff Data Rows Rendered Here -->
         </tbody>
       </table>
     </div>
@@ -605,60 +605,92 @@ body {
 
 <script>
 const lmName = sessionStorage.getItem("lmName");
-const tcCode = sessionStorage.getItem("mpin") || sessionStorage.getItem("tcCode") || "TC-101";
+const mpin = sessionStorage.getItem("mpin") || sessionStorage.getItem("tcCode") || "101";
 
 if (!lmName) {
   alert("Session expired. Please log in again.");
   location.href = "login2.html";
 } else {
   document.getElementById("lmNameDisplay").textContent = lmName;
-  document.getElementById("tcCodeDisplay").textContent = `TC: ${tcCode}`;
+  document.getElementById("tcCodeDisplay").textContent = `TC/MPIN: ${mpin}`;
 }
 
-// Simulated TC Tariff Data Database (Replace/Integrate with your live backend API if needed)
-const tcBalanceDatabase = {
-  "TC-101": [
-    { category: "LT-2 (Domestic)", count: 142, balance: 85450 },
-    { category: "LT-3 (Commercial)", count: 28, balance: 42100 },
-    { category: "LT-5 (Industrial)", count: 8, balance: 98300 },
-    { category: "BJ / KJ", count: 35, balance: 12400 }
-  ],
-  "TC-102": [
-    { category: "LT-2 (Domestic)", count: 98, balance: 62100 },
-    { category: "LT-3 (Commercial)", count: 15, balance: 21400 },
-    { category: "LT-5 (Industrial)", count: 4, balance: 45000 },
-    { category: "BJ / KJ", count: 20, balance: 8100 }
-  ]
-};
+/**
+ * Sample Master Sheet Rows Array matching your exact columns:
+ * [SlNo, RR No, Cust Name, Address, Mobile No, Tariff, Area Name, RD, SL, OB, Demand, Interest, Coll, Adj Amount, CB, TC, Pole Name, LM Name]
+ */
+const sampleMasterSheet = [
+  // TC 101 Records
+  { SlNo: 1, RRNo: "SDP-101", CustName: "Ramesh Bhat", Tariff: "LT-2A", CB: 4500, TC: "101" },
+  { SlNo: 2, RRNo: "SDP-102", CustName: "Ganesh Naik", Tariff: "LT-2A", CB: 2300, TC: "101" },
+  { SlNo: 3, RRNo: "SDP-103", CustName: "Suresh Hegde", Tariff: "LT-3", CB: 15400, TC: "101" },
+  { SlNo: 4, RRNo: "SDP-104", CustName: "Kavita Rao", Tariff: "LT-5", CB: 28900, TC: "101" },
+  { SlNo: 5, RRNo: "SDP-105", CustName: "Narayana", Tariff: "BJ/KJ", CB: 1200, TC: "101" },
 
-// Function to Render Tariff-Wise Balance for Logged-In TC
-function loadTcTariffBalance() {
-  const data = tcBalanceDatabase[tcCode] || tcBalanceDatabase["TC-101"];
-  const tbody = document.getElementById("tariffTableBody");
-  
-  let totalCount = 0;
-  let totalBalance = 0;
-  tbody.innerHTML = "";
+  // TC 102 Records
+  { SlNo: 6, RRNo: "SDP-201", CustName: "Manjunath", Tariff: "LT-2A", CB: 3100, TC: "102" },
+  { SlNo: 7, RRNo: "SDP-202", CustName: "Anand", Tariff: "LT-3", CB: 8200, TC: "102" }
+];
 
-  data.forEach(item => {
-    totalCount += item.count;
-    totalBalance += item.balance;
+/**
+ * Reads Master Sheet records, filters by logged-in TC/MPIN,
+ * groups by 'Tariff', calculates total 'CB' and counts consumers per tariff.
+ */
+function processMasterSheetData(masterData, currentMpin) {
+  // Fetch rows from Master Sheet or stored Session Data
+  const sheetRows = masterData || JSON.parse(sessionStorage.getItem("masterSheetData")) || sampleMasterSheet;
 
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td><span class="tariff-tag">${item.category}</span></td>
-      <td class="count-text">${item.count}</td>
-      <td class="amt-text">₹ ${item.balance.toLocaleString('en-IN')}</td>
-    `;
-    tbody.appendChild(row);
+  // Filter rows belonging ONLY to logged-in TC/MPIN
+  const filteredRows = sheetRows.filter(row => String(row.TC) === String(currentMpin));
+
+  // Group by Tariff
+  const tariffMap = {};
+  let overallInstallations = 0;
+  let overallCB = 0;
+
+  filteredRows.forEach(row => {
+    const tariff = row.Tariff || "Other";
+    const closingBalance = parseFloat(row.CB) || 0;
+
+    if (!tariffMap[tariff]) {
+      tariffMap[tariff] = { count: 0, totalCB: 0 };
+    }
+
+    tariffMap[tariff].count += 1;
+    tariffMap[tariff].totalCB += closingBalance;
+
+    overallInstallations += 1;
+    overallCB += closingBalance;
   });
 
-  document.getElementById("totalInstallations").textContent = totalCount;
-  document.getElementById("totalBalanceAmt").textContent = `₹ ${totalBalance.toLocaleString('en-IN')}`;
+  // Render to Table
+  const tbody = document.getElementById("tariffTableBody");
+  tbody.innerHTML = "";
+
+  const tariffKeys = Object.keys(tariffMap);
+
+  if (tariffKeys.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#94a3b8; padding:16px;">No records found for TC ${currentMpin}</td></tr>`;
+  } else {
+    tariffKeys.forEach(tariff => {
+      const { count, totalCB } = tariffMap[tariff];
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><span class="tariff-tag">${tariff}</span></td>
+        <td class="count-text">${count}</td>
+        <td class="amt-text">₹ ${totalCB.toLocaleString('en-IN')}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  // Update Summary Totals
+  document.getElementById("totalInstallations").textContent = overallInstallations;
+  document.getElementById("totalBalanceAmt").textContent = `₹ ${overallCB.toLocaleString('en-IN')}`;
 }
 
-// Initialize Tariff Balance Container
-loadTcTariffBalance();
+// Execute Processor
+processMasterSheetData(null, mpin);
 
 function handleNavigation(event, targetUrl) {
   event.preventDefault();
