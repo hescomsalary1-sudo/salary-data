@@ -547,7 +547,9 @@ function renderConsumerList(list) {
     "RD",
     "SL",
     "POLENAME", "POLE_NAME", "POLE NAME",
-    "LMNAME", "LM_NAME", "LM NAME"
+    "LMNAME", "LM_NAME", "LM NAME",
+    "CB", "CLOSINGBALANCE", "CLOSING_BALANCE", "CLOSING BALANCE",
+    "TC", "TCNO", "TC_NO", "TC NO"
   ];
 
   list.forEach((item, index) => {
@@ -559,10 +561,10 @@ function renderConsumerList(list) {
 
     if (item.fullData && typeof item.fullData === "object") {
       Object.keys(item.fullData).forEach(key => {
-        // Clean the key string for comparison
+        // Clean key for robust comparison
         const cleanKey = key.trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
 
-        // Skip if key matches any excluded pattern
+        // Exclude listed fields
         if (excludedKeys.some(ex => ex.replace(/[^A-Z0-9]/g, "") === cleanKey)) {
           return;
         }
@@ -580,7 +582,7 @@ function renderConsumerList(list) {
       });
     }
 
-    // Fallback if no fullData properties remain or exist
+    // Fallback if no additional fields exist
     if (!gridHtml) {
       gridHtml = `
         <div class="grid-item full-width">
