@@ -221,25 +221,36 @@ input::placeholder {
   gap: 12px;
 }
 
-.consumer-summary-card {
+/* Consumer Card Wrapper */
+.consumer-card-wrapper {
   background: rgba(15, 23, 42, 0.75);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-left: 4px solid #f43f5e;
   border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.consumer-card-wrapper.expanded {
+  border-color: rgba(244, 63, 94, 0.4);
+  border-left-width: 4px;
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.consumer-summary-header {
   padding: 14px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   cursor: pointer;
-  transition: all 0.2s ease;
+  user-select: none;
 }
 
-.consumer-summary-card:active {
-  transform: scale(0.98);
-  background: rgba(30, 41, 59, 0.9);
+.consumer-summary-header:active {
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .card-left {
@@ -310,6 +321,59 @@ input::placeholder {
   justify-content: center;
   font-size: 0.75rem;
   color: #94a3b8;
+  transition: transform 0.25s ease;
+}
+
+.consumer-card-wrapper.expanded .arrow-icon {
+  transform: rotate(90deg);
+  background: rgba(244, 63, 94, 0.2);
+  color: #f43f5e;
+}
+
+/* In-Card Details Grid Section */
+.details-panel {
+  display: none;
+  padding: 14px 16px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+  background: rgba(2, 6, 23, 0.4);
+}
+
+.consumer-card-wrapper.expanded .details-panel {
+  display: block;
+  animation: fadeIn 0.25s ease forwards;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.grid-item {
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.grid-item.full-width {
+  grid-column: span 2;
+}
+
+.grid-item-label {
+  font-size: 0.65rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  margin-bottom: 2px;
+}
+
+.grid-item-value {
+  font-size: 0.82rem;
+  color: #f8fafc;
+  font-weight: 600;
+  word-break: break-word;
 }
 
 .empty-state {
@@ -320,97 +384,6 @@ input::placeholder {
   border-radius: 16px;
   border: 1px dashed rgba(255, 255, 255, 0.12);
   font-size: 0.85rem;
-}
-
-.modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(2, 6, 23, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  z-index: 200;
-  justify-content: center;
-  align-items: flex-end;
-}
-
-.modal-content {
-  background: rgba(15, 23, 42, 0.95);
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  width: 100%;
-  max-width: 520px;
-  max-height: 80vh;
-  display: flex;
-  flex-direction: column;
-  animation: slideUp 0.25s ease forwards;
-}
-
-.modal-header {
-  padding: 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.modal-title h3 {
-  font-size: 1rem;
-  color: #38bdf8;
-  font-weight: 700;
-}
-
-.modal-title p {
-  font-size: 0.75rem;
-  color: #94a3b8;
-}
-
-.btn-close-modal {
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  color: #f8fafc;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  font-size: 1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal-body {
-  padding: 16px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.detail-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
-  font-size: 0.82rem;
-  gap: 12px;
-}
-
-.detail-row:last-child {
-  border-bottom: none;
-}
-
-.detail-label {
-  color: #94a3b8;
-  font-weight: 500;
-}
-
-.detail-value {
-  color: #f8fafc;
-  font-weight: 600;
-  text-align: right;
-  word-break: break-word;
 }
 
 #loader-overlay {
@@ -443,7 +416,7 @@ input::placeholder {
 }
 
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes fadeInDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 </style>
@@ -496,19 +469,6 @@ input::placeholder {
   <div id="dataContainer" class="data-container"></div>
 </div>
 
-<div id="consumerModal" class="modal-overlay">
-  <div class="modal-content">
-    <div class="modal-header">
-      <div class="modal-title">
-        <h3 id="modalRR">RR No: --</h3>
-        <p id="modalName">Consumer Name</p>
-      </div>
-      <button class="btn-close-modal" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body" id="modalBody"></div>
-  </div>
-</div>
-
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbyCP_ACzGUE1JBL5UDgRMK0tbHvq489GpnNgQ-7HVzM3dTkc0cFG7j5kY9QqOJLMNbpXg/exec";
 
@@ -531,16 +491,13 @@ let currentConsumerList = [];
 function showLoader() { loaderOverlay.style.display = "flex"; }
 function hideLoader() { loaderOverlay.style.display = "none"; }
 
-// Immediate Load Handler
 window.onload = async function() {
   const cachedData = sessionStorage.getItem("cachedMpinArrears");
 
   if (cachedData) {
-    // 1. Instant display from background-preloaded cache
     currentConsumerList = JSON.parse(cachedData);
     updateUI(currentConsumerList);
   } else {
-    // 2. Fallback: Fast single-batch API call
     await fetchSingleBatchArrears();
   }
 };
@@ -579,33 +536,77 @@ function renderConsumerList(list) {
     return;
   }
 
-  // Fragment batch-DOM creation for fast rendering
   const fragment = document.createDocumentFragment();
 
   list.forEach((item, index) => {
-    const card = document.createElement("div");
-    card.className = "consumer-summary-card";
-    card.setAttribute("data-search", `${item.rrno} ${item.name} ${item.tc}`);
-    card.onclick = () => openModal(index);
+    const cardWrapper = document.createElement("div");
+    cardWrapper.className = "consumer-card-wrapper";
+    cardWrapper.setAttribute("data-search", `${item.rrno} ${item.name} ${item.tc}`);
 
-    card.innerHTML = `
-      <div class="card-left">
-        <div class="rr-badge">📄 ${item.rrno}</div>
-        <div class="tc-tag">TC: ${item.tc}</div>
-        <div class="consumer-name">${item.name}</div>
-      </div>
-      <div class="card-right">
-        <div class="cb-amount">
-          <span>Balance CB</span>
-          ₹ ${Math.round(item.cb).toLocaleString('en-IN')}
-        </div>
-        <div class="arrow-icon">➔</div>
+    // Build grid details items dynamically
+    let gridHtml = `
+      <div class="grid-item">
+        <div class="grid-item-label">TC Code</div>
+        <div class="grid-item-value" style="color: #10b981;">${item.tc}</div>
       </div>
     `;
-    fragment.appendChild(card);
+
+    Object.keys(item.fullData || {}).forEach(key => {
+      let val = item.fullData[key];
+      if (val === null || val === undefined || val === "") val = "-";
+      
+      const isFullWidth = key.length > 15 || String(val).length > 20;
+      gridHtml += `
+        <div class="grid-item ${isFullWidth ? 'full-width' : ''}">
+          <div class="grid-item-label">${key}</div>
+          <div class="grid-item-value">${val}</div>
+        </div>
+      `;
+    });
+
+    cardWrapper.innerHTML = `
+      <div class="consumer-summary-header" onclick="toggleCard(${index})">
+        <div class="card-left">
+          <div class="rr-badge">📄 ${item.rrno}</div>
+          <div class="tc-tag">TC: ${item.tc}</div>
+          <div class="consumer-name">${item.name}</div>
+        </div>
+        <div class="card-right">
+          <div class="cb-amount">
+            <span>Balance CB</span>
+            ₹ ${Math.round(item.cb).toLocaleString('en-IN')}
+          </div>
+          <div class="arrow-icon">➔</div>
+        </div>
+      </div>
+      <div class="details-panel" id="details-${index}">
+        <div class="details-grid">
+          ${gridHtml}
+        </div>
+      </div>
+    `;
+
+    fragment.appendChild(cardWrapper);
   });
 
   dataContainer.appendChild(fragment);
+}
+
+function toggleCard(index) {
+  const allCards = document.querySelectorAll('.consumer-card-wrapper');
+  const targetCard = allCards[index];
+
+  if (!targetCard) return;
+
+  const isCurrentlyExpanded = targetCard.classList.contains('expanded');
+
+  // Collapse all other expanded cards to maintain clean UI
+  allCards.forEach(c => c.classList.remove('expanded'));
+
+  // Toggle current card
+  if (!isCurrentlyExpanded) {
+    targetCard.classList.add('expanded');
+  }
 }
 
 function showEmptyState(msg) {
@@ -616,51 +617,13 @@ function showEmptyState(msg) {
     </div>`;
 }
 
-function openModal(index) {
-  const item = currentConsumerList[index];
-  if (!item) return;
-
-  document.getElementById("modalRR").textContent = `RR No: ${item.rrno}`;
-  document.getElementById("modalName").textContent = item.name;
-
-  const modalBody = document.getElementById("modalBody");
-  modalBody.innerHTML = "";
-
-  const tcRow = document.createElement("div");
-  tcRow.className = "detail-row";
-  tcRow.innerHTML = `
-    <span class="detail-label">TC Name/Code</span>
-    <span class="detail-value" style="color: #10b981;">${item.tc}</span>
-  `;
-  modalBody.appendChild(tcRow);
-
-  Object.keys(item.fullData || {}).forEach(key => {
-    let val = item.fullData[key];
-    if (val === null || val === undefined || val === "") val = "-";
-
-    const row = document.createElement("div");
-    row.className = "detail-row";
-    row.innerHTML = `
-      <span class="detail-label">${key}</span>
-      <span class="detail-value">${val}</span>
-    `;
-    modalBody.appendChild(row);
-  });
-
-  document.getElementById("consumerModal").style.display = "flex";
-}
-
-function closeModal() {
-  document.getElementById("consumerModal").style.display = "none";
-}
-
 searchBox.onkeyup = function () {
   const term = this.value.toUpperCase().trim();
-  const cards = document.querySelectorAll(".consumer-summary-card");
+  const cards = document.querySelectorAll(".consumer-card-wrapper");
 
   cards.forEach(card => {
     const text = card.getAttribute("data-search").toUpperCase();
-    card.style.display = text.includes(term) ? "flex" : "none";
+    card.style.display = text.includes(term) ? "block" : "none";
   });
 };
 
