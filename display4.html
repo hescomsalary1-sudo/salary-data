@@ -437,6 +437,11 @@ input[type="text"]::placeholder {
   padding: 8px 10px;
 }
 
+.grid-item.highlight-ob {
+  background: rgba(244, 63, 94, 0.1);
+  border-color: rgba(244, 63, 94, 0.25);
+}
+
 .grid-item.full-width {
   grid-column: span 2;
 }
@@ -572,7 +577,7 @@ let currentConsumerList = [];
 function showLoader() { loaderOverlay.style.display = "flex"; }
 function hideLoader() { loaderOverlay.style.display = "none"; }
 
-// Helper function to extract Opening Balance (OB) safely across common key variations
+// Helper function to extract Opening Balance (OB)
 function getOBValue(item) {
   if (item.ob !== undefined && item.ob !== null) return Number(item.ob) || 0;
   if (item.fullData && typeof item.fullData === "object") {
@@ -581,6 +586,19 @@ function getOBValue(item) {
       return clean === "OB" || clean === "OPENINGBALANCE" || clean === "OPENING_BALANCE";
     });
     if (obKey) return Number(String(item.fullData[obKey]).replace(/,/g, '')) || 0;
+  }
+  return 0;
+}
+
+// Helper function to extract Closing Balance (CB)
+function getCBValue(item) {
+  if (item.cb !== undefined && item.cb !== null) return Number(item.cb) || 0;
+  if (item.fullData && typeof item.fullData === "object") {
+    const cbKey = Object.keys(item.fullData).find(k => {
+      const clean = k.trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
+      return clean === "CB" || clean === "CLOSINGBALANCE" || clean === "CLOSING_BALANCE" || clean === "BALANCE";
+    });
+    if (cbKey) return Number(String(item.fullData[cbKey]).replace(/,/g, '')) || 0;
   }
   return 0;
 }
@@ -603,7 +621,7 @@ async function fetchSingleBatchArrears() {
     const data = await res.json();
 
     if (data.status === "success" && Array.isArray(data.arrears)) {
-      // Filter for consumers with Opening Balance (OB) > 1
+      // Filter list for Opening Balance (OB) > 1
       currentConsumerList = data.arrears.filter(item => getOBValue(item) > 1);
       sessionStorage.setItem("cachedMpinArrearsOB1", JSON.stringify(currentConsumerList));
       updateUI(currentConsumerList);
@@ -658,12 +676,14 @@ function renderConsumerList(list) {
     "SL",
     "POLENAME", "POLE_NAME", "POLE NAME",
     "LMNAME", "LM_NAME", "LM NAME",
+    "CB", "CLOSINGBALANCE", "CLOSING_BALANCE", "CLOSING BALANCE", "BALANCE",
     "OB", "OPENINGBALANCE", "OPENING_BALANCE", "OPENING BALANCE",
     "TC", "TCNO", "TC_NO", "TC NO"
   ];
 
   list.forEach((item, index) => {
     const isAttended = getAttendedStatus(item.rrno);
+    const cbVal = getCBValue(item);
     const obVal = getOBValue(item);
 
     const cardWrapper = document.createElement("div");
@@ -671,7 +691,12 @@ function renderConsumerList(list) {
     cardWrapper.id = `card-wrapper-${index}`;
     cardWrapper.setAttribute("data-search", `${item.rrno || ''} ${item.name || ''} ${item.tc || ''}`);
 
-    let gridHtml = "";
+    let gridHtml = `
+      <div class="grid-item highlight-ob">
+        <div class="grid-item-label">Opening Balance (OB)</div>
+        <div class="grid-item-value" style="color: #f43f5e;">₹ ${obVal ? Math.round(obVal).toLocaleString('en-IN') : '0'}</div>
+      </div>
+    `;
 
     if (item.fullData && typeof item.fullData === "object") {
       Object.keys(item.fullData).forEach(key => {
@@ -694,15 +719,6 @@ function renderConsumerList(list) {
       });
     }
 
-    if (!gridHtml) {
-      gridHtml = `
-        <div class="grid-item full-width">
-          <div class="grid-item-label">Status</div>
-          <div class="grid-item-value">No additional details</div>
-        </div>
-      `;
-    }
-
     cardWrapper.innerHTML = `
       <div class="consumer-summary-header" onclick="toggleCard(event, ${index})">
         <div class="card-left">
@@ -712,8 +728,8 @@ function renderConsumerList(list) {
         </div>
         <div class="card-right">
           <div class="cb-amount">
-            <span>OB Amount</span>
-            ₹ ${obVal ? Math.round(obVal).toLocaleString('en-IN') : '0'}
+            <span>CB Amount</span>
+            ₹ ${cbVal ? Math.round(cbVal).toLocaleString('en-IN') : '0'}
           </div>
           <div class="attended-box" onclick="event.stopPropagation()">
             <input type="checkbox" id="chk-${index}" ${isAttended ? 'checked' : ''} onchange="toggleAttended('${item.rrno}', ${index}, this.checked)">
@@ -748,7 +764,6 @@ function toggleAttended(rrno, index, isChecked) {
 }
 
 function toggleCard(event, index) {
-  // Prevent card toggling when clicking directly on the checkbox/label
   if (event.target.closest('.attended-box')) return;
 
   const allCards = document.querySelectorAll('.consumer-card-wrapper');
