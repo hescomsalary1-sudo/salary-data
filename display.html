@@ -48,19 +48,25 @@ body {
   font-weight: 600;
 }
 
-.btn-logout {
+.nav-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-nav {
   background: rgba(255, 255, 255, 0.15);
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  padding: 8px 16px;
+  padding: 8px 14px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.85rem;
   font-weight: 600;
   transition: all 0.2s ease;
+  text-decoration: none;
 }
 
-.btn-logout:hover {
+.btn-nav:hover {
   background: rgba(255, 255, 255, 0.3);
 }
 
@@ -256,7 +262,10 @@ select:focus, input:focus {
 <!-- Header -->
 <div class="navbar">
   <h2>LM Consumer Details</h2>
-  <button class="btn-logout" onclick="logout()">Logout</button>
+  <div class="nav-buttons">
+    <a href="menu2.html" class="btn-nav">Menu</a>
+    <button class="btn-nav" onclick="logout()">Logout</button>
+  </div>
 </div>
 
 <div class="container">
@@ -310,7 +319,7 @@ const tcList = JSON.parse(sessionStorage.getItem("tcList") || "[]");
 
 if (!lmName) { 
   alert("Session expired. Please log in again."); 
-  location.href = "login.html"; 
+  location.href = "login2.html"; 
 }
 
 document.getElementById("lmName").textContent = lmName;
@@ -458,7 +467,7 @@ searchBox.onkeyup = function () {
 
 function logout() {
   sessionStorage.clear();
-  location.href = "login.html";
+  location.href = "login2.html";
 }
 </script>
 </body>
