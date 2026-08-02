@@ -307,7 +307,7 @@ body {
   padding: 4px 8px;
   border-radius: 20px;
   font-weight: 600;
-  max-width: 150px;
+  max-width: 160px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -345,6 +345,8 @@ body {
 }
 
 .tariff-table-wrapper {
+  max-height: 280px;
+  overflow-y: auto;
   overflow-x: auto;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.06);
@@ -358,7 +360,11 @@ body {
 }
 
 .tariff-table th {
-  background: rgba(30, 41, 59, 0.8);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: rgba(30, 41, 59, 0.95);
+  backdrop-filter: blur(8px);
   color: #38bdf8;
   font-weight: 600;
   padding: 10px 12px;
@@ -590,14 +596,14 @@ body {
 </div>
 
 <script>
-// Retrieve session values
+// 1. Retrieve session values
 const lmName = sessionStorage.getItem("lmName") || "Lineman";
 const currentMpin = String(sessionStorage.getItem("mpin") || sessionStorage.getItem("tcCode") || "1234").trim();
 
 document.getElementById("lmNameDisplay").textContent = lmName;
 
 /**
- * 1. M-PIN to TC Allocation Mapping Matrix
+ * 2. M-PIN to TC Allocation Mapping Matrix
  * Maps M-PINs to single or multiple allocated Transformer Codes (TCs).
  */
 const mpinTcMapping = {
@@ -607,22 +613,26 @@ const mpinTcMapping = {
 };
 
 /**
- * 2. Fallback Master Sheet Dataset matching your exact column structure:
- * [SlNo, RR No, Cust Name, Address, Mobile No, Tariff, Area Name, RD, SL, OB, Demand, Interest, Coll, Adj Amount, CB, TC, Pole Name, LM Name]
+ * 3. Expanded Fallback Master Sheet Dataset covering diverse HESCOM Tariffs:
+ * LT-1, LT-2A, LT-2B, LT-3, LT-4, LT-5, LT-6, LT-7, BJ/KJ
  */
 const fallbackMasterSheet = [
   { SlNo: 1, RRNo: "SDP-01", CustName: "Ramesh Naik", Tariff: "LT-2A", CB: 4500, TC: "1234" },
-  { SlNo: 2, RRNo: "SDP-02", CustName: "Ganesh Hegde", Tariff: "LT-2A", CB: 2300, TC: "1234" },
-  { SlNo: 3, RRNo: "SDP-03", CustName: "Suresh Bhat", Tariff: "LT-3", CB: 15400, TC: "1234" },
+  { SlNo: 2, RRNo: "SDP-02", CustName: "Ganesh Hegde", Tariff: "LT-2A(i)", CB: 2300, TC: "1234" },
+  { SlNo: 3, RRNo: "SDP-03", CustName: "Suresh Bhat", Tariff: "LT-3A", CB: 15400, TC: "1234" },
   { SlNo: 4, RRNo: "SDP-04", CustName: "Kavita Rao", Tariff: "LT-5", CB: 28900, TC: "1234" },
   { SlNo: 5, RRNo: "SDP-05", CustName: "Narayana P", Tariff: "BJ/KJ", CB: 1200, TC: "1234" },
-  { SlNo: 6, RRNo: "SDP-06", CustName: "Manjunath S", Tariff: "LT-2A", CB: 3100, TC: "101" },
-  { SlNo: 7, RRNo: "SDP-07", CustName: "Anand Kumar", Tariff: "LT-3", CB: 8200, TC: "102" },
-  { SlNo: 8, RRNo: "SDP-08", CustName: "Mahabaleshwar", Tariff: "LT-5", CB: 12500, TC: "TC-1234" }
+  { SlNo: 6, RRNo: "SDP-06", CustName: "Manjunath S", Tariff: "LT-1", CB: 850, TC: "1234" },
+  { SlNo: 7, RRNo: "SDP-07", CustName: "Anand Kumar", Tariff: "LT-2B", CB: 6200, TC: "1234" },
+  { SlNo: 8, RRNo: "SDP-08", CustName: "Mahabaleshwar", Tariff: "LT-6", CB: 11400, TC: "1234" },
+  { SlNo: 9, RRNo: "SDP-09", CustName: "Sharada Rice Mill", Tariff: "LT-5B", CB: 43000, TC: "1234" },
+  { SlNo: 10, RRNo: "SDP-10", CustName: "Gram Panchayat Streetlight", Tariff: "LT-7", CB: 18500, TC: "1234" },
+  { SlNo: 11, RRNo: "SDP-11", CustName: "Prakash Agro", Tariff: "LT-4", CB: 3100, TC: "101" },
+  { SlNo: 12, RRNo: "SDP-12", CustName: "Subraya", Tariff: "LT-2A", CB: 1900, TC: "102" }
 ];
 
 /**
- * Helper: Normalizes strings by removing spaces and leading zeros for robust matching
+ * Normalizes strings by removing extra spaces and leading zeros for robust matching
  */
 function normalizeString(val) {
   if (val === null || val === undefined) return "";
@@ -630,24 +640,33 @@ function normalizeString(val) {
 }
 
 /**
- * Processes Master Sheet data and calculates Tariff-wise CB for allocated TCs.
+ * Normalizes Tariff names (e.g. cleans up extra spaces, uppercase conversion)
+ */
+function cleanTariffName(tariffRaw) {
+  if (!tariffRaw) return "UNSPECIFIED";
+  let t = String(tariffRaw).trim().toUpperCase();
+  // Standardize common naming variations
+  t = t.replace(/\s+/g, ' ');
+  return t;
+}
+
+/**
+ * Reads Master Sheet, matches TCs linked to M-PIN, and dynamically aggregates all Tariffs
  */
 function processMasterSheetData() {
   // Determine allocated TCs for the logged-in M-PIN
   let allocatedTCs = mpinTcMapping[currentMpin];
   
   if (!allocatedTCs || allocatedTCs.length === 0) {
-    // If M-PIN is directly used as TC code
     allocatedTCs = [currentMpin];
   }
 
-  // Display allocated TCs in UI
+  // Display allocated TCs in UI Header
   document.getElementById("tcCodeDisplay").textContent = `TC: ${allocatedTCs.slice(0, 2).join(",")}${allocatedTCs.length > 2 ? '...' : ''}`;
 
-  // Normalized list of allocated TCs
   const normalizedAllocatedTCs = allocatedTCs.map(tc => normalizeString(tc));
 
-  // Retrieve master data from Session or Fallback
+  // Retrieve Master Data from Session Storage or Fallback
   let sheetRows = [];
   try {
     const sessionData = sessionStorage.getItem("masterSheetData");
@@ -655,7 +674,7 @@ function processMasterSheetData() {
       sheetRows = JSON.parse(sessionData);
     }
   } catch (e) {
-    console.warn("Could not parse sessionStorage masterSheetData, using fallback.", e);
+    console.warn("Could not parse sessionStorage masterSheetData, falling back to local dataset.", e);
   }
 
   if (!sheetRows || sheetRows.length === 0) {
@@ -668,16 +687,16 @@ function processMasterSheetData() {
     return normalizedAllocatedTCs.includes(rowTC);
   });
 
-  // Aggregate Closing Balance (CB) grouped by Tariff
+  // Dynamic Aggregation Map for ALL Tariffs
   const tariffMap = {};
   let overallInstallations = 0;
   let overallCB = 0;
 
   filteredRows.forEach(row => {
-    // Get Tariff name or assign default
-    const tariff = (row.Tariff || "OTHERS").toString().trim();
+    // Read & Clean Tariff Name
+    const tariff = cleanTariffName(row.Tariff);
     
-    // Parse Closing Balance safely
+    // Parse Closing Balance safely (handles commas, nulls, negative numbers)
     const rawCB = String(row.CB || 0).replace(/,/g, '');
     const closingBalance = parseFloat(rawCB) || 0;
 
@@ -701,6 +720,7 @@ function processMasterSheetData() {
   if (tariffKeys.length === 0) {
     tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#94a3b8; padding:16px;">No records found for allocated TCs (${allocatedTCs.join(", ")})</td></tr>`;
   } else {
+    // Sort Tariffs alphabetically for clean display
     tariffKeys.sort().forEach(tariff => {
       const { count, totalCB } = tariffMap[tariff];
       const tr = document.createElement("tr");
@@ -713,12 +733,12 @@ function processMasterSheetData() {
     });
   }
 
-  // Render Summary Cards
+  // Render Overall Totals
   document.getElementById("totalInstallations").textContent = overallInstallations.toLocaleString('en-IN');
   document.getElementById("totalBalanceAmt").textContent = `₹ ${Math.round(overallCB).toLocaleString('en-IN')}`;
 }
 
-// Run Calculation Engine on Load
+// Execute Processor
 processMasterSheetData();
 
 function handleNavigation(event, targetUrl) {
