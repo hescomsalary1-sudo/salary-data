@@ -613,11 +613,12 @@ body {
 </div>
 
 <script>
-// Google Sheets Configuration
+// 1. Google Sheets Configuration
 const GOOGLE_SHEET_ID = "1irEWggFO5v9xn_ekeUNtgXI6JAHMK4E5PsKiJN3pgcc";
-const GOOGLE_SHEET_NAME = "master";
+const MASTER_SHEET_NAME = "master"; // ⚠️ MUST MATCH exact tab name case in Google Sheets (e.g., "Master" or "master")
+const LOGIN_SHEET_NAME = "login";
 
-// User Session
+// 2. User Session Retrieval
 const lmName = sessionStorage.getItem("lmName");
 const currentMpin = String(sessionStorage.getItem("mpin") || sessionStorage.getItem("tcCode") || "").trim();
 
@@ -628,23 +629,19 @@ if (!lmName) {
   document.getElementById("lmNameDisplay").textContent = lmName;
 }
 
-// M-PIN to TC Allocation Matrix
-const mpinTcMapping = {
-  "1234": ["1234", "TC-1234", "101", "102"],
-  "1001": ["1001", "501", "502"],
-  "1002": ["1002", "601"]
-};
-
-function normalizeString(val) {
+// Helper: Normalize strings for strict vs fuzzy comparison
+function normalizeStr(val) {
   if (val === null || val === undefined) return "";
-  return String(val).trim().toUpperCase().replace(/^0+/, '');
+  return String(val).trim().toUpperCase();
 }
 
+// Helper: Remove extra spaces in Tariff names
 function cleanTariffName(tariffRaw) {
   if (!tariffRaw) return "UNSPECIFIED";
   return String(tariffRaw).trim().toUpperCase().replace(/\s+/g, ' ');
 }
 
+// Helper: Robust CSV Parser handling quotes and commas
 function parseCSV(csvText) {
   const lines = csvText.split(/\r\n|\n/);
   if (lines.length === 0) return [];
@@ -654,12 +651,12 @@ function parseCSV(csvText) {
     let match;
     const re = /(?:\"([^\"]*)\")|([^,]+)/g;
     while ((match = re.exec(rowStr)) !== null) {
-      matches.push(match[1] || match[2] || "");
+      matches.push((match[1] || match[2] || "").trim());
     }
     return matches;
   };
 
-  const headers = parseRow(lines[0]).map(h => h.trim());
+  const headers = parseRow(lines[0]);
   const result = [];
 
   for (let i = 1; i < lines.length; i++) {
@@ -667,34 +664,29 @@ function parseCSV(csvText) {
     const row = parseRow(lines[i]);
     const obj = {};
     headers.forEach((header, index) => {
-      obj[header] = row[index] !== undefined ? row[index].trim() : "";
+      obj[header] = row[index] !== undefined ? row[index] : "";
     });
     result.push(obj);
   }
   return result;
 }
 
-async function fetchMasterSheetFromGoogle() {
-  const csvUrl = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(GOOGLE_SHEET_NAME)}`;
+// Fetch a specific sheet tab by name from Google Sheets
+async function fetchSheetByName(sheetName) {
+  const csvUrl = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
   
   try {
     const response = await fetch(csvUrl);
-    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    if (!response.ok) throw new Error(`HTTP ${response.status} when fetching sheet: ${sheetName}`);
     const csvData = await response.text();
-    const parsedData = parseCSV(csvData);
-    
-    if (parsedData && parsedData.length > 0) {
-      sessionStorage.setItem("masterSheetData", JSON.stringify(parsedData));
-    }
-    return parsedData;
+    return parseCSV(csvData);
   } catch (error) {
-    console.error("Failed to fetch Google Sheet data:", error);
-    const cached = sessionStorage.getItem("masterSheetData");
-    if (cached) return JSON.parse(cached);
+    console.error(`Error fetching sheet [${sheetName}]:`, error);
     return [];
   }
 }
 
+// Flexible Field Getter (handles minor column name differences)
 function getFieldValue(row, possibleNames) {
   for (let name of possibleNames) {
     if (row[name] !== undefined) return row[name];
@@ -708,24 +700,44 @@ function getFieldValue(row, possibleNames) {
   return "";
 }
 
+// Main Function: Cross-references Login & Master sheets
 async function loadAndProcessTariffData() {
   const loader = document.getElementById("page-loader");
   const loaderText = document.getElementById("loaderText");
   
   loader.style.display = "flex";
-  loaderText.textContent = "Fetching Google Sheet Master Data...";
+  loaderText.textContent = "Loading Master Data...";
 
-  let allocatedTCs = mpinTcMapping[currentMpin] || [currentMpin];
-  document.getElementById("tcCodeDisplay").textContent = `TC: ${allocatedTCs.slice(0, 2).join(",")}${allocatedTCs.length > 2 ? '...' : ''}`;
+  // Step A: Fetch Login Sheet to find matching TCs for the current M-PIN
+  const loginRows = await fetchSheetByName(LOGIN_SHEET_NAME);
   
-  const normalizedAllocatedTCs = allocatedTCs.map(tc => normalizeString(tc));
-  const masterRows = await fetchMasterSheetFromGoogle();
+  let targetTCs = [];
 
-  const filteredRows = masterRows.filter(row => {
-    const rowTC = normalizeString(getFieldValue(row, ["TC", "TC Code", "TC_Code"]));
-    return normalizedAllocatedTCs.includes(rowTC);
+  loginRows.forEach(row => {
+    const mpinVal = normalizeStr(getFieldValue(row, ["MPIN", "M PIN", "M_PIN", "PIN", "M-PIN"]));
+    const tcVal = normalizeStr(getFieldValue(row, ["TC", "TC CODE", "TC_CODE", "TC NO"]));
+
+    if (mpinVal === normalizeStr(currentMpin) && tcVal) {
+      targetTCs.push(tcVal);
+    }
   });
 
+  // Fallback: If login sheet fetch fails or doesn't match, use current MPIN as TC
+  if (targetTCs.length === 0 && currentMpin) {
+    targetTCs.push(normalizeStr(currentMpin));
+  }
+
+  document.getElementById("tcCodeDisplay").textContent = `TC: ${targetTCs.join(", ")}`;
+
+  // Step B: Fetch Master Sheet and filter by found TCs
+  const masterRows = await fetchSheetByName(MASTER_SHEET_NAME);
+
+  const filteredRows = masterRows.filter(row => {
+    const rowTC = normalizeStr(getFieldValue(row, ["TC", "TC CODE", "TC_CODE", "TC NO"]));
+    return targetTCs.some(tc => tc === rowTC);
+  });
+
+  // Step C: Aggregate Tariff Wise Balances
   const tariffMap = {};
   let totalInstallationsCount = 0;
   let totalClosingBalanceAmt = 0;
@@ -733,7 +745,7 @@ async function loadAndProcessTariffData() {
   filteredRows.forEach(row => {
     const rawTariff = getFieldValue(row, ["Tariff", "TARIFF", "Tariff Name"]);
     const tariff = cleanTariffName(rawTariff);
-    const rawCB = String(getFieldValue(row, ["CB", "Closing Balance", "CB Amount"])).replace(/,/g, '');
+    const rawCB = String(getFieldValue(row, ["CB", "Closing Balance", "CB Amount", "BALANCE"])).replace(/,/g, '');
     const closingBalance = parseFloat(rawCB) || 0;
 
     if (!tariffMap[tariff]) {
@@ -746,13 +758,14 @@ async function loadAndProcessTariffData() {
     totalClosingBalanceAmt += closingBalance;
   });
 
+  // Step D: Render to Table
   const tbody = document.getElementById("tariffTableBody");
   tbody.innerHTML = "";
 
   const tariffKeys = Object.keys(tariffMap);
 
   if (tariffKeys.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#94a3b8; padding:16px;">No records found for TC (${allocatedTCs.join(", ")})</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#94a3b8; padding:16px;">No records found for TC (${targetTCs.join(", ")})</td></tr>`;
   } else {
     tariffKeys.sort().forEach(tariff => {
       const { count, totalCB } = tariffMap[tariff];
