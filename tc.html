@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>TC Wise Balance - HESCOM Siddapur</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Noto Sans Kannada', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  /* Dynamic Multi-Layered Dark Background */
+  background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0f172a 50%, #020617 100%);
+  min-height: 100vh;
+  color: #f8fafc;
+  padding-bottom: 30px;
+  position: relative;
+}
+
+/* Ambient Background Accent Spheres */
+.bg-glow-1 {
+  position: absolute;
+  top: -100px;
+  right: -50px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, rgba(0,0,0,0) 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-glow-2 {
+  position: absolute;
+  bottom: 0;
+  left: -80px;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.2) 0%, rgba(0,0,0,0) 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Header Navbar */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  width: 100%;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-badge {
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, #4f46e5, #0284c7);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+
+.brand-text h2 {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #f8fafc;
+  line-height: 1.2;
+}
+
+.brand-text p {
+  font-size: 0.7rem;
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-nav {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-nav:active {
+  transform: scale(0.95);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.btn-logout {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Main Container */
+.container {
+  width: 100%;
+  max-width: 600px;
+  margin: 16px auto 0 auto;
+  padding: 0 14px;
+  position: relative;
+  z-index: 10;
+}
+
+/* Metric Stats Cards */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+  animation: fadeInDown 0.4s ease forwards;
+}
+
+.metric-card {
+  background: linear-gradient(135deg, rgba(30, 27, 75, 0.6), rgba(15, 23, 42, 0.8));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 14px 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+.metric-card label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  color: #94a3b8;
+  letter-spacing: 0.8px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.metric-card span {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #38bdf8;
+  text-shadow: 0 2px 8px rgba(56, 189, 248, 0.3);
+}
+
+.metric-card.balance span {
+  color: #34d399;
+  text-shadow: 0 2px 8px rgba(52, 211, 153, 0.3);
+}
+
+/* Search Box */
+.search-card {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 16px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+input {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 0.88rem;
+  color: #f8fafc;
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+input:focus {
+  border-color: #38bdf8;
+  background: rgba(30, 41, 59, 0.95);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+}
+
+input::placeholder {
+  color: #64748b;
+}
+
+/* Styled Data Table Container */
+.table-container {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 16px;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.custom-table th {
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.3), rgba(56, 189, 248, 0.2));
+  color: #38bdf8;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.custom-table th:nth-child(2), 
+.custom-table th:nth-child(3) {
+  text-align: right;
+}
+
+.custom-table td {
+  padding: 12px 14px;
+  font-size: 0.83rem;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+}
+
+.custom-table tr:last-child td {
+  border-bottom: none;
+}
+
+.custom-table tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.tc-name {
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.tc-count {
+  text-align: right;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.tc-balance {
+  text-align: right;
+  font-weight: 700;
+  color: #34d399;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 36px 20px;
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+.empty-state-icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+  opacity: 0.7;
+}
+
+/* Spinner Overlay */
+#loader-overlay {
+  display: flex;
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 1000;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner-container {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 12px;
+}
+
+.spinner-outer {
+  width: 100%;
+  height: 100%;
+  border: 3px solid rgba(56, 189, 248, 0.2);
+  border-top-color: #38bdf8;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.spinner-inner {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-bottom-color: #818cf8;
+  border-radius: 50%;
+  animation: spin-reverse 0.5s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+#loader-text {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #38bdf8;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-glow-1"></div>
+<div class="bg-glow-2"></div>
+
+<!-- Fullscreen Spinner Overlay -->
+<div id="loader-overlay">
+  <div class="spinner-container">
+    <div class="spinner-outer"></div>
+    <div class="spinner-inner"></div>
+  </div>
+  <div id="loader-text">Loading TC Balance Data...</div>
+</div>
+
+<!-- Header Navbar -->
+<div class="navbar">
+  <div class="nav-brand">
+    <div class="brand-badge">📊</div>
+    <div class="brand-text">
+      <h2>TC Wise Balance</h2>
+      <p id="lmNameDisplay">HESCOM Siddapur</p>
+    </div>
+  </div>
+  <div class="nav-buttons">
+    <a href="display.html" class="btn-nav">Back</a>
+    <button class="btn-nav btn-logout" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Summary Metric Banner -->
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <label>Total TCs</label>
+      <span id="totalTcCount">0</span>
+    </div>
+    <div class="metric-card balance">
+      <label>Total Balance (CB)</label>
+      <span id="totalBalanceAmount">₹ 0</span>
+    </div>
+  </div>
+
+  <!-- Search Filter -->
+  <div class="search-card">
+    <input type="text" id="searchBox" placeholder="Search TC Name...">
+  </div>
+
+  <!-- TC Balance Container Table -->
+  <div class="table-container">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>TC Name</th>
+          <th>No. of Inst.</th>
+          <th>Balance (CB)</th>
+        </tr>
+      </thead>
+      <tbody id="tcTableBody">
+        <tr>
+          <td colspan="3">
+            <div class="empty-state">
+              <div class="empty-state-icon">⌛</div>
+              <div>Fetching TC balance data...</div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbyCP_ACzGUE1JBL5UDgRMK0tbHvq489GpnNgQ-7HVzM3dTkc0cFG7j5kY9QqOJLMNbpXg/exec";
+
+const lmName = sessionStorage.getItem("lmName");
+
+if (!lmName) { 
+  alert("Session expired. Please log in again."); 
+  location.href = "login2.html"; 
+}
+
+document.getElementById("lmNameDisplay").textContent = lmName + " - HESCOM";
+
+const tcTableBody = document.getElementById("tcTableBody");
+const totalTcCount = document.getElementById("totalTcCount");
+const totalBalanceAmount = document.getElementById("totalBalanceAmount");
+const searchBox = document.getElementById("searchBox");
+const loaderOverlay = document.getElementById("loader-overlay");
+
+function showLoader(msg = "Loading...") {
+  document.getElementById("loader-text").textContent = msg;
+  loaderOverlay.style.display = "flex";
+}
+
+function hideLoader() {
+  loaderOverlay.style.display = "none";
+}
+
+// Fetch TC Balance Summary on Page Load
+function loadTcBalanceData() {
+  showLoader("Loading TC Wise Balance...");
+
+  fetch(`${API_URL}?action=tcBalance&lmName=${encodeURIComponent(lmName)}`)
+    .then(res => res.json())
+    .then(data => {
+      hideLoader();
+
+      if (data.status !== "success") {
+        alert("Error: " + (data.message || "Failed to load data"));
+        showEmptyState("No TC balance data found.");
+        return;
+      }
+
+      if (!data.tcSummary || data.tcSummary.length === 0) {
+        showEmptyState("No TC balance record available.");
+        return;
+      }
+
+      renderTable(data.tcSummary);
+    })
+    .catch(err => {
+      hideLoader();
+      console.error(err);
+      showEmptyState("Unable to connect to server.");
+    });
+}
+
+// Render Data Table and Calculate Totals
+function renderTable(tcSummaryList) {
+  tcTableBody.innerHTML = "";
+
+  let overallBalance = 0;
+
+  tcSummaryList.forEach(item => {
+    const row = document.createElement("tr");
+    row.className = "tc-row";
+
+    const tcName = item.tcName || item["TC Name"] || item["TC"] || "-";
+    const installations = item.installations || item["No. of Installation"] || item["Installations"] || 0;
+    const rawBalance = item.balance || item["Balance"] || item["CB"] || 0;
+    
+    const balanceNum = parseFloat(rawBalance) || 0;
+    overallBalance += balanceNum;
+
+    row.innerHTML = `
+      <td class="tc-name">${tcName}</td>
+      <td class="tc-count">${installations.toLocaleString('en-IN')}</td>
+      <td class="tc-balance">₹ ${balanceNum.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+    `;
+
+    tcTableBody.appendChild(row);
+  });
+
+  // Update Summary Metrics
+  totalTcCount.textContent = tcSummaryList.length.toLocaleString('en-IN');
+  totalBalanceAmount.textContent = `₹ ${overallBalance.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+function showEmptyState(msg) {
+  tcTableBody.innerHTML = `
+    <tr>
+      <td colspan="3">
+        <div class="empty-state">
+          <div class="empty-state-icon">📋</div>
+          <div>${msg}</div>
+        </div>
+      </td>
+    </tr>
+  `;
+}
+
+// Dynamic Client-Side Search Box Filter
+searchBox.onkeyup = function () {
+  const term = this.value.toUpperCase().trim();
+  const rows = document.querySelectorAll(".tc-row");
+
+  rows.forEach(row => {
+    const text = row.innerText.toUpperCase();
+    row.style.display = text.includes(term) ? "" : "none";
+  });
+};
+
+function logout() {
+  showLoader("Logging out...");
+  setTimeout(() => {
+    sessionStorage.clear();
+    location.href = "login2.html";
+  }, 250);
+}
+
+// Initialize fetch when DOM is fully loaded
+document.addEventListener("DOMContentLoaded", loadTcBalanceData);
+</script>
+</body>
+</html>
