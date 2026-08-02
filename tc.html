@@ -397,7 +397,7 @@ input::placeholder {
     </div>
   </div>
   <div class="nav-buttons">
-    <a href="display.html" class="btn-nav">Back</a>
+    <a href="menu2.html" class="btn-nav">Back</a>
     <button class="btn-nav btn-logout" onclick="logout()">Logout</button>
   </div>
 </div>
@@ -585,6 +585,7 @@ async function loadAndProcessTcBalance() {
 
       if (!tcSummaryMap[rowTC]) {
         tcSummaryMap[rowTC] = {
+          tcName: rowTC,
           installations: 0,
           totalCB: 0
         };
@@ -598,25 +599,25 @@ async function loadAndProcessTcBalance() {
     }
   });
 
-  // Step D: Render Aggregated TC Rows
-  tcTableBody.innerHTML = "";
-  const sortedTCs = Object.keys(tcSummaryMap).sort();
+  // Step D: Sort TCs from highest to lowest totalCB
+  const sortedTCList = Object.values(tcSummaryMap).sort((a, b) => b.totalCB - a.totalCB);
 
-  if (sortedTCs.length === 0) {
+  tcTableBody.innerHTML = "";
+
+  if (sortedTCList.length === 0) {
     showEmptyState(`No TC records found for your logged-in account.`);
     hideLoader();
     return;
   }
 
-  sortedTCs.forEach(tcName => {
-    const { installations, totalCB } = tcSummaryMap[tcName];
+  sortedTCList.forEach(item => {
     const tr = document.createElement("tr");
     tr.className = "tc-row";
 
     tr.innerHTML = `
-      <td><span class="tc-badge-name">${tcName}</span></td>
-      <td class="inst-count">${installations.toLocaleString('en-IN')}</td>
-      <td class="balance-amt">₹ ${Math.round(totalCB).toLocaleString('en-IN')}</td>
+      <td><span class="tc-badge-name">${item.tcName}</span></td>
+      <td class="inst-count">${item.installations.toLocaleString('en-IN')}</td>
+      <td class="balance-amt">₹ ${Math.round(item.totalCB).toLocaleString('en-IN')}</td>
     `;
     tcTableBody.appendChild(tr);
   });
