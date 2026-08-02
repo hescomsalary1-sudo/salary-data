@@ -21,6 +21,7 @@ html, body {
 }
 
 body {
+  /* Dynamic Multi-Layered Dark Background */
   background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0f172a 50%, #020617 100%);
   min-height: 100vh;
   color: #f8fafc;
@@ -28,6 +29,7 @@ body {
   position: relative;
 }
 
+/* Ambient Background Accent Spheres */
 .bg-glow-1 {
   position: absolute;
   top: -100px;
@@ -158,7 +160,7 @@ body {
   text-shadow: 0 2px 8px rgba(56, 189, 248, 0.3);
 }
 
-/* Menu Grid */
+/* Mobile-First 2-Column Grid */
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -166,6 +168,7 @@ body {
   width: 100%;
 }
 
+/* Grid Cards */
 .menu-card {
   background: rgba(15, 23, 42, 0.65);
   backdrop-filter: blur(12px);
@@ -179,12 +182,15 @@ body {
   text-decoration: none;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
   opacity: 0;
   animation: fadeInUp 0.5s ease forwards;
 }
 
+/* Stagger Animation */
 .menu-card:nth-child(1) { animation-delay: 0.05s; }
 .menu-card:nth-child(2) { animation-delay: 0.10s; }
 .menu-card:nth-child(3) { animation-delay: 0.15s; }
@@ -238,6 +244,7 @@ body {
   line-height: 1.3;
 }
 
+/* Distinct Card Color Accents */
 .card-1 { border-top: 3px solid #38bdf8; }
 .card-1 .card-icon { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
 
@@ -250,7 +257,7 @@ body {
 .card-4 { border-top: 3px solid #c084fc; }
 .card-4 .card-icon { background: rgba(192, 132, 252, 0.15); color: #c084fc; }
 
-/* Tariff Summary Container */
+/* Tariff Summary Section */
 .tariff-container {
   margin-top: 20px;
   background: rgba(15, 23, 42, 0.75);
@@ -408,7 +415,7 @@ body {
   font-weight: 600;
 }
 
-/* Page Loader */
+/* Navigation Loader Overlay */
 #page-loader {
   display: flex;
   position: fixed;
@@ -466,6 +473,7 @@ body {
   font-weight: 600;
 }
 
+/* Keyframe Animations */
 @keyframes fadeInDown {
   from { opacity: 0; transform: translateY(-15px); }
   to { opacity: 1; transform: translateY(0); }
@@ -482,6 +490,7 @@ body {
 <div class="bg-glow-1"></div>
 <div class="bg-glow-2"></div>
 
+<!-- Header Navbar -->
 <div class="navbar">
   <div class="nav-brand">
     <div class="brand-badge">⚡</div>
@@ -493,14 +502,17 @@ body {
   <button class="btn-logout" onclick="logout()">Logout</button>
 </div>
 
+<!-- Main Grid Container -->
 <div class="container">
   
   <div class="welcome-card">
     <h3>Welcome Back</h3>
-    <h1 id="lmNameDisplay">Lineman</h1>
+    <h1 id="lmNameDisplay">User</h1>
   </div>
 
   <div class="menu-grid">
+    
+    <!-- Button 1 -->
     <a href="display.html" class="menu-card card-1" onclick="handleNavigation(event, 'display.html')">
       <div class="card-top">
         <div class="card-icon">📋</div>
@@ -512,6 +524,7 @@ body {
       </div>
     </a>
 
+    <!-- Button 2 -->
     <a href="display2.html" class="menu-card card-2" onclick="handleNavigation(event, 'display2.html')">
       <div class="card-top">
         <div class="card-icon">📊</div>
@@ -523,6 +536,7 @@ body {
       </div>
     </a>
 
+    <!-- Button 3 -->
     <a href="display3.html" class="menu-card card-3" onclick="handleNavigation(event, 'display3.html')">
       <div class="card-top">
         <div class="card-icon">⚡</div>
@@ -534,6 +548,7 @@ body {
       </div>
     </a>
 
+    <!-- Button 4 -->
     <a href="display4.html" class="menu-card card-4" onclick="handleNavigation(event, 'display4.html')">
       <div class="card-top">
         <div class="card-icon">📂</div>
@@ -544,9 +559,10 @@ body {
         <p>Tools & Records</p>
       </div>
     </a>
+
   </div>
 
-  <!-- Tariff Wise Balance Container -->
+  <!-- Dynamic Tariff Balance Section -->
   <div class="tariff-container">
     <div class="tariff-header">
       <div class="tariff-title-group">
@@ -587,58 +603,52 @@ body {
 
 </div>
 
-<!-- Loader Overlay -->
+<!-- Fullscreen Navigation Loader -->
 <div id="page-loader">
   <div class="spinner-container">
     <div class="spinner-outer"></div>
     <div class="spinner-inner"></div>
   </div>
-  <div class="loader-text" id="loaderText">Fetching Google Sheet Master Data...</div>
+  <div class="loader-text" id="loaderText">Loading Details...</div>
 </div>
 
 <script>
-// 1. SETTINGS & GOOGLE SHEET CONFIGURATION
-// Replace with your Google Sheet ID (Must be shared as "Anyone with link can view")
-const GOOGLE_SHEET_ID = "YOUR_GOOGLE_SHEET_ID_HERE"; 
+// Google Sheets Configuration
+const GOOGLE_SHEET_ID = "YOUR_GOOGLE_SHEET_ID_HERE"; // <-- Put Google Sheet ID here
 const GOOGLE_SHEET_NAME = "master";
 
-// Session Variables
-const lmName = sessionStorage.getItem("lmName") || "Lineman";
-const currentMpin = String(sessionStorage.getItem("mpin") || sessionStorage.getItem("tcCode") || "1234").trim();
+// User Session
+const lmName = sessionStorage.getItem("lmName");
+const currentMpin = String(sessionStorage.getItem("mpin") || sessionStorage.getItem("tcCode") || "").trim();
 
-document.getElementById("lmNameDisplay").textContent = lmName;
+if (!lmName) {
+  alert("Session expired. Please log in again.");
+  location.href = "login2.html";
+} else {
+  document.getElementById("lmNameDisplay").textContent = lmName;
+}
 
 // M-PIN to TC Allocation Matrix
 const mpinTcMapping = {
-  "1234": ["1234", "TC-1234", "101", "102"], 
+  "1234": ["1234", "TC-1234", "101", "102"],
   "1001": ["1001", "501", "502"],
   "1002": ["1002", "601"]
 };
 
-/**
- * Utility to normalize strings for robust matching
- */
 function normalizeString(val) {
   if (val === null || val === undefined) return "";
   return String(val).trim().toUpperCase().replace(/^0+/, '');
 }
 
-/**
- * Utility to standardize tariff names
- */
 function cleanTariffName(tariffRaw) {
   if (!tariffRaw) return "UNSPECIFIED";
   return String(tariffRaw).trim().toUpperCase().replace(/\s+/g, ' ');
 }
 
-/**
- * Converts Google Sheet CSV text response into JSON Objects array
- */
 function parseCSV(csvText) {
   const lines = csvText.split(/\r\n|\n/);
   if (lines.length === 0) return [];
 
-  // Helper to parse CSV row supporting quoted strings
   const parseRow = (rowStr) => {
     const matches = [];
     let match;
@@ -664,46 +674,31 @@ function parseCSV(csvText) {
   return result;
 }
 
-/**
- * Reads Google Sheet CSV endpoint directly
- */
 async function fetchMasterSheetFromGoogle() {
-  const csvUrl = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(GOOGLE_SHEET_NAME)}`;
+  const csvUrl = `https://docs.google.com/spreadsheets/d/${1irEWggFO5v9xn_ekeUNtgXI6JAHMK4E5PsKiJN3pgcc}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(master)}`;
   
   try {
     const response = await fetch(csvUrl);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const csvData = await response.text();
     const parsedData = parseCSV(csvData);
     
-    // Save to SessionStorage for fast performance across displays
     if (parsedData && parsedData.length > 0) {
       sessionStorage.setItem("masterSheetData", JSON.stringify(parsedData));
     }
     return parsedData;
   } catch (error) {
-    console.error("Failed to fetch Google Sheet data directly:", error);
-    
-    // Fallback: Check if cached in sessionStorage
+    console.error("Failed to fetch Google Sheet data:", error);
     const cached = sessionStorage.getItem("masterSheetData");
-    if (cached) {
-      console.log("Using cached sessionStorage Master Data");
-      return JSON.parse(cached);
-    }
+    if (cached) return JSON.parse(cached);
     return [];
   }
 }
 
-/**
- * Flexible field value extractor handling multiple header naming variations
- */
 function getFieldValue(row, possibleNames) {
   for (let name of possibleNames) {
     if (row[name] !== undefined) return row[name];
   }
-  // Case-insensitive fallback
   const keys = Object.keys(row);
   for (let name of possibleNames) {
     const targetKey = name.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -713,30 +708,24 @@ function getFieldValue(row, possibleNames) {
   return "";
 }
 
-/**
- * Main Processing Engine
- */
 async function loadAndProcessTariffData() {
   const loader = document.getElementById("page-loader");
   const loaderText = document.getElementById("loaderText");
+  
   loader.style.display = "flex";
-  loaderText.textContent = "Loading Master Sheet from Google...";
+  loaderText.textContent = "Fetching Google Sheet Master Data...";
 
   let allocatedTCs = mpinTcMapping[currentMpin] || [currentMpin];
   document.getElementById("tcCodeDisplay").textContent = `TC: ${allocatedTCs.slice(0, 2).join(",")}${allocatedTCs.length > 2 ? '...' : ''}`;
   
   const normalizedAllocatedTCs = allocatedTCs.map(tc => normalizeString(tc));
-
-  // Retrieve Live Data from Google Sheet
   const masterRows = await fetchMasterSheetFromGoogle();
 
-  // Filter Rows by Logged-In TCs
   const filteredRows = masterRows.filter(row => {
     const rowTC = normalizeString(getFieldValue(row, ["TC", "TC Code", "TC_Code"]));
     return normalizedAllocatedTCs.includes(rowTC);
   });
 
-  // Dynamic Tariff Aggregation
   const tariffMap = {};
   let totalInstallationsCount = 0;
   let totalClosingBalanceAmt = 0;
@@ -744,7 +733,6 @@ async function loadAndProcessTariffData() {
   filteredRows.forEach(row => {
     const rawTariff = getFieldValue(row, ["Tariff", "TARIFF", "Tariff Name"]);
     const tariff = cleanTariffName(rawTariff);
-
     const rawCB = String(getFieldValue(row, ["CB", "Closing Balance", "CB Amount"])).replace(/,/g, '');
     const closingBalance = parseFloat(rawCB) || 0;
 
@@ -754,19 +742,17 @@ async function loadAndProcessTariffData() {
 
     tariffMap[tariff].count += 1;
     tariffMap[tariff].totalCB += closingBalance;
-
     totalInstallationsCount += 1;
     totalClosingBalanceAmt += closingBalance;
   });
 
-  // Render Table Rows
   const tbody = document.getElementById("tariffTableBody");
   tbody.innerHTML = "";
 
   const tariffKeys = Object.keys(tariffMap);
 
   if (tariffKeys.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#94a3b8; padding:16px;">No records found for allocated TC (${allocatedTCs.join(", ")})</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#94a3b8; padding:16px;">No records found for TC (${allocatedTCs.join(", ")})</td></tr>`;
   } else {
     tariffKeys.sort().forEach(tariff => {
       const { count, totalCB } = tariffMap[tariff];
@@ -780,15 +766,12 @@ async function loadAndProcessTariffData() {
     });
   }
 
-  // Render Totals
   document.getElementById("totalInstallations").textContent = totalInstallationsCount.toLocaleString('en-IN');
   document.getElementById("totalBalanceAmt").textContent = `₹ ${Math.round(totalClosingBalanceAmt).toLocaleString('en-IN')}`;
 
-  // Hide Loader
   loader.style.display = "none";
 }
 
-// Trigger Execution
 loadAndProcessTariffData();
 
 function handleNavigation(event, targetUrl) {
@@ -797,7 +780,7 @@ function handleNavigation(event, targetUrl) {
   document.getElementById("loaderText").textContent = "Loading Details...";
   setTimeout(() => {
     window.location.href = targetUrl;
-  }, 250);
+  }, 300);
 }
 
 function logout() {
