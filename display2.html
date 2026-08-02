@@ -578,7 +578,8 @@ input::placeholder {
 const API_URL = "https://script.google.com/macros/s/AKfycbxzt8aQteGxi3fB6xR9o3Ca8PcBstiE5z8bsAekwOo5UP7_d9j12n956TGxWX0bC3d70A/exec";
 
 const lmName = sessionStorage.getItem("lmName");
-const tcList = JSON.parse(sessionStorage.getItem("tcList") || "[]");
+const userMpin = sessionStorage.getItem("mpin");
+let rawTcList = JSON.parse(sessionStorage.getItem("tcList") || "[]");
 
 if (!lmName) { 
   alert("Session expired. Please log in again."); 
@@ -618,26 +619,53 @@ function parseAmount(val) {
   return parseFloat(cleaned) || 0;
 }
 
-// Auto Load All TC Arrears on Page Load
-window.onload = function() {
-  if (!tcList || tcList.length === 0) {
+// Ensure target TCs belong strictly to the logged-in user session
+async function getTargetTCList() {
+  // If tcList is directly stored in session for this user, use it
+  if (Array.isArray(rawTcList) && rawTcList.length > 0) {
+    return rawTcList;
+  }
+
+  // Fallback: Fetch user-specific TCs via MPIN from backend
+  if (userMpin) {
+    try {
+      showLoader("Fetching your assigned TCs...");
+      const res = await fetch(`${API_URL}?action=getTCs&mpin=${encodeURIComponent(userMpin)}`);
+      const data = await res.json();
+      if (data.status === "success" && data.tcList && data.tcList.length > 0) {
+        sessionStorage.setItem("tcList", JSON.stringify(data.tcList));
+        return data.tcList;
+      }
+    } catch (e) {
+      console.error("Failed to retrieve user TCs:", e);
+    }
+  }
+
+  return [];
+}
+
+// Load MPIN-related TC Arrears
+window.onload = async function() {
+  const userTCs = await getTargetTCList();
+
+  if (!userTCs || userTCs.length === 0) {
     dataContainer.innerHTML = `
       <div class="empty-state">
         <div class="empty-state-icon">⚠️</div>
-        <div>No Transformer Codes (TC) found for this LM.</div>
+        <div>No Transformer Codes (TC) assigned to your MPIN/Account.</div>
       </div>`;
     return;
   }
 
-  loadAllTCDataFast();
+  loadUserTCData(userTCs);
 };
 
-async function loadAllTCDataFast() {
-  showLoader("Fetching TC lists...");
+async function loadUserTCData(userTCs) {
+  showLoader("Fetching assigned TC lists...");
 
   try {
-    // 1. Fetch all TC RR lists in parallel
-    const tcPromises = tcList.map(tc => 
+    // 1. Fetch only MPIN-related TC RR lists in parallel
+    const tcPromises = userTCs.map(tc => 
       fetch(`${API_URL}?action=rr&tc=${encodeURIComponent(tc)}`)
         .then(res => res.json())
         .then(data => ({ tc, data }))
@@ -646,7 +674,7 @@ async function loadAllTCDataFast() {
 
     const tcResults = await Promise.all(tcPromises);
 
-    // Collect all RR numbers mapped to their TCs
+    // Collect RR numbers for these user TCs only
     let allRRItems = [];
     tcResults.forEach(item => {
       if (item.data && item.data.status === "success" && item.data.rrList) {
@@ -661,14 +689,14 @@ async function loadAllTCDataFast() {
       dataContainer.innerHTML = `
         <div class="empty-state">
           <div class="empty-state-icon">✅</div>
-          <div>No RR numbers found for your TCs.</div>
+          <div>No pending consumers found for your assigned TCs.</div>
         </div>`;
       return;
     }
 
-    showLoader(`Parallel loading ${allRRItems.length} consumers...`);
+    showLoader(`Loading ${allRRItems.length} consumers for your TCs...`);
 
-    // 2. Fetch all consumer details in PARALLEL (Fastest possible speed)
+    // 2. Parallel fetch consumer details and filter CB > 500
     const consumerPromises = allRRItems.map(item => 
       fetch(`${API_URL}?action=consumer&rrno=${encodeURIComponent(item.rrno)}`)
         .then(res => res.json())
@@ -693,8 +721,6 @@ async function loadAllTCDataFast() {
     );
 
     const consumerResults = await Promise.all(consumerPromises);
-    
-    // Filter out nulls (CB <= 500 or failed fetches)
     const over500List = consumerResults.filter(item => item !== null);
 
     hideLoader();
@@ -705,7 +731,7 @@ async function loadAllTCDataFast() {
   } catch (err) {
     hideLoader();
     console.error("Error fetching data:", err);
-    alert("Error fetching arrears data.");
+    alert("Error loading arrears data.");
   }
 }
 
@@ -717,7 +743,7 @@ function renderConsumerList(list) {
     dataContainer.innerHTML = `
       <div class="empty-state">
         <div class="empty-state-icon">✅</div>
-        <div>No consumers found with Closing Balance > ₹500.</div>
+        <div>No consumers found with Closing Balance > ₹500 in your assigned TCs.</div>
       </div>`;
     return;
   }
