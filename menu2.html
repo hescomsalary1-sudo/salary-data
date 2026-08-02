@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LM Dashboard Menu</title>
+<style>
+:root {
+  --primary: #1565C0;
+  --primary-dark: #0D47A1;
+  --bg-color: #f4f6f9;
+  --card-bg: #ffffff;
+  --text-main: #333333;
+  --text-muted: #666666;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+/* Header Navbar */
+.navbar {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #ffffff;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.btn-logout {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-logout:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Main Layout */
+.container {
+  max-width: 500px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+/* Welcome Card */
+.welcome-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  margin-bottom: 25px;
+}
+
+.welcome-card h3 {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 5px;
+}
+
+.welcome-card h1 {
+  color: var(--primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* Button Grid / Stack */
+.menu-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.menu-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-left: 6px solid var(--primary);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.menu-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(21, 101, 192, 0.18);
+}
+
+.card-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(21, 101, 192, 0.1);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.card-text h4 {
+  font-size: 1.05rem;
+  color: var(--text-main);
+  margin-bottom: 3px;
+}
+
+.card-text p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.arrow-icon {
+  font-size: 1.2rem;
+  color: var(--primary);
+  font-weight: bold;
+}
+
+/* Distinct color accents for buttons */
+.menu-card:nth-child(2) { border-left-color: #00897B; }
+.menu-card:nth-child(2) .card-icon { background: rgba(0, 137, 123, 0.1); color: #00897B; }
+.menu-card:nth-child(2) .arrow-icon { color: #00897B; }
+
+.menu-card:nth-child(3) { border-left-color: #E65100; }
+.menu-card:nth-child(3) .card-icon { background: rgba(230, 81, 0, 0.1); color: #E65100; }
+.menu-card:nth-child(3) .arrow-icon { color: #E65100; }
+
+.menu-card:nth-child(4) { border-left-color: #6A1B9A; }
+.menu-card:nth-child(4) .card-icon { background: rgba(106, 27, 154, 0.1); color: #6A1B9A; }
+.menu-card:nth-child(4) .arrow-icon { color: #6A1B9A; }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <h2>LM Portal Dashboard</h2>
+  <button class="btn-logout" onclick="logout()">Logout</button>
+</div>
+
+<div class="container">
+  
+  <div class="welcome-card">
+    <h3>Welcome Back</h3>
+    <h1 id="lmNameDisplay">User</h1>
+  </div>
+
+  <div class="menu-grid">
+    
+    <!-- Button 1 -->
+    <a href="display.html" class="menu-card">
+      <div class="card-left">
+        <div class="card-icon">📋</div>
+        <div class="card-text">
+          <h4>Display 1 Details</h4>
+          <p>Consumer Information Portal</p>
+        </div>
+      </div>
+      <div class="arrow-icon">➔</div>
+    </a>
+
+    <!-- Button 2 -->
+    <a href="display2.html" class="menu-card">
+      <div class="card-left">
+        <div class="card-icon">📊</div>
+        <div class="card-text">
+          <h4>Display 2 Details</h4>
+          <p>View secondary metrics & reports</p>
+        </div>
+      </div>
+      <div class="arrow-icon">➔</div>
+    </a>
+
+    <!-- Button 3 -->
+    <a href="display3.html" class="menu-card">
+      <div class="card-left">
+        <div class="card-icon">⚡</div>
+        <div class="card-text">
+          <h4>Display 3 Details</h4>
+          <p>Feeder & transformer analytics</p>
+        </div>
+      </div>
+      <div class="arrow-icon">➔</div>
+    </a>
+
+    <!-- Button 4 -->
+    <a href="display4.html" class="menu-card">
+      <div class="card-left">
+        <div class="card-icon">📂</div>
+        <div class="card-text">
+          <h4>Display 4 Details</h4>
+          <p>Additional tools and records</p>
+        </div>
+      </div>
+      <div class="arrow-icon">➔</div>
+    </a>
+
+  </div>
+
+</div>
+
+<script>
+const lmName = sessionStorage.getItem("lmName");
+
+if (!lmName) {
+  alert("Session expired. Please log in again.");
+  location.href = "login2.html";
+} else {
+  document.getElementById("lmNameDisplay").textContent = lmName;
+}
+
+function logout() {
+  sessionStorage.clear();
+  location.href = "login2.html";
+}
+</script>
+
+</body>
+</html>
