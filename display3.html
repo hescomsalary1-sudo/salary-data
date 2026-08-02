@@ -539,43 +539,72 @@ function renderConsumerList(list) {
 
   const fragment = document.createDocumentFragment();
 
+  // Normalized list of keys to exclude to avoid duplicates
+  const excludedKeys = [
+    "RRNO", "RR_NO", "RR NO",
+    "NAME", "CONSUMERNAME", "CONSUMER_NAME", "CONSUMER NAME",
+    "SLNO", "SL_NO", "SL NO",
+    "COLUMN_5", "COLUMN 5",
+    "AREANAME", "AREA_NAME", "AREA NAME",
+    "RD",
+    "SL",
+    "POLENAME", "POLE_NAME", "POLE NAME",
+    "LMNAME", "LM_NAME", "LM NAME",
+    "CB", "CLOSINGBALANCE", "CLOSING_BALANCE", "CLOSING BALANCE",
+    "TC", "TCNO", "TC_NO", "TC NO"
+  ];
+
   list.forEach((item, index) => {
     const cardWrapper = document.createElement("div");
     cardWrapper.className = "consumer-card-wrapper";
-    cardWrapper.setAttribute("data-search", `${item.rrno} ${item.name} ${item.tc}`);
+    cardWrapper.setAttribute("data-search", `${item.rrno || ''} ${item.name || ''} ${item.tc || ''}`);
 
-    // Build grid details items dynamically
-    let gridHtml = `
-      <div class="grid-item">
-        <div class="grid-item-label">TC Code</div>
-        <div class="grid-item-value" style="color: #10b981;">${item.tc}</div>
-      </div>
-    `;
+    let gridHtml = "";
 
-    Object.keys(item.fullData || {}).forEach(key => {
-      let val = item.fullData[key];
-      if (val === null || val === undefined || val === "") val = "-";
-      
-      const isFullWidth = key.length > 15 || String(val).length > 20;
-      gridHtml += `
-        <div class="grid-item ${isFullWidth ? 'full-width' : ''}">
-          <div class="grid-item-label">${key}</div>
-          <div class="grid-item-value">${val}</div>
+    if (item.fullData && typeof item.fullData === "object") {
+      Object.keys(item.fullData).forEach(key => {
+        // Clean key for robust comparison
+        const cleanKey = key.trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
+
+        // Exclude listed duplicate fields
+        if (excludedKeys.some(ex => ex.replace(/[^A-Z0-9]/g, "") === cleanKey)) {
+          return;
+        }
+
+        let val = item.fullData[key];
+        if (val === null || val === undefined || val === "") val = "-";
+
+        const isFullWidth = key.length > 15 || String(val).length > 20;
+        gridHtml += `
+          <div class="grid-item ${isFullWidth ? 'full-width' : ''}">
+            <div class="grid-item-label">${key}</div>
+            <div class="grid-item-value">${val}</div>
+          </div>
+        `;
+      });
+    }
+
+    // Fallback if no extra fields exist
+    if (!gridHtml) {
+      gridHtml = `
+        <div class="grid-item full-width">
+          <div class="grid-item-label">Status</div>
+          <div class="grid-item-value">No additional details</div>
         </div>
       `;
-    });
+    }
 
     cardWrapper.innerHTML = `
       <div class="consumer-summary-header" onclick="toggleCard(${index})">
         <div class="card-left">
-          <div class="rr-badge">📄 ${item.rrno}</div>
-          <div class="tc-tag">TC: ${item.tc}</div>
-          <div class="consumer-name">${item.name}</div>
+          <div class="rr-badge">📄 ${item.rrno || '-'}</div>
+          <div class="tc-tag">TC: ${item.tc || '-'}</div>
+          <div class="consumer-name">${item.name || '-'}</div>
         </div>
         <div class="card-right">
           <div class="cb-amount">
             <span>Balance CB</span>
-            ₹ ${Math.round(item.cb).toLocaleString('en-IN')}
+            ₹ ${item.cb ? Math.round(item.cb).toLocaleString('en-IN') : '0'}
           </div>
           <div class="arrow-icon">➔</div>
         </div>
