@@ -193,7 +193,7 @@ body {
   letter-spacing: 0.5px;
 }
 
-input {
+input[type="text"] {
   width: 100%;
   padding: 11px 14px;
   font-size: 0.88rem;
@@ -205,13 +205,13 @@ input {
   transition: all 0.2s ease;
 }
 
-input:focus {
+input[type="text"]:focus {
   border-color: #f43f5e;
   background: rgba(30, 41, 59, 0.95);
   box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.2);
 }
 
-input::placeholder {
+input[type="text"]::placeholder {
   color: #64748b;
 }
 
@@ -231,13 +231,25 @@ input::placeholder {
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .consumer-card-wrapper.expanded {
   border-color: rgba(244, 63, 94, 0.4);
   border-left-width: 4px;
   background: rgba(15, 23, 42, 0.9);
+}
+
+/* Green Attended State */
+.consumer-card-wrapper.attended {
+  border-left-color: #10b981 !important;
+  background: rgba(6, 78, 59, 0.25) !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+
+.consumer-card-wrapper.attended.expanded {
+  background: rgba(6, 78, 59, 0.4) !important;
+  border-color: rgba(16, 185, 129, 0.6) !important;
 }
 
 .consumer-summary-header {
@@ -257,7 +269,7 @@ input::placeholder {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  max-width: 65%;
+  max-width: 55%;
 }
 
 .rr-badge {
@@ -293,7 +305,7 @@ input::placeholder {
 .card-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .cb-amount {
@@ -303,12 +315,76 @@ input::placeholder {
   text-align: right;
 }
 
+.consumer-card-wrapper.attended .cb-amount {
+  color: #34d399;
+}
+
 .cb-amount span {
   display: block;
   font-size: 0.62rem;
   color: #94a3b8;
   text-transform: uppercase;
   font-weight: 600;
+}
+
+/* Attended Checkbox Custom Style */
+.attended-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.2s ease;
+}
+
+.attended-box:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.attended-box input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #94a3b8;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+  background: transparent;
+}
+
+.attended-box input[type="checkbox"]:checked {
+  background-color: #10b981;
+  border-color: #10b981;
+}
+
+.attended-box input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: bold;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+}
+
+.attended-label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.consumer-card-wrapper.attended .attended-label {
+  color: #34d399;
 }
 
 .arrow-icon {
@@ -328,6 +404,11 @@ input::placeholder {
   transform: rotate(90deg);
   background: rgba(244, 63, 94, 0.2);
   color: #f43f5e;
+}
+
+.consumer-card-wrapper.attended.expanded .arrow-icon {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
 }
 
 /* In-Card Details Grid Section */
@@ -528,6 +609,21 @@ function updateUI(list) {
   renderConsumerList(list);
 }
 
+function getAttendedStatus(rrno) {
+  const attendedMap = JSON.parse(localStorage.getItem("attendedConsumers") || "{}");
+  return !!attendedMap[rrno];
+}
+
+function setAttendedStatus(rrno, status) {
+  const attendedMap = JSON.parse(localStorage.getItem("attendedConsumers") || "{}");
+  if (status) {
+    attendedMap[rrno] = true;
+  } else {
+    delete attendedMap[rrno];
+  }
+  localStorage.setItem("attendedConsumers", JSON.stringify(attendedMap));
+}
+
 function renderConsumerList(list) {
   dataContainer.innerHTML = "";
 
@@ -553,8 +649,10 @@ function renderConsumerList(list) {
   ];
 
   list.forEach((item, index) => {
+    const isAttended = getAttendedStatus(item.rrno);
     const cardWrapper = document.createElement("div");
-    cardWrapper.className = "consumer-card-wrapper";
+    cardWrapper.className = `consumer-card-wrapper ${isAttended ? 'attended' : ''}`;
+    cardWrapper.id = `card-wrapper-${index}`;
     cardWrapper.setAttribute("data-search", `${item.rrno || ''} ${item.name || ''} ${item.tc || ''}`);
 
     let gridHtml = "";
@@ -593,7 +691,7 @@ function renderConsumerList(list) {
     }
 
     cardWrapper.innerHTML = `
-      <div class="consumer-summary-header" onclick="toggleCard(${index})">
+      <div class="consumer-summary-header" onclick="toggleCard(event, ${index})">
         <div class="card-left">
           <div class="rr-badge">📄 ${item.rrno || '-'}</div>
           <div class="tc-tag">TC: ${item.tc || '-'}</div>
@@ -603,6 +701,10 @@ function renderConsumerList(list) {
           <div class="cb-amount">
             <span>Balance CB</span>
             ₹ ${item.cb ? Math.round(item.cb).toLocaleString('en-IN') : '0'}
+          </div>
+          <div class="attended-box" onclick="event.stopPropagation()">
+            <input type="checkbox" id="chk-${index}" ${isAttended ? 'checked' : ''} onchange="toggleAttended('${item.rrno}', ${index}, this.checked)">
+            <label for="chk-${index}" class="attended-label">Done</label>
           </div>
           <div class="arrow-icon">➔</div>
         </div>
@@ -620,7 +722,22 @@ function renderConsumerList(list) {
   dataContainer.appendChild(fragment);
 }
 
-function toggleCard(index) {
+function toggleAttended(rrno, index, isChecked) {
+  setAttendedStatus(rrno, isChecked);
+  const card = document.getElementById(`card-wrapper-${index}`);
+  if (card) {
+    if (isChecked) {
+      card.classList.add('attended');
+    } else {
+      card.classList.remove('attended');
+    }
+  }
+}
+
+function toggleCard(event, index) {
+  // Prevent expansion toggle when clicking inside the attended box
+  if (event.target.closest('.attended-box')) return;
+
   const allCards = document.querySelectorAll('.consumer-card-wrapper');
   const targetCard = allCards[index];
 
