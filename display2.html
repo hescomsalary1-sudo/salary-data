@@ -518,7 +518,7 @@ async function fetchSingleBatchArrears() {
   } catch (err) {
     console.error(err);
     showEmptyState("Failed to retrieve arrears data.");
-  } stroke {
+  } finally {
     hideLoader();
   }
 }
@@ -538,64 +538,69 @@ function renderConsumerList(list) {
 
   const fragment = document.createDocumentFragment();
 
-  // List of key names to exclude when rendering grid items
+  // Normalized list of keys to exclude (without spaces, underscores, or capitalization issues)
   const excludedKeys = [
-    "RR NO", 
-    "RRNO", 
-    "SLNO", 
-    "COLUMN_5", 
-    "AREA NAME", 
-    "RD", 
-    "SL", 
-    "POLE NAME", 
-    "LM NAME"
+    "RRNO", "RR_NO", "RR NO",
+    "SLNO", "SL_NO", "SL NO",
+    "COLUMN_5", "COLUMN 5",
+    "AREANAME", "AREA_NAME", "AREA NAME",
+    "RD",
+    "SL",
+    "POLENAME", "POLE_NAME", "POLE NAME",
+    "LMNAME", "LM_NAME", "LM NAME"
   ];
 
   list.forEach((item, index) => {
     const cardWrapper = document.createElement("div");
     cardWrapper.className = "consumer-card-wrapper";
-    cardWrapper.setAttribute("data-search", `${item.rrno} ${item.name} ${item.tc}`);
+    cardWrapper.setAttribute("data-search", `${item.rrno || ''} ${item.name || ''} ${item.tc || ''}`);
 
-    // Build grid details items dynamically
-    let gridHtml = `
-      <div class="grid-item">
-        <div class="grid-item-label">TC Code</div>
-        <div class="grid-item-value" style="color: #10b981;">${item.tc}</div>
-      </div>
-    `;
+    let gridHtml = "";
 
-    Object.keys(item.fullData || {}).forEach(key => {
-      // Normalize key to uppercase for case-insensitive matching
-      const normalizedKey = key.trim().toUpperCase();
+    if (item.fullData && typeof item.fullData === "object") {
+      Object.keys(item.fullData).forEach(key => {
+        // Clean the key string for comparison
+        const cleanKey = key.trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
 
-      // Skip the field if it is in the exclusion list
-      if (excludedKeys.includes(normalizedKey)) {
-        return;
-      }
+        // Skip if key matches any excluded pattern
+        if (excludedKeys.some(ex => ex.replace(/[^A-Z0-9]/g, "") === cleanKey)) {
+          return;
+        }
 
-      let val = item.fullData[key];
-      if (val === null || val === undefined || val === "") val = "-";
-      
-      const isFullWidth = key.length > 15 || String(val).length > 20;
-      gridHtml += `
-        <div class="grid-item ${isFullWidth ? 'full-width' : ''}">
-          <div class="grid-item-label">${key}</div>
-          <div class="grid-item-value">${val}</div>
+        let val = item.fullData[key];
+        if (val === null || val === undefined || val === "") val = "-";
+
+        const isFullWidth = key.length > 15 || String(val).length > 20;
+        gridHtml += `
+          <div class="grid-item ${isFullWidth ? 'full-width' : ''}">
+            <div class="grid-item-label">${key}</div>
+            <div class="grid-item-value">${val}</div>
+          </div>
+        `;
+      });
+    }
+
+    // Fallback if no fullData properties remain or exist
+    if (!gridHtml) {
+      gridHtml = `
+        <div class="grid-item full-width">
+          <div class="grid-item-label">Status</div>
+          <div class="grid-item-value">No additional details</div>
         </div>
       `;
-    });
+    }
 
     cardWrapper.innerHTML = `
       <div class="consumer-summary-header" onclick="toggleCard(${index})">
         <div class="card-left">
-          <div class="rr-badge">📄 ${item.rrno}</div>
-          <div class="tc-tag">TC: ${item.tc}</div>
-          <div class="consumer-name">${item.name}</div>
+          <div class="rr-badge">📄 ${item.rrno || '-'}</div>
+          <div class="tc-tag">TC: ${item.tc || '-'}</div>
+          <div class="consumer-name">${item.name || '-'}</div>
         </div>
         <div class="card-right">
           <div class="cb-amount">
             <span>Balance CB</span>
-            ₹ ${Math.round(item.cb).toLocaleString('en-IN')}
+            ₹ ${item.cb ? Math.round(item.cb).toLocaleString('en-IN') : '0'}
           </div>
           <div class="arrow-icon">➔</div>
         </div>
@@ -621,10 +626,10 @@ function toggleCard(index) {
 
   const isCurrentlyExpanded = targetCard.classList.contains('expanded');
 
-  // Collapse all other expanded cards to maintain clean UI
+  // Collapse all other expanded cards
   allCards.forEach(c => c.classList.remove('expanded'));
 
-  // Toggle current card
+  // Toggle selected card
   if (!isCurrentlyExpanded) {
     targetCard.classList.add('expanded');
   }
