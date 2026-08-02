@@ -211,10 +211,6 @@ body {
   letter-spacing: 0.5px;
 }
 
-.input-wrapper {
-  position: relative;
-}
-
 select, input {
   width: 100%;
   padding: 11px 14px;
@@ -339,7 +335,7 @@ input::placeholder {
   opacity: 0.7;
 }
 
-/* Navigation & Spinner Overlay */
+/* Spinner Overlay */
 #loader-overlay {
   display: none;
   position: fixed;
@@ -612,23 +608,30 @@ function renderConsumerCard(consumerObj) {
 
   const rrVal = consumerObj["RR No"] || consumerObj["RRNO"] || "Consumer Information";
   
-  // Define fields to exclude from displaying
-  const excludedKeys = [
-    "Column_5",
-    "Area Name",
-    "RD",
-    "SL",
-    "CB(Repeated)",
-    "TC(repeated)",
-    "Pole Name",
-    "LM Name",
-    "SINo"
+  // Excluded keys mapped to lowercase for reliable case-insensitive filtering
+  const excludedKeysLower = [
+    "column_5",
+    "area name",
+    "rd",
+    "sl",
+    "cb(repeated)",
+    "tc",
+    "tc(repeated)",
+    "pole name",
+    "lm name",
+    "sino",
+    "slno",
+    "si no",
+    "sl no"
   ];
 
   let rowsHtml = "";
   Object.keys(consumerObj).forEach(key => {
+    // Normalize key to lower case to ensure strict matching
+    const cleanKey = key.trim().toLowerCase();
+
     // Skip rendering if key matches an excluded field
-    if (excludedKeys.includes(key)) return;
+    if (excludedKeysLower.includes(cleanKey)) return;
 
     let val = consumerObj[key];
     if (val === null || val === undefined || val === "") {
