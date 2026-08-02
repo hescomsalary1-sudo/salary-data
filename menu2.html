@@ -21,7 +21,6 @@ html, body {
 }
 
 body {
-  /* Dynamic Multi-Layered Dark Background */
   background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0f172a 50%, #020617 100%);
   min-height: 100vh;
   color: #f8fafc;
@@ -29,7 +28,6 @@ body {
   position: relative;
 }
 
-/* Ambient Background Accent Spheres */
 .bg-glow-1 {
   position: absolute;
   top: -100px;
@@ -160,7 +158,7 @@ body {
   text-shadow: 0 2px 8px rgba(56, 189, 248, 0.3);
 }
 
-/* Mobile-First 2-Column Grid */
+/* Grid Layout */
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -168,7 +166,6 @@ body {
   width: 100%;
 }
 
-/* Grid Cards */
 .menu-card {
   background: rgba(15, 23, 42, 0.65);
   backdrop-filter: blur(12px);
@@ -182,15 +179,12 @@ body {
   text-decoration: none;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease;
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
   opacity: 0;
   animation: fadeInUp 0.5s ease forwards;
 }
 
-/* Stagger Animation */
 .menu-card:nth-child(1) { animation-delay: 0.05s; }
 .menu-card:nth-child(2) { animation-delay: 0.10s; }
 .menu-card:nth-child(3) { animation-delay: 0.15s; }
@@ -244,7 +238,6 @@ body {
   line-height: 1.3;
 }
 
-/* Distinct Card Color Accents */
 .card-1 { border-top: 3px solid #38bdf8; }
 .card-1 .card-icon { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
 
@@ -257,7 +250,7 @@ body {
 .card-4 { border-top: 3px solid #c084fc; }
 .card-4 .card-icon { background: rgba(192, 132, 252, 0.15); color: #c084fc; }
 
-/* Tariff Balance List Container */
+/* Tariff Container */
 .tariff-container {
   margin-top: 20px;
   background: rgba(15, 23, 42, 0.75);
@@ -314,9 +307,12 @@ body {
   padding: 4px 8px;
   border-radius: 20px;
   font-weight: 600;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* Balance Summary Cards */
 .tariff-summary-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -348,7 +344,6 @@ body {
   color: #f43f5e;
 }
 
-/* Tariff Table */
 .tariff-table-wrapper {
   overflow-x: auto;
   border-radius: 12px;
@@ -406,7 +401,7 @@ body {
   color: #cbd5e1;
 }
 
-/* Navigation Loader Overlay */
+/* Page Loader */
 #page-loader {
   display: none;
   position: fixed;
@@ -464,7 +459,6 @@ body {
   font-weight: 600;
 }
 
-/* Keyframe Animations */
 @keyframes fadeInDown {
   from { opacity: 0; transform: translateY(-15px); }
   to { opacity: 1; transform: translateY(0); }
@@ -481,7 +475,6 @@ body {
 <div class="bg-glow-1"></div>
 <div class="bg-glow-2"></div>
 
-<!-- Header Navbar -->
 <div class="navbar">
   <div class="nav-brand">
     <div class="brand-badge">⚡</div>
@@ -493,17 +486,14 @@ body {
   <button class="btn-logout" onclick="logout()">Logout</button>
 </div>
 
-<!-- Main Grid Container -->
 <div class="container">
   
   <div class="welcome-card">
     <h3>Welcome Back</h3>
-    <h1 id="lmNameDisplay">User</h1>
+    <h1 id="lmNameDisplay">Lineman</h1>
   </div>
 
   <div class="menu-grid">
-    
-    <!-- Button 1 -->
     <a href="display.html" class="menu-card card-1" onclick="handleNavigation(event, 'display.html')">
       <div class="card-top">
         <div class="card-icon">📋</div>
@@ -515,7 +505,6 @@ body {
       </div>
     </a>
 
-    <!-- Button 2 -->
     <a href="display2.html" class="menu-card card-2" onclick="handleNavigation(event, 'display2.html')">
       <div class="card-top">
         <div class="card-icon">📊</div>
@@ -527,7 +516,6 @@ body {
       </div>
     </a>
 
-    <!-- Button 3 -->
     <a href="display3.html" class="menu-card card-3" onclick="handleNavigation(event, 'display3.html')">
       <div class="card-top">
         <div class="card-icon">⚡</div>
@@ -539,7 +527,6 @@ body {
       </div>
     </a>
 
-    <!-- Button 4 -->
     <a href="display4.html" class="menu-card card-4" onclick="handleNavigation(event, 'display4.html')">
       <div class="card-top">
         <div class="card-icon">📂</div>
@@ -550,10 +537,9 @@ body {
         <p>Tools & Records</p>
       </div>
     </a>
-
   </div>
 
-  <!-- Tariff Wise Balance Container for Logged-In TC/MPIN -->
+  <!-- Tariff Wise Balance Container -->
   <div class="tariff-container">
     <div class="tariff-header">
       <div class="tariff-title-group">
@@ -586,7 +572,7 @@ body {
           </tr>
         </thead>
         <tbody id="tariffTableBody">
-          <!-- Dynamic Tariff Data Rows Rendered Here -->
+          <!-- Dynamic Tariff Data Rows -->
         </tbody>
       </table>
     </div>
@@ -594,7 +580,7 @@ body {
 
 </div>
 
-<!-- Fullscreen Navigation Loader -->
+<!-- Loader Overlay -->
 <div id="page-loader">
   <div class="spinner-container">
     <div class="spinner-outer"></div>
@@ -604,53 +590,96 @@ body {
 </div>
 
 <script>
-const lmName = sessionStorage.getItem("lmName");
-const mpin = sessionStorage.getItem("mpin") || sessionStorage.getItem("tcCode") || "101";
+// Retrieve session values
+const lmName = sessionStorage.getItem("lmName") || "Lineman";
+const currentMpin = String(sessionStorage.getItem("mpin") || sessionStorage.getItem("tcCode") || "1234").trim();
 
-if (!lmName) {
-  alert("Session expired. Please log in again.");
-  location.href = "login2.html";
-} else {
-  document.getElementById("lmNameDisplay").textContent = lmName;
-  document.getElementById("tcCodeDisplay").textContent = `TC/MPIN: ${mpin}`;
-}
+document.getElementById("lmNameDisplay").textContent = lmName;
 
 /**
- * Sample Master Sheet Rows Array matching your exact columns:
+ * 1. M-PIN to TC Allocation Mapping Matrix
+ * Maps M-PINs to single or multiple allocated Transformer Codes (TCs).
+ */
+const mpinTcMapping = {
+  "1234": ["1234", "TC-1234", "101", "102"], 
+  "1001": ["1001", "501", "502"],
+  "1002": ["1002", "601"]
+};
+
+/**
+ * 2. Fallback Master Sheet Dataset matching your exact column structure:
  * [SlNo, RR No, Cust Name, Address, Mobile No, Tariff, Area Name, RD, SL, OB, Demand, Interest, Coll, Adj Amount, CB, TC, Pole Name, LM Name]
  */
-const sampleMasterSheet = [
-  // TC 101 Records
-  { SlNo: 1, RRNo: "SDP-101", CustName: "Ramesh Bhat", Tariff: "LT-2A", CB: 4500, TC: "101" },
-  { SlNo: 2, RRNo: "SDP-102", CustName: "Ganesh Naik", Tariff: "LT-2A", CB: 2300, TC: "101" },
-  { SlNo: 3, RRNo: "SDP-103", CustName: "Suresh Hegde", Tariff: "LT-3", CB: 15400, TC: "101" },
-  { SlNo: 4, RRNo: "SDP-104", CustName: "Kavita Rao", Tariff: "LT-5", CB: 28900, TC: "101" },
-  { SlNo: 5, RRNo: "SDP-105", CustName: "Narayana", Tariff: "BJ/KJ", CB: 1200, TC: "101" },
-
-  // TC 102 Records
-  { SlNo: 6, RRNo: "SDP-201", CustName: "Manjunath", Tariff: "LT-2A", CB: 3100, TC: "102" },
-  { SlNo: 7, RRNo: "SDP-202", CustName: "Anand", Tariff: "LT-3", CB: 8200, TC: "102" }
+const fallbackMasterSheet = [
+  { SlNo: 1, RRNo: "SDP-01", CustName: "Ramesh Naik", Tariff: "LT-2A", CB: 4500, TC: "1234" },
+  { SlNo: 2, RRNo: "SDP-02", CustName: "Ganesh Hegde", Tariff: "LT-2A", CB: 2300, TC: "1234" },
+  { SlNo: 3, RRNo: "SDP-03", CustName: "Suresh Bhat", Tariff: "LT-3", CB: 15400, TC: "1234" },
+  { SlNo: 4, RRNo: "SDP-04", CustName: "Kavita Rao", Tariff: "LT-5", CB: 28900, TC: "1234" },
+  { SlNo: 5, RRNo: "SDP-05", CustName: "Narayana P", Tariff: "BJ/KJ", CB: 1200, TC: "1234" },
+  { SlNo: 6, RRNo: "SDP-06", CustName: "Manjunath S", Tariff: "LT-2A", CB: 3100, TC: "101" },
+  { SlNo: 7, RRNo: "SDP-07", CustName: "Anand Kumar", Tariff: "LT-3", CB: 8200, TC: "102" },
+  { SlNo: 8, RRNo: "SDP-08", CustName: "Mahabaleshwar", Tariff: "LT-5", CB: 12500, TC: "TC-1234" }
 ];
 
 /**
- * Reads Master Sheet records, filters by logged-in TC/MPIN,
- * groups by 'Tariff', calculates total 'CB' and counts consumers per tariff.
+ * Helper: Normalizes strings by removing spaces and leading zeros for robust matching
  */
-function processMasterSheetData(masterData, currentMpin) {
-  // Fetch rows from Master Sheet or stored Session Data
-  const sheetRows = masterData || JSON.parse(sessionStorage.getItem("masterSheetData")) || sampleMasterSheet;
+function normalizeString(val) {
+  if (val === null || val === undefined) return "";
+  return String(val).trim().toUpperCase().replace(/^0+/, '');
+}
 
-  // Filter rows belonging ONLY to logged-in TC/MPIN
-  const filteredRows = sheetRows.filter(row => String(row.TC) === String(currentMpin));
+/**
+ * Processes Master Sheet data and calculates Tariff-wise CB for allocated TCs.
+ */
+function processMasterSheetData() {
+  // Determine allocated TCs for the logged-in M-PIN
+  let allocatedTCs = mpinTcMapping[currentMpin];
+  
+  if (!allocatedTCs || allocatedTCs.length === 0) {
+    // If M-PIN is directly used as TC code
+    allocatedTCs = [currentMpin];
+  }
 
-  // Group by Tariff
+  // Display allocated TCs in UI
+  document.getElementById("tcCodeDisplay").textContent = `TC: ${allocatedTCs.slice(0, 2).join(",")}${allocatedTCs.length > 2 ? '...' : ''}`;
+
+  // Normalized list of allocated TCs
+  const normalizedAllocatedTCs = allocatedTCs.map(tc => normalizeString(tc));
+
+  // Retrieve master data from Session or Fallback
+  let sheetRows = [];
+  try {
+    const sessionData = sessionStorage.getItem("masterSheetData");
+    if (sessionData) {
+      sheetRows = JSON.parse(sessionData);
+    }
+  } catch (e) {
+    console.warn("Could not parse sessionStorage masterSheetData, using fallback.", e);
+  }
+
+  if (!sheetRows || sheetRows.length === 0) {
+    sheetRows = fallbackMasterSheet;
+  }
+
+  // Filter rows matching ANY allocated TC
+  const filteredRows = sheetRows.filter(row => {
+    const rowTC = normalizeString(row.TC);
+    return normalizedAllocatedTCs.includes(rowTC);
+  });
+
+  // Aggregate Closing Balance (CB) grouped by Tariff
   const tariffMap = {};
   let overallInstallations = 0;
   let overallCB = 0;
 
   filteredRows.forEach(row => {
-    const tariff = row.Tariff || "Other";
-    const closingBalance = parseFloat(row.CB) || 0;
+    // Get Tariff name or assign default
+    const tariff = (row.Tariff || "OTHERS").toString().trim();
+    
+    // Parse Closing Balance safely
+    const rawCB = String(row.CB || 0).replace(/,/g, '');
+    const closingBalance = parseFloat(rawCB) || 0;
 
     if (!tariffMap[tariff]) {
       tariffMap[tariff] = { count: 0, totalCB: 0 };
@@ -663,51 +692,46 @@ function processMasterSheetData(masterData, currentMpin) {
     overallCB += closingBalance;
   });
 
-  // Render to Table
+  // Render Table Rows
   const tbody = document.getElementById("tariffTableBody");
   tbody.innerHTML = "";
 
   const tariffKeys = Object.keys(tariffMap);
 
   if (tariffKeys.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#94a3b8; padding:16px;">No records found for TC ${currentMpin}</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#94a3b8; padding:16px;">No records found for allocated TCs (${allocatedTCs.join(", ")})</td></tr>`;
   } else {
-    tariffKeys.forEach(tariff => {
+    tariffKeys.sort().forEach(tariff => {
       const { count, totalCB } = tariffMap[tariff];
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td><span class="tariff-tag">${tariff}</span></td>
         <td class="count-text">${count}</td>
-        <td class="amt-text">₹ ${totalCB.toLocaleString('en-IN')}</td>
+        <td class="amt-text">₹ ${Math.round(totalCB).toLocaleString('en-IN')}</td>
       `;
       tbody.appendChild(tr);
     });
   }
 
-  // Update Summary Totals
-  document.getElementById("totalInstallations").textContent = overallInstallations;
-  document.getElementById("totalBalanceAmt").textContent = `₹ ${overallCB.toLocaleString('en-IN')}`;
+  // Render Summary Cards
+  document.getElementById("totalInstallations").textContent = overallInstallations.toLocaleString('en-IN');
+  document.getElementById("totalBalanceAmt").textContent = `₹ ${Math.round(overallCB).toLocaleString('en-IN')}`;
 }
 
-// Execute Processor
-processMasterSheetData(null, mpin);
+// Run Calculation Engine on Load
+processMasterSheetData();
 
 function handleNavigation(event, targetUrl) {
   event.preventDefault();
-  
-  // Display Loader
   document.getElementById("page-loader").style.display = "flex";
-  
-  // Transition to target page
   setTimeout(() => {
     window.location.href = targetUrl;
-  }, 300);
+  }, 250);
 }
 
 function logout() {
   document.getElementById("page-loader").style.display = "flex";
   document.querySelector(".loader-text").textContent = "Logging out...";
-  
   setTimeout(() => {
     sessionStorage.clear();
     location.href = "login2.html";
