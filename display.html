@@ -612,8 +612,24 @@ function renderConsumerCard(consumerObj) {
 
   const rrVal = consumerObj["RR No"] || consumerObj["RRNO"] || "Consumer Information";
   
+  // Define fields to exclude from displaying
+  const excludedKeys = [
+    "Column_5",
+    "Area Name",
+    "RD",
+    "SL",
+    "CB(Repeated)",
+    "TC(repeated)",
+    "Pole Name",
+    "LM Name",
+    "SINo"
+  ];
+
   let rowsHtml = "";
   Object.keys(consumerObj).forEach(key => {
+    // Skip rendering if key matches an excluded field
+    if (excludedKeys.includes(key)) return;
+
     let val = consumerObj[key];
     if (val === null || val === undefined || val === "") {
       val = "-";
