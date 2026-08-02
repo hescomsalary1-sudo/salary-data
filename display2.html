@@ -175,25 +175,17 @@ body {
   text-shadow: 0 2px 8px rgba(244, 63, 94, 0.3);
 }
 
-/* Controls Card */
+/* Filter Control Box */
 .controls-card {
   background: rgba(15, 23, 42, 0.7);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
-  padding: 16px;
+  padding: 14px;
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
   margin-bottom: 20px;
   animation: fadeInUp 0.4s ease forwards;
-}
-
-.form-group {
-  margin-bottom: 12px;
-}
-
-.form-group:last-child {
-  margin-bottom: 0;
 }
 
 .form-group label {
@@ -206,7 +198,7 @@ body {
   letter-spacing: 0.5px;
 }
 
-select, input {
+input {
   width: 100%;
   padding: 11px 14px;
   font-size: 0.88rem;
@@ -216,23 +208,9 @@ select, input {
   border-radius: 10px;
   outline: none;
   transition: all 0.2s ease;
-  appearance: none;
-  -webkit-appearance: none;
 }
 
-select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%3Cf43f5e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  padding-right: 36px;
-}
-
-select option {
-  background-color: #0f172a;
-  color: #f8fafc;
-}
-
-select:focus, input:focus {
+input:focus {
   border-color: #f43f5e;
   background: rgba(30, 41, 59, 0.95);
   box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.2);
@@ -263,6 +241,7 @@ input::placeholder {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: all 0.2s ease;
+  animation: fadeInUp 0.3s ease forwards;
 }
 
 .consumer-summary-card:active {
@@ -274,12 +253,12 @@ input::placeholder {
 .card-left {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
   max-width: 65%;
 }
 
 .rr-badge {
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   font-weight: 700;
   color: #38bdf8;
   display: flex;
@@ -287,8 +266,20 @@ input::placeholder {
   gap: 6px;
 }
 
+.tc-tag {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #a7f3d0;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 2px 8px;
+  border-radius: 6px;
+  display: inline-block;
+  width: fit-content;
+}
+
 .consumer-name {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: #cbd5e1;
   font-weight: 500;
   white-space: nowrap;
@@ -303,7 +294,7 @@ input::placeholder {
 }
 
 .cb-amount {
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   font-weight: 700;
   color: #f43f5e;
   text-align: right;
@@ -517,7 +508,7 @@ input::placeholder {
     <div class="spinner-outer"></div>
     <div class="spinner-inner"></div>
   </div>
-  <div id="loader-text">Loading Arrears...</div>
+  <div id="loader-text">Loading Arrears (> ₹500)...</div>
 </div>
 
 <!-- Header Navbar -->
@@ -549,26 +540,19 @@ input::placeholder {
     </div>
   </div>
 
-  <!-- Control Panel -->
+  <!-- Filter Search Input Box -->
   <div class="controls-card">
     <div class="form-group">
-      <label for="tcSelect">Transformer Code (TC)</label>
-      <select id="tcSelect">
-        <option value="">-- Select TC --</option>
-      </select>
-    </div>
-
-    <div class="form-group">
       <label for="searchBox">Filter List</label>
-      <input type="text" id="searchBox" placeholder="Search RR No or Consumer Name...">
+      <input type="text" id="searchBox" placeholder="Search RR No, TC, or Consumer Name...">
     </div>
   </div>
 
-  <!-- Consumer Summary List Container -->
+  <!-- One-by-One Container List -->
   <div id="dataContainer" class="data-container">
     <div class="empty-state">
-      <div class="empty-state-icon">⚠️</div>
-      <div>Select TC to view consumers with CB > ₹500</div>
+      <div class="empty-state-icon">📋</div>
+      <div>Loading consumers with balance > ₹500...</div>
     </div>
   </div>
 
@@ -603,7 +587,6 @@ if (!lmName) {
 
 document.getElementById("lmName").textContent = lmName;
 
-const tcSelect = document.getElementById("tcSelect");
 const searchBox = document.getElementById("searchBox");
 const dataContainer = document.getElementById("dataContainer");
 const loaderOverlay = document.getElementById("loader-overlay");
@@ -620,15 +603,7 @@ function hideLoader() {
   loaderOverlay.style.display = "none";
 }
 
-// Populate TC Dropdown
-tcList.forEach(item => {
-  let opt = document.createElement("option");
-  opt.value = item;
-  opt.textContent = item;
-  tcSelect.appendChild(opt);
-});
-
-// Helper: Extract value safely
+// Helper: Extract value safely from object
 function getVal(obj, keys) {
   for (let k of keys) {
     if (obj[k] !== undefined && obj[k] !== null && obj[k] !== "") return obj[k];
@@ -643,76 +618,64 @@ function parseAmount(val) {
   return parseFloat(cleaned) || 0;
 }
 
-// Fetch Consumer Details when TC is selected
-tcSelect.onchange = function () {
-  const selectedTC = this.value;
-  dataContainer.innerHTML = `
-    <div class="empty-state">
-      <div class="empty-state-icon">📋</div>
-      <div>Loading consumers for TC: ${selectedTC}...</div>
-    </div>`;
-  document.getElementById("totalOver500").textContent = "0";
-  currentConsumerList = [];
-
-  if (!selectedTC) {
+// Auto Load All TC Arrears on Page Load
+window.onload = function() {
+  if (!tcList || tcList.length === 0) {
     dataContainer.innerHTML = `
       <div class="empty-state">
         <div class="empty-state-icon">⚠️</div>
-        <div>Select TC to view consumers with CB > ₹500</div>
+        <div>No Transformer Codes (TC) found for this LM.</div>
       </div>`;
     return;
   }
 
-  showLoader("Fetching Consumers (> ₹500 CB)...");
-
-  // Fetch all RR Numbers for this TC
-  fetch(`${API_URL}?action=rr&tc=${encodeURIComponent(selectedTC)}`)
-    .then(res => res.json())
-    .then(data => {
-      if (data.status !== "success" || !data.rrList || data.rrList.length === 0) {
-        hideLoader();
-        dataContainer.innerHTML = `<div class="empty-state">No records found for TC: ${selectedTC}</div>`;
-        return;
-      }
-
-      // Fetch detailed consumer rows to evaluate Closing Balance
-      fetchConsumerDetailsBatch(data.rrList);
-    })
-    .catch(err => {
-      hideLoader();
-      console.error(err);
-      alert("Unable to fetch data from server.");
-    });
+  loadAllTCData();
 };
 
-// Batch/Iterative Fetch for Consumer Details & CB Filter
-async function fetchConsumerDetailsBatch(rrList) {
+async function loadAllTCData() {
+  showLoader("Fetching Arrears Data (> ₹500)...");
   const over500List = [];
 
-  for (let i = 0; i < rrList.length; i++) {
-    const rrno = rrList[i].rrno;
-    loaderText.textContent = `Processing (${i + 1}/${rrList.length})...`;
+  for (let t = 0; t < tcList.length; t++) {
+    const currentTC = tcList[t];
+    loaderText.textContent = `Fetching TC (${t + 1}/${tcList.length}): ${currentTC}...`;
 
     try {
-      const res = await fetch(`${API_URL}?action=consumer&rrno=${encodeURIComponent(rrno)}`);
-      const data = await res.json();
+      // 1. Fetch RR List for current TC
+      const rrRes = await fetch(`${API_URL}?action=rr&tc=${encodeURIComponent(currentTC)}`);
+      const rrData = await rrRes.json();
 
-      if (data.status === "success" && data.consumer) {
-        const c = data.consumer;
-        const cbVal = parseAmount(getVal(c, ["CB", "Closing Balance", "CB Amount", "BALANCE"]));
+      if (rrData.status === "success" && rrData.rrList && rrData.rrList.length > 0) {
+        
+        // 2. Fetch each consumer details and filter CB > 500
+        for (let i = 0; i < rrData.rrList.length; i++) {
+          const rrno = rrData.rrList[i].rrno;
 
-        // Filter: Keep only CB > 500
-        if (cbVal > 500) {
-          over500List.push({
-            rrno: getVal(c, ["RR No", "RRNO"]) || rrno,
-            name: getVal(c, ["Name", "Consumer Name", "NAME"]) || "N/A",
-            cb: cbVal,
-            fullData: c
-          });
+          try {
+            const consRes = await fetch(`${API_URL}?action=consumer&rrno=${encodeURIComponent(rrno)}`);
+            const consData = await consRes.json();
+
+            if (consData.status === "success" && consData.consumer) {
+              const c = consData.consumer;
+              const cbVal = parseAmount(getVal(c, ["CB", "Closing Balance", "CB Amount", "BALANCE"]));
+
+              if (cbVal > 500) {
+                over500List.push({
+                  tc: currentTC,
+                  rrno: getVal(c, ["RR No", "RRNO"]) || rrno,
+                  name: getVal(c, ["Name", "Consumer Name", "NAME"]) || "N/A",
+                  cb: cbVal,
+                  fullData: c
+                });
+              }
+            }
+          } catch (e) {
+            console.error("Error loading RR:", rrno, e);
+          }
         }
       }
-    } catch (e) {
-      console.error("Error fetching RR:", rrno, e);
+    } catch (err) {
+      console.error("Error loading TC:", currentTC, err);
     }
   }
 
@@ -722,7 +685,7 @@ async function fetchConsumerDetailsBatch(rrList) {
   renderConsumerList(over500List);
 }
 
-// Render Summary Cards
+// Render Summary Containers One-By-One
 function renderConsumerList(list) {
   dataContainer.innerHTML = "";
 
@@ -730,7 +693,7 @@ function renderConsumerList(list) {
     dataContainer.innerHTML = `
       <div class="empty-state">
         <div class="empty-state-icon">✅</div>
-        <div>No consumers found with CB greater than ₹500 in this TC.</div>
+        <div>No consumers found with Closing Balance > ₹500.</div>
       </div>`;
     return;
   }
@@ -738,12 +701,13 @@ function renderConsumerList(list) {
   list.forEach((item, index) => {
     const card = document.createElement("div");
     card.className = "consumer-summary-card";
-    card.setAttribute("data-search", `${item.rrno} ${item.name}`);
+    card.setAttribute("data-search", `${item.rrno} ${item.name} ${item.tc}`);
     card.onclick = () => openModal(index);
 
     card.innerHTML = `
       <div class="card-left">
         <div class="rr-badge">📄 ${item.rrno}</div>
+        <div class="tc-tag">TC: ${item.tc}</div>
         <div class="consumer-name">${item.name}</div>
       </div>
       <div class="card-right">
@@ -770,6 +734,16 @@ function openModal(index) {
   const modalBody = document.getElementById("modalBody");
   modalBody.innerHTML = "";
 
+  // Insert TC code info row first
+  const tcRow = document.createElement("div");
+  tcRow.className = "detail-row";
+  tcRow.innerHTML = `
+    <span class="detail-label">TC Name/Code</span>
+    <span class="detail-value" style="color: #10b981;">${item.tc}</span>
+  `;
+  modalBody.appendChild(tcRow);
+
+  // Remaining Details
   Object.keys(item.fullData).forEach(key => {
     let val = item.fullData[key];
     if (val === null || val === undefined || val === "") val = "-";
@@ -790,7 +764,7 @@ function closeModal() {
   document.getElementById("consumerModal").style.display = "none";
 }
 
-// Dynamic Filter Search Box
+// Dynamic Search Box Filter
 searchBox.onkeyup = function () {
   const term = this.value.toUpperCase().trim();
   const cards = document.querySelectorAll(".consumer-summary-card");
