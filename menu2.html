@@ -257,6 +257,155 @@ body {
 .card-4 { border-top: 3px solid #c084fc; }
 .card-4 .card-icon { background: rgba(192, 132, 252, 0.15); color: #c084fc; }
 
+/* Tariff Balance List Container */
+.tariff-container {
+  margin-top: 20px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  animation: fadeInUp 0.6s ease forwards;
+  animation-delay: 0.25s;
+  opacity: 0;
+}
+
+.tariff-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.tariff-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tariff-icon {
+  width: 36px;
+  height: 36px;
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.tariff-title-group h3 {
+  font-size: 0.95rem;
+  color: #f8fafc;
+  font-weight: 700;
+}
+
+.tc-badge {
+  font-size: 0.7rem;
+  background: rgba(99, 102, 241, 0.2);
+  color: #818cf8;
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+/* Balance Summary Cards */
+.tariff-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.summary-box {
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.summary-box span {
+  display: block;
+  font-size: 0.68rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.summary-box strong {
+  font-size: 1rem;
+  color: #f8fafc;
+}
+
+.summary-box.highlight strong {
+  color: #f43f5e;
+}
+
+/* Tariff Table */
+.tariff-table-wrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.tariff-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.8rem;
+}
+
+.tariff-table th {
+  background: rgba(30, 41, 59, 0.8);
+  color: #38bdf8;
+  font-weight: 600;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tariff-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: #e2e8f0;
+}
+
+.tariff-table tr:last-child td {
+  border-bottom: none;
+}
+
+.tariff-table tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.tariff-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: rgba(56, 189, 248, 0.12);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.amt-text {
+  font-weight: 700;
+  color: #f43f5e;
+  text-align: right;
+}
+
+.count-text {
+  text-align: center;
+  color: #cbd5e1;
+}
+
 /* Navigation Loader Overlay */
 #page-loader {
   display: none;
@@ -404,6 +553,45 @@ body {
 
   </div>
 
+  <!-- Tariff Wise Balance Container for logged-in TC -->
+  <div class="tariff-container">
+    <div class="tariff-header">
+      <div class="tariff-title-group">
+        <div class="tariff-icon">💰</div>
+        <div>
+          <h3>Tariff Wise Balance</h3>
+        </div>
+      </div>
+      <span class="tc-badge" id="tcCodeDisplay">TC: --</span>
+    </div>
+
+    <div class="tariff-summary-grid">
+      <div class="summary-box">
+        <span>Total Install.</span>
+        <strong id="totalInstallations">0</strong>
+      </div>
+      <div class="summary-box highlight">
+        <span>Total Balance</span>
+        <strong id="totalBalanceAmt">₹ 0</strong>
+      </div>
+    </div>
+
+    <div class="tariff-table-wrapper">
+      <table class="tariff-table">
+        <thead>
+          <tr>
+            <th>Tariff Category</th>
+            <th style="text-align: center;">Count</th>
+            <th style="text-align: right;">Balance (₹)</th>
+          </tr>
+        </thead>
+        <tbody id="tariffTableBody">
+          <!-- Dynamic Tariff Data Rows Will Render Here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>
 
 <!-- Fullscreen Navigation Loader -->
@@ -417,13 +605,60 @@ body {
 
 <script>
 const lmName = sessionStorage.getItem("lmName");
+const tcCode = sessionStorage.getItem("mpin") || sessionStorage.getItem("tcCode") || "TC-101";
 
 if (!lmName) {
   alert("Session expired. Please log in again.");
   location.href = "login2.html";
 } else {
   document.getElementById("lmNameDisplay").textContent = lmName;
+  document.getElementById("tcCodeDisplay").textContent = `TC: ${tcCode}`;
 }
+
+// Simulated TC Tariff Data Database (Replace/Integrate with your live backend API if needed)
+const tcBalanceDatabase = {
+  "TC-101": [
+    { category: "LT-2 (Domestic)", count: 142, balance: 85450 },
+    { category: "LT-3 (Commercial)", count: 28, balance: 42100 },
+    { category: "LT-5 (Industrial)", count: 8, balance: 98300 },
+    { category: "BJ / KJ", count: 35, balance: 12400 }
+  ],
+  "TC-102": [
+    { category: "LT-2 (Domestic)", count: 98, balance: 62100 },
+    { category: "LT-3 (Commercial)", count: 15, balance: 21400 },
+    { category: "LT-5 (Industrial)", count: 4, balance: 45000 },
+    { category: "BJ / KJ", count: 20, balance: 8100 }
+  ]
+};
+
+// Function to Render Tariff-Wise Balance for Logged-In TC
+function loadTcTariffBalance() {
+  const data = tcBalanceDatabase[tcCode] || tcBalanceDatabase["TC-101"];
+  const tbody = document.getElementById("tariffTableBody");
+  
+  let totalCount = 0;
+  let totalBalance = 0;
+  tbody.innerHTML = "";
+
+  data.forEach(item => {
+    totalCount += item.count;
+    totalBalance += item.balance;
+
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td><span class="tariff-tag">${item.category}</span></td>
+      <td class="count-text">${item.count}</td>
+      <td class="amt-text">₹ ${item.balance.toLocaleString('en-IN')}</td>
+    `;
+    tbody.appendChild(row);
+  });
+
+  document.getElementById("totalInstallations").textContent = totalCount;
+  document.getElementById("totalBalanceAmt").textContent = `₹ ${totalBalance.toLocaleString('en-IN')}`;
+}
+
+// Initialize Tariff Balance Container
+loadTcTariffBalance();
 
 function handleNavigation(event, targetUrl) {
   event.preventDefault();
