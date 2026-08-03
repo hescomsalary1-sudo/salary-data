@@ -79,7 +79,7 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
-      z-index: 1000;
+      z-index: 1200; /* Raised above loader so footer is never covered */
     }
 
     .nav-item {
@@ -175,11 +175,14 @@
       50% { transform: translateY(-6px); }
     }
 
-    /* Fullscreen Loader Component */
+    /* Fullscreen Loader Component (Leaves Footer Visible) */
     #page-loader {
       display: none;
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 75px; /* Excludes footer area */
       background: rgba(2, 6, 23, 0.85);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
@@ -227,7 +230,7 @@
     </div>
   </div>
 
-  <!-- APP FOOTER NAVBAR -->
+  <!-- APP FOOTER NAVBAR (Fixed on top of Loader) -->
   <div class="app-footer" id="navbar">
     <div class="nav-item" onclick="goTab('foot1.html')">
       <div class="nav-icon">🏠</div>
@@ -257,7 +260,7 @@
     </div>
   </div>
 
-  <!-- Optional Navigation Loader -->
+  <!-- Navigation Loader (Covers Content, Footer Remains Visible) -->
   <div id="page-loader">
     <div class="spinner-container">
       <div class="spinner-outer"></div>
@@ -295,11 +298,11 @@
       });
     });
 
-      history.pushState(null, null, location.href);
-
-window.onpopstate = function () {
-  window.location.replace("menu2.html");
-};
+    // History Prevention Logic
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+      window.location.replace("menu2.html");
+    };
   </script>
 
 </body>
