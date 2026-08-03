@@ -25,7 +25,7 @@ body {
   background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0f172a 50%, #020617 100%);
   min-height: 100vh;
   color: #f8fafc;
-  padding-bottom: 30px;
+  padding-bottom: 90px; /* Added extra padding so footer does not overlap content */
   position: relative;
 }
 
@@ -415,6 +415,70 @@ body {
   font-weight: 600;
 }
 
+/* Modern Floating Bottom Navigation Bar */
+.bottom-nav {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 24px);
+  max-width: 480px;
+  height: 64px;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(56, 189, 248, 0.1);
+  z-index: 999;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #94a3b8;
+  width: 32%;
+  height: 80%;
+  border-radius: 14px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  gap: 3px;
+  position: relative;
+}
+
+.nav-item .nav-icon {
+  font-size: 1.25rem;
+  transition: transform 0.3s ease;
+}
+
+.nav-item .nav-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* Active Highlight Style */
+.nav-item.active {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
+}
+
+.nav-item.active .nav-icon {
+  transform: translateY(-2px) scale(1.1);
+}
+
+.nav-item:active {
+  transform: scale(0.92);
+}
+
 /* Navigation Loader Overlay */
 #page-loader {
   display: flex;
@@ -603,6 +667,22 @@ body {
 
 </div>
 
+<!-- Modern App-Style Footer Navigation Bar -->
+<nav class="bottom-nav">
+  <a href="foot1.html" class="nav-item" onclick="handleNavigation(event, 'foot1.html')">
+    <span class="nav-icon">🏠</span>
+    <span class="nav-label">Option 1</span>
+  </a>
+  <a href="foot2.html" class="nav-item active" onclick="handleNavigation(event, 'foot2.html')">
+    <span class="nav-icon">⚡</span>
+    <span class="nav-label">Option 2</span>
+  </a>
+  <a href="foot3.html" class="nav-item" onclick="handleNavigation(event, 'foot3.html')">
+    <span class="nav-icon">👤</span>
+    <span class="nav-label">Option 3</span>
+  </a>
+</nav>
+
 <!-- Fullscreen Navigation Loader -->
 <div id="page-loader">
   <div class="spinner-container">
@@ -613,9 +693,24 @@ body {
 </div>
 
 <script>
+// Auto Highlight Active Footer Tab based on current URL path
+document.addEventListener("DOMContentLoaded", () => {
+  const currentPath = window.location.pathname.split("/").pop();
+  const navItems = document.querySelectorAll(".nav-item");
+
+  navItems.forEach(item => {
+    const itemHref = item.getAttribute("href");
+    if (itemHref === currentPath) {
+      item.classList.add("active");
+    } else {
+      item.classList.remove("active");
+    }
+  });
+});
+
 // 1. Google Sheets Configuration
 const GOOGLE_SHEET_ID = "1irEWggFO5v9xn_ekeUNtgXI6JAHMK4E5PsKiJN3pgcc";
-const MASTER_SHEET_NAME = "master"; // ⚠️ MUST MATCH exact tab name case in Google Sheets (e.g., "Master" or "master")
+const MASTER_SHEET_NAME = "master"; 
 const LOGIN_SHEET_NAME = "login";
 
 // 2. User Session Retrieval
