@@ -5,6 +5,13 @@
 </head>
 <body style="font-family:Arial; text-align:center; padding-top:100px;">
 <h1>This is Page 1</h1>
-<a href="index.html">Go Back Home</a>
+<a href="menu2.html">Go Back Home</a>
+  <script>
+  history.pushState(null, null, location.href);
+
+window.onpopstate = function () {
+  window.location.replace("resources.html");
+};
+    </script>
 </body>
 </html>
