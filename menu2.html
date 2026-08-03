@@ -21,11 +21,11 @@ html, body {
 }
 
 body {
-  /* Dynamic Multi-Layered Dark Background matching #072A42 theme tones */
+  /* Dark Navy Background Tone */
   background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #072a42 60%, #020617 100%);
   min-height: 100vh;
   color: #f8fafc;
-  padding-bottom: 80px; /* Precise padding so content never gets covered by fixed footer */
+  padding-bottom: 90px; /* Space for elevated navbar */
   position: relative;
 }
 
@@ -416,71 +416,116 @@ body {
 }
 
 /* ========================================================
-   BOTTOM NAVIGATION BAR (#072A42 THEME - FLUSH TO BASE)
+   APP FOOTER NAVBAR (#072A42 WITH FLOATING MIDDLE BUTTON)
    ======================================================== */
-.bottom-nav {
+.app-footer {
   position: fixed;
-  bottom: 0; /* Directly flush with the bottom of mobile screen */
+  bottom: 0;
   left: 0;
   width: 100%;
-  height: 65px;
-  /* Dark Navy Background (#072A42) */
+  height: 75px;
   background: #072a42;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 20px 20px 0 0; /* Curved top corners only */
+  box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.45);
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 0 10px;
-  box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  z-index: 1000;
 }
 
 .nav-item {
+  flex: 1;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-decoration: none;
-  color: #94a3b8; /* Soft muted gray/blue for inactive */
-  width: 30%;
-  height: 78%;
-  border-radius: 12px;
-  transition: all 0.25s ease-in-out;
-  gap: 3px;
-  position: relative;
 }
 
-.nav-item .nav-icon {
-  font-size: 1.2rem;
-  opacity: 0.7;
+.nav-icon {
+  font-size: 20px;
+  color: #94a3b8;
   transition: all 0.25s ease;
 }
 
-.nav-item .nav-label {
-  font-size: 0.72rem;
-  font-weight: 500;
+.nav-item span {
+  display: block;
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 2px;
+  transition: all 0.25s ease;
 }
 
-/* ACTIVE TAB HIGHLIGHT FOR #072A42 FOOTER */
-.nav-item.active {
-  color: #38bdf8; /* Bright Cyan / Electric Sky Blue */
-  background: rgba(56, 189, 248, 0.12); /* Soft illuminated background pill */
-  border: 1px solid rgba(56, 189, 248, 0.3);
+/* Active Indicator Pill (Top Line) */
+.nav-item.active::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 26px;
+  height: 3px;
+  border-radius: 10px;
+  background: #38bdf8;
+  box-shadow: 0 0 8px #38bdf8;
 }
 
-.nav-item.active .nav-icon {
-  opacity: 1;
-  transform: translateY(-1px) scale(1.15);
+.nav-item.active .nav-icon,
+.nav-item.active span {
+  color: #38bdf8;
+  font-weight: 600;
 }
 
-.nav-item.active .nav-label {
-  font-weight: 700;
+/* CENTER BUTTON STYLING */
+.center-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateY(-18px);
+}
+
+.center-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1d4ed8, #0284c7);
   color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 12px rgba(56, 189, 248, 0.4);
+  border: 3px solid #072a42;
+  animation: float 2s ease-in-out infinite;
 }
 
+.center-text {
+  font-size: 11px;
+  margin-top: 4px;
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+/* Click Effect */
 .nav-item:active {
-  transform: scale(0.95);
+  transform: scale(0.92);
+}
+
+/* Float Keyframe Animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
 }
 
 /* Navigation Loader Overlay */
@@ -491,7 +536,7 @@ body {
   background: rgba(2, 6, 23, 0.85);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  z-index: 1000;
+  z-index: 1100;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -671,21 +716,35 @@ body {
 
 </div>
 
-<!-- #072A42 Bottom Navigation Bar (Flush to screen base) -->
-<nav class="bottom-nav">
-  <a href="foot1.html" class="nav-item" onclick="handleNavigation(event, 'foot1.html')">
-    <span class="nav-icon">🏠</span>
-    <span class="nav-label">Option 1</span>
-  </a>
-  <a href="foot2.html" class="nav-item active" onclick="handleNavigation(event, 'foot2.html')">
-    <span class="nav-icon">⚡</span>
-    <span class="nav-label">Option 2</span>
-  </a>
-  <a href="foot3.html" class="nav-item" onclick="handleNavigation(event, 'foot3.html')">
-    <span class="nav-icon">👤</span>
-    <span class="nav-label">Option 3</span>
-  </a>
-</nav>
+<!-- APP FOOTER NAVBAR (#072A42 WITH CENTER FLOATING BUTTON) -->
+<div class="app-footer" id="navbar">
+  <div class="nav-item" onclick="goTab('foot1.html')">
+    <div class="nav-icon">🏠</div>
+    <span>Home</span>
+  </div>
+
+  <div class="nav-item" onclick="goTab('foot2.html')">
+    <div class="nav-icon">💬</div>
+    <span>Forum</span>
+  </div>
+
+  <div class="nav-item center-item" onclick="goTab('menu2.html')">
+    <div class="center-wrapper">
+      <div class="center-btn">⚡</div>
+      <div class="center-text">Smart Support</div>
+    </div>
+  </div>
+
+  <div class="nav-item" onclick="goTab('foot3.html')">
+    <div class="nav-icon">👤</div>
+    <span>Employee</span>
+  </div>
+
+  <div class="nav-item" onclick="goTab('foot4.html')">
+    <div class="nav-icon">📂</div>
+    <span>Resources</span>
+  </div>
+</div>
 
 <!-- Fullscreen Navigation Loader -->
 <div id="page-loader">
@@ -697,28 +756,36 @@ body {
 </div>
 
 <script>
-// Auto-detect and highlight the active tab based on current page URL
-document.addEventListener("DOMContentLoaded", () => {
-  const currentPath = window.location.pathname.split("/").pop();
+// Tab Navigation Handler
+function goTab(url) {
+  sessionStorage.setItem("navClick", "true");
+  document.getElementById("page-loader").style.display = "flex";
+  document.getElementById("loaderText").textContent = "Loading...";
+
+  setTimeout(() => {
+    window.location.replace(url);
+  }, 400);
+}
+
+// Highlight Active Tab
+window.addEventListener("load", () => {
+  const currentPage = location.pathname.split("/").pop() || "menu2.html";
   const navItems = document.querySelectorAll(".nav-item");
 
   navItems.forEach(item => {
-    const itemHref = item.getAttribute("href");
-    if (itemHref === currentPath) {
+    const onclickAttr = item.getAttribute("onclick");
+    if (onclickAttr && onclickAttr.includes(currentPage)) {
       item.classList.add("active");
-    } else if (currentPath !== itemHref && itemHref !== 'foot2.html') {
-      // Default reset if not on foot2.html
-      item.classList.remove("active");
     }
   });
 });
 
-// 1. Google Sheets Configuration
+// Google Sheets Integration
 const GOOGLE_SHEET_ID = "1irEWggFO5v9xn_ekeUNtgXI6JAHMK4E5PsKiJN3pgcc";
 const MASTER_SHEET_NAME = "master"; 
 const LOGIN_SHEET_NAME = "login";
 
-// 2. User Session Retrieval
+// Session Management
 const lmName = sessionStorage.getItem("lmName");
 const currentMpin = String(sessionStorage.getItem("mpin") || sessionStorage.getItem("tcCode") || "").trim();
 
@@ -729,19 +796,16 @@ if (!lmName) {
   document.getElementById("lmNameDisplay").textContent = lmName;
 }
 
-// Helper: Normalize strings for strict vs fuzzy comparison
 function normalizeStr(val) {
   if (val === null || val === undefined) return "";
   return String(val).trim().toUpperCase();
 }
 
-// Helper: Remove extra spaces in Tariff names
 function cleanTariffName(tariffRaw) {
   if (!tariffRaw) return "UNSPECIFIED";
   return String(tariffRaw).trim().toUpperCase().replace(/\s+/g, ' ');
 }
 
-// Helper: Robust CSV Parser handling quotes and commas
 function parseCSV(csvText) {
   const lines = csvText.split(/\r\n|\n/);
   if (lines.length === 0) return [];
@@ -771,10 +835,8 @@ function parseCSV(csvText) {
   return result;
 }
 
-// Fetch a specific sheet tab by name from Google Sheets
 async function fetchSheetByName(sheetName) {
   const csvUrl = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
-  
   try {
     const response = await fetch(csvUrl);
     if (!response.ok) throw new Error(`HTTP ${response.status} when fetching sheet: ${sheetName}`);
@@ -786,7 +848,6 @@ async function fetchSheetByName(sheetName) {
   }
 }
 
-// Flexible Field Getter (handles minor column name differences)
 function getFieldValue(row, possibleNames) {
   for (let name of possibleNames) {
     if (row[name] !== undefined) return row[name];
@@ -800,7 +861,6 @@ function getFieldValue(row, possibleNames) {
   return "";
 }
 
-// Main Function: Cross-references Login & Master sheets
 async function loadAndProcessTariffData() {
   const loader = document.getElementById("page-loader");
   const loaderText = document.getElementById("loaderText");
@@ -808,9 +868,7 @@ async function loadAndProcessTariffData() {
   loader.style.display = "flex";
   loaderText.textContent = "Loading Master Data...";
 
-  // Step A: Fetch Login Sheet to find matching TCs for the current M-PIN
   const loginRows = await fetchSheetByName(LOGIN_SHEET_NAME);
-  
   let targetTCs = [];
 
   loginRows.forEach(row => {
@@ -822,14 +880,12 @@ async function loadAndProcessTariffData() {
     }
   });
 
-  // Fallback: If login sheet fetch fails or doesn't match, use current MPIN as TC
   if (targetTCs.length === 0 && currentMpin) {
     targetTCs.push(normalizeStr(currentMpin));
   }
 
   document.getElementById("tcCodeDisplay").textContent = `TC: ${targetTCs.join(", ")}`;
 
-  // Step B: Fetch Master Sheet and filter by found TCs
   const masterRows = await fetchSheetByName(MASTER_SHEET_NAME);
 
   const filteredRows = masterRows.filter(row => {
@@ -837,7 +893,6 @@ async function loadAndProcessTariffData() {
     return targetTCs.some(tc => tc === rowTC);
   });
 
-  // Step C: Aggregate Tariff Wise Balances
   const tariffMap = {};
   let totalInstallationsCount = 0;
   let totalClosingBalanceAmt = 0;
@@ -858,7 +913,6 @@ async function loadAndProcessTariffData() {
     totalClosingBalanceAmt += closingBalance;
   });
 
-  // Step D: Render to Table
   const tbody = document.getElementById("tariffTableBody");
   tbody.innerHTML = "";
 
