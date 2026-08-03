@@ -25,7 +25,7 @@ body {
   background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0f172a 50%, #020617 100%);
   min-height: 100vh;
   color: #f8fafc;
-  padding-bottom: 90px; /* Added extra padding so footer does not overlap content */
+  padding-bottom: 95px; /* Spacing so footer never overlaps content */
   position: relative;
 }
 
@@ -415,25 +415,28 @@ body {
   font-weight: 600;
 }
 
-/* Modern Floating Bottom Navigation Bar */
+/* ========================================================
+   MODERN WHITE GLASS BOTTOM NAVIGATION BAR
+   ======================================================== */
 .bottom-nav {
   position: fixed;
   bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
   width: calc(100% - 24px);
-  max-width: 480px;
-  height: 64px;
-  background: rgba(15, 23, 42, 0.85);
+  max-width: 460px;
+  height: 66px;
+  /* Crisp White Glass Theme */
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 24px;
   display: flex;
   justify-content: space-around;
   align-items: center;
   padding: 0 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(56, 189, 248, 0.1);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45), 0 2px 10px rgba(0, 0, 0, 0.1);
   z-index: 999;
 }
 
@@ -443,40 +446,45 @@ body {
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  color: #94a3b8;
-  width: 32%;
-  height: 80%;
-  border-radius: 14px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #64748b; /* Dark Slate Gray for inactive text */
+  width: 31%;
+  height: 82%;
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   gap: 3px;
   position: relative;
 }
 
 .nav-item .nav-icon {
   font-size: 1.25rem;
-  transition: transform 0.3s ease;
+  filter: grayscale(80%);
+  transition: all 0.3s ease;
 }
 
 .nav-item .nav-label {
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  letter-spacing: 0.3px;
+  letter-spacing: -0.2px;
 }
 
-/* Active Highlight Style */
+/* ACTIVE TAB HIGHLIGHT (WHITE THEME COMPATIBLE) */
 .nav-item.active {
-  color: #38bdf8;
-  background: rgba(56, 189, 248, 0.12);
-  border: 1px solid rgba(56, 189, 248, 0.25);
-  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
+  color: #0284c7; /* Vibrant Deep Sky Blue */
+  background: #e0f2fe; /* Light Soft Blue Bubble */
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.18);
 }
 
 .nav-item.active .nav-icon {
-  transform: translateY(-2px) scale(1.1);
+  filter: grayscale(0%);
+  transform: translateY(-2px) scale(1.15);
+}
+
+.nav-item.active .nav-label {
+  font-weight: 700;
 }
 
 .nav-item:active {
-  transform: scale(0.92);
+  transform: scale(0.93);
 }
 
 /* Navigation Loader Overlay */
@@ -667,7 +675,7 @@ body {
 
 </div>
 
-<!-- Modern App-Style Footer Navigation Bar -->
+<!-- White Glass Bottom Navigation Bar -->
 <nav class="bottom-nav">
   <a href="foot1.html" class="nav-item" onclick="handleNavigation(event, 'foot1.html')">
     <span class="nav-icon">🏠</span>
@@ -693,7 +701,7 @@ body {
 </div>
 
 <script>
-// Auto Highlight Active Footer Tab based on current URL path
+// Auto-detect and highlight the active tab based on current page URL
 document.addEventListener("DOMContentLoaded", () => {
   const currentPath = window.location.pathname.split("/").pop();
   const navItems = document.querySelectorAll(".nav-item");
@@ -702,7 +710,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const itemHref = item.getAttribute("href");
     if (itemHref === currentPath) {
       item.classList.add("active");
-    } else {
+    } else if (currentPath !== itemHref && itemHref !== 'foot2.html') {
+      // Default reset if not on foot2.html
       item.classList.remove("active");
     }
   });
