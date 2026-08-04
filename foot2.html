@@ -1,309 +1,931 @@
 <!DOCTYPE html>
 <html lang="kn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>App Footer Navigation - HESCOM</title>
-  
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>LM Consumer Details - HESCOM Siddapur</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Noto Sans Kannada', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Noto Sans Kannada', 'Plus Jakarta Sans', sans-serif;
-      -webkit-tap-highlight-color: transparent;
-    }
+html, body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
 
-    html, body {
-      width: 100%;
-      max-width: 100vw;
-      overflow-x: hidden;
-    }
+body {
+  background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #072a42 60%, #020617 100%);
+  min-height: 100vh;
+  color: #f8fafc;
+  padding-bottom: 90px; /* Space for bottom footer */
+  position: relative;
+}
 
-    body {
-      background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #072a42 60%, #020617 100%);
-      min-height: 100vh;
-      color: #f8fafc;
-      padding-bottom: 90px; /* Essential space so content isn't covered by the fixed footer */
-      position: relative;
-    }
+/* Ambient Background Accent Spheres */
+.bg-glow-1 {
+  position: absolute;
+  top: -100px;
+  right: -50px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, rgba(0,0,0,0) 70%);
+  pointer-events: none;
+  z-index: 0;
+}
 
-    /* Page Content Styling */
-    .page-content {
-      padding: 24px 16px;
-      text-align: center;
-      max-width: 500px;
-      margin: 0 auto;
-    }
+.bg-glow-2 {
+  position: absolute;
+  bottom: 0;
+  left: -80px;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.2) 0%, rgba(0,0,0,0) 70%);
+  pointer-events: none;
+  z-index: 0;
+}
 
-    .demo-card {
-      background: rgba(7, 42, 66, 0.65);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 16px;
-      padding: 24px;
-      margin-top: 40px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-    }
+/* Header Navbar */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  width: 100%;
+}
 
-    .demo-card h1 {
-      font-size: 1.25rem;
-      color: #38bdf8;
-      margin-bottom: 8px;
-    }
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-    .demo-card p {
-      font-size: 0.85rem;
-      color: #94a3b8;
-      line-height: 1.5;
-    }
+.brand-badge {
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, #4f46e5, #0284c7);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
 
-    /* ========================================================
-       FLOATING FOOTER NAVBAR (#072A42)
-       ======================================================== */
-    .app-footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 75px;
-      background: #072a42;
-      border-top-left-radius: 30px;
-      border-top-right-radius: 30px;
-      border-top: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.45);
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      z-index: 1200; /* Raised above loader so footer is never covered */
-    }
+.brand-text h2 {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #f8fafc;
+  line-height: 1.2;
+}
 
-    .nav-item {
-      flex: 1;
-      text-align: center;
-      cursor: pointer;
-      position: relative;
-      text-decoration: none;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
+.brand-text p {
+  font-size: 0.7rem;
+  color: #38bdf8;
+  font-weight: 600;
+}
 
-    .nav-icon {
-      font-size: 20px;
-      color: #94a3b8;
-      transition: all 0.25s ease;
-    }
+.nav-buttons {
+  display: flex;
+  gap: 8px;
+}
 
-    .nav-item span {
-      display: block;
-      font-size: 11px;
-      color: #94a3b8;
-      margin-top: 2px;
-      transition: all 0.25s ease;
-    }
+.btn-nav {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    /* Active Indicator Pill (Top Line Glow) */
-    .nav-item.active::before {
-      content: "";
-      position: absolute;
-      top: -8px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 26px;
-      height: 3px;
-      border-radius: 10px;
-      background: #38bdf8;
-      box-shadow: 0 0 8px #38bdf8;
-    }
+.btn-nav:active {
+  transform: scale(0.95);
+  background: rgba(255, 255, 255, 0.2);
+}
 
-    .nav-item.active .nav-icon,
-    .nav-item.active span {
-      color: #38bdf8;
-      font-weight: 600;
-    }
+.btn-logout {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
 
-    /* Center Button Styling */
-    .center-item {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+.btn-logout:active {
+  background: rgba(239, 68, 68, 0.3);
+}
 
-    .center-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transform: translateY(-18px);
-    }
+/* Container */
+.container {
+  width: 100%;
+  max-width: 520px;
+  margin: 16px auto 0 auto;
+  padding: 0 14px;
+  position: relative;
+  z-index: 10;
+}
 
-    .center-btn {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #1d4ed8, #0284c7);
-      color: #ffffff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 26px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 12px rgba(56, 189, 248, 0.4);
-      border: 3px solid #072a42;
-      animation: float 2s ease-in-out infinite;
-    }
+/* Summary Info Banner */
+.info-card {
+  background: linear-gradient(135deg, rgba(30, 27, 75, 0.6), rgba(15, 23, 42, 0.8));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  margin-bottom: 12px;
+  animation: fadeInDown 0.4s ease forwards;
+}
 
-    .center-text {
-      font-size: 11px;
-      margin-top: 4px;
-      color: #38bdf8;
-      font-weight: 600;
-    }
+.info-item label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  color: #94a3b8;
+  letter-spacing: 0.8px;
+  display: block;
+  margin-bottom: 2px;
+}
 
-    /* Click Effect */
-    .nav-item:active {
-      transform: scale(0.92);
-    }
+.info-item span {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #38bdf8;
+  text-shadow: 0 2px 8px rgba(56, 189, 248, 0.3);
+}
 
-    /* Float Keyframe Animation */
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
-    }
+/* Custom Redirect Button Style */
+.btn-tc-redirect {
+  width: 100%;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #4f46e5 0%, #0284c7 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+  transition: all 0.25s ease;
+  margin-bottom: 16px;
+  text-decoration: none;
+}
 
-    /* Fullscreen Loader Component (Leaves Footer Visible) */
-    #page-loader {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 75px; /* Excludes footer area */
-      background: rgba(2, 6, 23, 0.85);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      z-index: 1100;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
+.btn-tc-redirect:hover {
+  background: linear-gradient(135deg, #4338ca 0%, #0369a1 100%);
+  box-shadow: 0 8px 25px rgba(56, 189, 248, 0.5);
+  transform: translateY(-1px);
+}
 
-    .spinner-container {
-      position: relative;
-      width: 42px;
-      height: 42px;
-      margin-bottom: 12px;
-    }
+.btn-tc-redirect:active {
+  transform: scale(0.98);
+  box-shadow: 0 3px 10px rgba(79, 70, 229, 0.3);
+}
 
-    .spinner-outer {
-      width: 100%;
-      height: 100%;
-      border: 3px solid rgba(56, 189, 248, 0.2);
-      border-top-color: #38bdf8;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
+/* Control Panel Card */
+.controls-card {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  margin-bottom: 20px;
+  animation: fadeInUp 0.4s ease forwards;
+}
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+.form-group {
+  margin-bottom: 12px;
+}
 
-    .loader-text {
-      font-size: 0.85rem;
-      color: #38bdf8;
-      font-weight: 600;
-    }
-  </style>
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.search-input-wrapper {
+  display: flex;
+  gap: 8px;
+}
+
+select, input {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 0.88rem;
+  color: #f8fafc;
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%3C38bdf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+select option {
+  background-color: #0f172a;
+  color: #f8fafc;
+}
+
+select:focus, input:focus {
+  border-color: #38bdf8;
+  background: rgba(30, 41, 59, 0.95);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+}
+
+input::placeholder {
+  color: #64748b;
+}
+
+.btn-search {
+  padding: 11px 16px;
+  background: linear-gradient(135deg, #0284c7, #4f46e5);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+}
+
+.btn-search:active {
+  transform: scale(0.95);
+}
+
+.divider {
+  text-align: center;
+  margin: 10px 0;
+  font-size: 0.75rem;
+  color: #64748b;
+  position: relative;
+}
+
+.divider::before, .divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.divider::before { left: 0; }
+.divider::after { right: 0; }
+
+/* Data Container & Consumer Cards */
+.data-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.consumer-card {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.card-header {
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.3), rgba(56, 189, 248, 0.2));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-header-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #38bdf8;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-body {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+  font-size: 0.82rem;
+  gap: 12px;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.detail-label {
+  color: #94a3b8;
+  font-weight: 500;
+  flex: 1;
+}
+
+.detail-value {
+  color: #f8fafc;
+  font-weight: 600;
+  text-align: right;
+  flex: 1.2;
+  word-break: break-word;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 36px 20px;
+  color: #94a3b8;
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 16px;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  font-size: 0.85rem;
+}
+
+.empty-state-icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+  opacity: 0.7;
+}
+
+/* Loader Component */
+#page-loader {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 75px;
+  background: rgba(2, 6, 23, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 1100;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner-container {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 12px;
+}
+
+.spinner-outer {
+  width: 100%;
+  height: 100%;
+  border: 3px solid rgba(56, 189, 248, 0.2);
+  border-top-color: #38bdf8;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.spinner-inner {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-bottom-color: #818cf8;
+  border-radius: 50%;
+  animation: spin-reverse 0.5s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.loader-text {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #38bdf8;
+}
+
+/* FLOATING FOOTER NAVBAR */
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 75px;
+  background: #072a42;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1200;
+}
+
+.nav-item {
+  flex: 1;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-icon {
+  font-size: 20px;
+  color: #94a3b8;
+  transition: all 0.25s ease;
+}
+
+.nav-item span {
+  display: block;
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 2px;
+  transition: all 0.25s ease;
+}
+
+.nav-item.active::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 26px;
+  height: 3px;
+  border-radius: 10px;
+  background: #38bdf8;
+  box-shadow: 0 0 8px #38bdf8;
+}
+
+.nav-item.active .nav-icon,
+.nav-item.active span {
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+.center-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateY(-18px);
+}
+
+.center-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1d4ed8, #0284c7);
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 12px rgba(56, 189, 248, 0.4);
+  border: 3px solid #072a42;
+  animation: float 2s ease-in-out infinite;
+}
+
+.center-text {
+  font-size: 11px;
+  margin-top: 4px;
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+.nav-item:active {
+  transform: scale(0.92);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
 </head>
 <body>
 
-  <!-- Demo Body Content -->
-  <div class="page-content">
-    <div class="demo-card">
-      <h1>HESCOM App Page</h1>
-      <p>This is a full HTML page demo with the floating footer navigation bar fixed at the bottom.</p>
+<div class="bg-glow-1"></div>
+<div class="bg-glow-2"></div>
+
+<!-- Loader Overlay -->
+<div id="page-loader">
+  <div class="spinner-container">
+    <div class="spinner-outer"></div>
+    <div class="spinner-inner"></div>
+  </div>
+  <div class="loader-text" id="loaderText">Loading data...</div>
+</div>
+
+<!-- Header Navbar -->
+<div class="navbar">
+  <div class="nav-brand">
+    <div class="brand-badge">⚡</div>
+    <div class="brand-text">
+      <h2>ಗ್ರಾಹಕರ ವಿವರಗಳು</h2>
+      <p>HESCOM Siddapur</p>
+    </div>
+  </div>
+  <div class="nav-buttons">
+    <a href="menu2.html" class="btn-nav">Menu</a>
+    <button class="btn-nav btn-logout" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Summary Info Banner -->
+  <div class="info-card">
+    <div class="info-item">
+      <label>LM Name</label>
+      <span id="lmName">-</span>
+    </div>
+    <div class="info-item" style="text-align: right;">
+      <label>Total Consumers (TC)</label>
+      <span id="total">0</span>
     </div>
   </div>
 
-  <!-- APP FOOTER NAVBAR (Fixed on top of Loader) -->
-  <div class="app-footer" id="navbar">
-    <div class="nav-item" onclick="goTab('menu2.html')">
-      <div class="nav-icon">🏠</div>
-      <span>Home</span>
-    </div>
+  <!-- TC Wise Balance Redirect Button -->
+  <button class="btn-tc-redirect" onclick="goTab('tc.html')">
+    <span>📊</span> click here to view TC wise balance
+  </button>
 
-    <div class="nav-item" onclick="goTab('foot1.html')">
-      <div class="nav-icon">💬</div>
-      <span>Forum</span>
-    </div>
-
-    <div class="nav-item center-item" onclick="goTab('foot2.html')">
-      <div class="center-wrapper">
-        <div class="center-btn">⚡</div>
-        <div class="center-text">Quick search</div>
+  <!-- Dynamic Control Panel -->
+  <div class="controls-card">
+    <!-- Direct Universal Search -->
+    <div class="form-group">
+      <label for="queryInput">Quick Search (RR No / Mobile / Name)</label>
+      <div class="search-input-wrapper">
+        <input type="text" id="queryInput" placeholder="Enter RR No, Mobile, or Name...">
+        <button class="btn-search" onclick="performDirectSearch()">Search</button>
       </div>
     </div>
 
-    <div class="nav-item" onclick="goTab('foot3.html')">
-      <div class="nav-icon">👤</div>
-      <span>MR</span>
+    <div class="divider">OR SELECT FROM TC</div>
+
+    <div class="form-group">
+      <label for="tcSelect">Transformer Code (TC)</label>
+      <select id="tcSelect">
+        <option value="">-- Select TC --</option>
+      </select>
     </div>
 
-    <div class="nav-item" onclick="goTab('foot4.html')">
-      <div class="nav-icon">📂</div>
-      <span>Resources</span>
+    <div class="form-group">
+      <label for="rrSelect">RR Number</label>
+      <select id="rrSelect">
+        <option value="">-- Select RR No --</option>
+      </select>
     </div>
   </div>
 
-  <!-- Navigation Loader (Covers Content, Footer Remains Visible) -->
-  <div id="page-loader">
-    <div class="spinner-container">
-      <div class="spinner-outer"></div>
+  <!-- Cards Container -->
+  <div id="dataContainer" class="data-container">
+    <div class="empty-state">
+      <div class="empty-state-icon">🔍</div>
+      <div>Search by RR No, Mobile, or Name, or choose from TC list.</div>
     </div>
-    <div class="loader-text" id="loaderText">Loading...</div>
   </div>
 
-  <script>
-    // Tab Navigation Handler
-    function goTab(url) {
-      sessionStorage.setItem("navClick", "true");
-      const loader = document.getElementById("page-loader");
-      const loaderText = document.getElementById("loaderText");
+</div>
 
-      if (loader && loaderText) {
-        loader.style.display = "flex";
-        loaderText.textContent = "Loading...";
+<!-- APP FOOTER NAVBAR -->
+<div class="app-footer" id="navbar">
+  <div class="nav-item" onclick="goTab('menu2.html')">
+    <div class="nav-icon">🏠</div>
+    <span>Home</span>
+  </div>
+
+  <div class="nav-item" onclick="goTab('foot1.html')">
+    <div class="nav-icon">💬</div>
+    <span>Forum</span>
+  </div>
+
+  <div class="nav-item center-item" onclick="goTab('foot2.html')">
+    <div class="center-wrapper">
+      <div class="center-btn">⚡</div>
+      <div class="center-text">Quick search</div>
+    </div>
+  </div>
+
+  <div class="nav-item" onclick="goTab('foot3.html')">
+    <div class="nav-icon">👤</div>
+    <span>MR</span>
+  </div>
+
+  <div class="nav-item" onclick="goTab('foot4.html')">
+    <div class="nav-icon">📂</div>
+    <span>Resources</span>
+  </div>
+</div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbyCP_ACzGUE1JBL5UDgRMK0tbHvq489GpnNgQ-7HVzM3dTkc0cFG7j5kY9QqOJLMNbpXg/exec";
+
+const lmName = sessionStorage.getItem("lmName");
+const tcList = JSON.parse(sessionStorage.getItem("tcList") || "[]");
+
+if (!lmName) { 
+  alert("Session expired. Please log in again."); 
+  location.href = "login2.html"; 
+}
+
+document.getElementById("lmName").textContent = lmName;
+
+const tcSelect = document.getElementById("tcSelect");
+const rrSelect = document.getElementById("rrSelect");
+const queryInput = document.getElementById("queryInput");
+const dataContainer = document.getElementById("dataContainer");
+const pageLoader = document.getElementById("page-loader");
+const loaderText = document.getElementById("loaderText");
+
+function showLoader(msg = "Loading...") {
+  loaderText.textContent = msg;
+  pageLoader.style.display = "flex";
+}
+
+function hideLoader() {
+  pageLoader.style.display = "none";
+}
+
+// Populate TC Dropdown
+tcList.forEach(item => {
+  let opt = document.createElement("option");
+  opt.value = item;
+  opt.textContent = item;
+  tcSelect.appendChild(opt);
+});
+
+// Load RR Numbers & Update Total Consumer Count when TC is selected
+tcSelect.onchange = function () {
+  const selectedTC = this.value;
+  rrSelect.innerHTML = "<option value=''>-- Select RR No --</option>";
+  dataContainer.innerHTML = `
+    <div class="empty-state">
+      <div class="empty-state-icon">📋</div>
+      <div>Select RR Number to view consumer details</div>
+    </div>`;
+  document.getElementById("total").textContent = "0";
+
+  if (!selectedTC) return;
+
+  showLoader("Fetching RR Numbers...");
+
+  fetch(`${API_URL}?action=rr&tc=${encodeURIComponent(selectedTC)}`)
+    .then(res => res.json())
+    .then(data => {
+      hideLoader();
+
+      if (data.status !== "success") {
+        alert("Error: " + data.message);
+        return;
       }
 
-      setTimeout(() => {
-        window.location.replace(url);
-      }, 400);
-    }
+      if (!data.rrList || data.rrList.length === 0) {
+        alert("No RR Numbers found for TC: " + selectedTC);
+        document.getElementById("total").textContent = "0";
+        return;
+      }
 
-    // Highlight Active Tab Based on Page Name
-    window.addEventListener("load", () => {
-      const currentPage = location.pathname.split("/").pop() || "menu2.html";
-      const navItems = document.querySelectorAll(".nav-item");
+      document.getElementById("total").textContent = data.rrList.length.toLocaleString('en-IN');
 
-      navItems.forEach(item => {
-        const onclickAttr = item.getAttribute("onclick");
-        if (onclickAttr && onclickAttr.includes(currentPage)) {
-          item.classList.add("active");
-        }
+      data.rrList.forEach(item => {
+        let opt = document.createElement("option");
+        opt.value = item.rrno;
+        opt.textContent = item.rrno + (item.name ? " - " + item.name : "");
+        rrSelect.appendChild(opt);
       });
+    })
+    .catch(err => {
+      hideLoader();
+      console.error(err);
+      alert("Unable to fetch RR Numbers.");
     });
+};
 
-    // History Prevention Logic
-    history.pushState(null, null, location.href);
-    window.onpopstate = function () {
-      window.location.replace("menu2.html");
-    };
-  </script>
+// Fetch Consumer Details when RR Number is selected
+rrSelect.onchange = function () {
+  const selectedRR = this.value;
+  if (!selectedRR) return;
+  fetchByQuery(selectedRR);
+};
 
+// Global Search trigger on enter or button click
+queryInput.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") performDirectSearch();
+});
+
+function performDirectSearch() {
+  const query = queryInput.value.trim();
+  if (!query) {
+    alert("Please enter RR No, Mobile Number, or Name to search.");
+    return;
+  }
+  fetchByQuery(query);
+}
+
+function fetchByQuery(query) {
+  showLoader("Searching consumer details...");
+
+  fetch(`${API_URL}?action=consumer&query=${encodeURIComponent(query)}&rrno=${encodeURIComponent(query)}`)
+    .then(res => res.json())
+    .then(data => {
+      hideLoader();
+
+      if (data.status !== "success") {
+        alert("Error: " + (data.message || "Record not found."));
+        return;
+      }
+
+      if (Array.isArray(data.consumer)) {
+        renderMultipleConsumers(data.consumer);
+      } else if (data.consumer) {
+        renderConsumerCard(data.consumer);
+      } else {
+        alert("No details found for matching criteria.");
+      }
+    })
+    .catch(err => {
+      hideLoader();
+      console.error(err);
+      alert("Error fetching details.");
+    });
+}
+
+// Render Multiple Consumer Cards if search returns array
+function renderMultipleConsumers(list) {
+  dataContainer.innerHTML = "";
+  if (list.length === 0) {
+    dataContainer.innerHTML = `<div class="empty-state">No consumers match your search.</div>`;
+    return;
+  }
+  list.forEach(item => renderConsumerCard(item, false));
+}
+
+// Render Individual Consumer Card
+function renderConsumerCard(consumerObj, clearContainer = true) {
+  if (clearContainer) dataContainer.innerHTML = "";
+
+  const card = document.createElement("div");
+  card.className = "consumer-card";
+
+  const rrVal = consumerObj["RR No"] || consumerObj["RRNO"] || consumerObj["rrno"] || "Consumer Information";
+
+  const excludedKeysLower = [
+    "column_5", "area name", "rd", "sl", "cb(repeated)", 
+    "tc", "tc(repeated)", "pole name", "lm name", "sino", 
+    "slno", "si no", "sl no", "rr no", "rrno", "rr number"
+  ];
+
+  let rowsHtml = "";
+  Object.keys(consumerObj).forEach(key => {
+    const cleanKey = key.trim().toLowerCase();
+    if (excludedKeysLower.includes(cleanKey)) return;
+
+    let val = consumerObj[key];
+    if (val === null || val === undefined || val === "") val = "-";
+
+    rowsHtml += `
+      <div class="detail-row">
+        <span class="detail-label">${key}</span>
+        <span class="detail-value">${val}</span>
+      </div>
+    `;
+  });
+
+  card.innerHTML = `
+    <div class="card-header">
+      <div class="card-header-title">
+        <span>📄</span>
+        <span>RR No: ${rrVal}</span>
+      </div>
+    </div>
+    <div class="card-body">
+      ${rowsHtml}
+    </div>
+  `;
+
+  dataContainer.appendChild(card);
+}
+
+// App Tab Navigation
+function goTab(url) {
+  sessionStorage.setItem("navClick", "true");
+  showLoader("Loading...");
+  setTimeout(() => {
+    window.location.replace(url);
+  }, 300);
+}
+
+// Active Nav Highlighting
+window.addEventListener("load", () => {
+  const currentPage = location.pathname.split("/").pop() || "foot1.html";
+  const navItems = document.querySelectorAll(".nav-item");
+
+  navItems.forEach(item => {
+    const onclickAttr = item.getAttribute("onclick");
+    if (onclickAttr && onclickAttr.includes(currentPage)) {
+      item.classList.add("active");
+    }
+  });
+});
+
+function logout() {
+  showLoader("Logging out...");
+  setTimeout(() => {
+    sessionStorage.clear();
+    location.href = "login2.html";
+  }, 250);
+}
+
+history.pushState(null, null, location.href);
+window.onpopstate = function () {
+  window.location.replace("menu2.html");
+};
+</script>
 </body>
 </html>
