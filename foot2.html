@@ -28,7 +28,7 @@ body {
   position: relative;
 }
 
-/* Background Accents */
+/* Glow Backgrounds */
 .bg-glow-1 {
   position: absolute;
   top: -60px;
@@ -51,7 +51,7 @@ body {
   z-index: 0;
 }
 
-/* Header Bar */
+/* Header */
 .modern-header {
   position: sticky;
   top: 0;
@@ -116,39 +116,19 @@ body {
   box-shadow: 0 0 8px #22c55e;
 }
 
-.header-actions {
-  display: flex;
-  gap: 8px;
-}
-
 .btn-icon-nav {
-  background: rgba(255, 255, 255, 0.08);
-  color: #e2e8f0;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.3);
   padding: 8px 14px;
   border-radius: 10px;
   cursor: pointer;
   font-size: 0.78rem;
   font-weight: 600;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 6px;
 }
 
 .btn-icon-nav:active {
   transform: scale(0.95);
-  background: rgba(255, 255, 255, 0.18);
-}
-
-.btn-header-logout {
-  background: rgba(239, 68, 68, 0.15);
-  color: #fca5a5;
-  border-color: rgba(239, 68, 68, 0.3);
-}
-
-.btn-header-logout:active {
   background: rgba(239, 68, 68, 0.3);
 }
 
@@ -162,7 +142,7 @@ body {
   z-index: 10;
 }
 
-/* Search Box Card */
+/* Search Box */
 .hero-search-card {
   background: linear-gradient(135deg, rgba(15, 23, 42, 0.85), rgba(7, 42, 66, 0.75));
   backdrop-filter: blur(16px);
@@ -192,7 +172,6 @@ body {
 }
 
 .search-field-box {
-  position: relative;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -224,13 +203,12 @@ body {
   border-radius: 12px;
   outline: none;
   transition: all 0.25s ease;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .search-input:focus {
   border-color: #38bdf8;
   background: rgba(15, 23, 42, 0.95);
-  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
 }
 
 .search-input::placeholder {
@@ -247,18 +225,8 @@ body {
   border-radius: 12px;
   font-size: 0.9rem;
   font-weight: 700;
-  letter-spacing: 0.4px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
   box-shadow: 0 8px 20px rgba(2, 132, 199, 0.4);
-  transition: all 0.2s ease;
-}
-
-.btn-primary-search:hover {
-  box-shadow: 0 10px 25px rgba(56, 189, 248, 0.5);
 }
 
 .btn-primary-search:active {
@@ -270,7 +238,6 @@ body {
   gap: 8px;
   margin-top: 12px;
   overflow-x: auto;
-  padding-bottom: 2px;
 }
 
 .pill-tag {
@@ -283,7 +250,7 @@ body {
   white-space: nowrap;
 }
 
-/* Consumer Cards & Search Results */
+/* Consumer Cards Container */
 .data-container {
   display: flex;
   flex-direction: column;
@@ -298,7 +265,7 @@ body {
   overflow: hidden;
   border: 1px solid rgba(56, 189, 248, 0.25);
   box-shadow: 0 14px 32px rgba(0, 0, 0, 0.45);
-  animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeInUp 0.45s ease forwards;
 }
 
 .card-header {
@@ -338,7 +305,6 @@ body {
 
 .detail-row:last-child {
   border-bottom: none;
-  padding-bottom: 0;
 }
 
 .detail-label {
@@ -360,12 +326,9 @@ body {
   padding: 40px 20px;
   color: #94a3b8;
   background: rgba(15, 23, 42, 0.55);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border-radius: 18px;
   border: 1px dashed rgba(255, 255, 255, 0.15);
   font-size: 0.86rem;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
 }
 
 .empty-state-icon {
@@ -374,7 +337,7 @@ body {
   opacity: 0.85;
 }
 
-/* Page Loader */
+/* Loader */
 #page-loader {
   display: none;
   position: fixed;
@@ -407,26 +370,9 @@ body {
   animation: spin 0.8s linear infinite;
 }
 
-.spinner-inner {
-  position: absolute;
-  top: 6px;
-  left: 6px;
-  width: 26px;
-  height: 26px;
-  border: 3px solid rgba(255, 255, 255, 0.1);
-  border-bottom-color: #818cf8;
-  border-radius: 50%;
-  animation: spin-reverse 0.5s linear infinite;
-}
-
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
-}
-
-@keyframes spin-reverse {
-  0% { transform: rotate(360deg); }
-  100% { transform: rotate(0deg); }
 }
 
 .loader-text {
@@ -435,7 +381,7 @@ body {
   color: #38bdf8;
 }
 
-/* App Footer Navbar */
+/* Footer Navbar */
 .app-footer {
   position: fixed;
   bottom: 0;
@@ -458,7 +404,6 @@ body {
   text-align: center;
   cursor: pointer;
   position: relative;
-  text-decoration: none;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -468,7 +413,6 @@ body {
 .nav-icon {
   font-size: 20px;
   color: #94a3b8;
-  transition: all 0.25s ease;
 }
 
 .nav-item span {
@@ -476,7 +420,6 @@ body {
   font-size: 11px;
   color: #94a3b8;
   margin-top: 2px;
-  transition: all 0.25s ease;
 }
 
 .nav-item.active::before {
@@ -521,7 +464,7 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 26px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 12px rgba(56, 189, 248, 0.4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   border: 3px solid #072a42;
   animation: float 2s ease-in-out infinite;
 }
@@ -531,10 +474,6 @@ body {
   margin-top: 4px;
   color: #38bdf8;
   font-weight: 600;
-}
-
-.nav-item:active {
-  transform: scale(0.92);
 }
 
 @keyframes float {
@@ -562,12 +501,11 @@ body {
 <div id="page-loader">
   <div class="spinner-container">
     <div class="spinner-outer"></div>
-    <div class="spinner-inner"></div>
   </div>
   <div class="loader-text" id="loaderText">Loading data...</div>
 </div>
 
-<!-- Header -->
+<!-- Modern Header -->
 <div class="modern-header">
   <div class="header-top">
     <div class="user-profile-badge">
@@ -580,17 +518,13 @@ body {
         </div>
       </div>
     </div>
-    <div class="header-actions">
-      <button class="btn-icon-nav btn-header-logout" onclick="logout()">
-        <span>Logout</span>
-      </button>
-    </div>
+    <button class="btn-icon-nav" onclick="logout()">Logout</button>
   </div>
 </div>
 
 <div class="container">
 
-  <!-- Search Card -->
+  <!-- Hero Search Card -->
   <div class="hero-search-card">
     <div class="search-title">
       <span>🔍</span>
@@ -617,11 +551,11 @@ body {
     </div>
   </div>
 
-  <!-- Results Container -->
+  <!-- Cards Container -->
   <div id="dataContainer" class="data-container">
     <div class="empty-state">
       <div class="empty-state-icon">📋</div>
-      <div>Enter a search term above to view consumer details.</div>
+      <div>Enter a query above to search records.</div>
     </div>
   </div>
 
@@ -683,7 +617,6 @@ function hideLoader() {
   pageLoader.style.display = "none";
 }
 
-// Trigger search on Enter key press
 queryInput.addEventListener("keypress", function (e) {
   if (e.key === "Enter") performDirectSearch();
 });
@@ -700,10 +633,7 @@ function performDirectSearch() {
 function fetchByQuery(query) {
   showLoader("Searching consumer records...");
 
-  // Send query across all standard parameter keys so your GS script gets it
-  const url = `${API_URL}?action=consumer&rrno=${encodeURIComponent(query)}&query=${encodeURIComponent(query)}&search=${encodeURIComponent(query)}`;
-
-  fetch(url)
+  fetch(`${API_URL}?action=consumer&query=${encodeURIComponent(query)}&rrno=${encodeURIComponent(query)}`)
     .then(res => res.json())
     .then(data => {
       hideLoader();
@@ -712,12 +642,11 @@ function fetchByQuery(query) {
         dataContainer.innerHTML = `
           <div class="empty-state">
             <div class="empty-state-icon">⚠️</div>
-            <div>No record found matching "${query}"</div>
+            <div>No matching records found for "${query}"</div>
           </div>`;
         return;
       }
 
-      // Handle array or single consumer object response
       if (Array.isArray(data.consumer)) {
         renderMultipleConsumers(data.consumer);
       } else if (data.consumer && typeof data.consumer === 'object') {
@@ -726,14 +655,14 @@ function fetchByQuery(query) {
         dataContainer.innerHTML = `
           <div class="empty-state">
             <div class="empty-state-icon">⚠️</div>
-            <div>No consumer details found.</div>
+            <div>No details found.</div>
           </div>`;
       }
     })
     .catch(err => {
       hideLoader();
       console.error(err);
-      alert("Error searching consumer details. Please try again.");
+      alert("Error searching consumer details.");
     });
 }
 
