@@ -24,11 +24,11 @@ body {
   background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #072a42 60%, #020617 100%);
   min-height: 100vh;
   color: #f8fafc;
-  padding-bottom: 95px; /* Space for fixed app footer */
+  padding-bottom: 95px;
   position: relative;
 }
 
-/* Ambient Background Light Orbs */
+/* Ambient Background Lights */
 .bg-glow-1 {
   position: absolute;
   top: -60px;
@@ -51,7 +51,7 @@ body {
   z-index: 0;
 }
 
-/* Redesigned Modern Header Bar */
+/* Header Bar */
 .modern-header {
   position: sticky;
   top: 0;
@@ -152,7 +152,7 @@ body {
   background: rgba(239, 68, 68, 0.3);
 }
 
-/* Container */
+/* Main Container */
 .container {
   width: 100%;
   max-width: 520px;
@@ -162,7 +162,7 @@ body {
   z-index: 10;
 }
 
-/* Hero Search Card */
+/* Hero Search Box */
 .hero-search-card {
   background: linear-gradient(135deg, rgba(15, 23, 42, 0.85), rgba(7, 42, 66, 0.75));
   backdrop-filter: blur(16px);
@@ -265,7 +265,6 @@ body {
   transform: scale(0.98);
 }
 
-/* Quick Filter Pills */
 .filter-pills {
   display: flex;
   gap: 8px;
@@ -284,7 +283,7 @@ body {
   white-space: nowrap;
 }
 
-/* Data Container & Consumer Cards */
+/* Consumer Cards & Search Results */
 .data-container {
   display: flex;
   flex-direction: column;
@@ -375,7 +374,7 @@ body {
   opacity: 0.85;
 }
 
-/* Loader Component */
+/* Page Loader */
 #page-loader {
   display: none;
   position: fixed;
@@ -436,7 +435,7 @@ body {
   color: #38bdf8;
 }
 
-/* FLOATING FOOTER NAVBAR */
+/* Floating App Footer Bar */
 .app-footer {
   position: fixed;
   bottom: 0;
@@ -559,7 +558,7 @@ body {
 <div class="bg-glow-1"></div>
 <div class="bg-glow-2"></div>
 
-<!-- Loader Overlay -->
+<!-- Loader -->
 <div id="page-loader">
   <div class="spinner-container">
     <div class="spinner-outer"></div>
@@ -568,7 +567,7 @@ body {
   <div class="loader-text" id="loaderText">Loading data...</div>
 </div>
 
-<!-- Modern Redesigned Header Bar -->
+<!-- Modern Header -->
 <div class="modern-header">
   <div class="header-top">
     <div class="user-profile-badge">
@@ -591,20 +590,20 @@ body {
 
 <div class="container">
 
-  <!-- Hero Search Card -->
+  <!-- Search Card -->
   <div class="hero-search-card">
     <div class="search-title">
       <span>🔍</span>
       <span>ಗ್ರಾಹಕರ ಶೋಧನೆ (Consumer Search)</span>
     </div>
     <div class="search-subtitle">
-      Instant search across all records by RR Number, Mobile, or Name.
+      Search by RR Number, Mobile Number, or Customer Name.
     </div>
 
     <div class="search-field-box">
       <div class="input-container">
         <span class="input-icon">⚡</span>
-        <input type="text" id="queryInput" class="search-input" placeholder="Type RR No, Mobile, or Consumer Name...">
+        <input type="text" id="queryInput" class="search-input" placeholder="Enter RR No, Mobile, or Cust Name...">
       </div>
       <button class="btn-primary-search" onclick="performDirectSearch()">
         <span>Search Consumer</span>
@@ -612,17 +611,17 @@ body {
     </div>
 
     <div class="filter-pills">
-      <span class="pill-tag">💡 Tip: RR No</span>
-      <span class="pill-tag">📱 Mobile Number</span>
-      <span class="pill-tag">👤 Name</span>
+      <span class="pill-tag">💡 RR No</span>
+      <span class="pill-tag">📱 Mobile No</span>
+      <span class="pill-tag">👤 Cust Name</span>
     </div>
   </div>
 
-  <!-- Cards Container -->
+  <!-- Consumer Output Cards Container -->
   <div id="dataContainer" class="data-container">
     <div class="empty-state">
       <div class="empty-state-icon">📋</div>
-      <div>Enter a query above to view consumer details.</div>
+      <div>Enter a search term above to view consumer details.</div>
     </div>
   </div>
 
@@ -684,7 +683,7 @@ function hideLoader() {
   pageLoader.style.display = "none";
 }
 
-// Global Search trigger on Enter key press
+// Trigger search on Enter key press
 queryInput.addEventListener("keypress", function (e) {
   if (e.key === "Enter") performDirectSearch();
 });
@@ -699,15 +698,21 @@ function performDirectSearch() {
 }
 
 function fetchByQuery(query) {
-  showLoader("Fetching consumer details...");
+  showLoader("Searching consumer records...");
 
-  fetch(`${API_URL}?action=consumer&query=${encodeURIComponent(query)}&rrno=${encodeURIComponent(query)}`)
+  // Send query directly so Apps Script checks across RR No, Mobile No, and Cust Name
+  fetch(`${API_URL}?action=consumer&query=${encodeURIComponent(query)}`)
     .then(res => res.json())
     .then(data => {
       hideLoader();
 
       if (data.status !== "success") {
-        alert("Error: " + (data.message || "No records found."));
+        alert("Notice: " + (data.message || "Consumer not found."));
+        dataContainer.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">⚠️</div>
+            <div>No record found matching "${query}"</div>
+          </div>`;
         return;
       }
 
@@ -716,13 +721,13 @@ function fetchByQuery(query) {
       } else if (data.consumer) {
         renderConsumerCard(data.consumer);
       } else {
-        alert("No details found matching your query.");
+        alert("No consumer details found.");
       }
     })
     .catch(err => {
       hideLoader();
       console.error(err);
-      alert("Error retrieving details. Please try again.");
+      alert("Error searching consumer details. Please try again.");
     });
 }
 
@@ -743,6 +748,7 @@ function renderConsumerCard(consumerObj, clearContainer = true) {
 
   const rrVal = consumerObj["RR No"] || consumerObj["RRNO"] || consumerObj["rrno"] || "Consumer Information";
 
+  // Excluded keys mapped to lowercase for clean display
   const excludedKeysLower = [
     "column_5", "area name", "rd", "sl", "cb(repeated)", 
     "tc", "tc(repeated)", "pole name", "lm name", "sino", 
