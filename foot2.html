@@ -28,7 +28,7 @@ body {
   position: relative;
 }
 
-/* Ambient Background Lights */
+/* Background Accents */
 .bg-glow-1 {
   position: absolute;
   top: -60px;
@@ -152,7 +152,7 @@ body {
   background: rgba(239, 68, 68, 0.3);
 }
 
-/* Main Container */
+/* Container */
 .container {
   width: 100%;
   max-width: 520px;
@@ -162,7 +162,7 @@ body {
   z-index: 10;
 }
 
-/* Hero Search Box */
+/* Search Box Card */
 .hero-search-card {
   background: linear-gradient(135deg, rgba(15, 23, 42, 0.85), rgba(7, 42, 66, 0.75));
   backdrop-filter: blur(16px);
@@ -435,7 +435,7 @@ body {
   color: #38bdf8;
 }
 
-/* Floating App Footer Bar */
+/* App Footer Navbar */
 .app-footer {
   position: fixed;
   bottom: 0;
@@ -567,7 +567,7 @@ body {
   <div class="loader-text" id="loaderText">Loading data...</div>
 </div>
 
-<!-- Modern Header -->
+<!-- Header -->
 <div class="modern-header">
   <div class="header-top">
     <div class="user-profile-badge">
@@ -617,7 +617,7 @@ body {
     </div>
   </div>
 
-  <!-- Consumer Output Cards Container -->
+  <!-- Results Container -->
   <div id="dataContainer" class="data-container">
     <div class="empty-state">
       <div class="empty-state-icon">📋</div>
@@ -700,14 +700,15 @@ function performDirectSearch() {
 function fetchByQuery(query) {
   showLoader("Searching consumer records...");
 
-  // Send query directly so Apps Script checks across RR No, Mobile No, and Cust Name
-  fetch(`${API_URL}?action=consumer&query=${encodeURIComponent(query)}`)
+  // Send query across all standard parameter keys so your GS script gets it
+  const url = `${API_URL}?action=consumer&rrno=${encodeURIComponent(query)}&query=${encodeURIComponent(query)}&search=${encodeURIComponent(query)}`;
+
+  fetch(url)
     .then(res => res.json())
     .then(data => {
       hideLoader();
 
       if (data.status !== "success") {
-        alert("Notice: " + (data.message || "Consumer not found."));
         dataContainer.innerHTML = `
           <div class="empty-state">
             <div class="empty-state-icon">⚠️</div>
@@ -716,12 +717,17 @@ function fetchByQuery(query) {
         return;
       }
 
+      // Handle array or single consumer object response
       if (Array.isArray(data.consumer)) {
         renderMultipleConsumers(data.consumer);
-      } else if (data.consumer) {
-        renderConsumerCard(data.consumer);
+      } else if (data.consumer && typeof data.consumer === 'object') {
+        renderConsumerCard(data.consumer, true);
       } else {
-        alert("No consumer details found.");
+        dataContainer.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">⚠️</div>
+            <div>No consumer details found.</div>
+          </div>`;
       }
     })
     .catch(err => {
@@ -748,7 +754,6 @@ function renderConsumerCard(consumerObj, clearContainer = true) {
 
   const rrVal = consumerObj["RR No"] || consumerObj["RRNO"] || consumerObj["rrno"] || "Consumer Information";
 
-  // Excluded keys mapped to lowercase for clean display
   const excludedKeysLower = [
     "column_5", "area name", "rd", "sl", "cb(repeated)", 
     "tc", "tc(repeated)", "pole name", "lm name", "sino", 
