@@ -444,7 +444,7 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  z-index: 1200; /* Raised above loader so footer is never covered */
+  z-index: 1200;
 }
 
 .nav-item {
@@ -540,14 +540,14 @@ body {
   50% { transform: translateY(-6px); }
 }
 
-/* Navigation Loader Overlay (Covers Content, Leaves Footer Visible) */
+/* Navigation Loader Overlay */
 #page-loader {
   display: flex;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 75px; /* Excludes footer area */
+  bottom: 75px;
   background: rgba(2, 6, 23, 0.85);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -732,7 +732,7 @@ body {
 
 </div>
 
-<!-- APP FOOTER NAVBAR (#072A42 WITH CENTER FLOATING BUTTON) -->
+<!-- APP FOOTER NAVBAR -->
 <div class="app-footer" id="navbar">
   <div class="nav-item" onclick="goTab('menu2.html')">
     <div class="nav-icon">🏠</div>
@@ -909,19 +909,31 @@ async function loadAndProcessTariffData() {
     return targetTCs.some(tc => tc === rowTC);
   });
 
-  // Extract Last Updated Date from CB Date / Date fields
+  // Check for various date header names in the master Google sheet
   let latestDate = "";
+  const possibleDateFields = [
+    "CB Date", "CB DATE", "CB_DATE", 
+    "Date", "DATE", 
+    "Last Updated", "LAST UPDATED", "UPDATED_DATE", "Updated Date",
+    "MODIFIED_DATE", "Timestamp", "TIMESTAMP"
+  ];
+
   filteredRows.forEach(row => {
-    const dateVal = getFieldValue(row, ["CB Date", "CB_DATE", "Date", "DATE", "Updated Date", "Last Updated"]);
-    if (dateVal && (!latestDate || new Date(dateVal) > new Date(latestDate) || dateVal > latestDate)) {
-      latestDate = dateVal;
+    const dateVal = getFieldValue(row, possibleDateFields);
+    if (dateVal) {
+      if (!latestDate || new Date(dateVal) > new Date(latestDate) || dateVal > latestDate) {
+        latestDate = dateVal;
+      }
     }
   });
 
   if (latestDate) {
     document.getElementById("lastUpdatedDisplay").textContent = latestDate;
   } else {
-    document.getElementById("lastUpdatedDisplay").textContent = "N/A";
+    // If no specific date column exists, display today's date format (e.g., DD/MM/YYYY)
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    document.getElementById("lastUpdatedDisplay").textContent = formattedDate;
   }
 
   const tariffMap = {};
