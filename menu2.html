@@ -158,6 +158,18 @@ body {
   font-size: 1.35rem;
   font-weight: 700;
   text-shadow: 0 2px 8px rgba(56, 189, 248, 0.3);
+  margin-bottom: 6px;
+}
+
+.welcome-card p.last-updated {
+  font-size: 0.75rem;
+  color: #cbd5e1;
+  margin-top: 4px;
+}
+
+.welcome-card p.last-updated strong {
+  font-weight: 700;
+  color: #38bdf8;
 }
 
 /* Mobile-First 2-Column Grid */
@@ -624,6 +636,7 @@ body {
   <div class="welcome-card">
     <h3>Welcome Back</h3>
     <h1 id="lmNameDisplay">User</h1>
+    <p class="last-updated">Last updated: <strong id="lastUpdatedDisplay">--</strong></p>
   </div>
 
   <div class="menu-grid">
@@ -895,6 +908,21 @@ async function loadAndProcessTariffData() {
     const rowTC = normalizeStr(getFieldValue(row, ["TC", "TC CODE", "TC_CODE", "TC NO"]));
     return targetTCs.some(tc => tc === rowTC);
   });
+
+  // Extract Last Updated Date from CB Date / Date fields
+  let latestDate = "";
+  filteredRows.forEach(row => {
+    const dateVal = getFieldValue(row, ["CB Date", "CB_DATE", "Date", "DATE", "Updated Date", "Last Updated"]);
+    if (dateVal && (!latestDate || new Date(dateVal) > new Date(latestDate) || dateVal > latestDate)) {
+      latestDate = dateVal;
+    }
+  });
+
+  if (latestDate) {
+    document.getElementById("lastUpdatedDisplay").textContent = latestDate;
+  } else {
+    document.getElementById("lastUpdatedDisplay").textContent = "N/A";
+  }
 
   const tariffMap = {};
   let totalInstallationsCount = 0;
