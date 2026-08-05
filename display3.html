@@ -101,14 +101,14 @@ body {
 
 .nav-buttons {
   display: flex;
-  gap: 8px;
+  gap: 6px;
 }
 
 .btn-nav {
   background: rgba(255, 255, 255, 0.08);
   color: #e2e8f0;
   border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 6px 12px;
+  padding: 6px 10px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 0.75rem;
@@ -123,6 +123,12 @@ body {
 .btn-nav:active {
   transform: scale(0.95);
   background: rgba(255, 255, 255, 0.2);
+}
+
+.btn-refresh {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
 }
 
 .btn-logout {
@@ -523,6 +529,7 @@ input[type="text"]::placeholder {
     </div>
   </div>
   <div class="nav-buttons">
+    <button class="btn-nav btn-refresh" onclick="forceRefreshData()">🔄 Refresh</button>
     <a href="menu2.html" class="btn-nav">Menu</a>
     <button class="btn-nav btn-logout" onclick="logout()">Logout</button>
   </div>
@@ -569,7 +576,10 @@ const loaderOverlay = document.getElementById("loader-overlay");
 
 let currentConsumerList = [];
 
-function showLoader() { loaderOverlay.style.display = "flex"; }
+function showLoader(msg) { 
+  document.getElementById("loader-text").textContent = msg || "Loading Arrears (> ₹1000)...";
+  loaderOverlay.style.display = "flex"; 
+}
 function hideLoader() { loaderOverlay.style.display = "none"; }
 
 window.onload = async function() {
@@ -583,10 +593,15 @@ window.onload = async function() {
   }
 };
 
+async function forceRefreshData() {
+  sessionStorage.removeItem("cachedMpinArrears1000");
+  await fetchSingleBatchArrears();
+}
+
 async function fetchSingleBatchArrears() {
-  showLoader();
+  showLoader("Fetching Latest Sheet Data...");
   try {
-    const res = await fetch(`${API_URL}?action=getMpinArrears&mpin=${encodeURIComponent(userMpin)}`);
+    const res = await fetch(`${API_URL}?action=getMpinArrears&mpin=${encodeURIComponent(userMpin)}&_t=${Date.now()}`);
     const data = await res.json();
 
     if (data.status === "success" && Array.isArray(data.arrears)) {
@@ -732,7 +747,6 @@ function toggleAttended(rrno, index, isChecked) {
 }
 
 function toggleCard(event, index) {
-  // Prevent card toggling when clicking directly on the checkbox/label
   if (event.target.closest('.attended-box')) return;
 
   const allCards = document.querySelectorAll('.consumer-card-wrapper');
