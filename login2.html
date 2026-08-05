@@ -2,19 +2,20 @@
 <html lang="kn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>LM Login - HESCOM Siddapur</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Noto Sans Kannada', 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Noto Sans Kannada', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  background: radial-gradient(circle at 50% 20%, #1e293b 0%, #0f172a 40%, #020617 100%);
+  background: radial-gradient(circle at 50% 0%, #0c3859 0%, #072A42 50%, #031320 100%);
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -24,140 +25,195 @@ body {
   overflow: hidden;
 }
 
+/* Dynamic Ambient Glows */
 body::before, body::after {
   content: '';
   position: absolute;
-  width: 320px;
-  height: 320px;
+  width: 350px;
+  height: 350px;
   border-radius: 50%;
-  filter: blur(90px);
-  opacity: 0.35;
+  filter: blur(100px);
+  opacity: 0.4;
   pointer-events: none;
+  animation: pulseGlow 8s ease-in-out infinite alternate;
 }
+
 body::before {
-  background: #3b82f6;
-  top: 15%;
-  left: 20%;
+  background: #0284c7;
+  top: 10%;
+  left: 10%;
 }
+
 body::after {
-  background: #1d4ed8;
-  bottom: 15%;
-  right: 20%;
+  background: #2563eb;
+  bottom: 10%;
+  right: 10%;
+  animation-delay: -4s;
+}
+
+@keyframes pulseGlow {
+  0% { transform: scale(1) translate(0, 0); opacity: 0.3; }
+  100% { transform: scale(1.2) translate(20px, 20px); opacity: 0.5; }
 }
 
 .login-card {
   position: relative;
   width: 100%;
-  max-width: 410px;
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  padding: 40px 30px;
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
-              0 0 30px rgba(59, 130, 246, 0.15);
+  max-width: 400px;
+  background: rgba(7, 42, 66, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 40px 28px;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6),
+              0 0 40px rgba(14, 165, 233, 0.15);
   text-align: center;
   z-index: 10;
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero Badge */
 .header-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  width: 68px;
+  height: 68px;
+  background: linear-gradient(135deg, #0284c7, #2563eb);
   color: #ffffff;
-  border-radius: 16px;
-  font-size: 28px;
-  margin-bottom: 20px;
-  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 22px;
+  font-size: 32px;
+  margin-bottom: 22px;
+  box-shadow: 0 10px 25px rgba(2, 132, 199, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
+/* Kannada Header */
 .kannada-header {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: #f8fafc;
-  line-height: 1.6;
+  line-height: 1.5;
   margin-bottom: 8px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.2px;
 }
 
 .sub-header {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #60a5fa;
-  letter-spacing: 1.5px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #38bdf8;
+  letter-spacing: 2px;
   text-transform: uppercase;
   margin-bottom: 24px;
 }
 
 .divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
   margin-bottom: 28px;
 }
 
+/* Input Box with Toggle Eye */
 .input-group {
   position: relative;
-  margin-bottom: 22px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
 }
 
 input {
   width: 100%;
-  padding: 16px 18px;
-  font-size: 16px;
+  padding: 16px 48px 16px 20px;
+  font-size: 17px;
+  font-weight: 600;
   color: #f8fafc;
-  background: rgba(30, 41, 59, 0.7);
-  border: 1.5px solid rgba(255, 255, 255, 0.12);
-  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
   outline: none;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-align: center;
-  letter-spacing: 3px;
+  letter-spacing: 4px;
 }
 
 input::placeholder {
   color: #64748b;
-  letter-spacing: normal;
+  letter-spacing: 0.5px;
+  font-weight: 500;
 }
 
 input:focus {
-  border-color: #3b82f6;
-  background: rgba(30, 41, 59, 0.95);
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25),
-              0 0 15px rgba(59, 130, 246, 0.2);
+  border-color: #38bdf8;
+  background: rgba(15, 23, 42, 0.85);
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25),
+              0 0 20px rgba(56, 189, 248, 0.15);
 }
 
-button {
+/* Toggle Password Visibility Button */
+.eye-btn {
+  position: absolute;
+  right: 14px;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+  width: auto;
+  border-radius: 50%;
+  transition: color 0.2s ease;
+}
+
+.eye-btn:hover {
+  color: #38bdf8;
+  transform: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+/* Primary Action Button */
+button.btn-primary {
   width: 100%;
   padding: 16px;
   font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  font-weight: 700;
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, #0284c7, #2563eb);
   color: #ffffff;
   border: none;
-  border-radius: 14px;
+  border-radius: 16px;
   cursor: pointer;
-  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
-  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(2, 132, 199, 0.35);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-button:hover {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
+button.btn-primary:hover {
+  background: linear-gradient(135deg, #0369a1, #1d4ed8);
   transform: translateY(-2px);
-  box-shadow: 0 14px 28px rgba(37, 99, 235, 0.45);
+  box-shadow: 0 14px 28px rgba(2, 132, 199, 0.45);
 }
 
-button:disabled {
-  opacity: 0.6;
+button.btn-primary:active {
+  transform: translateY(0);
+}
+
+button.btn-primary:disabled {
+  opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }
 
+/* Dual-Ring Loader */
 #loader {
   display: none;
   flex-direction: column;
@@ -168,30 +224,30 @@ button:disabled {
 
 .spinner-container {
   position: relative;
-  width: 42px;
-  height: 42px;
-  margin-bottom: 10px;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 12px;
 }
 
 .spinner-outer {
   width: 100%;
   height: 100%;
-  border: 3px solid rgba(59, 130, 246, 0.2);
-  border-top-color: #60a5fa;
+  border: 3px solid rgba(56, 189, 248, 0.2);
+  border-top-color: #38bdf8;
   border-radius: 50%;
-  animation: spin 0.9s cubic-bezier(0.53, 0.21, 0.29, 0.67) infinite;
+  animation: spin 0.8s linear infinite;
 }
 
 .spinner-inner {
   position: absolute;
-  top: 6px;
-  left: 6px;
+  top: 7px;
+  left: 7px;
   width: 24px;
   height: 24px;
   border: 3px solid rgba(255, 255, 255, 0.1);
-  border-bottom-color: #93c5fd;
+  border-bottom-color: #f0f9ff;
   border-radius: 50%;
-  animation: spin-reverse 0.6s linear infinite;
+  animation: spin-reverse 0.5s linear infinite;
 }
 
 @keyframes spin {
@@ -206,24 +262,27 @@ button:disabled {
 
 .loader-text {
   font-size: 0.85rem;
-  color: #93c5fd;
-  font-weight: 500;
+  color: #38bdf8;
+  font-weight: 600;
   letter-spacing: 0.5px;
 }
 
+/* Error Alert */
 #error {
   margin-top: 18px;
   color: #f87171;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 600;
   min-height: 20px;
 }
 
+/* Footer Tag */
 .footer {
-  margin-top: 28px;
+  margin-top: 30px;
   font-size: 12px;
   color: #64748b;
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 </style>
 </head>
@@ -243,9 +302,10 @@ button:disabled {
 
   <div class="input-group">
     <input type="password" id="mpin" placeholder="Enter M_PIN" maxlength="10" autocomplete="off">
+    <button type="button" class="eye-btn" onclick="toggleMpinVisibility()" title="Toggle MPIN">👁️</button>
   </div>
   
-  <button id="loginBtn" onclick="login()">LOGIN</button>
+  <button id="loginBtn" class="btn-primary" onclick="login()">LOGIN</button>
   
   <div id="loader">
     <div class="spinner-container">
@@ -263,9 +323,19 @@ button:disabled {
 <script>
 const LOGIN_API_URL = "https://script.google.com/macros/s/AKfycbyCP_ACzGUE1JBL5UDgRMK0tbHvq489GpnNgQ-7HVzM3dTkc0cFG7j5kY9QqOJLMNbpXg/exec";
 
+// Toggle MPIN Eye View
+function toggleMpinVisibility() {
+  const mpinInput = document.getElementById("mpin");
+  if (mpinInput.type === "password") {
+    mpinInput.type = "text";
+  } else {
+    mpinInput.type = "password";
+  }
+}
+
 // Fetch with an extended 25-second timeout for Google Apps Script cold starts
 async function fetchWithTimeout(resource, options = {}) {
-  const { timeout = 25000 } = options; // Increased to 25s
+  const { timeout = 25000 } = options;
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
   
@@ -301,8 +371,9 @@ async function login() {
   loaderText.textContent = "Authenticating...";
   errorDiv.textContent = "";
   loginBtn.disabled = true;
+  mpinInput.disabled = true;
 
-  // Inform user if server takes a few extra seconds on cold start
+  // Inform user if server takes extra seconds on cold start
   const slowNoticeTimer = setTimeout(() => {
     loaderText.textContent = "Waking up server, please wait...";
   }, 6000);
@@ -324,12 +395,14 @@ async function login() {
     } else {
       loader.style.display = "none";
       loginBtn.disabled = false;
+      mpinInput.disabled = false;
       errorDiv.textContent = data.message || "Invalid M_PIN";
     }
   } catch (err) {
     clearTimeout(slowNoticeTimer);
     loader.style.display = "none";
     loginBtn.disabled = false;
+    mpinInput.disabled = false;
     
     if (err.name === 'AbortError') {
       errorDiv.textContent = "Server connection timed out. Please check your internet and try again.";
