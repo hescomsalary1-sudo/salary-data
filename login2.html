@@ -14,7 +14,6 @@
 }
 
 body {
-  /* Rich Dark Blue Multi-Stop Gradient */
   background: radial-gradient(circle at 50% 20%, #1e293b 0%, #0f172a 40%, #020617 100%);
   min-height: 100vh;
   display: flex;
@@ -25,7 +24,6 @@ body {
   overflow: hidden;
 }
 
-/* Glowing background ambient lights */
 body::before, body::after {
   content: '';
   position: absolute;
@@ -51,7 +49,6 @@ body::after {
   position: relative;
   width: 100%;
   max-width: 410px;
-  /* Glassmorphic dark overlay */
   background: rgba(15, 23, 42, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -64,7 +61,6 @@ body::after {
   z-index: 10;
 }
 
-/* Header Icon */
 .header-badge {
   display: inline-flex;
   align-items: center;
@@ -80,7 +76,6 @@ body::after {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Kannada Header */
 .kannada-header {
   font-size: 1.1rem;
   font-weight: 700;
@@ -105,7 +100,6 @@ body::after {
   margin-bottom: 28px;
 }
 
-/* Input Styling */
 .input-group {
   position: relative;
   margin-bottom: 22px;
@@ -137,7 +131,6 @@ input:focus {
               0 0 15px rgba(59, 130, 246, 0.2);
 }
 
-/* Primary Button */
 button {
   width: 100%;
   padding: 16px;
@@ -159,11 +152,12 @@ button:hover {
   box-shadow: 0 14px 28px rgba(37, 99, 235, 0.45);
 }
 
-button:active {
-  transform: translateY(0);
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }
 
-/* Ultra Modern Dual-Ring Loader */
 #loader {
   display: none;
   flex-direction: column;
@@ -217,7 +211,6 @@ button:active {
   letter-spacing: 0.5px;
 }
 
-/* Error Message */
 #error {
   margin-top: 18px;
   color: #f87171;
@@ -226,7 +219,6 @@ button:active {
   min-height: 20px;
 }
 
-/* Footer */
 .footer {
   margin-top: 28px;
   font-size: 12px;
@@ -240,7 +232,6 @@ button:active {
 <div class="login-card">
   <div class="header-badge">⚡</div>
   
-  <!-- Kannada Header -->
   <div class="kannada-header">
     ಕಾರ್ಯ ಮತ್ತು ಪಾಲನಾ ಶಾಖೆ<br>
     ಸಿದ್ದಾಪುರ ಪಟ್ಟಣ, ಹೆಸ್ಕಾಂ, ಸಿದ್ದಾಪುರ
@@ -254,9 +245,8 @@ button:active {
     <input type="password" id="mpin" placeholder="Enter M_PIN" maxlength="10" autocomplete="off">
   </div>
   
-  <button onclick="login()">LOGIN</button>
+  <button id="loginBtn" onclick="login()">LOGIN</button>
   
-  <!-- Ultra Modern Dual-Ring Loader -->
   <div id="loader">
     <div class="spinner-container">
       <div class="spinner-outer"></div>
@@ -271,37 +261,74 @@ button:active {
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbyCP_ACzGUE1JBL5UDgRMK0tbHvq489GpnNgQ-7HVzM3dTkc0cFG7j5kY9QqOJLMNbpXg/exec";
+const LOGIN_API_URL = "https://script.google.com/macros/s/AKfycbyCP_ACzGUE1JBL5UDgRMK0tbHvq489GpnNgQ-7HVzM3dTkc0cFG7j5kY9QqOJLMNbpXg/exec";
 
-function login() {
-  let mpin = document.getElementById("mpin").value.trim();
+// Utility fetch with timeout handling
+async function fetchWithTimeout(resource, options = {}) {
+  const { timeout = 12000 } = options; 
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+  
+  try {
+    const response = await fetch(resource, {
+      ...options,
+      signal: controller.signal
+    });
+    clearTimeout(id);
+    return response;
+  } catch (err) {
+    clearTimeout(id);
+    throw err;
+  }
+}
+
+async function login() {
+  const mpinInput = document.getElementById("mpin");
+  const loginBtn = document.getElementById("loginBtn");
+  const loader = document.getElementById("loader");
+  const errorDiv = document.getElementById("error");
+
+  const mpin = mpinInput.value.trim();
 
   if (mpin === "") {
-    document.getElementById("error").innerHTML = "Enter M_PIN";
+    errorDiv.textContent = "Enter M_PIN";
     return;
   }
 
-  document.getElementById("loader").style.display = "flex";
-  document.getElementById("error").innerHTML = "";
+  // Set UI Loading State
+  loader.style.display = "flex";
+  errorDiv.textContent = "";
+  loginBtn.disabled = true;
 
-  fetch(API_URL + "?action=login&mpin=" + encodeURIComponent(mpin))
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById("loader").style.display = "none";
-      if (data.status === "success") {
-        sessionStorage.setItem("mpin", mpin);
-        sessionStorage.setItem("lmName", data.lmName);
-        sessionStorage.setItem("tcList", JSON.stringify(data.tcList));
-        window.location.href = "menu2.html";
-      } else {
-        document.getElementById("error").innerHTML = data.message;
-      }
-    })
-    .catch(err => {
-      document.getElementById("loader").style.display = "none";
-      document.getElementById("error").innerHTML = "Unable to connect.";
-      console.error(err);
-    });
+  try {
+    // Append timestamp (&_t=) to prevent cached response stall
+    const fetchUrl = `${LOGIN_API_URL}?action=login&mpin=${encodeURIComponent(mpin)}&_t=${Date.now()}`;
+    const response = await fetchWithTimeout(fetchUrl, { timeout: 12000 });
+    const data = await response.json();
+
+    if (data.status === "success") {
+      sessionStorage.setItem("mpin", mpin);
+      sessionStorage.setItem("lmName", data.lmName || "User");
+      sessionStorage.setItem("tcList", JSON.stringify(data.tcList || []));
+      
+      // Direct redirect without blocking on secondary pre-fetches
+      window.location.href = "menu2.html";
+    } else {
+      loader.style.display = "none";
+      loginBtn.disabled = false;
+      errorDiv.textContent = data.message || "Invalid M_PIN";
+    }
+  } catch (err) {
+    loader.style.display = "none";
+    loginBtn.disabled = false;
+    
+    if (err.name === 'AbortError') {
+      errorDiv.textContent = "Connection timed out. Please try again.";
+    } else {
+      errorDiv.textContent = "Unable to connect to server.";
+    }
+    console.error("Login Error:", err);
+  }
 }
 
 document.getElementById("mpin").addEventListener("keypress", function(e) {
@@ -309,92 +336,6 @@ document.getElementById("mpin").addEventListener("keypress", function(e) {
     login();
   }
 });
-
-
-
-  // Place inside your successful login block in login2.html
-async function prefetchUserData(mpin, rawTcList) {
-  try {
-    const API_URL = "https://script.google.com/macros/s/AKfycbxzt8aQteGxi3fB6xR9o3Ca8PcBstiE5z8bsAekwOo5UP7_d9j12n956TGxWX0bC3d70A/exec";
-    
-    // 1. Fetch user TCs if not provided
-    let tcs = rawTcList;
-    if (!tcs || tcs.length === 0) {
-      const tcRes = await fetch(`${API_URL}?action=getTCs&mpin=${encodeURIComponent(mpin)}`);
-      const tcData = await tcRes.json();
-      if (tcData.status === "success") {
-        tcs = tcData.tcList;
-        sessionStorage.setItem("tcList", JSON.stringify(tcs));
-      }
-    }
-
-    if (!tcs || tcs.length === 0) return;
-
-    // 2. Fetch all RR List entries for user TCs
-    const tcPromises = tcs.map(tc =>
-      fetch(`${API_URL}?action=rr&tc=${encodeURIComponent(tc)}`)
-        .then(res => res.json())
-        .then(data => ({ tc, data }))
-        .catch(() => ({ tc, data: null }))
-    );
-
-    const tcResults = await Promise.all(tcPromises);
-    let allRRItems = [];
-    tcResults.forEach(item => {
-      if (item.data && item.data.status === "success" && item.data.rrList) {
-        item.data.rrList.forEach(r => {
-          allRRItems.push({ tc: item.tc, rrno: r.rrno });
-        });
-      }
-    });
-
-    // 3. Parallel fetch consumer details and filter CB > 500
-    const consumerPromises = allRRItems.map(item =>
-      fetch(`${API_URL}?action=consumer&rrno=${encodeURIComponent(item.rrno)}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data && data.status === "success" && data.consumer) {
-            const c = data.consumer;
-            const cbRaw = c["CB"] || c["Closing Balance"] || c["CB Amount"] || c["BALANCE"] || "0";
-            const cbVal = parseFloat(String(cbRaw).replace(/,/g, '').trim()) || 0;
-
-            if (cbVal > 500) {
-              return {
-                tc: item.tc,
-                rrno: c["RR No"] || c["RRNO"] || item.rrno,
-                name: c["Name"] || c["Consumer Name"] || c["NAME"] || "N/A",
-                cb: cbVal,
-                fullData: c
-              };
-            }
-          }
-          return null;
-        })
-        .catch(() => null)
-    );
-
-    const over500List = (await Promise.all(consumerPromises)).filter(Boolean);
-
-    // Save preloaded data into sessionStorage
-    sessionStorage.setItem("cachedArrearsData", JSON.stringify(over500List));
-    sessionStorage.setItem("arrearsLoaded", "true");
-  } catch (err) {
-    console.error("Background prefetch failed:", err);
-  }
-}
-
-// Example usage on Login Success:
-function onLoginSuccess(loginResponse) {
-  sessionStorage.setItem("lmName", loginResponse.lmName);
-  sessionStorage.setItem("mpin", userMpin);
-  sessionStorage.setItem("tcList", JSON.stringify(loginResponse.tcList || []));
-  
-  // Start prefetching in background (fire & forget)
-  prefetchUserData(userMpin, loginResponse.tcList);
-
-  // Navigate immediately
-  location.href = "menu2.html";
-}
 </script>
 
 </body>
