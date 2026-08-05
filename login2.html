@@ -263,9 +263,9 @@ button:disabled {
 <script>
 const LOGIN_API_URL = "https://script.google.com/macros/s/AKfycbyCP_ACzGUE1JBL5UDgRMK0tbHvq489GpnNgQ-7HVzM3dTkc0cFG7j5kY9QqOJLMNbpXg/exec";
 
-// Utility fetch with timeout handling
+// Fetch with an extended 25-second timeout for Google Apps Script cold starts
 async function fetchWithTimeout(resource, options = {}) {
-  const { timeout = 12000 } = options; 
+  const { timeout = 25000 } = options; // Increased to 25s
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
   
@@ -286,6 +286,7 @@ async function login() {
   const mpinInput = document.getElementById("mpin");
   const loginBtn = document.getElementById("loginBtn");
   const loader = document.getElementById("loader");
+  const loaderText = loader.querySelector(".loader-text");
   const errorDiv = document.getElementById("error");
 
   const mpin = mpinInput.value.trim();
@@ -297,21 +298,28 @@ async function login() {
 
   // Set UI Loading State
   loader.style.display = "flex";
+  loaderText.textContent = "Authenticating...";
   errorDiv.textContent = "";
   loginBtn.disabled = true;
 
+  // Inform user if server takes a few extra seconds on cold start
+  const slowNoticeTimer = setTimeout(() => {
+    loaderText.textContent = "Waking up server, please wait...";
+  }, 6000);
+
   try {
-    // Append timestamp (&_t=) to prevent cached response stall
     const fetchUrl = `${LOGIN_API_URL}?action=login&mpin=${encodeURIComponent(mpin)}&_t=${Date.now()}`;
-    const response = await fetchWithTimeout(fetchUrl, { timeout: 12000 });
+    const response = await fetchWithTimeout(fetchUrl, { timeout: 25000 });
     const data = await response.json();
+
+    clearTimeout(slowNoticeTimer);
 
     if (data.status === "success") {
       sessionStorage.setItem("mpin", mpin);
       sessionStorage.setItem("lmName", data.lmName || "User");
       sessionStorage.setItem("tcList", JSON.stringify(data.tcList || []));
       
-      // Direct redirect without blocking on secondary pre-fetches
+      // Redirect directly to menu
       window.location.href = "menu2.html";
     } else {
       loader.style.display = "none";
@@ -319,11 +327,12 @@ async function login() {
       errorDiv.textContent = data.message || "Invalid M_PIN";
     }
   } catch (err) {
+    clearTimeout(slowNoticeTimer);
     loader.style.display = "none";
     loginBtn.disabled = false;
     
     if (err.name === 'AbortError') {
-      errorDiv.textContent = "Connection timed out. Please try again.";
+      errorDiv.textContent = "Server connection timed out. Please check your internet and try again.";
     } else {
       errorDiv.textContent = "Unable to connect to server.";
     }
