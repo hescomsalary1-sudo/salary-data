@@ -2,26 +2,23 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Salary Portal - Modern Dashboard</title>
+<title>Salary Portal - Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <style>
-/* --- 2026 ULTRA-MODERN FINTECH DESIGN SYSTEM --- */
+/* --- ORIGINAL CLASSIC ROYAL BLUE DESIGN SYSTEM TOKEN --- */
 :root {
-    --primary-blue: #2563eb;
-    --primary-deep: #1e3a8a;
-    --accent-emerald: #10b981;
-    --accent-gold: #f59e0b;
-    --accent-rose: #f43f5e;
-    --accent-indigo: #4f46e5;
-    --bg-dark: #0b0f19;
-    --bg-gradient: linear-gradient(135deg, #0b0f19 0%, #111827 50%, #1e1b4b 100%);
-    --card-bg: rgba(255, 255, 255, 0.05);
-    --card-hover: rgba(255, 255, 255, 0.08);
-    --glass-border: rgba(255, 255, 255, 0.12);
-    --glass-shine: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.02) 100%);
-    --text-primary: #ffffff;
-    --text-muted: #94a3b8;
+    --primary-blue: #2400b7;
+    --primary-light: #4b2dd8;
+    --accent-emerald: #00c9a7;
+    --accent-gold: #ffb347;
+    --accent-rose: #ff4e8a;
+    --accent-red: #ff3d3d;
+    --bg-gradient: linear-gradient(135deg, #e6ecff 0%, #dfe7ff 50%, #f0ebff 100%);
+    --card-bg: linear-gradient(135deg, #ffffff, #f4f6ff);
+    --glass-border: rgba(36, 0, 183, 0.08);
+    --text-main: #222222;
+    --text-muted: #6b7280;
     --radius-xl: 24px;
     --radius-lg: 18px;
     --radius-md: 12px;
@@ -36,15 +33,14 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
-    background: var(--bg-dark);
-    background-image: var(--bg-gradient);
+    background: var(--bg-gradient);
     background-attachment: fixed;
-    color: var(--text-primary);
+    color: var(--text-main);
     overflow-x: hidden;
     padding-bottom: 95px;
 }
 
-/* --- FIXED TOP HEADER WITH HARDWARE ACCELERATION --- */
+/* --- FIXED TOP ROYAL BLUE HEADER --- */
 .top {
     position: fixed;
     top: 0;
@@ -56,13 +52,11 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     padding: 16px 16px 10px;
-    background: linear-gradient(135deg, rgba(30, 27, 75, 0.95), rgba(17, 24, 39, 0.95));
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--glass-border);
+    background: linear-gradient(135deg, #0d1b8f 0%, #1a2edb 100%);
+    color: white;
     border-bottom-left-radius: 32px;
     border-bottom-right-radius: 32px;
-    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 12px 28px rgba(13, 27, 143, 0.25);
     transform: translate3d(0, 0, 0);
     will-change: transform;
 }
@@ -78,8 +72,8 @@ body {
     width: 44px;
     height: 44px;
     border-radius: 14px;
-    background: var(--glass-shine);
-    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     color: white;
     display: flex;
     align-items: center;
@@ -98,13 +92,14 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     font-size: 18px;
+    color: white;
     transition: transform 0.2s;
 }
 
@@ -112,33 +107,21 @@ body {
     transform: scale(0.9);
 }
 
-/* --- HERO SALARY GLASS CARD --- */
+/* --- HERO SALARY CARD --- */
 .salary-card {
     width: 100%;
     margin-top: 14px;
-    background: linear-gradient(135deg, rgba(79, 70, 229, 0.4), rgba(37, 99, 235, 0.2));
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, #0f0c29, #2400b7, #302b63);
+    color: white;
     border-radius: var(--radius-lg);
     padding: 14px 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(16px);
+    box-shadow: 0 12px 24px rgba(36, 0, 183, 0.3);
     position: relative;
     overflow: hidden;
-}
-
-.salary-card::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
-    pointer-events: none;
 }
 
 .salary-info {
@@ -150,7 +133,7 @@ body {
 .salary-info h3 {
     font-size: 12px;
     font-weight: 500;
-    color: var(--text-muted);
+    opacity: 0.9;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -158,11 +141,8 @@ body {
 .salary-amount {
     font-size: 24px;
     font-weight: 800;
-    color: var(--text-primary);
+    color: #ffffff;
     margin: 3px 0;
-    background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
 }
 
 .salary-bottom {
@@ -175,7 +155,7 @@ body {
 
 .last-updated {
     font-size: 11px;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .last-updated span:last-child {
@@ -185,9 +165,9 @@ body {
 
 .quick-info-btn {
     padding: 6px 12px;
-    background: rgba(16, 185, 129, 0.15);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    color: var(--accent-emerald);
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
     border-radius: 20px;
     font-size: 11px;
     font-weight: 600;
@@ -198,7 +178,7 @@ body {
 
 .quick-info-btn:active {
     transform: scale(0.95);
-    background: rgba(16, 185, 129, 0.3);
+    background: rgba(255, 255, 255, 0.3);
 }
 
 .salary-card img {
@@ -206,7 +186,6 @@ body {
     height: auto;
     flex-shrink: 0;
     z-index: 1;
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
 }
 
 /* --- CONTENT CONTAINER --- */
@@ -222,7 +201,7 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- DUAL STATS CARDS (BENTO STYLE) --- */
+/* --- DUAL STATS CARDS --- */
 .visitor-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -238,15 +217,13 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
     cursor: pointer;
-    transition: transform 0.2s, background 0.2s;
+    transition: transform 0.2s;
 }
 
 .visitor-card:active {
     transform: scale(0.97);
-    background: var(--card-hover);
 }
 
 .visitor-icon {
@@ -262,11 +239,11 @@ body {
 }
 
 .visitor-icon.users {
-    background: linear-gradient(135deg, var(--primary-indigo), var(--primary-blue));
+    background: linear-gradient(135deg, #6a5cff, #4b2dd8);
 }
 
 .visitor-icon.gallery-icon {
-    background: linear-gradient(135deg, #059669, #10b981);
+    background: linear-gradient(135deg, #00c853, #00e676);
 }
 
 .visitor-title {
@@ -278,12 +255,12 @@ body {
 .visitor-value {
     font-size: 18px;
     font-weight: 800;
-    color: var(--text-primary);
+    color: var(--primary-blue);
 }
 
 .visitor-sub {
     font-size: 12px;
-    color: var(--accent-emerald);
+    color: #00a152;
     font-weight: 700;
 }
 
@@ -294,8 +271,7 @@ body {
     border-radius: var(--radius-xl);
     padding: 16px;
     margin-bottom: 16px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
 }
 
 .att-header-new {
@@ -315,8 +291,7 @@ body {
     width: 40px;
     height: 40px;
     border-radius: var(--radius-md);
-    background: linear-gradient(135deg, rgba(79, 70, 229, 0.3), rgba(37, 99, 235, 0.3));
-    border: 1px solid rgba(79, 70, 229, 0.4);
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-light));
     color: white;
     display: flex;
     align-items: center;
@@ -327,7 +302,7 @@ body {
 .att-title {
     font-size: 14px;
     font-weight: 700;
-    color: var(--text-primary);
+    color: var(--primary-blue);
 }
 
 .att-date {
@@ -338,7 +313,7 @@ body {
 .att-percent {
     font-size: 20px;
     font-weight: 800;
-    color: var(--accent-emerald);
+    color: var(--primary-blue);
 }
 
 .chart-box {
@@ -356,14 +331,13 @@ body {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    background: conic-gradient(#10b981 0% 100%, #334155 0% 100%);
-    box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+    background: conic-gradient(#4caf50 0% 100%, #e0e0e0 0% 100%);
 }
 
 .center {
     width: 60px;
     height: 60px;
-    background: #0f172a;
+    background: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -373,7 +347,7 @@ body {
 .center span {
     font-size: 14px;
     font-weight: 800;
-    color: var(--text-primary);
+    color: var(--primary-blue);
 }
 
 .legend {
@@ -385,11 +359,11 @@ body {
     display: flex;
     justify-content: space-between;
     margin: 6px 0;
-    color: var(--text-muted);
+    color: #444;
 }
 
 .legend b {
-    color: var(--text-primary);
+    color: var(--text-main);
 }
 
 .dot {
@@ -400,25 +374,24 @@ body {
     margin-right: 6px;
 }
 
-.dot.green { background: #10b981; }
-.dot.yellow { background: #f59e0b; }
-.dot.red { background: #f43f5e; }
+.dot.green { background: #4caf50; }
+.dot.yellow { background: #ffc107; }
+.dot.red { background: #f44336; }
 
 /* --- QUICK ACTIONS MATRIX --- */
 .quick-container {
-    background: var(--card-bg);
+    background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
     border: 1px solid var(--glass-border);
     padding: 16px;
     border-radius: var(--radius-xl);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
     margin-bottom: 16px;
 }
 
 .quick-title {
     font-size: 14px;
     font-weight: 700;
-    color: var(--text-primary);
+    color: var(--primary-blue);
     margin-bottom: 14px;
 }
 
@@ -434,13 +407,13 @@ body {
 }
 
 .quick-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: var(--card-bg);
     border-radius: var(--radius-lg);
     padding: 12px 8px;
     text-align: center;
     cursor: pointer;
-    transition: transform 0.2s, background 0.2s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s;
 }
 
 .quick-card.wide {
@@ -449,7 +422,6 @@ body {
 
 .quick-card:active {
     transform: scale(0.95);
-    background: rgba(255, 255, 255, 0.08);
 }
 
 .quick-icon {
@@ -464,35 +436,34 @@ body {
     font-size: 18px;
 }
 
-.quick-icon.blue { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
-.quick-icon.orange { background: linear-gradient(135deg, #f97316, #c2410c); }
-.quick-icon.green { background: linear-gradient(135deg, #10b981, #047857); }
-.quick-icon.pink { background: linear-gradient(135deg, #ec4899, #be185d); }
-.quick-icon.purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
-.quick-icon.indigo { background: linear-gradient(135deg, #6366f1, #4338ca); }
+.quick-icon.blue { background: #4b2dd8; }
+.quick-icon.orange { background: #ff7a18; }
+.quick-icon.green { background: #00c9a7; }
+.quick-icon.pink { background: #ff4e8a; }
+.quick-icon.purple { background: #6a5cff; }
+.quick-icon.indigo { background: #2400b7; }
 
 .quick-card p {
     margin: 0;
     font-size: 11px;
     font-weight: 600;
-    color: var(--text-muted);
+    color: #333333;
 }
 
 .grievance-card {
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(99, 102, 241, 0.1));
-    border: 1px solid rgba(139, 92, 246, 0.2);
+    background: linear-gradient(135deg, #ffffff, #f3f0ff);
 }
 
 .notif-icon {
     position: absolute;
     top: -4px;
     right: -4px;
-    background: var(--accent-rose);
+    background: var(--accent-red);
     color: white;
     font-size: 10px;
     padding: 3px;
     border-radius: 50%;
-    border: 2px solid var(--bg-dark);
+    border: 2px solid white;
     animation: pulseBadge 2s infinite;
 }
 
@@ -509,8 +480,7 @@ body {
     border-radius: var(--radius-xl);
     background: var(--card-bg);
     border: 1px solid var(--glass-border);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
 }
 
 .news-header {
@@ -530,7 +500,7 @@ body {
     width: 40px;
     height: 40px;
     border-radius: var(--radius-md);
-    background: linear-gradient(135deg, var(--primary-indigo), var(--primary-blue));
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-light));
     color: white;
     display: flex;
     align-items: center;
@@ -541,7 +511,7 @@ body {
 .news-title {
     font-size: 15px;
     font-weight: 700;
-    color: var(--text-primary);
+    color: var(--primary-blue);
 }
 
 .news-sub {
@@ -569,9 +539,8 @@ body {
     overflow: hidden;
     position: relative;
     scroll-snap-align: center;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
     cursor: pointer;
-    border: 1px solid var(--glass-border);
 }
 
 .slider-item img {
@@ -588,14 +557,13 @@ body {
 .slider-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(11, 15, 25, 0.9), transparent 70%);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
 }
 
 .slider-text {
     position: absolute;
     bottom: 14px;
     left: 14px;
-    right: 14px;
     color: white;
 }
 
@@ -608,8 +576,7 @@ body {
 .slider-text p {
     margin: 3px 0 0;
     font-size: 12px;
-    color: var(--accent-emerald);
-    font-weight: 600;
+    opacity: 0.9;
 }
 
 .news-list {
@@ -625,17 +592,17 @@ body {
     top: 0;
     bottom: 0;
     width: 2px;
-    background: linear-gradient(var(--primary-blue), var(--primary-indigo));
-    opacity: 0.4;
+    background: linear-gradient(var(--primary-blue), var(--primary-light));
+    opacity: 0.3;
 }
 
 .news-item {
     position: relative;
     margin-bottom: 12px;
     padding: 12px;
-    background: rgba(255, 255, 255, 0.03);
+    background: #ffffff;
     border-radius: var(--radius-md);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
 .news-item::before {
@@ -646,20 +613,20 @@ body {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: var(--accent-emerald);
-    box-shadow: 0 0 10px var(--accent-emerald);
+    background: var(--primary-light);
+    box-shadow: 0 0 0 3px #e6ecff;
 }
 
 .news-date {
     font-size: 11px;
-    color: var(--accent-emerald);
+    color: var(--text-muted);
     margin-bottom: 4px;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .news-item div:last-child {
     font-size: 13px;
-    color: var(--text-primary);
+    color: var(--text-main);
     line-height: 1.4;
 }
 
@@ -670,13 +637,10 @@ body {
     left: 0;
     width: 100%;
     height: 75px;
-    background: rgba(15, 23, 42, 0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid var(--glass-border);
+    background: #ffffff;
     border-top-left-radius: 28px;
     border-top-right-radius: 28px;
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.08);
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -692,25 +656,25 @@ body {
 
 .nav-icon {
     font-size: 20px;
-    color: var(--text-muted);
+    color: #9ca3af;
     transition: color 0.3s, transform 0.3s;
 }
 
 .nav-item span {
     display: block;
     font-size: 11px;
-    color: var(--text-muted);
+    color: #9ca3af;
     margin-top: 3px;
     transition: color 0.3s;
 }
 
 .nav-item.active .nav-icon {
-    color: var(--accent-gold);
+    color: var(--primary-blue);
     transform: translateY(-2px);
 }
 
 .nav-item.active span {
-    color: var(--accent-gold);
+    color: var(--primary-blue);
     font-weight: 700;
 }
 
@@ -723,8 +687,7 @@ body {
     width: 24px;
     height: 3px;
     border-radius: 10px;
-    background: var(--accent-gold);
-    box-shadow: 0 0 10px var(--accent-gold);
+    background: var(--primary-blue);
 }
 
 .center-item {
@@ -744,14 +707,13 @@ body {
     width: 58px;
     height: 58px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary-blue), var(--primary-indigo));
-    border: 3px solid #0f172a;
+    background: var(--primary-blue);
     color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 24px;
-    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 8px 20px rgba(36, 0, 183, 0.3);
     animation: float 2.5s ease-in-out infinite;
 }
 
@@ -763,7 +725,7 @@ body {
 .center-text {
     font-size: 11px;
     margin-top: 4px;
-    color: var(--accent-rose);
+    color: var(--accent-red);
     font-weight: 700;
 }
 
@@ -774,11 +736,10 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.4);
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.25s ease, visibility 0.25s ease;
+    transition: opacity 0.25s ease;
     z-index: 2000;
 }
 
@@ -788,7 +749,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #0f172a;
+    background: #ffffff;
     transform: translateX(-100%);
     transition: transform 0.28s cubic-bezier(.22,.61,.36,1);
     will-change: transform;
@@ -799,17 +760,15 @@ body {
 
 .menu-header {
     padding: 45px 20px 25px;
-    background: linear-gradient(135deg, #1e1b4b, #312e81);
+    background: linear-gradient(135deg, var(--primary-blue), #3b1eff);
     color: white;
     border-bottom-right-radius: 40px;
-    border-bottom: 1px solid var(--glass-border);
 }
 
 .close-btn {
     font-size: 26px;
     cursor: pointer;
     margin-bottom: 20px;
-    color: var(--accent-gold);
 }
 
 .profile-box {
@@ -822,7 +781,7 @@ body {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    border: 2px solid var(--accent-emerald);
+    border: 2px solid rgba(255, 255, 255, 0.4);
 }
 
 .profile-box h2 {
@@ -833,7 +792,7 @@ body {
 .profile-box p {
     margin: 4px 0 0;
     font-size: 12px;
-    color: var(--accent-emerald);
+    opacity: 0.8;
 }
 
 .menu-content {
@@ -847,24 +806,23 @@ body {
     align-items: center;
     padding: 15px;
     margin-bottom: 12px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #f8f9ff;
     border-radius: 16px;
     font-weight: 600;
     cursor: pointer;
-    color: var(--text-primary);
+    color: var(--text-main);
     transition: transform 0.2s, background 0.2s;
 }
 
 .nav-link:active {
     transform: scale(0.97);
-    background: rgba(255, 255, 255, 0.08);
+    background: #eef0ff;
 }
 
 .nav-link .icon {
     width: 36px;
     height: 36px;
-    background: rgba(255, 255, 255, 0.08);
+    background: white;
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -880,7 +838,7 @@ body {
 .menu-footer button {
     width: 100%;
     padding: 14px;
-    background: var(--accent-rose);
+    background: var(--accent-red);
     color: white;
     border: none;
     border-radius: 16px;
@@ -895,9 +853,9 @@ body {
     bottom: 70px;
     left: 0;
     width: 100%;
-    background: rgba(11, 15, 25, 0.85);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    background: rgba(243, 244, 250, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     display: none;
     flex-direction: column;
     align-items: center;
@@ -912,8 +870,8 @@ body {
 .loader-spinner {
     width: 50px;
     height: 50px;
-    border: 5px solid rgba(255, 255, 255, 0.1);
-    border-top: 5px solid var(--accent-gold);
+    border: 5px solid rgba(36, 0, 183, 0.1);
+    border-top: 5px solid var(--primary-blue);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
     margin: auto;
@@ -922,7 +880,7 @@ body {
 .loading-text {
     margin-top: 15px;
     font-size: 13px;
-    color: var(--accent-gold);
+    color: var(--primary-blue);
     font-weight: bold;
     letter-spacing: 1px;
 }
@@ -938,7 +896,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: var(--bg-dark);
+    background: #f8faff;
     z-index: 9999;
     pointer-events: none;
     clip-path: circle(0% at 50% 50%);
@@ -976,7 +934,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: var(--bg-dark);
+    background: #f8faff;
     z-index: 9999;
     transform: translateY(100%);
     transition: transform 0.4s cubic-bezier(0.32, 1, 0.23, 1);
@@ -1041,9 +999,9 @@ body {
             <div style="display:flex; align-items:center; gap:10px;">
                 <div class="menu-btn" onclick="openSideNav()">☰</div>
                 <div>
-                    <div style="font-size:11px; color:var(--text-muted);">Welcome</div>
+                    <div style="font-size:11px; opacity:0.8;">Welcome</div>
                     <strong id="empName">Loading...</strong>
-                    <div id="empDesg" style="font-size:12px; color:var(--accent-emerald);"></div>
+                    <div id="empDesg" style="font-size:12px; opacity:0.8;"></div>
                 </div>
             </div>
 
@@ -1058,7 +1016,7 @@ body {
             <div class="salary-info">
                 <h3>Last Month Salary</h3>
                 <div class="salary-amount">₹<span id="netSalary">--</span></div>
-                <div style="font-size:11px; color:var(--text-muted);">Net Pay</div>
+                <div style="font-size:11px; opacity:0.9;">Net Pay</div>
 
                 <div class="salary-bottom">
                     <div class="last-updated">
@@ -1085,7 +1043,7 @@ body {
     <!-- MAIN SCROLLABLE CONTENT AREA -->
     <div class="content">
 
-        <!-- BENTO DUAL METRICS -->
+        <!-- DUAL METRICS -->
         <div class="visitor-container">
             <div class="visitor-card">
                 <div class="visitor-icon users">👥</div>
@@ -1168,7 +1126,7 @@ body {
                         </div>
                         <p>Grievances</p>
                     </div>
-                    <span id="notifBadge" style="position:absolute; top:-5px; right:10px; background:#f43f5e; color:white; font-size:11px; font-weight:bold; min-width:20px; height:20px; border-radius:50%; border:2px solid var(--bg-dark); display:none; align-items:center; justify-content:center; animation:pulseBadge 2s infinite; z-index:10;">0</span>
+                    <span id="notifBadge" style="position:absolute; top:-5px; right:10px; background:#ff3d3d; color:white; font-size:11px; font-weight:bold; min-width:20px; height:20px; border-radius:50%; border:2px solid white; display:none; align-items:center; justify-content:center; animation:pulseBadge 2s infinite; z-index:10;">0</span>
                 </div>
 
                 <div class="quick-card wide" onclick="showLoader('page2.html')">
@@ -1260,47 +1218,47 @@ body {
 <!-- OVERLAY MODALS -->
 
 <!-- GRIEVANCE NOTIFICATION OVERLAY -->
-<div id="grievanceOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11, 15, 25, 0.85); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 5000;">
-    <div class="grievance-card" style="width: 90%; max-width: 360px; background: #0f172a; border: 1px solid var(--glass-border); border-radius: 28px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.5);">
-        <div style="background: linear-gradient(135deg, var(--primary-indigo), var(--primary-blue)); color: white; padding: 22px 20px; text-align: center;">
+<div id="grievanceOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 12, 41, 0.75); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 5000;">
+    <div class="grievance-card" style="width: 90%; max-width: 360px; background: #ffffff; border-radius: 28px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.3);">
+        <div style="background: linear-gradient(135deg, #2400b7, #4b2dd8); color: white; padding: 22px 20px; text-align: center;">
             <h3 style="margin:0;">Grievance Notifications</h3>
         </div>
         <div id="grievanceList" style="max-height: 350px; overflow-y: auto; padding: 15px;"></div>
-        <button onclick="closeGrievanceNotif2()" style="width: 100%; padding: 15px; border: none; background: rgba(255,255,255,0.05); color: var(--accent-gold); font-weight: bold; cursor: pointer; border-top: 1px solid var(--glass-border);">
+        <button onclick="closeGrievanceNotif2()" style="width: 100%; padding: 15px; border: none; background: #f1f1f1; color: #4b2dd8; font-weight: bold; cursor: pointer;">
             Dismiss
         </button>
     </div>
 </div>
 
 <!-- LOGOUT MODAL -->
-<div id="logoutPopup" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); backdrop-filter: blur(4px); display:none; align-items:center; justify-content:center; z-index:3000;">
-    <div style="background:#0f172a; border:1px solid var(--glass-border); padding:22px; border-radius:24px; width:85%; max-width:320px; text-align:center; box-shadow:0 12px 32px rgba(0,0,0,0.4);">
-        <h3 style="margin-top:0; color:var(--text-primary);">Logout</h3>
-        <p style="font-size:14px; color:var(--text-muted); margin-top:6px;">Are you sure you want to logout?</p>
+<div id="logoutPopup" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); display:none; align-items:center; justify-content:center; z-index:3000;">
+    <div style="background:white; padding:22px; border-radius:24px; width:85%; max-width:320px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.2);">
+        <h3 style="margin-top:0; color:#2400b7;">Logout</h3>
+        <p style="font-size:14px; color:#555; margin-top:6px;">Are you sure you want to logout?</p>
         <div style="display:flex; gap:10px; margin-top:20px;">
-            <button onclick="closeLogout()" style="flex:1; padding:12px; border:none; border-radius:12px; background:rgba(255,255,255,0.08); color:white; cursor:pointer;">Cancel</button>
-            <button onclick="confirmLogout()" style="flex:1; padding:12px; border:none; border-radius:12px; background:var(--accent-rose); color:white; font-weight:bold; cursor:pointer;">Logout</button>
+            <button onclick="closeLogout()" style="flex:1; padding:12px; border:none; border-radius:12px; background:#eee; cursor:pointer;">Cancel</button>
+            <button onclick="confirmLogout()" style="flex:1; padding:12px; border:none; border-radius:12px; background:#2400b7; color:white; font-weight:bold; cursor:pointer;">Logout</button>
         </div>
     </div>
 </div>
 
 <!-- EXTERNAL REDIRECT POPUP -->
-<div id="grievancePopup" style="position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display:none; align-items:center; justify-content:center; z-index:4000;">
-    <div style="background:#0f172a; border:1px solid var(--glass-border); padding:22px; border-radius:24px; width:85%; max-width:320px; text-align:center; box-shadow:0 12px 32px rgba(0,0,0,0.4);">
-        <div style="width:58px; height:58px; margin:auto; border-radius:50%; background:rgba(244, 63, 94, 0.15); display:flex; align-items:center; justify-content:center; font-size:26px; color:var(--accent-rose);">
+<div id="grievancePopup" style="position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center; z-index:4000;">
+    <div style="background:white; padding:22px; border-radius:24px; width:85%; max-width:320px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.2);">
+        <div style="width:58px; height:58px; margin:auto; border-radius:50%; background:#ffe5e5; display:flex; align-items:center; justify-content:center; font-size:26px; color:#ff3d3d;">
             ⚠️
         </div>
-        <h3 style="color:var(--accent-rose); margin-top:14px; font-size:16px;">Leaving Portal</h3>
-        <p style="font-size:13px; font-weight:500; color:var(--text-muted); margin-top:6px;">Redirecting to Employee Grievance Portal</p>
+        <h3 style="color:#ff3d3d; margin-top:14px; font-size:16px;">Leaving Portal</h3>
+        <p style="font-size:13px; font-weight:600; color:#444; margin-top:6px;">Redirecting to Employee Grievance Portal</p>
 
         <div id="grievanceBtns" style="display:flex; gap:10px; margin-top:18px;">
-            <button onclick="closeGrievancePopup()" style="flex:1; padding:12px; border:none; border-radius:12px; background:rgba(255,255,255,0.08); color:white; font-weight:600; cursor:pointer;">❌ Cancel</button>
-            <button onclick="continueToGrievance()" style="flex:1; padding:12px; border:none; border-radius:12px; background:var(--primary-blue); color:white; font-weight:600; cursor:pointer;">➡ Continue</button>
+            <button onclick="closeGrievancePopup()" style="flex:1; padding:12px; border:none; border-radius:12px; background:#eee; font-weight:600; cursor:pointer;">❌ Cancel</button>
+            <button onclick="continueToGrievance()" style="flex:1; padding:12px; border:none; border-radius:12px; background:#2400b7; color:white; font-weight:600; cursor:pointer;">➡ Continue</button>
         </div>
 
         <div id="grievanceLoader" style="display:none; margin-top:20px;">
             <div class="loader-spinner" style="width:36px; height:36px;"></div>
-            <p style="margin-top:10px; font-size:13px; color:var(--text-muted);">Redirecting...</p>
+            <p style="margin-top:10px; font-size:13px; color:#555;">Redirecting...</p>
         </div>
     </div>
 </div>
@@ -1581,7 +1539,7 @@ async function loadAttendance() {
         let p2 = p1 + leavePer;
 
         document.getElementById("donutChart").style.background =
-            `conic-gradient(#10b981 0% ${p1}%, #f59e0b ${p1}% ${p2}%, #f43f5e ${p2}% 100%)`;
+            `conic-gradient(#4caf50 0% ${p1}%, #ffc107 ${p1}% ${p2}%, #f44336 ${p2}% 100%)`;
 
     } catch (e) {
         console.log("Attendance Error:", e);
@@ -1635,7 +1593,7 @@ function closeSideNav() {
 
 function openMenu() {
     sideNav.style.transform = "translateX(0)";
-    overlay.style.opacity = "1";
+    overlay.style.opacity = "0.4";
     overlay.style.visibility = "visible";
     document.body.style.overflow = "hidden";
     isOpen = true;
@@ -1668,7 +1626,7 @@ document.addEventListener("touchmove", (e) => {
     if (translateX > 0) translateX *= 0.3;
     sideNav.style.transform = `translateX(${translateX}px)`;
     let progress = 1 - Math.abs(translateX / menuWidth);
-    overlay.style.opacity = progress;
+    overlay.style.opacity = progress * 0.4;
     overlay.style.visibility = "visible";
 }, { passive: true });
 
@@ -1745,29 +1703,29 @@ async function checkGrievances2() {
 
             let html = "";
             activeItems.forEach(item => {
-                const color = (String(item.status).toLowerCase() === "open") ? "#f43f5e" : "#f59e0b";
+                const color = (String(item.status).toLowerCase() === "open") ? "#ff3d3d" : "#ffa500";
                 html += `
-                    <div style="background:rgba(255,255,255,0.03); border-left:4px solid ${color}; padding:14px; border-radius:14px; margin-bottom:12px; border: 1px solid var(--glass-border); text-align:left;">
-                        <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--text-muted); margin-bottom:8px;">
+                    <div style="background:#fff; border-left:6px solid ${color}; padding:15px; border-radius:18px; margin-bottom:15px; box-shadow:0 6px 15px rgba(0,0,0,0.08); text-align:left; border: 1px solid #eee;">
+                        <div style="display:flex; justify-content:space-between; font-size:10px; color:#999; margin-bottom:10px; border-bottom:1px solid #f8f9ff; padding-bottom:6px;">
                             <span>📅 ${item.date || 'N/A'}</span>
-                            <span style="background:rgba(255,255,255,0.08); padding:2px 6px; border-radius:4px;">ID: ${item.id}</span>
+                            <span style="background:#eee; padding:2px 6px; border-radius:4px;">ID: ${item.id}</span>
                         </div>
-                        <div style="margin-bottom:8px;">
-                            <div style="font-size:13px; font-weight:bold; color:var(--text-primary);">👤 ${item.user}</div>
-                            <div style="font-size:11px; color:var(--text-muted);">💼 ${item.empDesig} | 📍 ${item.workPlace}</div>
+                        <div style="margin-bottom:10px;">
+                            <div style="font-size:13px; font-weight:bold; color:#2400b7;">👤 ${item.user}</div>
+                            <div style="font-size:11px; color:#666;">💼 ${item.empDesig} | 📍 ${item.workPlace}</div>
                         </div>
-                        <div style="background:rgba(0,0,0,0.2); padding:10px; border-radius:10px; margin-bottom:10px;">
-                            <div style="font-size:10px; font-weight:bold; color:var(--accent-gold); text-transform:uppercase; margin-bottom:2px;">📂 ${item.cat}</div>
-                            <div style="font-weight:bold; color:white; font-size:13px; margin-bottom:2px;">${item.sub}</div>
-                            <div style="font-size:12px; color:var(--text-muted); line-height:1.4;">${item.desc}</div>
+                        <div style="background:#f8f9ff; padding:10px; border-radius:10px; margin-bottom:12px;">
+                            <div style="font-size:11px; font-weight:bold; color:#4b2dd8; text-transform:uppercase; margin-bottom:4px;">📂 ${item.cat}</div>
+                            <div style="font-weight:bold; color:#111; font-size:14px; margin-bottom:4px;">${item.sub}</div>
+                            <div style="font-size:12px; color:#444; line-height:1.5;">${item.desc}</div>
                         </div>
                         <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <span style="background:${color}; color:white; font-size:10px; padding:3px 10px; border-radius:20px; font-weight:bold; text-transform:uppercase;">
+                            <span style="background:${color}; color:white; font-size:10px; padding:4px 12px; border-radius:20px; font-weight:bold; text-transform:uppercase; box-shadow: 0 4px 8px ${color}44;">
                                 ● ${item.status}
                             </span>
                             <div style="text-align:right;">
-                                <div style="font-size:9px; color:var(--text-muted); text-transform:uppercase;">Handler</div>
-                                <div style="font-size:11px; font-weight:bold; color:white;">${item.handler || 'Not Assigned'}</div>
+                                <div style="font-size:9px; color:#aaa; text-transform:uppercase;">Handled By</div>
+                                <div style="font-size:11px; font-weight:bold; color:#333;">${item.handler || 'Not Assigned'}</div>
                             </div>
                         </div>
                     </div>`;
@@ -1776,17 +1734,17 @@ async function checkGrievances2() {
         } else {
             badge.style.display = "none";
             listContainer.innerHTML = `
-                <div style="text-align:center; padding:30px 15px;">
-                    <div style="font-size:44px; margin-bottom:10px;">🎉</div>
-                    <h3 style="margin:0; color:white;">All Clear!</h3>
-                    <p style="font-size:12px; color:var(--text-muted); margin-top:6px;">No active grievances found in the system at this time.</p>
+                <div style="text-align:center; padding:40px 20px;">
+                    <div style="font-size:50px; margin-bottom:15px;">🎉</div>
+                    <h3 style="margin:0; color:#2400b7;">All Clear!</h3>
+                    <p style="font-size:12px; color:#777; margin-top:8px;">No active grievances found in the system at this time.</p>
                 </div>`;
         }
     } catch (err) {
         listContainer.innerHTML = `
-            <div style="text-align:center; padding:25px; color:var(--accent-rose);">
+            <div style="text-align:center; padding:30px; color:#ff3d3d;">
                 <p>⚠️ Failed to connect to server.</p>
-                <button onclick="checkGrievances2()" style="background:var(--primary-blue); color:white; border:none; padding:8px 14px; border-radius:8px; font-size:12px; margin-top:8px; cursor:pointer;">Retry</button>
+                <button onclick="checkGrievances2()" style="background:#2400b7; color:white; border:none; padding:8px 15px; border-radius:8px; font-size:12px;">Retry</button>
             </div>`;
     }
 }
