@@ -5,17 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <style>
-/* --- PREMIUM FLASH-SCREEN MATCHED DESIGN SYSTEM --- */
+/* --- MODERN FINTECH EMERALD & GOLD DESIGN SYSTEM --- */
 :root {
-    --primary-blue: #1368ff;
-    --accent-blue: #4db4ff;
-    --bg-gradient: radial-gradient(circle at top, #2b7fff 0%, #1649d8 25%, #0d2f9b 55%, #071c6a 80%, #020d38 100%);
-    --card-bg: rgba(18, 50, 130, 0.45);
-    --glass-border: rgba(255, 255, 255, 0.15);
+    --primary-teal: #0d9488;
+    --accent-emerald: #10b981;
+    --accent-gold: #f59e0b;
+    --bg-gradient: radial-gradient(circle at top, #0f766e 0%, #115e59 25%, #042f2e 60%, #021a19 100%);
+    --card-bg: rgba(6, 44, 42, 0.55);
+    --glass-border: rgba(255, 255, 255, 0.12);
     --text-light: #ffffff;
-    --text-muted: #d7e9ff;
-    --error: #ff4d4d;
-    --success: #00e676;
+    --text-muted: #ccfbf1;
+    --error: #ef4444;
+    --success: #10b981;
     --radius: 24px;
 }
 
@@ -46,19 +47,19 @@ body {
 .bg1, .bg2 {
     position: absolute;
     border-radius: 50%;
-    background: rgba(255, 255, 255, .05);
-    filter: blur(4px);
+    background: rgba(16, 185, 129, 0.08);
+    filter: blur(20px);
     pointer-events: none;
     z-index: 1;
 }
-.bg1 { width: 260px; height: 260px; left: -80px; top: -80px; }
-.bg2 { width: 220px; height: 220px; right: -60px; top: 90px; }
+.bg1 { width: 280px; height: 280px; left: -80px; top: -80px; }
+.bg2 { width: 240px; height: 240px; right: -60px; top: 90px; background: rgba(245, 158, 11, 0.06); }
 
 /* --- TOP SPLIT BRANDING AREA --- */
 .top {
     position: relative;
     width: 100%;
-    height: 28vh; /* Reduced height to stop forcing content out of screen bounds */
+    height: 28vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -77,7 +78,8 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 0.15;
+    opacity: 0.12;
+    filter: hue-rotate(120deg); /* Adapts blue graphic to fit emerald theme */
 }
 
 /* --- BOTTOM WORKSPACE BOUNDED CONTAINER --- */
@@ -96,12 +98,12 @@ body {
     width: 100%;
     max-width: 420px;
     background: var(--card-bg);
-    padding: 30px 24px; /* Slight size refactor for dynamic mobile layout sizing */
+    padding: 30px 24px;
     border-radius: var(--radius);
-    box-shadow: 0 15px 35px rgba(0,0,0,.35);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
     border: 1px solid var(--glass-border);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
 }
 
 /* --- FLASH SCREEN IDENTICAL FEATURES GRID --- */
@@ -112,12 +114,12 @@ body {
     grid-template-columns: repeat(4, 1fr);
     gap: 8px;
     margin-top: 20px;
-    margin-bottom: 20px; /* Locked down space metrics */
+    margin-bottom: 20px;
 }
 
 .f {
-    background: rgba(255, 255, 255, .08);
-    border: 1px solid rgba(255, 255, 255, .1);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-radius: 14px;
@@ -129,9 +131,9 @@ body {
 }
 
 .f:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.12);
     transform: translateY(-2px);
-    border-color: var(--accent-blue);
+    border-color: var(--accent-emerald);
 }
 
 .f .i {
@@ -161,10 +163,10 @@ body {
 input {
     width: 100%;
     padding: 14px 16px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     outline: none;
     font-size: 15px;
-    background: rgba(255, 255, 255, 0.07);
+    background: rgba(0, 0, 0, 0.2);
     border-radius: 12px;
     box-sizing: border-box;
     transition: all 0.25s ease;
@@ -172,13 +174,13 @@ input {
 }
 
 input::placeholder {
-    color: rgba(215, 233, 255, 0.6);
+    color: rgba(204, 251, 241, 0.5);
 }
 
 input:focus {
-    border-color: var(--accent-blue);
-    background: rgba(255, 255, 255, 0.12);
-    box-shadow: 0 0 12px rgba(77, 180, 255, 0.2);
+    border-color: var(--accent-emerald);
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 14px rgba(16, 185, 129, 0.25);
 }
 
 .toggle-password {
@@ -189,7 +191,7 @@ input:focus {
     cursor: pointer;
     font-size: 12px;
     font-weight: 700;
-    color: var(--accent-blue);
+    color: var(--accent-gold);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     user-select: none;
@@ -204,19 +206,19 @@ button {
     width: 100%;
     padding: 14px;
     border: none;
-    background: linear-gradient(145deg, #0b45d8, #1368ff, #3fa4ff);
-    color: white;
+    background: linear-gradient(135deg, #059669, #10b981, #34d399);
+    color: #022c22;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.25s ease;
-    box-shadow: 0 4px 15px rgba(19, 104, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
 }
 
 button:hover {
     transform: scale(1.01);
-    box-shadow: 0 8px 25px rgba(77, 180, 255, 0.45);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.45);
 }
 
 button:active {
@@ -230,13 +232,14 @@ button + button {
 .change-btn {
     background: transparent;
     color: var(--text-light);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: none;
+    font-weight: 600;
 }
 
 .change-btn:hover {
     background: rgba(255, 255, 255, 0.08);
-    border-color: var(--accent-blue);
+    border-color: var(--accent-emerald);
     box-shadow: none;
 }
 
@@ -247,10 +250,10 @@ button + button {
     font-weight: 600;
     margin-bottom: 16px;
     text-align: center;
-    background: rgba(255, 77, 77, 0.12);
+    background: rgba(239, 68, 68, 0.12);
     padding: 10px;
     border-radius: 8px;
-    border: 1px solid rgba(255, 77, 77, 0.2);
+    border: 1px solid rgba(239, 68, 68, 0.25);
     display: none;
 }
 #error:not(:empty) {
@@ -264,7 +267,7 @@ button + button {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(2, 13, 56, 0.7);
+    background: rgba(2, 26, 25, 0.82);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     display: flex;
@@ -291,24 +294,24 @@ button + button {
     width: 100%;
     height: 100%;
     border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-    background: linear-gradient(135deg, #0b45d8, #3fa4ff, #00d2ff);
+    background: linear-gradient(135deg, #059669, #10b981, #f59e0b);
     opacity: 0.6;
     animation: morph 3s linear infinite;
 }
 
 .morph-spinner::after {
     animation-delay: -1.5s;
-    background: linear-gradient(135deg, #00c9a7, #1368ff);
+    background: linear-gradient(135deg, #f59e0b, #047857);
     opacity: 0.4;
 }
 
 .inner-core {
     width: 40px;
     height: 40px;
-    background: white;
+    background: #ffffff;
     border-radius: 50%;
     z-index: 10;
-    box-shadow: inset 0 0 10px rgba(36, 0, 183, 0.2), 0 0 20px rgba(255, 255, 255, 0.8);
+    box-shadow: inset 0 0 10px rgba(6, 78, 59, 0.3), 0 0 20px rgba(255, 255, 255, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -337,7 +340,7 @@ button + button {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(2, 13, 56, 0.6);
+    background: rgba(2, 26, 25, 0.75);
     backdrop-filter: blur(12px);
     justify-content: center;
     align-items: center;
@@ -345,13 +348,13 @@ button + button {
 }
 
 .change-box-content, .popup-content {
-    background: #0d2f9b;
+    background: #042f2e;
     padding: 35px 25px;
     border-radius: var(--radius);
     width: 100%;
     max-width: 340px;
     box-sizing: border-box;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
     border: 1px solid var(--glass-border);
     text-align: center;
     animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -375,7 +378,7 @@ button + button {
 
 .change-box-content input {
     margin-bottom: 16px;
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 0.25);
 }
 
 .cancel-link {
@@ -394,7 +397,7 @@ button + button {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(2, 13, 56, 0.7); 
+    background: rgba(2, 26, 25, 0.75); 
     display: none;
     justify-content: center;
     align-items: center;
@@ -404,8 +407,8 @@ button + button {
 .cp-spinner {
     width: 50px;
     height: 50px;
-    border: 4px solid rgba(255, 255, 255, 0.2);
-    border-top: 4px solid var(--accent-blue);
+    border: 4px solid rgba(255, 255, 255, 0.15);
+    border-top: 4px solid var(--accent-gold);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
 }
@@ -416,7 +419,7 @@ button + button {
 .footer-blue {
     width: 100%;
     position: relative;
-    height: 40px; /* Reduced to balance vertical layout budget */
+    height: 40px;
     z-index: 2;
 }
 
@@ -450,8 +453,8 @@ button + button {
 
 <div class="top">
     <div class="illustration"></div>
-    <div style="font-size: 42px; font-weight: 700; color: #fff; text-shadow: 0 5px 15px rgba(0,0,0,.3); z-index: 3;">₹</div>
-    <div style="margin-top: 5px; color: #fff; font-size: 24px; text-align:center; font-weight: 600; text-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index:3;">ಕಾರ್ಯ ಮತ್ತು ಪಾಲನಾ ವಿಭಾಗ, ಹೆಸ್ಕಾಂ, ಶಿರಸಿ</div>
+    <div style="font-size: 42px; font-weight: 700; color: var(--accent-gold); text-shadow: 0 5px 15px rgba(0,0,0,.4); z-index: 3;">₹</div>
+    <div style="margin-top: 5px; color: #fff; font-size: 24px; text-align:center; font-weight: 600; text-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index:3;">ಕಾರ್ಯ ಮತ್ತು ಪಾಲನಾ ವಿಭಾಗ, ಹೆಸ್ಕಾಂ, ಶಿರಸಿ</div>
 </div>
 
 <div class="bottom">
@@ -518,14 +521,14 @@ button + button {
         <div style="font-size: 48px; color: var(--error); margin-bottom: 12px;">✖</div>
         <h3 style="margin: 5px 0; color: var(--error); font-size: 22px;">Error</h3>
         <p id="errorText" style="color: var(--text-muted); margin: 6px 0 24px 0; font-size: 14px;">Invalid Details</p>
-        <button onclick="closeError()" style="background: var(--error);">OK</button>
+        <button onclick="closeError()" style="background: var(--error); color: white;">OK</button>
     </div>
 </div> 
 
 <div class="footer-blue">
     <div class="footer-wave">
         <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
-            <path fill="rgba(255,255,255,0.04)" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,144C672,139,768,181,864,202.7C960,224,1056,224,1152,197.3C1248,171,1344,117,1392,90.7L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            <path fill="rgba(16, 185, 129, 0.05)" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,144C672,139,768,181,864,202.7C960,224,1056,224,1152,197.3C1248,171,1344,117,1392,90.7L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
         </svg>
     </div>
 </div>
