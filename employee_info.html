@@ -1,381 +1,134 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Employee Info</title>
 
 <style>
-body{
-font-family:sans-serif;
-margin:0;
-background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
-padding-bottom:75px;
+/* --- MODERN FINTECH EMERALD & GOLD DESIGN SYSTEM --- */
+:root {
+    --primary-gradient: radial-gradient(circle at 50% 50%, #0f766e 0%, #115e59 35%, #042f2e 70%, #021a19 100%);
+    --bg-dark: #021a19;
+    --accent-emerald: #10b981;
+    --accent-gold: #f59e0b;
+    --accent-rose: #f43f5e;
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --card-hover: rgba(255, 255, 255, 0.08);
+    --glass-shine: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.02) 100%);
+    --text-light: #ffffff;
+    --text-muted: #ccfbf1;
+    --radius-xl: 24px;
+    --radius-lg: 18px;
+    --radius-md: 12px;
 }
 
-.top{
-padding:25px 20px 20px 20px;
-background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
-color:#2400b7;
-display:flex;
-justify-content:space-between;
-align-items:center;
-border-bottom-left-radius:0px;
-border-bottom-right-radius:0px;
-}
-/* LEFT BOX */
-.user-box{
-display:flex;
-align-items:center;
-gap:12px;
-}
-  /* MENU BUTTON */
-.menu-btn{
-width:42px;
-height:42px;
-border-radius:10px;
-background:#2400b7;
-color:white;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:20px;
-cursor:pointer;
-box-shadow:0 4px 10px rgba(0,0,0,0.2);
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.menu-btn:active{
-transform:scale(0.9);
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--primary-gradient);
+    background-attachment: fixed;
+    color: var(--text-light);
+    overflow-x: hidden;
+    padding-bottom: 95px;
 }
 
-/* RIGHT ICONS */
-.logout{
-cursor:pointer;
-font-size:22px;
-}
-/* LIST STYLE */
-.tabs{
-padding:15px;
-}
-
-/* LIST ITEM */
-.tab{
-display:flex;
-align-items:center;
-gap:15px;
-background:white;
-border-radius:18px;
-padding:15px;
-margin-bottom:12px;
-cursor:pointer;
-transition:0.3s;
-box-shadow:0 6px 15px rgba(0,0,0,0.08);
-}
-
-/* ICON */
-.tab img{
-width:45px;
-height:45px;
-}
-
-/* TEXT AREA */
-.tab .text{
-flex:1;
-}
-
-.tab .text h4{
-margin:0;
-font-size:15px;
-color:#333;
-}
-
-.tab .text p{
-margin:3px 0 0;
-font-size:12px;
-color:#777;
-}
-
-/* ACTIVE */
-.tab.active{
-background:linear-gradient(135deg,#3b1eff,#6a5cff);
-color:white;
-box-shadow:0 10px 25px rgba(59,30,255,0.3);
-}
-
-.tab.active h4,
-.tab.active p{
-color:white;
-}
-
-/* ARROW */
-.arrow{
-font-size:18px;
-color:#999;
-}
-
-/* LOADER */
-/* LOADER BELOW HEADER */
-#loader {
+/* --- AMBIENT LIGHT MESH --- */
+.bg1, .bg2 {
     position: fixed;
-    top: 85px;  /* Below Fixed Header */
-    bottom: 70px; /* Above Fixed Footer */
-    left: 0;
-    width: 100%;
-    background: rgba(243, 244, 250, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 900;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+}
+.bg1 {
+    width: 450px;
+    height: 450px;
+    left: -100px;
+    top: -100px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0) 70%);
+    animation: ambientFloat 8s ease-in-out infinite alternate;
+}
+.bg2 {
+    width: 350px;
+    height: 350px;
+    right: -100px;
+    bottom: -100px;
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, rgba(245, 158, 11, 0) 70%);
+    animation: ambientFloat 12s ease-in-out infinite alternate-reverse;
 }
 
-/* FLUID ORBIT DESIGN */
-.fluid-loader {
+@keyframes ambientFloat {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(30px, 20px) scale(1.1); }
+}
+
+/* --- HEADER --- */
+.top {
     position: relative;
-    width: 80px;
-    height: 80px;
+    padding: 25px 20px;
+    background: rgba(4, 47, 46, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+    border-bottom-left-radius: 32px;
+    border-bottom-right-radius: 32px;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+    color: white;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    z-index: 10;
 }
 
-.orbit {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 3px solid transparent;
-    border-top-color: #2400b7;
-    border-bottom-color: #00c9a7;
-    animation: rotate-orbit 1.5s linear infinite;
-}
-
-.orbit:nth-child(2) {
-    width: 70%;
-    height: 70%;
-    border-top-color: #6a5cff;
-    border-bottom-color: #ff4e8a;
-    animation-duration: 1s;
-    animation-direction: reverse;
-}
-
-.orbit:nth-child(3) {
-    width: 40%;
-    height: 40%;
-    border-top-color: #00e0b8;
-    border-bottom-color: #2400b7;
-    animation-duration: 2s;
-}
-
-.core {
-    width: 15px;
-    height: 15px;
-    background: #2400b7;
-    border-radius: 50%;
-    box-shadow: 0 0 15px #2400b7, 0 0 30px #00c9a7;
-    animation: pulse-core 1.5s ease-in-out infinite;
-}
-
-/* TEXT STYLE */
-.loader-text {
-    margin-top: 30px;
-    font-weight: 700;
-    color: #2400b7;
-    font-size: 13px;
-    letter-spacing: 2px;
+.header-sub {
+    font-size: 11px;
+    color: var(--accent-gold);
     text-transform: uppercase;
-    opacity: 0.8;
+    letter-spacing: 1px;
+    font-weight: 600;
 }
 
-/* ANIMATIONS */
-@keyframes rotate-orbit {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+.header-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 2px;
+    background: linear-gradient(135deg, #ffffff 0%, #ccfbf1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-@keyframes pulse-core {
-    0%, 100% { transform: scale(1); opacity: 0.8; }
-    50% { transform: scale(1.3); opacity: 1; }
+.icon-action-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    color: white;
+    transition: transform 0.2s;
 }
 
-
-@keyframes shimmer{
-0%{background-position:-400px 0;}
-100%{background-position:400px 0;}
+.icon-action-btn:active {
+    transform: scale(0.9);
 }
 
-.skeleton{
-height:60px;
-border-radius:12px;
-background:linear-gradient(90deg,#eee 25%,#ddd 50%,#eee 75%);
-background-size:400px 100%;
-animation:shimmer 1.2s infinite;
-}
-
-.navbar{
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  height:75px;
-
-  background:#ffffff;
-
-  /* 🔥 TOP CURVE */
-  border-top-left-radius:30px;
-  border-top-right-radius:30px;
-
-  box-shadow:0 -8px 25px rgba(0,0,0,0.08);
-
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-
-  z-index:1000;
-}
-
-/* NAV ITEM */
-.nav-item{
-  flex:1;
-  text-align:center;
-  position:relative;
-  cursor:pointer;
-}
-
-/* ICON (LINE STYLE) */
-.nav-icon{
-  font-size:22px;
-  color:#9ca3af;
-  transition:0.3s;
-}
-
-/* TEXT */
-.nav-item span{
-  display:block;
-  font-size:11px;
-  color:#9ca3af;
-  margin-top:3px;
-}
-
-/* ACTIVE */
-.nav-item.active .nav-icon{
-  color:#2400b7;
-  transform:translateY(-2px);
-}
-
-.nav-item.active span{
-  color:#2400b7;
-  font-weight:600;
-}
-
-/* TOP INDICATOR */
-.nav-item.active::before{
-  content:"";
-  position:absolute;
-  top:-8px;
-  left:50%;
-  transform:translateX(-50%);
-  width:26px;
-  height:3px;
-  border-radius:10px;
-  background:#2400b7;
-}
-
-/* CLICK */
-.nav-item:active{
-  transform:scale(0.92);
-}
-
-
-  /* CENTER FLOAT BUTTON */
-
-/* Equal spacing */
-.nav-item{
-flex:1;
-text-align:center;
-cursor:pointer;
-}
-
-/* Normal icons */
-.nav-icon{
-font-size:22px;
-color:#9ca3af;
-}
-
-.nav-item span{
-display:block;
-font-size:11px;
-color:#9ca3af;
-}
-
-/* ⭐ CENTER SPECIAL BUTTON */
-.center-item{
-display:flex;
-justify-content:center;
-align-items:center;
-}
-
-/* Animated button */
-/* CENTER WRAPPER */
-.center-wrapper{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  transform:translateY(-18px);
-}
-
-/* NEW PREMIUM BUTTON */
-.center-btn{
-  width:60px;
-  height:60px;
-  border-radius:50%;
-  background: blue;
-  color:#fff;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:26px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.3);
-  animation:float 2s ease-in-out infinite;
-}
-
-/* FLOAT EFFECT */
-@keyframes float{
-  0%,100%{ transform:translateY(0); }
-  50%{ transform:translateY(-6px); }
-}
-
-/* TEXT BELOW BUTTON */
-.center-text{
-  font-size:11px;
-  margin-top:4px;
-  color:#ff3d3d;
-  font-weight:600;
-}
-
-/* 🔥 Animation like GIF */
-@keyframes pulse{
-0%{
-transform:scale(1);
-box-shadow:0 0 0 0 rgba(59,30,255,0.5);
-}
-70%{
-transform:scale(1.1);
-box-shadow:0 0 0 12px rgba(59,30,255,0);
-}
-100%{
-transform:scale(1);
-}
-}
-
-/* Click effect */
-.center-btn:active{
-transform:scale(0.9);
-}
-/* CONTAINER */
+/* --- CONTAINER --- */
 .container {
-   
-    animation: slideUp 0.4s ease-out;
+    padding: 16px;
+    position: relative;
+    z-index: 1;
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes slideUp {
@@ -383,257 +136,366 @@ transform:scale(0.9);
     to { opacity: 1; transform: translateY(0); }
 }
 
-  /* NEW MODERN SPINNER */
-.loader-container{
-  text-align:center;
+.tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.loader-spinner{
-  width:60px;
-  height:60px;
-  border:6px solid rgba(255,255,255,0.6);
-  border-top:6px solid #0d47a1;
-  border-radius:50%;
-  animation:spin 0.8s linear infinite;
-  margin:auto;
-  box-shadow:0 0 15px rgba(13,71,161,0.5);
+/* --- HERO NOMINATION CARD --- */
+.hero-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(4, 120, 87, 0.5));
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    border-radius: var(--radius-xl);
+    padding: 22px 20px;
+    color: white;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(12px);
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
 }
 
-.loading-text{
-  margin-top:15px;
-  font-size:14px;
-  color:#0d47a1;
-  font-weight:bold;
-  letter-spacing:1px;
+.hero-card:active {
+    transform: scale(0.97);
 }
 
-/* KEEP ONLY ONE SPIN */
-@keyframes spin{
-  100%{ transform:rotate(360deg); }
+.hero-left h2 {
+    margin: 8px 0 4px;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-light);
 }
 
-  /* 🔥 HERO NOMINATION */
-.hero-card{
-display:flex;
-justify-content:space-between;
-align-items:center;
-background: linear-gradient(135deg, #0f0c29, #2400b7, #302b63);
-border-radius:22px;
-padding:20px;
-margin-bottom:15px;
-color:white;
-box-shadow:0 15px 35px rgba(59,30,255,0.3);
-cursor:pointer;
+.hero-left p {
+    font-size: 12px;
+    color: var(--text-muted);
+    max-width: 190px;
+    line-height: 1.4;
 }
 
-.hero-left h2{
-margin:10px 0 5px;
-font-size:22px;
+.badge {
+    background: rgba(245, 158, 11, 0.2);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    color: var(--accent-gold);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
 }
 
-.hero-left p{
-font-size:13px;
-opacity:0.9;
-max-width:200px;
+.hero-btn {
+    margin-top: 14px;
+    background: var(--accent-gold);
+    color: #021a19;
+    padding: 8px 16px;
+    border-radius: 14px;
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-block;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
 }
 
-.badge{
-background:rgba(255,255,255,0.2);
-padding:5px 10px;
-border-radius:20px;
-font-size:11px;
-display:inline-block;
+.hero-img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3));
 }
 
-.hero-btn{
-margin-top:12px;
-background:white;
-color:#3b1eff;
-padding:8px 14px;
-border-radius:20px;
-font-size:13px;
-font-weight:600;
-display:inline-block;
+/* --- MODERN CARDS --- */
+.card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: 16px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
 }
 
-.hero-img{
-width:110px;
+.card:active {
+    transform: scale(0.97);
+    background: var(--card-hover);
 }
 
-  /* 🔥 MODERN CARD */
-.card{
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:white;
-border-radius:20px;
-padding:15px;
-margin-bottom:14px;
-cursor:pointer;
-transition:0.25s;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
+.left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
 }
 
-.card:hover{
-transform:translateY(-3px);
+.icon-box {
+    width: 50px;
+    height: 50px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
-.card:active{
-transform:scale(0.97);
+.icon-box img {
+    width: 26px;
+    height: 26px;
 }
 
-/* LEFT */
-.left{
-display:flex;
-align-items:center;
-gap:12px;
+.blue {
+    background: linear-gradient(135deg, rgba(13, 148, 136, 0.4), rgba(15, 118, 110, 0.6));
+    border: 1px solid rgba(13, 148, 136, 0.3);
 }
 
-/* ICON BOX */
-.icon-box{
-width:55px;
-height:55px;
-border-radius:16px;
-display:flex;
-align-items:center;
-justify-content:center;
+.green {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(4, 120, 87, 0.5));
+    border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
-.icon-box img{
-width:28px;
+.card-text h4 {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-light);
+    font-weight: 600;
 }
 
-/* COLORS */
-.blue{
-background:linear-gradient(135deg,#e6ecff,#dbeafe);
+.card-text p {
+    margin: 3px 0 0;
+    font-size: 11px;
+    color: var(--text-muted);
 }
 
-.green{
-background:linear-gradient(135deg,#e8f8f0,#d1fae5);
+.circle-arrow {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--accent-gold);
+    flex-shrink: 0;
 }
 
-/* TEXT */
-.card-text h4{
-margin:0;
-font-size:15px;
-color:#1f2937;
+/* MODERN BOXED LOADER */
+#loader {
+    position: fixed;
+    top: 85px;
+    bottom: 75px;
+    left: 0;
+    width: 100%;
+    background: rgba(2, 26, 25, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 900;
 }
 
-.card-text p{
-margin:3px 0 0;
-font-size:12px;
-color:#6b7280;
+.loader-container {
+    text-align: center;
 }
 
-/* ARROW BUTTON */
-.circle-arrow{
-width:36px;
-height:36px;
-border-radius:50%;
-background:#eef2ff;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:16px;
-color:#3b5cff;
-box-shadow:0 4px 10px rgba(0,0,0,0.08);
+.loader-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.1);
+    border-top: 5px solid var(--accent-gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: auto;
+}
+
+.loading-text {
+    margin-top: 15px;
+    font-size: 13px;
+    color: var(--accent-gold);
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+/* --- CURVED BOTTOM FLOATING NAVBAR --- */
+.navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 75px;
+    background: rgba(4, 47, 46, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--glass-border);
+    border-top-left-radius: 28px;
+    border-top-right-radius: 28px;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+}
+
+.nav-item {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.nav-icon {
+    font-size: 20px;
+    color: var(--text-muted);
+    transition: color 0.3s, transform 0.3s;
+}
+
+.nav-item span {
+    display: block;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 3px;
+    transition: color 0.3s;
+}
+
+.nav-item.active .nav-icon {
+    color: var(--accent-gold);
+    transform: translateY(-2px);
+}
+
+.nav-item.active span {
+    color: var(--accent-gold);
+    font-weight: 700;
+}
+
+.nav-item.active::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 3px;
+    border-radius: 10px;
+    background: var(--accent-gold);
+    box-shadow: 0 0 10px var(--accent-gold);
+}
+
+.center-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.center-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateY(-18px);
+}
+
+.center-btn {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #047857 0%, #10b981 50%, #34d399 100%);
+    border: 3px solid #021a19;
+    color: var(--accent-gold);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 700;
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+    animation: float 2.5s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+.center-text {
+    font-size: 11px;
+    margin-top: 4px;
+    color: var(--accent-gold);
+    font-weight: 700;
 }
 </style>
 </head>
 
 <body>
 
+<!-- AMBIENT BACKGROUND GLOWS -->
+<div class="bg1"></div>
+<div class="bg2"></div>
+
 <!-- HEADER -->
 <div class="top">
-
-<div class="user-box">
-
-  <div style="display:flex;align-items:center;gap:10px;">
-
-    <!-- MENU BUTTON -->
-    <div class="menu-btn" onclick="openSideNav()">☰</div>
-
-    <!-- TEXT -->
-    <div>
-      <div style="font-size:13px;">Employee forum</div>
-      <strong style="font-size:18px;">Employee info.</strong>
-    </div>
-
-  </div>
-
-</div>
-
   <div>
-    <span style="font-size:22px;margin-right:10px;cursor:pointer;" onclick="refreshApp()">🔄</span>
-    <span class="logout" onclick="logout()">🔓</span>
+    <div class="header-sub">Employee Forum</div>
+    <div class="header-title">Employee Info.</div>
   </div>
 
+  <div class="icon-action-btn" onclick="refreshApp()">🔄</div>
 </div>
 
 <!-- LIST VIEW -->
-  <div class="container">
-<div class="tabs">
+<div class="container">
+  <div class="tabs">
 
-<!-- NOMINATION -->
-<!-- 🔥 NEW NOMINATION HERO -->
-<div class="hero-card" onclick="openPage(0,'nomination_form.html')">
+    <!-- HERO NOMINATION -->
+    <div class="hero-card" onclick="openPage(0,'nomination_form.html')">
+      <div class="hero-left">
+        <div class="badge">★ Important</div>
+        <h2>Nomination</h2>
+        <p>Add your family members and share percentage</p>
+        <div class="hero-btn">Get Started →</div>
+      </div>
+      <img class="hero-img" src="https://cdn-icons-png.flaticon.com/512/3209/3209265.png" alt="Nomination">
+    </div>
 
-  <div class="hero-left">
-    
-    <div class="badge">★ Important</div>
+    <!-- OFFICIAL DETAILS -->
+    <div class="card" onclick="openPage(1,'official_details.html')">
+      <div class="left">
+        <div class="icon-box blue">
+          <img src="https://cdn-icons-png.flaticon.com/512/942/942748.png" alt="Official">
+        </div>
+        <div class="card-text">
+          <h4>Official Details</h4>
+          <p>View and update your official employee records</p>
+        </div>
+      </div>
+      <div class="circle-arrow">→</div>
+    </div>
 
-    <h2>Nomination</h2>
-
-    <p>Add your family members and share percentage</p>
-
-    <div class="hero-btn">
-      Get Started →
+    <!-- ENQUIRIES -->
+    <div class="card" onclick="openPage(2,'enquiries.html')">
+      <div class="left">
+        <div class="icon-box green">
+          <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png" alt="Enquiries">
+        </div>
+        <div class="card-text">
+          <h4>Enquiries</h4>
+          <p>Ask questions or get help from support</p>
+        </div>
+      </div>
+      <div class="circle-arrow">→</div>
     </div>
 
   </div>
-<img class="hero-img" src="https://cdn-icons-png.flaticon.com/512/3209/3209265.png">
-  
-
-</div>
-
-
-<!-- 🔥 OFFICIAL DETAILS -->
-<div class="card" onclick="openPage(1,'official_details.html')">
-
-  <div class="left">
-    <div class="icon-box blue">
-      <img src="https://cdn-icons-png.flaticon.com/512/942/942748.png">
-    </div>
-
-    <div class="card-text">
-      <h4>Official Details</h4>
-      <p>View and update your official employee records</p>
-    </div>
-  </div>
-
-  <div class="circle-arrow">→</div>
-
-</div>
-
-
-<!-- 🔥 ENQUIRIES -->
-<div class="card" onclick="openPage(2,'enquiries.html')">
-
-  <div class="left">
-    <div class="icon-box green">
-      <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png">
-    </div>
-
-    <div class="card-text">
-      <h4>Enquiries</h4>
-      <p>Ask questions or get help from support</p>
-    </div>
-  </div>
-
-  <div class="circle-arrow">→</div>
-
-</div>
-</div>
 </div>
 
 <!-- LOADER -->
@@ -644,167 +506,127 @@ box-shadow:0 4px 10px rgba(0,0,0,0.08);
   </div>
 </div>
 
-<script>
-
-let isLoading = false;
-
-function openPage(index, url){
-
-if(isLoading) return;
-isLoading = true;
-
-// show loader
-document.getElementById("loader").style.display = "flex";
-document.body.style.overflow = "hidden";
-
-// ✅ SAFE: only run if .tab exists
-let tabs = document.querySelectorAll(".tab");
-if(tabs.length){
-  tabs.forEach(t => t.classList.remove("active"));
-  if(tabs[index]) tabs[index].classList.add("active");
-}
-
-// navigate
-setTimeout(()=>{
-  window.location = url;
-}, 600);
-
-// ✅ FAILSAFE (very important)
-setTimeout(()=>{
-  isLoading = false;
-  document.getElementById("loader").style.display = "none";
-  document.body.style.overflow = "auto";
-}, 3000);
-
-}
-
-</script>
-  <script>
-function goTab(index, url){
-
-  // ✅ mark navigation as NAV click
-  sessionStorage.setItem("navClick", "true");
-
-  document.getElementById("loader").style.display = "flex";
-  document.body.style.overflow = "hidden";
-
-  setTimeout(function(){
-    window.location.replace(url); // already good
-  }, 700);
-
-}
-</script>
-  <script>
-
-
-// function for active tab
-window.onload = function(){
-
-  let page = location.pathname.split("/").pop();
-
-  let items = document.querySelectorAll(".nav-item");
-
-  items.forEach(item => {
-    let onclick = item.getAttribute("onclick");
-
-    if(onclick && onclick.includes(page)){
-      item.classList.add("active");
-    }
-  });
-
-}
-
-</script>
-  <script>
-history.pushState(null, null, location.href);
-
-window.onpopstate = function () {
-  window.location.replace("home.html");
-};
-</script>
+<!-- BOTTOM NAVBAR -->
 <div class="navbar" id="navbar">
-
-<div class="nav-item" onclick="goTab(0,'home.html')">
-<div class="nav-icon">🏠</div>
-<span>Home</span>
-</div>
-
-<div class="nav-item" onclick="goTab(1,'forum.html')">
-<div class="nav-icon">💬</div>
-<span>Forum</span>
-</div>
-
-<div class="nav-item center-item" onclick="goTab(99,'info.html')">
-  
-  <div class="center-wrapper">
-    
-    <div class="center-btn">
-      ⚡
-    </div>
-
-    <div class="center-text">Smart Support</div>
-
+  <div class="nav-item" onclick="goTab(0,'home.html')">
+    <div class="nav-icon">🏠</div>
+    <span>Home</span>
   </div>
 
+  <div class="nav-item" onclick="goTab(1,'forum.html')">
+    <div class="nav-icon">💬</div>
+    <span>Forum</span>
+  </div>
+
+  <div class="nav-item center-item" onclick="goTab(99,'info.html')">
+    <div class="center-wrapper">
+      <div class="center-btn">⚡</div>
+      <div class="center-text">Smart Support</div>
+    </div>
+  </div>
+
+  <div class="nav-item active" onclick="goTab(2,'employee_info.html')">
+    <div class="nav-icon">👤</div>
+    <span>Employee</span>
+  </div>
+
+  <div class="nav-item" onclick="goTab(3,'resources.html')">
+    <div class="nav-icon">📂</div>
+    <span>Resources</span>
+  </div>
 </div>
 
-<div class="nav-item" onclick="goTab(2,'employee_info.html')">
-<div class="nav-icon">👤</div>
-<span>Employee</span>
-</div>
+<!-- SCRIPTS & ROUTING -->
+<script>
+let isLoading = false;
 
-<div class="nav-item" onclick="goTab(3,'resources.html')">
-<div class="nav-icon">📂</div>
-<span>Resources</span>
-</div>
+function openPage(index, url) {
+    if(isLoading) return;
+    isLoading = true;
 
-</div>
+    document.getElementById("loader").style.display = "flex";
+    document.body.style.overflow = "hidden";
 
-  <script>
+    let tabs = document.querySelectorAll(".tab");
+    if(tabs.length){
+        tabs.forEach(t => t.classList.remove("active"));
+        if(tabs[index]) tabs[index].classList.add("active");
+    }
+
+    setTimeout(() => {
+        window.location = url;
+    }, 600);
+
+    setTimeout(() => {
+        isLoading = false;
+        document.getElementById("loader").style.display = "none";
+        document.body.style.overflow = "auto";
+    }, 3000);
+}
+
+function goTab(index, url) {
+    sessionStorage.setItem("navClick", "true");
+    document.getElementById("loader").style.display = "flex";
+    document.body.style.overflow = "hidden";
+
+    setTimeout(function(){
+        window.location.replace(url);
+    }, 700);
+}
+
+function refreshApp() {
+    document.getElementById("loader").style.display = "flex";
+    setTimeout(function(){
+        location.reload(true);
+    }, 1000);
+}
+
+window.onload = function() {
+    let loader = document.getElementById("loader");
+    if(loader) {
+        loader.style.display = "none";
+    }
+
+    let page = location.pathname.split("/").pop();
+    let items = document.querySelectorAll(".nav-item");
+
+    items.forEach(item => {
+        let onclick = item.getAttribute("onclick");
+        if(onclick && onclick.includes(page)){
+            item.classList.add("active");
+        }
+    });
+}
+
 (function () {
+    const currentPage = location.pathname.split("/").pop();
+    const navPages = [
+        "home.html",
+        "forum.html",
+        "info.html",
+        "employee_info.html",
+        "resources.html"
+    ];
 
-  const currentPage = location.pathname.split("/").pop();
+    if (navPages.includes(currentPage)) {
+        history.pushState(null, "", location.href);
+        window.onpopstate = function () {
+            window.location.replace("home.html");
+        };
+    }
+})();
 
-  // Only apply for navbar pages
-  const navPages = [
-    "home.html",
-    "forum.html",
-    "info.html",
-    "employee_info.html",
-    "resources.html"
-  ];
-
-  if (navPages.includes(currentPage)) {
-
-    history.pushState(null, "", location.href);
-
-    window.onpopstate = function () {
-      window.location.replace("home.html");
-    };
-
-  }
-
+(function () {
+    let isNavClick = sessionStorage.getItem("navClick");
+    if(isNavClick === "true"){
+        history.pushState(null, "", location.href);
+        window.onpopstate = function () {
+            window.location.replace("home.html");
+        };
+        sessionStorage.removeItem("navClick");
+    }
 })();
 </script>
-  <script>
-(function () {
 
-  let isNavClick = sessionStorage.getItem("navClick");
-
-  if(isNavClick === "true"){
-
-    // 🔥 CLEAR HISTORY EFFECT
-    history.pushState(null, "", location.href);
-
-    window.onpopstate = function () {
-      window.location.replace("home.html");
-    };
-
-    // remove flag
-    sessionStorage.removeItem("navClick");
-  }
-
-})();
-</script>
 </body>
 </html>
