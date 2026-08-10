@@ -5,10 +5,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>Salary Prompt</title>
 <style>
-/* --- PREMIUM REFINED DESIGN SYSTEM --- */
+/* --- MODERN FINTECH EMERALD & GOLD DESIGN SYSTEM --- */
 :root {
-    --primary-gradient: radial-gradient(circle at 50% 50%, #1e6eff 0%, #0c3fc2 35%, #062280 70%, #020d35 100%);
-    --accent-blue: #4db4ff;
+    --primary-gradient: radial-gradient(circle at 50% 50%, #0f766e 0%, #115e59 35%, #042f2e 70%, #021a19 100%);
+    --accent-emerald: #10b981;
+    --accent-gold: #f59e0b;
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --text-light: #ffffff;
+    --text-muted: #ccfbf1;
 }
 
 * {
@@ -26,17 +30,18 @@ html, body {
 
 body {
     background: var(--primary-gradient);
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    color: var(--text-light);
 }
 
-/* --- PREMIUM AMBIENT LIGHT MESH --- */
+/* --- AMBIENT LIGHT MESH --- */
 .bg1, .bg2 {
     position: absolute;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(77,180,255,0.12) 0%, rgba(19,104,255,0) 70%);
     pointer-events: none;
     z-index: 1;
 }
@@ -45,6 +50,7 @@ body {
     height: 450px;
     left: -100px;
     top: -100px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0) 70%);
     animation: ambientFloat 8s ease-in-out infinite alternate;
 }
 .bg2 {
@@ -52,6 +58,7 @@ body {
     height: 350px;
     right: -100px;
     bottom: -100px;
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, rgba(245, 158, 11, 0) 70%);
     animation: ambientFloat 12s ease-in-out infinite alternate-reverse;
 }
 
@@ -60,49 +67,76 @@ body {
     position: relative;
     z-index: 2;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 20px;
 }
 
 .logoWrap {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* --- RUNNING INNER DASHED TRACK --- */
 .ring {
     position: absolute;
     inset: -15px;
-    border: 1.5px dashed rgba(255, 255, 255, 0.25);
+    border: 1.5px dashed rgba(245, 158, 11, 0.4);
     border-radius: 50%;
     animation: spinRing 24s linear infinite;
 }
 
-/* --- PREMIUM STATIONARY OUTER TRACK --- */
+/* --- STATIONARY OUTER TRACK --- */
 .ring-outer {
     position: absolute;
     inset: -22px;
-    border: 1px solid rgba(77, 180, 255, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
     border-radius: 50%;
 }
 
-/* --- INDEPENDENT WAVE RE Reveal LOGO --- */
+/* --- LOGO CARD --- */
 .logo {
     width: 100px;
     height: 100px;
     border-radius: 28px;
-    background: linear-gradient(135deg, #0b45d8 0%, #1368ff 50%, #3fa4ff 100%);
+    background: linear-gradient(135deg, #047857 0%, #10b981 50%, #34d399 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
+    color: var(--accent-gold);
     font-size: 52px;
     font-weight: 700;
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2), 0 15px 35px rgba(19, 104, 255, 0.4);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15), 0 15px 35px rgba(16, 185, 129, 0.35);
     animation: floatingPulse 3s ease-in-out infinite;
     user-select: none;
 }
 
-/* --- HIGH-END KEYFRAME SYSTEMS --- */
+/* --- KANNADA BRANDING TITLE --- */
+.brand-title {
+    margin-top: 32px;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-light);
+    text-align: center;
+    line-height: 1.4;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    letter-spacing: 0.2px;
+}
+
+/* --- SUBTITLE TEXT --- */
+.brand-subtitle {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+/* --- KEYFRAME SYSTEMS --- */
 @keyframes spinRing {
     to { transform: rotate(360deg); }
 }
@@ -123,6 +157,7 @@ body {
     .logo { width: 85px; height: 85px; font-size: 44px; border-radius: 24px; }
     .ring { inset: -12px; }
     .ring-outer { inset: -18px; }
+    .brand-title { font-size: 18px; margin-top: 28px; }
 }
 </style>
 </head>
@@ -137,6 +172,8 @@ body {
         <div class="ring"></div>
         <div class="logo">&#8377;</div>
     </div>
+    <div class="brand-title">ಕಾರ್ಯ ಮತ್ತು ಪಾಲನಾ ವಿಭಾಗ, ಹೆಸ್ಕಾಂ, ಶಿರಸಿ</div>
+    <div class="brand-subtitle">Salary Prompt</div>
 </div>
 
 <!-- RUNTIME ROUTING TRIGGER -->
