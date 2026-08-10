@@ -1,47 +1,44 @@
 <!DOCTYPE html>
-<html lang="kn">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>Home - Salary Portal</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Salary Prompt - Home</title>
 
 <style>
-/* --- MODERN FINTECH EMERALD & GOLD DESIGN SYSTEM --- */
+/* --- FINTECH DESIGN SYSTEM TOKEN & CORE --- */
 :root {
-    --primary-teal: #0d9488;
-    --accent-emerald: #10b981;
-    --accent-gold: #f59e0b;
-    --bg-gradient: linear-gradient(135deg, #021a19 0%, #042f2e 40%, #0f766e 100%);
-    --card-bg: rgba(6, 44, 42, 0.65);
-    --glass-border: rgba(255, 255, 255, 0.12);
-    --text-light: #ffffff;
-    --text-muted: #ccfbf1;
-    --error: #ef4444;
-    --success: #10b981;
-    --radius: 20px;
+    --primary-blue: #2400b7;
+    --primary-light: #4b2dd8;
+    --accent-emerald: #00c9a7;
+    --accent-gold: #ffb347;
+    --accent-rose: #ff4e8a;
+    --accent-red: #ff3d3d;
+    --bg-gradient: linear-gradient(135deg, #e6ecff 0%, #dfe7ff 50%, #f0ebff 100%);
+    --card-bg: linear-gradient(135deg, #ffffff, #f4f6ff);
+    --glass-border: rgba(36, 0, 183, 0.08);
+    --text-main: #222222;
+    --text-muted: #6b7280;
+    --radius-lg: 20px;
+    --radius-md: 14px;
 }
 
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
 }
 
-html, body {
-    width: 100%;
-    min-height: 100%;
-    overflow-x: hidden;
-    background: #021a19;
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-    color: var(--text-light);
-}
-
 body {
-    padding-bottom: 90px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    overflow-x: hidden;
+    padding-bottom: 85px;
 }
 
-/* --- TOP FIXED HEADER --- */
+/* --- TOP FIXED HEADER & ACCELERATION --- */
 .top {
     position: fixed;
     top: 0;
@@ -52,14 +49,16 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 15px 18px 8px;
-    background: linear-gradient(135deg, #042f2e 0%, #0d9488 100%);
+    padding: 15px 15px 8px;
+    background: linear-gradient(135deg, #0d1b8f 0%, #1a2edb 100%);
     color: white;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    border-bottom-left-radius: 35px;
+    border-bottom-right-radius: 35px;
     transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
     will-change: transform;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
 .user-box {
@@ -73,8 +72,7 @@ body {
     width: 42px;
     height: 42px;
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.15);
     color: white;
     display: flex;
     align-items: center;
@@ -82,28 +80,31 @@ body {
     font-size: 20px;
     cursor: pointer;
     backdrop-filter: blur(8px);
-    transition: 0.2s;
+    transition: transform 0.2s;
 }
 
 .menu-btn:active {
     transform: scale(0.92);
 }
 
+.logout {
+    cursor: pointer;
+    font-size: 20px;
+}
+
 /* --- SALARY HERO CARD --- */
 .salary-card {
     width: 100%;
-    margin-top: 14px;
-    background: linear-gradient(135deg, rgba(6, 44, 42, 0.9), rgba(15, 118, 110, 0.8));
-    border: 1px solid var(--glass-border);
+    margin-top: 12px;
+    background: linear-gradient(135deg, #0f0c29, #2400b7, #302b63);
     color: white;
     border-radius: 18px;
-    padding: 14px 16px;
+    padding: 12px 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
-    box-shadow: 0 12px 25px rgba(0,0,0,0.25);
-    backdrop-filter: blur(12px);
+    gap: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
 }
 
 .salary-info {
@@ -114,27 +115,27 @@ body {
 .salary-info h3 {
     font-size: 13px;
     font-weight: 500;
-    color: var(--text-muted);
+    opacity: 0.9;
 }
 
 .salary-amount {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--accent-gold);
-    margin: 4px 0;
+    font-size: 22px;
+    font-weight: bold;
+    color: #ffffff;
+    margin: 2px 0;
 }
 
 .salary-bottom {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 8px;
+    margin-top: 6px;
     gap: 10px;
 }
 
 .last-updated {
     font-size: 11px;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .last-updated span:last-child {
@@ -144,23 +145,23 @@ body {
 
 .quick-info-btn {
     padding: 6px 12px;
-    background: rgba(245, 158, 11, 0.15);
-    border: 1px solid rgba(245, 158, 11, 0.3);
-    color: var(--accent-gold);
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 20px;
     font-size: 11px;
     font-weight: 600;
     cursor: pointer;
     white-space: nowrap;
-    transition: 0.2s;
+    transition: background 0.2s, transform 0.2s;
 }
 
 .quick-info-btn:active {
     transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.3);
 }
 
 .salary-card img {
     width: 60px;
+    max-width: 28%;
     height: auto;
     flex-shrink: 0;
 }
@@ -171,6 +172,8 @@ body {
     padding-top: 265px;
     padding-bottom: 90px;
     animation: slideUp 0.4s ease-out;
+    backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
 @keyframes slideUp {
@@ -189,15 +192,13 @@ body {
     flex: 1;
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 14px;
+    gap: 10px;
+    padding: 12px;
     border-radius: 16px;
     background: var(--card-bg);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
     cursor: pointer;
-    transition: 0.2s;
+    transition: transform 0.2s;
 }
 
 .visitor-card:active {
@@ -216,11 +217,11 @@ body {
 }
 
 .visitor-icon.users {
-    background: linear-gradient(135deg, #059669, #10b981);
+    background: linear-gradient(135deg, #6a5cff, #4b2dd8);
 }
 
 .visitor-icon.gallery-icon {
-    background: linear-gradient(135deg, #d97706, #f59e0b);
+    background: linear-gradient(135deg, #00c853, #00e676);
 }
 
 .visitor-title {
@@ -229,33 +230,31 @@ body {
 }
 
 .visitor-value {
-    font-size: 17px;
+    font-size: 16px;
     font-weight: bold;
-    color: white;
+    color: var(--primary-blue);
 }
 
 .visitor-sub {
     font-size: 12px;
-    color: var(--accent-gold);
+    color: #00a152;
     font-weight: 600;
 }
 
 /* --- ATTENDANCE CARD --- */
 .attendance-card {
     background: var(--card-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: 20px;
-    padding: 16px;
+    border-radius: var(--radius-lg);
+    padding: 15px;
     margin-bottom: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
 .att-header-new {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
 }
 
 .att-left {
@@ -268,7 +267,7 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 12px;
-    background: linear-gradient(135deg, #0d9488, #10b981);
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-light));
     color: white;
     display: flex;
     align-items: center;
@@ -279,7 +278,7 @@ body {
 .att-title {
     font-size: 14px;
     font-weight: 600;
-    color: white;
+    color: var(--primary-blue);
 }
 
 .att-date {
@@ -290,7 +289,7 @@ body {
 .att-percent {
     font-size: 18px;
     font-weight: bold;
-    color: var(--accent-gold);
+    color: var(--primary-blue);
 }
 
 .chart-box {
@@ -308,13 +307,13 @@ body {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    background: conic-gradient(var(--accent-emerald) 0% 85%, rgba(255,255,255,0.1) 85% 100%);
+    background: conic-gradient(#4caf50 0% 100%, #e0e0e0 0% 100%);
 }
 
 .center {
     width: 58px;
     height: 58px;
-    background: #042f2e;
+    background: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -324,7 +323,7 @@ body {
 .center span {
     font-size: 13px;
     font-weight: bold;
-    color: white;
+    color: var(--primary-blue);
 }
 
 .legend {
@@ -335,8 +334,7 @@ body {
 .legend div {
     display: flex;
     justify-content: space-between;
-    margin: 6px 0;
-    color: var(--text-muted);
+    margin: 5px 0;
 }
 
 .dot {
@@ -347,24 +345,23 @@ body {
     margin-right: 6px;
 }
 
-.dot.green { background: #10b981; }
-.dot.yellow { background: #f59e0b; }
-.dot.red { background: #ef4444; }
+.dot.green { background: #4caf50; }
+.dot.yellow { background: #ffc107; }
+.dot.red { background: #f44336; }
 
-/* --- QUICK ACCESS GRID --- */
+/* --- QUICK ACTIONS GRID --- */
 .quick-container {
-    background: var(--card-bg);
-    border: 1px solid var(--glass-border);
-    padding: 16px;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
+    padding: 15px;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     margin-bottom: 15px;
 }
 
 .quick-title {
     font-size: 14px;
     font-weight: 600;
-    color: white;
+    color: var(--primary-blue);
     margin-bottom: 12px;
 }
 
@@ -374,19 +371,27 @@ body {
     gap: 10px;
 }
 
+.quick-grid.bottom {
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 10px;
+}
+
 .quick-card {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 14px;
-    padding: 12px 6px;
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 10px;
     text-align: center;
     cursor: pointer;
-    transition: 0.2s;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s;
+}
+
+.quick-card.wide {
+    padding: 14px;
 }
 
 .quick-card:active {
     transform: scale(0.95);
-    background: rgba(255, 255, 255, 0.1);
 }
 
 .quick-icon {
@@ -401,40 +406,70 @@ body {
     font-size: 18px;
 }
 
-.quick-icon.teal { background: #0d9488; }
-.quick-icon.amber { background: #d97706; }
-.quick-icon.emerald { background: #059669; }
-.quick-icon.rose { background: #e11d48; }
+.quick-icon.blue { background: #4b2dd8; }
+.quick-icon.orange { background: #ff7a18; }
+.quick-icon.green { background: #00c9a7; }
+.quick-icon.pink { background: #ff4e8a; }
+.quick-icon.purple { background: #6a5cff; }
+.quick-icon.indigo { background: #2400b7; }
 
 .quick-card p {
     margin: 0;
     font-size: 11px;
     font-weight: 600;
-    color: var(--text-muted);
+    color: #333333;
 }
 
-/* --- NEWS CONTAINER --- */
+.grievance-card {
+    background: linear-gradient(135deg, #ffffff, #f3f0ff);
+}
+
+.notif-icon {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: var(--accent-red);
+    color: white;
+    font-size: 10px;
+    padding: 3px;
+    border-radius: 50%;
+    border: 2px solid white;
+    animation: pulseBadge 2s infinite;
+}
+
+@keyframes pulseBadge {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+/* --- ANNOUNCEMENTS & NEWS CONTAINER --- */
 .news-container {
     margin-top: 15px;
-    padding: 16px;
+    padding: 15px;
     border-radius: 22px;
     background: var(--card-bg);
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
 }
 
 .news-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 10px;
     margin-bottom: 12px;
 }
 
+.news-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .news-icon {
-    width: 38px;
-    height: 38px;
+    width: 40px;
+    height: 40px;
     border-radius: 12px;
-    background: linear-gradient(135deg, #059669, #10b981);
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-light));
     color: white;
     display: flex;
     align-items: center;
@@ -445,70 +480,137 @@ body {
 .news-title {
     font-size: 15px;
     font-weight: 600;
+    color: var(--primary-blue);
+}
+
+.news-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+/* SLIDER */
+.slider-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 12px;
+    padding: 10px 0;
+    scrollbar-width: none;
+}
+
+.slider-container::-webkit-scrollbar {
+    display: none;
+}
+
+.slider-item {
+    flex: 0 0 85%;
+    height: 150px;
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+    scroll-snap-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    cursor: pointer;
+}
+
+.slider-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s;
+}
+
+.slider-item:active img {
+    transform: scale(1.08);
+}
+
+.slider-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+}
+
+.slider-text {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
     color: white;
 }
 
+.slider-text h4 {
+    margin: 0;
+    font-size: 15px;
+}
+
+.slider-text p {
+    margin: 2px 0 0;
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+/* NEWS LIST TIMELINE */
 .news-list {
-    margin-top: 10px;
+    margin-top: 15px;
     position: relative;
-    padding-left: 18px;
+    padding-left: 20px;
 }
 
 .news-list::before {
     content: "";
     position: absolute;
-    left: 6px;
+    left: 8px;
     top: 0;
     bottom: 0;
     width: 2px;
-    background: var(--accent-emerald);
+    background: linear-gradient(var(--primary-blue), var(--primary-light));
     opacity: 0.3;
 }
 
 .news-item {
     position: relative;
     margin-bottom: 12px;
-    padding: 10px 12px;
-    background: rgba(255, 255, 255, 0.05);
+    padding: 12px 14px;
+    background: #ffffff;
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 .news-item::before {
     content: "";
     position: absolute;
-    left: -17px;
-    top: 15px;
-    width: 8px;
-    height: 8px;
+    left: -16px;
+    top: 16px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
-    background: var(--accent-gold);
+    background: var(--primary-light);
+    box-shadow: 0 0 0 3px #e6ecff;
 }
 
 .news-date {
     font-size: 11px;
-    color: var(--accent-emerald);
-    margin-bottom: 2px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+    font-weight: 500;
 }
 
-.news-text {
+.news-item div:last-child {
     font-size: 13px;
-    color: var(--text-light);
+    color: #222222;
     line-height: 1.4;
 }
 
-/* --- FIXED NAVBAR --- */
+/* --- FIXED CURVED NAVBAR --- */
 .navbar {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 75px;
-    background: #042f2e;
-    border-top: 1px solid var(--glass-border);
-    border-top-left-radius: 26px;
-    border-top-right-radius: 26px;
-    box-shadow: 0 -8px 25px rgba(0,0,0,0.4);
+    background: #ffffff;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.08);
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -523,21 +625,25 @@ body {
 }
 
 .nav-icon {
-    font-size: 20px;
-    color: rgba(204, 251, 241, 0.4);
+    font-size: 22px;
+    color: #9ca3af;
     transition: 0.3s;
 }
 
 .nav-item span {
     display: block;
     font-size: 11px;
-    color: rgba(204, 251, 241, 0.4);
+    color: #9ca3af;
     margin-top: 3px;
 }
 
-.nav-item.active .nav-icon,
+.nav-item.active .nav-icon {
+    color: var(--primary-blue);
+    transform: translateY(-2px);
+}
+
 .nav-item.active span {
-    color: var(--accent-gold);
+    color: var(--primary-blue);
     font-weight: 600;
 }
 
@@ -547,76 +653,120 @@ body {
     top: -8px;
     left: 50%;
     transform: translateX(-50%);
-    width: 24px;
+    width: 26px;
     height: 3px;
     border-radius: 10px;
-    background: var(--accent-gold);
+    background: var(--primary-blue);
 }
 
-/* --- SIDENAV & OVERLAY --- */
+.nav-item:active {
+    transform: scale(0.92);
+}
+
+/* CENTER SMART SUPPORT BUTTON */
+.center-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.center-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateY(-18px);
+}
+
+.center-btn {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: var(--primary-blue);
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    animation: float 2s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+.center-text {
+    font-size: 11px;
+    margin-top: 4px;
+    color: var(--accent-red);
+    font-weight: 600;
+}
+
+/* --- SIDENAV & OVERLAYS --- */
 #sideOverlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.4);
     opacity: 0;
     visibility: hidden;
-    transition: 0.25s ease;
+    transition: opacity 0.25s ease;
     z-index: 2000;
-}
-
-#sideOverlay.show {
-    opacity: 1;
-    visibility: visible;
 }
 
 #sideNav {
     position: fixed;
     top: 0;
     left: 0;
-    width: 280px;
+    width: 100%;
     height: 100%;
-    background: #042f2e;
+    background: #ffffff;
     transform: translateX(-100%);
     transition: transform 0.28s cubic-bezier(.22,.61,.36,1);
+    will-change: transform;
     z-index: 2100;
     display: flex;
     flex-direction: column;
-    border-right: 1px solid var(--glass-border);
-}
-
-#sideNav.open {
-    transform: translateX(0);
 }
 
 .menu-header {
-    padding: 40px 20px 20px;
-    background: linear-gradient(135deg, #042f2e, #0d9488);
+    padding: 45px 20px 25px;
+    background: linear-gradient(135deg, var(--primary-blue), #3b1eff);
     color: white;
-    border-bottom: 1px solid var(--glass-border);
+    border-bottom-right-radius: 40px;
 }
 
 .close-btn {
-    font-size: 22px;
+    font-size: 26px;
     cursor: pointer;
-    margin-bottom: 15px;
-    color: var(--accent-gold);
+    margin-bottom: 20px;
 }
 
 .profile-box {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 15px;
 }
 
 .profile-box img {
-    width: 52px;
-    height: 52px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    border: 2px solid var(--accent-emerald);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.profile-box h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.profile-box p {
+    margin: 4px 0 0;
+    font-size: 12px;
+    opacity: 0.8;
 }
 
 .menu-content {
@@ -628,84 +778,164 @@ body {
 .nav-link {
     display: flex;
     align-items: center;
-    padding: 14px;
+    padding: 15px;
     margin-bottom: 10px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 500;
+    background: #f8f9ff;
+    border-radius: 15px;
+    font-weight: 600;
     cursor: pointer;
-    color: var(--text-light);
+    transition: transform 0.2s, background 0.2s;
 }
 
 .nav-link:active {
-    background: rgba(255, 255, 255, 0.1);
+    transform: scale(0.97);
+    background: #eef0ff;
 }
 
 .nav-link .icon {
-    margin-right: 12px;
-    font-size: 18px;
+    width: 35px;
+    height: 35px;
+    background: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
 }
 
 .menu-footer {
-    padding: 15px;
-    border-top: 1px solid var(--glass-border);
+    padding: 15px 20px;
+    width: 100%;
 }
 
 .menu-footer button {
     width: 100%;
-    padding: 12px;
-    background: var(--error);
+    padding: 14px;
+    background: var(--accent-red);
     color: white;
     border: none;
-    border-radius: 12px;
-    font-weight: 600;
+    border-radius: 15px;
+    font-weight: bold;
     cursor: pointer;
 }
 
-/* --- FULL PAGE LOADER --- */
+/* --- LOADERS & OVERLAYS --- */
 #loader {
     position: fixed;
-    top: 0;
+    top: 85px;
+    bottom: 70px;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(2, 26, 25, 0.85);
+    width: 100%;
+    background: rgba(243, 244, 250, 0.85);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    z-index: 9999;
+    z-index: 900;
+}
+
+.loader-container {
+    text-align: center;
 }
 
 .loader-spinner {
     width: 50px;
     height: 50px;
-    border: 4px solid rgba(255,255,255,0.1);
-    border-top: 4px solid var(--accent-gold);
+    border: 5px solid rgba(36, 0, 183, 0.1);
+    border-top: 5px solid var(--primary-blue);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
+    margin: auto;
+}
+
+.loading-text {
+    margin-top: 15px;
+    font-size: 13px;
+    color: var(--primary-blue);
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 
 @keyframes spin {
     100% { transform: rotate(360deg); }
 }
 
-.loading-text {
-    margin-top: 15px;
-    font-size: 13px;
-    color: var(--accent-emerald);
-    font-weight: 600;
-    letter-spacing: 1px;
+/* FLOWER BLOOM OVERLAY */
+.flower-reveal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f8faff;
+    z-index: 9999;
+    pointer-events: none;
+    clip-path: circle(0% at 50% 50%);
+    transition: clip-path 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.flower-reveal.bloom {
+    clip-path: circle(150% at 50% 50%);
+}
+
+.bloom-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    background: var(--primary-blue);
+    border-radius: 50%;
+    opacity: 0;
+}
+
+.flower-reveal.bloom .bloom-center {
+    animation: bloomPulse 0.6s ease-out forwards;
+}
+
+@keyframes bloomPulse {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
+}
+
+.page-transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f8faff;
+    z-index: 9999;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.32, 1, 0.23, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-transition-overlay.active {
+    transform: translateY(0);
 }
 </style>
 </head>
 
 <body>
 
+<!-- TRANSITION OVERLAYS -->
+<div id="flowerOverlay" class="flower-reveal">
+    <div class="bloom-center"></div>
+</div>
+
+<div id="transitionOverlay" class="page-transition-overlay">
+    <div class="loader-spinner" style="width:30px; height:30px;"></div>
+</div>
+
 <!-- OVERLAY & SIDENAV -->
-<div id="sideOverlay" onclick="closeSideNav()"></div>
+<div id="sideOverlay"></div>
 
 <div id="sideNav">
     <div class="menu-header">
@@ -713,218 +943,803 @@ body {
         <div class="profile-box">
             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile">
             <div>
-                <h2 id="sideName" style="font-size:16px;">User</h2>
-                <p id="sideRole" style="font-size:12px; opacity:0.8;">Employee</p>
+                <h2 id="sideName">User</h2>
+                <p id="sideRole">Employee</p>
             </div>
         </div>
     </div>
 
     <div class="menu-content">
         <div class="nav-link" onclick="openGrievancePopup()">
-            <span class="icon">📢</span> Grievance Portal
+            <div class="icon">📢</div>
+            Employee Grievance Portal
         </div>
         <div class="nav-link" onclick="logout()">
-            <span class="icon">🚪</span> Logout
+            <div class="icon">🚪</div>
+            Logout
         </div>
     </div>
 
     <div class="menu-footer">
-        <button onclick="closeSideNav()">Close Menu</button>
+        <button onclick="closeSideNav()">⬅ Close Menu</button>
     </div>
 </div>
 
 <!-- FIXED TOP HEADER -->
-<div class="top">
-    <div class="user-box">
-        <div style="display:flex; align-items:center; gap:12px;">
-            <div class="menu-btn" onclick="openSideNav()">☰</div>
-            <div>
-                <div style="font-size:11px; color:var(--text-muted);">Welcome</div>
-                <strong id="empName" style="font-size:16px; color:#fff;">Loading...</strong>
-                <div id="empDesg" style="font-size:12px; color:var(--accent-emerald);"></div>
-            </div>
-        </div>
-        <div style="display:flex; align-items:center; gap:12px;">
-            <span style="font-size:20px; cursor:pointer;" onclick="refreshApp()">🔄</span>
-            <span style="font-size:20px; cursor:pointer;" onclick="logout()">🔓</span>
-        </div>
-    </div>
-
-    <!-- SALARY HERO CARD -->
-    <div class="salary-card">
-        <div class="salary-info">
-            <h3>Last Month Salary</h3>
-            <div class="salary-amount">₹<span id="netSalary">--</span></div>
-            <div class="salary-bottom">
-                <div class="last-updated">
-                    Updated: <span id="quickDate">--</span>
-                </div>
-                <div class="quick-info-btn" onclick="openLastSalary()">
-                    Quick Info ➜
-                </div>
-            </div>
-        </div>
-        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135679.png" alt="Salary">
-    </div>
-</div>
-
-<!-- MAIN PAGE CONTENT -->
-<div class="content">
-
-    <!-- USER & GALLERY STATS -->
-    <div class="visitor-container">
-        <div class="visitor-card">
-            <div class="visitor-icon users">👥</div>
-            <div>
-                <div class="visitor-title">Users</div>
-                <div class="visitor-value" id="visitorCount">0</div>
-            </div>
-        </div>
-
-        <div class="visitor-card" onclick="openGallery()">
-            <div class="visitor-icon gallery-icon">🖼️</div>
-            <div>
-                <div class="visitor-title">Photo Gallery</div>
-                <div class="visitor-sub">View Now ➜</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ATTENDANCE CARD -->
-    <div class="attendance-card">
-        <div class="att-header-new">
-            <div class="att-left">
-                <div class="att-icon">📊</div>
+<div id="appPage">
+    <div class="top">
+        <div class="user-box">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <div class="menu-btn" onclick="openSideNav()">☰</div>
                 <div>
-                    <div class="att-title">Attendance Report</div>
-                    <div class="att-date">This Month</div>
+                    <div style="font-size:11px; opacity:0.8;">Welcome</div>
+                    <strong id="empName">Loading...</strong>
+                    <div id="empDesg" style="font-size:12px; opacity:0.8;"></div>
                 </div>
             </div>
-            <div class="att-percent" id="percentText">100%</div>
+
+            <div style="display:flex; align-items:center; gap:12px; flex-shrink:0;">
+                <span style="font-size:20px; cursor:pointer;" onclick="refreshApp()">🔄</span>
+                <span class="logout" onclick="logout()">🔓</span>
+            </div>
         </div>
 
-        <div class="chart-box">
-            <div class="donut" id="donutChart">
-                <div class="center">
-                    <span id="percentTextInner">100%</span>
+        <!-- HERO SALARY CARD -->
+        <div class="salary-card">
+            <div class="salary-info">
+                <h3>Last Month Salary</h3>
+                <div class="salary-amount">₹<span id="netSalary">--</span></div>
+                <div style="font-size:12px; opacity:0.9;">Net Pay</div>
+
+                <div class="salary-bottom">
+                    <div class="last-updated">
+                        <span>Last Updated:</span>
+                        <span id="quickDate">--</span>
+                    </div>
+                    <div class="quick-info-btn" onclick="openLastSalary()">
+                        Quick Info ➜
+                    </div>
                 </div>
             </div>
-            <div class="legend">
-                <div><span><span class="dot green"></span>Present</span><b>22 Days</b></div>
-                <div><span><span class="dot yellow"></span>Leave</span><b>2 Days</b></div>
-                <div><span><span class="dot red"></span>Absent</span><b>0 Days</b></div>
-            </div>
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135679.png" alt="Salary Icon">
         </div>
     </div>
 
-    <!-- QUICK ACCESS MODULES -->
-    <div class="quick-container">
-        <div class="quick-title">Quick Services</div>
-        <div class="quick-grid">
-            <div class="quick-card">
-                <div class="quick-icon teal">📁</div>
-                <p>Payslips</p>
-            </div>
-            <div class="quick-card">
-                <div class="quick-icon amber">📈</div>
-                <p>Income</p>
-            </div>
-            <div class="quick-card">
-                <div class="quick-icon emerald">📝</div>
-                <p>Forms</p>
-            </div>
-            <div class="quick-card">
-                <div class="quick-icon rose">⚙️</div>
-                <p>Settings</p>
-            </div>
+    <!-- MIDDLE PAGE LOADER -->
+    <div id="loader">
+        <div class="loader-container">
+            <div class="loader-spinner"></div>
+            <div class="loading-text">Loading...</div>
         </div>
     </div>
 
-    <!-- NEWS FEED -->
-    <div class="news-container">
-        <div class="news-header">
-            <div class="news-icon">📰</div>
-            <div class="news-title">Announcements</div>
-        </div>
-        <div class="news-list">
-            <div class="news-item">
-                <div class="news-date">August 2026</div>
-                <div class="news-text">Annual salary revision statements and IT Form 16s are now accessible.</div>
+    <!-- MAIN SCROLLABLE CONTENT -->
+    <div class="content">
+
+        <!-- VISITOR COUNT & GALLERY -->
+        <div class="visitor-container">
+            <div class="visitor-card">
+                <div class="visitor-icon users">👥</div>
+                <div>
+                    <div class="visitor-title">Users</div>
+                    <div class="visitor-value" id="visitorCount">0</div>
+                </div>
             </div>
-            <div class="news-item">
-                <div class="news-date">July 2026</div>
-                <div class="news-text">Please update your bank credentials if any changes occurred this quarter.</div>
+
+            <div class="visitor-card" onclick="openGallery()">
+                <div class="visitor-icon gallery-icon">🖼️</div>
+                <div>
+                    <div class="visitor-title">Photo Gallery</div>
+                    <div class="visitor-sub">View Now ➜</div>
+                </div>
             </div>
         </div>
+
+        <!-- ATTENDANCE REPORT CARD -->
+        <div class="attendance-card">
+            <div class="att-header-new">
+                <div class="att-left">
+                    <div class="att-icon">📊</div>
+                    <div>
+                        <div class="att-title">Attendance Report</div>
+                        <div class="att-date">This Month</div>
+                    </div>
+                </div>
+                <div class="att-percent" id="percentText">0%</div>
+            </div>
+
+            <div class="chart-box">
+                <div class="donut" id="donutChart">
+                    <div class="center">
+                        <span id="percentTextInner">100%</span>
+                    </div>
+                </div>
+
+                <div class="legend">
+                    <div><span><span class="dot green"></span> Present</span> <b id="presentVal">0%</b></div>
+                    <div style="display:none;"><span><span class="dot green"></span> Late</span> <b id="lateVal">0%</b></div>
+                    <div><span><span class="dot yellow"></span> Leave</span> <b id="leaveVal">0%</b></div>
+                    <div><span><span class="dot red"></span> Absent</span> <b id="absentVal">0%</b></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUICK ACTION SERVICES -->
+        <div class="quick-container">
+            <div class="quick-title">⚡ Quick Actions</div>
+
+            <div class="quick-grid">
+                <div class="quick-card" onclick="showLoader('accounts.html')">
+                    <div class="quick-icon blue">👤</div>
+                    <p>My Accounts</p>
+                </div>
+
+                <div class="quick-card" onclick="showLoader('menu.html')">
+                    <div class="quick-icon orange">💰</div>
+                    <p>Salary</p>
+                </div>
+
+                <div class="quick-card" onclick="showLoader('page3.html')">
+                    <div class="quick-icon green">📅</div>
+                    <p>Non Salary Income</p>
+                </div>
+
+                <div class="quick-card" onclick="showLoader('page4.html')">
+                    <div class="quick-icon pink">📝</div>
+                    <p>Forms & Formats</p>
+                </div>
+            </div>
+
+            <div class="quick-grid bottom">
+                <div style="position:relative;" onclick="openGrievancePopup2()">
+                    <div class="quick-card wide grievance-card">
+                        <div class="quick-icon purple">
+                            🔔
+                            <span class="notif-icon">🔔</span>
+                        </div>
+                        <p>Grievance Notification</p>
+                    </div>
+                    <span id="notifBadge" style="position:absolute; top:-5px; right:10px; background:#ff3d3d; color:white; font-size:11px; font-weight:bold; min-width:20px; height:20px; border-radius:50%; border:2px solid white; display:none; align-items:center; justify-content:center; animation:pulseBadge 2s infinite; z-index:10;">0</span>
+                </div>
+
+                <div class="quick-card wide" onclick="showLoader('page2.html')">
+                    <div class="quick-icon indigo">ℹ</div>
+                    <p>About Us</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ANNOUNCEMENTS & NEWS CAROUSEL -->
+        <div class="news-container">
+            <div class="news-header">
+                <div class="news-left">
+                    <div class="news-icon">📢</div>
+                    <div>
+                        <div class="news-title">What’s New</div>
+                        <div class="news-sub">Latest updates & insights</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slider-container">
+                <div class="slider-item" onclick="showLoader('safety.html')">
+                    <img src="https://i0.wp.com/complainthub.org/wp-content/uploads/2024/04/HESCOM-Logo.png?fit=720%2C480&ssl=1" alt="Safety">
+                    <div class="slider-overlay"></div>
+                    <div class="slider-text">
+                        <h4>ಲೈನಮ್ಯಾನ್ ಸುರಕ್ಷತೆ</h4>
+                        <p>Safety directions ➜</p>
+                    </div>
+                </div>
+
+                <div class="slider-item" onclick="showLoader('money_saving.html')">
+                    <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=500&q=80" alt="Savings">
+                    <div class="slider-overlay"></div>
+                    <div class="slider-text">
+                        <h4>ಹಣ ಉಳಿಸುವಿಕೆ</h4>
+                        <p>Plan your investments ➜</p>
+                    </div>
+                </div>
+
+                <div class="slider-item" onclick="showLoader('work_management.html')">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW4_sqCE1RXrpaiuPsoQAShgM4Z77YtIw7JA&s" alt="Work">
+                    <div class="slider-overlay"></div>
+                    <div class="slider-text">
+                        <h4>ಕೆಲಸದ ನಿರ್ವಹಣೆ</h4>
+                        <p>Work smart ➜</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="news-list">
+                <div id="newsData">Loading updates...</div>
+            </div>
+        </div>
+
     </div>
 
+    <!-- FIXED BOTTOM NAVBAR -->
+    <div class="navbar">
+        <div class="nav-item active" data-page="home.html" onclick="navigateSmooth('home.html')">
+            <div class="nav-icon">🏠</div>
+            <span>Home</span>
+        </div>
+
+        <div class="nav-item" data-page="forum.html" onclick="goTab(1,'forum.html')">
+            <div class="nav-icon">💬</div>
+            <span>Forum</span>
+        </div>
+
+        <div class="nav-item center-item" data-page="info.html" onclick="goTab(99,'info.html')">
+            <div class="center-wrapper">
+                <div class="center-btn">⚡</div>
+                <div class="center-text">Smart Support</div>
+            </div>
+        </div>
+
+        <div class="nav-item" data-page="employee_info.html" onclick="goTab(2,'employee_info.html')">
+            <div class="nav-icon">👤</div>
+            <span>Employee</span>
+        </div>
+
+        <div class="nav-item" data-page="resources.html" onclick="goTab(3,'resources.html')">
+            <div class="nav-icon">📂</div>
+            <span>Resources</span>
+        </div>
+    </div>
 </div>
 
-<!-- BOTTOM NAVIGATION BAR -->
-<div class="navbar">
-    <div class="nav-item active">
-        <div class="nav-icon">🏠</div>
-        <span>Home</span>
-    </div>
-    <div class="nav-item" onclick="openGallery()">
-        <div class="nav-icon">🖼️</div>
-        <span>Gallery</span>
-    </div>
-    <div class="nav-item" onclick="openGrievancePopup()">
-        <div class="nav-icon">📢</div>
-        <span>Support</span>
+<!-- POPUPS AND MODALS -->
+
+<!-- GRIEVANCE NOTIFICATION OVERLAY -->
+<div id="grievanceOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 12, 41, 0.75); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 5000;">
+    <div class="grievance-card" style="width: 90%; max-width: 360px; background: #ffffff; border-radius: 28px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.3);">
+        <div style="background: linear-gradient(135deg, #2400b7, #4b2dd8); color: white; padding: 25px 20px; text-align: center;">
+            <h3 style="margin:0;">Grievance Notifications</h3>
+        </div>
+        <div id="grievanceList" style="max-height: 350px; overflow-y: auto; padding: 15px;"></div>
+        <button onclick="closeGrievanceNotif2()" style="width: 100%; padding: 15px; border: none; background: #f1f1f1; color: #4b2dd8; font-weight: bold; cursor: pointer;">
+            Dismiss
+        </button>
     </div>
 </div>
 
-<!-- PAGE LOADER -->
-<div id="loader">
-    <div class="loader-spinner"></div>
-    <div class="loading-text">Loading Details...</div>
+<!-- LOGOUT POPUP -->
+<div id="logoutPopup" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); display:none; align-items:center; justify-content:center; z-index:3000;">
+    <div style="background:white; padding:20px; border-radius:20px; width:85%; max-width:320px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.2);">
+        <h3 style="margin-top:0; color:#2400b7;">Logout</h3>
+        <p style="font-size:14px; color:#555;">Are you sure you want to logout?</p>
+        <div style="display:flex; gap:10px; margin-top:15px;">
+            <button onclick="closeLogout()" style="flex:1; padding:10px; border:none; border-radius:10px; background:#eee; cursor:pointer;">Cancel</button>
+            <button onclick="confirmLogout()" style="flex:1; padding:10px; border:none; border-radius:10px; background:#2400b7; color:white; cursor:pointer;">Logout</button>
+        </div>
+    </div>
 </div>
 
+<!-- LEAVING PORTAL GRIEVANCE REDIRECT POPUP -->
+<div id="grievancePopup" style="position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center; z-index:4000;">
+    <div style="background:white; padding:20px; border-radius:20px; width:85%; max-width:320px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.2);">
+        <div style="width:60px; height:60px; margin:auto; border-radius:50%; background:#ffe5e5; display:flex; align-items:center; justify-content:center; font-size:28px; color:#ff3d3d;">
+            ⚠️
+        </div>
+        <h3 style="color:#ff3d3d; margin-top:15px;">You are leaving Salary Portal</h3>
+        <p style="font-size:14px; font-weight:600; color:#444;">Redirecting to Employee Grievance Portal</p>
+
+        <div id="grievanceBtns" style="display:flex; gap:10px; margin-top:15px;">
+            <button onclick="closeGrievancePopup()" style="flex:1; padding:10px; border:none; border-radius:10px; background:#eee; font-weight:600; cursor:pointer;">❌ Cancel</button>
+            <button onclick="continueToGrievance()" style="flex:1; padding:10px; border:none; border-radius:10px; background:#2400b7; color:white; font-weight:600; cursor:pointer;">➡ Continue</button>
+        </div>
+
+        <div id="grievanceLoader" style="display:none; margin-top:20px;">
+            <div class="loader-spinner" style="width:40px; height:40px;"></div>
+            <p style="margin-top:10px; font-size:13px; color:#555;">Redirecting...</p>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT LOGIC -->
 <script>
-function openSideNav() {
-    document.getElementById("sideNav").classList.add("open");
-    document.getElementById("sideOverlay").classList.add("show");
+function refreshApp() {
+    document.getElementById("loader").style.display = "flex";
+    document.querySelector('.content').style.opacity = "0.4";
+    setTimeout(function() {
+        location.reload(true);
+    }, 1000);
 }
 
-function closeSideNav() {
-    document.getElementById("sideNav").classList.remove("open");
-    document.getElementById("sideOverlay").classList.remove("show");
+setTimeout(function() {
+    let user = localStorage.getItem("currentUser");
+    if (!user) {
+        window.location.replace("login.html");
+    }
+}, 200);
+
+let role = localStorage.getItem("role");
+
+function showLoader(url) {
+    document.getElementById("loader").style.display = "flex";
+    setTimeout(function() {
+        window.location = url;
+    }, 1000);
 }
+
+async function loadNews() {
+    try {
+        let response = await fetch(
+            "https://hescomsalary1-sudo.github.io/salary-data/news.csv?v=" + new Date().getTime(),
+            { cache: "no-store" }
+        );
+        let text = await response.text();
+        let rows = text.split("\n");
+        let output = "";
+
+        for (let i = 1; i < rows.length; i++) {
+            if (rows[i].trim() === "") continue;
+            let cols = rows[i].split(",");
+            if (cols.length < 2) continue;
+
+            output += `
+                <div class="news-item">
+                    <div class="news-date">${cols[0]}</div>
+                    <div>${cols[1]}</div>
+                </div>
+            `;
+        }
+
+        if (output === "") {
+            output = "No updates available.";
+        }
+        document.getElementById("newsData").innerHTML = output;
+
+    } catch (error) {
+        document.getElementById("newsData").innerHTML = "Unable to load updates.";
+    }
+}
+
+loadNews();
+
+if (localStorage.getItem("darkMode") === "true") {
+    document.body.classList.add("dark-mode");
+}
+
+async function loadUserProfile() {
+    let loginUser = localStorage.getItem("currentUser");
+    try {
+        let response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
+        let text = await response.text();
+        let rows = text.trim().split("\n");
+
+        for (let i = 1; i < rows.length; i++) {
+            let cols = rows[i].split(",");
+            let username = cols[0]?.trim();
+            let name = cols[1]?.trim();
+            let designation = cols[2]?.trim();
+
+            if (username === loginUser) {
+                document.getElementById("empName").innerText = name;
+                document.getElementById("empDesg").innerText = designation;
+                return;
+            }
+        }
+        document.getElementById("empName").innerText = loginUser;
+    } catch (e) {
+        document.getElementById("empName").innerText = loginUser;
+    }
+}
+
+loadUserProfile();
 
 function logout() {
+    document.getElementById("logoutPopup").style.display = "flex";
+}
+
+function closeLogout() {
+    document.getElementById("logoutPopup").style.display = "none";
+}
+
+function confirmLogout() {
     localStorage.removeItem("currentUser");
     localStorage.removeItem("role");
     window.location.href = "login.html";
 }
 
-function refreshApp() {
-    document.getElementById("loader").style.display = "flex";
+async function loadCurrentMonthSalary() {
+    let user = localStorage.getItem("currentUser");
+    if (!user) return;
+
+    let now = new Date();
+    let prevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    let year = prevMonth.getFullYear().toString();
+    let month = String(prevMonth.getMonth() + 1).padStart(2, "0");
+
+    try {
+        let response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/salary .csv?v=" + new Date().getTime());
+        let data = await response.text();
+        let rows = data.trim().split("\n");
+
+        for (let i = 1; i < rows.length; i++) {
+            let cols = rows[i].split(",");
+
+            if (cols[0] === user && cols[1] === year && cols[2] === month) {
+                let basic = +cols[3];
+                let dearness_pay = +cols[4];
+                let rouse_rent_allowances = +cols[5];
+                let city_compensation_allowances = +cols[6];
+                let personal_pay = +cols[7];
+                let special_personal_pay = +cols[8];
+                let conveyance_allowances = +cols[9];
+                let washing_allowances = +cols[10];
+                let sfta = +cols[11];
+                let special_locality_allowances = +cols[12];
+                let mwa = +cols[13];
+                let hill_allowances = +cols[14];
+                let charge_allowances = +cols[15];
+                let pension_contribution_14_percent = +cols[16];
+                let labour_welfare_fund_company_contribution = +cols[17];
+                let cash_duty_allowances = +cols[18];
+                let other_earnings = +cols[19];
+
+                let LIC = +cols[20];
+                let income_tax = +cols[21];
+                let professional_tax = +cols[22];
+                let KPTCL_employes_society = +cols[23];
+                let PLI = +cols[24];
+                let union_fund = +cols[25];
+                let sc_st_union_fund = +cols[26];
+                let house_rent = +cols[27];
+                let urban_bank = +cols[28];
+                let family_benefit_fund = +cols[29];
+                let festival_advance = +cols[30];
+                let PC_10_contribution = +cols[31];
+                let PC_14_contribution = +cols[32];
+                let LWF = +cols[33];
+                let recovery_any = +cols[34];
+                let other_deduction = +cols[35];
+
+                let totalEarning = basic + dearness_pay + rouse_rent_allowances + city_compensation_allowances +
+                    personal_pay + special_personal_pay + conveyance_allowances + washing_allowances +
+                    sfta + special_locality_allowances + mwa + hill_allowances + charge_allowances +
+                    pension_contribution_14_percent + labour_welfare_fund_company_contribution +
+                    cash_duty_allowances + other_earnings;
+
+                let totalDeduction = LIC + income_tax + professional_tax + KPTCL_employes_society + PLI +
+                    union_fund + sc_st_union_fund + house_rent + urban_bank + family_benefit_fund +
+                    festival_advance + PC_10_contribution + PC_14_contribution + LWF +
+                    recovery_any + other_deduction;
+
+                let net = totalEarning - totalDeduction;
+                document.getElementById("netSalary").innerText = net.toLocaleString('en-IN');
+                return;
+            }
+        }
+        document.getElementById("netSalary").innerText = "0";
+    } catch (e) {
+        document.getElementById("netSalary").innerText = "--";
+    }
+}
+
+loadCurrentMonthSalary();
+
+function goTab(index, url) {
     setTimeout(() => {
-        document.getElementById("loader").style.display = "none";
+        document.getElementById("loader").style.display = "flex";
+        document.body.style.overflow = "hidden";
+    }, 150);
+
+    setTimeout(() => {
+        window.location = url;
+    }, 700);
+}
+
+window.onload = function() {
+    document.getElementById("loader").style.display = "none";
+    document.body.style.overflow = "auto";
+};
+
+function openGallery() {
+    document.getElementById("loader").style.display = "flex";
+    document.body.style.overflow = "hidden";
+    setTimeout(function() {
+        window.location = "gallery.html";
     }, 800);
 }
 
-function openGallery() {
-    console.log("Opening Gallery...");
-}
-
-function openGrievancePopup() {
-    console.log("Opening Grievance Portal...");
-}
-
 function openLastSalary() {
-    console.log("Opening Salary Info...");
+    document.getElementById("loader").style.display = "flex";
+    document.body.style.overflow = "hidden";
+    setTimeout(function() {
+        window.location = "last_salary.html";
+    }, 800);
 }
+
+(function () {
+    history.pushState(null, "", location.href);
+    window.onpopstate = function () {
+        history.go(1);
+    };
+})();
+
+async function loadAttendance() {
+    let user = localStorage.getItem("currentUser");
+    if (!user) return;
+    user = user.trim().toLowerCase();
+
+    let now = new Date();
+    let prevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    let year = prevMonth.getFullYear().toString();
+    let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    let month = months[prevMonth.getMonth()];
+
+    try {
+        let res = await fetch("https://hescomsalary1-sudo.github.io/salary-data/attendance.csv?v=" + new Date().getTime());
+        let text = await res.text();
+        let rows = text.trim().split("\n");
+
+        let present = 0;
+        let absent = 0;
+        let leave = 0;
+
+        for (let i = 1; i < rows.length; i++) {
+            let cols = rows[i].split(",");
+            let csvUser = cols[0]?.trim().toLowerCase();
+            let csvYear = cols[1]?.trim();
+            let csvMonth = cols[2]?.trim();
+
+            if (csvUser === user && csvYear === year && csvMonth === month) {
+                for (let j = 3; j < cols.length; j++) {
+                    let val = cols[j]?.trim();
+                    if (val === "P") present++;
+                    else if (val === "A") absent++;
+                    else if (["EL", "CL", "FPL", "IL", "MDL"].includes(val)) leave++;
+                }
+                break;
+            }
+        }
+
+        let total = present + absent + leave;
+        if (total === 0) total = 1;
+
+        let presentPer = Math.round((present / total) * 100);
+        let leavePer = Math.round((leave / total) * 100);
+        let absentPer = Math.round((absent / total) * 100);
+
+        document.getElementById("percentText").innerText = presentPer + "%";
+        document.getElementById("percentTextInner").innerText = presentPer + "%";
+        document.getElementById("presentVal").innerText = presentPer + "%";
+        document.getElementById("leaveVal").innerText = leavePer + "%";
+        document.getElementById("absentVal").innerText = absentPer + "%";
+
+        let p1 = presentPer;
+        let p2 = p1 + leavePer;
+
+        document.getElementById("donutChart").style.background =
+            `conic-gradient(#4caf50 0% ${p1}%, #ffc107 ${p1}% ${p2}%, #f44336 ${p2}% 100%)`;
+
+    } catch (e) {
+        console.log("Attendance Error:", e);
+    }
+}
+
+loadAttendance();
 
 window.addEventListener("load", function() {
-    const user = localStorage.getItem("currentUser") || "Employee";
-    document.getElementById("empName").innerText = user;
-    document.getElementById("sideName").innerText = user;
-    document.getElementById("quickDate").innerText = "Aug 2026";
-    document.getElementById("netSalary").innerText = "45,200";
+    let page = location.pathname.split("/").pop();
+    let items = document.querySelectorAll(".nav-item");
+    items.forEach(item => {
+        let target = item.getAttribute("data-page");
+        if (target === page) {
+            item.classList.add("active");
+        }
+    });
 });
+
+async function loadUserCount() {
+    try {
+        let res = await fetch("https://script.google.com/macros/s/AKfycbzeO5RppL-lE_62OuL4VQ5FYZiehPMPFsH6NC9X2_i40YEIzXPPjW8-QUH1QpfS1Jg1/exec?type=count");
+        let count = await res.text();
+        document.getElementById("visitorCount").innerText = count;
+    } catch (e) {
+        document.getElementById("visitorCount").innerText = "0";
+    }
+}
+loadUserCount();
+
+/* SWIPE SIDENAV CONTROLS */
+let startX = 0;
+let currentX = 0;
+let startTime = 0;
+let isDragging = false;
+let isOpen = false;
+
+const sideNav = document.getElementById("sideNav");
+const overlay = document.getElementById("sideOverlay");
+const menuWidth = window.innerWidth;
+
+function openSideNav() {
+    openMenu();
+    document.getElementById("sideName").innerText = document.getElementById("empName").innerText;
+    document.getElementById("sideRole").innerText = document.getElementById("empDesg").innerText;
+}
+
+function closeSideNav() {
+    closeMenu();
+}
+
+function openMenu() {
+    sideNav.style.transform = "translateX(0)";
+    overlay.style.opacity = "0.4";
+    overlay.style.visibility = "visible";
+    document.body.style.overflow = "hidden";
+    isOpen = true;
+}
+
+function closeMenu() {
+    sideNav.style.transform = "translateX(-100%)";
+    overlay.style.opacity = "0";
+    overlay.style.visibility = "hidden";
+    document.body.style.overflow = "auto";
+    isOpen = false;
+}
+
+document.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+    startTime = Date.now();
+    if (startX < 40 || isOpen) {
+        isDragging = true;
+        sideNav.style.transition = "none";
+        overlay.style.transition = "none";
+    }
+}, { passive: true });
+
+document.addEventListener("touchmove", (e) => {
+    if (!isDragging) return;
+    currentX = e.touches[0].clientX;
+    let diff = currentX - startX;
+    let translateX = isOpen ? Math.min(0, diff) : Math.min(0, -menuWidth + diff);
+
+    if (translateX > 0) translateX *= 0.3;
+    sideNav.style.transform = `translateX(${translateX}px)`;
+    let progress = 1 - Math.abs(translateX / menuWidth);
+    overlay.style.opacity = progress * 0.4;
+    overlay.style.visibility = "visible";
+}, { passive: true });
+
+document.addEventListener("touchend", () => {
+    if (!isDragging) return;
+    isDragging = false;
+    let diff = currentX - startX;
+    let time = Date.now() - startTime;
+    let velocity = diff / time;
+
+    sideNav.style.transition = "transform 0.28s cubic-bezier(.22,.61,.36,1)";
+    overlay.style.transition = "opacity 0.25s ease";
+
+    if (!isOpen) {
+        if (diff > 80 || velocity > 0.5) openMenu();
+        else closeMenu();
+    } else {
+        if (diff < -80 || velocity < -0.5) closeMenu();
+        else openMenu();
+    }
+});
+
+function openGrievancePopup() {
+    sideNav.style.transition = "none";
+    sideNav.style.transform = "translateX(0)";
+    document.body.style.pointerEvents = "none";
+    document.getElementById("grievancePopup").style.pointerEvents = "all";
+    document.getElementById("grievancePopup").style.display = "flex";
+}
+
+function closeGrievancePopup() {
+    document.getElementById("grievancePopup").style.display = "none";
+    document.body.style.pointerEvents = "auto";
+}
+
+function continueToGrievance() {
+    document.getElementById("grievanceBtns").style.display = "none";
+    document.getElementById("grievanceLoader").style.display = "block";
+    setTimeout(() => {
+        window.location = "welcome.html";
+    }, 1500);
+}
+
+function openGrievancePopup2() {
+    const flower = document.getElementById("flowerOverlay");
+    flower.classList.add("bloom");
+    setTimeout(() => {
+        window.location.href = "notifications.html";
+    }, 550);
+}
+
+function closeGrievanceNotif2() {
+    document.getElementById("grievanceOverlay").style.display = "none";
+    document.body.style.overflow = "auto";
+}
+
+async function checkGrievances2() {
+    const badge = document.getElementById("notifBadge");
+    const listContainer = document.getElementById("grievanceList");
+
+    try {
+        const scriptURL = "https://script.google.com/macros/s/AKfycbz8drDOZ-x5VUNh7bA2ndG13BVzl9o4IQ1r7wrtESIlipYuqcXSD-hK6s9xB5eMkLj8/exec";
+        const response = await fetch(scriptURL);
+        const data = await response.json();
+
+        const activeItems = data.filter(item => {
+            const status = String(item.status || "").trim().toLowerCase();
+            return status !== "resolved" && status !== "";
+        });
+
+        if (activeItems.length > 0) {
+            badge.innerText = activeItems.length;
+            badge.style.display = "flex";
+
+            let html = "";
+            activeItems.forEach(item => {
+                const color = (String(item.status).toLowerCase() === "open") ? "#ff3d3d" : "#ffa500";
+                html += `
+                    <div style="background:#fff; border-left:6px solid ${color}; padding:15px; border-radius:18px; margin-bottom:15px; box-shadow:0 6px 15px rgba(0,0,0,0.08); text-align:left; border: 1px solid #eee;">
+                        <div style="display:flex; justify-content:space-between; font-size:10px; color:#999; margin-bottom:10px; border-bottom:1px solid #f8f9ff; padding-bottom:6px;">
+                            <span>📅 ${item.date || 'N/A'}</span>
+                            <span style="background:#eee; padding:2px 6px; border-radius:4px;">ID: ${item.id}</span>
+                        </div>
+                        <div style="margin-bottom:10px;">
+                            <div style="font-size:13px; font-weight:bold; color:#2400b7;">👤 ${item.user}</div>
+                            <div style="font-size:11px; color:#666;">💼 ${item.empDesig} | 📍 ${item.workPlace}</div>
+                        </div>
+                        <div style="background:#f8f9ff; padding:10px; border-radius:10px; margin-bottom:12px;">
+                            <div style="font-size:11px; font-weight:bold; color:#4b2dd8; text-transform:uppercase; margin-bottom:4px;">📂 ${item.cat}</div>
+                            <div style="font-weight:bold; color:#111; font-size:14px; margin-bottom:4px;">${item.sub}</div>
+                            <div style="font-size:12px; color:#444; line-height:1.5;">${item.desc}</div>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span style="background:${color}; color:white; font-size:10px; padding:4px 12px; border-radius:20px; font-weight:bold; text-transform:uppercase; box-shadow: 0 4px 8px ${color}44;">
+                                ● ${item.status}
+                            </span>
+                            <div style="text-align:right;">
+                                <div style="font-size:9px; color:#aaa; text-transform:uppercase;">Handled By</div>
+                                <div style="font-size:11px; font-weight:bold; color:#333;">${item.handler || 'Not Assigned'}</div>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+            listContainer.innerHTML = html;
+        } else {
+            badge.style.display = "none";
+            listContainer.innerHTML = `
+                <div style="text-align:center; padding:40px 20px;">
+                    <div style="font-size:50px; margin-bottom:15px;">🎉</div>
+                    <h3 style="margin:0; color:#2400b7;">All Clear!</h3>
+                    <p style="font-size:12px; color:#777; margin-top:8px;">No active grievances found in the system at this time.</p>
+                </div>`;
+        }
+    } catch (err) {
+        listContainer.innerHTML = `
+            <div style="text-align:center; padding:30px; color:#ff3d3d;">
+                <p>⚠️ Failed to connect to server.</p>
+                <button onclick="checkGrievances2()" style="background:#2400b7; color:white; border:none; padding:8px 15px; border-radius:8px; font-size:12px;">Retry</button>
+            </div>`;
+    }
+}
+
+document.addEventListener("DOMContentLoaded", checkGrievances2);
+
+function navigateSmooth(url) {
+    document.getElementById("loader").style.display = "flex";
+    setTimeout(() => {
+        window.location.href = url;
+    }, 500);
+}
+
+function loadQuickInfoDate() {
+    let date = localStorage.getItem("quickInfoDate");
+    if (date) {
+        document.getElementById("quickDate").innerText = date;
+    } else {
+        document.getElementById("quickDate").innerText = "Not updated";
+    }
+}
+loadQuickInfoDate();
 </script>
 
 </body>
