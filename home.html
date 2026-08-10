@@ -2,25 +2,29 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Home - Salary Portal</title>
+<title>Salary Portal - Modern Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <style>
-/* --- FINTECH DESIGN SYSTEM TOKEN & CORE --- */
+/* --- 2026 ULTRA-MODERN FINTECH DESIGN SYSTEM --- */
 :root {
-    --primary-blue: #2400b7;
-    --primary-light: #4b2dd8;
-    --accent-emerald: #00c9a7;
-    --accent-gold: #ffb347;
-    --accent-rose: #ff4e8a;
-    --accent-red: #ff3d3d;
-    --bg-gradient: linear-gradient(135deg, #e6ecff 0%, #dfe7ff 50%, #f0ebff 100%);
-    --card-bg: linear-gradient(135deg, #ffffff, #f4f6ff);
-    --glass-border: rgba(36, 0, 183, 0.08);
-    --text-main: #222222;
-    --text-muted: #6b7280;
-    --radius-lg: 20px;
-    --radius-md: 14px;
+    --primary-blue: #2563eb;
+    --primary-deep: #1e3a8a;
+    --accent-emerald: #10b981;
+    --accent-gold: #f59e0b;
+    --accent-rose: #f43f5e;
+    --accent-indigo: #4f46e5;
+    --bg-dark: #0b0f19;
+    --bg-gradient: linear-gradient(135deg, #0b0f19 0%, #111827 50%, #1e1b4b 100%);
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --card-hover: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-shine: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.02) 100%);
+    --text-primary: #ffffff;
+    --text-muted: #94a3b8;
+    --radius-xl: 24px;
+    --radius-lg: 18px;
+    --radius-md: 12px;
 }
 
 * {
@@ -31,14 +35,16 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background: var(--bg-gradient);
-    color: var(--text-main);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+    background: var(--bg-dark);
+    background-image: var(--bg-gradient);
+    background-attachment: fixed;
+    color: var(--text-primary);
     overflow-x: hidden;
-    padding-bottom: 85px;
+    padding-bottom: 95px;
 }
 
-/* --- TOP FIXED HEADER & ACCELERATION --- */
+/* --- FIXED TOP HEADER WITH HARDWARE ACCELERATION --- */
 .top {
     position: fixed;
     top: 0;
@@ -49,16 +55,16 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 15px 15px 8px;
-    background: linear-gradient(135deg, #0d1b8f 0%, #1a2edb 100%);
-    color: white;
-    border-bottom-left-radius: 35px;
-    border-bottom-right-radius: 35px;
+    padding: 16px 16px 10px;
+    background: linear-gradient(135deg, rgba(30, 27, 75, 0.95), rgba(17, 24, 39, 0.95));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+    border-bottom-left-radius: 32px;
+    border-bottom-right-radius: 32px;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
     transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
     will-change: transform;
-    overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
 .user-box {
@@ -69,60 +75,94 @@ body {
 }
 
 .menu-btn {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.15);
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: var(--glass-shine);
+    border: 1px solid var(--glass-border);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 20px;
     cursor: pointer;
-    backdrop-filter: blur(8px);
-    transition: transform 0.2s;
+    backdrop-filter: blur(10px);
+    transition: transform 0.2s, background 0.2s;
 }
 
 .menu-btn:active {
     transform: scale(0.92);
 }
 
-.logout {
+.icon-action-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 18px;
+    transition: transform 0.2s;
 }
 
-/* --- SALARY HERO CARD --- */
+.icon-action-btn:active {
+    transform: scale(0.9);
+}
+
+/* --- HERO SALARY GLASS CARD --- */
 .salary-card {
     width: 100%;
-    margin-top: 12px;
-    background: linear-gradient(135deg, #0f0c29, #2400b7, #302b63);
-    color: white;
-    border-radius: 18px;
-    padding: 12px 14px;
+    margin-top: 14px;
+    background: linear-gradient(135deg, rgba(79, 70, 229, 0.4), rgba(37, 99, 235, 0.2));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-lg);
+    padding: 14px 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    gap: 12px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(16px);
+    position: relative;
+    overflow: hidden;
+}
+
+.salary-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+    pointer-events: none;
 }
 
 .salary-info {
     flex: 1;
     min-width: 0;
+    z-index: 1;
 }
 
 .salary-info h3 {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
-    opacity: 0.9;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .salary-amount {
-    font-size: 22px;
-    font-weight: bold;
-    color: #ffffff;
-    margin: 2px 0;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 3px 0;
+    background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .salary-bottom {
@@ -130,12 +170,12 @@ body {
     align-items: center;
     justify-content: space-between;
     margin-top: 6px;
-    gap: 10px;
+    gap: 8px;
 }
 
 .last-updated {
     font-size: 11px;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--text-muted);
 }
 
 .last-updated span:last-child {
@@ -145,116 +185,124 @@ body {
 
 .quick-info-btn {
     padding: 6px 12px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: var(--accent-emerald);
     border-radius: 20px;
     font-size: 11px;
     font-weight: 600;
     cursor: pointer;
     white-space: nowrap;
-    transition: background 0.2s, transform 0.2s;
+    transition: all 0.2s;
 }
 
 .quick-info-btn:active {
     transform: scale(0.95);
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(16, 185, 129, 0.3);
 }
 
 .salary-card img {
-    width: 60px;
-    max-width: 28%;
+    width: 58px;
     height: auto;
     flex-shrink: 0;
+    z-index: 1;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
 }
 
-/* --- MAIN CONTENT AREA --- */
+/* --- CONTENT CONTAINER --- */
 .content {
-    padding: 15px;
-    padding-top: 265px;
-    padding-bottom: 90px;
-    animation: slideUp 0.4s ease-out;
-    backface-visibility: hidden;
-    transform: translateZ(0);
+    padding: 16px;
+    padding-top: 268px;
+    padding-bottom: 95px;
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(18px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- VISITOR & GALLERY DUAL CARDS --- */
+/* --- DUAL STATS CARDS (BENTO STYLE) --- */
 .visitor-container {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
-    margin-bottom: 15px;
+    margin-bottom: 16px;
 }
 
 .visitor-card {
-    flex: 1;
+    background: var(--card-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 14px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 12px;
-    border-radius: 16px;
-    background: var(--card-bg);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+    gap: 12px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.2s, background 0.2s;
 }
 
 .visitor-card:active {
     transform: scale(0.97);
+    background: var(--card-hover);
 }
 
 .visitor-icon {
     width: 42px;
     height: 42px;
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 20px;
     color: white;
+    flex-shrink: 0;
 }
 
 .visitor-icon.users {
-    background: linear-gradient(135deg, #6a5cff, #4b2dd8);
+    background: linear-gradient(135deg, var(--primary-indigo), var(--primary-blue));
 }
 
 .visitor-icon.gallery-icon {
-    background: linear-gradient(135deg, #00c853, #00e676);
+    background: linear-gradient(135deg, #059669, #10b981);
 }
 
 .visitor-title {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--text-muted);
+    font-weight: 500;
 }
 
 .visitor-value {
-    font-size: 16px;
-    font-weight: bold;
-    color: var(--primary-blue);
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-primary);
 }
 
 .visitor-sub {
     font-size: 12px;
-    color: #00a152;
-    font-weight: 600;
+    color: var(--accent-emerald);
+    font-weight: 700;
 }
 
 /* --- ATTENDANCE CARD --- */
 .attendance-card {
     background: var(--card-bg);
-    border-radius: var(--radius-lg);
-    padding: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: 16px;
+    margin-bottom: 16px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
 }
 
 .att-header-new {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
 }
 
 .att-left {
@@ -266,8 +314,9 @@ body {
 .att-icon {
     width: 40px;
     height: 40px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--primary-blue), var(--primary-light));
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, rgba(79, 70, 229, 0.3), rgba(37, 99, 235, 0.3));
+    border: 1px solid rgba(79, 70, 229, 0.4);
     color: white;
     display: flex;
     align-items: center;
@@ -277,8 +326,8 @@ body {
 
 .att-title {
     font-size: 14px;
-    font-weight: 600;
-    color: var(--primary-blue);
+    font-weight: 700;
+    color: var(--text-primary);
 }
 
 .att-date {
@@ -287,33 +336,34 @@ body {
 }
 
 .att-percent {
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--primary-blue);
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--accent-emerald);
 }
 
 .chart-box {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 15px;
+    gap: 16px;
 }
 
 .donut {
-    width: 85px;
-    height: 85px;
+    width: 88px;
+    height: 88px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    background: conic-gradient(#4caf50 0% 100%, #e0e0e0 0% 100%);
+    background: conic-gradient(#10b981 0% 100%, #334155 0% 100%);
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
 }
 
 .center {
-    width: 58px;
-    height: 58px;
-    background: white;
+    width: 60px;
+    height: 60px;
+    background: #0f172a;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -321,9 +371,9 @@ body {
 }
 
 .center span {
-    font-size: 13px;
-    font-weight: bold;
-    color: var(--primary-blue);
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text-primary);
 }
 
 .legend {
@@ -334,7 +384,12 @@ body {
 .legend div {
     display: flex;
     justify-content: space-between;
-    margin: 5px 0;
+    margin: 6px 0;
+    color: var(--text-muted);
+}
+
+.legend b {
+    color: var(--text-primary);
 }
 
 .dot {
@@ -345,24 +400,26 @@ body {
     margin-right: 6px;
 }
 
-.dot.green { background: #4caf50; }
-.dot.yellow { background: #ffc107; }
-.dot.red { background: #f44336; }
+.dot.green { background: #10b981; }
+.dot.yellow { background: #f59e0b; }
+.dot.red { background: #f43f5e; }
 
-/* --- QUICK ACTIONS GRID --- */
+/* --- QUICK ACTIONS MATRIX --- */
 .quick-container {
-    background: linear-gradient(135deg, #e6ecff, #dfe7ff, #f0ebff);
-    padding: 15px;
-    border-radius: var(--radius-lg);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    margin-bottom: 15px;
+    background: var(--card-bg);
+    border: 1px solid var(--glass-border);
+    padding: 16px;
+    border-radius: var(--radius-xl);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+    margin-bottom: 16px;
 }
 
 .quick-title {
     font-size: 14px;
-    font-weight: 600;
-    color: var(--primary-blue);
-    margin-bottom: 12px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 14px;
 }
 
 .quick-grid {
@@ -377,13 +434,13 @@ body {
 }
 
 .quick-card {
-    background: var(--card-bg);
-    border-radius: var(--radius-md);
-    padding: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-lg);
+    padding: 12px 8px;
     text-align: center;
     cursor: pointer;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
-    transition: transform 0.2s;
+    transition: transform 0.2s, background 0.2s;
 }
 
 .quick-card.wide {
@@ -392,64 +449,68 @@ body {
 
 .quick-card:active {
     transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .quick-icon {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    margin: 0 auto 6px;
+    margin: 0 auto 8px;
     font-size: 18px;
 }
 
-.quick-icon.blue { background: #4b2dd8; }
-.quick-icon.orange { background: #ff7a18; }
-.quick-icon.green { background: #00c9a7; }
-.quick-icon.pink { background: #ff4e8a; }
-.quick-icon.purple { background: #6a5cff; }
-.quick-icon.indigo { background: #2400b7; }
+.quick-icon.blue { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+.quick-icon.orange { background: linear-gradient(135deg, #f97316, #c2410c); }
+.quick-icon.green { background: linear-gradient(135deg, #10b981, #047857); }
+.quick-icon.pink { background: linear-gradient(135deg, #ec4899, #be185d); }
+.quick-icon.purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+.quick-icon.indigo { background: linear-gradient(135deg, #6366f1, #4338ca); }
 
 .quick-card p {
     margin: 0;
     font-size: 11px;
     font-weight: 600;
-    color: #333333;
+    color: var(--text-muted);
 }
 
 .grievance-card {
-    background: linear-gradient(135deg, #ffffff, #f3f0ff);
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(99, 102, 241, 0.1));
+    border: 1px solid rgba(139, 92, 246, 0.2);
 }
 
 .notif-icon {
     position: absolute;
     top: -4px;
     right: -4px;
-    background: var(--accent-red);
+    background: var(--accent-rose);
     color: white;
     font-size: 10px;
     padding: 3px;
     border-radius: 50%;
-    border: 2px solid white;
+    border: 2px solid var(--bg-dark);
     animation: pulseBadge 2s infinite;
 }
 
 @keyframes pulseBadge {
     0% { transform: scale(1); }
-    50% { transform: scale(1.15); }
+    50% { transform: scale(1.2); }
     100% { transform: scale(1); }
 }
 
-/* --- ANNOUNCEMENTS & NEWS CONTAINER --- */
+/* --- ANNOUNCEMENTS CAROUSEL --- */
 .news-container {
-    margin-top: 15px;
-    padding: 15px;
-    border-radius: 22px;
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: var(--radius-xl);
     background: var(--card-bg);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
 }
 
 .news-header {
@@ -468,8 +529,8 @@ body {
 .news-icon {
     width: 40px;
     height: 40px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--primary-blue), var(--primary-light));
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--primary-indigo), var(--primary-blue));
     color: white;
     display: flex;
     align-items: center;
@@ -479,8 +540,8 @@ body {
 
 .news-title {
     font-size: 15px;
-    font-weight: 600;
-    color: var(--primary-blue);
+    font-weight: 700;
+    color: var(--text-primary);
 }
 
 .news-sub {
@@ -488,7 +549,6 @@ body {
     color: var(--text-muted);
 }
 
-/* SLIDER */
 .slider-container {
     display: flex;
     overflow-x: auto;
@@ -504,13 +564,14 @@ body {
 
 .slider-item {
     flex: 0 0 85%;
-    height: 150px;
-    border-radius: 18px;
+    height: 155px;
+    border-radius: var(--radius-lg);
     overflow: hidden;
     position: relative;
     scroll-snap-align: center;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     cursor: pointer;
+    border: 1px solid var(--glass-border);
 }
 
 .slider-item img {
@@ -521,36 +582,38 @@ body {
 }
 
 .slider-item:active img {
-    transform: scale(1.08);
+    transform: scale(1.06);
 }
 
 .slider-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+    background: linear-gradient(to top, rgba(11, 15, 25, 0.9), transparent 70%);
 }
 
 .slider-text {
     position: absolute;
-    bottom: 15px;
-    left: 15px;
+    bottom: 14px;
+    left: 14px;
+    right: 14px;
     color: white;
 }
 
 .slider-text h4 {
     margin: 0;
     font-size: 15px;
+    font-weight: 700;
 }
 
 .slider-text p {
-    margin: 2px 0 0;
+    margin: 3px 0 0;
     font-size: 12px;
-    opacity: 0.9;
+    color: var(--accent-emerald);
+    font-weight: 600;
 }
 
-/* NEWS LIST TIMELINE */
 .news-list {
-    margin-top: 15px;
+    margin-top: 16px;
     position: relative;
     padding-left: 20px;
 }
@@ -562,17 +625,17 @@ body {
     top: 0;
     bottom: 0;
     width: 2px;
-    background: linear-gradient(var(--primary-blue), var(--primary-light));
-    opacity: 0.3;
+    background: linear-gradient(var(--primary-blue), var(--primary-indigo));
+    opacity: 0.4;
 }
 
 .news-item {
     position: relative;
     margin-bottom: 12px;
-    padding: 12px 14px;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .news-item::before {
@@ -583,34 +646,37 @@ body {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: var(--primary-light);
-    box-shadow: 0 0 0 3px #e6ecff;
+    background: var(--accent-emerald);
+    box-shadow: 0 0 10px var(--accent-emerald);
 }
 
 .news-date {
     font-size: 11px;
-    color: var(--text-muted);
+    color: var(--accent-emerald);
     margin-bottom: 4px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .news-item div:last-child {
     font-size: 13px;
-    color: #222222;
+    color: var(--text-primary);
     line-height: 1.4;
 }
 
-/* --- FIXED CURVED NAVBAR --- */
+/* --- CURVED BOTTOM FLOATING NAVBAR --- */
 .navbar {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 75px;
-    background: #ffffff;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-    box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.08);
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--glass-border);
+    border-top-left-radius: 28px;
+    border-top-right-radius: 28px;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -625,26 +691,27 @@ body {
 }
 
 .nav-icon {
-    font-size: 22px;
-    color: #9ca3af;
-    transition: 0.3s;
+    font-size: 20px;
+    color: var(--text-muted);
+    transition: color 0.3s, transform 0.3s;
 }
 
 .nav-item span {
     display: block;
     font-size: 11px;
-    color: #9ca3af;
+    color: var(--text-muted);
     margin-top: 3px;
+    transition: color 0.3s;
 }
 
 .nav-item.active .nav-icon {
-    color: var(--primary-blue);
+    color: var(--accent-gold);
     transform: translateY(-2px);
 }
 
 .nav-item.active span {
-    color: var(--primary-blue);
-    font-weight: 600;
+    color: var(--accent-gold);
+    font-weight: 700;
 }
 
 .nav-item.active::before {
@@ -653,17 +720,13 @@ body {
     top: -8px;
     left: 50%;
     transform: translateX(-50%);
-    width: 26px;
+    width: 24px;
     height: 3px;
     border-radius: 10px;
-    background: var(--primary-blue);
+    background: var(--accent-gold);
+    box-shadow: 0 0 10px var(--accent-gold);
 }
 
-.nav-item:active {
-    transform: scale(0.92);
-}
-
-/* CENTER SMART SUPPORT BUTTON */
 .center-item {
     display: flex;
     justify-content: center;
@@ -681,14 +744,15 @@ body {
     width: 58px;
     height: 58px;
     border-radius: 50%;
-    background: var(--primary-blue);
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-indigo));
+    border: 3px solid #0f172a;
     color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 24px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    animation: float 2s ease-in-out infinite;
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+    animation: float 2.5s ease-in-out infinite;
 }
 
 @keyframes float {
@@ -699,21 +763,22 @@ body {
 .center-text {
     font-size: 11px;
     margin-top: 4px;
-    color: var(--accent-red);
-    font-weight: 600;
+    color: var(--accent-rose);
+    font-weight: 700;
 }
 
-/* --- SIDENAV & OVERLAYS --- */
+/* --- SIDENAV DRAWER & OVERLAYS --- */
 #sideOverlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.25s ease;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
     z-index: 2000;
 }
 
@@ -723,7 +788,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #ffffff;
+    background: #0f172a;
     transform: translateX(-100%);
     transition: transform 0.28s cubic-bezier(.22,.61,.36,1);
     will-change: transform;
@@ -734,15 +799,17 @@ body {
 
 .menu-header {
     padding: 45px 20px 25px;
-    background: linear-gradient(135deg, var(--primary-blue), #3b1eff);
+    background: linear-gradient(135deg, #1e1b4b, #312e81);
     color: white;
     border-bottom-right-radius: 40px;
+    border-bottom: 1px solid var(--glass-border);
 }
 
 .close-btn {
     font-size: 26px;
     cursor: pointer;
     margin-bottom: 20px;
+    color: var(--accent-gold);
 }
 
 .profile-box {
@@ -755,7 +822,7 @@ body {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.4);
+    border: 2px solid var(--accent-emerald);
 }
 
 .profile-box h2 {
@@ -766,7 +833,7 @@ body {
 .profile-box p {
     margin: 4px 0 0;
     font-size: 12px;
-    opacity: 0.8;
+    color: var(--accent-emerald);
 }
 
 .menu-content {
@@ -779,28 +846,30 @@ body {
     display: flex;
     align-items: center;
     padding: 15px;
-    margin-bottom: 10px;
-    background: #f8f9ff;
-    border-radius: 15px;
+    margin-bottom: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
     font-weight: 600;
     cursor: pointer;
+    color: var(--text-primary);
     transition: transform 0.2s, background 0.2s;
 }
 
 .nav-link:active {
     transform: scale(0.97);
-    background: #eef0ff;
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .nav-link .icon {
-    width: 35px;
-    height: 35px;
-    background: white;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.08);
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 15px;
+    margin-right: 14px;
 }
 
 .menu-footer {
@@ -811,24 +880,24 @@ body {
 .menu-footer button {
     width: 100%;
     padding: 14px;
-    background: var(--accent-red);
+    background: var(--accent-rose);
     color: white;
     border: none;
-    border-radius: 15px;
+    border-radius: 16px;
     font-weight: bold;
     cursor: pointer;
 }
 
-/* --- LOADERS & OVERLAYS --- */
+/* --- FULL PAGE GLASS LOADER --- */
 #loader {
     position: fixed;
     top: 85px;
     bottom: 70px;
     left: 0;
     width: 100%;
-    background: rgba(243, 244, 250, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(11, 15, 25, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     display: none;
     flex-direction: column;
     align-items: center;
@@ -843,8 +912,8 @@ body {
 .loader-spinner {
     width: 50px;
     height: 50px;
-    border: 5px solid rgba(36, 0, 183, 0.1);
-    border-top: 5px solid var(--primary-blue);
+    border: 5px solid rgba(255, 255, 255, 0.1);
+    border-top: 5px solid var(--accent-gold);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
     margin: auto;
@@ -853,7 +922,7 @@ body {
 .loading-text {
     margin-top: 15px;
     font-size: 13px;
-    color: var(--primary-blue);
+    color: var(--accent-gold);
     font-weight: bold;
     letter-spacing: 1px;
 }
@@ -869,7 +938,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #f8faff;
+    background: var(--bg-dark);
     z-index: 9999;
     pointer-events: none;
     clip-path: circle(0% at 50% 50%);
@@ -907,7 +976,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #f8faff;
+    background: var(--bg-dark);
     z-index: 9999;
     transform: translateY(100%);
     transition: transform 0.4s cubic-bezier(0.32, 1, 0.23, 1);
@@ -934,7 +1003,7 @@ body {
     <div class="loader-spinner" style="width:30px; height:30px;"></div>
 </div>
 
-<!-- OVERLAY & SIDENAV -->
+<!-- OVERLAY & SIDENAV DRAWER -->
 <div id="sideOverlay"></div>
 
 <div id="sideNav">
@@ -965,22 +1034,22 @@ body {
     </div>
 </div>
 
-<!-- FIXED TOP HEADER -->
+<!-- FIXED TOP DASHBOARD HEADER -->
 <div id="appPage">
     <div class="top">
         <div class="user-box">
             <div style="display:flex; align-items:center; gap:10px;">
                 <div class="menu-btn" onclick="openSideNav()">☰</div>
                 <div>
-                    <div style="font-size:11px; opacity:0.8;">Welcome</div>
+                    <div style="font-size:11px; color:var(--text-muted);">Welcome</div>
                     <strong id="empName">Loading...</strong>
-                    <div id="empDesg" style="font-size:12px; opacity:0.8;"></div>
+                    <div id="empDesg" style="font-size:12px; color:var(--accent-emerald);"></div>
                 </div>
             </div>
 
-            <div style="display:flex; align-items:center; gap:12px; flex-shrink:0;">
-                <span style="font-size:20px; cursor:pointer;" onclick="refreshApp()">🔄</span>
-                <span class="logout" onclick="logout()">🔓</span>
+            <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
+                <div class="icon-action-btn" onclick="refreshApp()">🔄</div>
+                <div class="icon-action-btn" onclick="logout()">🔓</div>
             </div>
         </div>
 
@@ -989,11 +1058,11 @@ body {
             <div class="salary-info">
                 <h3>Last Month Salary</h3>
                 <div class="salary-amount">₹<span id="netSalary">--</span></div>
-                <div style="font-size:12px; opacity:0.9;">Net Pay</div>
+                <div style="font-size:11px; color:var(--text-muted);">Net Pay</div>
 
                 <div class="salary-bottom">
                     <div class="last-updated">
-                        <span>Last Updated:</span>
+                        <span>Updated:</span>
                         <span id="quickDate">--</span>
                     </div>
                     <div class="quick-info-btn" onclick="openLastSalary()">
@@ -1005,7 +1074,7 @@ body {
         </div>
     </div>
 
-    <!-- MIDDLE PAGE LOADER -->
+    <!-- MIDDLE SCREEN LOADER -->
     <div id="loader">
         <div class="loader-container">
             <div class="loader-spinner"></div>
@@ -1013,15 +1082,15 @@ body {
         </div>
     </div>
 
-    <!-- MAIN SCROLLABLE CONTENT -->
+    <!-- MAIN SCROLLABLE CONTENT AREA -->
     <div class="content">
 
-        <!-- VISITOR COUNT & GALLERY -->
+        <!-- BENTO DUAL METRICS -->
         <div class="visitor-container">
             <div class="visitor-card">
                 <div class="visitor-icon users">👥</div>
                 <div>
-                    <div class="visitor-title">Users</div>
+                    <div class="visitor-title">Active Users</div>
                     <div class="visitor-value" id="visitorCount">0</div>
                 </div>
             </div>
@@ -1035,7 +1104,7 @@ body {
             </div>
         </div>
 
-        <!-- ATTENDANCE REPORT CARD -->
+        <!-- ATTENDANCE WIDGET -->
         <div class="attendance-card">
             <div class="att-header-new">
                 <div class="att-left">
@@ -1064,14 +1133,14 @@ body {
             </div>
         </div>
 
-        <!-- QUICK ACTION SERVICES -->
+        <!-- QUICK ACTION MATRIX -->
         <div class="quick-container">
             <div class="quick-title">⚡ Quick Actions</div>
 
             <div class="quick-grid">
                 <div class="quick-card" onclick="showLoader('accounts.html')">
                     <div class="quick-icon blue">👤</div>
-                    <p>My Accounts</p>
+                    <p>Accounts</p>
                 </div>
 
                 <div class="quick-card" onclick="showLoader('menu.html')">
@@ -1081,12 +1150,12 @@ body {
 
                 <div class="quick-card" onclick="showLoader('page3.html')">
                     <div class="quick-icon green">📅</div>
-                    <p>Non Salary Income</p>
+                    <p>Other Income</p>
                 </div>
 
                 <div class="quick-card" onclick="showLoader('page4.html')">
                     <div class="quick-icon pink">📝</div>
-                    <p>Forms & Formats</p>
+                    <p>Forms</p>
                 </div>
             </div>
 
@@ -1097,9 +1166,9 @@ body {
                             🔔
                             <span class="notif-icon">🔔</span>
                         </div>
-                        <p>Grievance Notification</p>
+                        <p>Grievances</p>
                     </div>
-                    <span id="notifBadge" style="position:absolute; top:-5px; right:10px; background:#ff3d3d; color:white; font-size:11px; font-weight:bold; min-width:20px; height:20px; border-radius:50%; border:2px solid white; display:none; align-items:center; justify-content:center; animation:pulseBadge 2s infinite; z-index:10;">0</span>
+                    <span id="notifBadge" style="position:absolute; top:-5px; right:10px; background:#f43f5e; color:white; font-size:11px; font-weight:bold; min-width:20px; height:20px; border-radius:50%; border:2px solid var(--bg-dark); display:none; align-items:center; justify-content:center; animation:pulseBadge 2s infinite; z-index:10;">0</span>
                 </div>
 
                 <div class="quick-card wide" onclick="showLoader('page2.html')">
@@ -1109,7 +1178,7 @@ body {
             </div>
         </div>
 
-        <!-- ANNOUNCEMENTS & NEWS CAROUSEL -->
+        <!-- ANNOUNCEMENTS CAROUSEL -->
         <div class="news-container">
             <div class="news-header">
                 <div class="news-left">
@@ -1157,7 +1226,7 @@ body {
 
     </div>
 
-    <!-- FIXED BOTTOM NAVBAR -->
+    <!-- CURVED FLOATING BOTTOM NAVBAR -->
     <div class="navbar">
         <div class="nav-item active" data-page="home.html" onclick="navigateSmooth('home.html')">
             <div class="nav-icon">🏠</div>
@@ -1188,55 +1257,55 @@ body {
     </div>
 </div>
 
-<!-- POPUPS AND MODALS -->
+<!-- OVERLAY MODALS -->
 
 <!-- GRIEVANCE NOTIFICATION OVERLAY -->
-<div id="grievanceOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 12, 41, 0.75); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 5000;">
-    <div class="grievance-card" style="width: 90%; max-width: 360px; background: #ffffff; border-radius: 28px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.3);">
-        <div style="background: linear-gradient(135deg, #2400b7, #4b2dd8); color: white; padding: 25px 20px; text-align: center;">
+<div id="grievanceOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11, 15, 25, 0.85); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 5000;">
+    <div class="grievance-card" style="width: 90%; max-width: 360px; background: #0f172a; border: 1px solid var(--glass-border); border-radius: 28px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.5);">
+        <div style="background: linear-gradient(135deg, var(--primary-indigo), var(--primary-blue)); color: white; padding: 22px 20px; text-align: center;">
             <h3 style="margin:0;">Grievance Notifications</h3>
         </div>
         <div id="grievanceList" style="max-height: 350px; overflow-y: auto; padding: 15px;"></div>
-        <button onclick="closeGrievanceNotif2()" style="width: 100%; padding: 15px; border: none; background: #f1f1f1; color: #4b2dd8; font-weight: bold; cursor: pointer;">
+        <button onclick="closeGrievanceNotif2()" style="width: 100%; padding: 15px; border: none; background: rgba(255,255,255,0.05); color: var(--accent-gold); font-weight: bold; cursor: pointer; border-top: 1px solid var(--glass-border);">
             Dismiss
         </button>
     </div>
 </div>
 
-<!-- LOGOUT POPUP -->
-<div id="logoutPopup" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); display:none; align-items:center; justify-content:center; z-index:3000;">
-    <div style="background:white; padding:20px; border-radius:20px; width:85%; max-width:320px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.2);">
-        <h3 style="margin-top:0; color:#2400b7;">Logout</h3>
-        <p style="font-size:14px; color:#555;">Are you sure you want to logout?</p>
-        <div style="display:flex; gap:10px; margin-top:15px;">
-            <button onclick="closeLogout()" style="flex:1; padding:10px; border:none; border-radius:10px; background:#eee; cursor:pointer;">Cancel</button>
-            <button onclick="confirmLogout()" style="flex:1; padding:10px; border:none; border-radius:10px; background:#2400b7; color:white; cursor:pointer;">Logout</button>
+<!-- LOGOUT MODAL -->
+<div id="logoutPopup" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); backdrop-filter: blur(4px); display:none; align-items:center; justify-content:center; z-index:3000;">
+    <div style="background:#0f172a; border:1px solid var(--glass-border); padding:22px; border-radius:24px; width:85%; max-width:320px; text-align:center; box-shadow:0 12px 32px rgba(0,0,0,0.4);">
+        <h3 style="margin-top:0; color:var(--text-primary);">Logout</h3>
+        <p style="font-size:14px; color:var(--text-muted); margin-top:6px;">Are you sure you want to logout?</p>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button onclick="closeLogout()" style="flex:1; padding:12px; border:none; border-radius:12px; background:rgba(255,255,255,0.08); color:white; cursor:pointer;">Cancel</button>
+            <button onclick="confirmLogout()" style="flex:1; padding:12px; border:none; border-radius:12px; background:var(--accent-rose); color:white; font-weight:bold; cursor:pointer;">Logout</button>
         </div>
     </div>
 </div>
 
-<!-- LEAVING PORTAL GRIEVANCE REDIRECT POPUP -->
-<div id="grievancePopup" style="position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center; z-index:4000;">
-    <div style="background:white; padding:20px; border-radius:20px; width:85%; max-width:320px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.2);">
-        <div style="width:60px; height:60px; margin:auto; border-radius:50%; background:#ffe5e5; display:flex; align-items:center; justify-content:center; font-size:28px; color:#ff3d3d;">
+<!-- EXTERNAL REDIRECT POPUP -->
+<div id="grievancePopup" style="position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display:none; align-items:center; justify-content:center; z-index:4000;">
+    <div style="background:#0f172a; border:1px solid var(--glass-border); padding:22px; border-radius:24px; width:85%; max-width:320px; text-align:center; box-shadow:0 12px 32px rgba(0,0,0,0.4);">
+        <div style="width:58px; height:58px; margin:auto; border-radius:50%; background:rgba(244, 63, 94, 0.15); display:flex; align-items:center; justify-content:center; font-size:26px; color:var(--accent-rose);">
             ⚠️
         </div>
-        <h3 style="color:#ff3d3d; margin-top:15px;">You are leaving Salary Portal</h3>
-        <p style="font-size:14px; font-weight:600; color:#444;">Redirecting to Employee Grievance Portal</p>
+        <h3 style="color:var(--accent-rose); margin-top:14px; font-size:16px;">Leaving Portal</h3>
+        <p style="font-size:13px; font-weight:500; color:var(--text-muted); margin-top:6px;">Redirecting to Employee Grievance Portal</p>
 
-        <div id="grievanceBtns" style="display:flex; gap:10px; margin-top:15px;">
-            <button onclick="closeGrievancePopup()" style="flex:1; padding:10px; border:none; border-radius:10px; background:#eee; font-weight:600; cursor:pointer;">❌ Cancel</button>
-            <button onclick="continueToGrievance()" style="flex:1; padding:10px; border:none; border-radius:10px; background:#2400b7; color:white; font-weight:600; cursor:pointer;">➡ Continue</button>
+        <div id="grievanceBtns" style="display:flex; gap:10px; margin-top:18px;">
+            <button onclick="closeGrievancePopup()" style="flex:1; padding:12px; border:none; border-radius:12px; background:rgba(255,255,255,0.08); color:white; font-weight:600; cursor:pointer;">❌ Cancel</button>
+            <button onclick="continueToGrievance()" style="flex:1; padding:12px; border:none; border-radius:12px; background:var(--primary-blue); color:white; font-weight:600; cursor:pointer;">➡ Continue</button>
         </div>
 
         <div id="grievanceLoader" style="display:none; margin-top:20px;">
-            <div class="loader-spinner" style="width:40px; height:40px;"></div>
-            <p style="margin-top:10px; font-size:13px; color:#555;">Redirecting...</p>
+            <div class="loader-spinner" style="width:36px; height:36px;"></div>
+            <p style="margin-top:10px; font-size:13px; color:var(--text-muted);">Redirecting...</p>
         </div>
     </div>
 </div>
 
-<!-- JAVASCRIPT LOGIC -->
+<!-- SCRIPTS & API INTEGRATIONS -->
 <script>
 function refreshApp() {
     document.getElementById("loader").style.display = "flex";
@@ -1512,7 +1581,7 @@ async function loadAttendance() {
         let p2 = p1 + leavePer;
 
         document.getElementById("donutChart").style.background =
-            `conic-gradient(#4caf50 0% ${p1}%, #ffc107 ${p1}% ${p2}%, #f44336 ${p2}% 100%)`;
+            `conic-gradient(#10b981 0% ${p1}%, #f59e0b ${p1}% ${p2}%, #f43f5e ${p2}% 100%)`;
 
     } catch (e) {
         console.log("Attendance Error:", e);
@@ -1543,7 +1612,7 @@ async function loadUserCount() {
 }
 loadUserCount();
 
-/* SWIPE SIDENAV CONTROLS */
+/* SWIPE GESTURES FOR SIDENAV */
 let startX = 0;
 let currentX = 0;
 let startTime = 0;
@@ -1566,7 +1635,7 @@ function closeSideNav() {
 
 function openMenu() {
     sideNav.style.transform = "translateX(0)";
-    overlay.style.opacity = "0.4";
+    overlay.style.opacity = "1";
     overlay.style.visibility = "visible";
     document.body.style.overflow = "hidden";
     isOpen = true;
@@ -1599,7 +1668,7 @@ document.addEventListener("touchmove", (e) => {
     if (translateX > 0) translateX *= 0.3;
     sideNav.style.transform = `translateX(${translateX}px)`;
     let progress = 1 - Math.abs(translateX / menuWidth);
-    overlay.style.opacity = progress * 0.4;
+    overlay.style.opacity = progress;
     overlay.style.visibility = "visible";
 }, { passive: true });
 
@@ -1676,29 +1745,29 @@ async function checkGrievances2() {
 
             let html = "";
             activeItems.forEach(item => {
-                const color = (String(item.status).toLowerCase() === "open") ? "#ff3d3d" : "#ffa500";
+                const color = (String(item.status).toLowerCase() === "open") ? "#f43f5e" : "#f59e0b";
                 html += `
-                    <div style="background:#fff; border-left:6px solid ${color}; padding:15px; border-radius:18px; margin-bottom:15px; box-shadow:0 6px 15px rgba(0,0,0,0.08); text-align:left; border: 1px solid #eee;">
-                        <div style="display:flex; justify-content:space-between; font-size:10px; color:#999; margin-bottom:10px; border-bottom:1px solid #f8f9ff; padding-bottom:6px;">
+                    <div style="background:rgba(255,255,255,0.03); border-left:4px solid ${color}; padding:14px; border-radius:14px; margin-bottom:12px; border: 1px solid var(--glass-border); text-align:left;">
+                        <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--text-muted); margin-bottom:8px;">
                             <span>📅 ${item.date || 'N/A'}</span>
-                            <span style="background:#eee; padding:2px 6px; border-radius:4px;">ID: ${item.id}</span>
+                            <span style="background:rgba(255,255,255,0.08); padding:2px 6px; border-radius:4px;">ID: ${item.id}</span>
                         </div>
-                        <div style="margin-bottom:10px;">
-                            <div style="font-size:13px; font-weight:bold; color:#2400b7;">👤 ${item.user}</div>
-                            <div style="font-size:11px; color:#666;">💼 ${item.empDesig} | 📍 ${item.workPlace}</div>
+                        <div style="margin-bottom:8px;">
+                            <div style="font-size:13px; font-weight:bold; color:var(--text-primary);">👤 ${item.user}</div>
+                            <div style="font-size:11px; color:var(--text-muted);">💼 ${item.empDesig} | 📍 ${item.workPlace}</div>
                         </div>
-                        <div style="background:#f8f9ff; padding:10px; border-radius:10px; margin-bottom:12px;">
-                            <div style="font-size:11px; font-weight:bold; color:#4b2dd8; text-transform:uppercase; margin-bottom:4px;">📂 ${item.cat}</div>
-                            <div style="font-weight:bold; color:#111; font-size:14px; margin-bottom:4px;">${item.sub}</div>
-                            <div style="font-size:12px; color:#444; line-height:1.5;">${item.desc}</div>
+                        <div style="background:rgba(0,0,0,0.2); padding:10px; border-radius:10px; margin-bottom:10px;">
+                            <div style="font-size:10px; font-weight:bold; color:var(--accent-gold); text-transform:uppercase; margin-bottom:2px;">📂 ${item.cat}</div>
+                            <div style="font-weight:bold; color:white; font-size:13px; margin-bottom:2px;">${item.sub}</div>
+                            <div style="font-size:12px; color:var(--text-muted); line-height:1.4;">${item.desc}</div>
                         </div>
                         <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <span style="background:${color}; color:white; font-size:10px; padding:4px 12px; border-radius:20px; font-weight:bold; text-transform:uppercase; box-shadow: 0 4px 8px ${color}44;">
+                            <span style="background:${color}; color:white; font-size:10px; padding:3px 10px; border-radius:20px; font-weight:bold; text-transform:uppercase;">
                                 ● ${item.status}
                             </span>
                             <div style="text-align:right;">
-                                <div style="font-size:9px; color:#aaa; text-transform:uppercase;">Handled By</div>
-                                <div style="font-size:11px; font-weight:bold; color:#333;">${item.handler || 'Not Assigned'}</div>
+                                <div style="font-size:9px; color:var(--text-muted); text-transform:uppercase;">Handler</div>
+                                <div style="font-size:11px; font-weight:bold; color:white;">${item.handler || 'Not Assigned'}</div>
                             </div>
                         </div>
                     </div>`;
@@ -1707,17 +1776,17 @@ async function checkGrievances2() {
         } else {
             badge.style.display = "none";
             listContainer.innerHTML = `
-                <div style="text-align:center; padding:40px 20px;">
-                    <div style="font-size:50px; margin-bottom:15px;">🎉</div>
-                    <h3 style="margin:0; color:#2400b7;">All Clear!</h3>
-                    <p style="font-size:12px; color:#777; margin-top:8px;">No active grievances found in the system at this time.</p>
+                <div style="text-align:center; padding:30px 15px;">
+                    <div style="font-size:44px; margin-bottom:10px;">🎉</div>
+                    <h3 style="margin:0; color:white;">All Clear!</h3>
+                    <p style="font-size:12px; color:var(--text-muted); margin-top:6px;">No active grievances found in the system at this time.</p>
                 </div>`;
         }
     } catch (err) {
         listContainer.innerHTML = `
-            <div style="text-align:center; padding:30px; color:#ff3d3d;">
+            <div style="text-align:center; padding:25px; color:var(--accent-rose);">
                 <p>⚠️ Failed to connect to server.</p>
-                <button onclick="checkGrievances2()" style="background:#2400b7; color:white; border:none; padding:8px 15px; border-radius:8px; font-size:12px;">Retry</button>
+                <button onclick="checkGrievances2()" style="background:var(--primary-blue); color:white; border:none; padding:8px 14px; border-radius:8px; font-size:12px; margin-top:8px; cursor:pointer;">Retry</button>
             </div>`;
     }
 }
