@@ -6,19 +6,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <style>
-/* --- MODERN FINTECH EMERALD & GOLD DESIGN SYSTEM (MATCHED TO INDEX.HTML) --- */
+/* --- DARK OBSIDIAN & NEON PURPLE DESIGN SYSTEM --- */
 :root {
-    --primary-gradient: radial-gradient(circle at 50% 50%, #0f766e 0%, #115e59 35%, #042f2e 70%, #021a19 100%);
-    --bg-dark: #021a19;
-    --accent-emerald: #10b981;
-    --accent-gold: #f59e0b;
+    --primary-gradient: radial-gradient(circle at 50% 50%, #31104b 0%, #1e0936 35%, #0f051d 70%, #05010a 100%);
+    --bg-dark: #0f051d;
+    --accent-purple: #a855f7;
+    --accent-pink: #ec4899;
     --accent-rose: #f43f5e;
     --glass-border: rgba(255, 255, 255, 0.12);
-    --card-bg: rgba(255, 255, 255, 0.05);
+    --card-bg: rgba(30, 9, 54, 0.65);
     --card-hover: rgba(255, 255, 255, 0.08);
     --glass-shine: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.02) 100%);
     --text-light: #ffffff;
-    --text-muted: #ccfbf1;
+    --text-muted: #f5d0fe;
     --radius-xl: 24px;
     --radius-lg: 18px;
     --radius-md: 12px;
@@ -52,7 +52,7 @@ body {
     height: 450px;
     left: -100px;
     top: -100px;
-    background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0) 70%);
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, rgba(168, 85, 247, 0) 70%);
     animation: ambientFloat 8s ease-in-out infinite alternate;
 }
 .bg2 {
@@ -60,7 +60,7 @@ body {
     height: 350px;
     right: -100px;
     bottom: -100px;
-    background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, rgba(245, 158, 11, 0) 70%);
+    background: radial-gradient(circle, rgba(236, 72, 153, 0.12) 0%, rgba(236, 72, 153, 0) 70%);
     animation: ambientFloat 12s ease-in-out infinite alternate-reverse;
 }
 
@@ -81,13 +81,13 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     padding: 16px 16px 10px;
-    background: rgba(4, 47, 46, 0.92);
+    background: rgba(30, 9, 54, 0.92);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--glass-border);
     border-bottom-left-radius: 32px;
     border-bottom-right-radius: 32px;
-    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5), 0 0 25px rgba(168, 85, 247, 0.15);
     transform: translate3d(0, 0, 0);
     will-change: transform;
 }
@@ -138,19 +138,19 @@ body {
     transform: scale(0.9);
 }
 
-/* --- HERO SALARY EMERALD/GOLD CARD --- */
+/* --- HERO SALARY PURPLE/PINK CARD --- */
 .salary-card {
     width: 100%;
     margin-top: 14px;
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(4, 120, 87, 0.4));
-    border: 1px solid rgba(16, 185, 129, 0.3);
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(126, 34, 206, 0.4));
+    border: 1px solid rgba(168, 85, 247, 0.3);
     border-radius: var(--radius-lg);
     padding: 14px 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    box-shadow: 0 12px 28px rgba(16, 185, 129, 0.2);
+    box-shadow: 0 12px 28px rgba(168, 85, 247, 0.25);
     backdrop-filter: blur(16px);
     position: relative;
     overflow: hidden;
@@ -175,7 +175,7 @@ body {
     font-weight: 800;
     color: var(--text-light);
     margin: 3px 0;
-    background: linear-gradient(135deg, #ffffff 0%, #ccfbf1 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #f5d0fe 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -195,14 +195,14 @@ body {
 
 .last-updated span:last-child {
     font-weight: 700;
-    color: var(--accent-gold);
+    color: var(--accent-pink);
 }
 
 .quick-info-btn {
     padding: 6px 12px;
-    background: rgba(245, 158, 11, 0.2);
-    border: 1px solid rgba(245, 158, 11, 0.4);
-    color: var(--accent-gold);
+    background: rgba(236, 72, 153, 0.2);
+    border: 1px solid rgba(236, 72, 153, 0.4);
+    color: var(--accent-pink);
     border-radius: 20px;
     font-size: 11px;
     font-weight: 600;
@@ -213,7 +213,7 @@ body {
 
 .quick-info-btn:active {
     transform: scale(0.95);
-    background: rgba(245, 158, 11, 0.35);
+    background: rgba(236, 72, 153, 0.35);
 }
 
 .salary-card img {
@@ -221,7 +221,7 @@ body {
     height: auto;
     flex-shrink: 0;
     z-index: 1;
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4));
 }
 
 /* --- CONTENT CONTAINER --- */
@@ -256,7 +256,7 @@ body {
     align-items: center;
     gap: 12px;
     backdrop-filter: blur(12px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     cursor: pointer;
     transition: transform 0.2s, background 0.2s;
 }
@@ -279,11 +279,11 @@ body {
 }
 
 .visitor-icon.users {
-    background: linear-gradient(135deg, #0f766e, #10b981);
+    background: linear-gradient(135deg, #7e22ce, #a855f7);
 }
 
 .visitor-icon.gallery-icon {
-    background: linear-gradient(135deg, #d97706, #f59e0b);
+    background: linear-gradient(135deg, #be185d, #ec4899);
 }
 
 .visitor-title {
@@ -300,7 +300,7 @@ body {
 
 .visitor-sub {
     font-size: 12px;
-    color: var(--accent-gold);
+    color: var(--accent-pink);
     font-weight: 700;
 }
 
@@ -312,7 +312,7 @@ body {
     padding: 16px;
     margin-bottom: 16px;
     backdrop-filter: blur(12px);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
 }
 
 .att-header-new {
@@ -332,8 +332,8 @@ body {
     width: 40px;
     height: 40px;
     border-radius: var(--radius-md);
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(15, 118, 110, 0.3));
-    border: 1px solid rgba(16, 185, 129, 0.4);
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(126, 34, 206, 0.3));
+    border: 1px solid rgba(168, 85, 247, 0.4);
     color: white;
     display: flex;
     align-items: center;
@@ -355,7 +355,7 @@ body {
 .att-percent {
     font-size: 20px;
     font-weight: 800;
-    color: var(--accent-emerald);
+    color: var(--accent-purple);
 }
 
 .chart-box {
@@ -373,14 +373,14 @@ body {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    background: conic-gradient(#10b981 0% 100%, #115e59 0% 100%);
-    box-shadow: 0 0 15px rgba(16, 185, 129, 0.25);
+    background: conic-gradient(#a855f7 0% 100%, #1e0936 0% 100%);
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
 }
 
 .center {
     width: 60px;
     height: 60px;
-    background: #021a19;
+    background: #0f051d;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -417,8 +417,8 @@ body {
     margin-right: 6px;
 }
 
-.dot.green { background: #10b981; }
-.dot.yellow { background: #f59e0b; }
+.dot.green { background: #a855f7; }
+.dot.yellow { background: #ec4899; }
 .dot.red { background: #f43f5e; }
 
 /* --- QUICK ACTIONS MATRIX --- */
@@ -428,7 +428,7 @@ body {
     padding: 16px;
     border-radius: var(--radius-xl);
     backdrop-filter: blur(12px);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
     margin-bottom: 16px;
 }
 
@@ -481,12 +481,12 @@ body {
     font-size: 18px;
 }
 
-.quick-icon.blue { background: linear-gradient(135deg, #0d9488, #0f766e); }
-.quick-icon.orange { background: linear-gradient(135deg, #f59e0b, #d97706); }
-.quick-icon.green { background: linear-gradient(135deg, #10b981, #047857); }
+.quick-icon.blue { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+.quick-icon.orange { background: linear-gradient(135deg, #ec4899, #db2777); }
+.quick-icon.green { background: linear-gradient(135deg, #a855f7, #7e22ce); }
 .quick-icon.pink { background: linear-gradient(135deg, #f43f5e, #be123c); }
-.quick-icon.purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
-.quick-icon.indigo { background: linear-gradient(135deg, #14b8a6, #0d9488); }
+.quick-icon.purple { background: linear-gradient(135deg, #a855f7, #ec4899); }
+.quick-icon.indigo { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
 
 .quick-card p {
     margin: 0;
@@ -496,8 +496,8 @@ body {
 }
 
 .grievance-card {
-    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(16, 185, 129, 0.1));
-    border: 1px solid rgba(245, 158, 11, 0.25);
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(168, 85, 247, 0.15));
+    border: 1px solid rgba(236, 72, 153, 0.3);
 }
 
 .notif-icon {
@@ -527,7 +527,7 @@ body {
     background: var(--card-bg);
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(12px);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
 }
 
 .news-header {
@@ -547,7 +547,7 @@ body {
     width: 40px;
     height: 40px;
     border-radius: var(--radius-md);
-    background: linear-gradient(135deg, #0f766e, #10b981);
+    background: linear-gradient(135deg, #7e22ce, #a855f7);
     color: white;
     display: flex;
     align-items: center;
@@ -586,7 +586,7 @@ body {
     overflow: hidden;
     position: relative;
     scroll-snap-align: center;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
     cursor: pointer;
     border: 1px solid var(--glass-border);
 }
@@ -605,7 +605,7 @@ body {
 .slider-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(2, 26, 25, 0.9), transparent 70%);
+    background: linear-gradient(to top, rgba(15, 5, 29, 0.95), transparent 70%);
 }
 
 .slider-text {
@@ -625,7 +625,7 @@ body {
 .slider-text p {
     margin: 3px 0 0;
     font-size: 12px;
-    color: var(--accent-gold);
+    color: var(--accent-pink);
     font-weight: 600;
 }
 
@@ -642,7 +642,7 @@ body {
     top: 0;
     bottom: 0;
     width: 2px;
-    background: linear-gradient(#10b981, #f59e0b);
+    background: linear-gradient(#a855f7, #ec4899);
     opacity: 0.4;
 }
 
@@ -663,13 +663,13 @@ body {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: var(--accent-emerald);
-    box-shadow: 0 0 10px var(--accent-emerald);
+    background: var(--accent-purple);
+    box-shadow: 0 0 10px var(--accent-purple);
 }
 
 .news-date {
     font-size: 11px;
-    color: var(--accent-gold);
+    color: var(--accent-pink);
     margin-bottom: 4px;
     font-weight: 600;
 }
@@ -687,13 +687,13 @@ body {
     left: 0;
     width: 100%;
     height: 75px;
-    background: rgba(4, 47, 46, 0.95);
+    background: rgba(30, 9, 54, 0.95);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-top: 1px solid var(--glass-border);
     border-top-left-radius: 28px;
     border-top-right-radius: 28px;
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -722,12 +722,12 @@ body {
 }
 
 .nav-item.active .nav-icon {
-    color: var(--accent-gold);
+    color: var(--accent-pink);
     transform: translateY(-2px);
 }
 
 .nav-item.active span {
-    color: var(--accent-gold);
+    color: var(--accent-pink);
     font-weight: 700;
 }
 
@@ -740,8 +740,8 @@ body {
     width: 24px;
     height: 3px;
     border-radius: 10px;
-    background: var(--accent-gold);
-    box-shadow: 0 0 10px var(--accent-gold);
+    background: var(--accent-pink);
+    box-shadow: 0 0 10px var(--accent-pink);
 }
 
 .center-item {
@@ -761,15 +761,15 @@ body {
     width: 58px;
     height: 58px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #047857 0%, #10b981 50%, #34d399 100%);
-    border: 3px solid #021a19;
-    color: var(--accent-gold);
+    background: linear-gradient(135deg, #7e22ce 0%, #a855f7 50%, #ec4899 100%);
+    border: 3px solid #0f051d;
+    color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 24px;
     font-weight: 700;
-    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+    box-shadow: 0 8px 24px rgba(168, 85, 247, 0.45);
     animation: float 2.5s ease-in-out infinite;
 }
 
@@ -781,7 +781,7 @@ body {
 .center-text {
     font-size: 11px;
     margin-top: 4px;
-    color: var(--accent-gold);
+    color: var(--accent-pink);
     font-weight: 700;
 }
 
@@ -792,7 +792,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(4px);
     opacity: 0;
     visibility: hidden;
@@ -806,7 +806,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #021a19;
+    background: #0f051d;
     transform: translateX(-100%);
     transition: transform 0.28s cubic-bezier(.22,.61,.36,1);
     will-change: transform;
@@ -817,7 +817,7 @@ body {
 
 .menu-header {
     padding: 45px 20px 25px;
-    background: linear-gradient(135deg, #042f2e, #0f766e);
+    background: linear-gradient(135deg, #1e0936, #31104b);
     color: white;
     border-bottom-right-radius: 40px;
     border-bottom: 1px solid var(--glass-border);
@@ -827,7 +827,7 @@ body {
     font-size: 26px;
     cursor: pointer;
     margin-bottom: 20px;
-    color: var(--accent-gold);
+    color: var(--accent-pink);
 }
 
 .profile-box {
@@ -840,7 +840,7 @@ body {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    border: 2px solid var(--accent-emerald);
+    border: 2px solid var(--accent-purple);
 }
 
 .profile-box h2 {
@@ -851,7 +851,7 @@ body {
 .profile-box p {
     margin: 4px 0 0;
     font-size: 12px;
-    color: var(--accent-gold);
+    color: var(--accent-pink);
 }
 
 .menu-content {
@@ -913,7 +913,7 @@ body {
     bottom: 70px;
     left: 0;
     width: 100%;
-    background: rgba(2, 26, 25, 0.85);
+    background: rgba(15, 5, 29, 0.88);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     display: none;
@@ -931,7 +931,7 @@ body {
     width: 50px;
     height: 50px;
     border: 5px solid rgba(255, 255, 255, 0.1);
-    border-top: 5px solid var(--accent-gold);
+    border-top: 5px solid var(--accent-pink);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
     margin: auto;
@@ -940,7 +940,7 @@ body {
 .loading-text {
     margin-top: 15px;
     font-size: 13px;
-    color: var(--accent-gold);
+    color: var(--accent-pink);
     font-weight: bold;
     letter-spacing: 1px;
 }
@@ -974,7 +974,7 @@ body {
     transform: translate(-50%, -50%);
     width: 40px;
     height: 40px;
-    background: var(--accent-emerald);
+    background: var(--accent-purple);
     border-radius: 50%;
     opacity: 0;
 }
@@ -1065,7 +1065,7 @@ body {
                 <div>
                     <div style="font-size:11px; color:var(--text-muted);">Welcome</div>
                     <strong id="empName">Loading...</strong>
-                    <div id="empDesg" style="font-size:12px; color:var(--accent-gold);"></div>
+                    <div id="empDesg" style="font-size:12px; color:var(--accent-pink);"></div>
                 </div>
             </div>
 
@@ -1282,21 +1282,21 @@ body {
 <!-- OVERLAY MODALS -->
 
 <!-- GRIEVANCE NOTIFICATION OVERLAY -->
-<div id="grievanceOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 26, 25, 0.85); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 5000;">
-    <div class="grievance-card" style="width: 90%; max-width: 360px; background: #042f2e; border: 1px solid var(--glass-border); border-radius: 28px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.5);">
-        <div style="background: linear-gradient(135deg, #0f766e, #10b981); color: white; padding: 22px 20px; text-align: center;">
+<div id="grievanceOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 5, 29, 0.88); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 5000;">
+    <div class="grievance-card" style="width: 90%; max-width: 360px; background: #1a082e; border: 1px solid var(--glass-border); border-radius: 28px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.6);">
+        <div style="background: linear-gradient(135deg, #7e22ce, #a855f7); color: white; padding: 22px 20px; text-align: center;">
             <h3 style="margin:0;">Grievance Notifications</h3>
         </div>
         <div id="grievanceList" style="max-height: 350px; overflow-y: auto; padding: 15px;"></div>
-        <button onclick="closeGrievanceNotif2()" style="width: 100%; padding: 15px; border: none; background: rgba(255,255,255,0.05); color: var(--accent-gold); font-weight: bold; cursor: pointer; border-top: 1px solid var(--glass-border);">
+        <button onclick="closeGrievanceNotif2()" style="width: 100%; padding: 15px; border: none; background: rgba(255,255,255,0.05); color: var(--accent-pink); font-weight: bold; cursor: pointer; border-top: 1px solid var(--glass-border);">
             Dismiss
         </button>
     </div>
 </div>
 
 <!-- LOGOUT MODAL -->
-<div id="logoutPopup" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); backdrop-filter: blur(4px); display:none; align-items:center; justify-content:center; z-index:3000;">
-    <div style="background:#042f2e; border:1px solid var(--glass-border); padding:22px; border-radius:24px; width:85%; max-width:320px; text-align:center; box-shadow:0 12px 32px rgba(0,0,0,0.4);">
+<div id="logoutPopup" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); backdrop-filter: blur(4px); display:none; align-items:center; justify-content:center; z-index:3000;">
+    <div style="background:#1a082e; border:1px solid var(--glass-border); padding:22px; border-radius:24px; width:85%; max-width:320px; text-align:center; box-shadow:0 12px 32px rgba(0,0,0,0.6);">
         <h3 style="margin-top:0; color:var(--text-light);">Logout</h3>
         <p style="font-size:14px; color:var(--text-muted); margin-top:6px;">Are you sure you want to logout?</p>
         <div style="display:flex; gap:10px; margin-top:20px;">
@@ -1307,8 +1307,8 @@ body {
 </div>
 
 <!-- EXTERNAL REDIRECT POPUP -->
-<div id="grievancePopup" style="position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display:none; align-items:center; justify-content:center; z-index:4000;">
-    <div style="background:#042f2e; border:1px solid var(--glass-border); padding:22px; border-radius:24px; width:85%; max-width:320px; text-align:center; box-shadow:0 12px 32px rgba(0,0,0,0.4);">
+<div id="grievancePopup" style="position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); display:none; align-items:center; justify-content:center; z-index:4000;">
+    <div style="background:#1a082e; border:1px solid var(--glass-border); padding:22px; border-radius:24px; width:85%; max-width:320px; text-align:center; box-shadow:0 12px 32px rgba(0,0,0,0.6);">
         <div style="width:58px; height:58px; margin:auto; border-radius:50%; background:rgba(244, 63, 94, 0.15); display:flex; align-items:center; justify-content:center; font-size:26px; color:var(--accent-rose);">
             ⚠️
         </div>
@@ -1317,7 +1317,7 @@ body {
 
         <div id="grievanceBtns" style="display:flex; gap:10px; margin-top:18px;">
             <button onclick="closeGrievancePopup()" style="flex:1; padding:12px; border:none; border-radius:12px; background:rgba(255,255,255,0.08); color:white; font-weight:600; cursor:pointer;">❌ Cancel</button>
-            <button onclick="continueToGrievance()" style="flex:1; padding:12px; border:none; border-radius:12px; background:var(--accent-emerald); color:white; font-weight:600; cursor:pointer;">➡ Continue</button>
+            <button onclick="continueToGrievance()" style="flex:1; padding:12px; border:none; border-radius:12px; background:var(--accent-purple); color:white; font-weight:600; cursor:pointer;">➡ Continue</button>
         </div>
 
         <div id="grievanceLoader" style="display:none; margin-top:20px;">
@@ -1603,7 +1603,7 @@ async function loadAttendance() {
         let p2 = p1 + leavePer;
 
         document.getElementById("donutChart").style.background =
-            `conic-gradient(#10b981 0% ${p1}%, #f59e0b ${p1}% ${p2}%, #f43f5e ${p2}% 100%)`;
+            `conic-gradient(#a855f7 0% ${p1}%, #ec4899 ${p1}% ${p2}%, #f43f5e ${p2}% 100%)`;
 
     } catch (e) {
         console.log("Attendance Error:", e);
@@ -1767,7 +1767,7 @@ async function checkGrievances2() {
 
             let html = "";
             activeItems.forEach(item => {
-                const color = (String(item.status).toLowerCase() === "open") ? "#f43f5e" : "#f59e0b";
+                const color = (String(item.status).toLowerCase() === "open") ? "#f43f5e" : "#ec4899";
                 html += `
                     <div style="background:rgba(255,255,255,0.03); border-left:4px solid ${color}; padding:14px; border-radius:14px; margin-bottom:12px; border: 1px solid var(--glass-border); text-align:left;">
                         <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--text-muted); margin-bottom:8px;">
@@ -1779,7 +1779,7 @@ async function checkGrievances2() {
                             <div style="font-size:11px; color:var(--text-muted);">💼 ${item.empDesig} | 📍 ${item.workPlace}</div>
                         </div>
                         <div style="background:rgba(0,0,0,0.2); padding:10px; border-radius:10px; margin-bottom:10px;">
-                            <div style="font-size:10px; font-weight:bold; color:var(--accent-gold); text-transform:uppercase; margin-bottom:2px;">📂 ${item.cat}</div>
+                            <div style="font-size:10px; font-weight:bold; color:var(--accent-pink); text-transform:uppercase; margin-bottom:2px;">📂 ${item.cat}</div>
                             <div style="font-weight:bold; color:white; font-size:13px; margin-bottom:2px;">${item.sub}</div>
                             <div style="font-size:12px; color:var(--text-muted); line-height:1.4;">${item.desc}</div>
                         </div>
@@ -1808,7 +1808,7 @@ async function checkGrievances2() {
         listContainer.innerHTML = `
             <div style="text-align:center; padding:25px; color:var(--accent-rose);">
                 <p>⚠️ Failed to connect to server.</p>
-                <button onclick="checkGrievances2()" style="background:var(--accent-emerald); color:white; border:none; padding:8px 14px; border-radius:8px; font-size:12px; margin-top:8px; cursor:pointer;">Retry</button>
+                <button onclick="checkGrievances2()" style="background:var(--accent-purple); color:white; border:none; padding:8px 14px; border-radius:8px; font-size:12px; margin-top:8px; cursor:pointer;">Retry</button>
             </div>`;
     }
 }
