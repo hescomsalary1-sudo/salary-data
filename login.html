@@ -5,18 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <style>
-/* --- MODERN FINTECH EMERALD & GOLD DESIGN SYSTEM --- */
+/* --- DARK OBSIDIAN & NEON PURPLE DESIGN SYSTEM --- */
 :root {
-    --primary-teal: #0d9488;
-    --accent-emerald: #10b981;
-    --accent-gold: #f59e0b;
-    --bg-gradient: radial-gradient(circle at top, #0f766e 0%, #115e59 25%, #042f2e 60%, #021a19 100%);
-    --card-bg: rgba(6, 44, 42, 0.55);
+    --primary-bg: radial-gradient(circle at top, #31104b 0%, #1e0936 25%, #0f051d 60%, #05010a 100%);
+    --accent-purple: #a855f7;
+    --accent-pink: #ec4899;
+    --card-bg: rgba(30, 9, 54, 0.65);
+    --modal-bg: #1a082e;
+    --input-bg: rgba(15, 5, 29, 0.65);
     --glass-border: rgba(255, 255, 255, 0.12);
     --text-light: #ffffff;
-    --text-muted: #ccfbf1;
-    --error: #ef4444;
-    --success: #10b981;
+    --text-muted: #f5d0fe;
+    --error: #f43f5e;
+    --success: #34d399;
     --radius: 24px;
 }
 
@@ -35,7 +36,7 @@ html, body {
 
 body {
     font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--bg-gradient);
+    background: var(--primary-bg);
     color: var(--text-light);
     display: flex;
     flex-direction: column;
@@ -47,13 +48,13 @@ body {
 .bg1, .bg2 {
     position: absolute;
     border-radius: 50%;
-    background: rgba(16, 185, 129, 0.08);
-    filter: blur(20px);
+    background: rgba(168, 85, 247, 0.12);
+    filter: blur(25px);
     pointer-events: none;
     z-index: 1;
 }
 .bg1 { width: 280px; height: 280px; left: -80px; top: -80px; }
-.bg2 { width: 240px; height: 240px; right: -60px; top: 90px; background: rgba(245, 158, 11, 0.06); }
+.bg2 { width: 240px; height: 240px; right: -60px; top: 90px; background: rgba(236, 72, 153, 0.10); }
 
 /* --- TOP SPLIT BRANDING AREA --- */
 .top {
@@ -79,7 +80,7 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     opacity: 0.12;
-    filter: hue-rotate(120deg); /* Adapts blue graphic to fit emerald theme */
+    filter: hue-rotate(240deg); /* Adapts blue graphic to fit purple theme */
 }
 
 /* --- BOTTOM WORKSPACE BOUNDED CONTAINER --- */
@@ -100,7 +101,7 @@ body {
     background: var(--card-bg);
     padding: 30px 24px;
     border-radius: var(--radius);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.65), 0 0 30px rgba(168, 85, 247, 0.15);
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
@@ -133,7 +134,7 @@ body {
 .f:hover {
     background: rgba(255, 255, 255, 0.12);
     transform: translateY(-2px);
-    border-color: var(--accent-emerald);
+    border-color: var(--accent-purple);
 }
 
 .f .i {
@@ -166,7 +167,7 @@ input {
     border: 1px solid rgba(255, 255, 255, 0.15);
     outline: none;
     font-size: 15px;
-    background: rgba(0, 0, 0, 0.2);
+    background: var(--input-bg);
     border-radius: 12px;
     box-sizing: border-box;
     transition: all 0.25s ease;
@@ -174,13 +175,14 @@ input {
 }
 
 input::placeholder {
-    color: rgba(204, 251, 241, 0.5);
+    color: var(--accent-purple);
+    opacity: 0.6;
 }
 
 input:focus {
-    border-color: var(--accent-emerald);
-    background: rgba(0, 0, 0, 0.3);
-    box-shadow: 0 0 14px rgba(16, 185, 129, 0.25);
+    border-color: var(--accent-purple);
+    background: rgba(15, 5, 29, 0.85);
+    box-shadow: 0 0 14px rgba(168, 85, 247, 0.3);
 }
 
 .toggle-password {
@@ -191,7 +193,7 @@ input:focus {
     cursor: pointer;
     font-size: 12px;
     font-weight: 700;
-    color: var(--accent-gold);
+    color: var(--accent-pink);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     user-select: none;
@@ -206,19 +208,19 @@ button {
     width: 100%;
     padding: 14px;
     border: none;
-    background: linear-gradient(135deg, #059669, #10b981, #34d399);
-    color: #022c22;
+    background: linear-gradient(135deg, #7e22ce 0%, #a855f7 50%, #ec4899 100%);
+    color: #ffffff;
     font-size: 15px;
     font-weight: 700;
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.25s ease;
-    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.35);
 }
 
 button:hover {
     transform: scale(1.01);
-    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.45);
+    box-shadow: 0 8px 25px rgba(168, 85, 247, 0.5);
 }
 
 button:active {
@@ -239,7 +241,7 @@ button + button {
 
 .change-btn:hover {
     background: rgba(255, 255, 255, 0.08);
-    border-color: var(--accent-emerald);
+    border-color: var(--accent-purple);
     box-shadow: none;
 }
 
@@ -250,10 +252,10 @@ button + button {
     font-weight: 600;
     margin-bottom: 16px;
     text-align: center;
-    background: rgba(239, 68, 68, 0.12);
+    background: rgba(244, 63, 94, 0.12);
     padding: 10px;
     border-radius: 8px;
-    border: 1px solid rgba(239, 68, 68, 0.25);
+    border: 1px solid rgba(244, 63, 94, 0.25);
     display: none;
 }
 #error:not(:empty) {
@@ -267,7 +269,7 @@ button + button {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(2, 26, 25, 0.82);
+    background: rgba(5, 1, 10, 0.85);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     display: flex;
@@ -294,14 +296,14 @@ button + button {
     width: 100%;
     height: 100%;
     border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-    background: linear-gradient(135deg, #059669, #10b981, #f59e0b);
+    background: linear-gradient(135deg, #7e22ce, #a855f7, #ec4899);
     opacity: 0.6;
     animation: morph 3s linear infinite;
 }
 
 .morph-spinner::after {
     animation-delay: -1.5s;
-    background: linear-gradient(135deg, #f59e0b, #047857);
+    background: linear-gradient(135deg, #ec4899, #581c87);
     opacity: 0.4;
 }
 
@@ -311,7 +313,7 @@ button + button {
     background: #ffffff;
     border-radius: 50%;
     z-index: 10;
-    box-shadow: inset 0 0 10px rgba(6, 78, 59, 0.3), 0 0 20px rgba(255, 255, 255, 0.8);
+    box-shadow: inset 0 0 10px rgba(88, 28, 135, 0.3), 0 0 20px rgba(255, 255, 255, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -340,7 +342,7 @@ button + button {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(2, 26, 25, 0.75);
+    background: rgba(5, 1, 10, 0.78);
     backdrop-filter: blur(12px);
     justify-content: center;
     align-items: center;
@@ -348,13 +350,13 @@ button + button {
 }
 
 .change-box-content, .popup-content {
-    background: #042f2e;
+    background: var(--modal-bg);
     padding: 35px 25px;
     border-radius: var(--radius);
     width: 100%;
     max-width: 340px;
     box-sizing: border-box;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 30px rgba(168, 85, 247, 0.2);
     border: 1px solid var(--glass-border);
     text-align: center;
     animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -378,7 +380,7 @@ button + button {
 
 .change-box-content input {
     margin-bottom: 16px;
-    background: rgba(0, 0, 0, 0.25);
+    background: var(--input-bg);
 }
 
 .cancel-link {
@@ -390,14 +392,14 @@ button + button {
     text-decoration: underline;
 }
 
-/* --- INTERIM CHANGE PASSSWORD SPINNER --- */
+/* --- INTERIM CHANGE PASSWORD SPINNER --- */
 #cpLoader {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(2, 26, 25, 0.75); 
+    background: rgba(5, 1, 10, 0.78); 
     display: none;
     justify-content: center;
     align-items: center;
@@ -408,7 +410,7 @@ button + button {
     width: 50px;
     height: 50px;
     border: 4px solid rgba(255, 255, 255, 0.15);
-    border-top: 4px solid var(--accent-gold);
+    border-top: 4px solid var(--accent-pink);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
 }
@@ -453,7 +455,7 @@ button + button {
 
 <div class="top">
     <div class="illustration"></div>
-    <div style="font-size: 42px; font-weight: 700; color: var(--accent-gold); text-shadow: 0 5px 15px rgba(0,0,0,.4); z-index: 3;">₹</div>
+    <div style="font-size: 42px; font-weight: 700; color: var(--accent-pink); text-shadow: 0 5px 15px rgba(0,0,0,.4); z-index: 3;">₹</div>
     <div style="margin-top: 5px; color: #fff; font-size: 24px; text-align:center; font-weight: 600; text-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index:3;">ಕಾರ್ಯ ಮತ್ತು ಪಾಲನಾ ವಿಭಾಗ, ಹೆಸ್ಕಾಂ, ಶಿರಸಿ</div>
 </div>
 
@@ -528,7 +530,7 @@ button + button {
 <div class="footer-blue">
     <div class="footer-wave">
         <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
-            <path fill="rgba(16, 185, 129, 0.05)" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,144C672,139,768,181,864,202.7C960,224,1056,224,1152,197.3C1248,171,1344,117,1392,90.7L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            <path fill="rgba(168, 85, 247, 0.08)" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,144C672,139,768,181,864,202.7C960,224,1056,224,1152,197.3C1248,171,1344,117,1392,90.7L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
         </svg>
     </div>
 </div>
