@@ -913,10 +913,10 @@ body {
     bottom: 70px;
     left: 0;
     width: 100%;
-    background: rgba(15, 5, 29, 0.88);
+    background: rgba(15, 5, 29, 0.95);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    display: none;
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -1508,8 +1508,6 @@ async function loadCurrentMonthSalary() {
     }
 }
 
-loadCurrentMonthSalary();
-
 function goTab(index, url) {
     setTimeout(() => {
         document.getElementById("loader").style.display = "flex";
@@ -1520,11 +1518,6 @@ function goTab(index, url) {
         window.location = url;
     }, 700);
 }
-
-window.onload = function() {
-    document.getElementById("loader").style.display = "none";
-    document.body.style.overflow = "auto";
-};
 
 function openGallery() {
     document.getElementById("loader").style.display = "flex";
@@ -1610,8 +1603,6 @@ async function loadAttendance() {
     }
 }
 
-loadAttendance();
-
 window.addEventListener("load", function() {
     let page = location.pathname.split("/").pop();
     let items = document.querySelectorAll(".nav-item");
@@ -1632,7 +1623,21 @@ async function loadUserCount() {
         document.getElementById("visitorCount").innerText = "0";
     }
 }
-loadUserCount();
+
+/* INITIAL DATA LOADER WITH LOADER DISMISSAL */
+document.addEventListener("DOMContentLoaded", async function() {
+    document.getElementById("loader").style.display = "flex";
+    document.body.style.overflow = "hidden";
+    
+    await Promise.allSettled([
+        loadCurrentMonthSalary(),
+        loadAttendance(),
+        loadUserCount()
+    ]);
+
+    document.getElementById("loader").style.display = "none";
+    document.body.style.overflow = "auto";
+});
 
 /* SWIPE GESTURES FOR SIDENAV */
 let startX = 0;
