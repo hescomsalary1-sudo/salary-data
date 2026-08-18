@@ -6,7 +6,7 @@
 <title>Forum & Support Center</title>
 
 <style>
-/* --- MODERN FINTECH EMERALD & GOLD DESIGN SYSTEM --- */
+/* --- DESIGN SYSTEM MATCHING HOME.HTML --- */
 :root {
     --primary-gradient: radial-gradient(circle at 50% 50%, #0f766e 0%, #115e59 35%, #042f2e 70%, #021a19 100%);
     --bg-dark: #021a19;
@@ -41,7 +41,7 @@ body {
     padding-bottom: calc(95px + env(safe-area-inset-bottom, 0px));
 }
 
-/* --- AMBIENT LIGHT MESH --- */
+/* --- AMBIENT GLOW ORBS --- */
 .bg1, .bg2 {
     position: fixed;
     border-radius: 50%;
@@ -70,7 +70,7 @@ body {
     100% { transform: translate(30px, 20px) scale(1.1); }
 }
 
-/* --- HEADER --- */
+/* --- TOP HEADER --- */
 .top {
     position: relative;
     padding: 25px 20px 25px;
@@ -124,7 +124,7 @@ body {
     transform: scale(0.9);
 }
 
-/* --- CONTAINER --- */
+/* --- MAIN CONTAINER --- */
 .container {
     padding: 16px;
     position: relative;
@@ -137,7 +137,7 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* SECTION TITLE */
+/* SECTION TITLES */
 .section-title {
     display: flex;
     align-items: center;
@@ -200,7 +200,7 @@ body {
     color: var(--text-muted);
 }
 
-/* CARD GROUP (INFORMATION) */
+/* GROUP CONTAINER */
 .group {
     background: var(--card-bg);
     border-radius: var(--radius-xl);
@@ -212,7 +212,7 @@ body {
     border: 1px solid var(--glass-border);
 }
 
-/* ITEM */
+/* ITEM LIST */
 .item {
     display: flex;
     align-items: center;
@@ -245,14 +245,13 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-/* LEFT */
 .left {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-/* ICON */
+/* ICON STYLING */
 .icon {
     width: 38px;
     height: 38px;
@@ -266,14 +265,12 @@ body {
     flex-shrink: 0;
 }
 
-/* COLORS */
 .purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
 .green  { background: linear-gradient(135deg, #10b981, #047857); }
 .orange { background: linear-gradient(135deg, #f59e0b, #d97706); }
 .red    { background: linear-gradient(135deg, #f43f5e, #be123c); }
 .blue   { background: linear-gradient(135deg, #0d9488, #0f766e); }
 
-/* ARROW */
 .arrow {
     width: 28px;
     height: 28px;
@@ -333,7 +330,7 @@ body {
     transform: scale(0.92);
 }
 
-/* MODERN BOXED LOADER */
+/* PAGE LOADER */
 #loader {
     position: fixed;
     top: 0;
@@ -348,10 +345,6 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 2000;
-}
-
-.loader-container {
-    text-align: center;
 }
 
 .loader-spinner {
@@ -376,7 +369,7 @@ body {
     100% { transform: rotate(360deg); }
 }
 
-/* --- CURVED BOTTOM FLOATING NAVBAR --- */
+/* --- EXACT FLOATING NAVBAR FROM HOME.HTML --- */
 .navbar {
     position: fixed;
     bottom: 0;
@@ -498,7 +491,7 @@ body {
   </div>
 </div>
 
-<!-- HEADER -->
+<!-- TOP HEADER -->
 <div class="top">
   <div>
     <div class="header-sub">Support Center</div>
@@ -508,14 +501,13 @@ body {
   <div class="icon-action-btn" onclick="refreshApp()">🔄</div>
 </div>
 
-<!-- CONTAINER -->
+<!-- MAIN CONTENT -->
 <div class="container">
 
-  <!-- PRIMARY ACTIONS -->
+  <!-- QUICK ACTIONS -->
   <div class="section-title">Quick Actions</div>
 
   <div class="grid">
-    <!-- ASK -->
     <div class="action-card" onclick="openPage('ask')">
       <div class="icon purple">❓</div>
       <div>
@@ -525,7 +517,6 @@ body {
       <div class="arrow">›</div>
     </div>
 
-    <!-- CONTACT -->
     <div class="action-card" onclick="openPage('contact')">
       <div class="icon green">📞</div>
       <div>
@@ -536,7 +527,7 @@ body {
     </div>
   </div>
 
-  <!-- INFORMATION -->
+  <!-- INFORMATION GROUP -->
   <div class="section-title">Information</div>
 
   <div class="group">
@@ -596,7 +587,7 @@ body {
 
 </div>
 
-<!-- BOTTOM NAVBAR -->
+<!-- FLOATING NAVBAR (EXACT HOME.HTML MATCH) -->
 <div class="navbar" id="navbar">
   <div class="nav-item" onclick="goTab(0,'home.html')">
     <div class="nav-icon">🏠</div>
@@ -610,7 +601,7 @@ body {
 
   <div class="nav-item center-item" onclick="goTab(99,'info.html')">
     <div class="center-wrapper">
-      <div class="center-btn">₹</div>
+      <div class="center-btn">⚡</div>
       <div class="center-text">Smart Support</div>
     </div>
   </div>
