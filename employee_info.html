@@ -588,7 +588,7 @@ body {
         </div>
     </div>
 
-    <div class="nav-item active" onclick="goTab(2,'employee_info.html')">
+    <div class="nav-item active" onclick="goTab(2,'employee.html')">
         <div class="nav-icon"><i data-lucide="user" style="width: 20px; height: 20px;"></i></div>
         <span>Employee</span>
     </div>
@@ -659,7 +659,7 @@ window.onload = function() {
         document.body.style.overflow = "";
     }
 
-    let page = location.pathname.split("/").pop() || "employee_info.html";
+    let page = location.pathname.split("/").pop() || "employee.html";
 
     document.querySelectorAll(".nav-item").forEach(item => {
         let match = item.getAttribute("onclick");
@@ -675,12 +675,12 @@ window.onload = function() {
 };
 
 (function () {
-    let currentPage = location.pathname.split("/").pop() || "employee_info.html";
+    let currentPage = location.pathname.split("/").pop() || "employee.html";
     const navPages = [
         "home.html",
         "forum.html",
         "info.html",
-        "employee_info.html",
+        "employee.html",
         "resources.html"
     ];
 
