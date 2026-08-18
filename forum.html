@@ -5,83 +5,107 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Forum & Support Center</title>
 
+<!-- Google Fonts: Noto Sans Kannada & Plus Jakarta Sans -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Lucide Modern Vector Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+
 <style>
-/* --- DESIGN SYSTEM MATCHING HOME.HTML --- */
+/* --- MODERN AURORA GLASS DESIGN SYSTEM (MATCHING HOME.HTML) --- */
 :root {
-    --primary-gradient: radial-gradient(circle at 50% 50%, #0f766e 0%, #115e59 35%, #042f2e 70%, #021a19 100%);
-    --bg-dark: #021a19;
-    --accent-emerald: #10b981;
-    --accent-gold: #f59e0b;
+    --bg-dark: #07090e;
+    --accent-indigo: #6366f1;
+    --accent-cyan: #06b6d4;
     --accent-rose: #f43f5e;
+    --accent-emerald: #10b981;
+    --accent-amber: #f59e0b;
+    --glass-card: rgba(18, 24, 38, 0.7);
+    --glass-input: rgba(255, 255, 255, 0.05);
     --glass-border: rgba(255, 255, 255, 0.12);
-    --card-bg: rgba(255, 255, 255, 0.05);
-    --card-hover: rgba(255, 255, 255, 0.08);
-    --glass-shine: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.02) 100%);
-    --text-light: #ffffff;
-    --text-muted: #ccfbf1;
-    --radius-xl: 24px;
-    --radius-lg: 18px;
-    --radius-md: 12px;
+    --glass-hover: rgba(255, 255, 255, 0.15);
+    --text-primary: #f8fafc;
+    --text-muted: #94a3b8;
+    --radius-xl: 28px;
+    --radius-lg: 24px;
+    --radius-md: 14px;
+    --font-stack: 'Noto Sans Kannada', 'Plus Jakarta Sans', sans-serif;
 }
 
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
 }
 
-body {
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-    background: var(--primary-gradient);
-    background-attachment: fixed;
-    color: var(--text-light);
+html, body {
+    width: 100%;
+    min-height: 100%;
+    background-color: var(--bg-dark);
+    font-family: var(--font-stack);
+    color: var(--text-primary);
     overflow-x: hidden;
+}
+
+body {
     padding-bottom: calc(95px + env(safe-area-inset-bottom, 0px));
 }
 
-/* --- AMBIENT GLOW ORBS --- */
-.bg1, .bg2 {
+/* --- DYNAMIC AURORA GLOW ORBS --- */
+.aurora-bg {
     position: fixed;
-    border-radius: 50%;
-    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     z-index: 0;
+    pointer-events: none;
 }
-.bg1 {
-    width: 450px;
-    height: 450px;
-    left: -100px;
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.35;
+    animation: floatOrb 12s ease-in-out infinite alternate;
+}
+
+.orb-1 {
+    width: 380px;
+    height: 380px;
     top: -100px;
-    background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0) 70%);
-    animation: ambientFloat 8s ease-in-out infinite alternate;
-}
-.bg2 {
-    width: 350px;
-    height: 350px;
-    right: -100px;
-    bottom: -100px;
-    background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, rgba(245, 158, 11, 0) 70%);
-    animation: ambientFloat 12s ease-in-out infinite alternate-reverse;
+    left: -80px;
+    background: radial-gradient(circle, #4f46e5 0%, #a855f7 100%);
 }
 
-@keyframes ambientFloat {
+.orb-2 {
+    width: 320px;
+    height: 320px;
+    bottom: -60px;
+    right: -60px;
+    background: radial-gradient(circle, #06b6d4 0%, #3b82f6 100%);
+    animation-delay: -6s;
+}
+
+@keyframes floatOrb {
     0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(30px, 20px) scale(1.1); }
+    100% { transform: translate(30px, 40px) scale(1.1); }
 }
 
-/* --- TOP HEADER --- */
+/* --- FIXED TOP HEADER --- */
 .top {
     position: relative;
-    padding: 25px 20px 25px;
-    background: rgba(4, 47, 46, 0.92);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    padding: 24px 20px 20px;
+    background: rgba(7, 9, 14, 0.85);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border-bottom: 1px solid var(--glass-border);
-    border-bottom-left-radius: 32px;
-    border-bottom-right-radius: 32px;
-    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
-    color: white;
+    border-bottom-left-radius: var(--radius-xl);
+    border-bottom-right-radius: var(--radius-xl);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -92,36 +116,40 @@ body {
     font-size: 22px;
     font-weight: 700;
     margin-top: 2px;
-    background: linear-gradient(135deg, #ffffff 0%, #ccfbf1 100%);
+    background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .header-sub {
     font-size: 11px;
-    color: var(--accent-gold);
+    color: var(--accent-cyan);
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: 600;
 }
 
 .icon-action-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.08);
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-md);
+    background: var(--glass-input);
     border: 1px solid var(--glass-border);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 18px;
-    color: white;
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--text-primary);
+    transition: all 0.25s ease;
+}
+
+.icon-action-btn:hover {
+    background: var(--glass-hover);
+    border-color: var(--accent-indigo);
 }
 
 .icon-action-btn:active {
-    transform: scale(0.9);
+    transform: scale(0.92);
 }
 
 /* --- MAIN CONTAINER --- */
@@ -133,7 +161,7 @@ body {
 }
 
 @keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(18px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
@@ -144,8 +172,8 @@ body {
     gap: 8px;
     font-size: 14px;
     font-weight: 700;
-    color: var(--text-light);
-    margin: 20px 5px 12px;
+    color: var(--text-primary);
+    margin: 20px 4px 12px;
     letter-spacing: 0.3px;
 }
 
@@ -153,7 +181,7 @@ body {
     content: "";
     width: 4px;
     height: 16px;
-    background: linear-gradient(135deg, var(--accent-emerald), var(--accent-gold));
+    background: linear-gradient(135deg, var(--accent-indigo), var(--accent-cyan));
     border-radius: 10px;
 }
 
@@ -167,30 +195,34 @@ body {
 
 /* ACTION CARD */
 .action-card {
-    background: var(--card-bg);
+    background: var(--glass-card);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-lg);
-    padding: 15px 12px;
+    padding: 16px 14px;
     display: flex;
     align-items: center;
     gap: 12px;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     cursor: pointer;
     position: relative;
-    transition: transform 0.2s ease, background 0.2s ease;
+    transition: all 0.25s ease;
+}
+
+.action-card:hover {
+    background: var(--glass-hover);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .action-card:active {
     transform: scale(0.96);
-    background: var(--card-hover);
 }
 
 .action-card h4 {
     margin: 0;
     font-size: 13px;
-    color: var(--text-light);
+    color: var(--text-primary);
     font-weight: 600;
 }
 
@@ -202,12 +234,12 @@ body {
 
 /* GROUP CONTAINER */
 .group {
-    background: var(--card-bg);
+    background: var(--glass-card);
     border-radius: var(--radius-xl);
     padding: 8px;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
     margin-bottom: 10px;
     border: 1px solid var(--glass-border);
 }
@@ -217,16 +249,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px;
-    border-radius: var(--radius-lg);
+    padding: 14px 12px;
+    border-radius: var(--radius-md);
     cursor: pointer;
-    transition: background 0.25s, transform 0.2s;
+    transition: all 0.25s ease;
 }
 
 .item h4 {
     margin: 0;
     font-size: 14px;
-    color: var(--text-light);
+    color: var(--text-primary);
     font-weight: 600;
 }
 
@@ -236,9 +268,12 @@ body {
     color: var(--text-muted);
 }
 
+.item:hover {
+    background: var(--glass-input);
+}
+
 .item:active {
     transform: scale(0.97);
-    background: rgba(255, 255, 255, 0.08);
 }
 
 .item:not(:last-child) {
@@ -253,57 +288,62 @@ body {
 
 /* ICON STYLING */
 .icon {
-    width: 38px;
-    height: 38px;
-    border-radius: 12px;
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 16px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
     flex-shrink: 0;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
 }
 
-.purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
-.green  { background: linear-gradient(135deg, #10b981, #047857); }
-.orange { background: linear-gradient(135deg, #f59e0b, #d97706); }
-.red    { background: linear-gradient(135deg, #f43f5e, #be123c); }
-.blue   { background: linear-gradient(135deg, #0d9488, #0f766e); }
+.purple { background: linear-gradient(135deg, #a855f7, #7e22ce); }
+.green  { background: linear-gradient(135deg, var(--accent-emerald), #059669); }
+.amber  { background: linear-gradient(135deg, var(--accent-amber), #d97706); }
+.rose   { background: linear-gradient(135deg, var(--accent-rose), #be123c); }
+.cyan   { background: linear-gradient(135deg, var(--accent-cyan), #0284c7); }
 
 .arrow {
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--glass-input);
+    border: 1px solid var(--glass-border);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
-    color: var(--accent-gold);
+    color: var(--accent-cyan);
+    transition: all 0.2s ease;
+}
+
+.item:hover .arrow {
+    border-color: var(--accent-cyan);
+    transform: translateX(2px);
 }
 
 /* SUPPORT BANNER */
 .support-banner {
     margin-top: 20px;
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(4, 120, 87, 0.4));
-    border: 1px solid rgba(16, 185, 129, 0.3);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(6, 182, 212, 0.2));
+    border: 1px solid rgba(99, 102, 241, 0.3);
     color: white;
-    padding: 18px;
+    padding: 20px;
     border-radius: var(--radius-xl);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 }
 
 .support-banner h3 {
     margin: 0;
     font-size: 15px;
-    color: var(--text-light);
+    color: var(--text-primary);
+    font-weight: 700;
 }
 
 .support-banner p {
@@ -313,33 +353,33 @@ body {
 }
 
 .support-banner button {
-    background: var(--accent-gold);
-    color: #021a19;
+    background: linear-gradient(135deg, var(--accent-indigo), #4f46e5);
+    color: #ffffff;
     border: none;
-    padding: 10px 14px;
-    border-radius: 14px;
-    font-weight: 700;
+    padding: 10px 16px;
+    border-radius: 20px;
+    font-weight: 600;
     font-size: 12px;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+    transition: all 0.25s ease;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .support-banner button:active {
-    transform: scale(0.92);
+    transform: scale(0.94);
 }
 
 /* PAGE LOADER */
 #loader {
     position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(2, 26, 25, 0.85);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    inset: 0;
+    background: rgba(7, 9, 14, 0.85);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
     display: none;
     flex-direction: column;
     align-items: center;
@@ -347,43 +387,42 @@ body {
     z-index: 2000;
 }
 
-.loader-spinner {
+.spinner-ring {
     width: 50px;
     height: 50px;
-    border: 5px solid rgba(255, 255, 255, 0.1);
-    border-top: 5px solid var(--accent-gold);
     border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--accent-indigo);
+    border-right-color: var(--accent-cyan);
     animation: spin 0.8s linear infinite;
-    margin: auto;
 }
 
 .loading-text {
     margin-top: 15px;
     font-size: 13px;
-    color: var(--accent-gold);
-    font-weight: bold;
-    letter-spacing: 1px;
+    color: var(--text-primary);
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
 @keyframes spin {
     100% { transform: rotate(360deg); }
 }
 
-/* --- EXACT FLOATING NAVBAR FROM HOME.HTML --- */
+/* --- BOTTOM FLOATING NAVBAR (EXACT HOME.HTML MATCH) --- */
 .navbar {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: calc(75px + env(safe-area-inset-bottom, 0px));
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-    background: rgba(4, 47, 46, 0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    height: 75px;
+    background: rgba(7, 9, 14, 0.9);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border-top: 1px solid var(--glass-border);
-    border-top-left-radius: 28px;
-    border-top-right-radius: 28px;
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    border-top-left-radius: var(--radius-xl);
+    border-top-right-radius: var(--radius-xl);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -395,30 +434,36 @@ body {
     text-align: center;
     position: relative;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .nav-icon {
-    font-size: 20px;
     color: var(--text-muted);
-    transition: color 0.3s, transform 0.3s;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .nav-item span {
     display: block;
-    font-size: 11px;
+    font-size: 10px;
     color: var(--text-muted);
-    margin-top: 3px;
-    transition: color 0.3s;
+    margin-top: 4px;
+    transition: all 0.3s ease;
 }
 
 .nav-item.active .nav-icon {
-    color: var(--accent-gold);
+    color: var(--accent-cyan);
     transform: translateY(-2px);
 }
 
 .nav-item.active span {
-    color: var(--accent-gold);
-    font-weight: 700;
+    color: var(--accent-cyan);
+    font-weight: 600;
 }
 
 .nav-item.active::before {
@@ -430,8 +475,8 @@ body {
     width: 24px;
     height: 3px;
     border-radius: 10px;
-    background: var(--accent-gold);
-    box-shadow: 0 0 10px var(--accent-gold);
+    background: var(--accent-cyan);
+    box-shadow: 0 0 10px var(--accent-cyan);
 }
 
 .center-item {
@@ -444,22 +489,22 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    transform: translateY(-18px);
+    transform: translateY(-16px);
 }
 
 .center-btn {
-    width: 58px;
-    height: 58px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #047857 0%, #10b981 50%, #34d399 100%);
-    border: 3px solid #021a19;
-    color: var(--accent-gold);
+    background: linear-gradient(135deg, var(--accent-indigo) 0%, var(--accent-cyan) 100%);
+    border: 3px solid var(--bg-dark);
+    color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
-    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.45);
     animation: float 2.5s ease-in-out infinite;
 }
 
@@ -469,9 +514,9 @@ body {
 }
 
 .center-text {
-    font-size: 11px;
+    font-size: 10px;
     margin-top: 4px;
-    color: var(--accent-gold);
+    color: var(--accent-cyan);
     font-weight: 700;
 }
 </style>
@@ -480,145 +525,176 @@ body {
 <body>
 
 <!-- AMBIENT BACKGROUND GLOWS -->
-<div class="bg1"></div>
-<div class="bg2"></div>
+<div class="aurora-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+</div>
 
 <!-- PAGE LOADER -->
 <div id="loader">
-  <div class="loader-container">
-    <div class="loader-spinner"></div>
+    <div class="spinner-ring"></div>
     <div class="loading-text">Loading...</div>
-  </div>
 </div>
 
 <!-- TOP HEADER -->
 <div class="top">
-  <div>
-    <div class="header-sub">Support Center</div>
-    <div class="header-title">Forum & Help</div>
-  </div>
+    <div>
+        <div class="header-sub">Support Center</div>
+        <div class="header-title">Forum & Help</div>
+    </div>
 
-  <div class="icon-action-btn" onclick="refreshApp()">🔄</div>
+    <div class="icon-action-btn" onclick="refreshApp()">
+        <i data-lucide="rotate-cw" style="width: 18px; height: 18px;"></i>
+    </div>
 </div>
 
 <!-- MAIN CONTENT -->
 <div class="container">
 
-  <!-- QUICK ACTIONS -->
-  <div class="section-title">Quick Actions</div>
+    <!-- QUICK ACTIONS -->
+    <div class="section-title">Quick Actions</div>
 
-  <div class="grid">
-    <div class="action-card" onclick="openPage('ask')">
-      <div class="icon purple">❓</div>
-      <div>
-        <h4>Ask Questions</h4>
-        <p>Get answers</p>
-      </div>
-      <div class="arrow">›</div>
-    </div>
-
-    <div class="action-card" onclick="openPage('contact')">
-      <div class="icon green">📞</div>
-      <div>
-        <h4>Contact Us</h4>
-        <p>Support team</p>
-      </div>
-      <div class="arrow">›</div>
-    </div>
-  </div>
-
-  <!-- INFORMATION GROUP -->
-  <div class="section-title">Information</div>
-
-  <div class="group">
-    <div class="item" onclick="openPage('privacy')">
-      <div class="left">
-        <div class="icon purple">🔒</div>
-        <div>
-          <h4>Privacy Policy</h4>
-          <p>Learn how we protect your data</p>
+    <div class="grid">
+        <div class="action-card" onclick="openPage('ask')">
+            <div class="icon purple">
+                <i data-lucide="help-circle" style="width: 20px; height: 20px;"></i>
+            </div>
+            <div>
+                <h4>Ask Questions</h4>
+                <p>Get answers</p>
+            </div>
+            <div class="arrow">
+                <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+            </div>
         </div>
-      </div>
-      <div class="arrow">›</div>
-    </div>
 
-    <div class="item" onclick="openPage('terms')">
-      <div class="left">
-        <div class="icon orange">📜</div>
-        <div>
-          <h4>Terms & Conditions</h4>
-          <p>Read our terms and conditions</p>
+        <div class="action-card" onclick="openPage('contact')">
+            <div class="icon green">
+                <i data-lucide="phone-call" style="width: 20px; height: 20px;"></i>
+            </div>
+            <div>
+                <h4>Contact Us</h4>
+                <p>Support team</p>
+            </div>
+            <div class="arrow">
+                <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+            </div>
         </div>
-      </div>
-      <div class="arrow">›</div>
     </div>
 
-    <div class="item" onclick="openPage('copyright')">
-      <div class="left">
-        <div class="icon red">©</div>
-        <div>
-          <h4>Copyright Policy</h4>
-          <p>Understand our copyright terms</p>
+    <!-- INFORMATION GROUP -->
+    <div class="section-title">Information</div>
+
+    <div class="group">
+        <div class="item" onclick="openPage('privacy')">
+            <div class="left">
+                <div class="icon purple">
+                    <i data-lucide="shield-check" style="width: 20px; height: 20px;"></i>
+                </div>
+                <div>
+                    <h4>Privacy Policy</h4>
+                    <p>Learn how we protect your data</p>
+                </div>
+            </div>
+            <div class="arrow">
+                <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+            </div>
         </div>
-      </div>
-      <div class="arrow">›</div>
-    </div>
 
-    <div class="item" onclick="openPage('org')">
-      <div class="left">
-        <div class="icon blue">🏢</div>
-        <div>
-          <h4>Organization Chart</h4>
-          <p>Explore our organization structure</p>
+        <div class="item" onclick="openPage('terms')">
+            <div class="left">
+                <div class="icon amber">
+                    <i data-lucide="file-text" style="width: 20px; height: 20px;"></i>
+                </div>
+                <div>
+                    <h4>Terms & Conditions</h4>
+                    <p>Read our terms and conditions</p>
+                </div>
+            </div>
+            <div class="arrow">
+                <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+            </div>
         </div>
-      </div>
-      <div class="arrow">›</div>
-    </div>
-  </div>
 
-  <!-- SUPPORT BANNER -->
-  <div class="support-banner">
-    <div>
-      <h3>Can’t find what you need?</h3>
-      <p>Our support team is ready to help you.</p>
+        <div class="item" onclick="openPage('copyright')">
+            <div class="left">
+                <div class="icon rose">
+                    <i data-lucide="copyright" style="width: 20px; height: 20px;"></i>
+                </div>
+                <div>
+                    <h4>Copyright Policy</h4>
+                    <p>Understand our copyright terms</p>
+                </div>
+            </div>
+            <div class="arrow">
+                <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+            </div>
+        </div>
+
+        <div class="item" onclick="openPage('org')">
+            <div class="left">
+                <div class="icon cyan">
+                    <i data-lucide="sitemap" style="width: 20px; height: 20px;"></i>
+                </div>
+                <div>
+                    <h4>Organization Chart</h4>
+                    <p>Explore our organization structure</p>
+                </div>
+            </div>
+            <div class="arrow">
+                <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+            </div>
+        </div>
     </div>
-    <button onclick="openPage('contact')">Contact Us →</button>
-  </div>
+
+    <!-- SUPPORT BANNER -->
+    <div class="support-banner">
+        <div>
+            <h3>Can’t find what you need?</h3>
+            <p>Our support team is ready to help you.</p>
+        </div>
+        <button onclick="openPage('contact')">
+            Contact Us <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+        </button>
+    </div>
 
 </div>
 
 <!-- FLOATING NAVBAR (EXACT HOME.HTML MATCH) -->
 <div class="navbar" id="navbar">
-  <div class="nav-item" onclick="goTab(0,'home.html')">
-    <div class="nav-icon">🏠</div>
-    <span>Home</span>
-  </div>
-
-  <div class="nav-item active" onclick="goTab(1,'forum.html')">
-    <div class="nav-icon">💬</div>
-    <span>Forum</span>
-  </div>
-
-  <div class="nav-item center-item" onclick="goTab(99,'info.html')">
-    <div class="center-wrapper">
-      <div class="center-btn">⚡</div>
-      <div class="center-text">Smart Support</div>
+    <div class="nav-item" onclick="goTab(0,'home.html')">
+        <div class="nav-icon"><i data-lucide="home" style="width: 20px; height: 20px;"></i></div>
+        <span>Home</span>
     </div>
-  </div>
 
-  <div class="nav-item" onclick="goTab(2,'employee_info.html')">
-    <div class="nav-icon">👤</div>
-    <span>Employee</span>
-  </div>
+    <div class="nav-item active" onclick="goTab(1,'forum.html')">
+        <div class="nav-icon"><i data-lucide="message-square" style="width: 20px; height: 20px;"></i></div>
+        <span>Forum</span>
+    </div>
 
-  <div class="nav-item" onclick="goTab(3,'resources.html')">
-    <div class="nav-icon">📂</div>
-    <span>Resources</span>
-  </div>
+    <div class="nav-item center-item" onclick="goTab(99,'info.html')">
+        <div class="center-wrapper">
+            <div class="center-btn"><i data-lucide="zap" style="width: 22px; height: 22px;"></i></div>
+            <div class="center-text">Smart Support</div>
+        </div>
+    </div>
+
+    <div class="nav-item" onclick="goTab(2,'employee_info.html')">
+        <div class="nav-icon"><i data-lucide="user" style="width: 20px; height: 20px;"></i></div>
+        <span>Employee</span>
+    </div>
+
+    <div class="nav-item" onclick="goTab(3,'resources.html')">
+        <div class="nav-icon"><i data-lucide="folder" style="width: 20px; height: 20px;"></i></div>
+        <span>Resources</span>
+    </div>
 </div>
 
 <!-- SCRIPTS & ROUTING -->
 <script>
+// Initialize Lucide Icons
+lucide.createIcons();
+
 function showLoader() {
     let loader = document.getElementById("loader");
     if(loader) {
