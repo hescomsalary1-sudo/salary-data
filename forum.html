@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Forum & Support Center</title>
 
 <style>
@@ -29,15 +29,16 @@
     margin: 0;
     padding: 0;
     -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 body {
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
     background: var(--primary-gradient);
     background-attachment: fixed;
     color: var(--text-light);
     overflow-x: hidden;
-    padding-bottom: 95px;
+    padding-bottom: calc(95px + env(safe-area-inset-bottom, 0px));
 }
 
 /* --- AMBIENT LIGHT MESH --- */
@@ -116,7 +117,7 @@ body {
     cursor: pointer;
     font-size: 18px;
     color: white;
-    transition: transform 0.2s;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .icon-action-btn:active {
@@ -174,10 +175,11 @@ body {
     align-items: center;
     gap: 12px;
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     box-shadow: 0 10px 25px rgba(0,0,0,0.25);
     cursor: pointer;
     position: relative;
-    transition: transform 0.2s, background 0.2s;
+    transition: transform 0.2s ease, background 0.2s ease;
 }
 
 .action-card:active {
@@ -204,6 +206,7 @@ body {
     border-radius: var(--radius-xl);
     padding: 8px;
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     box-shadow: 0 12px 30px rgba(0,0,0,0.25);
     margin-bottom: 10px;
     border: 1px solid var(--glass-border);
@@ -297,6 +300,7 @@ body {
     align-items: center;
     box-shadow: 0 15px 35px rgba(0,0,0,0.3);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }
 
 .support-banner h3 {
@@ -321,7 +325,7 @@ body {
     font-size: 12px;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-    transition: transform 0.2s;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     white-space: nowrap;
 }
 
@@ -332,8 +336,8 @@ body {
 /* MODERN BOXED LOADER */
 #loader {
     position: fixed;
-    top: 85px;
-    bottom: 75px;
+    top: 0;
+    bottom: 0;
     left: 0;
     width: 100%;
     background: rgba(2, 26, 25, 0.85);
@@ -343,7 +347,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    z-index: 900;
+    z-index: 2000;
 }
 
 .loader-container {
@@ -378,7 +382,8 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 75px;
+    height: calc(75px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
     background: rgba(4, 47, 46, 0.95);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -623,18 +628,16 @@ body {
 
 <!-- SCRIPTS & ROUTING -->
 <script>
-function showLoader(url) {
-    document.getElementById("loader").style.display = "flex";
-    document.body.style.overflow = "hidden";
-    setTimeout(() => {
-        window.location.replace(url);
-    }, 500);
+function showLoader() {
+    let loader = document.getElementById("loader");
+    if(loader) {
+        loader.style.display = "flex";
+        document.body.style.overflow = "hidden";
+    }
 }
 
 function openPage(type) {
-    document.getElementById("loader").style.display = "flex";
-    document.body.style.overflow = "hidden";
-
+    showLoader();
     setTimeout(() => {
         if(type === "ask"){
             window.location.replace("forum_details.html?type=ask");
@@ -645,36 +648,35 @@ function openPage(type) {
         else if(type === "help"){
             window.location.replace("forum_details.html?type=help");
         }
-        else{
+        else {
             window.location.replace("others_forum.html?type=" + type);
         }
-    }, 500);
+    }, 400);
 }
 
 function goTab(index, url) {
     sessionStorage.setItem("navClick", "true");
-    document.getElementById("loader").style.display = "flex";
-    document.body.style.overflow = "hidden";
-
+    showLoader();
     setTimeout(function(){
         window.location.replace(url);
-    }, 700);
+    }, 400);
 }
 
 function refreshApp() {
-    document.getElementById("loader").style.display = "flex";
+    showLoader();
     setTimeout(function(){
         location.reload(true);
-    }, 1000);
+    }, 500);
 }
 
 window.onload = function() {
     let loader = document.getElementById("loader");
     if(loader) {
         loader.style.display = "none";
+        document.body.style.overflow = "";
     }
 
-    let page = location.pathname.split("/").pop();
+    let page = location.pathname.split("/").pop() || "forum.html";
 
     document.querySelectorAll(".nav-item").forEach(item => {
         let match = item.getAttribute("onclick");
@@ -682,13 +684,15 @@ window.onload = function() {
             let urlMatch = match.match(/'(.*?)'/);
             if(urlMatch && urlMatch[1] === page) {
                 item.classList.add("active");
+            } else if (urlMatch && urlMatch[1] !== page) {
+                item.classList.remove("active");
             }
         }
     });
-}
+};
 
 (function () {
-    let currentPage = location.pathname.split("/").pop();
+    let currentPage = location.pathname.split("/").pop() || "forum.html";
     const navPages = [
         "home.html",
         "forum.html",
