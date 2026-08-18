@@ -1,584 +1,597 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Resources</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ಸಂಪನ್ಮೂಲಗಳು / Resources</title>
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Kannada:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<style>
-/* --- MODERN FINTECH EMERALD & GOLD DESIGN SYSTEM --- */
-:root {
-    --primary-gradient: radial-gradient(circle at 50% 50%, #0f766e 0%, #115e59 35%, #042f2e 70%, #021a19 100%);
-    --bg-dark: #021a19;
-    --accent-emerald: #10b981;
-    --accent-gold: #f59e0b;
-    --accent-rose: #f43f5e;
-    --glass-border: rgba(255, 255, 255, 0.12);
-    --card-bg: rgba(255, 255, 255, 0.05);
-    --card-hover: rgba(255, 255, 255, 0.08);
-    --glass-shine: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.02) 100%);
-    --text-light: #ffffff;
-    --text-muted: #ccfbf1;
-    --radius-xl: 24px;
-    --radius-lg: 18px;
-    --radius-md: 12px;
-}
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-card: rgba(255, 255, 255, 0.05);
+            --card-hover: rgba(255, 255, 255, 0.08);
+            
+            --primary: #10b981;
+            --primary-glow: rgba(16, 185, 129, 0.3);
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.3);
+            
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --text-muted: #64748b;
+            
+            --nav-height: 70px;
+            --header-height: 70px;
+            --border-radius: 20px;
+        }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    -webkit-tap-highlight-color: transparent;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Inter', 'Noto Sans Kannada', sans-serif;
+        }
 
-body {
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--primary-gradient);
-    background-attachment: fixed;
-    color: var(--text-light);
-    overflow-x: hidden;
-    padding-bottom: 95px;
-}
+        body {
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            padding-bottom: calc(var(--nav-height) + 20px);
+        }
 
-/* --- AMBIENT LIGHT MESH --- */
-.bg1, .bg2 {
-    position: fixed;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 0;
-}
-.bg1 {
-    width: 450px;
-    height: 450px;
-    left: -100px;
-    top: -100px;
-    background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0) 70%);
-    animation: ambientFloat 8s ease-in-out infinite alternate;
-}
-.bg2 {
-    width: 350px;
-    height: 350px;
-    right: -100px;
-    bottom: -100px;
-    background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, rgba(245, 158, 11, 0) 70%);
-    animation: ambientFloat 12s ease-in-out infinite alternate-reverse;
-}
+        /* Glassmorphism Common Styles */
+        .glass-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+        }
 
-@keyframes ambientFloat {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(30px, 20px) scale(1.1); }
-}
+        /* Top Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            border-bottom: 1px solid var(--glass-border);
+            border-radius: 0 0 20px 20px;
+        }
 
-/* --- PREMIUM HEADER --- */
-.premium-header {
-    position: relative;
-    padding: 25px 20px 20px;
-    background: rgba(4, 47, 46, 0.92);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--glass-border);
-    border-bottom-left-radius: 32px;
-    border-bottom-right-radius: 32px;
-    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
-    z-index: 10;
-}
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-.header-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
+        .header-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
 
-.title-box h2 {
-    margin: 0;
-    font-size: 22px;
-    font-weight: 700;
-    background: linear-gradient(135deg, #ffffff 0%, #ccfbf1 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
+        .header-text h1 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
 
-.title-box p {
-    margin: 2px 0 0;
-    font-size: 11px;
-    color: var(--accent-gold);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-weight: 600;
-}
+        .header-text p {
+            font-size: 0.75rem;
+            color: var(--text-sub);
+        }
 
-.icon-action-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid var(--glass-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 18px;
-    color: white;
-    transition: transform 0.2s;
-}
+        .icon-action-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--glass-card);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-.icon-action-btn:active {
-    transform: scale(0.9);
-}
+        /* Container & Section */
+        .container {
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+        }
 
-/* --- QUICK CARD HERO --- */
-.quick-card {
-    margin-top: 18px;
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(4, 120, 87, 0.5));
-    border: 1px solid rgba(16, 185, 129, 0.35);
-    padding: 20px;
-    border-radius: var(--radius-xl);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(12px);
-}
+        .section-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-.quick-text small {
-    color: var(--accent-gold);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
+        .section-title i {
+            color: var(--primary);
+        }
 
-.quick-text h3 {
-    margin: 6px 0;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text-light);
-    line-height: 1.3;
-}
+        /* Resource List Section */
+        .list-card {
+            border-radius: var(--border-radius);
+            padding: 8px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
 
-.quick-text p {
-    font-size: 12px;
-    color: var(--text-muted);
-}
+        .item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-radius: 14px;
+            background: transparent;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 4px;
+            touch-action: manipulation;
+            will-change: transform;
+        }
 
-.quick-text button {
-    margin-top: 14px;
-    padding: 10px 18px;
-    border: none;
-    border-radius: 14px;
-    background: var(--accent-gold);
-    color: #021a19;
-    font-weight: 700;
-    font-size: 12px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-    transition: transform 0.2s;
-}
+        .item:last-child {
+            margin-bottom: 0;
+        }
 
-.quick-text button:active {
-    transform: scale(0.93);
-}
+        .item:active {
+            transform: scale(0.97);
+            background: var(--card-hover);
+            border-color: rgba(16, 185, 129, 0.4);
+        }
 
-/* --- CONTAINER --- */
-.container {
-    padding: 16px;
-    position: relative;
-    z-index: 1;
-    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
+        @media (hover: hover) {
+            .item:hover {
+                background: var(--card-hover);
+                border-color: var(--glass-border);
+            }
+        }
 
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+        .item-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
 
-/* SECTION TITLE */
-.section-title {
-    margin: 18px 5px 12px;
-    color: var(--text-light);
-    font-size: 14px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
+        .item-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: transform 0.3s ease;
+        }
 
-.section-title::before {
-    content: "";
-    width: 4px;
-    height: 16px;
-    background: linear-gradient(135deg, var(--accent-emerald), var(--accent-gold));
-    border-radius: 10px;
-}
+        .item:active .item-icon {
+            transform: scale(1.1);
+        }
 
-/* ITEM CARD */
-.item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: var(--card-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-xl);
-    padding: 16px;
-    margin-bottom: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-    cursor: pointer;
-    backdrop-filter: blur(12px);
-    transition: transform 0.2s, background 0.2s;
-}
+        .item-details h2 {
+            font-size: 0.98rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 3px;
+        }
 
-.item:active {
-    transform: scale(0.97);
-    background: var(--card-hover);
-}
+        .item-details p {
+            font-size: 0.78rem;
+            color: var(--text-sub);
+        }
 
-/* ICON BOX */
-.icon-box {
-    width: 46px;
-    height: 46px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(4, 120, 87, 0.5));
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
-}
+        .item-right {
+            display: flex;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
 
-/* TEXT */
-.text h4 {
-    margin: 0;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-light);
-}
+        .item:active .item-right {
+            color: var(--primary);
+            transform: translateX(3px);
+        }
 
-.text p {
-    margin: 3px 0 0;
-    font-size: 11px;
-    color: var(--text-muted);
-}
+        /* Specific Icon Themes */
+        .theme-blue { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+        .theme-green { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+        .theme-purple { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+        .theme-orange { background: rgba(249, 115, 22, 0.15); color: #fb923c; }
+        .theme-pink { background: rgba(236, 72, 153, 0.15); color: #f472b6; }
+        .theme-teal { background: rgba(20, 184, 166, 0.15); color: #2dd4bf; }
 
-/* ARROW */
-.arrow {
-    margin-left: auto;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    color: var(--accent-gold);
-    flex-shrink: 0;
-}
+        /* Quick Info Box */
+        .quick-card {
+            border-radius: var(--border-radius);
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            margin-bottom: 24px;
+        }
 
-/* MODERN BOXED LOADER */
-#loader {
-    position: fixed;
-    top: 85px;
-    bottom: 75px;
-    left: 0;
-    width: 100%;
-    background: rgba(2, 26, 25, 0.85);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 900;
-}
+        .quick-icon {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
 
-.loader-container {
-    text-align: center;
-}
+        .quick-text h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
 
-.loader-spinner {
-    width: 50px;
-    height: 50px;
-    border: 5px solid rgba(255, 255, 255, 0.1);
-    border-top: 5px solid var(--accent-gold);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: auto;
-}
+        .quick-text p {
+            font-size: 0.78rem;
+            color: var(--text-sub);
+            line-height: 1.4;
+        }
 
-.loading-text {
-    margin-top: 15px;
-    font-size: 13px;
-    color: var(--accent-gold);
-    font-weight: bold;
-    letter-spacing: 1px;
-}
+        /* Bottom Navigation Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+            border-top: 1px solid var(--glass-border);
+            border-radius: 20px 20px 0 0;
+            padding: 0 10px;
+        }
 
-@keyframes spin {
-    100% { transform: rotate(360deg); }
-}
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            width: 20%;
+            height: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
 
-/* --- CURVED BOTTOM FLOATING NAVBAR --- */
-.navbar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 75px;
-    background: rgba(4, 47, 46, 0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid var(--glass-border);
-    border-top-left-radius: 28px;
-    border-top-right-radius: 28px;
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    z-index: 1000;
-}
+        .nav-item i {
+            font-size: 1.25rem;
+            margin-bottom: 4px;
+            transition: all 0.3s ease;
+        }
 
-.nav-item {
-    flex: 1;
-    text-align: center;
-    position: relative;
-    cursor: pointer;
-}
+        .nav-item span {
+            font-size: 0.68rem;
+            font-weight: 500;
+        }
 
-.nav-icon {
-    font-size: 20px;
-    color: var(--text-muted);
-    transition: color 0.3s, transform 0.3s;
-}
+        .nav-item.active {
+            color: var(--primary);
+        }
 
-.nav-item span {
-    display: block;
-    font-size: 11px;
-    color: var(--text-muted);
-    margin-top: 3px;
-    transition: color 0.3s;
-}
+        .nav-item.active i {
+            transform: translateY(-2px);
+            filter: drop-shadow(0 0 8px var(--primary-glow));
+        }
 
-.nav-item.active .nav-icon {
-    color: var(--accent-gold);
-    transform: translateY(-2px);
-}
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--primary);
+            box-shadow: 0 0 8px var(--primary);
+        }
 
-.nav-item.active span {
-    color: var(--accent-gold);
-    font-weight: 700;
-}
+        /* Central Glowing Button on Nav */
+        .center-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 0 15px var(--primary-glow);
+            transform: translateY(-12px);
+            border: 3px solid #0f172a;
+            transition: transform 0.3s ease;
+            touch-action: manipulation;
+        }
 
-.nav-item.active::before {
-    content: "";
-    position: absolute;
-    top: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 24px;
-    height: 3px;
-    border-radius: 10px;
-    background: var(--accent-gold);
-    box-shadow: 0 0 10px var(--accent-gold);
-}
+        .center-btn:active {
+            transform: translateY(-12px) scale(0.92);
+        }
 
-.center-item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+        /* Smooth Screen Loader Overlay */
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
 
-.center-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transform: translateY(-18px);
-}
+        .loader-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
 
-.center-btn {
-    width: 58px;
-    height: 58px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #047857 0%, #10b981 50%, #34d399 100%);
-    border: 3px solid #021a19;
-    color: var(--accent-gold);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    font-weight: 700;
-    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
-    animation: float 2.5s ease-in-out infinite;
-}
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 0.8s ease-in-out infinite;
+        }
 
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
-}
-
-.center-text {
-    font-size: 11px;
-    margin-top: 4px;
-    color: var(--accent-gold);
-    font-weight: 700;
-}
-</style>
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- AMBIENT BACKGROUND GLOWS -->
-<div class="bg1"></div>
-<div class="bg2"></div>
-
-<!-- HEADER -->
-<div class="premium-header">
-  <div class="header-top">
-    <div class="title-box">
-      <h2>Resources</h2>
-      <p>Access important employee resources</p>
+    <!-- Fullscreen Page Loader -->
+    <div class="loader-overlay" id="loader">
+        <div class="spinner"></div>
     </div>
 
-    <div class="icon-action-btn" onclick="refreshApp()">🔄</div>
-  </div>
+    <!-- Header -->
+    <header class="glass-box">
+        <div class="header-title">
+            <div class="header-icon">
+                <i class="fa-solid fa-folder-open"></i>
+            </div>
+            <div class="header-text">
+                <h1>ಸಂಪನ್ಮೂಲಗಳು</h1>
+                <p>Resources & Information</p>
+            </div>
+        </div>
+        <button class="icon-action-btn" onclick="openPage('index.html')" aria-label="Go to Home">
+            <i class="fa-solid fa-house"></i>
+        </button>
+    </header>
 
-  <!-- QUICK CARD HERO -->
-  <div class="quick-card">
-    <div class="quick-text">
-      <small>Quick Access</small>
-      <h3>All your employee<br>records in one place</h3>
-      <p>Easy to track, view and manage your important data</p>
-      <button onclick="openPage('resource_view.html')">Explore Now →</button>
-    </div>
-  </div>
-</div>
+    <!-- Main Content Container -->
+    <main class="container">
+        
+        <!-- Info Banner -->
+        <div class="quick-card">
+            <div class="quick-icon">
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <div class="quick-text">
+                <h3>ಮಾಹಿತಿ ಕೇಂದ್ರ / Information Hub</h3>
+                <p>ಸಿಬ್ಬಂದಿ ವಿವರ, ಜೇಷ್ಠತಾ ಪಟ್ಟಿ ಮತ್ತು ಅಧಿಕೃತ ಫಾರ್ಮ್‌ಗಳನ್ನು ಇಲ್ಲಿ ವೀಕ್ಷಿಸಬಹುದು.</p>
+            </div>
+        </div>
 
-<!-- CONTAINER -->
-<div class="container">
-  <h3 class="section-title">Browse Resources</h3>
+        <div class="section-title">
+            <i class="fa-solid fa-layer-group"></i> ಪ್ರಮುಖ ವರ್ಗಗಳು / Modules
+        </div>
 
-  <div class="item" onclick="openPage('resource_view.html')">
-    <div class="icon-box">📋</div>
-    <div class="text">
-      <h4>Old Records</h4>
-      <p>View your attendance and leave history</p>
-    </div>
-    <div class="arrow">→</div>
-  </div>
+        <!-- Resources Cards List -->
+        <div class="list-card glass-box">
+            
+            <!-- Master Employee Report -->
+            <div class="item" onclick="openPage('view_master_reports.html')">
+                <div class="item-left">
+                    <div class="item-icon theme-blue">
+                        <i class="fa-solid fa-id-card"></i>
+                    </div>
+                    <div class="item-details">
+                        <h2>ಮಾಸ್ಟರ್ ವರದಿ</h2>
+                        <p>Master Employee Report</p>
+                    </div>
+                </div>
+                <div class="item-right">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </div>
 
-  <div class="item" onclick="openPage('senioity.html')">
-    <div class="icon-box">👤</div>
-    <div class="text">
-      <h4>Seniority</h4>
-      <p>Check divisional cadre and seniority details</p>
-    </div>
-    <div class="arrow">→</div>
-  </div>
+            <!-- Seniority List (Corrected Page Route) -->
+            <div class="item" onclick="openPage('seniority.html')">
+                <div class="item-left">
+                    <div class="item-icon theme-purple">
+                        <i class="fa-solid fa-list-ol"></i>
+                    </div>
+                    <div class="item-details">
+                        <h2>ಜೇಷ್ಠತಾ ಪಟ್ಟಿ</h2>
+                        <p>Seniority List</p>
+                    </div>
+                </div>
+                <div class="item-right">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </div>
 
-  <div class="item" onclick="openPage('promotions.html')">
-    <div class="icon-box">📈</div>
-    <div class="text">
-      <h4>Promotions</h4>
-      <p>Track your promotion updates and history</p>
-    </div>
-    <div class="arrow">→</div>
-  </div>
-</div>
+            <!-- Forms & Formats -->
+            <div class="item" onclick="openPage('forms_formats.html')">
+                <div class="item-left">
+                    <div class="item-icon theme-teal">
+                        <i class="fa-solid fa-file-pdf"></i>
+                    </div>
+                    <div class="item-details">
+                        <h2>ಫಾರ್ಮ್ ಮತ್ತು ಮಾದರಿಗಳು</h2>
+                        <p>Forms & Formats</p>
+                    </div>
+                </div>
+                <div class="item-right">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </div>
 
-<!-- LOADER -->
-<div id="loader">
-  <div class="loader-container">
-    <div class="loader-spinner"></div>
-    <div class="loading-text">Loading...</div>
-  </div>
-</div>
+            <!-- Photo Library -->
+            <div class="item" onclick="openPage('gallery.html')">
+                <div class="item-left">
+                    <div class="item-icon theme-pink">
+                        <i class="fa-solid fa-images"></i>
+                    </div>
+                    <div class="item-details">
+                        <h2>ಫೋಟೋ ಗ್ಯಾಲರಿ</h2>
+                        <p>Photo Library</p>
+                    </div>
+                </div>
+                <div class="item-right">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </div>
 
-<!-- BOTTOM NAVBAR -->
-<div class="navbar" id="navbar">
-  <div class="nav-item" onclick="goTab(0,'home.html')">
-    <div class="nav-icon">🏠</div>
-    <span>Home</span>
-  </div>
+            <!-- Salary Reports -->
+            <div class="item" onclick="openPage('salary_reports.html')">
+                <div class="item-left">
+                    <div class="item-icon theme-green">
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                    </div>
+                    <div class="item-details">
+                        <h2>ವೇತನ ವರದಿಗಳು</h2>
+                        <p>Salary Reports</p>
+                    </div>
+                </div>
+                <div class="item-right">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </div>
 
-  <div class="nav-item" onclick="goTab(1,'forum.html')">
-    <div class="nav-icon">💬</div>
-    <span>Forum</span>
-  </div>
+            <!-- Leave / ELS Module -->
+            <div class="item" onclick="openPage('els_application.html')">
+                <div class="item-left">
+                    <div class="item-icon theme-orange">
+                        <i class="fa-solid fa-plane-departure"></i>
+                    </div>
+                    <div class="item-details">
+                        <h2>ಇ.ಎಲ್.ಎಸ್‌ ಅರ್ಜಿ</h2>
+                        <p>ELS Application</p>
+                    </div>
+                </div>
+                <div class="item-right">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </div>
 
-  <div class="nav-item center-item" onclick="goTab(99,'info.html')">
-    <div class="center-wrapper">
-      <div class="center-btn">⚡</div>
-      <div class="center-text">Smart Support</div>
-    </div>
-  </div>
+        </div>
 
-  <div class="nav-item" onclick="goTab(2,'employee_info.html')">
-    <div class="nav-icon">👤</div>
-    <span>Employee</span>
-  </div>
+    </main>
 
-  <div class="nav-item active" onclick="goTab(3,'resources.html')">
-    <div class="nav-icon">📂</div>
-    <span>Resources</span>
-  </div>
-</div>
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav glass-box">
+        <div class="nav-item" onclick="openPage('index.html')">
+            <i class="fa-solid fa-house"></i>
+            <span>ಮುಖ್ಯಪುಟ</span>
+        </div>
+        <div class="nav-item active" onclick="openPage('resources.html')">
+            <i class="fa-solid fa-folder"></i>
+            <span>ಸಂಪನ್ಮೂಲ</span>
+        </div>
+        <div class="center-btn" onclick="openPage('grievance.html')" aria-label="Grievance">
+            <i class="fa-solid fa-plus"></i>
+        </div>
+        <div class="nav-item" onclick="openPage('notifications.html')">
+            <i class="fa-solid fa-bell"></i>
+            <span>ಸೂಚನೆ</span>
+        </div>
+        <div class="nav-item" onclick="openPage('profile.html')">
+            <i class="fa-solid fa-user"></i>
+            <span>ಪ್ರೊಫೈಲ್</span>
+        </div>
+    </nav>
 
-<!-- SCRIPTS & ROUTING -->
-<script>
-let isLoading = false;
+    <script>
+        let isLoading = false;
 
-function openPage(url){
-    if(isLoading) return;
-    isLoading = true;
+        // Smooth Page Navigation Handler
+        function openPage(url) {
+            if (!url || isLoading) return;
+            
+            isLoading = true;
+            const loader = document.getElementById('loader');
+            if (loader) loader.classList.add('active');
 
-    document.getElementById("loader").style.display = "flex";
-    document.body.style.overflow = "hidden";
-
-    setTimeout(()=>{
-        window.location = url;
-    }, 700);
-}
-
-function goTab(index, url){
-    sessionStorage.setItem("navClick", "true");
-    document.getElementById("loader").style.display = "flex";
-    document.body.style.overflow = "hidden";
-
-    setTimeout(function(){
-        window.location.replace(url);
-    }, 700);
-}
-
-function refreshApp(){
-    document.getElementById("loader").style.display = "flex";
-    setTimeout(function(){
-        location.reload(true);
-    }, 1000);
-}
-
-// Clear History / On Popstate logic
-history.pushState(null, "", location.href);
-window.onpopstate = function () {
-    window.location.replace("home.html");
-};
-
-// Highlight active tab based on current page
-window.addEventListener("load", function(){
-    let loader = document.getElementById("loader");
-    if(loader) {
-        loader.style.display = "none";
-    }
-
-    let page = location.pathname.split("/").pop();
-    let items = document.querySelectorAll(".nav-item");
-
-    items.forEach(item => {
-        let onclick = item.getAttribute("onclick");
-        if(onclick && onclick.includes(page)){
-            item.classList.add("active");
+            setTimeout(() => {
+                window.location.href = url;
+            }, 180);
         }
-    });
-});
-</script>
 
+        // Active State and Browser Back-Button Navigation Handler
+        function syncActiveNav() {
+            const loader = document.getElementById('loader');
+            if (loader) loader.classList.remove('active');
+            isLoading = false;
+
+            const currentPage = location.pathname.split("/").pop() || "resources.html";
+            const navItems = document.querySelectorAll(".nav-item");
+
+            navItems.forEach(item => {
+                item.classList.remove("active");
+                const onclickAttr = item.getAttribute("onclick");
+                if (onclickAttr && onclickAttr.includes(currentPage)) {
+                    item.classList.add("active");
+                }
+            });
+        }
+
+        // Page load triggers
+        window.addEventListener("load", syncActiveNav);
+        
+        // Fix for cached pages when clicking back button in mobile browsers
+        window.addEventListener("pageshow", function(event) {
+            syncActiveNav();
+        });
+    </script>
 </body>
 </html>
