@@ -1,336 +1,413 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kn">
 <head>
 <meta charset="UTF-8">
+<title>Salary Portal - Resources</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Resources</title>
+
+<!-- Google Fonts: Noto Sans Kannada & Plus Jakarta Sans -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Lucide Modern Vector Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
-/* --- MODERN FINTECH EMERALD & GOLD DESIGN SYSTEM --- */
+/* --- MODERN AURORA GLASS DESIGN SYSTEM (MATCHED TO HOME.HTML) --- */
 :root {
-    --primary-gradient: radial-gradient(circle at 50% 50%, #0f766e 0%, #115e59 35%, #042f2e 70%, #021a19 100%);
-    --bg-dark: #021a19;
-    --accent-emerald: #10b981;
-    --accent-gold: #f59e0b;
+    --bg-dark: #07090e;
+    --accent-indigo: #6366f1;
+    --accent-cyan: #06b6d4;
     --accent-rose: #f43f5e;
+    --accent-emerald: #10b981;
+    --glass-card: rgba(18, 24, 38, 0.7);
+    --glass-input: rgba(255, 255, 255, 0.05);
     --glass-border: rgba(255, 255, 255, 0.12);
-    --card-bg: rgba(255, 255, 255, 0.05);
-    --card-hover: rgba(255, 255, 255, 0.08);
-    --glass-shine: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.02) 100%);
-    --text-light: #ffffff;
-    --text-muted: #ccfbf1;
-    --radius-xl: 24px;
-    --radius-lg: 18px;
-    --radius-md: 12px;
+    --glass-hover: rgba(255, 255, 255, 0.18);
+    --text-primary: #f8fafc;
+    --text-muted: #94a3b8;
+    --radius-xl: 28px;
+    --radius-lg: 24px;
+    --radius-md: 14px;
+    --font-stack: 'Noto Sans Kannada', 'Plus Jakarta Sans', sans-serif;
 }
 
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
 }
 
-body {
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--primary-gradient);
-    background-attachment: fixed;
-    color: var(--text-light);
+html, body {
+    width: 100%;
+    min-height: 100%;
+    background-color: var(--bg-dark);
+    font-family: var(--font-stack);
+    color: var(--text-primary);
     overflow-x: hidden;
-    padding-bottom: 95px;
 }
 
-/* --- AMBIENT LIGHT MESH --- */
-.bg1, .bg2 {
+body {
+    padding-bottom: 90px;
+}
+
+/* --- DYNAMIC BACKGROUND ORBS --- */
+.aurora-bg {
     position: fixed;
-    border-radius: 50%;
-    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     z-index: 0;
+    pointer-events: none;
 }
-.bg1 {
-    width: 450px;
-    height: 450px;
-    left: -100px;
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.35;
+    animation: floatOrb 12s ease-in-out infinite alternate;
+}
+
+.orb-1 {
+    width: 380px;
+    height: 380px;
     top: -100px;
-    background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0) 70%);
-    animation: ambientFloat 8s ease-in-out infinite alternate;
-}
-.bg2 {
-    width: 350px;
-    height: 350px;
-    right: -100px;
-    bottom: -100px;
-    background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, rgba(245, 158, 11, 0) 70%);
-    animation: ambientFloat 12s ease-in-out infinite alternate-reverse;
+    left: -80px;
+    background: radial-gradient(circle, #4f46e5 0%, #a855f7 100%);
 }
 
-@keyframes ambientFloat {
+.orb-2 {
+    width: 320px;
+    height: 320px;
+    bottom: -60px;
+    right: -60px;
+    background: radial-gradient(circle, #06b6d4 0%, #3b82f6 100%);
+    animation-delay: -6s;
+}
+
+@keyframes floatOrb {
     0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(30px, 20px) scale(1.1); }
+    100% { transform: translate(30px, 40px) scale(1.1); }
 }
 
-/* --- PREMIUM HEADER --- */
-.premium-header {
-    position: relative;
-    padding: 25px 20px 20px;
-    background: rgba(4, 47, 46, 0.92);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+/* --- FIXED TOP HEADER --- */
+.top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1100;
+    padding: 16px;
+    background: rgba(7, 9, 14, 0.85);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border-bottom: 1px solid var(--glass-border);
-    border-bottom-left-radius: 32px;
-    border-bottom-right-radius: 32px;
-    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
-    z-index: 10;
+    border-bottom-left-radius: var(--radius-xl);
+    border-bottom-right-radius: var(--radius-xl);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
 }
 
-.header-top {
+.user-box {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
 }
 
-.title-box h2 {
-    margin: 0;
-    font-size: 22px;
-    font-weight: 700;
-    background: linear-gradient(135deg, #ffffff 0%, #ccfbf1 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.title-box p {
-    margin: 2px 0 0;
-    font-size: 11px;
-    color: var(--accent-gold);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-weight: 600;
-}
-
-.icon-action-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.08);
+.menu-btn, .icon-action-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-md);
+    background: var(--glass-input);
     border: 1px solid var(--glass-border);
+    color: var(--text-primary);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 18px;
-    color: white;
-    transition: transform 0.2s;
+    transition: all 0.25s ease;
 }
 
-.icon-action-btn:active {
-    transform: scale(0.9);
+.menu-btn:hover, .icon-action-btn:hover {
+    background: var(--glass-hover);
+    border-color: var(--accent-indigo);
 }
 
-/* --- QUICK CARD HERO --- */
-.quick-card {
-    margin-top: 18px;
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(4, 120, 87, 0.5));
-    border: 1px solid rgba(16, 185, 129, 0.35);
-    padding: 20px;
-    border-radius: var(--radius-xl);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(12px);
+.menu-btn:active, .icon-action-btn:active {
+    transform: scale(0.92);
 }
 
-.quick-text small {
-    color: var(--accent-gold);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-.quick-text h3 {
-    margin: 6px 0;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text-light);
-    line-height: 1.3;
-}
-
-.quick-text p {
-    font-size: 12px;
-    color: var(--text-muted);
-}
-
-.quick-text button {
+/* --- HERO BANNER --- */
+.hero-card {
+    width: 100%;
     margin-top: 14px;
-    padding: 10px 18px;
-    border: none;
-    border-radius: 14px;
-    background: var(--accent-gold);
-    color: #021a19;
-    font-weight: 700;
-    font-size: 12px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-    transition: transform 0.2s;
-}
-
-.quick-text button:active {
-    transform: scale(0.93);
-}
-
-/* --- CONTAINER --- */
-.container {
+    background: var(--glass-card);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
     padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(16px);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(6, 182, 212, 0.05));
+    pointer-events: none;
+}
+
+.hero-info {
+    flex: 1;
+    min-width: 0;
+    z-index: 1;
+}
+
+.hero-info h3 {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.hero-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 4px 0;
+    background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-sub {
+    font-size: 11px;
+    color: var(--accent-cyan);
+    font-weight: 600;
+}
+
+.hero-card-icon {
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(6, 182, 212, 0.2));
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-cyan);
+    z-index: 1;
+}
+
+/* --- MAIN CONTENT CONTAINER --- */
+.content {
     position: relative;
     z-index: 1;
+    padding: 16px;
+    padding-top: 220px;
     animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(18px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* SECTION TITLE */
+/* --- SEARCH BAR --- */
+.search-box {
+    background: var(--glass-card);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    backdrop-filter: blur(16px);
+}
+
+.search-box input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-size: 13px;
+    font-family: var(--font-stack);
+    width: 100%;
+}
+
+.search-box input::placeholder {
+    color: var(--text-muted);
+}
+
+/* --- RESOURCE CATEGORY SECTION --- */
+.resource-section {
+    background: var(--glass-card);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    margin-bottom: 16px;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
 .section-title {
-    margin: 18px 5px 12px;
-    color: var(--text-light);
     font-size: 14px;
     font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 14px;
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.section-title::before {
-    content: "";
-    width: 4px;
-    height: 16px;
-    background: linear-gradient(135deg, var(--accent-emerald), var(--accent-gold));
-    border-radius: 10px;
+.resource-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
 }
 
-/* ITEM CARD */
-.item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: var(--card-bg);
+.resource-card {
+    background: var(--glass-input);
     border: 1px solid var(--glass-border);
-    border-radius: var(--radius-xl);
-    padding: 16px;
-    margin-bottom: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     cursor: pointer;
-    backdrop-filter: blur(12px);
-    transition: transform 0.2s, background 0.2s;
+    transition: all 0.25s ease;
 }
 
-.item:active {
-    transform: scale(0.97);
-    background: var(--card-hover);
+.resource-card:hover {
+    background: var(--glass-hover);
+    border-color: rgba(255, 255, 255, 0.25);
 }
 
-/* ICON BOX */
-.icon-box {
-    width: 46px;
-    height: 46px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(4, 120, 87, 0.5));
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    color: white;
+.resource-card:active {
+    transform: scale(0.96);
+}
+
+.resource-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
+    color: white;
+    margin-bottom: 10px;
 }
 
-/* TEXT */
-.text h4 {
-    margin: 0;
-    font-size: 14px;
+.resource-icon.blue { background: linear-gradient(135deg, var(--accent-indigo), #4f46e5); }
+.resource-icon.cyan { background: linear-gradient(135deg, var(--accent-cyan), #0284c7); }
+.resource-icon.green { background: linear-gradient(135deg, var(--accent-emerald), #059669); }
+.resource-icon.rose { background: linear-gradient(135deg, var(--accent-rose), #e11d48); }
+.resource-icon.purple { background: linear-gradient(135deg, #a855f7, #7e22ce); }
+.resource-icon.amber { background: linear-gradient(135deg, #f59e0b, #d97706); }
+
+.resource-card h4 {
+    font-size: 13px;
     font-weight: 600;
-    color: var(--text-light);
+    color: var(--text-primary);
+    margin-bottom: 4px;
 }
 
-.text p {
-    margin: 3px 0 0;
+.resource-card p {
     font-size: 11px;
     color: var(--text-muted);
 }
 
-/* ARROW */
-.arrow {
-    margin-left: auto;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+/* --- LIST DOWNLOAD STYLE CARDS --- */
+.resource-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.resource-item {
+    background: var(--glass-input);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.resource-item:hover {
+    background: var(--glass-hover);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.resource-item:active {
+    transform: scale(0.98);
+}
+
+.item-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.item-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    color: var(--accent-indigo);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
-    color: var(--accent-gold);
-    flex-shrink: 0;
 }
 
-/* MODERN BOXED LOADER */
-#loader {
-    position: fixed;
-    top: 85px;
-    bottom: 75px;
-    left: 0;
-    width: 100%;
-    background: rgba(2, 26, 25, 0.85);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 900;
+.item-text h5 {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary);
 }
 
-.loader-container {
-    text-align: center;
+.item-text p {
+    font-size: 10px;
+    color: var(--text-muted);
 }
 
-.loader-spinner {
-    width: 50px;
-    height: 50px;
-    border: 5px solid rgba(255, 255, 255, 0.1);
-    border-top: 5px solid var(--accent-gold);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: auto;
+.action-badge {
+    padding: 6px 12px;
+    background: rgba(6, 182, 212, 0.15);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    color: var(--accent-cyan);
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 600;
 }
 
-.loading-text {
-    margin-top: 15px;
-    font-size: 13px;
-    color: var(--accent-gold);
-    font-weight: bold;
-    letter-spacing: 1px;
-}
-
-@keyframes spin {
-    100% { transform: rotate(360deg); }
-}
-
-/* --- CURVED BOTTOM FLOATING NAVBAR --- */
+/* --- BOTTOM FLOATING NAVBAR --- */
 .navbar {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 75px;
-    background: rgba(4, 47, 46, 0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(7, 9, 14, 0.9);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border-top: 1px solid var(--glass-border);
-    border-top-left-radius: 28px;
-    border-top-right-radius: 28px;
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    border-top-left-radius: var(--radius-xl);
+    border-top-right-radius: var(--radius-xl);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -342,30 +419,33 @@ body {
     text-align: center;
     position: relative;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .nav-icon {
-    font-size: 20px;
     color: var(--text-muted);
-    transition: color 0.3s, transform 0.3s;
+    transition: all 0.3s ease;
 }
 
 .nav-item span {
     display: block;
-    font-size: 11px;
+    font-size: 10px;
     color: var(--text-muted);
-    margin-top: 3px;
-    transition: color 0.3s;
+    margin-top: 4px;
+    transition: all 0.3s ease;
 }
 
 .nav-item.active .nav-icon {
-    color: var(--accent-gold);
+    color: var(--accent-cyan);
     transform: translateY(-2px);
 }
 
 .nav-item.active span {
-    color: var(--accent-gold);
-    font-weight: 700;
+    color: var(--accent-cyan);
+    font-weight: 600;
 }
 
 .nav-item.active::before {
@@ -377,8 +457,8 @@ body {
     width: 24px;
     height: 3px;
     border-radius: 10px;
-    background: var(--accent-gold);
-    box-shadow: 0 0 10px var(--accent-gold);
+    background: var(--accent-cyan);
+    box-shadow: 0 0 10px var(--accent-cyan);
 }
 
 .center-item {
@@ -391,22 +471,22 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    transform: translateY(-18px);
+    transform: translateY(-16px);
 }
 
 .center-btn {
-    width: 58px;
-    height: 58px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #047857 0%, #10b981 50%, #34d399 100%);
-    border: 3px solid #021a19;
-    color: var(--accent-gold);
+    background: linear-gradient(135deg, var(--accent-indigo) 0%, var(--accent-cyan) 100%);
+    border: 3px solid var(--bg-dark);
+    color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
-    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.45);
     animation: float 2.5s ease-in-out infinite;
 }
 
@@ -416,10 +496,261 @@ body {
 }
 
 .center-text {
-    font-size: 11px;
+    font-size: 10px;
     margin-top: 4px;
-    color: var(--accent-gold);
+    color: var(--accent-cyan);
     font-weight: 700;
+}
+
+/* --- SIDENAV DRAWER & OVERLAYS --- */
+#sideOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+    z-index: 2000;
+}
+
+#sideNav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 85%;
+    max-width: 320px;
+    height: 100%;
+    background: var(--bg-dark);
+    border-right: 1px solid var(--glass-border);
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(.22,.61,.36,1);
+    will-change: transform;
+    z-index: 2100;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-header {
+    padding: 40px 20px 24px;
+    background: rgba(18, 24, 38, 0.9);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.close-btn {
+    font-size: 22px;
+    cursor: pointer;
+    margin-bottom: 16px;
+    color: var(--text-muted);
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: var(--text-primary);
+}
+
+.profile-box {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.profile-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--accent-indigo), var(--accent-cyan));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.profile-box h2 {
+    margin: 0;
+    font-size: 16px;
+    color: var(--text-primary);
+}
+
+.profile-box p {
+    margin: 2px 0 0;
+    font-size: 12px;
+    color: var(--accent-cyan);
+}
+
+.menu-content {
+    padding: 20px 16px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    background: var(--glass-input);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: all 0.25s ease;
+}
+
+.nav-link:hover {
+    background: var(--glass-hover);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.nav-link:active {
+    transform: scale(0.97);
+}
+
+.nav-link .icon {
+    margin-right: 12px;
+    color: var(--accent-cyan);
+    display: flex;
+    align-items: center;
+}
+
+.menu-footer {
+    padding: 16px;
+    border-top: 1px solid var(--glass-border);
+}
+
+.btn-danger {
+    width: 100%;
+    padding: 12px;
+    background: rgba(244, 63, 94, 0.15);
+    border: 1px solid rgba(244, 63, 94, 0.3);
+    color: var(--accent-rose);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.25s ease;
+}
+
+.btn-danger:hover {
+    background: rgba(244, 63, 94, 0.25);
+}
+
+/* --- FULL PAGE GLASS LOADER & MODALS --- */
+#loader {
+    position: fixed;
+    inset: 0;
+    background: rgba(7, 9, 14, 0.85);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 0.3s ease;
+}
+
+.spinner-ring {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--accent-indigo);
+    border-right-color: var(--accent-cyan);
+    animation: spin 0.9s linear infinite;
+}
+
+.loader-msg {
+    margin-top: 18px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var(--text-primary);
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(7, 9, 14, 0.85);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 5000;
+}
+
+.modal-card {
+    background: var(--glass-card);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    width: 90%;
+    max-width: 360px;
+    text-align: center;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+    animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalPop {
+    from { transform: scale(0.92); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-card h3 {
+    margin-bottom: 8px;
+    font-size: 18px;
+    color: var(--text-primary);
+}
+
+.modal-card p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+}
+
+.modal-btns {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-modal-cancel {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-input);
+    color: var(--text-primary);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-modal-action {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    background: linear-gradient(135deg, var(--accent-indigo), #4f46e5);
+    color: white;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 </style>
 </head>
@@ -427,158 +758,412 @@ body {
 <body>
 
 <!-- AMBIENT BACKGROUND GLOWS -->
-<div class="bg1"></div>
-<div class="bg2"></div>
-
-<!-- HEADER -->
-<div class="premium-header">
-  <div class="header-top">
-    <div class="title-box">
-      <h2>Resources</h2>
-      <p>Access important employee resources</p>
-    </div>
-
-    <div class="icon-action-btn" onclick="refreshApp()">🔄</div>
-  </div>
-
-  <!-- QUICK CARD HERO -->
-  <div class="quick-card">
-    <div class="quick-text">
-      <small>Quick Access</small>
-      <h3>All your employee<br>records in one place</h3>
-      <p>Easy to track, view and manage your important data</p>
-      <button onclick="openPage('resource_view.html')">Explore Now →</button>
-    </div>
-  </div>
+<div class="aurora-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
 </div>
 
-<!-- CONTAINER -->
-<div class="container">
-  <h3 class="section-title">Browse Resources</h3>
+<!-- OVERLAY & SIDENAV DRAWER -->
+<div id="sideOverlay" onclick="closeSideNav()"></div>
 
-  <div class="item" onclick="openPage('resource_view.html')">
-    <div class="icon-box">📋</div>
-    <div class="text">
-      <h4>Old Records</h4>
-      <p>View your attendance and leave history</p>
+<div id="sideNav">
+    <div class="menu-header">
+        <div class="close-btn" onclick="closeSideNav()"><i data-lucide="x" style="width: 22px; height: 22px;"></i></div>
+        <div class="profile-box">
+            <div class="profile-avatar" id="sideAvatar">U</div>
+            <div>
+                <h2 id="sideName">User</h2>
+                <p id="sideRole">Employee</p>
+            </div>
+        </div>
     </div>
-    <div class="arrow">→</div>
-  </div>
 
-  <div class="item" onclick="openPage('senioity.html')">
-    <div class="icon-box">👤</div>
-    <div class="text">
-      <h4>Seniority</h4>
-      <p>Check divisional cadre and seniority details</p>
+    <div class="menu-content">
+        <div class="nav-link" onclick="openGrievancePopup()">
+            <span class="icon"><i data-lucide="mega-phone" style="width: 18px; height: 18px;"></i></span>
+            Employee Grievance Portal
+        </div>
+        <div class="nav-link" onclick="logout()">
+            <span class="icon"><i data-lucide="log-out" style="width: 18px; height: 18px;"></i></span>
+            Logout
+        </div>
     </div>
-    <div class="arrow">→</div>
-  </div>
 
-  <div class="item" onclick="openPage('promotions.html')">
-    <div class="icon-box">📈</div>
-    <div class="text">
-      <h4>Promotions</h4>
-      <p>Track your promotion updates and history</p>
+    <div class="menu-footer">
+        <button class="btn-danger" onclick="closeSideNav()">
+            <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i>
+            <span>Close Menu</span>
+        </button>
     </div>
-    <div class="arrow">→</div>
-  </div>
 </div>
 
-<!-- LOADER -->
-<div id="loader">
-  <div class="loader-container">
-    <div class="loader-spinner"></div>
-    <div class="loading-text">Loading...</div>
-  </div>
-</div>
+<!-- FIXED TOP DASHBOARD HEADER -->
+<div id="appPage">
+    <div class="top">
+        <div class="user-box">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <div class="menu-btn" onclick="openSideNav()"><i data-lucide="menu" style="width: 20px; height: 20px;"></i></div>
+                <div>
+                    <div style="font-size:11px; color:var(--text-muted);">Welcome</div>
+                    <strong id="empName" style="font-size:14px; color:var(--text-primary);">Loading...</strong>
+                    <div id="empDesg" style="font-size:11px; color:var(--accent-cyan);"></div>
+                </div>
+            </div>
 
-<!-- BOTTOM NAVBAR -->
-<div class="navbar" id="navbar">
-  <div class="nav-item" onclick="goTab(0,'home.html')">
-    <div class="nav-icon">🏠</div>
-    <span>Home</span>
-  </div>
+            <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
+                <div class="icon-action-btn" onclick="refreshApp()"><i data-lucide="rotate-cw" style="width: 18px; height: 18px;"></i></div>
+                <div class="icon-action-btn" onclick="logout()"><i data-lucide="log-out" style="width: 18px; height: 18px;"></i></div>
+            </div>
+        </div>
 
-  <div class="nav-item" onclick="goTab(1,'forum.html')">
-    <div class="nav-icon">💬</div>
-    <span>Forum</span>
-  </div>
-
-  <div class="nav-item center-item" onclick="goTab(99,'info.html')">
-    <div class="center-wrapper">
-      <div class="center-btn">⚡</div>
-      <div class="center-text">Smart Support</div>
+        <!-- HERO BANNER -->
+        <div class="hero-card">
+            <div class="hero-info">
+                <h3>Digital Library</h3>
+                <div class="hero-title">ಮಾಹಿತಿ ಕೇಂದ್ರ</div>
+                <div class="hero-sub">Resources & Official Forms</div>
+            </div>
+            <div class="hero-card-icon">
+                <i data-lucide="folder-open" style="width: 28px; height: 28px;"></i>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <div class="nav-item" onclick="goTab(2,'employee_info.html')">
-    <div class="nav-icon">👤</div>
-    <span>Employee</span>
-  </div>
+    <!-- MAIN LOADER -->
+    <div id="loader">
+        <div class="spinner-ring"></div>
+        <div class="loader-msg">Loading Resources...</div>
+    </div>
 
-  <div class="nav-item active" onclick="goTab(3,'resources.html')">
-    <div class="nav-icon">📂</div>
-    <span>Resources</span>
-  </div>
+    <!-- MAIN SCROLLABLE CONTENT AREA -->
+    <div class="content">
+
+        <!-- SEARCH BAR -->
+        <div class="search-box">
+            <i data-lucide="search" style="width: 18px; height: 18px; color: var(--text-muted);"></i>
+            <input type="text" id="searchInput" onkeyup="filterResources()" placeholder="Search forms, guidelines, tools...">
+        </div>
+
+        <!-- QUICK ACCESS MODULES -->
+        <div class="resource-section">
+            <div class="section-title">
+                <i data-lucide="grid" style="width: 18px; height: 18px; color: var(--accent-cyan);"></i>
+                Digital Portals
+            </div>
+
+            <div class="resource-grid">
+                <div class="resource-card" onclick="showLoaderNav('page4.html')">
+                    <div class="resource-icon blue"><i data-lucide="file-text" style="width: 20px; height: 20px;"></i></div>
+                    <h4>ಅರ್ಜಿ ಫಾರ್ಮ್‌ಗಳು</h4>
+                    <p>Official Forms</p>
+                </div>
+
+                <div class="resource-card" onclick="showLoaderNav('els_application.html')">
+                    <div class="resource-icon green"><i data-lucide="file-check" style="width: 20px; height: 20px;"></i></div>
+                    <h4>ELS Application</h4>
+                    <p>Earned Leave Surrender</p>
+                </div>
+
+                <div class="resource-card" onclick="showLoaderNav('safety.html')">
+                    <div class="resource-icon rose"><i data-lucide="shield-alert" style="width: 20px; height: 20px;"></i></div>
+                    <h4>ಸುರಕ್ಷತಾ ಮಾರ್ಗಸೂಚಿ</h4>
+                    <p>Safety Manual</p>
+                </div>
+
+                <div class="resource-card" onclick="showLoaderNav('gallery.html')">
+                    <div class="resource-icon cyan"><i data-lucide="image" style="width: 20px; height: 20px;"></i></div>
+                    <h4>Photo Library</h4>
+                    <p>Media Assets</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- DOWNLOADABLE DOCUMENTS LIST -->
+        <div class="resource-section">
+            <div class="section-title">
+                <i data-lucide="download-cloud" style="width: 18px; height: 18px; color: var(--accent-indigo);"></i>
+                Important Downloads & Links
+            </div>
+
+            <div class="resource-list" id="resourceList">
+                <div class="resource-item" onclick="showLoaderNav('page4.html')">
+                    <div class="item-left">
+                        <div class="item-icon"><i data-lucide="file-spreadsheet" style="width: 18px; height: 18px;"></i></div>
+                        <div class="item-text">
+                            <h5>ವೈದ್ಯಕೀಯ ಮರುಪಾವತಿ ಅರ್ಜಿ</h5>
+                            <p>Medical Reimbursement Format</p>
+                        </div>
+                    </div>
+                    <div class="action-badge">Open</div>
+                </div>
+
+                <div class="resource-item" onclick="showLoaderNav('money_saving.html')">
+                    <div class="item-left">
+                        <div class="item-icon"><i data-lucide="piggy-bank" style="width: 18px; height: 18px;"></i></div>
+                        <div class="item-text">
+                            <h5>ಉಳಿತಾಯ ಮತ್ತು ಹೂಡಿಕೆ</h5>
+                            <p>Financial Planning Guide</p>
+                        </div>
+                    </div>
+                    <div class="action-badge">View</div>
+                </div>
+
+                <div class="resource-item" onclick="showLoaderNav('work_management.html')">
+                    <div class="item-left">
+                        <div class="item-icon"><i data-lucide="briefcase" style="width: 18px; height: 18px;"></i></div>
+                        <div class="item-text">
+                            <h5>ಕೆಲಸದ ನಿರ್ವಹಣೆ ಮಾರ್ಗದರ್ಶಿ</h5>
+                            <p>Work Management System</p>
+                        </div>
+                    </div>
+                    <div class="action-badge">View</div>
+                </div>
+
+                <div class="resource-item" onclick="openGrievancePopup()">
+                    <div class="item-left">
+                        <div class="item-icon"><i data-lucide="life-buoy" style="width: 18px; height: 18px;"></i></div>
+                        <div class="item-text">
+                            <h5>ಉದ್ಯೋಗಿ ಕುಂದುಕೊರತೆ ನೆರವು</h5>
+                            <p>Employee Grievance Desk</p>
+                        </div>
+                    </div>
+                    <div class="action-badge">Help</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FLOATING BOTTOM NAVBAR -->
+    <div class="navbar">
+        <div class="nav-item" data-page="home.html" onclick="goTab('home.html')">
+            <div class="nav-icon"><i data-lucide="home" style="width: 20px; height: 20px;"></i></div>
+            <span>Home</span>
+        </div>
+
+        <div class="nav-item" data-page="forum.html" onclick="goTab('forum.html')">
+            <div class="nav-icon"><i data-lucide="message-square" style="width: 20px; height: 20px;"></i></div>
+            <span>Forum</span>
+        </div>
+
+        <div class="nav-item center-item" data-page="info.html" onclick="goTab('info.html')">
+            <div class="center-wrapper">
+                <div class="center-btn">₹</div>
+                <div class="center-text">Smart Support</div>
+            </div>
+        </div>
+
+        <div class="nav-item" data-page="employee_info.html" onclick="goTab('employee_info.html')">
+            <div class="nav-icon"><i data-lucide="user" style="width: 20px; height: 20px;"></i></div>
+            <span>Employee</span>
+        </div>
+
+        <div class="nav-item active" data-page="resources.html" onclick="goTab('resources.html')">
+            <div class="nav-icon"><i data-lucide="folder-open" style="width: 20px; height: 20px;"></i></div>
+            <span>Resources</span>
+        </div>
+    </div>
 </div>
 
-<!-- SCRIPTS & ROUTING -->
+<!-- OVERLAY MODALS -->
+
+<!-- LOGOUT MODAL -->
+<div id="logoutPopup" class="modal-overlay">
+    <div class="modal-card">
+        <div style="width:48px; height:48px; margin:0 auto 12px; border-radius:50%; background:rgba(244, 63, 94, 0.15); display:flex; align-items:center; justify-content:center; color:var(--accent-rose);">
+            <i data-lucide="log-out" style="width: 24px; height: 24px;"></i>
+        </div>
+        <h3>Log Out</h3>
+        <p>Are you sure you want to logout from session?</p>
+        <div class="modal-btns">
+            <button class="btn-modal-cancel" onclick="closeLogout()">Cancel</button>
+            <button class="btn-modal-action" style="background: var(--accent-rose); box-shadow: 0 4px 12px rgba(244, 63, 94, 0.3);" onclick="confirmLogout()">Logout</button>
+        </div>
+    </div>
+</div>
+
+<!-- EXTERNAL REDIRECT POPUP -->
+<div id="grievancePopup" class="modal-overlay">
+    <div class="modal-card">
+        <div style="width:48px; height:48px; margin:0 auto 12px; border-radius:50%; background:rgba(244, 63, 94, 0.15); display:flex; align-items:center; justify-content:center; color:var(--accent-rose);">
+            <i data-lucide="alert-triangle" style="width: 24px; height: 24px;"></i>
+        </div>
+        <h3 style="color:var(--accent-rose);">Leaving Portal</h3>
+        <p>Redirecting to Employee Grievance Portal</p>
+
+        <div id="grievanceBtns" class="modal-btns">
+            <button class="btn-modal-cancel" onclick="closeGrievancePopup()">Cancel</button>
+            <button class="btn-modal-action" onclick="continueToGrievance()">Continue</button>
+        </div>
+
+        <div id="grievanceLoader" style="display:none; margin-top:16px;">
+            <div class="spinner-ring" style="width:36px; height:36px; margin:auto;"></div>
+            <p style="margin-top:10px; font-size:12px; color:var(--text-muted);">Redirecting...</p>
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPTS & API INTEGRATIONS -->
 <script>
-let isLoading = false;
+lucide.createIcons();
 
-function openPage(url){
-    if(isLoading) return;
-    isLoading = true;
+function showLoader(text = "Loading Data..."){
+    const loader = document.getElementById("loader");
+    const txt = document.querySelector(".loader-msg");
+    loader.style.display = "flex";
+    loader.style.opacity = "1";
+    txt.innerText = text;
+}
 
-    document.getElementById("loader").style.display = "flex";
-    document.body.style.overflow = "hidden";
+function hideLoader(){
+    const loader = document.getElementById("loader");
+    loader.style.opacity = "0";
+    setTimeout(()=>{ loader.style.display = "none"; }, 300);
+}
 
-    setTimeout(()=>{
+function showLoaderNav(url) {
+    showLoader("Navigating...");
+    setTimeout(function() {
         window.location = url;
-    }, 700);
+    }, 600);
 }
 
-function goTab(index, url){
-    sessionStorage.setItem("navClick", "true");
-    document.getElementById("loader").style.display = "flex";
-    document.body.style.overflow = "hidden";
-
-    setTimeout(function(){
-        window.location.replace(url);
-    }, 700);
-}
-
-function refreshApp(){
-    document.getElementById("loader").style.display = "flex";
-    setTimeout(function(){
+function refreshApp() {
+    showLoader("Refreshing...");
+    setTimeout(function() {
         location.reload(true);
-    }, 1000);
+    }, 600);
 }
 
-// Clear History / On Popstate logic
-history.pushState(null, "", location.href);
-window.onpopstate = function () {
-    window.location.replace("home.html");
-};
-
-// Highlight active tab based on current page
-window.addEventListener("load", function(){
-    let loader = document.getElementById("loader");
-    if(loader) {
-        loader.style.display = "none";
+setTimeout(function() {
+    let user = localStorage.getItem("currentUser");
+    if (!user) {
+        window.location.replace("login.html");
     }
+}, 200);
 
-    let page = location.pathname.split("/").pop();
-    let items = document.querySelectorAll(".nav-item");
+async function loadUserProfile() {
+    let loginUser = localStorage.getItem("currentUser");
+    try {
+        let response = await fetch("https://hescomsalary1-sudo.github.io/salary-data/employee.csv");
+        let text = await response.text();
+        let rows = text.trim().split("\n");
+
+        for (let i = 1; i < rows.length; i++) {
+            let cols = rows[i].split(",");
+            let username = cols[0]?.trim();
+            let name = cols[1]?.trim();
+            let designation = cols[2]?.trim();
+
+            if (username === loginUser) {
+                document.getElementById("empName").innerText = name;
+                document.getElementById("empDesg").innerText = designation;
+                document.getElementById("sideName").innerText = name;
+                document.getElementById("sideRole").innerText = designation;
+                document.getElementById("sideAvatar").innerText = name.charAt(0).toUpperCase();
+                return;
+            }
+        }
+        document.getElementById("empName").innerText = loginUser;
+        document.getElementById("sideName").innerText = loginUser;
+        document.getElementById("sideAvatar").innerText = loginUser.charAt(0).toUpperCase();
+    } catch (e) {
+        document.getElementById("empName").innerText = loginUser;
+        document.getElementById("sideName").innerText = loginUser;
+    }
+}
+
+function logout() {
+    document.getElementById("logoutPopup").style.display = "flex";
+}
+
+function closeLogout() {
+    document.getElementById("logoutPopup").style.display = "none";
+}
+
+function confirmLogout() {
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("role");
+    window.location.href = "login.html";
+}
+
+function goTab(url) {
+    showLoader("Loading Tab...");
+    setTimeout(() => {
+        window.location = url;
+    }, 600);
+}
+
+function filterResources() {
+    let input = document.getElementById('searchInput').value.toLowerCase();
+    let cards = document.querySelectorAll('.resource-card');
+    let items = document.querySelectorAll('.resource-item');
+
+    cards.forEach(card => {
+        let text = card.innerText.toLowerCase();
+        card.style.display = text.includes(input) ? "flex" : "none";
+    });
 
     items.forEach(item => {
-        let onclick = item.getAttribute("onclick");
-        if(onclick && onclick.includes(page)){
+        let text = item.innerText.toLowerCase();
+        item.style.display = text.includes(input) ? "flex" : "none";
+    });
+}
+
+window.addEventListener("load", function() {
+    let page = location.pathname.split("/").pop();
+    let items = document.querySelectorAll(".nav-item");
+    items.forEach(item => {
+        let target = item.getAttribute("data-page");
+        if (target === page) {
             item.classList.add("active");
+        } else {
+            item.classList.remove("active");
         }
     });
 });
-</script>
 
+/* INITIAL DATA LOADER */
+document.addEventListener("DOMContentLoaded", async function() {
+    showLoader("Syncing Resources...");
+    await loadUserProfile();
+    hideLoader();
+});
+
+/* SIDENAV DRAWER CONTROLS */
+const sideNav = document.getElementById("sideNav");
+const overlay = document.getElementById("sideOverlay");
+
+function openSideNav() {
+    sideNav.style.transform = "translateX(0)";
+    overlay.style.opacity = "1";
+    overlay.style.visibility = "visible";
+    document.body.style.overflow = "hidden";
+}
+
+function closeSideNav() {
+    sideNav.style.transform = "translateX(-100%)";
+    overlay.style.opacity = "0";
+    overlay.style.visibility = "hidden";
+    document.body.style.overflow = "auto";
+}
+
+function openGrievancePopup() {
+    closeSideNav();
+    document.getElementById("grievancePopup").style.display = "flex";
+}
+
+function closeGrievancePopup() {
+    document.getElementById("grievancePopup").style.display = "none";
+}
+
+function continueToGrievance() {
+    document.getElementById("grievanceBtns").style.display = "none";
+    document.getElementById("grievanceLoader").style.display = "block";
+    setTimeout(() => {
+        window.location = "welcome.html";
+    }, 1200);
+}
+</script>
 </body>
 </html>
