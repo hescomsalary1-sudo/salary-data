@@ -5,31 +5,31 @@
 <title>Salary Prompt - Login</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<!-- Google Fonts: Noto Sans Kannada & Inter -->
+<!-- Google Fonts: Noto Sans Kannada & Plus Jakarta Sans -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Kannada:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- Lucide Vector Icons -->
+<!-- Lucide Modern Vector Icons -->
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
-/* --- MODERN AURORA DARK DESIGN SYSTEM --- */
+/* --- MODERN AURORA GLASS DESIGN SYSTEM --- */
 :root {
-    --primary-bg: #090d16;
-    --accent-purple: #8b5cf6;
+    --bg-dark: #07090e;
+    --accent-indigo: #6366f1;
     --accent-cyan: #06b6d4;
-    --accent-pink: #ec4899;
-    --card-bg: rgba(17, 24, 39, 0.75);
-    --modal-bg: #0f172a;
-    --input-bg: rgba(15, 23, 42, 0.6);
+    --accent-rose: #f43f5e;
+    --accent-emerald: #10b981;
+    --glass-card: rgba(18, 24, 38, 0.7);
+    --glass-input: rgba(255, 255, 255, 0.05);
     --glass-border: rgba(255, 255, 255, 0.12);
-    --text-light: #f8fafc;
+    --glass-hover: rgba(255, 255, 255, 0.18);
+    --text-primary: #f8fafc;
     --text-muted: #94a3b8;
-    --error: #f43f5e;
-    --success: #10b981;
-    --radius: 20px;
-    --font-family: 'Noto Sans Kannada', 'Inter', -apple-system, sans-serif;
+    --radius-lg: 24px;
+    --radius-md: 14px;
+    --font-stack: 'Noto Sans Kannada', 'Plus Jakarta Sans', sans-serif;
 }
 
 * {
@@ -43,206 +43,249 @@ html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    background-color: var(--bg-dark);
+    font-family: var(--font-stack);
+    color: var(--text-primary);
 }
 
 body {
-    font-family: var(--font-family);
-    background-color: var(--primary-bg);
-    color: var(--text-light);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     position: relative;
 }
 
-/* --- AURORA LIGHT ORBS --- */
+/* --- DYNAMIC BACKGROUND ORBS --- */
+.aurora-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+    pointer-events: none;
+}
+
 .orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(80px);
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0.35;
+    filter: blur(90px);
+    opacity: 0.4;
+    animation: floatOrb 12s ease-in-out infinite alternate;
 }
-.orb-1 { width: 320px; height: 320px; left: -100px; top: -50px; background: #7c3aed; }
-.orb-2 { width: 300px; height: 300px; right: -80px; top: 100px; background: #06b6d4; }
-.orb-3 { width: 250px; height: 250px; left: 20%; bottom: -50px; background: #ec4899; }
 
-/* --- TOP BRANDING AREA --- */
-.top {
+.orb-1 {
+    width: 380px;
+    height: 380px;
+    top: -100px;
+    left: -80px;
+    background: radial-gradient(circle, #4f46e5 0%, #a855f7 100%);
+}
+
+.orb-2 {
+    width: 320px;
+    height: 320px;
+    bottom: -60px;
+    right: -60px;
+    background: radial-gradient(circle, #06b6d4 0%, #3b82f6 100%);
+    animation-delay: -6s;
+}
+
+@keyframes floatOrb {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(30px, 40px) scale(1.1); }
+}
+
+/* --- BRANDING HEADER --- */
+.top-header {
     position: relative;
-    width: 100%;
-    height: 26vh;
+    z-index: 2;
+    height: 24vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    z-index: 2;
-    padding: 20px 15px 0 15px;
+    justify-content: center;
     text-align: center;
+    padding: 20px 16px 0;
 }
 
-.illustration {
+.bg-image {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background-image: url("https://hescomsalary1-sudo.github.io/salary-data/blue_image.png");
     background-size: cover;
     background-position: center;
-    opacity: 0.12;
-    filter: hue-rotate(200deg);
+    opacity: 0.08;
+    filter: hue-rotate(190deg);
 }
 
-.brand-badge {
-    width: 56px;
-    height: 56px;
-    background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
-    border-radius: 16px;
+.brand-icon {
+    width: 54px;
+    height: 54px;
+    background: linear-gradient(135deg, var(--accent-indigo), var(--accent-cyan));
+    border-radius: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 700;
-    color: #fff;
-    box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
+    color: #ffffff;
+    box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+    margin-bottom: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     z-index: 3;
-    margin-bottom: 8px;
 }
 
-.top h1 {
-    color: #ffffff;
-    font-size: 20px;
+.title-kannada {
+    font-size: 19px;
     font-weight: 700;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-    z-index: 3;
     line-height: 1.4;
+    z-index: 3;
+    background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 /* --- MAIN CONTAINER --- */
-.bottom {
+.main-wrapper {
+    position: relative;
+    z-index: 2;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     padding: 0 20px;
-    flex-grow: 1;
-    z-index: 2;
 }
 
-.login-box {
+.login-card {
     width: 100%;
     max-width: 400px;
-    background: var(--card-bg);
-    padding: 28px 24px;
-    border-radius: var(--radius);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.2);
+    background: var(--glass-card);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border: 1px solid var(--glass-border);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    border-radius: var(--radius-lg);
+    padding: 28px 24px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-/* --- INPUT FIELDS --- */
-.input-group {
-    margin-bottom: 16px;
+/* --- FORM CONTROLS --- */
+.field-group {
     position: relative;
+    margin-bottom: 16px;
     display: flex;
     align-items: center;
 }
 
-.input-icon {
+.field-icon {
     position: absolute;
-    left: 14px;
+    left: 16px;
     color: var(--text-muted);
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     pointer-events: none;
+    transition: color 0.25s;
 }
 
-input {
+.field-input {
     width: 100%;
-    padding: 14px 16px 14px 44px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 14px 16px 14px 46px;
+    background: var(--glass-input);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: var(--font-stack);
     outline: none;
-    font-size: 15px;
-    font-family: var(--font-family);
-    background: var(--input-bg);
-    border-radius: 12px;
-    color: var(--text-light);
-    transition: all 0.25s ease;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-input::placeholder {
+.field-input::placeholder {
     color: var(--text-muted);
-    opacity: 0.7;
+    opacity: 0.6;
 }
 
-input:focus {
-    border-color: var(--accent-purple);
-    background: rgba(15, 23, 42, 0.9);
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25);
+.field-input:focus {
+    border-color: var(--accent-indigo);
+    background: rgba(15, 23, 42, 0.8);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.18);
 }
 
-.toggle-password {
+.field-input:focus + .field-icon,
+.field-group:focus-within .field-icon {
+    color: var(--accent-cyan);
+}
+
+.pass-toggle {
     position: absolute;
     right: 14px;
     cursor: pointer;
     color: var(--text-muted);
     display: flex;
     align-items: center;
+    padding: 4px;
     transition: color 0.2s;
 }
 
-.toggle-password:hover {
-    color: var(--accent-cyan);
+.pass-toggle:hover {
+    color: var(--text-primary);
 }
 
 /* --- BUTTONS --- */
-button {
+.btn-primary {
     width: 100%;
     padding: 14px;
     border: none;
-    background: linear-gradient(135deg, var(--accent-purple), #6366f1);
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
     color: #ffffff;
     font-size: 15px;
     font-weight: 600;
-    font-family: var(--font-family);
-    border-radius: 12px;
+    font-family: var(--font-stack);
+    border-radius: var(--radius-md);
     cursor: pointer;
-    transition: all 0.25s ease;
-    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.35);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+    transition: all 0.25s ease;
 }
 
-button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(99, 102, 241, 0.5);
 }
 
-button:active {
+.btn-primary:active {
     transform: translateY(0);
 }
 
-.change-btn {
-    margin-top: 10px;
-    background: transparent;
-    color: var(--text-light);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: none;
+.btn-secondary {
+    width: 100%;
+    margin-top: 12px;
+    padding: 12px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 500;
+    font-family: var(--font-stack);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.25s ease;
 }
 
-.change-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.3);
-    box-shadow: none;
+.btn-secondary:hover {
+    background: var(--glass-hover);
+    border-color: rgba(255, 255, 255, 0.25);
 }
 
-/* --- FEATURES GRID --- */
-.features {
+/* --- FEATURE TILES --- */
+.feature-grid {
     width: 100%;
     max-width: 400px;
     display: grid;
@@ -251,125 +294,108 @@ button:active {
     margin-top: 18px;
 }
 
-.f {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 14px;
+.tile {
+    background: var(--glass-card);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: var(--radius-md);
     padding: 10px 4px;
-    color: var(--text-light);
     text-align: center;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
 }
 
-.f:hover {
-    background: rgba(255, 255, 255, 0.08);
+.tile:hover {
+    background: var(--glass-hover);
     transform: translateY(-2px);
     border-color: var(--accent-cyan);
 }
 
-.f .i-box {
+.tile-icon {
+    color: var(--accent-cyan);
+    margin-bottom: 4px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin-bottom: 4px;
-    color: var(--accent-cyan);
 }
 
-.f b {
+.tile-label-en {
     display: block;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
 }
 
-.f span {
+.tile-label-kn {
     display: block;
     font-size: 10px;
     color: var(--text-muted);
-    margin-top: 1px;
 }
 
-/* --- ALERTS & ERRORS --- */
+/* --- INLINE ERROR DISPLAY --- */
 #error {
-    color: var(--error);
+    color: var(--accent-rose);
     font-size: 13px;
-    font-weight: 500;
-    margin-bottom: 14px;
     text-align: center;
-    background: rgba(244, 63, 94, 0.12);
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(244, 63, 94, 0.25);
+    background: rgba(244, 63, 94, 0.1);
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(244, 63, 94, 0.2);
+    margin-bottom: 16px;
     display: none;
 }
 #error:not(:empty) {
     display: block;
 }
 
-/* --- LOADERS & MODALS --- */
+/* --- MODALS & LOADERS --- */
 #loader, #cpLoader, #changeBox, #successPopup, #errorPopup {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(9, 13, 22, 0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    inset: 0;
+    background: rgba(7, 9, 14, 0.85);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     z-index: 9999;
+    transition: opacity 0.3s ease;
 }
 
 #cpLoader, #changeBox, #successPopup, #errorPopup {
     display: none;
 }
 
-.morph-spinner {
-    width: 80px;
-    height: 80px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.morph-spinner::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
+.spinner-ring {
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    border: 3px solid transparent;
-    border-top-color: var(--accent-purple);
-    border-bottom-color: var(--accent-cyan);
-    animation: spin 1.2s linear infinite;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--accent-indigo);
+    border-right-color: var(--accent-cyan);
+    animation: spin 0.9s linear infinite;
 }
 
-.loader-text {
-    margin-top: 24px;
-    font-weight: 600;
-    color: var(--text-light);
+.loader-msg {
+    margin-top: 20px;
     font-size: 14px;
-    letter-spacing: 1px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var(--text-primary);
 }
 
-.change-box-content, .popup-content {
-    background: var(--modal-bg);
-    padding: 28px 24px;
-    border-radius: var(--radius);
-    width: 90%;
-    max-width: 350px;
+.modal-card {
+    background: #0f172a;
     border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 28px 24px;
+    width: 90%;
+    max-width: 360px;
     text-align: center;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-    animation: pop 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+    animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes pop {
+@keyframes modalPop {
     from { transform: scale(0.92); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
@@ -378,169 +404,162 @@ button:active {
     to { transform: rotate(360deg); }
 }
 
-.change-box-content h3 {
+.modal-card h3 {
     margin-bottom: 18px;
-    color: var(--text-light);
     font-size: 18px;
 }
 
-.change-box-content input {
+.modal-card .field-group {
     margin-bottom: 12px;
 }
 
-.cancel-link {
+.cancel-btn {
     display: inline-block;
     margin-top: 14px;
-    color: var(--text-muted);
     font-size: 13px;
+    color: var(--text-muted);
     cursor: pointer;
+    transition: color 0.2s;
 }
 
-.cancel-link:hover {
-    color: var(--text-light);
+.cancel-btn:hover {
+    color: var(--text-primary);
 }
 
-.footer-blue {
+/* --- FOOTER DECORATION --- */
+.footer-decor {
     width: 100%;
+    height: 32px;
     position: relative;
-    height: 30px;
     z-index: 2;
+    overflow: hidden;
 }
 
-.footer-wave {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    line-height: 0;
-}
-
-.footer-wave svg {
+.footer-decor svg {
     display: block;
     width: 100%;
-    height: 30px;
+    height: 100%;
 }
 </style>
 </head>
 
 <body>
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
-<div class="orb orb-3"></div>
-
-<div class="top">
-    <div class="illustration"></div>
-    <div class="brand-badge">₹</div>
-    <h1>ಕಾರ್ಯ ಮತ್ತು ಪಾಲನಾ ವಿಭಾಗ<br>ಹೆಸ್ಕಾಂ, ಶಿರಸಿ</h1>
+<div class="aurora-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
 </div>
 
-<div class="bottom">
-    <div class="login-box">
+<div class="top-header">
+    <div class="bg-image"></div>
+    <div class="brand-icon">₹</div>
+    <h1 class="title-kannada">ಕಾರ್ಯ ಮತ್ತು ಪಾಲನಾ ವಿಭಾಗ<br>ಹೆಸ್ಕಾಂ, ಶಿರಸಿ</h1>
+</div>
+
+<div class="main-wrapper">
+    <div class="login-card">
         <div id="error"></div>
 
-        <div class="input-group">
-            <i data-lucide="user" class="input-icon"></i>
-            <input type="text" id="username" placeholder="ಬಳಕೆದಾರರ ಹೆಸರು (Username)">
+        <div class="field-group">
+            <i data-lucide="user" class="field-icon"></i>
+            <input type="text" id="username" class="field-input" placeholder="ಬಳಕೆದಾರರ ಹೆಸರು (Username)">
         </div>
 
-        <div class="input-group">
-            <i data-lucide="lock" class="input-icon"></i>
-            <input type="password" id="password" placeholder="ಪಾಸ್‌ವರ್ಡ್ (Password)">
-            <span class="toggle-password" onclick="togglePassword()">
+        <div class="field-group">
+            <i data-lucide="lock" class="field-icon"></i>
+            <input type="password" id="password" class="field-input" placeholder="ಪಾಸ್‌ವರ್ಡ್ (Password)">
+            <span class="pass-toggle" onclick="togglePassword()">
                 <i data-lucide="eye" id="eyeIcon" style="width: 18px; height: 18px;"></i>
             </span>
         </div>
 
-        <button onclick="login()">
+        <button class="btn-primary" onclick="login()">
             <span>ಲಾಗಿನ್ (Login)</span>
             <i data-lucide="arrow-right" style="width: 18px; height: 18px;"></i>
         </button>
-        <button class="change-btn" onclick="openChangePassword()">
+
+        <button class="btn-secondary" onclick="openChangePassword()">
             <i data-lucide="key-round" style="width: 16px; height: 16px;"></i>
             <span>ಪಾಸ್‌ವರ್ಡ್ ಬದಲಾಯಿಸಿ</span>
         </button>
     </div>
 
-    <div class="features">
-        <div class="f">
-            <div class="i-box"><i data-lucide="shield-check" style="width: 20px; height: 20px;"></i></div>
-            <b>Secure</b>
-            <span>ಸುರಕ್ಷತೆ</span>
+    <div class="feature-grid">
+        <div class="tile">
+            <div class="tile-icon"><i data-lucide="shield-check" style="width: 20px; height: 20px;"></i></div>
+            <span class="tile-label-en">Secure</span>
+            <span class="tile-label-kn">ಸುರಕ್ಷತೆ</span>
         </div>
-        <div class="f">
-            <div class="i-box"><i data-lucide="handshake" style="width: 20px; height: 20px;"></i></div>
-            <b>Reliable</b>
-            <span>ವಿಶ್ವಾಸಾರ್ಹ</span>
+        <div class="tile">
+            <div class="tile-icon"><i data-lucide="handshake" style="width: 20px; height: 20px;"></i></div>
+            <span class="tile-label-en">Reliable</span>
+            <span class="tile-label-kn">ವಿಶ್ವಾಸಾರ್ಹ</span>
         </div>
-        <div class="f">
-            <div class="i-box"><i data-lucide="zap" style="width: 20px; height: 20px;"></i></div>
-            <b>Efficient</b>
-            <span>ದಕ್ಷತೆ</span>
+        <div class="tile">
+            <div class="tile-icon"><i data-lucide="zap" style="width: 20px; height: 20px;"></i></div>
+            <span class="tile-label-en">Efficient</span>
+            <span class="tile-label-kn">ದಕ್ಷತೆ</span>
         </div>
-        <div class="f">
-            <div class="i-box"><i data-lucide="users" style="width: 20px; height: 20px;"></i></div>
-            <b>Employee</b>
-            <span>ಸಿಬ್ಬಂದಿ ಪ್ರಥಮ</span>
+        <div class="tile">
+            <div class="tile-icon"><i data-lucide="users" style="width: 20px; height: 20px;"></i></div>
+            <span class="tile-label-en">Employee</span>
+            <span class="tile-label-kn">ಸಿಬ್ಬಂದಿ ಪ್ರಥಮ</span>
         </div>
     </div>
 </div>
 
 <div id="loader">
-    <div class="morph-spinner">
-        <i data-lucide="zap" style="color: var(--accent-cyan); width: 28px; height: 28px;"></i>
-    </div>
-    <div class="loader-text">Securing Session...</div>
+    <div class="spinner-ring"></div>
+    <div class="loader-msg">Securing Session...</div>
 </div>
 
 <div id="cpLoader">
-    <div class="morph-spinner"></div>
+    <div class="spinner-ring"></div>
 </div>
 
 <div id="changeBox">
-    <div class="change-box-content">
+    <div class="modal-card">
         <h3>ಪಾಸ್‌ವರ್ಡ್ ಬದಲಾಯಿಸಿ</h3>
-        <div class="input-group">
-            <i data-lucide="user" class="input-icon"></i>
-            <input id="cp_user" placeholder="Username">
+
+        <div class="field-group">
+            <i data-lucide="user" class="field-icon"></i>
+            <input id="cp_user" class="field-input" placeholder="Username">
         </div>
-        <div class="input-group">
-            <i data-lucide="lock" class="input-icon"></i>
-            <input id="old_pass" type="password" placeholder="ಹಳೆಯ ಪಾಸ್‌ವರ್ಡ್">
+        <div class="field-group">
+            <i data-lucide="lock" class="field-icon"></i>
+            <input id="old_pass" type="password" class="field-input" placeholder="ಹಳೆಯ ಪಾಸ್‌ವರ್ಡ್">
         </div>
-        <div class="input-group">
-            <i data-lucide="key" class="input-icon"></i>
-            <input id="new_pass" type="password" placeholder="ಹೊಸ ಪಾಸ್‌ವರ್ಡ್">
+        <div class="field-group">
+            <i data-lucide="key" class="field-icon"></i>
+            <input id="new_pass" type="password" class="field-input" placeholder="ಹೊಸ ಪಾಸ್‌ವರ್ಡ್">
         </div>
 
-        <button onclick="changePassword()">ಉಳಿಸಿ (Save)</button>
-        <span class="cancel-link" onclick="closeBox()">ರದ್ದುಗೊಳಿಸಿ (Cancel)</span>
+        <button class="btn-primary" onclick="changePassword()">ಉಳಿಸಿ (Save)</button>
+        <span class="cancel-btn" onclick="closeBox()">ರದ್ದುಗೊಳಿಸಿ (Cancel)</span>
     </div>
 </div>
 
 <div id="successPopup">
-    <div class="popup-content">
-        <i data-lucide="check-circle-2" style="width: 48px; height: 48px; color: var(--success); margin-bottom: 12px;"></i>
-        <h3 style="margin-bottom: 6px;">ಯಶಸ್ವಿಯಾಗಿದೆ</h3>
-        <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 13px;">ಪಾಸ್‌ವರ್ಡ್ ಯಶಸ್ವಿಯಾಗಿ ಬದಲಾಗಿದೆ</p>
-        <button onclick="closeSuccess()">ಸರಿ (OK)</button>
+    <div class="modal-card">
+        <i data-lucide="check-circle-2" style="width: 48px; height: 48px; color: var(--accent-emerald); margin: 0 auto 12px;"></i>
+        <h3>ಯಶಸ್ವಿಯಾಗಿದೆ</h3>
+        <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">ಪಾಸ್‌ವರ್ಡ್ ಯಶಸ್ವಿಯಾಗಿ ಬದಲಾಗಿದೆ</p>
+        <button class="btn-primary" onclick="closeSuccess()">ಸರಿ (OK)</button>
     </div>
 </div>
 
 <div id="errorPopup">
-    <div class="popup-content">
-        <i data-lucide="x-circle" style="width: 48px; height: 48px; color: var(--error); margin-bottom: 12px;"></i>
-        <h3 style="margin-bottom: 6px; color: var(--error);">ವಿಫಲವಾಗಿದೆ</h3>
-        <p id="errorText" style="color: var(--text-muted); margin-bottom: 20px; font-size: 13px;">ವಿವರಗಳು ತಪ್ಪು</p>
-        <button onclick="closeError()" style="background: var(--error);">ಸರಿ (OK)</button>
+    <div class="modal-card">
+        <i data-lucide="alert-circle" style="width: 48px; height: 48px; color: var(--accent-rose); margin: 0 auto 12px;"></i>
+        <h3 style="color: var(--accent-rose);">ವಿಫಲವಾಗಿದೆ</h3>
+        <p id="errorText" style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">ವಿವರಗಳು ತಪ್ಪು</p>
+        <button class="btn-primary" style="background: var(--accent-rose); box-shadow: 0 8px 20px rgba(244, 63, 94, 0.35);" onclick="closeError()">ಸರಿ (OK)</button>
     </div>
 </div>
 
-<div class="footer-blue">
-    <div class="footer-wave">
-        <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
-            <path fill="rgba(139, 92, 246, 0.08)" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,144C672,139,768,181,864,202.7C960,224,1056,224,1152,197.3C1248,171,1344,117,1392,90.7L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-        </svg>
-    </div>
+<div class="footer-decor">
+    <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+        <path fill="rgba(99, 102, 241, 0.08)" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,144C672,139,768,181,864,202.7C960,224,1056,224,1152,197.3C1248,171,1344,117,1392,90.7L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+    </svg>
 </div>
 
 <script>
@@ -548,7 +567,7 @@ lucide.createIcons();
 
 function showLoader(text = "Securing Session..."){
     const loader = document.getElementById("loader");
-    const txt = document.querySelector(".loader-text");
+    const txt = document.querySelector(".loader-msg");
     loader.style.display = "flex";
     loader.style.opacity = "1";
     txt.innerText = text;
@@ -557,7 +576,7 @@ function showLoader(text = "Securing Session..."){
 function hideLoader(){
     const loader = document.getElementById("loader");
     loader.style.opacity = "0";
-    setTimeout(()=>{ loader.style.display = "none"; }, 400);
+    setTimeout(()=>{ loader.style.display = "none"; }, 300);
 }
 
 function login(){
@@ -565,12 +584,12 @@ function login(){
     let pass = document.getElementById("password").value.trim();
 
     if(user === "" || pass === ""){
-        document.getElementById("errorText").innerText="ಬಳಕೆದಾರರ ಹೆಸರು ಅಥವಾ ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ";
-        document.getElementById("errorPopup").style.display="flex";
+        document.getElementById("errorText").innerText = "ಬಳಕೆದಾರರ ಹೆಸರು ಅಥವಾ ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ";
+        document.getElementById("errorPopup").style.display = "flex";
         return;
     }
-    let deviceId = localStorage.getItem("deviceId");
 
+    let deviceId = localStorage.getItem("deviceId");
     if(!deviceId){
         deviceId = "DEV-" + Date.now() + "-" + Math.floor(Math.random()*10000);
         localStorage.setItem("deviceId", deviceId);
@@ -587,21 +606,21 @@ function login(){
     .then(res => res.text())
     .then(text => {
         let data;
-        try{ data = JSON.parse(text); } catch(e){ data = {status:"fail"}; }
+        try{ data = JSON.parse(text); }catch(e){ data = {status:"fail"}; }
 
         if(data.status === "success"){
             localStorage.setItem("currentUser", user);
             localStorage.setItem("role", data.role);
-            document.querySelector(".loader-text").innerText = "ಲಾಗಿನ್ ಯಶಸ್ವಿಯಾಗಿದೆ...";
+            document.querySelector(".loader-msg").innerText = "ಲಾಗಿನ್ ಯಶಸ್ವಿಯಾಗಿದೆ...";
             setTimeout(function(){ window.location = "home.html"; }, 1000); 
         }else{
             hideLoader();
-            document.getElementById("error").innerText="ತಪ್ಪಾದ ಬಳಕೆದಾರರ ಹೆಸರು ಅಥವಾ ಪಾಸ್‌ವರ್ಡ್";
+            document.getElementById("error").innerText = "ತಪ್ಪಾದ ಬಳಕೆದಾರರ ಹೆಸರು ಅಥವಾ ಪಾಸ್‌ವರ್ಡ್";
         }
     })
     .catch(err => {
         hideLoader();
-        document.getElementById("error").innerText="ಸರ್ವರ್ ದೋಷ ಸಂಭವಿಸಿದೆ";
+        document.getElementById("error").innerText = "ಸರ್ವರ್ ದೋಷ ಸಂಭವಿಸಿದೆ";
     });
 }
 
@@ -619,12 +638,12 @@ function togglePassword(){
 }
 
 function openChangePassword(){
-    document.getElementById("changeBox").style.display="flex";
+    document.getElementById("changeBox").style.display = "flex";
     document.getElementById("cp_user").value = document.getElementById("username").value;
 }
 
 function closeBox(){
-    document.getElementById("changeBox").style.display="none";
+    document.getElementById("changeBox").style.display = "none";
 }
 
 function changePassword(){
@@ -646,7 +665,7 @@ function changePassword(){
     formData.append("newPassword", newPass);
 
     fetch("https://script.google.com/macros/s/AKfycbzeO5RppL-lE_62OuL4VQ5FYZiehPMPFsH6NC9X2_i40YEIzXPPjW8-QUH1QpfS1Jg1/exec", {
-        method:"POST",
+        method: "POST",
         body: formData
     })
     .then(res => res.text())
@@ -671,12 +690,12 @@ function changePassword(){
 }
 
 function closeSuccess(){
-    document.getElementById("successPopup").style.display="none";
+    document.getElementById("successPopup").style.display = "none";
     closeBox();
 }
 
 function closeError(){
-    document.getElementById("errorPopup").style.display="none";
+    document.getElementById("errorPopup").style.display = "none";
 }
 
 window.addEventListener("load", function(){
