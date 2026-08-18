@@ -1,24 +1,35 @@
 <!DOCTYPE html>
 <html lang="kn">
 <head>
+<meta charset="UTF-8">
 <title>Salary Prompt - Login</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
+<!-- Google Fonts: Noto Sans Kannada & Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Kannada:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Lucide Vector Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+
 <style>
-/* --- DARK OBSIDIAN & NEON PURPLE DESIGN SYSTEM --- */
+/* --- MODERN AURORA DARK DESIGN SYSTEM --- */
 :root {
-    --primary-bg: radial-gradient(circle at top, #31104b 0%, #1e0936 25%, #0f051d 60%, #05010a 100%);
-    --accent-purple: #a855f7;
+    --primary-bg: #090d16;
+    --accent-purple: #8b5cf6;
+    --accent-cyan: #06b6d4;
     --accent-pink: #ec4899;
-    --card-bg: rgba(30, 9, 54, 0.65);
-    --modal-bg: #1a082e;
-    --input-bg: rgba(15, 5, 29, 0.65);
+    --card-bg: rgba(17, 24, 39, 0.75);
+    --modal-bg: #0f172a;
+    --input-bg: rgba(15, 23, 42, 0.6);
     --glass-border: rgba(255, 255, 255, 0.12);
-    --text-light: #ffffff;
-    --text-muted: #f5d0fe;
+    --text-light: #f8fafc;
+    --text-muted: #94a3b8;
     --error: #f43f5e;
-    --success: #34d399;
-    --radius: 24px;
+    --success: #10b981;
+    --radius: 20px;
+    --font-family: 'Noto Sans Kannada', 'Inter', -apple-system, sans-serif;
 }
 
 * {
@@ -31,12 +42,12 @@
 html, body {
     width: 100%;
     height: 100%;
-    overflow: hidden; /* Stops horizontal & vertical scrolling page wiggle */
+    overflow: hidden;
 }
 
 body {
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--primary-bg);
+    font-family: var(--font-family);
+    background-color: var(--primary-bg);
     color: var(--text-light);
     display: flex;
     flex-direction: column;
@@ -44,29 +55,31 @@ body {
     position: relative;
 }
 
-/* --- AMBIENT BACKGROUND ORBS --- */
-.bg1, .bg2 {
+/* --- AURORA LIGHT ORBS --- */
+.orb {
     position: absolute;
     border-radius: 50%;
-    background: rgba(168, 85, 247, 0.12);
-    filter: blur(25px);
+    filter: blur(80px);
     pointer-events: none;
     z-index: 1;
+    opacity: 0.35;
 }
-.bg1 { width: 280px; height: 280px; left: -80px; top: -80px; }
-.bg2 { width: 240px; height: 240px; right: -60px; top: 90px; background: rgba(236, 72, 153, 0.10); }
+.orb-1 { width: 320px; height: 320px; left: -100px; top: -50px; background: #7c3aed; }
+.orb-2 { width: 300px; height: 300px; right: -80px; top: 100px; background: #06b6d4; }
+.orb-3 { width: 250px; height: 250px; left: 20%; bottom: -50px; background: #ec4899; }
 
-/* --- TOP SPLIT BRANDING AREA --- */
+/* --- TOP BRANDING AREA --- */
 .top {
     position: relative;
     width: 100%;
-    height: 28vh;
+    height: 26vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     z-index: 2;
-    padding-top: 10px;
+    padding: 20px 15px 0 15px;
+    text-align: center;
 }
 
 .illustration {
@@ -78,12 +91,36 @@ body {
     background-image: url("https://hescomsalary1-sudo.github.io/salary-data/blue_image.png");
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
     opacity: 0.12;
-    filter: hue-rotate(240deg); /* Adapts blue graphic to fit purple theme */
+    filter: hue-rotate(200deg);
 }
 
-/* --- BOTTOM WORKSPACE BOUNDED CONTAINER --- */
+.brand-badge {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
+    z-index: 3;
+    margin-bottom: 8px;
+}
+
+.top h1 {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    z-index: 3;
+    line-height: 1.4;
+}
+
+/* --- MAIN CONTAINER --- */
 .bottom {
     display: flex;
     flex-direction: column;
@@ -94,166 +131,174 @@ body {
     z-index: 2;
 }
 
-/* --- PREMIUM BLUR LOGIN BOX --- */
 .login-box {
     width: 100%;
-    max-width: 420px;
+    max-width: 400px;
     background: var(--card-bg);
-    padding: 30px 24px;
+    padding: 28px 24px;
     border-radius: var(--radius);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.65), 0 0 30px rgba(168, 85, 247, 0.15);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.2);
     border: 1px solid var(--glass-border);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
 }
 
-/* --- FLASH SCREEN IDENTICAL FEATURES GRID --- */
+/* --- INPUT FIELDS --- */
+.input-group {
+    margin-bottom: 16px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 14px;
+    color: var(--text-muted);
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+}
+
+input {
+    width: 100%;
+    padding: 14px 16px 14px 44px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    outline: none;
+    font-size: 15px;
+    font-family: var(--font-family);
+    background: var(--input-bg);
+    border-radius: 12px;
+    color: var(--text-light);
+    transition: all 0.25s ease;
+}
+
+input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+input:focus {
+    border-color: var(--accent-purple);
+    background: rgba(15, 23, 42, 0.9);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25);
+}
+
+.toggle-password {
+    position: absolute;
+    right: 14px;
+    cursor: pointer;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.toggle-password:hover {
+    color: var(--accent-cyan);
+}
+
+/* --- BUTTONS --- */
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    background: linear-gradient(135deg, var(--accent-purple), #6366f1);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: var(--font-family);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.change-btn {
+    margin-top: 10px;
+    background: transparent;
+    color: var(--text-light);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: none;
+}
+
+.change-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: none;
+}
+
+/* --- FEATURES GRID --- */
 .features {
     width: 100%;
-    max-width: 420px;
+    max-width: 400px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 8px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 18px;
 }
 
 .f {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-radius: 14px;
-    padding: 10px 2px;
+    padding: 10px 4px;
     color: var(--text-light);
     text-align: center;
     transition: all 0.3s ease;
-    cursor: default;
 }
 
 .f:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.08);
     transform: translateY(-2px);
-    border-color: var(--accent-purple);
+    border-color: var(--accent-cyan);
 }
 
-.f .i {
-    font-size: 20px;
+.f .i-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 4px;
+    color: var(--accent-cyan);
 }
 
 .f b {
     display: block;
     font-size: 11px;
-    margin-top: 4px;
     font-weight: 600;
 }
 
 .f span {
     display: block;
-    font-size: 9px;
+    font-size: 10px;
     color: var(--text-muted);
     margin-top: 1px;
-}
-
-/* --- REFINED INPUT FIELDS --- */
-.input-group {
-    margin-bottom: 16px;
-    position: relative;
-}
-
-input {
-    width: 100%;
-    padding: 14px 16px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    outline: none;
-    font-size: 15px;
-    background: var(--input-bg);
-    border-radius: 12px;
-    box-sizing: border-box;
-    transition: all 0.25s ease;
-    color: var(--text-light);
-}
-
-input::placeholder {
-    color: var(--accent-purple);
-    opacity: 0.6;
-}
-
-input:focus {
-    border-color: var(--accent-purple);
-    background: rgba(15, 5, 29, 0.85);
-    box-shadow: 0 0 14px rgba(168, 85, 247, 0.3);
-}
-
-.toggle-password {
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--accent-pink);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    user-select: none;
-}
-
-.toggle-password:hover {
-    color: var(--text-light);
-}
-
-/* --- HIGH-END BUTTONS --- */
-button {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    background: linear-gradient(135deg, #7e22ce 0%, #a855f7 50%, #ec4899 100%);
-    color: #ffffff;
-    font-size: 15px;
-    font-weight: 700;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.35);
-}
-
-button:hover {
-    transform: scale(1.01);
-    box-shadow: 0 8px 25px rgba(168, 85, 247, 0.5);
-}
-
-button:active {
-    transform: scale(0.99);
-}
-
-button + button {
-    margin-top: 12px;
-}
-
-.change-btn {
-    background: transparent;
-    color: var(--text-light);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: none;
-    font-weight: 600;
-}
-
-.change-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: var(--accent-purple);
-    box-shadow: none;
 }
 
 /* --- ALERTS & ERRORS --- */
 #error {
     color: var(--error);
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 16px;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 14px;
     text-align: center;
     background: rgba(244, 63, 94, 0.12);
-    padding: 10px;
+    padding: 8px 12px;
     border-radius: 8px;
     border: 1px solid rgba(244, 63, 94, 0.25);
     display: none;
@@ -262,109 +307,66 @@ button + button {
     display: block;
 }
 
-/* --- PREMIUM MORPHING GLASS LOADER --- */
-#loader {
+/* --- LOADERS & MODALS --- */
+#loader, #cpLoader, #changeBox, #successPopup, #errorPopup {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(5, 1, 10, 0.85);
+    background: rgba(9, 13, 22, 0.85);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 999999;
-    transition: opacity 0.4s ease;
+    z-index: 9999;
+}
+
+#cpLoader, #changeBox, #successPopup, #errorPopup {
+    display: none;
 }
 
 .morph-spinner {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.morph-spinner::before,
-.morph-spinner::after {
+.morph-spinner::before {
     content: '';
     position: absolute;
     width: 100%;
     height: 100%;
-    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-    background: linear-gradient(135deg, #7e22ce, #a855f7, #ec4899);
-    opacity: 0.6;
-    animation: morph 3s linear infinite;
-}
-
-.morph-spinner::after {
-    animation-delay: -1.5s;
-    background: linear-gradient(135deg, #ec4899, #581c87);
-    opacity: 0.4;
-}
-
-.inner-core {
-    width: 40px;
-    height: 40px;
-    background: #ffffff;
     border-radius: 50%;
-    z-index: 10;
-    box-shadow: inset 0 0 10px rgba(88, 28, 135, 0.3), 0 0 20px rgba(255, 255, 255, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    border: 3px solid transparent;
+    border-top-color: var(--accent-purple);
+    border-bottom-color: var(--accent-cyan);
+    animation: spin 1.2s linear infinite;
 }
 
 .loader-text {
-    margin-top: 40px;
-    font-weight: 700;
-    color: white;
+    margin-top: 24px;
+    font-weight: 600;
+    color: var(--text-light);
     font-size: 14px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
-@keyframes morph {
-    0% { transform: rotate(0deg) scale(1); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-    50% { transform: rotate(180deg) scale(1.1); border-radius: 70% 30% 30% 70% / 50% 60% 40% 60%; }
-    100% { transform: rotate(360deg) scale(1); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-}
-
-/* --- MODAL DESIGN SYSTEM --- */
-#changeBox, #successPopup, #errorPopup {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(5, 1, 10, 0.78);
-    backdrop-filter: blur(12px);
-    justify-content: center;
-    align-items: center;
-    z-index: 200000;
+    letter-spacing: 1px;
 }
 
 .change-box-content, .popup-content {
     background: var(--modal-bg);
-    padding: 35px 25px;
+    padding: 28px 24px;
     border-radius: var(--radius);
-    width: 100%;
-    max-width: 340px;
-    box-sizing: border-box;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 30px rgba(168, 85, 247, 0.2);
+    width: 90%;
+    max-width: 350px;
     border: 1px solid var(--glass-border);
     text-align: center;
-    animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes slideUpFade {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    animation: pop 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes pop {
@@ -372,56 +374,36 @@ button + button {
     to { transform: scale(1); opacity: 1; }
 }
 
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 .change-box-content h3 {
-    margin: 0 0 20px 0;
+    margin-bottom: 18px;
     color: var(--text-light);
-    font-size: 22px;
+    font-size: 18px;
 }
 
 .change-box-content input {
-    margin-bottom: 16px;
-    background: var(--input-bg);
+    margin-bottom: 12px;
 }
 
 .cancel-link {
     display: inline-block;
-    margin-top: 18px;
+    margin-top: 14px;
     color: var(--text-muted);
-    font-size: 14px;
+    font-size: 13px;
     cursor: pointer;
-    text-decoration: underline;
 }
 
-/* --- INTERIM CHANGE PASSWORD SPINNER --- */
-#cpLoader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(5, 1, 10, 0.78); 
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 250000; 
+.cancel-link:hover {
+    color: var(--text-light);
 }
 
-.cp-spinner {
-    width: 50px;
-    height: 50px;
-    border: 4px solid rgba(255, 255, 255, 0.15);
-    border-top: 4px solid var(--accent-pink);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* --- MATCHING SPLASH WAVE DECORATION --- */
 .footer-blue {
     width: 100%;
     position: relative;
-    height: 40px;
+    height: 30px;
     z-index: 2;
 }
 
@@ -436,27 +418,20 @@ button + button {
 .footer-wave svg {
     display: block;
     width: 100%;
-    height: 40px;
-}
-
-@media(max-width: 400px) {
-    .top { height: 26vh; }
-    .features { margin-bottom: 15px; margin-top: 15px; }
-    .f .i { font-size: 18px; }
-    .f b { font-size: 10px; }
-    .f span { font-size: 8px; }
-    .login-box { padding: 24px 20px; }
+    height: 30px;
 }
 </style>
 </head>
 
 <body>
-<div class="bg1"></div><div class="bg2"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
 
 <div class="top">
     <div class="illustration"></div>
-    <div style="font-size: 42px; font-weight: 700; color: var(--accent-pink); text-shadow: 0 5px 15px rgba(0,0,0,.4); z-index: 3;">₹</div>
-    <div style="margin-top: 5px; color: #fff; font-size: 24px; text-align:center; font-weight: 600; text-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index:3;">ಕಾರ್ಯ ಮತ್ತು ಪಾಲನಾ ವಿಭಾಗ, ಹೆಸ್ಕಾಂ, ಶಿರಸಿ</div>
+    <div class="brand-badge">₹</div>
+    <h1>ಕಾರ್ಯ ಮತ್ತು ಪಾಲನಾ ವಿಭಾಗ<br>ಹೆಸ್ಕಾಂ, ಶಿರಸಿ</h1>
 </div>
 
 <div class="bottom">
@@ -464,82 +439,116 @@ button + button {
         <div id="error"></div>
 
         <div class="input-group">
-            <input type="text" id="username" placeholder="Username">
+            <i data-lucide="user" class="input-icon"></i>
+            <input type="text" id="username" placeholder="ಬಳಕೆದಾರರ ಹೆಸರು (Username)">
         </div>
 
         <div class="input-group">
-            <input type="password" id="password" placeholder="Password">
-            <span class="toggle-password" onclick="togglePassword()">View</span>
+            <i data-lucide="lock" class="input-icon"></i>
+            <input type="password" id="password" placeholder="ಪಾಸ್‌ವರ್ಡ್ (Password)">
+            <span class="toggle-password" onclick="togglePassword()">
+                <i data-lucide="eye" id="eyeIcon" style="width: 18px; height: 18px;"></i>
+            </span>
         </div>
 
-        <button onclick="login()">Login</button>
-        <button class="change-btn" onclick="openChangePassword()">🔐 Change Password</button>
+        <button onclick="login()">
+            <span>ಲಾಗಿನ್ (Login)</span>
+            <i data-lucide="arrow-right" style="width: 18px; height: 18px;"></i>
+        </button>
+        <button class="change-btn" onclick="openChangePassword()">
+            <i data-lucide="key-round" style="width: 16px; height: 16px;"></i>
+            <span>ಪಾಸ್‌ವರ್ಡ್ ಬದಲಾಯಿಸಿ</span>
+        </button>
     </div>
 
     <div class="features">
-        <div class="f"><div class="i">🛡️</div><b>Secure</b><span>ಸುರಕ್ಷತೆ</span></div>
-        <div class="f"><div class="i">🤝</div><b>Reliable</b><span>ವಿಶ್ವಾಸಾರ್ಹ</span></div>
-        <div class="f"><div class="i">📈</div><b>Efficient</b><span>ದಕ್ಷತೆ</span></div>
-        <div class="f"><div class="i">👥</div><b>Employee First</b><span>ಕೇಂದ್ರಬಿಂದು</span></div>
+        <div class="f">
+            <div class="i-box"><i data-lucide="shield-check" style="width: 20px; height: 20px;"></i></div>
+            <b>Secure</b>
+            <span>ಸುರಕ್ಷತೆ</span>
+        </div>
+        <div class="f">
+            <div class="i-box"><i data-lucide="handshake" style="width: 20px; height: 20px;"></i></div>
+            <b>Reliable</b>
+            <span>ವಿಶ್ವಾಸಾರ್ಹ</span>
+        </div>
+        <div class="f">
+            <div class="i-box"><i data-lucide="zap" style="width: 20px; height: 20px;"></i></div>
+            <b>Efficient</b>
+            <span>ದಕ್ಷತೆ</span>
+        </div>
+        <div class="f">
+            <div class="i-box"><i data-lucide="users" style="width: 20px; height: 20px;"></i></div>
+            <b>Employee</b>
+            <span>ಸಿಬ್ಬಂದಿ ಪ್ರಥಮ</span>
+        </div>
     </div>
 </div>
 
 <div id="loader">
     <div class="morph-spinner">
-        <div class="inner-core">
-             <span style="font-size: 12px;">⚡</span>
-        </div>
+        <i data-lucide="zap" style="color: var(--accent-cyan); width: 28px; height: 28px;"></i>
     </div>
-    <div class="loader-text">Securing Session</div>
+    <div class="loader-text">Securing Session...</div>
 </div>
 
 <div id="cpLoader">
-  <div class="cp-spinner"></div>
+    <div class="morph-spinner"></div>
 </div>
 
 <div id="changeBox">
     <div class="change-box-content">
-        <h3>Update Password</h3>
-        <input id="cp_user" placeholder="Username">
-        <input id="old_pass" type="password" placeholder="Old Password">
-        <input id="new_pass" type="password" placeholder="New Password">
+        <h3>ಪಾಸ್‌ವರ್ಡ್ ಬದಲಾಯಿಸಿ</h3>
+        <div class="input-group">
+            <i data-lucide="user" class="input-icon"></i>
+            <input id="cp_user" placeholder="Username">
+        </div>
+        <div class="input-group">
+            <i data-lucide="lock" class="input-icon"></i>
+            <input id="old_pass" type="password" placeholder="ಹಳೆಯ ಪಾಸ್‌ವರ್ಡ್">
+        </div>
+        <div class="input-group">
+            <i data-lucide="key" class="input-icon"></i>
+            <input id="new_pass" type="password" placeholder="ಹೊಸ ಪಾಸ್‌ವರ್ಡ್">
+        </div>
 
-        <button onclick="changePassword()">Save New Password</button>
-        <span class="cancel-link" onclick="closeBox()">Cancel</span>
+        <button onclick="changePassword()">ಉಳಿಸಿ (Save)</button>
+        <span class="cancel-link" onclick="closeBox()">ರದ್ದುಗೊಳಿಸಿ (Cancel)</span>
     </div>
 </div>
 
 <div id="successPopup">
-    <div class="popup-content" style="animation: pop 0.3s ease;">
-        <div style="font-size: 48px; color: var(--success); margin-bottom: 12px;">✔</div>
-        <h3 style="margin: 5px 0; font-size: 22px;">Success</h3>
-        <p style="color: var(--text-muted); margin: 6px 0 24px 0; font-size: 14px;">Password Updated Successfully</p>
-        <button onclick="closeSuccess()">OK</button>
+    <div class="popup-content">
+        <i data-lucide="check-circle-2" style="width: 48px; height: 48px; color: var(--success); margin-bottom: 12px;"></i>
+        <h3 style="margin-bottom: 6px;">ಯಶಸ್ವಿಯಾಗಿದೆ</h3>
+        <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 13px;">ಪಾಸ್‌ವರ್ಡ್ ಯಶಸ್ವಿಯಾಗಿ ಬದಲಾಗಿದೆ</p>
+        <button onclick="closeSuccess()">ಸರಿ (OK)</button>
     </div>
 </div>
 
 <div id="errorPopup">
-    <div class="popup-content" style="animation: pop 0.3s ease;">
-        <div style="font-size: 48px; color: var(--error); margin-bottom: 12px;">✖</div>
-        <h3 style="margin: 5px 0; color: var(--error); font-size: 22px;">Error</h3>
-        <p id="errorText" style="color: var(--text-muted); margin: 6px 0 24px 0; font-size: 14px;">Invalid Details</p>
-        <button onclick="closeError()" style="background: var(--error); color: white;">OK</button>
+    <div class="popup-content">
+        <i data-lucide="x-circle" style="width: 48px; height: 48px; color: var(--error); margin-bottom: 12px;"></i>
+        <h3 style="margin-bottom: 6px; color: var(--error);">ವಿಫಲವಾಗಿದೆ</h3>
+        <p id="errorText" style="color: var(--text-muted); margin-bottom: 20px; font-size: 13px;">ವಿವರಗಳು ತಪ್ಪು</p>
+        <button onclick="closeError()" style="background: var(--error);">ಸರಿ (OK)</button>
     </div>
-</div> 
+</div>
 
 <div class="footer-blue">
     <div class="footer-wave">
         <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
-            <path fill="rgba(168, 85, 247, 0.08)" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,144C672,139,768,181,864,202.7C960,224,1056,224,1152,197.3C1248,171,1344,117,1392,90.7L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            <path fill="rgba(139, 92, 246, 0.08)" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,144C672,139,768,181,864,202.7C960,224,1056,224,1152,197.3C1248,171,1344,117,1392,90.7L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
         </svg>
     </div>
 </div>
 
 <script>
-function showLoader(text = "Securing Session"){
+lucide.createIcons();
+
+function showLoader(text = "Securing Session..."){
     const loader = document.getElementById("loader");
     const txt = document.querySelector(".loader-text");
-
     loader.style.display = "flex";
     loader.style.opacity = "1";
     txt.innerText = text;
@@ -547,111 +556,88 @@ function showLoader(text = "Securing Session"){
 
 function hideLoader(){
     const loader = document.getElementById("loader");
-
     loader.style.opacity = "0";
-
-    setTimeout(()=>{
-        loader.style.display = "none";
-    },400);
+    setTimeout(()=>{ loader.style.display = "none"; }, 400);
 }
 
-// ✅ LOGIN FUNCTION
 function login(){
+    let user = document.getElementById("username").value.trim();
+    let pass = document.getElementById("password").value.trim();
 
-let user = document.getElementById("username").value.trim();
-let pass = document.getElementById("password").value.trim();
+    if(user === "" || pass === ""){
+        document.getElementById("errorText").innerText="ಬಳಕೆದಾರರ ಹೆಸರು ಅಥವಾ ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ";
+        document.getElementById("errorPopup").style.display="flex";
+        return;
+    }
+    let deviceId = localStorage.getItem("deviceId");
 
-if(user === "" || pass === ""){
-document.getElementById("errorText").innerText="Invalid Username or Password";
-document.getElementById("errorPopup").style.display="flex";
-return;
-}
-let deviceId = localStorage.getItem("deviceId");
+    if(!deviceId){
+        deviceId = "DEV-" + Date.now() + "-" + Math.floor(Math.random()*10000);
+        localStorage.setItem("deviceId", deviceId);
+    }
 
-if(!deviceId){
-  deviceId = "DEV-" + Date.now() + "-" + Math.floor(Math.random()*10000);
-  localStorage.setItem("deviceId", deviceId);
-}
-// show loader
-showLoader("Verifying Credentials...");
+    showLoader("ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ...");
 
-let url = "https://script.google.com/macros/s/AKfycbzeO5RppL-lE_62OuL4VQ5FYZiehPMPFsH6NC9X2_i40YEIzXPPjW8-QUH1QpfS1Jg1/exec"
-  + "?username=" + user
-  + "&password=" + pass
-  + "&deviceId=" + deviceId;
+    let url = "https://script.google.com/macros/s/AKfycbzeO5RppL-lE_62OuL4VQ5FYZiehPMPFsH6NC9X2_i40YEIzXPPjW8-QUH1QpfS1Jg1/exec"
+      + "?username=" + encodeURIComponent(user)
+      + "&password=" + encodeURIComponent(pass)
+      + "&deviceId=" + deviceId;
 
-fetch(url)
-.then(res => res.text())
-.then(text => {
+    fetch(url)
+    .then(res => res.text())
+    .then(text => {
+        let data;
+        try{ data = JSON.parse(text); } catch(e){ data = {status:"fail"}; }
 
-let data;
-
-try{
-data = JSON.parse(text);
-}catch(e){
-console.log("Server response:", text);
-data = {status:"fail"};
-}
-
-// ... inside your login() function after success:
-if(data.status === "success"){
-    localStorage.setItem("currentUser", user);
-    localStorage.setItem("role", data.role);
-
-    // Update text for better UX
-    document.querySelector(".loader-text").innerText = "Success! Entering App...";
-
-    setTimeout(function(){
-        window.location = "home.html";
-    }, 1000); 
-}else{
-
-hideLoader();
-document.getElementById("error").innerText="Invalid Username or Password";
-
-}
-})
-.catch(err => {
-document.getElementById("loader").style.display="none";
-document.getElementById("error").innerText="Server Error";
-});
+        if(data.status === "success"){
+            localStorage.setItem("currentUser", user);
+            localStorage.setItem("role", data.role);
+            document.querySelector(".loader-text").innerText = "ಲಾಗಿನ್ ಯಶಸ್ವಿಯಾಗಿದೆ...";
+            setTimeout(function(){ window.location = "home.html"; }, 1000); 
+        }else{
+            hideLoader();
+            document.getElementById("error").innerText="ತಪ್ಪಾದ ಬಳಕೆದಾರರ ಹೆಸರು ಅಥವಾ ಪಾಸ್‌ವರ್ಡ್";
+        }
+    })
+    .catch(err => {
+        hideLoader();
+        document.getElementById("error").innerText="ಸರ್ವರ್ ದೋಷ ಸಂಭವಿಸಿದೆ";
+    });
 }
 
-// ✅ TOGGLE PASSWORD
 function togglePassword(){
-let passField=document.getElementById("password");
-passField.type = passField.type === "password" ? "text" : "password";
+    let passField = document.getElementById("password");
+    let eyeIcon = document.getElementById("eyeIcon");
+    if (passField.type === "password") {
+        passField.type = "text";
+        eyeIcon.setAttribute("data-lucide", "eye-off");
+    } else {
+        passField.type = "password";
+        eyeIcon.setAttribute("data-lucide", "eye");
+    }
+    lucide.createIcons();
 }
 
-// ✅ OPEN CHANGE PASSWORD
 function openChangePassword(){
     document.getElementById("changeBox").style.display="flex";
     document.getElementById("cp_user").value = document.getElementById("username").value;
 }
 
-// ✅ CLOSE CHANGE PASSWORD
 function closeBox(){
-document.getElementById("changeBox").style.none;
-document.getElementById("changeBox").style.display="none";
+    document.getElementById("changeBox").style.display="none";
 }
 
-// ✅ CHANGE PASSWORD FUNCTION
 function changePassword(){
-
     let user = document.getElementById("cp_user").value.trim();
     let oldPass = document.getElementById("old_pass").value.trim();
     let newPass = document.getElementById("new_pass").value.trim();
 
-    // Check if any fields are empty
     if(user == "" || oldPass == "" || newPass == ""){
-        // Set the error message
-        document.getElementById("errorText").innerText = "Please fill all fields before updating.";
-        // Show your custom error popup instead of alert
+        document.getElementById("errorText").innerText = "ದಯವಿಟ್ಟು ಎಲ್ಲಾ ವಿವರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ.";
         document.getElementById("errorPopup").style.display = "flex";
         return;
     }
 
-    // show loader if fields are filled
     document.getElementById("cpLoader").style.display = "flex";
 
     let formData = new URLSearchParams();
@@ -667,43 +653,35 @@ function changePassword(){
     .then(text => {
         document.getElementById("cpLoader").style.display = "none";
         let data;
-        try {
-            data = JSON.parse(text);
-        } catch(e) {
-            data = {status:"fail"};
-        }
+        try { data = JSON.parse(text); } catch(e) { data = {status:"fail"}; }
 
         if(data.status === "updated"){
-            // Hide the change password box and show success
             document.getElementById("changeBox").style.display = "none";
             document.getElementById("successPopup").style.display = "flex";
         } else {
-            document.getElementById("errorText").innerText = "Invalid Username or Old Password";
+            document.getElementById("errorText").innerText = "ತಪ್ಪಾದ ಬಳಕೆದಾರರ ಹೆಸರು ಅಥವಾ ಹಳೆಯ ಪಾಸ್‌ವರ್ಡ್";
             document.getElementById("errorPopup").style.display = "flex";
         }
     })
     .catch(err => {
         document.getElementById("cpLoader").style.display = "none";
-        document.getElementById("errorText").innerText = "Server Error. Please try again.";
+        document.getElementById("errorText").innerText = "ಸರ್ವರ್ ದೋಷ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.";
         document.getElementById("errorPopup").style.display = "flex";
     });
 }
 
-// ✅ CLOSE SUCCESS POPUP
 function closeSuccess(){
-document.getElementById("successPopup").style.display="none";
-closeBox();
+    document.getElementById("successPopup").style.display="none";
+    closeBox();
+}
+
+function closeError(){
+    document.getElementById("errorPopup").style.display="none";
 }
 
 window.addEventListener("load", function(){
-    setTimeout(() => {
-        hideLoader();
-    }, 500);
+    setTimeout(() => { hideLoader(); }, 400);
 });
-    
-function closeError(){
-document.getElementById("errorPopup").style.display="none";
-}
 </script>
 </body>
 </html>
