@@ -409,7 +409,7 @@ body {
     100% { transform: rotate(360deg); }
 }
 
-/* --- BOTTOM FLOATING NAVBAR --- */
+/* --- EXACT MATCH FLOATING BOTTOM NAVBAR (HOME.HTML) --- */
 .navbar {
     position: fixed;
     bottom: 0;
@@ -692,7 +692,6 @@ body {
 
 <!-- SCRIPTS & ROUTING -->
 <script>
-// Initialize Vector Icons
 lucide.createIcons();
 
 function showLoader() {
@@ -758,7 +757,7 @@ window.onload = function() {
     });
 };
 
-/* --- STRICT AXIS-LOCK GESTURE & NAVIGATION NAVIGATION HANDLING --- */
+/* --- STRICT TOUCH & AXIS LOCK --- */
 (function () {
     let startX = 0;
     let startY = 0;
@@ -775,7 +774,7 @@ window.onload = function() {
             let diffX = e.touches[0].clientX - startX;
             let diffY = e.touches[0].clientY - startY;
 
-            // Strict Axis Lock: If vertical scrolling or diagonal downward swipe is detected, lock out horizontal gesture triggers
+            // Strict Axis Lock
             if (Math.abs(diffY) > Math.abs(diffX) || diffY > 15) {
                 return;
             }
