@@ -8,15 +8,16 @@
 <style>
 /* --- DARK OBSIDIAN & NEON PURPLE DESIGN SYSTEM --- */
 :root {
-    --primary-gradient: radial-gradient(circle at 50% 50%, #31104b 0%, #1e0936 35%, #0f051d 70%, #05010a 100%);
-    --bg-dark: #0f051d;
-    --accent-purple: #a855f7;
-    --accent-pink: #ec4899;
-    --accent-rose: #f43f5e;
+    --primary-gradient: radial-gradient(circle at 50% 50%, #2b0c43 0%, #1a0730 35%, #0e041b 70%, #05010a 100%);
+    --bg-dark: #0e041b;
+    --accent-purple: #c084fc;
+    --accent-purple-glow: rgba(192, 132, 252, 0.35);
+    --accent-pink: #f472b6;
+    --accent-rose: #fb7185;
     --glass-border: rgba(255, 255, 255, 0.12);
-    --card-bg: rgba(30, 9, 54, 0.65);
+    --card-bg: rgba(26, 9, 48, 0.75);
     --card-hover: rgba(255, 255, 255, 0.08);
-    --glass-shine: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.02) 100%);
+    --glass-shine: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.03) 100%);
     --text-light: #ffffff;
     --text-muted: #f5d0fe;
     --radius-xl: 24px;
@@ -32,7 +33,7 @@
 }
 
 body {
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     background: var(--primary-gradient);
     background-attachment: fixed;
     color: var(--text-light);
@@ -46,13 +47,14 @@ body {
     border-radius: 50%;
     pointer-events: none;
     z-index: 0;
+    filter: blur(40px);
 }
 .bg1 {
     width: 450px;
     height: 450px;
     left: -100px;
     top: -100px;
-    background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, rgba(168, 85, 247, 0) 70%);
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, rgba(168, 85, 247, 0) 70%);
     animation: ambientFloat 8s ease-in-out infinite alternate;
 }
 .bg2 {
@@ -60,7 +62,7 @@ body {
     height: 350px;
     right: -100px;
     bottom: -100px;
-    background: radial-gradient(circle, rgba(236, 72, 153, 0.12) 0%, rgba(236, 72, 153, 0) 70%);
+    background: radial-gradient(circle, rgba(236, 72, 153, 0.2) 0%, rgba(236, 72, 153, 0) 70%);
     animation: ambientFloat 12s ease-in-out infinite alternate-reverse;
 }
 
@@ -81,13 +83,13 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     padding: 16px 16px 10px;
-    background: rgba(30, 9, 54, 0.92);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(22, 6, 40, 0.92);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border-bottom: 1px solid var(--glass-border);
     border-bottom-left-radius: 32px;
     border-bottom-right-radius: 32px;
-    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5), 0 0 25px rgba(168, 85, 247, 0.15);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 25px rgba(168, 85, 247, 0.15);
     transform: translate3d(0, 0, 0);
     will-change: transform;
 }
@@ -112,7 +114,7 @@ body {
     font-size: 20px;
     cursor: pointer;
     backdrop-filter: blur(10px);
-    transition: transform 0.2s;
+    transition: transform 0.2s ease, background-color 0.2s;
 }
 
 .menu-btn:active {
@@ -131,29 +133,41 @@ body {
     cursor: pointer;
     font-size: 18px;
     color: white;
-    transition: transform 0.2s;
+    transition: transform 0.2s ease, background 0.2s;
 }
 
 .icon-action-btn:active {
     transform: scale(0.9);
+    background: rgba(255, 255, 255, 0.15);
 }
 
 /* --- HERO SALARY PURPLE/PINK CARD --- */
 .salary-card {
     width: 100%;
     margin-top: 14px;
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(126, 34, 206, 0.4));
-    border: 1px solid rgba(168, 85, 247, 0.3);
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.28), rgba(126, 34, 206, 0.45));
+    border: 1px solid rgba(192, 132, 252, 0.35);
     border-radius: var(--radius-lg);
     padding: 14px 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    box-shadow: 0 12px 28px rgba(168, 85, 247, 0.25);
+    box-shadow: 0 12px 28px rgba(168, 85, 247, 0.3);
     backdrop-filter: blur(16px);
     position: relative;
     overflow: hidden;
+}
+
+.salary-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+    pointer-events: none;
 }
 
 .salary-info {
@@ -163,18 +177,18 @@ body {
 }
 
 .salary-info h3 {
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 11px;
+    font-weight: 600;
     color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
 }
 
 .salary-amount {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 800;
     color: var(--text-light);
-    margin: 3px 0;
+    margin: 2px 0;
     background: linear-gradient(135deg, #ffffff 0%, #f5d0fe 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -199,21 +213,22 @@ body {
 }
 
 .quick-info-btn {
-    padding: 6px 12px;
-    background: rgba(236, 72, 153, 0.2);
-    border: 1px solid rgba(236, 72, 153, 0.4);
-    color: var(--accent-pink);
+    padding: 6px 14px;
+    background: rgba(236, 72, 153, 0.25);
+    border: 1px solid rgba(236, 72, 153, 0.45);
+    color: #fbcfe8;
     border-radius: 20px;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     white-space: nowrap;
-    transition: all 0.2s;
+    transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 10px rgba(236, 72, 153, 0.2);
 }
 
 .quick-info-btn:active {
     transform: scale(0.95);
-    background: rgba(236, 72, 153, 0.35);
+    background: rgba(236, 72, 153, 0.4);
 }
 
 .salary-card img {
@@ -221,7 +236,7 @@ body {
     height: auto;
     flex-shrink: 0;
     z-index: 1;
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4));
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.5));
 }
 
 /* --- CONTENT CONTAINER --- */
@@ -255,10 +270,10 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
     cursor: pointer;
-    transition: transform 0.2s, background 0.2s;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s;
 }
 
 .visitor-card:active {
@@ -276,6 +291,7 @@ body {
     font-size: 20px;
     color: white;
     flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
 }
 
 .visitor-icon.users {
@@ -309,10 +325,10 @@ body {
     background: var(--card-bg);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-xl);
-    padding: 16px;
+    padding: 18px;
     margin-bottom: 16px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
 }
 
 .att-header-new {
@@ -332,8 +348,8 @@ body {
     width: 40px;
     height: 40px;
     border-radius: var(--radius-md);
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(126, 34, 206, 0.3));
-    border: 1px solid rgba(168, 85, 247, 0.4);
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.35), rgba(126, 34, 206, 0.35));
+    border: 1px solid rgba(168, 85, 247, 0.45);
     color: white;
     display: flex;
     align-items: center;
@@ -356,6 +372,7 @@ body {
     font-size: 20px;
     font-weight: 800;
     color: var(--accent-purple);
+    text-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
 }
 
 .chart-box {
@@ -366,21 +383,21 @@ body {
 }
 
 .donut {
-    width: 88px;
-    height: 88px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     background: conic-gradient(#a855f7 0% 100%, #1e0936 0% 100%);
-    box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+    box-shadow: 0 0 18px rgba(168, 85, 247, 0.35);
 }
 
 .center {
-    width: 60px;
-    height: 60px;
-    background: #0f051d;
+    width: 62px;
+    height: 62px;
+    background: #0e041b;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -417,18 +434,18 @@ body {
     margin-right: 6px;
 }
 
-.dot.green { background: #a855f7; }
-.dot.yellow { background: #ec4899; }
-.dot.red { background: #f43f5e; }
+.dot.green { background: #a855f7; box-shadow: 0 0 6px #a855f7; }
+.dot.yellow { background: #ec4899; box-shadow: 0 0 6px #ec4899; }
+.dot.red { background: #f43f5e; box-shadow: 0 0 6px #f43f5e; }
 
 /* --- QUICK ACTIONS MATRIX --- */
 .quick-container {
     background: var(--card-bg);
     border: 1px solid var(--glass-border);
-    padding: 16px;
+    padding: 18px;
     border-radius: var(--radius-xl);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
     margin-bottom: 16px;
 }
 
@@ -451,13 +468,13 @@ body {
 }
 
 .quick-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--radius-lg);
     padding: 12px 8px;
     text-align: center;
     cursor: pointer;
-    transition: transform 0.2s, background 0.2s;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s;
 }
 
 .quick-card.wide {
@@ -466,19 +483,20 @@ body {
 
 .quick-card:active {
     transform: scale(0.95);
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.09);
 }
 
 .quick-icon {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     margin: 0 auto 8px;
-    font-size: 18px;
+    font-size: 19px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
 .quick-icon.blue { background: linear-gradient(135deg, #6366f1, #4f46e5); }
@@ -496,8 +514,8 @@ body {
 }
 
 .grievance-card {
-    background: linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(168, 85, 247, 0.15));
-    border: 1px solid rgba(236, 72, 153, 0.3);
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.18), rgba(168, 85, 247, 0.18));
+    border: 1px solid rgba(236, 72, 153, 0.35);
 }
 
 .notif-icon {
@@ -522,12 +540,12 @@ body {
 /* --- ANNOUNCEMENTS CAROUSEL --- */
 .news-container {
     margin-top: 16px;
-    padding: 16px;
+    padding: 18px;
     border-radius: var(--radius-xl);
     background: var(--card-bg);
     border: 1px solid var(--glass-border);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
 }
 
 .news-header {
@@ -586,7 +604,7 @@ body {
     overflow: hidden;
     position: relative;
     scroll-snap-align: center;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
     cursor: pointer;
     border: 1px solid var(--glass-border);
 }
@@ -595,7 +613,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s;
+    transition: transform 0.4s ease;
 }
 
 .slider-item:active img {
@@ -605,7 +623,7 @@ body {
 .slider-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(15, 5, 29, 0.95), transparent 70%);
+    background: linear-gradient(to top, rgba(14, 4, 27, 0.95), rgba(14, 4, 27, 0.2) 60%, transparent);
 }
 
 .slider-text {
@@ -643,7 +661,7 @@ body {
     bottom: 0;
     width: 2px;
     background: linear-gradient(#a855f7, #ec4899);
-    opacity: 0.4;
+    opacity: 0.5;
 }
 
 .news-item {
@@ -652,7 +670,7 @@ body {
     padding: 12px;
     background: rgba(255, 255, 255, 0.03);
     border-radius: var(--radius-md);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .news-item::before {
@@ -687,13 +705,13 @@ body {
     left: 0;
     width: 100%;
     height: 75px;
-    background: rgba(30, 9, 54, 0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(22, 6, 40, 0.95);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border-top: 1px solid var(--glass-border);
     border-top-left-radius: 28px;
     border-top-right-radius: 28px;
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 -10px 32px rgba(0, 0, 0, 0.65);
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -762,14 +780,14 @@ body {
     height: 58px;
     border-radius: 50%;
     background: linear-gradient(135deg, #7e22ce 0%, #a855f7 50%, #ec4899 100%);
-    border: 3px solid #0f051d;
+    border: 3px solid #0e041b;
     color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 24px;
     font-weight: 700;
-    box-shadow: 0 8px 24px rgba(168, 85, 247, 0.45);
+    box-shadow: 0 8px 24px rgba(168, 85, 247, 0.5);
     animation: float 2.5s ease-in-out infinite;
 }
 
@@ -792,8 +810,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(6px);
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.25s ease, visibility 0.25s ease;
@@ -806,7 +824,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #0f051d;
+    background: #0e041b;
     transform: translateX(-100%);
     transition: transform 0.28s cubic-bezier(.22,.61,.36,1);
     will-change: transform;
@@ -913,7 +931,7 @@ body {
     bottom: 70px;
     left: 0;
     width: 100%;
-    background: rgba(15, 5, 29, 0.95);
+    background: rgba(14, 4, 27, 0.95);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     display: flex;
@@ -1282,7 +1300,7 @@ body {
 <!-- OVERLAY MODALS -->
 
 <!-- GRIEVANCE NOTIFICATION OVERLAY -->
-<div id="grievanceOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 5, 29, 0.88); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 5000;">
+<div id="grievanceOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(14, 4, 27, 0.88); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 5000;">
     <div class="grievance-card" style="width: 90%; max-width: 360px; background: #1a082e; border: 1px solid var(--glass-border); border-radius: 28px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.6);">
         <div style="background: linear-gradient(135deg, #7e22ce, #a855f7); color: white; padding: 22px 20px; text-align: center;">
             <h3 style="margin:0;">Grievance Notifications</h3>
@@ -1295,7 +1313,7 @@ body {
 </div>
 
 <!-- LOGOUT MODAL -->
-<div id="logoutPopup" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); backdrop-filter: blur(4px); display:none; align-items:center; justify-content:center; z-index:3000;">
+<div id="logoutPopup" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); backdrop-filter: blur(6px); display:none; align-items:center; justify-content:center; z-index:3000;">
     <div style="background:#1a082e; border:1px solid var(--glass-border); padding:22px; border-radius:24px; width:85%; max-width:320px; text-align:center; box-shadow:0 12px 32px rgba(0,0,0,0.6);">
         <h3 style="margin-top:0; color:var(--text-light);">Logout</h3>
         <p style="font-size:14px; color:var(--text-muted); margin-top:6px;">Are you sure you want to logout?</p>
@@ -1307,7 +1325,7 @@ body {
 </div>
 
 <!-- EXTERNAL REDIRECT POPUP -->
-<div id="grievancePopup" style="position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); display:none; align-items:center; justify-content:center; z-index:4000;">
+<div id="grievancePopup" style="position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.75); backdrop-filter: blur(6px); display:none; align-items:center; justify-content:center; z-index:4000;">
     <div style="background:#1a082e; border:1px solid var(--glass-border); padding:22px; border-radius:24px; width:85%; max-width:320px; text-align:center; box-shadow:0 12px 32px rgba(0,0,0,0.6);">
         <div style="width:58px; height:58px; margin:auto; border-radius:50%; background:rgba(244, 63, 94, 0.15); display:flex; align-items:center; justify-content:center; font-size:26px; color:var(--accent-rose);">
             ⚠️
